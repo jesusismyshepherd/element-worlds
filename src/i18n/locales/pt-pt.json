@@ -119,7 +119,8 @@
     "families": "Famílias",
     "graphics": "Gráficos",
     "discoveries": "Descobertas",
-    "says": "{{who}} diz"
+    "says": "{{who}} diz",
+    "talk": "Conta-me algo (T)"
   },
   "atomlings": {
     "title": "Atomitos",

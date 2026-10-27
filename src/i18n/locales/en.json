@@ -119,7 +119,8 @@
     "families": "Families",
     "graphics": "Graphics",
     "discoveries": "Discoveries",
-    "says": "{{who}} says"
+    "says": "{{who}} says",
+    "talk": "Tell me something (T)"
   },
   "atomlings": {
     "title": "Atomlings",

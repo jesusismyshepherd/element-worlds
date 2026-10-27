@@ -45,6 +45,7 @@ export default function WalkHud({ engine }) {
   }, [panel])
 
   const other = mode === 'first' ? 'third' : 'first'
+  const canTalk = !!engine?.world?.talk
   return (
     <>
       <div className="absolute top-14 sm:top-16 right-2 sm:right-3 pointer-events-auto">
@@ -56,6 +57,16 @@ export default function WalkHud({ engine }) {
         >
           {mode === 'first' ? '👁' : '🧍'} {t(`hud.mode.${mode}`)} <span className="opacity-60">⇄</span>
         </button>
+        {canTalk && (
+          <button
+            type="button"
+            title={t('hud.talk')}
+            onClick={() => engine.world.talk()}
+            className="glass rounded-xl px-3 py-1.5 text-xs font-bold hover:bg-white/10 ml-1.5"
+          >
+            💬<span className="hidden sm:inline"> {t('hud.talk')}</span>
+          </button>
+        )}
       </div>
 
       {found && (

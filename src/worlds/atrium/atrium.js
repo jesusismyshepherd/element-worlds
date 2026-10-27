@@ -10,7 +10,7 @@ import { createAtomling } from '../../characters/atomling.js'
 import { bigAtom } from './atom.js'
 import { specimen } from './specimen.js'
 import { appearanceOf } from '../../data/appearance.js'
-import { stationsOf, greetingOf } from '../../content/stations.js'
+import { stationsOf, greetingOf, pick, contentOf } from '../../content/stations.js'
 import { loadContent } from '../../content/index.js'
 import { wallPanel, arch, canvasTexture, portalMaterial } from '../common/props.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
@@ -288,6 +288,14 @@ export async function build(ctx, target) {
   const avatar = createAtomling(el, { light: ctx.light })
   root.add(avatar.root)
   const greeting = greetingOf(el, lang, level)
+  // talking to the Atomling: its greeting, then its fun facts one after another
+  let said = 1
+  const talk = () => {
+    const facts = pick(contentOf(el)?.facts, lang, ctx.level()) ?? []
+    const lines = [greetingOf(el, lang, ctx.level()), ...facts]
+    ctx.store.set({ speech: { text: lines[said % lines.length], who: nameOf(el, lang), color } })
+    said++
+  }
   interactables.push({
     id: 'host',
     get x() { return ctx.engine.player.npc?.x ?? 99 },
@@ -295,7 +303,7 @@ export async function build(ctx, target) {
     radius: 2.2,
     label: nameOf(el, lang),
     verb: W.talk,
-    onUse: () => ctx.store.set({ speech: { text: greetingOf(el, lang, ctx.level()), who: nameOf(el, lang), color } }),
+    onUse: talk,
   })
 
   return {
@@ -309,6 +317,7 @@ export async function build(ctx, target) {
     cameraBounds: { minX: -HALF + 0.5, maxX: HALF - 0.5, minY: 0.4, maxY: HEIGHT - 0.6, minZ: -HALF + 0.5, maxZ: HALF - 0.5 },
     interactables,
     doors,
+    talk,
     attach() {
       report()
       setTimeout(() => ctx.store.set({ speech: { text: greeting, who: nameOf(el, lang), color } }), 900)
