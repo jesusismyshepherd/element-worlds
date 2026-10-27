@@ -145,6 +145,16 @@ export function play(kind, { order = 1 } = {}) {
     // a pop for each hand taken, higher for a double or triple bond
     tone(NOTE(67 + order * 5), 0.14, { type: 'triangle', gain: 0.22, to: NOTE(72 + order * 5) })
   } else if (kind === 'part') tone(NOTE(74), 0.18, { type: 'triangle', gain: 0.16, to: NOTE(62) })
+  // the Atom Forge: a particle joins (a proton rings higher than a neutron, an electron chirps)
+  else if (kind === 'proton') tone(NOTE(67), 0.13, { type: 'triangle', gain: 0.2, to: NOTE(72) })
+  else if (kind === 'neutron') tone(NOTE(60), 0.13, { type: 'triangle', gain: 0.17, to: NOTE(62) })
+  else if (kind === 'electron') tone(NOTE(86), 0.09, { gain: 0.11, to: NOTE(93), out: 'ui' })
+  else if (kind === 'decay') {
+    // a Geiger counter's clicks and a whoosh; heavier for alpha, fission and clusters (order 2)
+    for (let i = 0; i < 6; i++) tone(1900 + Math.random() * 600, 0.012, { type: 'square', gain: 0.12, when: i * 0.035 + Math.random() * 0.02, out: 'effects' })
+    whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
+    if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
+  }
 }
 
 /** An Atomling talking: a blip per syllable, pitched by its size (big atoms speak low). */
@@ -164,6 +174,7 @@ const BEDS = {
   atrium: [50, 57, 62, 66],
   lab: [53, 60, 64, 69],
   wing: [45, 52, 57, 64],
+  forge: [46, 53, 58, 65],
 }
 
 /** Start the ambience of a kind of world (null: none). Crossfades from the last one. */

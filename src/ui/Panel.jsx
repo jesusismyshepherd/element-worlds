@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
- *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] }] }. */
+ *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
+ *  { link: { to, label } }] }. */
 export default function Panel({ panel, onClose }) {
   const { t } = useTranslation()
   return (
@@ -31,6 +33,11 @@ export default function Panel({ panel, onClose }) {
               <dl key={i} className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
                 {b.rows.map(([k, v]) => [<dt key={`${k}k`} className="opacity-70">{k}</dt>, <dd key={`${k}v`}>{v}</dd>])}
               </dl>
+            )
+            if (b.link) return (
+              <Link key={i} to={b.link.to} onClick={onClose} className="self-start rounded-xl px-3 py-1.5 text-sm font-bold bg-white/10 hover:bg-white/20" style={{ color: panel.color }}>
+                {b.link.label} →
+              </Link>
             )
             if (b.list) return (
               <ul key={i} className="list-disc pl-5 space-y-1">

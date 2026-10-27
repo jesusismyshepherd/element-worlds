@@ -80,6 +80,7 @@ const T = {
       abundance: 'Abundance', halfLife: 'Half-life', stable: 'stable', origin: 'Name',
     },
     teaser: { protons: p => `${p} protons`, discovered: y => `in ${y}` },
+    forge: 'Build this atom in the Atom Forge',
   },
   'pt-pt': {
     titles: {
@@ -130,6 +131,7 @@ const T = {
       abundance: 'Abundância', halfLife: 'Meia-vida', stable: 'estável', origin: 'Nome',
     },
     teaser: { protons: p => `${p} protões`, discovered: y => `em ${y}` },
+    forge: 'Constrói este átomo na Forja de Átomos',
   },
 }
 
@@ -179,6 +181,7 @@ export function stationsOf(el, { lang, level, familyName }) {
     make('atom', [`${nuc.protons} p · ${nuc.neutrons} n · ${el.z} e`], () => [
       { big: `${nuc.protons} p⁺ · ${nuc.neutrons} n · ${el.z} e⁻` },
       { p: L.atom(el, n, nuc.protons, nuc.neutrons, el.shells, v, h) },
+      { link: { to: `/forge?z=${el.symbol}`, label: L.forge } },
       sci && {
         rows: [
           [L.rows.config, config(el.config) + (el.configPredicted ? ' *' : '')],

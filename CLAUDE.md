@@ -28,11 +28,14 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 
 - `docs/design.md`: what it is, the decisions, the Atomling grammar, the extension path to molecules.
 - `docs/knowledge/`: `adding-a-wing.md` (the world contract, words, pieces, checking), `atomlings.md`
-  (how characters are made, the traps met). Read the one for the area you touch.
+  (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`. Read the one for the
+  area you touch.
 - `.claude/skills/element-wing/`: the steps for building an element's wing.
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
   `scripts/data/export_mendeleev.py` refreshes `mendeleev.json` (venv in `scripts/data/.venv`).
+  `scripts/build-nuclides.mjs` (`npm run data:nuclides`): the chart of nuclides for the Atom Forge, from
+  `scripts/data/nuclides.json` (`export_nuclides.py`); isotope fixes shared in `scripts/data/fixes.mjs`.
 - `src/data/elements.js`: lookups, table cells, families and their colours. `src/data/appearance.js`:
   what each element looks like for real (the specimen cases).
 - `src/chem/atom.js`: subshells, shells, valence electrons, octet places, Lewis places, hands, nucleus.
@@ -50,6 +53,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
   `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).
 - `src/ui/`: the HUD (React). `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`, all 118).
+- `src/worlds/forge/` + `src/ui/ForgeHud.jsx`, `src/ui/NuclideChart.jsx`: the Atom Forge (`/forge`):
+  build atoms from protons, neutrons and electrons, watch nuclei decay; physics in `src/chem/nucleus.js`.
+  `src/worlds/common/pack.js`: an even ball of points (every nucleus).
 - `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
@@ -82,15 +88,21 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - Every element's hall: the atom, eight stations and the specimen case (what it looks like), talking
   to the Atomling (its greeting, then its fun facts), discoveries; coming back from a wing you arrive at
   its arch; walking toward a wing's arch builds it ahead (`engine.prewarm`).
-- Element stories in `src/content/`: every element (the last batches were written 2026-10-27 by agents,
-  checked by `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`).
+- Element stories in `src/content/`: all 118 (written 2026-10-27 by agents in batches, checked by
+  `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`: discovery credit as
+  IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed
+  isotopes out).
 - Worlds: carbon (`/e/C/allotropes` with the graphene row, `/e/C/life`), oxygen (`/e/O/air`,
   `/e/O/fire`). Ideas for the next ones: `docs/wing-ideas.md`.
 - Atomlings: the grammar and the second layer of looks (`characters/look.js`); `/atomlings` with cards.
 - The Molecule Lab (`/lab`, `docs/knowledge/molecule-lab.md`), sound (`src/audio/sound.js`), the
   passport (`/passport`).
-- Open: the user's review (the Atomlings' look, the worlds); first visits to big worlds compile 70 to 90
-  shader programs (8 s on Windows, about 1 s after; prewarm hides most of it, fewer material variants
-  would cut it); the wing builders' polish notes (mammoth tusks, the cycle table's flat land, the
-  figure's pastel colours, ozone molecules as specks from afar, bright screens in the fire chamber, a
-  faint liquid-nitrogen stream); a test on a real phone.
+- The Atom Forge (`/forge`, 2026-10-27 evening; `docs/knowledge/atom-forge.md`): protons, neutrons,
+  electrons; the element's Atomling pops up; 3552 nuclides from NUBASE say what holds together; decays
+  shown (alpha, beta, capture, fission), whole chains; 14 missions; the chart of nuclides to tap; a
+  bottom bar on phones. Linked from every hall's "Inside the atom" panel.
+- Open: the user's review (the Atomlings' look, the worlds, the forge); first visits to big worlds
+  compile 70 to 90 shader programs (8 s on Windows, about 1 s after; prewarm hides most of it, fewer
+  material variants would cut it); the third-person camera: no general obstacle avoidance (carbon's
+  wings fix it per world), and tilted far up it sits on the floor with the Atomling filling a phone's
+  screen (oxygen's polish note); a test on a real phone.

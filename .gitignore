@@ -9,3 +9,4 @@ scripts/data/.venv/
 
 .vercel
 .env*
+__pycache__/

@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview --port 5311",
     "data": "node scripts/build-elements.mjs",
+    "data:nuclides": "node scripts/build-nuclides.mjs",
     "test": "node --test \"src/**/*.test.js\""
   },
   "dependencies": {

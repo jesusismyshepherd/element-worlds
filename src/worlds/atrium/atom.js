@@ -4,23 +4,11 @@
 // the free places of its octet. Not to scale: a real nucleus is 100 000 times smaller than its atom.
 import * as THREE from 'three'
 import { nucleus, octetPlaces, valenceElectrons, lewisSlots, lewisAngle } from '../../chem/atom.js'
+import { packBall } from '../common/pack.js'
 
 const PROTON = '#ff5a55'
 const NEUTRON = '#b9c6dc'
 const ELECTRON = '#a8ecff'
-
-function packBall(n, r) {
-  const out = []
-  for (let i = 0; i < n; i++) {
-    const k = (i + 0.5) / n
-    const rad = r * Math.cbrt(k)
-    const y = 1 - 2 * ((i * 0.618034) % 1)
-    const a = i * 2.399963
-    const s = Math.sqrt(Math.max(0, 1 - y * y))
-    out.push(new THREE.Vector3(Math.cos(a) * s * rad, y * rad, Math.sin(a) * s * rad))
-  }
-  return out
-}
 
 /** { root, update(t), radius } for an element; `size` is the outer shell's radius in metres. */
 export function bigAtom(el, { size = 3, accent = '#7fd4ff', light = false } = {}) {

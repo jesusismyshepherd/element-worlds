@@ -125,6 +125,7 @@
     "says": "{{who}} diz",
     "talk": "Conta-me algo (T)",
     "lab": "Laboratório",
+    "forge": "Forja de Átomos",
     "soundOn": "Ligar o som",
     "soundOff": "Desligar o som"
   },
@@ -207,6 +208,57 @@
     "help": "Toca num átomo e depois noutro para darem as mãos. Toca outra vez no mesmo par para uma ligação dupla. Arrasta para rodar, roda do rato para aproximar.",
     "made": "Fizeste {{name}}!"
   },
+  "forge": {
+    "title": "Forja de Átomos",
+    "p": "Protões",
+    "n": "Neutrões",
+    "e": "Eletrões",
+    "more": "Juntar",
+    "less": "Tirar",
+    "neutral": "Neutro",
+    "neutralTip": "Tantos eletrões como protões",
+    "commonest": "Mais comum",
+    "commonestTip": "Os neutrões do isótopo mais comum deste elemento",
+    "hold": "Segurar",
+    "holdTip": "Um campo de forças segura o núcleo enquanto constróis",
+    "clear": "Recomeçar",
+    "nothing": "Ainda nada",
+    "aNeutron": "Um neutrão",
+    "neutronsAlone": "{{count}} neutrões sozinhos",
+    "decay": "Decair",
+    "waitFor": "Esperar {{t}}",
+    "moreText": "mais...",
+    "missions": "Missões da forja",
+    "missionDone": "Missão cumprida!",
+    "chart": "Carta de nuclídeos",
+    "chartKid": "Todos os tipos de núcleo que já se viram: protões para cima, neutrões para o lado. Os brancos duram para sempre; os outros desfazem-se, os vermelhos devagar, os azuis num instante. Toca num para o construíres.",
+    "chartSci": "Os 3552 nuclídeos conhecidos (NUBASE, através do pacote mendeleev): Z para cima, N para o lado, cor pela meia-vida. A faixa branca é o vale de estabilidade; curva para N > Z à medida que a repulsão entre protões cresce. Toca para construir.",
+    "chartZ": "protões (Z)",
+    "chartN": "neutrões (N)",
+    "find": "Um elemento: C, Fe, urânio...",
+    "go": "Ir",
+    "kind": {
+      "empty": "Vazio",
+      "stable": "Estável",
+      "radioactive": "Radioativo",
+      "instant": "Desfaz-se logo",
+      "unmeasured": "Ainda por medir",
+      "unknown": "Não se aguenta",
+      "notMade": "Nunca feito",
+      "neutron": "Radioativo",
+      "neutrons": "Desfaz-se logo"
+    },
+    "band": {
+      "stable": "estável",
+      "years": "meses ou mais",
+      "hours": "minutos a meses",
+      "seconds": "segundos",
+      "ms": "menos de um segundo",
+      "fast": "menos de um milésimo",
+      "instant": "logo",
+      "unmeasured": "por medir"
+    }
+  },
   "passport": {
     "title": "O meu passaporte",
     "visited": "elementos visitados",
@@ -215,6 +267,7 @@
     "legend": "Cada quadrado enche-se à medida que lês o seu salão; uma estrela quer dizer que exploraste os seus mundos. Toca num quadrado para entrar.",
     "badges": "Medalhas",
     "lab": "Missões de moléculas",
+    "forge": "Missões da forja",
     "badge": {
       "first": {
         "icon": "✨",

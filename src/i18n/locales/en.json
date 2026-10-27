@@ -125,6 +125,7 @@
     "says": "{{who}} says",
     "talk": "Tell me something (T)",
     "lab": "Molecule Lab",
+    "forge": "Atom Forge",
     "soundOn": "Turn the sound on",
     "soundOff": "Turn the sound off"
   },
@@ -207,6 +208,57 @@
     "help": "Tap an atom, then another, to join hands. Tap the same pair again for a double bond. Drag to turn, scroll to zoom.",
     "made": "You made {{name}}!"
   },
+  "forge": {
+    "title": "Atom Forge",
+    "p": "Protons",
+    "n": "Neutrons",
+    "e": "Electrons",
+    "more": "Add",
+    "less": "Take away",
+    "neutral": "Neutral",
+    "neutralTip": "As many electrons as protons",
+    "commonest": "Commonest",
+    "commonestTip": "The neutrons of this element's commonest isotope",
+    "hold": "Hold",
+    "holdTip": "A force field holds the nucleus together while you build",
+    "clear": "Start again",
+    "nothing": "Nothing yet",
+    "aNeutron": "A neutron",
+    "neutronsAlone": "{{count}} neutrons on their own",
+    "decay": "Decay",
+    "waitFor": "Wait {{t}}",
+    "moreText": "more...",
+    "missions": "Forge missions",
+    "missionDone": "Mission complete!",
+    "chart": "Chart of nuclides",
+    "chartKid": "Every kind of nucleus ever seen: protons going up, neutrons going across. White ones last for ever; the others break apart, red ones slowly, blue ones in a flash. Tap one to build it.",
+    "chartSci": "All 3552 known nuclides (NUBASE, via the mendeleev package): Z up, N across, coloured by half-life. The white band is the valley of stability; it bends toward N > Z as the protons' repulsion grows. Tap to build.",
+    "chartZ": "protons (Z)",
+    "chartN": "neutrons (N)",
+    "find": "An element: C, Fe, uranium...",
+    "go": "Go",
+    "kind": {
+      "empty": "Empty",
+      "stable": "Stable",
+      "radioactive": "Radioactive",
+      "instant": "Falls apart at once",
+      "unmeasured": "Not timed yet",
+      "unknown": "Cannot hold together",
+      "notMade": "Never made",
+      "neutron": "Radioactive",
+      "neutrons": "Falls apart at once"
+    },
+    "band": {
+      "stable": "stable",
+      "years": "months or more",
+      "hours": "minutes to months",
+      "seconds": "seconds",
+      "ms": "under a second",
+      "fast": "under a thousandth",
+      "instant": "at once",
+      "unmeasured": "not timed"
+    }
+  },
   "passport": {
     "title": "My passport",
     "visited": "elements visited",
@@ -215,6 +267,7 @@
     "legend": "Each tile fills as you read its hall; a star means you explored its worlds. Tap a tile to go in.",
     "badges": "Badges",
     "lab": "Molecule missions",
+    "forge": "Forge missions",
     "badge": {
       "first": {
         "icon": "✨",

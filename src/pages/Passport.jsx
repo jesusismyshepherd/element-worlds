@@ -26,7 +26,7 @@ export default function Passport() {
     const m = {}
     for (const k of keys) {
       const [sym, part] = k.split(':')
-      if (sym === 'lab') continue
+      if (sym === 'lab' || sym === 'forge') continue
       m[sym] ??= { hall: 0, wings: 0 }
       if (k.split(':').length === 2 && part) m[sym].hall++
       else m[sym].wings++

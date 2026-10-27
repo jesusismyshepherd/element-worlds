@@ -10,6 +10,7 @@ import PlazaHud from './PlazaHud.jsx'
 import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
 import LabHud from './LabHud.jsx'
+import ForgeHud from './ForgeHud.jsx'
 import SoundButton from './SoundButton.jsx'
 
 /** Everything drawn over the 3D: the top bar (where you are, level, language), the HUD of the
@@ -62,10 +63,10 @@ export default function Hud({ engine }) {
                   )}
                 </>
               )}
-              {world.kind === 'lab' && (
+              {(world.kind === 'lab' || world.kind === 'forge') && (
                 <>
                   <span className="opacity-50">/</span>
-                  <span className="font-display font-bold truncate">{t('lab.title')}</span>
+                  <span className="font-display font-bold truncate">{t(`${world.kind}.title`)}</span>
                 </>
               )}
               {world.kind === 'wing' && title && (
@@ -92,6 +93,11 @@ export default function Hud({ engine }) {
           {world?.kind === 'plaza' && (
             <Link to="/lab" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('hud.lab')}>
               🧪<span className="hidden sm:inline ml-1">{t('hud.lab')}</span>
+            </Link>
+          )}
+          {world?.kind === 'plaza' && (
+            <Link to="/forge" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('hud.forge')}>
+              ⚛️<span className="hidden sm:inline ml-1">{t('hud.forge')}</span>
             </Link>
           )}
           {world?.kind === 'plaza' && (
@@ -128,7 +134,8 @@ export default function Hud({ engine }) {
 
       {world?.kind === 'plaza' && <PlazaHud engine={engine} />}
       {world?.kind === 'lab' && <LabHud engine={engine} />}
-      {world && world.kind !== 'plaza' && world.kind !== 'lab' && <WalkHud engine={engine} />}
+      {world?.kind === 'forge' && <ForgeHud engine={engine} />}
+      {world && world.kind !== 'plaza' && world.kind !== 'lab' && world.kind !== 'forge' && <WalkHud engine={engine} />}
 
       {about && <About onClose={() => setAbout(false)} />}
 

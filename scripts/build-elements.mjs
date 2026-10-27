@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, renameSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { NAMES } from './data/names.mjs'
 import { shellsOf } from '../src/chem/atom.js'
+import { UNCONFIRMED, HALF, half } from './data/fixes.mjs'
 
 const here = p => fileURLToPath(new URL(p, import.meta.url))
 const pubchem = JSON.parse(readFileSync(here('./data/pubchem.json'), 'utf8')).Table
@@ -77,16 +78,10 @@ const CONFIG = { 103: '[Rn]5f14 7s2 7p1' }
 const STATE = { 112: 'liquid', 114: 'liquid', 118: 'solid' }
 const STATE_PREDICTED = new Set([85, 87, 100, 101, 102, 103, 112, 114, 118])
 const BOIL = { 112: 340, 118: 450 }
-// superheavy isotopes (Wikipedia's "Isotopes of" pages, 2025): unconfirmed ones out, newer half-lives in
-const UNCONFIRMED = new Set(['Nh-290', 'Cn-286', 'Ds-282', 'Fl-290', 'Og-295'])
-const HALF = {
-  'Lr-266': [11, 'hour'], 'Rf-267': [48, 'minute'], 'Db-268': [16, 'hour'], 'Sg-269': [13, 'minute'],
-  'Bh-270': [2.4, 'minute'], 'Mt-277': [5, 'msec'], 'Hs-271': [46, 'sec'],
-}
-const SECONDS = { usec: 1e-6, msec: 1e-3, sec: 1, minute: 60, hour: 3600, day: 86400, year: 3.15576e7 }
+// isotope fixes shared with the chart of nuclides (scripts/data/fixes.mjs): unconfirmed ones out,
+// newer half-lives in
 function fixIsotopes(symbol, list) {
   const key = i => `${symbol}-${i.A}`
-  const half = ([v, u]) => ({ halfLife: v, halfLifeUnit: u, halfLifeSeconds: v * SECONDS[u] })
   let out = list.filter(i => !UNCONFIRMED.has(key(i))).map(i => (HALF[key(i)] && !i.meta ? { ...i, ...half(HALF[key(i)]) } : i))
   for (const [k, v] of Object.entries(HALF)) {
     const [s, A] = k.split('-')
@@ -99,11 +94,9 @@ function fixIsotopes(symbol, list) {
   }
   return out
 }
-// isotopes: tantalum's second natural one, Ta-180m (0.01201%, CIAAW); samarium-146 measured again in
-// 2024 (92 million years; the 68 of 2012 was retracted in 2023)
+// isotopes: tantalum's second natural one, Ta-180m (0.01201%, CIAAW)
 const ISOTOPE = {
   73: list => [list[0], { A: 180, meta: true, abundance: 0.01201, halfLife: null, halfLifeUnit: null, halfLifeSeconds: null }, ...list.slice(1).filter(i => i.A !== 180)],
-  62: list => list.map(i => (i.A === 146 ? { ...i, halfLife: 92, halfLifeUnit: 'Myear', halfLifeSeconds: 92 * 3.15576e13 } : i)),
 }
 // indium in seawater: the old table value was about 100 000 times too high (Alibo, Nozaki and Jeandel 1999)
 const SEA = { 49: 1e-7 }
