@@ -55,7 +55,9 @@
     "atomSentence": "Its atom has {{count}} protons in the centre and {{count}} electrons around them.",
     "radioactive": "Radioactive",
     "tapAgain": "Tap the cube again to go in",
-    "clickAgain": "Double-click the cube, or press Enter, to go in"
+    "clickAgain": "Double-click the cube, or press Enter, to go in",
+    "worlds_one": "Has a world of its own to explore",
+    "worlds_other": "Has {{count}} worlds of its own to explore"
   },
   "level": {
     "label": "Level",

@@ -10,7 +10,7 @@ import { ELEMENTS, FAMILY, element, nameOf, cellOf } from '../../data/elements.j
 import { CUBE, PITCH, TABLE, TRENDS, cubeSpot, spotOf, trendScale, scaleColor } from './layout.js'
 import { nightSky } from '../common/sky.js'
 import { FONTS } from '../../engine/text.js'
-import { atriumPath } from '../registry.js'
+import { atriumPath, WINGS } from '../registry.js'
 import { createAtomling } from '../../characters/atomling.js'
 
 const N = ELEMENTS.length
@@ -157,6 +157,19 @@ export async function build(ctx, target) {
     marks.add(tile, t)
   }
   root.add(marks)
+
+  // a golden star floats over the cubes whose element has worlds of its own
+  const stars = []
+  const starGeo = new THREE.OctahedronGeometry(0.42, 0)
+  const starMat = new THREE.MeshStandardMaterial({ color: '#ffd166', emissive: '#ffb703', emissiveIntensity: 1.6, roughness: 0.3, metalness: 0.4 })
+  for (const sym of Object.keys(WINGS)) {
+    const s = state.find(st => st.el.symbol === sym)
+    if (!s) continue
+    const star = new THREE.Mesh(starGeo, starMat)
+    star.scale.set(1, 1.4, 1)
+    root.add(star)
+    stars.push({ star, s })
+  }
 
   // light: a dim sky, a moon, the cubes' own glow
   root.add(new THREE.HemisphereLight('#5a6cff', '#090b1e', 0.4))
@@ -462,6 +475,11 @@ export async function build(ctx, target) {
       for (const tt of [t.num, t.sym, t.name, f.sym, f.name]) tt.fillOpacity = a
     })
     hostLight.intensity = host ? 40 : 0
+    for (const { star, s } of stars) {
+      star.position.set(s.x, s.lift + s.h + 1.5 + Math.sin(time * 1.8 + s.x) * 0.15, s.z)
+      star.rotation.y = time * 1.2
+      star.visible = !host || host.i !== state.indexOf(s)
+    }
     if (host) {
       const s = state[host.i]
       hostLight.position.set(s.x + 1.5, s.lift + s.h + 3.2, s.z + 3)

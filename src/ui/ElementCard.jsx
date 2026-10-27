@@ -2,6 +2,7 @@
 import { useTranslation } from 'react-i18next'
 import { FAMILY, nameOf } from '../data/elements.js'
 import { temperature, density, num, config, LANG_TAG } from './format.js'
+import { WINGS } from '../worlds/registry.js'
 
 /** An element's card on the plaza: the tile as on a printed table and what matters at each level. */
 export default function ElementCard({ el, level, selected, onEnter, touch }) {
@@ -27,6 +28,7 @@ export default function ElementCard({ el, level, selected, onEnter, touch }) {
           <div className="text-sm font-bold" style={{ color }}>{t(`family.${el.family}`)}</div>
           {state && <div className="text-sm opacity-90 mt-0.5">{state}</div>}
           {el.radioactive && <div className="text-xs mt-0.5 text-lime-300">☢ {t('card.radioactive')}</div>}
+          {WINGS[el.symbol] && <div className="text-xs mt-0.5 text-amber-300">★ {t('card.worlds', { count: WINGS[el.symbol].length })}</div>}
         </div>
       </div>
       {!sci && <p className="text-sm mt-2 opacity-90">{t('card.atomSentence', { count: el.z })}</p>}

@@ -55,7 +55,9 @@
     "atomSentence": "O seu átomo tem {{count}} protões no centro e {{count}} eletrões à volta.",
     "radioactive": "Radioativo",
     "tapAgain": "Toca outra vez no cubo para entrar",
-    "clickAgain": "Faz duplo clique no cubo, ou carrega em Enter, para entrar"
+    "clickAgain": "Faz duplo clique no cubo, ou carrega em Enter, para entrar",
+    "worlds_one": "Tem um mundo seu para explorar",
+    "worlds_other": "Tem {{count}} mundos seus para explorar"
   },
   "level": {
     "label": "Nível",
