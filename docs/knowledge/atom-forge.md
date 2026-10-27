@@ -60,7 +60,8 @@ chains. Every hall's "Inside the atom" panel links here with its element (`/forg
 
 `MSYS_NO_PATHCONV=1 python tools/shot.py /forge --steps "js:__ew.world.goTo('U'); wait:3; shot:u; js:__ew.world.decay(); wait:0.4; shot:alpha"`;
 `__ew.world.set(Z, N, E)`, `add('p'|'n'|'e')`, `remove(...)`, `decay()`, `nucleons()` (positions, for
-probes). `--phone` for the bottom bar.
+probes). `--phone` for the bottom bar. `tools/forge_probe.py` builds every element, decays it, makes ions
+and the odd cases, and reads the HUD in both languages and depths (about a minute).
 
 ## Next
 
