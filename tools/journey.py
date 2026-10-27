@@ -6,12 +6,16 @@ arrives, times each move, and fails on console errors. Run with the dev server u
     python tools/journey.py C --phone
 """
 import argparse
+import json
 import sys
 import time
+from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
 READY = 'window.__ew && window.__ew.world && !window.__ew.store.get().fading'
+# every element's atomic number, by symbol (the plaza selects cubes by number)
+Z = {e['symbol']: e['z'] for e in json.loads((Path(__file__).resolve().parent.parent / 'src' / 'data' / 'elements.json').read_text(encoding='utf-8'))}
 
 
 def arrive(page, kind, symbol=None, wing=None, timeout=30):
@@ -49,7 +53,7 @@ def main():
         page.wait_for_function(READY, timeout=60000)
         print(f'plaza ready')
         for sym in a.symbols:
-            page.evaluate(f"() => {{ const el = {{C: 6, O: 8}}['{sym}'] ?? null; if (el) __ew.world.select(el) }}")
+            page.evaluate(f"() => __ew.world.select({Z[sym]})")
             time.sleep(1.2)
             page.evaluate('() => __ew.world.enterSelected()')
             print(f'{sym}: atrium in {arrive(page, "atrium", sym):.2f} s')
