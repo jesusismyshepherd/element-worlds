@@ -147,8 +147,10 @@
       "size": "Tamanho: o raio atómico verdadeiro (grandes em baixo à esquerda da tabela, pequenos em cima à direita).",
       "move": "Os gases flutuam (quanto mais leves que o ar, mais alto), os líquidos deslizam, os sólidos andam.",
       "body": "Os metais brilham como metal; os não metais são transparentes, com o núcleo lá dentro; os semimetais são metade e metade.",
-      "mark": "Na cabeça, a família: uma chama, um capacete, espinhos, um halo…"
-    }
+      "mark": "Na cabeça, a família: uma chama, um capacete, espinhos, um halo…",
+      "look": "Cores e objetos: um metal veste a sua cor, uma chama arde na cor do seu teste de chama, cada coluna de metais partilha a forma do capacete e alguns trazem um objeto da sua história."
+    },
+    "tap": "Toca num Atomito para o leres."
   },
   "wings": {
     "C": {

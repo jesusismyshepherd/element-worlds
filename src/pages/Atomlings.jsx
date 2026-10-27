@@ -25,6 +25,7 @@ export default function Atomlings() {
   const [params, setParams] = useSearchParams()
   const [ready, setReady] = useState(false)
   const [chosen, setChosen] = useState(null)
+  const [how, setHow] = useState(() => window.innerWidth >= 900)
   const down = useRef(null)
   const set = SETS.find(s => s.id === params.get('set')) ?? (params.get('only') ? { id: 'only', symbols: params.get('only').split(',') } : SETS[0])
   const lang = i18n.resolvedLanguage
@@ -95,10 +96,15 @@ export default function Atomlings() {
         </div>
       </div>
       <div className="absolute left-2 bottom-2 sm:left-3 sm:bottom-3 glass rounded-xl p-3 max-w-[min(94vw,24rem)] text-[13px] leading-snug">
-        <div className="font-display font-bold text-base mb-1">{t('atomlings.howTitle')}</div>
-        <ul className="space-y-0.5">
-          {['hands', 'hoop', 'size', 'move', 'body', 'mark'].map(k => <li key={k}>{t(`atomlings.how.${k}`)}</li>)}
-        </ul>
+        <button type="button" onClick={() => setHow(h => !h)} className="font-display font-bold text-base w-full text-left flex justify-between gap-3">
+          <span>{t('atomlings.howTitle')}</span><span className="opacity-60">{how ? '▾' : '▴'}</span>
+        </button>
+        {how && (
+          <ul className="space-y-0.5 mt-1">
+            {['hands', 'hoop', 'size', 'move', 'body', 'mark', 'look'].map(k => <li key={k}>{t(`atomlings.how.${k}`)}</li>)}
+          </ul>
+        )}
+        {!how && <div className="text-xs opacity-70 mt-0.5">{t('atomlings.tap')}</div>}
       </div>
     </div>
   )

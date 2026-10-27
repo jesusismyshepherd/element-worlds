@@ -147,8 +147,10 @@
       "size": "Size: its real atomic radius (big at the bottom left of the table, small at the top right).",
       "move": "Gases float (the lighter than air, the higher), liquids slide, solids walk.",
       "body": "Metals shine like metal; non-metals are see-through, with the nucleus inside; metalloids are half and half.",
-      "mark": "On its head, its family: a flame, a helmet, spikes, a halo…"
-    }
+      "mark": "On its head, its family: a flame, a helmet, spikes, a halo…",
+      "look": "Colours and objects: a metal wears its own colour, a flame burns in its flame-test colour, a column of metals shares a helmet shape, and some carry an object from their story."
+    },
+    "tap": "Tap an Atomling to read it."
   },
   "wings": {
     "C": {
