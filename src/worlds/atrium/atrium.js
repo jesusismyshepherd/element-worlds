@@ -8,6 +8,8 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { ELEMENTS, FAMILY, element, nameOf, cellOf } from '../../data/elements.js'
 import { createAtomling } from '../../characters/atomling.js'
 import { bigAtom } from './atom.js'
+import { specimen } from './specimen.js'
+import { appearanceOf } from '../../data/appearance.js'
 import { stationsOf, greetingOf } from '../../content/stations.js'
 import { wallPanel, arch, canvasTexture } from '../common/props.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
@@ -40,8 +42,8 @@ const SIDES = {
 }
 
 const WORDS = {
-  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall' },
-  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão' },
+  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing' },
+  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra' },
 }
 
 export async function build(ctx, target) {
@@ -171,7 +173,7 @@ export async function build(ctx, target) {
   const level = ctx.level()
   const familyName = ctx.t(`families.${el.family}`)
   const stations = stationsOf(el, { lang, level, familyName })
-  const keys = stations.map(s => `${el.symbol}:${s.id}`)
+  const keys = [...stations.map(s => `${el.symbol}:${s.id}`), `${el.symbol}:look`]
   const interactables = []
   const panels = {}
   const report = () => ctx.store.set({ discoveries: { found: countFound(keys), total: keys.length } })
@@ -217,6 +219,30 @@ export async function build(ctx, target) {
     },
   })
 
+  // ---- the specimen case: what it looks like for real ----
+  const look = appearanceOf(el)
+  const lookText = look.look[lang] ?? look.look.en
+  const caseSpot = { x: -4.3, z: 0.6 }
+  const sample = specimen(el, look, { light: ctx.light, name: nameOf(el, lang) })
+  sample.group.position.set(caseSpot.x, 0, caseSpot.z)
+  sample.group.rotation.y = 0.45
+  root.add(sample.group)
+  updates.push(t => sample.update(t))
+  interactables.push({
+    id: 'look',
+    x: caseSpot.x + 0.6,
+    z: caseSpot.z + 1.4,
+    radius: 1.7,
+    label: W.sample,
+    verb: W.look,
+    onUse: () => {
+      const state = stationsOf(el, { lang, level: ctx.level(), familyName }).find(s => s.id === 'state').panel()
+      ctx.store.set({ panel: { title: W.real, kicker: `${el.symbol} · ${nameOf(el, lang)}`, color, blocks: [{ big: lookText.charAt(0).toUpperCase() + lookText.slice(1) }, state.blocks[1]] } })
+      markFound(`${el.symbol}:look`)
+      report()
+    },
+  })
+
   // ---- doors: the way out, the wings, closed arches where there are none yet ----
   const doors = []
   const solids = roomWalls(-HALF, HALF, -HALF, HALF, openings, wallT)
@@ -242,7 +268,7 @@ export async function build(ctx, target) {
     const [x, z, w, d] = SIDES[o.side].stop
     solids.push(box(x, z, w, d))
   }
-  solids.push(circle(0, 0, 2.3, { y1: 0.32 }))
+  solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 0.75))
 
   // ---- light ----
   root.add(new THREE.HemisphereLight('#e4eaff', '#262c55', 1.25))
