@@ -66,21 +66,49 @@
     "title": "Tendências",
     "off": "Nenhuma",
     "unknown": "desconhecido",
-    "radius": { "name": "Raio atómico", "unit": "pm" },
-    "en": { "name": "Eletronegatividade", "unit": "Pauling" },
-    "ie": { "name": "Energia de ionização", "unit": "eV" },
-    "melt": { "name": "Ponto de fusão", "unit": "K" },
-    "density": { "name": "Densidade", "unit": "g/cm³" },
-    "mass": { "name": "Massa atómica", "unit": "u" },
-    "crust": { "name": "Abundância na crosta terrestre", "unit": "mg/kg" },
-    "year": { "name": "Ano da descoberta", "unit": "" }
+    "radius": {
+      "name": "Raio atómico",
+      "unit": "pm"
+    },
+    "en": {
+      "name": "Eletronegatividade",
+      "unit": "Pauling"
+    },
+    "ie": {
+      "name": "Energia de ionização",
+      "unit": "eV"
+    },
+    "melt": {
+      "name": "Ponto de fusão",
+      "unit": "K"
+    },
+    "density": {
+      "name": "Densidade",
+      "unit": "g/cm³"
+    },
+    "mass": {
+      "name": "Massa atómica",
+      "unit": "u"
+    },
+    "crust": {
+      "name": "Abundância na crosta terrestre",
+      "unit": "mg/kg"
+    },
+    "year": {
+      "name": "Ano da descoberta",
+      "unit": ""
+    }
   },
   "hud": {
     "table": "A tabela",
     "back": "Voltar à tabela",
     "atrium": "{{name}}: o salão",
     "language": "Língua",
-    "mode": { "third": "Personagem", "first": "Primeira pessoa", "switch": "Mudar de vista (V)" },
+    "mode": {
+      "third": "Personagem",
+      "first": "Primeira pessoa",
+      "switch": "Mudar de vista (V)"
+    },
     "use": "Usar",
     "jump": "Saltar",
     "close": "Fechar",
@@ -90,5 +118,27 @@
     "plazaHelpTouch": "Arrasta para rodar · afasta os dedos para aproximar · toca num cubo",
     "families": "Famílias",
     "graphics": "Gráficos"
+  },
+  "atomlings": {
+    "title": "Atomitos",
+    "sets": {
+      "featured": "Destaques",
+      "p": "Período {{n}}",
+      "lanthanides": "Lantanídeos",
+      "actinides": "Actinídeos",
+      "g1": "Grupo 1",
+      "g17": "Halogéneos",
+      "g18": "Gases nobres",
+      "only": "Escolhidos"
+    },
+    "howTitle": "Como ler um Atomito",
+    "how": {
+      "hands": "Mãos: as ligações que faz (carbono 4, oxigénio 2, hidrogénio 1). Os metais estendem os eletrões que dão.",
+      "hoop": "O arco: os eletrões de fora, arrumados como nos diagramas de Lewis; um anel vazio é um lugar ainda livre.",
+      "size": "Tamanho: o raio atómico verdadeiro (grandes em baixo à esquerda da tabela, pequenos em cima à direita).",
+      "move": "Os gases flutuam (quanto mais leves que o ar, mais alto), os líquidos deslizam, os sólidos andam.",
+      "body": "Os metais brilham como metal; os não metais são transparentes, com o núcleo lá dentro; os semimetais são metade e metade.",
+      "mark": "Na cabeça, a família: uma chama, um capacete, espinhos, um halo…"
+    }
   }
 }

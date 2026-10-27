@@ -66,21 +66,49 @@
     "title": "Trends",
     "off": "None",
     "unknown": "unknown",
-    "radius": { "name": "Atomic radius", "unit": "pm" },
-    "en": { "name": "Electronegativity", "unit": "Pauling" },
-    "ie": { "name": "Ionisation energy", "unit": "eV" },
-    "melt": { "name": "Melting point", "unit": "K" },
-    "density": { "name": "Density", "unit": "g/cm³" },
-    "mass": { "name": "Atomic mass", "unit": "u" },
-    "crust": { "name": "Abundance in Earth's crust", "unit": "mg/kg" },
-    "year": { "name": "Year of discovery", "unit": "" }
+    "radius": {
+      "name": "Atomic radius",
+      "unit": "pm"
+    },
+    "en": {
+      "name": "Electronegativity",
+      "unit": "Pauling"
+    },
+    "ie": {
+      "name": "Ionisation energy",
+      "unit": "eV"
+    },
+    "melt": {
+      "name": "Melting point",
+      "unit": "K"
+    },
+    "density": {
+      "name": "Density",
+      "unit": "g/cm³"
+    },
+    "mass": {
+      "name": "Atomic mass",
+      "unit": "u"
+    },
+    "crust": {
+      "name": "Abundance in Earth's crust",
+      "unit": "mg/kg"
+    },
+    "year": {
+      "name": "Year of discovery",
+      "unit": ""
+    }
   },
   "hud": {
     "table": "The table",
     "back": "Back to the table",
     "atrium": "{{name}}'s hall",
     "language": "Language",
-    "mode": { "third": "Character", "first": "First person", "switch": "Switch view (V)" },
+    "mode": {
+      "third": "Character",
+      "first": "First person",
+      "switch": "Switch view (V)"
+    },
     "use": "Use",
     "jump": "Jump",
     "close": "Close",
@@ -90,5 +118,27 @@
     "plazaHelpTouch": "Drag to turn · pinch to zoom · tap a cube",
     "families": "Families",
     "graphics": "Graphics"
+  },
+  "atomlings": {
+    "title": "Atomlings",
+    "sets": {
+      "featured": "Featured",
+      "p": "Period {{n}}",
+      "lanthanides": "Lanthanides",
+      "actinides": "Actinides",
+      "g1": "Group 1",
+      "g17": "Halogens",
+      "g18": "Noble gases",
+      "only": "Chosen"
+    },
+    "howTitle": "How to read an Atomling",
+    "how": {
+      "hands": "Hands: the bonds it makes (carbon 4, oxygen 2, hydrogen 1). Metals hold out the electrons they give away.",
+      "hoop": "The hoop: its outer electrons, set out like Lewis dots; a hollow ring is a place still free.",
+      "size": "Size: its real atomic radius (big at the bottom left of the table, small at the top right).",
+      "move": "Gases float (the lighter than air, the higher), liquids slide, solids walk.",
+      "body": "Metals shine like metal; non-metals are see-through, with the nucleus inside; metalloids are half and half.",
+      "mark": "On its head, its family: a flame, a helmet, spikes, a halo…"
+    }
   }
 }
