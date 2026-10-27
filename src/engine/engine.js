@@ -144,7 +144,7 @@ export class Engine {
         stage.environment = w.env?.environment === null ? null : w.env?.environment ?? this.studio
         stage.fog = w.env?.fog ?? null
         stage.add(w.root)
-        await this.renderer.compileAsync(stage, this.camera)
+        await this.compileFor(stage)
         stage.remove(w.root)
         return w
       } catch (err) {
@@ -220,10 +220,24 @@ export class Engine {
     this.key = null
   }
 
+  /** Compile a scene's shaders as they will be drawn. With bloom the scene is drawn into the
+   *  composer's buffer, linear and without tone mapping, and three.js makes those other programs than
+   *  the screen's (sRGB, tone-mapped): compiling for the screen wasted half the work, and the real ones
+   *  still compiled on the first frames (carbon's gallery: 92 programs, 9 s). The programs are chosen
+   *  when compileAsync starts, so the target is set only around that call. */
+  compileFor(scene) {
+    const r = this.renderer
+    const old = r.getRenderTarget()
+    r.setRenderTarget(this.composer ? this.composer.readBuffer : null)
+    const done = r.compileAsync(scene, this.camera)
+    r.setRenderTarget(old)
+    return done
+  }
+
   /** Compile the new world's shaders before the fade comes up, so its first frames do not stall. */
   async warm() {
     try {
-      await this.renderer.compileAsync(this.scene, this.camera)
+      await this.compileFor(this.scene)
     } catch {
       // older drivers: they compile on the first frame instead
     }

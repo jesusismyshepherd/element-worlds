@@ -63,7 +63,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
 - `src/worlds/wings/carbon/`, `src/worlds/wings/oxygen/`: the four worlds (each folder has its own
-  words, parts and tests).
+  words, parts and tests). `src/worlds/wings/noble/`: the neon sign workshop, one wing shared by the six
+  noble gases (`/e/<Symbol>/signs`; adding-a-wing.md, "A wing shared by several elements").
 - `tools/shot.py` (screenshots of the dev server, `npm run dev` on port 5310, with steps),
   `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back),
   `tools/halls_probe.py` (all 118 halls, every panel, both languages and depths: words gone wrong, errors;
@@ -107,7 +108,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed
   isotopes out).
 - Worlds: carbon (`/e/C/allotropes` with the graphene row, `/e/C/life`), oxygen (`/e/O/air`,
-  `/e/O/fire`). Ideas for the next ones: `docs/wing-ideas.md`.
+  `/e/O/fire`), the noble gases' neon sign workshop (`/e/He/signs` to `/e/Rn/signs`, 2026-10-28: filling
+  bench, radon's lead box, your name in neon, spectroscope with NIST lines, the atom's energy ladder,
+  history board, balloons). Ideas for the next ones: `docs/wing-ideas.md`.
 - Atomlings: the grammar and the second layer of looks (`characters/look.js`); `/atomlings` with cards.
 - The Molecule Lab (`/lab`, `docs/knowledge/molecule-lab.md`): covalent molecules and, since 2026-10-28,
   ionic compounds (metals hand their electrons over: NaCl, MgO, CaCl2, Al2O3...); molecules keep their
@@ -120,8 +123,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   particles and nuclei at it; famous reactions as history saw them, superheavies by fusion-evaporation.
 - "Who am I?" (2026-10-28 night): a quiz in the plaza, Explorer from 40 well-known elements, Scientist
   from all 118; fewer clues, more points; the best score kept on the device.
-- Open: the user's review (the Atomlings' look, the worlds, the forge); first visits to big worlds
-  compile 70 to 90 shader programs (8 s on Windows, about 1 s after; prewarm hides most of it, fewer
-  material variants would cut it); the third-person camera keeps clear of solids and looks up when the
+- Open: the user's review (the Atomlings' look, the worlds, the forge). First visits: shaders are
+  now warmed for the bloom's linear buffer (2026-10-28; they were warmed for the screen, a wasted half
+  that recompiled on the first frames): cold first visits 1.2 to 3.9 s (carbon's gallery was 10 s);
+  fewer material variants would cut more (the gallery still needs 53 programs); the third-person camera keeps clear of solids and looks up when the
   floor holds it (2026-10-27), but meshes that are not solids (lattices, crowns) still need each
   world's own fade (carbon's wings); a test on a real phone.

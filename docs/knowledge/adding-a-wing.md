@@ -95,6 +95,47 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
 - A patch that renames a file over the original can leave Vite's error overlay up until the file is
   touched again; other sessions creating files make Vite reload the page under a running probe (retry).
 - `env.environment` (a texture, or null for none) and `env.far` exist too.
+- Shader programs: every material kind (and each transparent, double-sided, instanced or customised
+  variant) is another program to compile on a first visit, about 30 to 100 ms each on Windows. Reuse
+  materials; count them with `renderer.info.programs.length` (carbon's gallery: 53). The engine warms
+  them for the composer's linear buffer (`engine.compileFor`); compiling for the screen instead made
+  every program twice.
 - The RoomEnvironment light washes out dark places: set `env.envIntensity` low there.
 - A transmission (glass) material dims what is behind it by its base colour: keep the base light and
   put the colour in `attenuationColor` (see `characters/atomling.js`).
+
+## A wing shared by several elements (the neon sign workshop, 2026-10-28)
+
+`src/worlds/wings/noble/signs.js` serves He, Ne, Ar, Kr, Xe and Rn: the same `load` under each symbol
+in `WINGS` (one id, `signs`), a title per symbol in both locale files, and `build(ctx, target)` reads
+`target.symbol`: the visitor's gas starts every exhibit, its Atomling plays, the arch says "Back to
+neon's hall" and leads to `atriumPath(target.symbol)`, and discoveries are kept as
+`<Symbol>:signs:<exhibit>` (each hall's passport tile counts its own). `/e/Ne/signs` and `/e/Ar/signs`
+are different worlds to the engine (`worldKey`), so each is built for its gas. The wing's notes, parts
+and traps: the folder's module headers; its pure data and words are tested in `noble.test.js`.
+
+More traps met there (each with its fix):
+
+- Neon tubes: unlit tubing in a light grey reads as a lit white tube; dark glass (`#3c424f`, low
+  roughness) reads as glass. A white glow (krypton) blooms about three times wider than a saturated
+  red at the same emissive intensity: scale the emissive by the colour's luminance (`glowNorm` in
+  `noble/neonTube.js`). Without bloom (light mode), an emissive much above 1.2 is tone-mapped to white
+  whatever the gas: keep it low and let a wide faint additive tube carry the colour.
+- A point light that stands for several glowing things takes the mix of their colours, weighted by how
+  lit they are; the colour of the last one lit tints the others.
+- Typing in a world: the WalkHud closes a panel on E in the capture phase, and the engine reads keys from
+  `window`. A small DOM overlay that stops `keydown`/`keyup` from leaving it, opened with no panel open,
+  takes a word without the walker moving (`noble/nameOverlay.js`; its classes are inline styles plus the
+  global `glass`).
+- A panel opened a few seconds after an action (so the action is seen first) should open only if the
+  visitor is still at that exhibit; otherwise the next use opens it (`noble/kit.js` `exhibitSet`).
+- Canvas textures with text: `await document.fonts.load('700 40px Outfit')` (and the other faces) before
+  drawing, or the first draw uses a fallback font (`noble/kit.js` `fontsReady`).
+- Spectra drawn from measured intensities: weight each line's brightness gently by the eye's sensitivity,
+  or a near-ultraviolet line (helium's 388.9 nm) looks as bright as the yellow one.
+- `tools/shot.py` splits its steps on `;`: a `js:` step must not contain one (use commas). When another
+  session saves files, Vite reloads the page or the world re-enters at the spawn under a running probe
+  (the frame count at the end drops, or a shot shows the spawn): retry.
+- Leaving a world within a second or two of the hall starting to prewarm it gives a console error from
+  three's `compileAsync` ("reading 'isReady'": a material disposed while its compile is polled). It is the
+  engine's race, not a wing's (the fire wing does it too); a normal pause before the arch avoids it.
