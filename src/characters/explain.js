@@ -1,8 +1,37 @@
 // An Atomling read aloud: each feature and what it says about the element (the Atomlings page's
 // card). Pure: traits in, sentences out, in both languages.
-import { ELEMENTS } from '../data/elements.js'
+import { ELEMENTS, nameOf } from '../data/elements.js'
 import { traitsOf } from './traits.js'
+import { HELMET, SIGNATURE } from './look.js'
 
+// the flame-test colours' names (look.js FLAME)
+const FLAME_NAME = {
+  Li: ['crimson', 'carmesim'], Na: ['yellow-orange', 'amarelo-alaranjado'], K: ['lilac', 'lilás'],
+  Rb: ['red-violet', 'vermelho-violeta'], Cs: ['blue-violet', 'azul-violeta'],
+  Ca: ['orange-red', 'vermelho-alaranjado'], Sr: ['crimson', 'carmesim'], Ba: ['apple green', 'verde-maçã'], Ra: ['crimson', 'carmesim'],
+}
+const SHAPE = {
+  round: ['a round helmet', 'um capacete redondo'], crest: ['a crest', 'uma crista'], horns: ['two horns', 'dois chifres'],
+  visor: ['a visor', 'uma viseira'], spike: ['a spike', 'um espigão'], plume: ['a plume', 'um penacho'],
+  bolts: ['two bolts', 'dois parafusos'], band: ['a band', 'um aro'], coin: ['a coin', 'uma moeda'], drop: ['a drop', 'uma gota'],
+}
+const SIG = {
+  drop: ['The water drop: two hydrogens and an oxygen make water.', 'A gota de água: dois hidrogénios e um oxigénio fazem água.'],
+  balloon: ['The balloon: helium is lighter than air, so it lifts party balloons.', 'O balão: o hélio é mais leve do que o ar, por isso faz subir os balões.'],
+  battery: ['The battery: lithium-ion batteries power phones and electric cars.', 'A pilha: as baterias de iões de lítio alimentam telemóveis e carros elétricos.'],
+  salt: ['The salt cube: table salt is sodium chloride.', 'O cubo de sal: o sal de cozinha é cloreto de sódio.'],
+  leaf: ['The leaf: every chlorophyll molecule, the green of leaves, has a magnesium atom at its heart.', 'A folha: cada molécula de clorofila, o verde das folhas, tem um átomo de magnésio no centro.'],
+  match: ["The match: matches light thanks to phosphorus, on the box's striking strip.", 'O fósforo de acender: acende graças ao fósforo da lixa da caixa.'],
+  banana: ['The banana: bananas are rich in potassium.', 'A banana: as bananas são ricas em potássio.'],
+  bone: ['The bone: our bones and teeth are made with calcium.', 'O osso: os nossos ossos e dentes são feitos com cálcio.'],
+  chip: ['The chip: computer chips are made of silicon.', 'O chip: os chips dos computadores são feitos de silício.'],
+  magnet: ['The magnet: iron is magnetic.', 'O íman: o ferro é magnético.'],
+  coil: ['The coil: copper wires carry electricity.', 'A bobina: os fios de cobre levam a eletricidade.'],
+  bulb: ['The bulb: old light bulbs glowed with a tungsten filament, the metal with the highest melting point.', 'A lâmpada: as lâmpadas antigas brilhavam com um filamento de tungsténio, o metal com o ponto de fusão mais alto.'],
+  crown: ['The crown: gold has been the metal of kings and treasures for thousands of years.', 'A coroa: o ouro é o metal dos reis e dos tesouros há milhares de anos.'],
+}
+
+const art = el => (el.symbol === 'Ag' || el.symbol === 'Pt' ? 'a' : 'o')
 const byRadius = [...ELEMENTS].filter(e => e.radius.covalent != null).sort((a, b) => b.radius.covalent - a.radius.covalent)
 const radiusRank = new Map(byRadius.map((e, i) => [e.z, i + 1]))
 
@@ -87,7 +116,18 @@ export function explain(el, lang) {
   out.push(L.size(h, el.radius.covalent, radiusRank.get(el.z), byRadius.length))
   out.push(tr.locomotion === 'walk' ? L.walk : tr.locomotion === 'slide' ? L.slide : tr.hover > 0.5 ? L.floatHigh : L.floatLow)
   out.push(L[tr.material])
-  if (tr.mark && L.marks[tr.mark]) out.push(L.marks[tr.mark])
+  const replaced = tr.mark === 'helmet' && ['crown', 'bulb'].includes(SIGNATURE[el.symbol])
+  if (tr.mark && L.marks[tr.mark] && !replaced) out.push(L.marks[tr.mark])
+  const k = lang === 'pt-pt' ? 1 : 0
+  if (FLAME_NAME[el.symbol] && (tr.mark === 'flame' || tr.mark === 'nubs')) {
+    const c = FLAME_NAME[el.symbol][k]
+    out.push(k ? `Brilha ${c}: a cor que ${art(el)} ${nameOf(el, lang).toLowerCase()} dá a uma chama.` : `It glows ${c}: the colour ${nameOf(el, lang).toLowerCase()} gives a flame.`)
+  }
+  if (tr.mark === 'helmet' && HELMET[el.group] && !['crown', 'bulb'].includes(SIGNATURE[el.symbol])) {
+    const shape = SHAPE[HELMET[el.group]][k]
+    out.push(k ? `No capacete, ${shape}: a marca do grupo ${el.group}, que toda a coluna usa.` : `On its helmet, ${shape}: the mark of group ${el.group}, worn by its whole column.`)
+  }
+  if (SIGNATURE[el.symbol] && SIG[SIGNATURE[el.symbol]]) out.push(SIG[SIGNATURE[el.symbol]][k])
   if (tr.superheavy) out.push(L.superheavy)
   else if (tr.radioactive) out.push(L.radioactive)
   return out

@@ -13,6 +13,7 @@ import { nightSky } from '../common/sky.js'
 import { markFound, isFound } from '../../engine/progress.js'
 import { MOLECULE_FACTS } from '../../content/molecules.js'
 import { pick } from '../../content/stations.js'
+import { play, ambience } from '../../audio/sound.js'
 
 const BOND = 1.7 // metres between bonded Atomlings' centres
 const LIFT = 2.2 // the molecule floats this high over the table
@@ -158,6 +159,7 @@ export async function build(ctx) {
       },
     })
     if (known && (done || known.charged) && markFound(`lab:${known.show}`)) {
+      play('celebrate')
       store.set({ labCelebrate: { show: known.show, name: known.name[lang] ?? known.name.en, at: performance.now() } })
       report()
     }
@@ -177,6 +179,7 @@ export async function build(ctx) {
     const i = atoms.length - 1
     // joined at once to the selected atom when both have a free hand
     if (selected >= 0) next = join(next, selected, i) ?? next
+    play(next.bonds.length > mol.bonds.length ? 'join' : 'tap')
     mol = next
     if (selected < 0 || freeHands(mol, selected) === 0) selected = i
     changed()
@@ -187,6 +190,8 @@ export async function build(ctx) {
     } else {
       const next = join(mol, selected, i)
       if (next) {
+        const k = next.bonds.find(([a, b]) => (a === selected && b === i) || (a === i && b === selected))
+        play('join', { order: k?.[2] ?? 1 })
         mol = next
         selected = freeHands(mol, i) > 0 ? i : freeHands(mol, selected) > 0 ? selected : -1
         changed(120)
@@ -198,6 +203,7 @@ export async function build(ctx) {
   }
   const tapBond = bi => {
     const [i, j, order] = mol.bonds[bi]
+    play('part')
     if (order > 1) mol = { atoms: mol.atoms, bonds: mol.bonds.map((b, k) => (k === bi ? [i, j, order - 1] : b)) }
     else mol = unjoin(mol, i, j)
     changed(120)
