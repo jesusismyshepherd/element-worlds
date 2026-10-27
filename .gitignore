@@ -6,3 +6,6 @@ dist/
 tools/shots/
 scripts/data/.venv/
 *.log
+
+.vercel
+.env*
