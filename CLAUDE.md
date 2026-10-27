@@ -42,7 +42,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `src/chem/molecules.js`: molecules as graphs, `checkHands` (the molecule game's rule);
   `src/chem/ballAndStick.js` draws them.
 - `src/characters/`: `traits.js` (the Atomling grammar), `atomling.js` (the 3D character),
-  `lineup.js` (the stage of the Atomlings page).
+  `signatures.js` (the objects from each element's story, 75 so far, and where they go), `explain.js`,
+  `lineup.js` (the stage of the Atomlings page). `tools/atomsheet.py`: contact sheets of Atomlings
+  (each alone from several angles, or the page's rows) for judging them.
 - `src/content/`: `stations.js` (the atrium's stations for any element, from the data, both languages,
   both depths), `C.js`, `O.js` (an element's own words).
 - `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode, `teleport` for probes),

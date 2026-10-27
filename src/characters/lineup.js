@@ -81,10 +81,19 @@ export class Lineup {
     this.members = []
     const built = elements.map(el => createAtomling(el, { light: this.light }))
     const gap = 0.35
-    const widths = built.map(a => a.body.radius * 2 + 0.55)
-    let x = -(widths.reduce((s, w) => s + w, 0) + gap * (built.length - 1)) / 2
+    // room on each side: the body's, or more where an object from its story sticks out (neon's sign,
+    // a flag, a fishing rod), so nothing reaches into a neighbour or off the edge
+    const reach = built.map(a => {
+      const box = new THREE.Box3()
+      a.root.updateMatrixWorld(true)
+      a.root.traverse(o => o.isMesh && o.userData.signature && box.expandByObject(o))
+      const r = a.body.radius + 0.275
+      return box.isEmpty() ? [r, r] : [Math.max(r, -box.min.x + 0.12), Math.max(r, box.max.x + 0.12)]
+    })
+    let x = -(reach.reduce((s, [l, r]) => s + l + r, 0) + gap * (built.length - 1)) / 2
+    const x0 = x
     built.forEach((a, i) => {
-      x += widths[i] / 2
+      x += reach[i][0]
       a.root.position.set(x, 0, 0)
       a.root.rotation.y = -x * 0.03
       this.cast.add(a.root)
@@ -93,16 +102,17 @@ export class Lineup {
       label.rotation.x = -0.35
       this.cast.add(label)
       this.members.push({ a, nextWave: 1 + Math.random() * 6 })
-      x += widths[i] / 2 + gap
+      x += reach[i][1] + gap
     })
-    const span = Math.max(3, -2 * (widths[0] / 2 - x)) // row width
+    const span = Math.max(3, x - gap - x0) // row width
     const tall = Math.max(...built.map(a => a.body.height + a.traits.hover)) + 0.3
     const fov = THREE.MathUtils.degToRad(this.camera.fov)
     const fitW = span / 2 / Math.tan(Math.atan(Math.tan(fov / 2) * this.camera.aspect)) * 1.08
     const fitH = tall / 2 / Math.tan(fov / 2) * 1.6
     const d = Math.max(fitW, fitH, 3)
-    this.controls.target.set(0, tall * 0.42, 0)
-    this.camera.position.set(0, tall * 0.42 + d * 0.22, d)
+    // aimed a little low, so the row stands a little high on the screen, above the legend's panel
+    this.controls.target.set(0, tall * 0.3, 0)
+    this.camera.position.set(0, tall * 0.3 + d * 0.22, d)
     this.controls.update()
   }
 

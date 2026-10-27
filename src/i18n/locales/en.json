@@ -150,7 +150,8 @@
       "move": "Gases float (the lighter than air, the higher), liquids slide, solids walk.",
       "body": "Metals shine like metal; non-metals are see-through, with the nucleus inside; metalloids are half and half.",
       "mark": "On its head, its family: a flame, a helmet, spikes, a halo…",
-      "look": "Colours and objects: a metal wears its own colour, a flame burns in its flame-test colour, a column of metals shares a helmet shape, and some carry an object from their story."
+      "look": "Colours: a metal wears its own colour, a flame burns in its flame-test colour, and each column of metals shares a helmet shape.",
+      "story": "Objects: most carry something from their own story, like helium's balloon, chlorine's swim ring, gold's crown or thorium's hammer. Tap one to find out why."
     },
     "tap": "Tap an Atomling to read it."
   },

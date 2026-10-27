@@ -101,7 +101,7 @@ export default function Atomlings() {
         </button>
         {how && (
           <ul className="space-y-0.5 mt-1">
-            {['hands', 'hoop', 'size', 'move', 'body', 'mark', 'look'].map(k => <li key={k}>{t(`atomlings.how.${k}`)}</li>)}
+            {['hands', 'hoop', 'size', 'move', 'body', 'mark', 'look', 'story'].map(k => <li key={k}>{t(`atomlings.how.${k}`)}</li>)}
           </ul>
         )}
         {!how && <div className="text-xs opacity-70 mt-0.5">{t('atomlings.tap')}</div>}

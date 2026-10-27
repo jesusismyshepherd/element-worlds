@@ -120,7 +120,7 @@ A wing is a module (see Architecture); adding one never touches the engine.
 | Metal, metalloid, non-metal | Metals are polished metal (most silvery, copper, gold, caesium's pale gold, osmium's blue) with a glowing core; metalloids are half metal, half matte; non-metals are soft and translucent |
 | Colour | The element's CPK colour (the molecule-model colour: C dark grey, O red, N blue, H white), as body colour for non-metals and as glow, eyes and hoop for metals |
 | Family | A family mark: alkali metals a flame tuft and a hand holding out their electron; alkaline earths two nubs; transition metals a smith's helmet; halogens a spiky crest and a grabbing hand; lanthanides a gem; actinides and other radioactive ones a pulsing glow; superheavies (Z 104+) flicker like holograms, since only a few atoms ever existed |
-| Signature | Later, per element, an accessory from its story (carbon's diamond, iron's horseshoe, neon's sign) |
+| Signature | An object from its story, worn or held (75 of 118 since 2026-10-28: helium's balloon, carbon's pencil, neon's sign, gold's crown, einsteinium's hair; `characters/signatures.js`) |
 
 ## Modes and controls
 
