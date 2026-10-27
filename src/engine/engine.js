@@ -12,6 +12,7 @@ import { lightMode } from './quality.js'
 import { Input } from './input.js'
 import { Player } from './player.js'
 import { loadWorld, worldKey } from '../worlds/registry.js'
+import { ambience } from '../audio/sound.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -94,7 +95,7 @@ export class Engine {
     try {
       const mod = await loadWorld(target)
       if (token !== this.token) return
-      next = await mod.build(this.context(), target)
+      next = await mod.build(this.context(), target, this.last ?? null)
     } catch (err) {
       console.error(err)
       if (token === this.token) this.store.set({ fading: false, error: String(err?.message ?? err) })
@@ -108,6 +109,7 @@ export class Engine {
     }
     this.leave()
     this.enter(next, key, target)
+    this.last = target
     await this.warm()
     if (token === this.token) this.store.set({ fading: false })
   }
@@ -133,6 +135,9 @@ export class Engine {
       this.bloom.enabled = b !== false
       if (b) Object.assign(this.bloom, { strength: b.strength ?? 0.5, radius: b.radius ?? 0.5, threshold: b.threshold ?? 0.85 })
     }
+    // soft shadows where a world asks for them (computers only)
+    this.renderer.shadowMap.enabled = !!env.shadows && !this.light
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     this.camera.fov = env.fov ?? 55
     this.camera.near = env.near ?? 0.05
     this.camera.far = env.far ?? 4000
@@ -144,6 +149,7 @@ export class Engine {
       this.player.setAvatar(w.avatar ?? null)
     } else this.player.setAvatar(null)
     w.attach?.(this)
+    ambience(target.kind)
     this.store.set({
       world: { kind: target.kind, symbol: target.symbol ?? null, wing: target.wing ?? null },
       prompt: null,
@@ -200,6 +206,7 @@ export class Engine {
       if (w.mode === 'walk') {
         if (this.input.took('KeyV')) this.setMode(this.store.get().mode === 'first' ? 'third' : 'first')
         if (this.input.took('KeyE')) this.player.use()
+        if (this.input.took('KeyT')) w.talk?.()
         this.player.update(dt, w, this.input, this.time)
       }
       w.update?.(dt, this.time, this)

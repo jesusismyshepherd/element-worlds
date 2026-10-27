@@ -6,7 +6,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { element, nameOf } from '../../data/elements.js'
-import { createAtomling } from '../../characters/atomling-next.js'
+import { createAtomling } from '../../characters/atomling.js'
 import { join, unjoin, removeAtom, freeHands, formulaOf, complete, recognise, MISSIONS, lonePairs } from '../../chem/build.js'
 import { relax } from '../../chem/layout.js'
 import { nightSky } from '../common/sky.js'
@@ -15,9 +15,9 @@ import { MOLECULE_FACTS } from '../../content/molecules.js'
 import { pick } from '../../content/stations.js'
 import { play, ambience } from '../../audio/sound.js'
 
-const BOND = 1.7 // metres between bonded Atomlings' centres
-const LIFT = 2.2 // the molecule floats this high over the table
-const SCALE = 0.62 // Atomlings at the table are smaller than in their halls
+const BOND = 2.3 // metres between bonded Atomlings' centres
+const LIFT = 1.9 // the molecule floats this high over the table
+const SCALE = 1 // Atomlings at the table, at their own size (the point is to see them hold hands)
 
 export async function build(ctx) {
   const { camera, canvas, store, light } = ctx
@@ -58,8 +58,8 @@ export async function build(ctx) {
   let selected = -1
   let bondMeshes = [] // { bond index, k, armA, armB, clasp }
   let freeMeshes = [] // per atom: [{ arm, hand, kind }]
-  const handGeo = new THREE.SphereGeometry(0.11, 14, 10)
-  const armGeo = new THREE.CapsuleGeometry(0.055, 1, 4, 8)
+  const handGeo = new THREE.SphereGeometry(0.13, 16, 12)
+  const armGeo = new THREE.CapsuleGeometry(0.065, 1, 4, 10)
   const claspMat = new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#a8ecff', emissiveIntensity: 0.9 })
   const loneMat = new THREE.MeshStandardMaterial({ color: '#a8ecff', emissive: '#a8ecff', emissiveIntensity: 1.2, transparent: true, opacity: 0.8 })
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.035, 8, 48), new THREE.MeshBasicMaterial({ color: '#ffd166' }))
@@ -333,13 +333,13 @@ export async function build(ctx) {
       ring.scale.setScalar((bodyR(selected) / 0.6) * (1 + Math.sin(t * 5) * 0.06))
     } else ring.visible = false
     // keep the whole molecule in view
-    const want = Math.max(7, radius * 3.2)
+    const want = Math.max(4.6, radius * 2.3)
     const d = camera.position.distanceTo(controls.target)
     if (d < want * 0.8 || d > want * 1.6) camera.position.sub(controls.target).setLength(d + (want - d) * Math.min(1, dt * 2)).add(controls.target)
   }
 
   const attach = () => {
-    camera.position.set(0, LIFT + 3.2, 9)
+    camera.position.set(0, LIFT + 1.4, 5.2)
     controls.target.set(0, LIFT, 0)
     canvas.addEventListener('pointerdown', onDown)
     canvas.addEventListener('pointerup', onUp)

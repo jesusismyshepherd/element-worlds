@@ -85,8 +85,13 @@ export class Player {
     if (mode === 'first' && this.avatar) {
       // step out behind the Atomling, where the camera was, and let it stand there
       this.npc = { x: this.pos.x, z: this.pos.z, y: this.pos.y, yaw: this.yaw }
+      // step back to where the camera was, unless a door is there (it would take you away at once):
+      // then step in front instead, or stay
       const [fx, fz] = forward(this.yaw)
-      const p = { x: this.pos.x - fx * 1.6, z: this.pos.z - fz * 1.6 }
+      const nearDoor = q => (world?.doors ?? []).some(d => Math.hypot(d.x - q.x, d.z - q.z) < d.radius + 0.7)
+      let p = { x: this.pos.x - fx * 1.6, z: this.pos.z - fz * 1.6 }
+      if (nearDoor(p)) p = { x: this.pos.x + fx * 1.2, z: this.pos.z + fz * 1.2 }
+      if (nearDoor(p)) p = { x: this.pos.x, z: this.pos.z }
       pushOut(p, VISITOR.radius, this.pos.y, this.pos.y + VISITOR.height, world?.solids ?? [], STEP)
       this.pos.x = p.x
       this.pos.z = p.z
@@ -98,6 +103,7 @@ export class Player {
     }
     this.mode = mode
     this.camSnap = true
+    this.doorWait = Math.max(this.doorWait, 0.8)
     this.applyMode()
   }
 
@@ -119,7 +125,8 @@ export class Player {
       this.pitch = clamp(this.pitch - look.dy * 0.0032, -1.25, 1.2)
     } else {
       this.camOffset -= look.dx * 0.0055
-      this.camPitch = clamp(this.camPitch - look.dy * 0.004, -1.15, 0.2)
+      // a world with something overhead (oxygen's ozone layer) lets the view tilt further up
+      this.camPitch = clamp(this.camPitch - look.dy * 0.004, -1.15, world.cameraPitchMax ?? 0.2)
       if (wheel) this.camDist = clamp(this.camDist * (wheel > 0 ? 1.12 : 0.89), 1.8, 12)
       const idle = performance.now() - input.lastLook > 1400
       if (idle && !input.dragging && Math.abs(fw) > 0.1) this.camOffset = damp(this.camOffset, 0, 2.2, dt)

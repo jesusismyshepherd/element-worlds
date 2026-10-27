@@ -49,7 +49,15 @@ def main():
         if a.level:
             page.add_init_script(f"try {{ localStorage.setItem('ew-level', '{a.level}') }} catch (e) {{}}")
         page.goto(url)
-        page.wait_for_function('window.__ew && window.__ew.world && !window.__ew.store.get().fading', timeout=60000)
+        try:
+            page.wait_for_function('window.__ew && window.__ew.world && !window.__ew.store.get().fading', timeout=60000)
+        except Exception as e:
+            # the world never came: say why (the console usually knows)
+            print('the world did not load:', str(e).splitlines()[0])
+            for err in errors:
+                print('console error:', err[:400])
+            b.close()
+            sys.exit(1)
         time.sleep(a.wait)
         name = a.name or (a.path.strip('/').replace('/', '_') or 'plaza')
         steps = [s.strip() for s in a.steps.split(';') if s.strip()]

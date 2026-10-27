@@ -75,7 +75,21 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
 
 ## Traps
 
-- Text: superscripts and subscripts are not in the fonts (see above).
+- Text: the 3D fonts have no Greek letters, no arrows, no subscripts and no superscripts except ² and ³
+  (troika then fetches fallback fonts from a CDN): `formulaText` for formulas, words for Greek letters.
+- A door less than about 2.6 m behind the spawn: switching to first person steps the visitor back 1.6 m
+  (the engine now steps in front instead when a door is there, but keep doors clear of the spawn).
+- An arch at a platform's edge puts the third-person camera behind its portal, which floods the view with
+  its colour: keep `cameraBounds` on the inner side of the arch.
+- Something overhead to see (oxygen's ozone layer): `cameraPitchMax` on the world lets the third-person
+  camera tilt up (default 0.2 rad).
+- Shadows: `env.shadows: true` (computers only); a world may also switch `renderer.shadowMap` in attach
+  and restore it in detach, as oxygen's wings do.
+- troika's `sync(cb)` never calls back for a text that has already synced; three's `Curve` has no
+  `isCurve` flag.
+- A patch that renames a file over the original can leave Vite's error overlay up until the file is
+  touched again; other sessions creating files make Vite reload the page under a running probe (retry).
+- `env.environment` (a texture, or null for none) and `env.far` exist too.
 - The RoomEnvironment light washes out dark places: set `env.envIntensity` low there.
 - A transmission (glass) material dims what is behind it by its base colour: keep the base light and
   put the colour in `attenuationColor` (see `characters/atomling.js`).

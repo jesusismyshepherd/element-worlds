@@ -122,7 +122,10 @@
     "graphics": "Graphics",
     "discoveries": "Discoveries",
     "says": "{{who}} says",
-    "talk": "Tell me something (T)"
+    "talk": "Tell me something (T)",
+    "lab": "Molecule Lab",
+    "soundOn": "Turn the sound on",
+    "soundOff": "Turn the sound off"
   },
   "atomlings": {
     "title": "Atomlings",
@@ -185,5 +188,61 @@
   },
   "search": {
     "placeholder": "Find an element…"
+  },
+  "lab": {
+    "title": "Molecule Lab",
+    "hands_one": "{{count}} hand",
+    "hands_other": "{{count}} hands",
+    "start": "Pick an atom on the left. Tap two atoms to join their hands; tap a bond to let go.",
+    "stable": "Every hand is held: a stable molecule!",
+    "free_one": "{{count}} hand still free",
+    "free_other": "{{count}} hands still free",
+    "missions": "Missions",
+    "show": "show me",
+    "remove": "Remove",
+    "clear": "Start again",
+    "help": "Tap an atom, then another, to join hands. Tap the same pair again for a double bond. Drag to turn, scroll to zoom.",
+    "made": "You made {{name}}!"
+  },
+  "passport": {
+    "title": "My passport",
+    "visited": "elements visited",
+    "found": "discoveries",
+    "molecules": "molecules made",
+    "legend": "Each tile fills as you read its hall; a star means you explored its worlds. Tap a tile to go in.",
+    "badges": "Badges",
+    "lab": "Molecule missions",
+    "badge": {
+      "first": {
+        "icon": "✨",
+        "name": "First discovery",
+        "how": "Read your first panel"
+      },
+      "hall": {
+        "icon": "🏛",
+        "name": "Hall expert",
+        "how": "Discover everything in one element's hall"
+      },
+      "ten": {
+        "icon": "🧭",
+        "name": "Explorer",
+        "how": "Visit ten elements"
+      },
+      "wing": {
+        "icon": "🌌",
+        "name": "World traveller",
+        "how": "Make three discoveries in an element's worlds"
+      },
+      "chemist": {
+        "icon": "⚗",
+        "name": "Chemist",
+        "how": "Make five molecules in the lab"
+      },
+      "master": {
+        "icon": "🏆",
+        "name": "Master builder",
+        "how": "Complete every molecule mission"
+      }
+    }
   }
 }

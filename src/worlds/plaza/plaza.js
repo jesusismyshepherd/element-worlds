@@ -12,6 +12,7 @@ import { nightSky } from '../common/sky.js'
 import { FONTS } from '../../engine/text.js'
 import { atriumPath, WINGS } from '../registry.js'
 import { createAtomling } from '../../characters/atomling.js'
+import { play } from '../../audio/sound.js'
 
 const N = ELEMENTS.length
 const damp = (a, b, rate, dt) => b + (a - b) * Math.exp(-rate * dt)
@@ -284,6 +285,7 @@ export async function build(ctx, target) {
 
   const select = (z, { frame = true } = {}) => {
     const i = z == null ? -1 : z - 1
+    if (i >= 0 && i !== selected) play('select')
     selected = i
     store.set({ selected: i >= 0 ? z : null })
     showHost(i)
@@ -293,6 +295,7 @@ export async function build(ctx, target) {
   const enterSelected = () => {
     if (selected < 0 || entering) return
     entering = true
+    play('enter')
     const s = state[selected]
     s.glowTo = 3
     flyTo({ target: new THREE.Vector3(s.x, CUBE * 0.5, s.z), position: new THREE.Vector3(s.x, CUBE * 0.5, s.z + CUBE / 2 + 1.2) }, 0.8)

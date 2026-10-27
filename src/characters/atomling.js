@@ -9,6 +9,7 @@ import * as THREE from 'three'
 import { makeText } from '../engine/text.js'
 import { traitsOf } from './traits.js'
 import { lewisSlots, lewisAngle } from '../chem/atom.js'
+import { FLAME, HELMET, SIGNATURE, metalBody, mix } from './look.js'
 
 const ELECTRON = new THREE.Color('#a8ecff')
 const PROTON = new THREE.Color('#ff5a55')
@@ -49,8 +50,13 @@ function packBall(n, r) {
 }
 
 function materials(tr, light) {
-  const color = new THREE.Color(tr.body)
+  const isMetal = tr.material === 'metal'
+  const realMetal = isMetal && tr.body !== '#c9ced8'
+  const color = new THREE.Color(isMetal ? metalBody(tr.body, tr.accent, realMetal) : tr.body)
   const accent = new THREE.Color(tr.accent)
+  // a metal wears its own colour (its CPK colour, the molecule models' one) on its helmet, gloves and boots
+  const paint = (k = 1) => new THREE.MeshPhysicalMaterial({ color: accent.clone().multiplyScalar(k), metalness: 0.7, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.2 })
+  const flame = FLAME[tr.symbol]
   const dark = color.clone().multiplyScalar(0.35)
   const metal = () => new THREE.MeshPhysicalMaterial({ color, metalness: 1, roughness: 0.26, clearcoat: 0.5, clearcoatRoughness: 0.25 })
   // Seen through glass, three.js multiplies by the base colour: a light base keeps the nucleus visible,
@@ -75,7 +81,8 @@ function materials(tr, light) {
     limb: tr.material === 'metal' ? metal() : tr.limbs
       ? new THREE.MeshPhysicalMaterial({ color: tr.limbs, metalness: 0.45, roughness: 0.3, clearcoat: 0.6 })
       : new THREE.MeshPhysicalMaterial({ color, roughness: 0.35, clearcoat: 0.6, sheen: 0.4 }),
-    foot: new THREE.MeshStandardMaterial({ color: tr.material === 'metal' ? color.clone().multiplyScalar(0.6) : dark, roughness: 0.5, metalness: tr.material === 'metal' ? 0.8 : 0 }),
+    foot: isMetal ? paint(0.62) : new THREE.MeshStandardMaterial({ color: dark, roughness: 0.5 }),
+    iris: new THREE.MeshStandardMaterial({ color: isMetal || tr.material === 'noble' ? accent.clone().multiplyScalar(0.7) : new THREE.Color(mix(tr.body, '#10122a', 0.55)), roughness: 0.3 }),
     eyeWhite: new THREE.MeshStandardMaterial({ color: '#e6ebf5', roughness: 0.45 }),
     pupil: new THREE.MeshStandardMaterial({ color: '#141626', roughness: 0.2 }),
     shine: new THREE.MeshBasicMaterial({ color: '#ffffff' }),
@@ -84,17 +91,17 @@ function materials(tr, light) {
     hoop: new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.55, roughness: 0.4, transparent: true, opacity: 0.85 }),
     electron: glow(ELECTRON),
     hollow: new THREE.MeshStandardMaterial({ color: ELECTRON, emissive: ELECTRON, emissiveIntensity: 0.35, transparent: true, opacity: 0.55 }),
-    mark: tr.mark === 'flame' ? glow(new THREE.Color('#ff7a2e')) : tr.mark === 'gem' ? glow(accent) : tr.mark === 'crest' ? new THREE.MeshPhysicalMaterial({ color: accent.clone().multiplyScalar(0.8), roughness: 0.3, clearcoat: 1 }) : new THREE.MeshPhysicalMaterial({ color: tr.material === 'metal' ? color.clone().multiplyScalar(0.55) : accent, metalness: tr.material === 'metal' ? 1 : 0.2, roughness: 0.3, clearcoat: 0.6 }),
+    mark: tr.mark === 'flame' ? glow(new THREE.Color(flame ?? '#ff7a2e')) : tr.mark === 'nubs' ? new THREE.MeshStandardMaterial({ color: flame ?? '#e8eef7', emissive: flame ?? '#e8eef7', emissiveIntensity: 0.9, roughness: 0.35 }) : tr.mark === 'gem' ? glow(accent) : isMetal ? paint() : tr.mark === 'crest' ? new THREE.MeshPhysicalMaterial({ color: accent.clone().multiplyScalar(0.8), roughness: 0.3, clearcoat: 1 }) : new THREE.MeshPhysicalMaterial({ color: tr.material === 'metal' ? color.clone().multiplyScalar(0.55) : accent, metalness: tr.material === 'metal' ? 1 : 0.2, roughness: 0.3, clearcoat: 0.6 }),
     proton: new THREE.MeshStandardMaterial({ color: PROTON, emissive: PROTON, emissiveIntensity: 1.5, roughness: 0.35 }),
     neutron: new THREE.MeshStandardMaterial({ color: NEUTRON, emissive: NEUTRON, emissiveIntensity: 0.9, roughness: 0.35 }),
     tile: new THREE.MeshStandardMaterial({ color: '#f4f6ff', emissive: '#f4f6ff', emissiveIntensity: 0.25, roughness: 0.45 }),
     tileEdge: new THREE.MeshStandardMaterial({ color: accent, emissive: accent, emissiveIntensity: 0.6, roughness: 0.4 }),
-    hand: tr.material === 'metal' ? metal() : new THREE.MeshPhysicalMaterial({ color: tr.limbs ?? color.clone().lerp(new THREE.Color('#ffffff'), 0.35), metalness: tr.limbs ? 0.45 : 0, roughness: 0.35, clearcoat: 0.5 }),
+    hand: isMetal ? paint(0.9) : new THREE.MeshPhysicalMaterial({ color: tr.limbs ?? color.clone().lerp(new THREE.Color('#ffffff'), 0.35), metalness: tr.limbs ? 0.45 : 0, roughness: 0.35, clearcoat: 0.5 }),
     aura: tr.radioactive ? new THREE.MeshBasicMaterial({ color: '#8dff6a', transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.BackSide }) : null,
   }
 }
 
-export function createAtomling(el, { light = false, badge = true } = {}) {
+export function createAtomling(el, { light = false, badge = true, arms: withArms = true, hoop: withHoop = true } = {}) {
   const tr = traitsOf(el)
   const H = tr.height
   const W = H * tr.width
@@ -185,7 +192,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
     hoop.rotation.x = 0.32
   }
   hoop.add(new THREE.Mesh(new THREE.TorusGeometry(hoopR, H * 0.011, 8, 96).rotateX(Math.PI / 2), mats.hoop))
-  rig.add(hoop)
+  if (withHoop) rig.add(hoop)
   const ring = new THREE.Group() // turns round the hoop, carrying electrons and places
   hoop.add(ring)
   const eR = H * 0.036
@@ -245,9 +252,13 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
     } else {
       const white = new THREE.Mesh(new THREE.SphereGeometry(eS, 20, 14), mats.eyeWhite)
       white.scale.set(0.85, tr.eyes === 'steady' ? 0.95 : 1.12, 0.32)
-      const pupil = new THREE.Mesh(new THREE.SphereGeometry(eS * (tr.eyes === 'eager' ? 0.62 : 0.56), 16, 12), mats.pupil)
+      const iris = new THREE.Mesh(new THREE.SphereGeometry(eS * (tr.eyes === 'eager' ? 0.66 : 0.6), 18, 12), mats.iris)
+      iris.scale.set(0.9, 1.05, 0.26)
+      iris.position.set(-side * eS * 0.06, -eS * 0.06, eS * 0.16)
+      eye.add(iris)
+      const pupil = new THREE.Mesh(new THREE.SphereGeometry(eS * (tr.eyes === 'eager' ? 0.4 : 0.34), 14, 10), mats.pupil)
       pupil.scale.set(0.9, 1.05, 0.3)
-      pupil.position.set(-side * eS * 0.06, -eS * 0.06, eS * 0.2)
+      pupil.position.set(-side * eS * 0.06, -eS * 0.06, eS * 0.22)
       const shine = new THREE.Mesh(new THREE.SphereGeometry(eS * 0.17, 8, 6), mats.shine)
       shine.position.set(eS * 0.22, eS * 0.28, eS * 0.3)
       eye.add(white, pupil, shine)
@@ -292,7 +303,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
     2: [shoulder(0.5, -1, 1.0), shoulder(0.5, 1, 1.0)],
     3: [shoulder(0.5, -1, 1.0), shoulder(0.5, 1, 1.0), { top: true }],
     4: [shoulder(0.6, -1, 2.0), shoulder(0.6, 1, 2.0), shoulder(0.3, -1, 1.05), shoulder(0.3, 1, 1.05)],
-  }[tr.hands] ?? []
+  }[withArms ? tr.hands : 0] ?? []
   const armLen = H * 0.3
   const armR = H * 0.05
   const handR = H * 0.085
@@ -314,8 +325,9 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
       swing.add(gift)
     }
     if (s.top) {
-      pivot.position.set(0, y0 + Hb * 0.97, -H * 0.02)
-      pivot.rotation.set(-0.25, 0, Math.PI)
+      // the third hand rises from the back of the head, clear of hats, crowns and caps
+      pivot.position.copy(surf(0.84, Math.PI, -armR * 0.4))
+      pivot.rotation.set(-1.15, 0, Math.PI)
     } else {
       const a = s.side * Math.PI / 2
       pivot.position.copy(surf(s.yf, a, -armR * 0.2))
@@ -358,14 +370,12 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
       nub.position.set(side * W * 0.16, -H * 0.03, 0)
       mark.add(nub)
     }
-  } else if (tr.mark === 'helmet') {
+  } else if (tr.mark === 'helmet' && SIGNATURE[el.symbol] !== 'crown' && SIGNATURE[el.symbol] !== 'bulb') {
     const cap = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 12, 0, Math.PI * 2, 0, Math.PI * 0.42), mats.mark)
     cap.scale.set(W * 0.42, Hb * 0.26, W * 0.42)
     cap.position.y = -Hb * 0.235
-    const ridge = new THREE.Mesh(new THREE.TorusGeometry(W * 0.06, H * 0.028, 8, 20, Math.PI), mats.mark)
-    ridge.rotation.y = Math.PI / 2
-    ridge.position.y = -H * 0.02
-    mark.add(cap, ridge)
+    mark.add(cap)
+    helmetStyle(mark, HELMET[el.group] ?? 'round', { H, W, Hb, mat: mats.mark })
   } else if (tr.mark === 'cap') {
     const cap = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 10, 0, Math.PI * 2, 0, Math.PI * 0.5), mats.mark)
     cap.scale.set(W * 0.3, Hb * 0.16, W * 0.3)
@@ -387,17 +397,24 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
       mark.add(spike)
     }
   } else if (tr.mark === 'gem') {
-    const gem = new THREE.Mesh(new THREE.OctahedronGeometry(H * 0.05), mats.mark)
-    onSurface(gem, 0.83, 0, H * 0.02)
+    // a tiara band round the head with a gem in front, glowing in its colour
+    const bandY = 0.86
+    const band = new THREE.Mesh(new THREE.TorusGeometry(radiusAt(profile, bandY) * W * 1.02, H * 0.018, 8, 48), mats.foot)
+    band.rotation.x = Math.PI / 2
+    band.position.y = y0 + bandY * Hb - (y0 + Hb)
+    const gem = new THREE.Mesh(new THREE.OctahedronGeometry(H * 0.075), mats.mark)
+    onSurface(gem, bandY, 0, H * 0.035)
     gem.position.y -= y0 + Hb
-    gem.scale.set(1, 1.4, 0.6)
-    mark.add(gem)
+    gem.scale.set(1, 1.35, 0.65)
+    mark.add(band, gem)
   } else if (tr.mark === 'curl') {
     const curl = new THREE.Mesh(new THREE.TorusGeometry(H * 0.05, H * 0.014, 8, 24, Math.PI * 1.6), mats.limb)
     curl.position.y = H * 0.04
     curl.rotation.y = Math.PI / 2
     mark.add(curl)
   }
+
+  const extras = signature(SIGNATURE[el.symbol], { body, H, W, Hb, y0, surf })
 
   let aura = null
   if (mats.aura) {
@@ -498,6 +515,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
       root.scale.setScalar(Math.min(1, 0.2 + t * 1.1 - Math.max(0, t - 0.8) * 0.5))
     } else root.scale.setScalar(1)
 
+    for (const x of extras) x(dt, time)
     if (mark.children.length && tr.mark === 'flame') mark.scale.set(1, 1 + Math.sin(time * 13) * 0.08 + Math.sin(time * 7.3) * 0.05, 1)
     if (aura) mats.aura.opacity = 0.08 + (Math.sin(time * 3.2) * 0.5 + 0.5) * 0.1
     if (tr.superheavy) {
@@ -509,6 +527,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
 
   return {
     root,
+    mats,
     traits: tr,
     body: {
       height: H, radius: Math.max(0.22, W * 0.45), eye: H * 0.82,
@@ -525,4 +544,198 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
       st.poof = 0.45
     },
   }
+}
+
+// ---- the second layer of looks (look.js) ----
+
+/** A transition metal's helmet ornament, the same for its whole column. */
+function helmetStyle(mark, style, { H, W, Hb, mat }) {
+  const add = (geo, x, y, z, rx = 0, ry = 0, rz = 0) => {
+    const m = new THREE.Mesh(geo, mat)
+    m.position.set(x, y, z)
+    m.rotation.set(rx, ry, rz)
+    mark.add(m)
+    return m
+  }
+  const top = Hb * 0.02
+  if (style === 'crest') add(new THREE.BoxGeometry(H * 0.03, H * 0.1, W * 0.42), 0, top + H * 0.03, -W * 0.02)
+  else if (style === 'horns') for (const s of [-1, 1]) add(new THREE.ConeGeometry(H * 0.035, H * 0.15, 12), s * W * 0.2, top + H * 0.02, 0, 0, 0, -s * 0.6)
+  else if (style === 'visor') add(new THREE.TorusGeometry(W * 0.4, H * 0.022, 8, 40, Math.PI), 0, -Hb * 0.06, 0, -0.22, 0, 0)
+  else if (style === 'spike') add(new THREE.ConeGeometry(H * 0.04, H * 0.2, 14), 0, top + H * 0.08, 0)
+  else if (style === 'plume') for (const a of [-0.5, 0, 0.5]) add(new THREE.BoxGeometry(H * 0.022, H * 0.15, H * 0.07), Math.sin(a) * H * 0.06, top + H * 0.05, -W * 0.05, 0, 0, a)
+  else if (style === 'bolts') for (const s of [-1, 1]) add(new THREE.CylinderGeometry(H * 0.03, H * 0.03, H * 0.07, 12), s * W * 0.4, -Hb * 0.11, 0, 0, 0, Math.PI / 2)
+  else if (style === 'band') add(new THREE.TorusGeometry(W * 0.36, H * 0.02, 8, 40), 0, -Hb * 0.08, 0, Math.PI / 2, 0, 0)
+  else if (style === 'coin') add(new THREE.CylinderGeometry(H * 0.06, H * 0.06, H * 0.018, 24), 0, -Hb * 0.06, W * 0.4, Math.PI / 2 - 0.25, 0, 0)
+  else if (style === 'drop') {
+    const d = add(new THREE.SphereGeometry(H * 0.05, 16, 12), 0, top + H * 0.05, 0)
+    d.scale.set(1, 1.5, 1)
+  }
+}
+
+/** Objects from an element's story (look.js SIGNATURE). Returns update functions for the ones that move. */
+function signature(kind, { body, H, W, Hb, y0, surf }) {
+  if (!kind) return []
+  const updates = []
+  const m = (geo, color, opts = {}) => new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({ color, roughness: 0.4, clearcoat: 0.6, ...opts }))
+  const glowMat = c => new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 1.8 })
+  const topY = y0 + Hb
+  if (kind === 'balloon') {
+    // helium: a party balloon on a string, bobbing above
+    const g = new THREE.Group()
+    const ball = m(new THREE.SphereGeometry(H * 0.2, 24, 18), '#ff4f7a', { clearcoat: 1, roughness: 0.15 })
+    ball.scale.y = 1.15
+    ball.position.set(W * 0.5, topY + H * 0.75, -W * 0.1)
+    const knot = m(new THREE.ConeGeometry(H * 0.03, H * 0.05, 10), '#ff4f7a')
+    knot.position.set(W * 0.5, topY + H * 0.52, -W * 0.1)
+    knot.rotation.x = Math.PI
+    const pts = [new THREE.Vector3(W * 0.5, topY + H * 0.5, -W * 0.1), new THREE.Vector3(W * 0.42, topY + H * 0.2, -W * 0.05), new THREE.Vector3(W * 0.3, y0 + Hb * 0.6, 0)]
+    const string = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 16, H * 0.004, 4), new THREE.MeshBasicMaterial({ color: '#f2f2f2' }))
+    g.add(ball, knot, string)
+    body.add(g)
+    updates.push((dt, t) => (g.rotation.z = Math.sin(t * 1.3) * 0.06))
+  } else if (kind === 'crown') {
+    // gold: a crown
+    const g = new THREE.Group()
+    const gold = { metalness: 1, roughness: 0.2 }
+    g.add(m(new THREE.CylinderGeometry(W * 0.3, W * 0.32, H * 0.1, 32, 1, true), '#ffcc33', { ...gold, side: THREE.DoubleSide }))
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2
+      const spike = m(new THREE.ConeGeometry(H * 0.035, H * 0.1, 10), '#ffcc33', gold)
+      spike.position.set(Math.sin(a) * W * 0.3, H * 0.09, Math.cos(a) * W * 0.3)
+      const jewel = new THREE.Mesh(new THREE.SphereGeometry(H * 0.02, 10, 8), glowMat(i % 2 ? '#ff3355' : '#33aaff'))
+      jewel.position.set(Math.sin(a) * W * 0.31, 0, Math.cos(a) * W * 0.31)
+      g.add(spike, jewel)
+    }
+    g.position.y = topY - H * 0.04
+    body.add(g)
+  } else if (kind === 'bulb') {
+    // tungsten: a light bulb with a glowing filament (its best-known job)
+    const g = new THREE.Group()
+    const glass = new THREE.Mesh(new THREE.SphereGeometry(H * 0.1, 20, 16), new THREE.MeshPhysicalMaterial({ color: '#fff6dc', transparent: true, opacity: 0.35, roughness: 0.05, emissive: '#ffd27a', emissiveIntensity: 0.4 }))
+    glass.position.y = H * 0.16
+    const base = m(new THREE.CylinderGeometry(H * 0.045, H * 0.05, H * 0.07, 16), '#b9bcc4', { metalness: 1, roughness: 0.3 })
+    base.position.y = H * 0.05
+    const fil = new THREE.Mesh(new THREE.TorusGeometry(H * 0.03, H * 0.006, 6, 16, Math.PI * 1.4), glowMat('#ffb347'))
+    fil.position.y = H * 0.16
+    g.add(base, glass, fil)
+    g.position.y = topY - H * 0.02
+    body.add(g)
+    updates.push((dt, t) => (fil.material.emissiveIntensity = 1.6 + Math.sin(t * 7) * 0.2))
+  } else if (kind === 'coil') {
+    // copper: a coil of copper wire round its middle (wires carry electricity)
+    const pts = []
+    for (let i = 0; i <= 120; i++) {
+      const k = i / 120
+      const a = k * Math.PI * 2 * 5
+      const yf = 0.32 + k * 0.16
+      const p0 = surf(yf, 0)
+      const r = Math.hypot(p0.x, p0.z) + H * 0.02
+      pts.push(new THREE.Vector3(Math.sin(a) * r, y0 + yf * Hb, Math.cos(a) * r))
+    }
+    body.add(m(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 400, H * 0.012, 6), '#e0864f', { metalness: 1, roughness: 0.25 }))
+  } else if (kind === 'magnet') {
+    // iron: a horseshoe magnet on its back (iron is magnetic)
+    const g = new THREE.Group()
+    g.add(m(new THREE.TorusGeometry(H * 0.09, H * 0.035, 10, 24, Math.PI), '#e23b3b'))
+    for (const s of [-1, 1]) {
+      const leg = m(new THREE.BoxGeometry(H * 0.07, H * 0.1, H * 0.07), '#e23b3b')
+      leg.position.set(s * H * 0.09, -H * 0.05, 0)
+      const tip = m(new THREE.BoxGeometry(H * 0.072, H * 0.045, H * 0.072), '#d8dde6', { metalness: 1, roughness: 0.3 })
+      tip.position.set(s * H * 0.09, -H * 0.12, 0)
+      g.add(leg, tip)
+    }
+    g.position.copy(surf(0.5, Math.PI, H * 0.05))
+    g.rotation.y = Math.PI
+    body.add(g)
+  } else if (kind === 'battery') {
+    // lithium: a battery on its back (lithium-ion batteries)
+    const g = new THREE.Group()
+    g.add(m(new THREE.CylinderGeometry(H * 0.07, H * 0.07, H * 0.24, 20), '#2d6cdf', { metalness: 0.4 }))
+    const band = m(new THREE.CylinderGeometry(H * 0.071, H * 0.071, H * 0.06, 20), '#c9ced8', { metalness: 1, roughness: 0.3 })
+    band.position.y = H * 0.09
+    const tip = m(new THREE.CylinderGeometry(H * 0.025, H * 0.025, H * 0.025, 12), '#c9ced8', { metalness: 1 })
+    tip.position.y = H * 0.135
+    g.add(band, tip)
+    g.position.copy(surf(0.5, Math.PI, H * 0.07))
+    g.rotation.z = 0.15
+    body.add(g)
+  } else if (kind === 'banana') {
+    // potassium: a banana (bananas are rich in it)
+    const pts = [-0.6, -0.3, 0, 0.3, 0.6].map(k => new THREE.Vector3(Math.sin(k) * H * 0.18, Math.cos(k) * H * 0.18 - H * 0.18, 0))
+    const banana = m(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 20, H * 0.035, 10), '#ffd93b')
+    banana.position.copy(surf(0.42, Math.PI / 2, H * 0.06))
+    banana.rotation.set(0.3, 0, -0.5)
+    body.add(banana)
+  } else if (kind === 'leaf') {
+    // magnesium: a leaf on its head (a magnesium atom sits at the heart of every chlorophyll)
+    const shape = new THREE.Shape()
+    shape.moveTo(0, 0)
+    shape.quadraticCurveTo(H * 0.08, H * 0.08, 0, H * 0.2)
+    shape.quadraticCurveTo(-H * 0.08, H * 0.08, 0, 0)
+    const leaf = new THREE.Mesh(new THREE.ShapeGeometry(shape, 12), new THREE.MeshStandardMaterial({ color: '#4cc94c', side: THREE.DoubleSide, roughness: 0.5 }))
+    leaf.position.set(0, topY - H * 0.01, 0)
+    leaf.rotation.set(-0.3, 0.4, 0.25)
+    body.add(leaf)
+    updates.push((dt, t) => (leaf.rotation.z = 0.25 + Math.sin(t * 2) * 0.08))
+  } else if (kind === 'salt') {
+    // sodium: a cube of salt, sodium chloride
+    const cube = m(new THREE.BoxGeometry(H * 0.14, H * 0.14, H * 0.14), '#f4f6fb', { roughness: 0.2 })
+    cube.position.copy(surf(0.42, Math.PI / 2, H * 0.09))
+    cube.rotation.set(0.4, 0.5, 0.2)
+    body.add(cube)
+  } else if (kind === 'chip') {
+    // silicon: a computer chip on its back
+    const g = new THREE.Group()
+    g.add(m(new THREE.BoxGeometry(H * 0.2, H * 0.2, H * 0.03), '#1f2430'))
+    for (let i = -2; i <= 2; i++) {
+      for (const s of [-1, 1]) {
+        const pin = m(new THREE.BoxGeometry(H * 0.015, H * 0.05, H * 0.01), '#d9b75a', { metalness: 1 })
+        pin.position.set(i * H * 0.035, s * H * 0.12, 0)
+        const pin2 = pin.clone()
+        pin2.rotation.z = Math.PI / 2
+        pin2.position.set(s * H * 0.12, i * H * 0.035, 0)
+        g.add(pin, pin2)
+      }
+    }
+    g.position.copy(surf(0.5, Math.PI, H * 0.02))
+    g.rotation.y = Math.PI
+    body.add(g)
+  } else if (kind === 'bone') {
+    // calcium: a bone (our bones and teeth are made with it)
+    const g = new THREE.Group()
+    g.add(m(new THREE.CylinderGeometry(H * 0.025, H * 0.025, H * 0.22, 12), '#f3ead6'))
+    for (const s of [-1, 1]) {
+      for (const t of [-1, 1]) {
+        const knob = m(new THREE.SphereGeometry(H * 0.035, 12, 10), '#f3ead6')
+        knob.position.set(t * H * 0.025, s * H * 0.11, 0)
+        g.add(knob)
+      }
+    }
+    g.position.copy(surf(0.45, Math.PI / 2, H * 0.08))
+    g.rotation.z = 0.6
+    body.add(g)
+  } else if (kind === 'match') {
+    // phosphorus: a burning match (match heads are made with it), at its side
+    const g = new THREE.Group()
+    g.add(m(new THREE.CylinderGeometry(H * 0.012, H * 0.012, H * 0.25, 8), '#e9c99a'))
+    const head = m(new THREE.SphereGeometry(H * 0.025, 10, 8), '#c23b22')
+    head.position.y = H * 0.13
+    head.scale.y = 1.4
+    const fire = new THREE.Mesh(new THREE.SphereGeometry(H * 0.035, 10, 8), glowMat('#ffb030'))
+    fire.position.y = H * 0.19
+    fire.scale.y = 1.8
+    g.add(head, fire)
+    g.position.copy(surf(0.55, Math.PI / 2.4, H * 0.08))
+    g.rotation.z = -0.4
+    body.add(g)
+    updates.push((dt, t) => fire.scale.set(1 + Math.sin(t * 17) * 0.1, 1.8 + Math.sin(t * 11) * 0.25, 1))
+  } else if (kind === 'drop') {
+    // hydrogen: a drop of water floating beside it (water is two hydrogens and an oxygen)
+    const drop = m(new THREE.SphereGeometry(H * 0.08, 18, 14), '#59b4ff', { roughness: 0.05 })
+    drop.scale.set(1, 1.35, 1)
+    drop.position.set(W * 0.75, y0 + Hb * 0.85, 0)
+    body.add(drop)
+    updates.push((dt, t) => (drop.position.y = y0 + Hb * 0.85 + Math.sin(t * 2.2) * H * 0.04))
+  }
+  return updates
 }

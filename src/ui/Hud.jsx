@@ -9,6 +9,8 @@ import { useState } from 'react'
 import PlazaHud from './PlazaHud.jsx'
 import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
+import LabHud from './LabHud.jsx'
+import SoundButton from './SoundButton.jsx'
 
 /** Everything drawn over the 3D: the top bar (where you are, level, language), the HUD of the
  *  current world, the fade between worlds. */
@@ -50,6 +52,12 @@ export default function Hud({ engine }) {
                   )}
                 </>
               )}
+              {world.kind === 'lab' && (
+                <>
+                  <span className="opacity-50">/</span>
+                  <span className="font-display font-bold truncate">{t('lab.title')}</span>
+                </>
+              )}
               {world.kind === 'wing' && title && (
                 <>
                   <span className="opacity-50">/</span>
@@ -60,10 +68,21 @@ export default function Hud({ engine }) {
           )}
         </nav>
         <div className="flex gap-1.5 pointer-events-auto shrink-0">
+          <SoundButton />
           {world?.kind === 'plaza' && (
             <button type="button" onClick={() => setAbout(true)} className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10" aria-label={t('about.title')}>
               ⓘ
             </button>
+          )}
+          {world?.kind === 'plaza' && (
+            <Link to="/passport" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('passport.title')}>
+              🏅<span className="hidden lg:inline ml-1">{t('passport.title')}</span>
+            </Link>
+          )}
+          {world?.kind === 'plaza' && (
+            <Link to="/lab" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('hud.lab')}>
+              🧪<span className="hidden sm:inline ml-1">{t('hud.lab')}</span>
+            </Link>
           )}
           {world?.kind === 'plaza' && (
             <Link to="/atomlings" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('atomlings.title')}>
@@ -98,7 +117,8 @@ export default function Hud({ engine }) {
       </div>
 
       {world?.kind === 'plaza' && <PlazaHud engine={engine} />}
-      {world && world.kind !== 'plaza' && <WalkHud engine={engine} />}
+      {world?.kind === 'lab' && <LabHud engine={engine} />}
+      {world && world.kind !== 'plaza' && world.kind !== 'lab' && <WalkHud engine={engine} />}
 
       {about && <About onClose={() => setAbout(false)} />}
 

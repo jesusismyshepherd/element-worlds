@@ -99,7 +99,7 @@ export default function LabHud({ engine }) {
         <button type="button" onClick={() => world?.clear?.()} className="glass rounded-xl px-3 py-1.5 text-sm font-bold pointer-events-auto">{t('lab.clear')}</button>
       </div>
 
-      <div className="absolute left-2 sm:left-3 bottom-14 sm:bottom-3 text-xs opacity-70 max-w-[60vw] pointer-events-none hidden sm:block">{t('lab.help')}</div>
+      <div className="absolute inset-x-0 bottom-14 text-center text-xs opacity-70 px-4 pointer-events-none hidden sm:block">{t('lab.help')}</div>
 
       {party && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

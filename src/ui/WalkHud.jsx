@@ -5,6 +5,9 @@ import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import TouchStick from './TouchStick.jsx'
 import Panel from './Panel.jsx'
+import { voice } from '../audio/sound.js'
+import { element } from '../data/elements.js'
+import { traitsOf } from '../characters/traits.js'
 
 const touchScreen = () => window.matchMedia?.('(pointer: coarse)').matches
 
@@ -25,9 +28,11 @@ export default function WalkHud({ engine }) {
     return () => clearTimeout(id)
   }, [])
 
-  // what the Atomling says stays a few seconds
+  // what the Atomling says stays a few seconds; it says it in its own voice (big atoms speak low)
   useEffect(() => {
     if (!speech) return undefined
+    const el = element(store.get().world?.symbol ?? 'C')
+    if (el) voice(speech.text, { pitch: 1.3 - (traitsOf(el).height - 0.7) * 0.5 })
     const id = setTimeout(() => store.set({ speech: null }), 9000)
     return () => clearTimeout(id)
   }, [speech])

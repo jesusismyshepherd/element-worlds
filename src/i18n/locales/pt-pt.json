@@ -122,7 +122,10 @@
     "graphics": "Gráficos",
     "discoveries": "Descobertas",
     "says": "{{who}} diz",
-    "talk": "Conta-me algo (T)"
+    "talk": "Conta-me algo (T)",
+    "lab": "Laboratório",
+    "soundOn": "Ligar o som",
+    "soundOff": "Desligar o som"
   },
   "atomlings": {
     "title": "Atomitos",
@@ -185,5 +188,61 @@
   },
   "search": {
     "placeholder": "Procurar elemento…"
+  },
+  "lab": {
+    "title": "Laboratório de Moléculas",
+    "hands_one": "{{count}} mão",
+    "hands_other": "{{count}} mãos",
+    "start": "Escolhe um átomo à esquerda. Toca em dois átomos para darem as mãos; toca numa ligação para a soltar.",
+    "stable": "Todas as mãos estão dadas: uma molécula estável!",
+    "free_one": "{{count}} mão ainda livre",
+    "free_other": "{{count}} mãos ainda livres",
+    "missions": "Missões",
+    "show": "mostrar",
+    "remove": "Remover",
+    "clear": "Recomeçar",
+    "help": "Toca num átomo e depois noutro para darem as mãos. Toca outra vez no mesmo par para uma ligação dupla. Arrasta para rodar, roda do rato para aproximar.",
+    "made": "Fizeste {{name}}!"
+  },
+  "passport": {
+    "title": "O meu passaporte",
+    "visited": "elementos visitados",
+    "found": "descobertas",
+    "molecules": "moléculas feitas",
+    "legend": "Cada quadrado enche-se à medida que lês o seu salão; uma estrela quer dizer que exploraste os seus mundos. Toca num quadrado para entrar.",
+    "badges": "Medalhas",
+    "lab": "Missões de moléculas",
+    "badge": {
+      "first": {
+        "icon": "✨",
+        "name": "Primeira descoberta",
+        "how": "Lê o teu primeiro painel"
+      },
+      "hall": {
+        "icon": "🏛",
+        "name": "Perito do salão",
+        "how": "Descobre tudo no salão de um elemento"
+      },
+      "ten": {
+        "icon": "🧭",
+        "name": "Explorador",
+        "how": "Visita dez elementos"
+      },
+      "wing": {
+        "icon": "🌌",
+        "name": "Viajante dos mundos",
+        "how": "Faz três descobertas nos mundos de um elemento"
+      },
+      "chemist": {
+        "icon": "⚗",
+        "name": "Químico",
+        "how": "Faz cinco moléculas no laboratório"
+      },
+      "master": {
+        "icon": "🏆",
+        "name": "Mestre construtor",
+        "how": "Completa todas as missões de moléculas"
+      }
+    }
   }
 }

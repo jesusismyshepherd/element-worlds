@@ -47,7 +47,7 @@ const WORDS = {
   'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra' },
 }
 
-export async function build(ctx, target) {
+export async function build(ctx, target, previous) {
   const el = element(target.symbol)
   await loadContent(el.symbol)
   const lang = ctx.lang()
@@ -278,6 +278,11 @@ export async function build(ctx, target) {
   }
   solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 0.75))
 
+  // where a player arrives: at the entrance, or in front of the arch of the wing it comes back from
+  const back = previous?.kind === 'wing' && previous.symbol === el.symbol ? wings.find(w => w.id === previous.wing) : null
+  const ARRIVE = { n: { x: 0, z: -5.2, yaw: Math.PI }, e: { x: 5.2, z: 0, yaw: Math.PI / 2 }, w: { x: -5.4, z: -1, yaw: -Math.PI / 2 } }
+  const arrival = back ? ARRIVE[back.side] : { x: 0, z: 4.4, yaw: 0 }
+
   // ---- light ----
   root.add(new THREE.HemisphereLight('#e4eaff', '#262c55', 1.25))
   const sun = new THREE.DirectionalLight('#fff6ea', 1.4)
@@ -310,7 +315,7 @@ export async function build(ctx, target) {
     mode: 'walk',
     root,
     env: { background: new THREE.Color('#0b0f24'), exposure: 1.05, envIntensity: 0.55, bloom: { strength: 0.6, radius: 0.5, threshold: 0.78 }, fov: 62 },
-    spawn: { x: 0, z: 4.4, yaw: 0 },
+    spawn: arrival,
     hostSpot: { x: 2.6, z: 2.6, yaw: Math.PI * 0.85 },
     avatar,
     solids,
@@ -320,7 +325,7 @@ export async function build(ctx, target) {
     talk,
     attach() {
       report()
-      setTimeout(() => ctx.store.set({ speech: { text: greeting, who: nameOf(el, lang), color } }), 900)
+      if (!back) setTimeout(() => ctx.store.set({ speech: { text: greeting, who: nameOf(el, lang), color } }), 900)
     },
     detach() {
       ctx.store.set({ speech: null, discoveries: null })

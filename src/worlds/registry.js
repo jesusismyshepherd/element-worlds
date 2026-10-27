@@ -20,6 +20,7 @@ export const wingsOf = symbol => WINGS[symbol] ?? []
 
 export function loadWorld(target) {
   if (target.kind === 'plaza') return import('./plaza/plaza.js')
+  if (target.kind === 'lab') return import('./lab/lab.js')
   if (target.kind === 'atrium') return import('./atrium/atrium.js')
   const wing = wingsOf(target.symbol).find(w => w.id === target.wing)
   if (!wing) return Promise.reject(new Error(`no wing ${target.wing} for ${target.symbol}`))
@@ -28,10 +29,11 @@ export function loadWorld(target) {
 
 /** Two targets with the same key are the same world (the plaza's ?at= only turns the view). */
 export function worldKey(t) {
-  return t.kind === 'plaza' ? 'plaza' : `${t.kind}:${t.symbol}:${t.wing ?? ''}`
+  return t.kind === 'plaza' || t.kind === 'lab' ? t.kind : `${t.kind}:${t.symbol}:${t.wing ?? ''}`
 }
 
 export function targetFrom(pathname, search = '') {
+  if (/^\/lab\/?$/.test(pathname)) return { kind: 'lab' }
   const m = pathname.match(/^\/e\/([A-Za-z]{1,3})(?:\/([\w-]+))?\/?$/)
   const el = m && element(m[1])
   if (el) return m[2] ? { kind: 'wing', symbol: el.symbol, wing: m[2] } : { kind: 'atrium', symbol: el.symbol }
