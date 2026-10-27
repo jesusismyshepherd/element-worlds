@@ -27,19 +27,32 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 ## Map
 
 - `docs/design.md`: what it is, the decisions, the Atomling grammar, the extension path to molecules.
-- `docs/knowledge/`: traps and their fixes, workflows (read the file for the area you touch).
-- `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`.
+- `docs/knowledge/`: `adding-a-wing.md` (the world contract, words, pieces, checking), `atomlings.md`
+  (how characters are made, the traps met). Read the one for the area you touch.
+- `.claude/skills/element-wing/`: the steps for building an element's wing.
+- `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
+  with the fixes to the sources (discovery years by one rule, discoverers, spellings).
   `scripts/data/export_mendeleev.py` refreshes `mendeleev.json` (venv in `scripts/data/.venv`).
-- `src/data/elements.js`: lookups, table cells, families and their colours.
-- `src/chem/atom.js`: subshells, shells, valence electrons, octet places, hands (bonds), nucleus.
-- `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode), `player.js` (walking,
-  both views), `collide.js` (solids on the ground plane), `input.js`, `text.js` (troika SDF text),
-  `quality.js` (light mode, from the arena), `store.js` (engine <-> HUD).
+- `src/data/elements.js`: lookups, table cells, families and their colours. `src/data/appearance.js`:
+  what each element looks like for real (the specimen cases).
+- `src/chem/atom.js`: subshells, shells, valence electrons, octet places, Lewis places, hands, nucleus.
+  `src/chem/molecules.js`: molecules as graphs, `checkHands` (the molecule game's rule);
+  `src/chem/ballAndStick.js` draws them.
+- `src/characters/`: `traits.js` (the Atomling grammar), `atomling.js` (the 3D character),
+  `lineup.js` (the stage of the Atomlings page).
+- `src/content/`: `stations.js` (the atrium's stations for any element, from the data, both languages,
+  both depths), `C.js`, `O.js` (an element's own words).
+- `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode, `teleport` for probes),
+  `player.js` (walking, both views), `collide.js` (solids on the ground plane), `input.js`, `text.js`
+  (troika SDF text, `formulaText`), `quality.js` (light mode, from the arena), `store.js` (engine <-> HUD),
+  `progress.js` (discoveries kept on the device).
 - `src/worlds/registry.js`: addresses (`/`, `/e/C`, `/e/C/allotropes`) and which module builds each world.
-  `plaza/` (the table), `atrium/` (every element), `wings/<element>/`, `common/` (sky, shared pieces).
-- `src/ui/`: the HUD (React). `src/pages/`: Explore (the 3D) and Atomlings (all 118 characters).
-- `tools/shot.py`: screenshots of the running dev server (`npm run dev`, port 5310).
-- Tests: `npm test` (node --test: data, atom, collisions).
+  `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
+  `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).
+- `src/ui/`: the HUD (React). `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`, all 118).
+- `tools/shot.py` (screenshots of the dev server, `npm run dev` on port 5310, with steps),
+  `tools/lineup.py` (the Atomlings page).
+- Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
 
 ## Working traps
 
@@ -49,6 +62,11 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   sets `env.envIntensity` low (the plaza: 0.12).
 - mendeleev lists some superheavies' ionisation energies from a higher degree only; the first ionisation
   energy comes from PubChem.
+- PubChem's discovery years mix "first recognised" with "a compound was known" (fluorite 1670, alum and
+  lime "ancient"): `YEAR` in `scripts/build-elements.mjs` holds the corrections; discoverers there too.
+- The 3D fonts have no superscript or subscript digits and no emoji: plain text on walls, `formulaText`
+  for formulas, superscripts only in the HUD (HTML).
+- Commit by path while other agents or sessions have work in the tree (`git add <paths>`, never `-A`).
 
 ## Status (2026-10-27)
 
