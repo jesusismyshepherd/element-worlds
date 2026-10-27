@@ -101,7 +101,7 @@ function materials(tr, light) {
   }
 }
 
-export function createAtomling(el, { light = false, badge = true } = {}) {
+export function createAtomling(el, { light = false, badge = true, arms: withArms = true, hoop: withHoop = true } = {}) {
   const tr = traitsOf(el)
   const H = tr.height
   const W = H * tr.width
@@ -192,7 +192,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
     hoop.rotation.x = 0.32
   }
   hoop.add(new THREE.Mesh(new THREE.TorusGeometry(hoopR, H * 0.011, 8, 96).rotateX(Math.PI / 2), mats.hoop))
-  rig.add(hoop)
+  if (withHoop) rig.add(hoop)
   const ring = new THREE.Group() // turns round the hoop, carrying electrons and places
   hoop.add(ring)
   const eR = H * 0.036
@@ -303,7 +303,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
     2: [shoulder(0.5, -1, 1.0), shoulder(0.5, 1, 1.0)],
     3: [shoulder(0.5, -1, 1.0), shoulder(0.5, 1, 1.0), { top: true }],
     4: [shoulder(0.6, -1, 2.0), shoulder(0.6, 1, 2.0), shoulder(0.3, -1, 1.05), shoulder(0.3, 1, 1.05)],
-  }[tr.hands] ?? []
+  }[withArms ? tr.hands : 0] ?? []
   const armLen = H * 0.3
   const armR = H * 0.05
   const handR = H * 0.085
@@ -527,6 +527,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
 
   return {
     root,
+    mats,
     traits: tr,
     body: {
       height: H, radius: Math.max(0.22, W * 0.45), eye: H * 0.82,
