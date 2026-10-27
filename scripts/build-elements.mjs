@@ -35,10 +35,26 @@ const DISCOVERERS = {
   4: 'Louis-Nicolas Vauquelin',
   8: 'Carl Wilhelm Scheele, Joseph Priestley',
   9: 'Henri Moissan',
+  10: 'William Ramsay, Morris Travers',
   23: 'Andrés Manuel del Río (1801), Nils Gabriel Sefström (1830)',
+  30: 'Andreas Sigismund Marggraf',
+  36: 'William Ramsay, Morris Travers',
+  54: 'William Ramsay, Morris Travers',
+  78: 'Antonio de Ulloa',
   91: 'Kasimir Fajans, Oswald Helmuth Göhring',
 }
+const PLACE = {
+  2: 'India, England', 4: 'France', 10: 'England', 18: 'England', 30: 'Germany', 36: 'England', 54: 'England', 78: 'Colombia',
+}
+// IUPAC's conventional weights where PubChem gives a rounded one; densities at 20 °C
+const MASS = { 82: 207.2 }
+const DENSITY = { 19: 0.862, 29: 8.96 }
+// aluminium's melting point had two digits swapped (the ITS-90 fixed point is 933.473 K); helium only
+// freezes under about 25 atm, so at normal pressure it has no melting point
+const MELT = { 2: null, 13: 933.473 }
+const EA = { 9: 3.401 }
 const SPELLING = [
+  [/A\.C\.Wohl/g, 'A. C. Wahl'], [/Humphrey Davy/g, 'Humphry Davy'], [/Johann Arfwedson/g, 'Johan August Arfwedson'],
   [/Ramsey/g, 'Ramsay'], [/Fredrich/g, 'Friedrich'], [/Smithson Tenant/g, 'Smithson Tennant'], [/S\.Tenant/g, 'S. Tennant'],
   [/Fourcory/g, 'Fourcroy'], [/Aver von Welsbach/g, 'Auer von Welsbach'], [/Nils Langet/g, 'Nils Langlet'], [/George Brandt/g, 'Georg Brandt'],
 ]
@@ -63,7 +79,9 @@ const elements = pubchem.Row.map(({ Cell }) => {
     z,
     symbol: p.Symbol,
     name: { en: NAMES[z][0], 'pt-pt': NAMES[z][1] },
-    mass: num(p.AtomicMass),
+    // the conventional atomic weight (mendeleev: Li 6.94, Ar 39.948, Pb 207.2) where PubChem gives
+    // IUPAC's shorter abridged one; PubChem's for the superheavies (a mass number)
+    mass: MASS[z] ?? (m.atomicWeight != null && m.isotopes.some(i => i.abundance) ? m.atomicWeight : num(p.AtomicMass)),
     family,
     group: m.group,
     period: m.period,
@@ -76,17 +94,17 @@ const elements = pubchem.Row.map(({ Cell }) => {
     en: num(p.Electronegativity),
     // the first from PubChem; the next three from mendeleev where known
     ie: [num(p.IonizationEnergy), ...m.ionisationEnergies.slice(1).map(v => round(v, 3))],
-    ea: num(p.ElectronAffinity),
+    ea: EA[z] ?? num(p.ElectronAffinity),
     oxidation: p.OxidationStates ? p.OxidationStates.split(',').map(s => Number(s.trim())).filter(Number.isFinite) : [],
     state,
     statePredicted: /expected/i.test(p.StandardState),
-    melt: num(p.MeltingPoint),
+    melt: z in MELT ? MELT[z] : num(p.MeltingPoint),
     boil: num(p.BoilingPoint),
-    density: num(p.Density),
+    density: DENSITY[z] ?? num(p.Density),
     discovered: YEAR[z] ?? (ancient ? null : num(p.YearDiscovered)),
     ancient: YEAR[z] ? false : ancient,
     discoverers: DISCOVERERS[z] ?? (/known to the ancients/i.test(m.discoverers ?? '') ? null : spell(m.discoverers)),
-    discoveryPlace: m.discoveryLocation,
+    discoveryPlace: PLACE[z] ?? m.discoveryLocation,
     radius: {
       covalent: round(m.covalentRadius, 1),
       atomic: round(m.atomicRadius, 1),

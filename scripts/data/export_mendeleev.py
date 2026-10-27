@@ -35,8 +35,8 @@ def num(v):
 
 
 def isotopes(el):
-    """Natural isotopes (with their abundance, %) and the longest-lived radioactive ones (half-life in
-    seconds and in the published unit), at most 8: the scientist's isotope table."""
+    """Natural isotopes (with their abundance, %), all of them, and the longest-lived radioactive ones
+    (half-life in seconds and in the published unit): the scientist's isotope table."""
     out = []
     for i in el.isotopes:
         hl = num(i.half_life)
@@ -54,7 +54,8 @@ def isotopes(el):
     natural.sort(key=lambda i: -i['abundance'])
     others = [i for i in out if not i['abundance'] and i['halfLifeSeconds']]
     others.sort(key=lambda i: -i['halfLifeSeconds'])
-    return (natural + others)[:8]
+    # every natural isotope (tin has ten), then the longest-lived radioactive ones
+    return natural + others[:max(2, 8 - len(natural))]
 
 
 def main():
@@ -69,6 +70,7 @@ def main():
             'period': el.period,
             'block': el.block,
             'series': el.series,
+            'atomicWeight': num(el.atomic_weight),
             'atomicRadius': num(el.atomic_radius),
             'atomicRadiusRahm': num(el.atomic_radius_rahm),
             'covalentRadius': num(el.covalent_radius_pyykko),

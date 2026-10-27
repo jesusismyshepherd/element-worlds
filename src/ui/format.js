@@ -9,13 +9,20 @@ export function temperature(k, level, lang) {
 
 export function num(v, lang, digits = 4) {
   if (v == null) return '?'
+  // tiny amounts in powers of ten (radon in the crust: 4 × 10⁻¹³), never "0"
+  if (v !== 0 && Math.abs(v) < 1e-4) {
+    const e = Math.floor(Math.log10(Math.abs(v)))
+    const m = Number((v / 10 ** e).toPrecision(Math.min(digits, 3)))
+    const sup = String(e).replace(/-/g, '⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d])
+    return `${m.toLocaleString(lang)} × 10${sup}`
+  }
   return Number(v.toPrecision(digits)).toLocaleString(lang, { maximumFractionDigits: 6 })
 }
 
 /** Density: g/cm³ for solids and liquids, g/L for gases (a gas in g/cm³ reads as 0.0013). */
 export function density(el, lang) {
   if (el.density == null) return '?'
-  if (el.state === 'gas') return `${num(el.density * 1000, lang, 3)} g/L`
+  if (el.state === 'gas') return `${num(el.density * 1000, lang, 3)} g/L (0 °C)`
   return `${num(el.density, lang, 3)} g/cm³`
 }
 

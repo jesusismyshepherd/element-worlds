@@ -2,7 +2,7 @@
 // plus the element's own words where they exist (content/<Symbol>.js). Each station:
 // { id, title, teaser: [short lines for the wall], panel(): { title, kicker, color, blocks } }.
 import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
-import { nucleus, valenceElectrons, hands } from '../chem/atom.js'
+import { nucleus, valenceElectrons, hands, bondCount } from '../chem/atom.js'
 import { temperature, density, num, config } from '../ui/format.js'
 import { contentCached } from './index.js'
 
@@ -21,8 +21,8 @@ const art = el => (FEMININE.has(el.symbol) ? 'a' : 'o')
 const SHELL = 'KLMNOPQ'
 
 const HALF_LIFE = {
-  en: { ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's', minute: 'minutes', hour: 'hours', day: 'days', year: 'years', kyear: 'thousand years', Myear: 'million years', Gyear: 'billion years', Tyear: 'trillion years' },
-  'pt-pt': { ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's', minute: 'minutos', hour: 'horas', day: 'dias', year: 'anos', kyear: 'mil anos', Myear: 'milhões de anos', Gyear: 'mil milhões de anos', Tyear: 'biliões de anos' },
+  en: { ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's', minute: 'minutes', hour: 'hours', day: 'days', year: 'years', kyear: 'thousand years', Myear: 'million years', Gyear: 'billion years', Tyear: 'trillion years', Pyear: 'quadrillion years', Eyear: 'quintillion years', Zyear: 'sextillion years', Yyear: 'septillion years' },
+  'pt-pt': { ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's', minute: 'minutos', hour: 'horas', day: 'dias', year: 'anos', kyear: 'mil anos', Myear: 'milhões de anos', Gyear: 'mil milhões de anos', Tyear: 'biliões de anos', Pyear: 'mil biliões de anos', Eyear: 'triliões de anos', Zyear: 'mil triliões de anos', Yyear: 'quatriliões de anos' },
 }
 
 const crustRank = (() => {
@@ -38,16 +38,18 @@ const T = {
     },
     number: (el, n) => `Its number is ${el.z}: every atom of ${n} has exactly ${el.z} protons, and that is what makes it ${n}. Change the number of protons and you get another element.`,
     atom: (el, n, p, ne, shells, v, h) => {
+      const bonds = bondCount(el)
       const list = shells.map((c, i) => `${c} in shell ${SHELL[i]}`).join(', ')
       const end = el.family === 'noble-gas'
         ? 'Its outer shell is full, so it hardly ever holds hands with anyone: that is why noble gases have no hands.'
         : h.giving
-          ? `${cap(n)} usually gives away ${h.count} electron${h.count > 1 ? 's' : ''}: its Atomling holds ${h.count > 1 ? 'them' : 'it'} out in its hands.`
+          ? `${cap(n)} usually gives away ${bonds} electron${bonds > 1 ? 's' : ''}: its Atomling holds ${bonds > 1 ? 'them' : 'it'} out in its hands${bonds > 4 ? ' (it has room for only four)' : ''}.`
           : `The ${v} on the outside are the ones that hold hands with other atoms: that is why ${n} has ${h.count} hand${h.count > 1 ? 's' : ''}.`
       return `In the middle is the nucleus, with ${p} protons (red) and ${ne} neutrons (grey). Around it, ${el.z} electrons whizz in ${shells.length} shell${shells.length > 1 ? 's' : ''}: ${list}. ${end}`
     },
     stateIs: (el, n, s) => `At 20 °C ${n} is a ${s}.`,
     melts: (m, b) => `It melts at ${m} and boils at ${b}.`,
+    boils: b => `It boils at ${b}.`,
     unknownState: 'Nobody has measured it: only a few atoms of it have ever been made.',
     litre: (kg, heavier) => `A litre of it would weigh ${kg} kg, ${heavier ? 'more' : 'less'} than a litre of water (1 kg): it would ${heavier ? 'sink' : 'float'} in water.`,
     litreGas: g => `A litre of it weighs ${g} g (a litre of air: about 1.2 g).`,
@@ -56,7 +58,7 @@ const T = {
     crust: (n, mg, rank) => `In every kilogram of the Earth's crust there are about ${mg} milligrams of ${n}: number ${rank} among the most common elements in the crust.`,
     synthetic: 'Made only in laboratories, a few atoms at a time.',
     trace: 'Almost none in nature: it is radioactive and slowly breaks apart.',
-    crustLabel: 'In the crust', seaLabel: 'In seawater', rankLabel: 'Rank in the crust',
+    crustLabel: 'In the crust', seaLabel: 'In seawater', rankLabel: 'Rank in the crust', traces: 'Only traces',
     usesSoon: 'The story of what it is used for is still being written.',
     family: (n, f, g, list) => `${cap(n)} is one of the ${f}. Elements in the same column have the same number of outer electrons, so they behave alike. Its column (group ${g}): ${list}.`,
     fBlock: (n, f, list) => `${cap(n)} is one of the ${f}: ${list}. They are so alike that chemists took about a century to separate them all.`,
@@ -80,16 +82,18 @@ const T = {
     },
     number: (el, n) => `O seu número é ${el.z}: todos os átomos de ${n} têm exatamente ${el.z} protões, e é isso que os torna ${n}. Muda o número de protões e tens outro elemento.`,
     atom: (el, n, p, ne, shells, v, h) => {
+      const bonds = bondCount(el)
       const list = shells.map((c, i) => `${c} na camada ${SHELL[i]}`).join(', ')
       const end = el.family === 'noble-gas'
         ? 'A camada de fora está cheia, por isso quase nunca dá a mão a ninguém: é por isso que os gases nobres não têm mãos.'
         : h.giving
-          ? `${cap(art(el))} ${n} costuma dar ${h.count} ${h.count > 1 ? 'eletrões' : 'eletrão'}: o seu Atomito estende-${h.count > 1 ? 'os' : 'o'} nas mãos.`
+          ? `${cap(art(el))} ${n} costuma dar ${bonds} ${bonds > 1 ? 'eletrões' : 'eletrão'}: o seu Atomito estende-${bonds > 1 ? 'os' : 'o'} nas mãos${bonds > 4 ? ' (só tem lugar para quatro)' : ''}.`
           : `Os ${v} de fora são os que dão a mão a outros átomos: é por isso que ${art(el)} ${n} tem ${h.count} ${h.count > 1 ? 'mãos' : 'mão'}.`
       return `No meio está o núcleo, com ${p} protões (vermelhos) e ${ne} neutrões (cinzentos). À volta giram ${el.z} eletrões em ${shells.length} ${shells.length > 1 ? 'camadas' : 'camada'}: ${list}. ${end}`
     },
     stateIs: (el, n, s) => `A 20 °C, ${art(el)} ${n} é ${art(el) === 'a' ? s.replace(/o$/, 'a') : s}.`,
     melts: (m, b) => `Funde a ${m} e ferve a ${b}.`,
+    boils: b => `Ferve a ${b}.`,
     unknownState: 'Ninguém o mediu: só se fizeram uns poucos átomos.',
     litre: (kg, heavier) => `Um litro pesaria ${kg} kg, ${heavier ? 'mais' : 'menos'} do que um litro de água (1 kg): ${heavier ? 'iria ao fundo' : 'flutuaria'} na água.`,
     litreGas: g => `Um litro pesa ${g} g (um litro de ar: cerca de 1,2 g).`,
@@ -98,7 +102,7 @@ const T = {
     crust: (n, mg, rank) => `Em cada quilograma da crosta terrestre há cerca de ${mg} miligramas de ${n}: é o ${rank}.º elemento mais comum na crosta.`,
     synthetic: 'Só se faz em laboratório, poucos átomos de cada vez.',
     trace: 'Quase não existe na natureza: é radioativo e vai-se desfazendo.',
-    crustLabel: 'Na crosta', seaLabel: 'Na água do mar', rankLabel: 'Posição na crosta',
+    crustLabel: 'Na crosta', seaLabel: 'Na água do mar', rankLabel: 'Posição na crosta', traces: 'Só vestígios',
     usesSoon: 'A história dos seus usos ainda está a ser escrita.',
     family: (n, f, g, list) => `${cap(n)} pertence aos ${f}. Os elementos da mesma coluna têm o mesmo número de eletrões de fora, por isso comportam-se de maneira parecida. A sua coluna (grupo ${g}): ${list}.`,
     fBlock: (n, f, list) => `${cap(n)} é um dos ${f}: ${list}. São tão parecidos que os químicos levaram cerca de um século a separá-los todos.`,
@@ -179,8 +183,8 @@ export function stationsOf(el, { lang, level, familyName }) {
       const d = el.density
       return [
         { big: el.state ? cap(L.states[el.state].replace(/^um /, '')) : '?' },
-        { p: el.state && el.melt != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))}` : L.unknownState },
-        d != null && { p: liquidOrSolid ? L.litre(fmt(d, 3), d > 1) : L.litreGas(fmt(d * 1000, 3)) },
+        { p: el.state && el.melt != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))}` : el.state && el.boil != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.boils(temperature(el.boil, level, tag))}` : L.unknownState },
+        d != null && { p: liquidOrSolid ? L.litre(fmt(d, 3), d > 1) : L.litreGas(fmt(d * 1000 * 273.15 / 293.15, 3)) },
         text('stateNote') && { p: text('stateNote') },
         sci && {
           rows: [
@@ -203,7 +207,7 @@ export function stationsOf(el, { lang, level, familyName }) {
         ],
       },
     ]),
-    make('found', [el.abundance.crust != null ? `${fmt(el.abundance.crust, 3)} mg/kg` : '–'], () => {
+    make('found', [el.abundance.crust == null ? '–' : el.abundance.crust < 1e-3 ? L.traces : `${fmt(el.abundance.crust, 3)} mg/kg`], () => {
       const mg = el.abundance.crust
       const rank = crustRank.get(el.z)
       const base = mg != null ? L.crust(n, fmt(mg, 3), rank) : el.z > 94 ? L.synthetic : L.trace
