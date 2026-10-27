@@ -11,7 +11,7 @@ import { bigAtom } from './atom.js'
 import { specimen } from './specimen.js'
 import { appearanceOf } from '../../data/appearance.js'
 import { stationsOf, greetingOf } from '../../content/stations.js'
-import { wallPanel, arch, canvasTexture } from '../common/props.js'
+import { wallPanel, arch, canvasTexture, portalMaterial } from '../common/props.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
 import { makeText } from '../../engine/text.js'
@@ -108,6 +108,12 @@ export async function build(ctx, target) {
   ring.rotation.x = Math.PI / 2
   ring.position.y = HEIGHT - 0.05
   root.add(ring)
+  // inside the ring the ceiling opens on a starry sky (the elements were made in stars)
+  const oculus = new THREE.Mesh(new THREE.CircleGeometry(4.55, 64), portalMaterial('#9fb4ff', 'stars'))
+  oculus.rotation.x = Math.PI / 2
+  oculus.position.y = HEIGHT - 0.03
+  root.add(oculus)
+  updates.push(t => (oculus.material.uniforms.uTime.value = t))
   // light strips up the walls and along the floor, in the family's colour
   const stripGeo = new THREE.BoxGeometry(0.08, 6.5, 0.06)
   // between each arch and its panels, and in the corners
