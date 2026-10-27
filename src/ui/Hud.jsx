@@ -57,6 +57,11 @@ export default function Hud({ engine }) {
           )}
         </nav>
         <div className="flex gap-1.5 pointer-events-auto shrink-0">
+          {world?.kind === 'plaza' && (
+            <Link to="/atomlings" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('atomlings.title')}>
+              🙂<span className="hidden sm:inline ml-1">{t('atomlings.title')}</span>
+            </Link>
+          )}
           <div className="glass rounded-xl p-1 flex text-xs font-bold" role="group" aria-label={t('level.label')}>
             {['explorer', 'scientist'].map(l => (
               <button

@@ -160,5 +160,10 @@
         "title": "Fire"
       }
     }
+  },
+  "time": {
+    "title": "Time machine",
+    "year": "Year",
+    "status": "In {{year}}: {{count}} elements known"
   }
 }

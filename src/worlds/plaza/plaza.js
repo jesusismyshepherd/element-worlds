@@ -11,6 +11,7 @@ import { CUBE, PITCH, TABLE, TRENDS, cubeSpot, spotOf, trendScale, scaleColor } 
 import { nightSky } from '../common/sky.js'
 import { FONTS } from '../../engine/text.js'
 import { atriumPath } from '../registry.js'
+import { createAtomling } from '../../characters/atomling.js'
 
 const N = ELEMENTS.length
 const damp = (a, b, rate, dt) => b + (a - b) * Math.exp(-rate * dt)
@@ -173,6 +174,8 @@ export async function build(ctx, target) {
   controls.maxPolarAngle = 1.38
   controls.screenSpacePanning = false
   controls.zoomToCursor = true
+  // on a touch screen the table moves like a map: one finger pans, two zoom and turn
+  if (window.matchMedia?.('(pointer: coarse)').matches) controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE }
   const center = new THREE.Vector3((TABLE.minX + TABLE.maxX) / 2, 0, (TABLE.minZ + TABLE.maxZ) / 2)
 
   // the whole table in view: back off along a steep line until its four corners fit the screen
@@ -195,6 +198,8 @@ export async function build(ctx, target) {
       })
       if (fits) break
     }
+    // an upright phone starts closer, the sides a drag away: the whole table there is too small to read
+    if (camera.aspect < 1) d *= 0.62
     return { target: center.clone(), position: center.clone().addScaledVector(dir, d) }
   }
   const closeUp = s => ({
@@ -240,10 +245,35 @@ export async function build(ctx, target) {
     store.set({ hover: i >= 0 ? state[i].el.z : null })
   }
 
+  // the selected element's Atomling pops up on its cube and waves
+  // (a holder carries the size: the Atomling sets its own root's scale while it pops up)
+  let host = null
+  const hostLight = new THREE.PointLight('#fff1dc', 0, 12, 1.4)
+  root.add(hostLight)
+  const showHost = i => {
+    if (host) {
+      root.remove(host.holder)
+      host.holder.traverse(o => {
+        if (o.isMesh) o.geometry?.dispose()
+      })
+      host = null
+    }
+    if (i < 0) return
+    const a = createAtomling(state[i].el, { light })
+    const holder = new THREE.Group()
+    holder.scale.setScalar(2.1)
+    holder.add(a.root)
+    a.poof()
+    setTimeout(() => a.wave(), 500)
+    root.add(holder)
+    host = { a, i, holder }
+  }
+
   const select = (z, { frame = true } = {}) => {
     const i = z == null ? -1 : z - 1
     selected = i
     store.set({ selected: i >= 0 ? z : null })
+    showHost(i)
     if (i >= 0 && frame) flyTo(closeUp(state[i]))
   }
 
@@ -331,7 +361,18 @@ export async function build(ctx, target) {
     store.set({ familyFocus: id })
   }
 
+  // the time machine: elements not yet discovered in `year` lie flat and dark
+  let year = null
+  const known = s => s.el.ancient || (s.el.discovered != null && s.el.discovered <= year)
+  const setYear = y => {
+    year = y
+    if (y != null && trend) setTrend(null)
+    const count = y == null ? ELEMENTS.length : state.filter(known).length
+    store.set({ year: y, knownCount: count })
+  }
+
   const setTrend = id => {
+    if (id && year != null) setYear(null)
     trend = TRENDS.find(t => t.id === id) ?? null
     store.set({ trend: trend ? trend.id : null })
     if (!trend) {
@@ -383,9 +424,11 @@ export async function build(ctx, target) {
       const isHover = i === hover
       const isSel = i === selected
       const outOfFamily = familyFocus && s.el.family !== familyFocus
+      const unborn = year != null && !known(s)
       s.liftTo = isSel ? 0.9 : isHover ? 0.45 : 0
       s.glowTo = entering && isSel ? 3 : isSel ? 1.9 : isHover ? 1.55 : 1
-      s.dimTo = outOfFamily ? 1 : trend && s.unknown ? 0.75 : 0
+      s.dimTo = outOfFamily || unborn ? 1 : trend && s.unknown ? 0.75 : 0
+      if (!trend) s.hTo = unborn ? 0.3 : CUBE
       s.h = damp(s.h, s.hTo, 5, dt)
       s.lift = damp(s.lift, s.liftTo, 9, dt)
       s.glow = damp(s.glow, s.glowTo, 8, dt)
@@ -418,6 +461,14 @@ export async function build(ctx, target) {
       const a = 1 - 0.8 * s.dim
       for (const tt of [t.num, t.sym, t.name, f.sym, f.name]) tt.fillOpacity = a
     })
+    hostLight.intensity = host ? 40 : 0
+    if (host) {
+      const s = state[host.i]
+      hostLight.position.set(s.x + 1.5, s.lift + s.h + 3.2, s.z + 3)
+      host.holder.position.set(s.x, s.lift + s.h + 0.02, s.z - CUBE * 0.3)
+      host.holder.rotation.y = Math.atan2(camera.position.x - s.x, camera.position.z - s.z) * 0.6
+      host.a.update(dt, time, { speed: 0 })
+    }
     cubes.instanceMatrix.needsUpdate = true
     pools.instanceMatrix.needsUpdate = true
     glowAttr.needsUpdate = true
@@ -451,7 +502,7 @@ export async function build(ctx, target) {
     canvas.addEventListener('pointerup', onUp)
     canvas.addEventListener('pointerleave', onLeave)
     window.addEventListener('keydown', onKey)
-    store.set({ hover: null, selected: null, familyFocus: null, trend: null })
+    store.set({ hover: null, selected: null, familyFocus: null, trend: null, year: null, knownCount: ELEMENTS.length })
     if (target.at) retarget(target)
   }
 
@@ -478,6 +529,7 @@ export async function build(ctx, target) {
     select: z => select(z),
     focusFamily,
     setTrend,
+    setYear,
     enterSelected,
     overview: () => flyTo(overview()),
     dispose() {

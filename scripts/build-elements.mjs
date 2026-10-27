@@ -27,7 +27,22 @@ const FAMILY = {
 }
 
 // Slips in the sources, fixed here so the raw files stay as published.
-const DISCOVERERS = { 8: 'Carl Wilhelm Scheele, Joseph Priestley' }
+// Years: when the element was first recognised as new, or first isolated where PubChem gives the year
+// a compound was known (fluorite 1670, alum and lime "ancient"); discoverers to match those years.
+const YEAR = { 9: 1886, 13: 1825, 14: 1824, 20: 1808, 44: 1844 }
+const DISCOVERERS = {
+  2: 'Pierre Janssen, Norman Lockyer',
+  4: 'Louis-Nicolas Vauquelin',
+  8: 'Carl Wilhelm Scheele, Joseph Priestley',
+  9: 'Henri Moissan',
+  23: 'Andrés Manuel del Río (1801), Nils Gabriel Sefström (1830)',
+  91: 'Kasimir Fajans, Oswald Helmuth Göhring',
+}
+const SPELLING = [
+  [/Ramsey/g, 'Ramsay'], [/Fredrich/g, 'Friedrich'], [/Smithson Tenant/g, 'Smithson Tennant'], [/S\.Tenant/g, 'S. Tennant'],
+  [/Fourcory/g, 'Fourcroy'], [/Aver von Welsbach/g, 'Auer von Welsbach'], [/Nils Langet/g, 'Nils Langlet'], [/George Brandt/g, 'Georg Brandt'],
+]
+const spell = t => (t == null ? t : SPELLING.reduce((s, [a, b]) => s.replace(a, b), t))
 
 const cols = pubchem.Columns.Column
 const num = v => (v === '' || v == null || Number.isNaN(Number(v)) ? null : Number(v))
@@ -68,9 +83,9 @@ const elements = pubchem.Row.map(({ Cell }) => {
     melt: num(p.MeltingPoint),
     boil: num(p.BoilingPoint),
     density: num(p.Density),
-    discovered: ancient ? null : num(p.YearDiscovered),
-    ancient,
-    discoverers: DISCOVERERS[z] ?? (/known to the ancients/i.test(m.discoverers ?? '') ? null : m.discoverers),
+    discovered: YEAR[z] ?? (ancient ? null : num(p.YearDiscovered)),
+    ancient: YEAR[z] ? false : ancient,
+    discoverers: DISCOVERERS[z] ?? (/known to the ancients/i.test(m.discoverers ?? '') ? null : spell(m.discoverers)),
     discoveryPlace: m.discoveryLocation,
     radius: {
       covalent: round(m.covalentRadius, 1),

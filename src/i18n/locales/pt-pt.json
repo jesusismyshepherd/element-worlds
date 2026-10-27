@@ -160,5 +160,10 @@
         "title": "O fogo"
       }
     }
+  },
+  "time": {
+    "title": "Máquina do tempo",
+    "year": "Ano",
+    "status": "Em {{year}}: {{count}} elementos conhecidos"
   }
 }

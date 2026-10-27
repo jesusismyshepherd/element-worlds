@@ -11,6 +11,8 @@ export const store = createStore({
   selected: null,
   familyFocus: null,
   trend: null,
+  year: null,
+  knownCount: 118,
   trendRange: null,
   prompt: null,
   panel: null,

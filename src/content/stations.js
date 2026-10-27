@@ -89,7 +89,7 @@ const T = {
           : `Os ${v} de fora são os que dão a mão a outros átomos: é por isso que ${art(el)} ${n} tem ${h.count} ${h.count > 1 ? 'mãos' : 'mão'}.`
       return `No meio está o núcleo, com ${p} protões (vermelhos) e ${ne} neutrões (cinzentos). À volta giram ${el.z} eletrões em ${shells.length} ${shells.length > 1 ? 'camadas' : 'camada'}: ${list}. ${end}`
     },
-    stateIs: (el, n, s) => `A 20 °C, ${art(el)} ${n} é ${s}.`,
+    stateIs: (el, n, s) => `A 20 °C, ${art(el)} ${n} é ${art(el) === 'a' ? s.replace(/o$/, 'a') : s}.`,
     melts: (m, b) => `Funde a ${m} e ferve a ${b}.`,
     unknownState: 'Ninguém o mediu: só se fizeram uns poucos átomos.',
     litre: (kg, heavier) => `Um litro pesaria ${kg} kg, ${heavier ? 'mais' : 'menos'} do que um litro de água (1 kg): ${heavier ? 'iria ao fundo' : 'flutuaria'} na água.`,

@@ -84,3 +84,12 @@ test('Lewis places: singles on each side first, then pairs', () => {
   assert.equal(lewisSlots(7, 8).filter(Boolean).length, 7)
   assert.deepEqual(lewisSlots(1, 2), [true, false])
 })
+
+test('discovery years follow one rule (recognised or isolated, not a compound known earlier)', () => {
+  assert.equal(element('F').discovered, 1886)
+  assert.equal(element('Al').discovered, 1825)
+  assert.equal(element('Ca').discovered, 1808)
+  assert.equal(element('O').discovered, 1774)
+  assert.equal(element('Au').ancient, true)
+  assert.ok(!/Ramsey|Fredrich|Tenant\b/.test(ELEMENTS.map(e => e.discoverers ?? '').join(' ')))
+})
