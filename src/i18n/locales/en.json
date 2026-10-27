@@ -259,6 +259,26 @@
       "unmeasured": "not timed"
     }
   },
+  "quiz": {
+    "title": "Who am I?",
+    "start": "Who am I?",
+    "progress": "Question {{n}} of {{of}}",
+    "score_one": "{{count}} point",
+    "score_other": "{{count}} points",
+    "clue": "Another clue",
+    "worth_one": "then worth {{count}} point",
+    "worth_other": "then worth {{count}} points",
+    "now_one": "Guess now for {{count}} point.",
+    "now_other": "Guess now for {{count}} points.",
+    "right_one": "Right! +{{count}} point",
+    "right_other": "Right! +{{count}} points",
+    "wrong": "Not this time: it was {{name}}.",
+    "end": "{{score}} points in {{of}} questions ({{right}} right).",
+    "best_one": "Your best: {{count}} point.",
+    "best_other": "Your best: {{count}} points.",
+    "again": "Play again",
+    "next": "Next"
+  },
   "passport": {
     "title": "My passport",
     "visited": "elements visited",

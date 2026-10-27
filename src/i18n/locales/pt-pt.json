@@ -259,6 +259,26 @@
       "unmeasured": "por medir"
     }
   },
+  "quiz": {
+    "title": "Quem sou eu?",
+    "start": "Quem sou eu?",
+    "progress": "Pergunta {{n}} de {{of}}",
+    "score_one": "{{count}} ponto",
+    "score_other": "{{count}} pontos",
+    "clue": "Mais uma pista",
+    "worth_one": "passa a valer {{count}} ponto",
+    "worth_other": "passa a valer {{count}} pontos",
+    "now_one": "Adivinha já e ganhas {{count}} ponto.",
+    "now_other": "Adivinha já e ganhas {{count}} pontos.",
+    "right_one": "Certo! +{{count}} ponto",
+    "right_other": "Certo! +{{count}} pontos",
+    "wrong": "Desta vez não: a resposta era {{name}}.",
+    "end": "{{score}} pontos em {{of}} perguntas ({{right}} certas).",
+    "best_one": "O teu recorde: {{count}} ponto.",
+    "best_other": "O teu recorde: {{count}} pontos.",
+    "again": "Jogar outra vez",
+    "next": "Seguinte"
+  },
   "passport": {
     "title": "O meu passaporte",
     "visited": "elementos visitados",

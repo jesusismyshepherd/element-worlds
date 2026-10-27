@@ -56,6 +56,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `src/worlds/forge/` + `src/ui/ForgeHud.jsx`, `src/ui/NuclideChart.jsx`: the Atom Forge (`/forge`):
   build atoms from protons, neutrons and electrons, watch nuclei decay; physics in `src/chem/nucleus.js`.
   `src/worlds/common/pack.js`: an even ball of points (every nucleus).
+- `src/game/quiz.js` + `src/ui/QuizHud.jsx`: "Who am I?" (Quem sou eu?) in the plaza: clues from the
+  data and the element's own words (its name and symbol hidden; `mask` knows units like °C and words
+  like "O" or "As"), ten a round, the table flies to each answer.
 - `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
@@ -103,6 +106,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   electrons; the element's Atomling pops up; 3552 nuclides from NUBASE say what holds together; decays
   shown (alpha, beta, capture, fission), whole chains; 14 missions; the chart of nuclides to tap; a
   bottom bar on phones. Linked from every hall's "Inside the atom" panel.
+- "Who am I?" (2026-10-28 night): a quiz in the plaza, Explorer from 40 well-known elements, Scientist
+  from all 118; fewer clues, more points; the best score kept on the device.
 - Open: the user's review (the Atomlings' look, the worlds, the forge); first visits to big worlds
   compile 70 to 90 shader programs (8 s on Windows, about 1 s after; prewarm hides most of it, fewer
   material variants would cut it); the third-person camera keeps clear of solids and looks up when the

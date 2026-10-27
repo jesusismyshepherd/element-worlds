@@ -197,6 +197,8 @@ A wing is a module (see Architecture); adding one never touches the engine.
 - The Atom Forge: an atom from protons, neutrons and electrons (element, isotope, ion), the chart of
   nuclides (3552, NUBASE) for what holds together, decays and decay chains shown, 14 missions; the
   nuclear side of the table, as the lab is its chemical side (docs/knowledge/atom-forge.md).
+- "Who am I?": a quiz in the plaza, clues from each element's data and own words, the table flying
+  to each answer.
 - Sound, the passport (discoveries and badges), the stories of every element.
 
 ## Open for the user (iterate)

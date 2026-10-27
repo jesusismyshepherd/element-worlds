@@ -8,6 +8,7 @@ import { TRENDS, SCALE_CSS } from '../worlds/plaza/layout.js'
 import { num, LANG_TAG } from './format.js'
 import ElementCard from './ElementCard.jsx'
 import Search from './Search.jsx'
+import QuizHud from './QuizHud.jsx'
 
 const touchScreen = () => window.matchMedia?.('(pointer: coarse)').matches
 
@@ -24,6 +25,7 @@ export default function PlazaHud({ engine }) {
   const year = useStore(store, s => s.year)
   const knownCount = useStore(store, s => s.knownCount)
   const [playing, setPlaying] = useState(false)
+  const [quiz, setQuiz] = useState(false)
   const timer = useRef(null)
   // play: the years run from the first discoveries to today, about twelve seconds
   useEffect(() => {
@@ -50,6 +52,11 @@ export default function PlazaHud({ engine }) {
         <Search onPick={z => world()?.select(z)} />
       </div>
       <div className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 flex flex-col gap-2 items-start pointer-events-none">
+        {!quiz && (
+          <button type="button" onClick={() => setQuiz(true)} className="glass rounded-xl px-3 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10">
+            ❓ {t('quiz.start')}
+          </button>
+        )}
         {level === 'scientist' && (
           <div className="glass rounded-xl p-2 pointer-events-auto max-w-[min(92vw,26rem)]">
             <div className="text-xs font-bold opacity-80 mb-1">{t('trends.title')}</div>
@@ -126,6 +133,17 @@ export default function PlazaHud({ engine }) {
           </div>
         </div>
       </div>
+
+      {quiz && (
+        <QuizHud
+          select={z => world()?.select(z)}
+          overview={() => world()?.overview?.()}
+          onClose={() => {
+            setQuiz(false)
+            world()?.select(null)
+          }}
+        />
+      )}
 
       {el && (
         <div className="absolute right-3 bottom-3 sm:right-4 sm:bottom-4 pointer-events-auto">
