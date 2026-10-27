@@ -109,12 +109,15 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - Worlds: carbon (`/e/C/allotropes` with the graphene row, `/e/C/life`), oxygen (`/e/O/air`,
   `/e/O/fire`). Ideas for the next ones: `docs/wing-ideas.md`.
 - Atomlings: the grammar and the second layer of looks (`characters/look.js`); `/atomlings` with cards.
-- The Molecule Lab (`/lab`, `docs/knowledge/molecule-lab.md`), sound (`src/audio/sound.js`), the
-  passport (`/passport`).
+- The Molecule Lab (`/lab`, `docs/knowledge/molecule-lab.md`): covalent molecules and, since 2026-10-28,
+  ionic compounds (metals hand their electrons over: NaCl, MgO, CaCl2, Al2O3...); molecules keep their
+  shape and lie level. Sound (`src/audio/sound.js`), the passport (`/passport`: halls, molecules, forge
+  missions, the quiz's record, badges).
 - The Atom Forge (`/forge`, 2026-10-27 evening; `docs/knowledge/atom-forge.md`): protons, neutrons,
   electrons; the element's Atomling pops up; 3552 nuclides from NUBASE say what holds together; decays
   shown (alpha, beta, capture, fission), whole chains; 14 missions; the chart of nuclides to tap; a
-  bottom bar on phones. Linked from every hall's "Inside the atom" panel.
+  bottom bar on phones. Linked from every hall's "Inside the atom" panel. The beam (2026-10-28): fire
+  particles and nuclei at it; famous reactions as history saw them, superheavies by fusion-evaporation.
 - "Who am I?" (2026-10-28 night): a quiz in the plaza, Explorer from 40 well-known elements, Scientist
   from all 118; fewer clues, more points; the best score kept on the device.
 - Open: the user's review (the Atomlings' look, the worlds, the forge); first visits to big worlds

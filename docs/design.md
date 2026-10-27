@@ -193,10 +193,12 @@ A wing is a module (see Architecture); adding one never touches the engine.
 - Carbon's and oxygen's first wings: the allotropes gallery (with graphene from physics, chemistry,
   electronics, materials science and the frontier: twisted bilayers at the magic angle), the garden of
   life, the sky deck, the fire chamber.
-- The Molecule Lab: Atomlings hold hands, shapes by VSEPR, 27 molecules recognised, 12 missions.
+- The Molecule Lab: Atomlings hold hands, shapes by VSEPR, 27 molecules and 23 ionic compounds
+  recognised (metals hand their electrons over and the ions hold on by attraction), 15 missions.
 - The Atom Forge: an atom from protons, neutrons and electrons (element, isotope, ion), the chart of
   nuclides (3552, NUBASE) for what holds together, decays and decay chains shown, 14 missions; the
-  nuclear side of the table, as the lab is its chemical side (docs/knowledge/atom-forge.md).
+  nuclear side of the table, as the lab is its chemical side (docs/knowledge/atom-forge.md); a beam to
+  fire at it, with the reactions that made nuclear history and the superheavies' fusion.
 - "Who am I?": a quiz in the plaza, clues from each element's data and own words, the table flying
   to each answer.
 - Sound, the passport (discoveries and badges), the stories of every element.
