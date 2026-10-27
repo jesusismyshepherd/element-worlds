@@ -4,7 +4,7 @@ export const celsius = k => (k == null ? null : Math.round(k - 273.15))
 export function temperature(k, level, lang) {
   if (k == null) return '?'
   const c = celsius(k).toLocaleString(lang)
-  return level === 'scientist' ? `${c} °C (${num(k, lang, 2)} K)` : `${c} °C`
+  return level === 'scientist' ? `${c} °C (${num(k, lang, 6)} K)` : `${c} °C`
 }
 
 export function num(v, lang, digits = 4) {
