@@ -83,6 +83,16 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - The 3D fonts have no superscript or subscript digits and no emoji: plain text on walls, `formulaText`
   for formulas, superscripts only in the HUD (HTML).
 - Commit by path while other agents or sessions have work in the tree (`git add <paths>`, never `-A`).
+  A shared file that also holds another agent's unfinished lines (the locale files, `registry.js`): stage
+  only yours, `python -X utf8 E:\Business\loveandhealing	ools\stage_own_edits.py <file> <edits.json>`
+  (HEAD's version plus your replacements; then commit without a pathspec). Check that what is staged
+  stands alone: `git checkout-index -a --prefix=<dir>/`, a junction to `node_modules`, `npm test` and
+  `npx vite build` there (2026-10-28: the noble-gas wing's titles and registry entries sat in the same
+  files as the lab's keys; committing them early would have broken the live site).
+- Agents editing files make the dev server reload the page under a probe (shots of an empty world, a
+  frame count that restarts): check against a separate build instead,
+  `npx vite build --outDir <scratch>` + `npx vite preview --outDir <scratch> --port 5317` and
+  `tools/shot.py --port 5317`.
 
 ## Status (2026-10-27, end of the first day)
 
