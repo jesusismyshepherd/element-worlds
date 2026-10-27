@@ -103,6 +103,6 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   bottom bar on phones. Linked from every hall's "Inside the atom" panel.
 - Open: the user's review (the Atomlings' look, the worlds, the forge); first visits to big worlds
   compile 70 to 90 shader programs (8 s on Windows, about 1 s after; prewarm hides most of it, fewer
-  material variants would cut it); the third-person camera: no general obstacle avoidance (carbon's
-  wings fix it per world), and tilted far up it sits on the floor with the Atomling filling a phone's
-  screen (oxygen's polish note); a test on a real phone.
+  material variants would cut it); the third-person camera keeps clear of solids and looks up when the
+  floor holds it (2026-10-27), but meshes that are not solids (lattices, crowns) still need each
+  world's own fade (carbon's wings); a test on a real phone.

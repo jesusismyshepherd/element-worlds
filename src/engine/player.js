@@ -6,7 +6,7 @@
 //   drag looks round. The Atomling stays where it was, turns to you and waves when you come close.
 // Facing: yaw 0 looks along -z; a model faces +z, so it is turned by yaw + PI.
 import * as THREE from 'three'
-import { pushOut, groundAt } from './collide.js'
+import { pushOut, groundAt, segmentFree } from './collide.js'
 
 const GRAVITY = 20
 const STEP = 0.35
@@ -224,17 +224,33 @@ export class Player {
       target.y - Math.sin(this.camPitch) * this.camDist,
       target.z + Math.cos(yaw) * cp * this.camDist,
     )
+    // where the player wants to look: from the camera's place through the Atomling
+    const looking = target.clone().sub(want).normalize()
+    // a wall or a pillar between the Atomling and the camera: the camera comes in front of it
+    if (world.solids?.length) {
+      const free = segmentFree(world.solids, target, want)
+      if (free < 1) want.lerpVectors(target, want, Math.max(free, 0.7 / this.camDist))
+    }
+    const before = want.y
+    const ground = (world.floor ? world.floor(want.x, want.z) : 0) + 0.25
+    if (want.y < ground) want.y = ground
     const bounds = world.cameraBounds
     if (bounds) {
       want.x = clamp(want.x, bounds.minX, bounds.maxX)
       want.y = clamp(want.y, bounds.minY, bounds.maxY)
       want.z = clamp(want.z, bounds.minZ, bounds.maxZ)
     }
+    // coming in (something in the way) is quick, so the view never shows through a wall
+    const nearer = want.distanceTo(target) < this.camPos.distanceTo(target) - 0.05
     if (this.camSnap) this.camPos.copy(want)
-    else this.camPos.lerp(want, 1 - Math.exp(-dt * 9))
+    else this.camPos.lerp(want, 1 - Math.exp(-dt * (nearer ? 24 : 9)))
     this.camSnap = false
     cam.position.copy(this.camPos)
-    cam.lookAt(target)
+    // held up by the floor while the player tilts up: look up the way they asked, from where the camera
+    // is (the Atomling slides down the screen), instead of at its head from the floor
+    this.lift = damp(this.lift ?? 0, clamp((want.y - before) / 1.2, 0, 1), 6, dt)
+    if (this.lift > 0.01) cam.lookAt(target.clone().lerp(this.camPos.clone().addScaledVector(looking, this.camDist), this.lift))
+    else cam.lookAt(target)
   }
 
   /** The nearest thing to use within its reach, for the prompt (E, or the button). */

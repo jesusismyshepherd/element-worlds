@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { box, circle, roomWalls, pushOut, groundAt } from './collide.js'
+import { box, circle, roomWalls, pushOut, groundAt, segmentFree } from './collide.js'
 
 const near = (a, b, eps = 1e-6) => assert.ok(Math.abs(a - b) < eps, `${a} vs ${b}`)
 
@@ -41,4 +41,16 @@ test('room walls leave the doors open', () => {
   const atWall = { x: 4, z: 8.2 }
   pushOut(atWall, 0.3, 0, 1.5, walls)
   near(atWall.z, 7.7)
+})
+
+test('a camera line stops at a wall, passes over a low plinth, runs free in the open', () => {
+  const wall = box(0, -3, 6, 0.4, { y1: 5 })
+  const plinth = box(0, -3, 6, 0.4, { y1: 0.5 })
+  const a = { x: 0, y: 1.2, z: 0 }
+  const b = { x: 0, y: 2, z: -6 }
+  const t = segmentFree([wall], a, b)
+  assert.ok(t > 0.4 && t < 0.5, `stops before the wall: ${t}`)
+  assert.equal(segmentFree([plinth], a, b), 1)
+  assert.equal(segmentFree([], a, b), 1)
+  assert.equal(segmentFree([circle(5, 5, 1)], a, b), 1)
 })

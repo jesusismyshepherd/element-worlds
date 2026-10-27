@@ -101,6 +101,25 @@ export function pushOut(p, radius, feet, head, solids, step = 0.35) {
   }
 }
 
+/** How far along the segment from a to b (0 to 1) a camera can go before it is inside a solid (with a
+ *  margin), at the height it has there: 1 when nothing is in the way. Solids under the segment (a low
+ *  plinth) do not count. Sampled every `step` metres: walls are thicker than that. */
+export function segmentFree(solids, a, b, { margin = 0.22, step = 0.08 } = {}) {
+  const len = Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z)
+  const n = Math.max(2, Math.ceil(len / step))
+  for (let i = 1; i <= n; i++) {
+    const t = i / n
+    const x = a.x + (b.x - a.x) * t
+    const y = a.y + (b.y - a.y) * t
+    const z = a.z + (b.z - a.z) * t
+    for (const s of solids) {
+      if (y < s.y0 - margin || y > s.y1 + margin) continue
+      if (inside(s, x, z, margin)) return (i - 1) / n
+    }
+  }
+  return 1
+}
+
 /** The ground under (x, z) for feet at `feet`: the world's floor, or the top of a solid no higher than
  *  a step above the feet. */
 export function groundAt(x, z, feet, solids, floor, step = 0.35) {

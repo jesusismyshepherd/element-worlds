@@ -82,7 +82,12 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
 - An arch at a platform's edge puts the third-person camera behind its portal, which floods the view with
   its colour: keep `cameraBounds` on the inner side of the arch.
 - Something overhead to see (oxygen's ozone layer): `cameraPitchMax` on the world lets the third-person
-  camera tilt up (default 0.2 rad).
+  camera tilt up (default 0.2 rad). When the floor holds the camera up, it looks up the way the player
+  tilted (the Atomling slides down the screen) instead of at its head from the floor (`player.js`).
+- The third-person camera comes in front of any solid between it and the Atomling (`segmentFree` in
+  `collide.js`), so walls and pillars that are `solids` need nothing more. Things that are not solids
+  (a lattice, a tree crown, a glass dome) still need the world's own care: carbon's wings fade what
+  stands in the way (`keepCameraClear`, `keepCameraIn`).
 - Shadows: `env.shadows: true` (computers only); a world may also switch `renderer.shadowMap` in attach
   and restore it in detach, as oxygen's wings do.
 - troika's `sync(cb)` never calls back for a text that has already synced; three's `Curve` has no
