@@ -170,7 +170,13 @@
       "fire": {
         "title": "O fogo"
       }
-    }
+    },
+    "He": { "signs": { "title": "A oficina do néon" } },
+    "Ne": { "signs": { "title": "A oficina do néon" } },
+    "Ar": { "signs": { "title": "A oficina do néon" } },
+    "Kr": { "signs": { "title": "A oficina do néon" } },
+    "Xe": { "signs": { "title": "A oficina do néon" } },
+    "Rn": { "signs": { "title": "A oficina do néon" } }
   },
   "time": {
     "title": "Máquina do tempo",

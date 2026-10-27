@@ -170,7 +170,13 @@
       "fire": {
         "title": "Fire"
       }
-    }
+    },
+    "He": { "signs": { "title": "The neon sign workshop" } },
+    "Ne": { "signs": { "title": "The neon sign workshop" } },
+    "Ar": { "signs": { "title": "The neon sign workshop" } },
+    "Kr": { "signs": { "title": "The neon sign workshop" } },
+    "Xe": { "signs": { "title": "The neon sign workshop" } },
+    "Rn": { "signs": { "title": "The neon sign workshop" } }
   },
   "time": {
     "title": "Time machine",

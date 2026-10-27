@@ -15,6 +15,13 @@ export const WINGS = {
     { id: 'air', side: 'n', color: '#8fd0ff', load: () => import('./wings/oxygen/air.js') },
     { id: 'fire', side: 'e', color: '#ff9a4d', load: () => import('./wings/oxygen/fire.js') },
   ],
+  // the neon sign workshop, one wing shared by the noble gases (each arch in its gas's discharge colour)
+  He: [{ id: 'signs', side: 'n', color: '#ffb38a', load: () => import('./wings/noble/signs.js') }],
+  Ne: [{ id: 'signs', side: 'n', color: '#ff5a3c', load: () => import('./wings/noble/signs.js') }],
+  Ar: [{ id: 'signs', side: 'n', color: '#c38bff', load: () => import('./wings/noble/signs.js') }],
+  Kr: [{ id: 'signs', side: 'n', color: '#e8ddff', load: () => import('./wings/noble/signs.js') }],
+  Xe: [{ id: 'signs', side: 'n', color: '#7ea8ff', load: () => import('./wings/noble/signs.js') }],
+  Rn: [{ id: 'signs', side: 'n', color: '#ff6f86', load: () => import('./wings/noble/signs.js') }],
 }
 
 export const wingsOf = symbol => WINGS[symbol] ?? []

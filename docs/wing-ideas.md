@@ -9,6 +9,9 @@ from; the process is `.claude/skills/element-wing/` and `docs/knowledge/adding-a
 - **The neon sign workshop** (He, Ne, Ar, Kr, Xe, Rn): fill glass tubes with each noble gas and switch
   them on; every gas glows its own colour (helium peach, neon red-orange, argon violet, krypton white,
   xenon blue). Bend tubes into letters and write your name. Scientist: emission spectra through a prism.
+  **Built 2026-10-28** (`/e/<Symbol>/signs`, `src/worlds/wings/noble/`): the filling bench, radon's lead
+  box, your name in neon, the spectroscope (NIST lines under the Sun's 1868 line), the atom and its
+  energy ladder, the history board (1898, 1910, today) and the balloons.
 - **The magnet and motor workshop** (Fe, Co, Ni, Nd, Sm, Dy): build an electric motor; compare iron,
   ferrite and neodymium magnets lifting weights; why wind turbines and electric cars need rare earths.
 - **The particle accelerator** (Z 104 to 118): fire a calcium beam at a target and, maybe once a week,
