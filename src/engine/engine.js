@@ -12,6 +12,7 @@ import { lightMode } from './quality.js'
 import { Input } from './input.js'
 import { Player } from './player.js'
 import { loadWorld, worldKey } from '../worlds/registry.js'
+import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
@@ -108,6 +109,8 @@ export class Engine {
         next = await mod.build(this.context(), target, this.last ?? null)
       }
     } catch (err) {
+      // a new version went live under this page: reload once to pick it up (engine/release.js)
+      if (isStaleChunk(err) && reloadOnce()) return
       console.error(err)
       if (token === this.token) this.store.set({ fading: false, error: String(err?.message ?? err) })
       return
