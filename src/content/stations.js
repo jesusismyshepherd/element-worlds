@@ -48,6 +48,9 @@ const T = {
       return `In the middle is the nucleus, with ${p} protons (red) and ${ne} neutrons (grey). Around it, ${el.z} electrons whizz in ${shells.length} shell${shells.length > 1 ? 's' : ''}: ${list}. ${end}`
     },
     stateIs: (el, n, s) => `At 20 °C ${n} is a ${s}.`,
+    stateWould: (el, n, s) => `At 20 °C ${n} would be a ${s}: a prediction, because nobody has ever had enough of it in one place to look.`,
+    meltsAbout: m => `It is expected to melt at about ${m}.`,
+    predicted: 'predicted',
     melts: (m, b) => `It melts at ${m} and boils at ${b}.`,
     boils: b => `It boils at ${b}.`,
     sublimes: b => `At normal pressure it does not melt: it turns straight into a gas at ${b}.`,
@@ -58,11 +61,13 @@ const T = {
     year: 'Year', who: 'By', where: 'Where', ancient: 'Ancient times', ancientText: 'Known since ancient times: nobody knows who first found it.',
     crust: (n, mg, rank) => `In every kilogram of the Earth's crust there are about ${mg} milligrams of ${n}: number ${rank} among the most common elements in the crust.`,
     synthetic: 'Made only in laboratories, a few atoms at a time.',
+    reactor: 'Not found in nature: it is made in nuclear reactors, in small amounts.',
     trace: 'Almost none in nature: it is radioactive and slowly breaks apart.',
+    crustTiny: n => `There is so little ${n} in the Earth's crust that you could never see it: far less than a thousandth of a milligram in every kilogram of rock.`,
     crustLabel: 'In the crust', seaLabel: 'In seawater', rankLabel: 'Rank in the crust', traces: 'Only traces',
     usesSoon: 'The story of what it is used for is still being written.',
     family: (n, f, g, list) => `${cap(n)} is one of the ${f}. Elements in the same column have the same number of outer electrons, so they behave alike. Its column (group ${g}): ${list}.`,
-    fBlock: (n, f, list) => `${cap(n)} is one of the ${f}: ${list}. They are so alike that chemists took about a century to separate them all.`,
+    fBlock: (n, f, list, actinide) => `${cap(n)} is one of the ${f}: ${list}. ${actinide ? 'They fill the 5f shell. Only the first ones (actinium to uranium, with traces of neptunium and plutonium) are found in nature; the rest were first made in laboratories, between 1940 and 1961.' : 'They are so alike that chemists took about a century to separate them all.'}`,
     isotopes: (n, A, ab) => `Atoms of ${n} can have different numbers of neutrons: these are its isotopes. The commonest is ${n}-${A} (${ab}% of all its atoms).`,
     unstable: (n, A, hl) => `It has no stable isotope: every atom of it breaks apart in the end (it is radioactive). Its longest-lived isotope, ${n}-${A}, lasts a half-life of ${hl}.`,
     naturalCount: c => `${c} natural isotope${c > 1 ? 's' : ''}`,
@@ -93,6 +98,9 @@ const T = {
       return `No meio está o núcleo, com ${p} protões (vermelhos) e ${ne} neutrões (cinzentos). À volta giram ${el.z} eletrões em ${shells.length} ${shells.length > 1 ? 'camadas' : 'camada'}: ${list}. ${end}`
     },
     stateIs: (el, n, s) => `A 20 °C, ${art(el)} ${n} é ${art(el) === 'a' ? s.replace(/o$/, 'a') : s}.`,
+    stateWould: (el, n, s) => `A 20 °C, ${art(el)} ${n} seria ${art(el) === 'a' ? s.replace(/o$/, 'a') : s}: é uma previsão, porque nunca ninguém teve o suficiente num só sítio para ver.`,
+    meltsAbout: m => `Deve fundir a cerca de ${m}.`,
+    predicted: 'previsto',
     melts: (m, b) => `Funde a ${m} e ferve a ${b}.`,
     boils: b => `Ferve a ${b}.`,
     sublimes: b => `À pressão normal não funde: passa diretamente a gás a ${b}.`,
@@ -103,11 +111,13 @@ const T = {
     year: 'Ano', who: 'Por', where: 'Onde', ancient: 'Antiguidade', ancientText: 'Conhecido desde a Antiguidade: ninguém sabe quem o encontrou primeiro.',
     crust: (n, mg, rank) => `Em cada quilograma da crosta terrestre há cerca de ${mg} miligramas de ${n}: é o ${rank}.º elemento mais comum na crosta.`,
     synthetic: 'Só se faz em laboratório, poucos átomos de cada vez.',
+    reactor: 'Não existe na natureza: faz-se em reatores nucleares, em pequenas quantidades.',
     trace: 'Quase não existe na natureza: é radioativo e vai-se desfazendo.',
+    crustTiny: n => `Há tão pouco ${n} na crosta terrestre que nunca o conseguirias ver: muito menos do que uma milésima de miligrama em cada quilograma de rocha.`,
     crustLabel: 'Na crosta', seaLabel: 'Na água do mar', rankLabel: 'Posição na crosta', traces: 'Só vestígios',
     usesSoon: 'A história dos seus usos ainda está a ser escrita.',
     family: (n, f, g, list) => `${cap(n)} pertence aos ${f}. Os elementos da mesma coluna têm o mesmo número de eletrões de fora, por isso comportam-se de maneira parecida. A sua coluna (grupo ${g}): ${list}.`,
-    fBlock: (n, f, list) => `${cap(n)} é um dos ${f}: ${list}. São tão parecidos que os químicos levaram cerca de um século a separá-los todos.`,
+    fBlock: (n, f, list, actinide) => `${cap(n)} é um dos ${f}: ${list}. ${actinide ? 'Enchem a camada 5f. Só os primeiros (do actínio ao urânio, com vestígios de neptúnio e plutónio) existem na natureza; os outros foram feitos pela primeira vez em laboratório, entre 1940 e 1961.' : 'São tão parecidos que os químicos levaram cerca de um século a separá-los todos.'}`,
     isotopes: (n, A, ab) => `Os átomos de ${n} podem ter números diferentes de neutrões: são os seus isótopos. O mais comum é o ${n}-${A} (${ab}% de todos os seus átomos).`,
     unstable: (n, A, hl) => `Não tem nenhum isótopo estável: todos os seus átomos acabam por se desfazer (é radioativo). O isótopo que dura mais, ${n}-${A}, tem meia-vida de ${hl}.`,
     naturalCount: c => `${c} ${c > 1 ? 'isótopos naturais' : 'isótopo natural'}`,
@@ -148,6 +158,7 @@ export function stationsOf(el, { lang, level, familyName }) {
   const natural = el.isotopes.filter(i => i.abundance)
   const lasting = [...el.isotopes].filter(i => i.halfLifeSeconds).sort((a, b) => b.halfLifeSeconds - a.halfLifeSeconds)[0]
   const halfLife = i => `${fmt(i.halfLife, 3)} ${HALF_LIFE[lang]?.[i.halfLifeUnit] ?? i.halfLifeUnit}`
+  const stateLabel = el.state ? cap(L.states[el.state].replace(/^um /, '')) + (el.statePredicted ? ` (${L.predicted})` : '') : '?'
 
   return [
     make('identity', [`${el.symbol} · ${el.z}`, nameOf(el, lang)], () => [
@@ -180,18 +191,28 @@ export function stationsOf(el, { lang, level, familyName }) {
         ],
       },
     ]),
-    make('state', [el.state ? cap(L.states[el.state].replace(/^um /, '')) : '?', el.melt != null ? `${temperature(el.melt, 'explorer', tag)}` : ''], () => {
+    make('state', [stateLabel, el.melt != null ? `${el.statePredicted ? '~' : ''}${temperature(el.melt, 'explorer', tag)}` : ''], () => {
       const liquidOrSolid = el.state !== 'gas'
       const d = el.density
+      const guess = el.statePredicted
+      const said = el.state && (guess ? L.stateWould : L.stateIs)(el, n, L.states[el.state])
+      const temps = el.sublimes
+        ? L.sublimes(temperature(el.sublimes, level, tag))
+        : guess
+          ? (el.melt != null ? L.meltsAbout(temperature(el.melt, level, tag)) : L.unknownState)
+          : el.melt != null
+            ? L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))
+            : el.boil != null ? L.boils(temperature(el.boil, level, tag)) : L.unknownState
+      const mark = v => (guess && v != null ? `${temperature(v, 'scientist', tag)} (${L.predicted})` : temperature(v, 'scientist', tag))
       return [
-        { big: el.state ? cap(L.states[el.state].replace(/^um /, '')) : '?' },
-        { p: el.sublimes ? `${L.stateIs(el, n, L.states[el.state])} ${L.sublimes(temperature(el.sublimes, level, tag))}` : el.state && el.melt != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))}` : el.state && el.boil != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.boils(temperature(el.boil, level, tag))}` : L.unknownState },
+        { big: stateLabel },
+        { p: said ? `${said} ${temps}` : L.unknownState },
         d != null && { p: liquidOrSolid ? L.litre(fmt(d, 3), d > 1) : L.litreGas(fmt(d * 1000 * 273.15 / 293.15, 3)) },
         text('stateNote') && { p: text('stateNote') },
         sci && {
           rows: [
-            [L.rows.melt, temperature(el.melt, 'scientist', tag)],
-            [L.rows.boil, temperature(el.boil, 'scientist', tag)],
+            [L.rows.melt, mark(el.melt)],
+            [L.rows.boil, mark(el.boil)],
             [L.rows.density, density(el, tag)],
             ...(el.specificHeat ? [[L.rows.heat, `${fmt(el.specificHeat, 3)} J/(g·K)`]] : []),
           ],
@@ -212,7 +233,7 @@ export function stationsOf(el, { lang, level, familyName }) {
     make('found', [el.abundance.crust == null ? '–' : el.abundance.crust < 1e-3 ? L.traces : `${fmt(el.abundance.crust, 3)} mg/kg`], () => {
       const mg = el.abundance.crust
       const rank = crustRank.get(el.z)
-      const base = mg != null ? L.crust(n, fmt(mg, 3), rank) : el.z > 94 ? L.synthetic : L.trace
+      const base = mg != null ? (mg < 1e-3 && !sci ? L.crustTiny(n) : L.crust(n, fmt(mg, 3), rank)) : el.z > 100 ? L.synthetic : el.z > 94 ? L.reactor : L.trace
       return [
         mg != null ? { big: `${fmt(mg, 3)} mg/kg`, small: L.crustLabel } : null,
         { p: text('found') ?? base },
@@ -239,7 +260,7 @@ export function stationsOf(el, { lang, level, familyName }) {
       const list = members.map(e => (sci ? `${e.symbol}` : `${nameOf(e, lang)}`)).join(', ')
       return [
         { big: familyName },
-        { p: fRow ? L.fBlock(n, familyName.toLowerCase(), list) : L.family(n, familyName.toLowerCase(), el.group, list) },
+        { p: fRow ? L.fBlock(n, familyName.toLowerCase(), list, el.family === 'actinide') : L.family(n, familyName.toLowerCase(), el.group, list) },
       ]
     }),
     make('isotopes', [natural.length ? L.naturalCount(natural.length) : L.radioactive], () => {

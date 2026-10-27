@@ -31,7 +31,7 @@ export default {
     },
     'pt-pt': {
       kid: 'O urânio é um metal pesado e prateado que escurece ao ar: um litro pesaria quase 19 kg. O vidro com um pouquinho de urânio brilha num verde vivo sob luz ultravioleta.',
-      sci: "O urânio alfa é ortorrômbico, coisa invulgar num metal, e funde a 1135 °C; com cerca de 19 g/cm³, é dois terços mais denso do que o chumbo. Finamente dividido, é pirofórico. Os compostos de uranilo têm fluorescência verde-amarelada sob UV: o brilho do 'vidro de urânio'.",
+      sci: "O urânio alfa é ortorrómbico, coisa invulgar num metal, e funde a 1135 °C; com cerca de 19 g/cm³, é dois terços mais denso do que o chumbo. Finamente dividido, é pirofórico. Os compostos de uranilo têm fluorescência verde-amarelada sob UV: o brilho do 'vidro de urânio'.",
     },
   },
   found: {

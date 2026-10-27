@@ -14,7 +14,7 @@ export const H_MAX = 1.6
 
 // Real look of metals that are not silvery; every other metal is silver with a faint tint of its colour.
 const METAL_TINT = {
-  Cu: '#e0875e', Au: '#ffcc4d', Cs: '#e9cf8c', Os: '#9fb2d6', Bi: '#d4bfe0', Pb: '#8e96a5', Rg: '#ffd27a',
+  Cu: '#e0875e', Au: '#ffcc4d', Cs: '#e9cf8c', Os: '#9fb2d6', Bi: '#d4bfe0', Pb: '#8e96a5',
 }
 
 // The colour of each noble gas glowing in a discharge tube (the neon-sign colours), which is how

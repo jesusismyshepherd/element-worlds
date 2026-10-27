@@ -31,7 +31,7 @@ export default {
     },
     'pt-pt': {
       kid: 'O bromo é um líquido pesado, castanho-avermelhado escuro: um litro pesa mais de 3 kg. Evapora-se com facilidade, por isso o ar por cima dele enche-se de fumos cor de laranja acastanhados.',
-      sci: 'O Br2 funde a −7,2 °C e ferve a 58,8 °C, com pressão de vapor de cerca de 23 kPa a 20 °C, por isso uma amostra aberta fumega muito. O bromo sólido é ortorrômbico, feito de moléculas de Br2.',
+      sci: 'O Br2 funde a −7,2 °C e ferve a 58,8 °C, com pressão de vapor de cerca de 23 kPa a 20 °C, por isso uma amostra aberta fumega muito. O bromo sólido é ortorrómbico, feito de moléculas de Br2.',
     },
   },
   found: {

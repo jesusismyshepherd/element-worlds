@@ -29,7 +29,9 @@ const FAMILY = {
 // Slips in the sources, fixed here so the raw files stay as published.
 // Years: when the element was first recognised as new, or first isolated where PubChem gives the year
 // a compound was known (fluorite 1670, alum and lime "ancient"); discoverers to match those years.
-const YEAR = { 9: 1886, 13: 1825, 14: 1824, 20: 1808, 44: 1844 }
+// The superheavies: the year of the work IUPAC and IUPAP credited (nobelium: Dubna 1966, not the
+// unconfirmed Stockholm claim of 1957; bohrium: GSI 1981, not Dubna's rejected 1976 claim).
+const YEAR = { 9: 1886, 13: 1825, 14: 1824, 20: 1808, 44: 1844, 102: 1966, 105: 1968, 107: 1981 }
 const DISCOVERERS = {
   2: 'Pierre Janssen, Norman Lockyer',
   4: 'Louis-Nicolas Vauquelin',
@@ -44,18 +46,59 @@ const DISCOVERERS = {
   78: 'Antonio de Ulloa',
   83: 'Claude François Geoffroy',
   91: 'Kasimir Fajans, Oswald Helmuth Göhring',
+  101: 'Albert Ghiorso, Bernard G. Harvey, Gregory R. Choppin, Stanley G. Thompson, Glenn T. Seaborg',
+  102: "Georgy Flerov's team (JINR, Dubna)",
+  104: "Georgy Flerov's team (Dubna, 1964) and Albert Ghiorso's team (Berkeley, 1969), credit shared",
+  105: "Georgy Flerov's team (Dubna, 1968) and Albert Ghiorso's team (Berkeley, 1970), credit shared",
+  106: 'Albert Ghiorso, J. Michael Nitschke, Kenneth Hulet and team (Berkeley and Livermore)',
+  107: "Peter Armbruster and Gottfried Münzenberg's team (GSI)",
+  116: "Yuri Oganessian's team (JINR, Dubna) with Lawrence Livermore National Laboratory",
 }
 const PLACE = {
   2: 'India, England', 4: 'France', 10: 'England', 18: 'England', 23: 'Mexico (1801), Sweden (1830)', 30: 'Germany',
-  36: 'England', 54: 'England', 78: 'Colombia', 83: 'France',
+  36: 'England', 54: 'England', 78: 'Colombia', 83: 'France', 91: 'Germany',
+  102: 'Soviet Union (Dubna)', 104: 'Soviet Union (Dubna), United States (Berkeley)',
+  105: 'Soviet Union (Dubna), United States (Berkeley)', 106: 'United States (Berkeley, Livermore)',
+  107: 'Germany (Darmstadt)', 116: 'Russia (Dubna), with the United States (Livermore)',
 }
 // IUPAC's conventional weights where PubChem gives a rounded one; densities at 20 °C
 const MASS = { 82: 207.2 }
 const DENSITY = { 19: 0.862, 29: 8.96, 44: 12.45, 73: 16.69, 75: 21.02, 76: 22.59, 77: 22.56 }
 // erbium's colour is blank in PubChem (Jmol's #00e675, between holmium and thulium)
 const CPK = { 68: '00e675' }
-// francium's first ionisation energy (NIST: 4.0727 eV)
-const IE1 = { 87: 4.0727 }
+// first ionisation energies measured on a few atoms: astatine 9.31751 eV (Rothe 2013), francium
+// 4.0727 eV (NIST), nobelium 6.626 eV (Chhetri 2018), lawrencium 4.96 eV (Sato 2015)
+const IE1 = { 85: 9.31751, 87: 4.0727, 102: 6.626, 103: 4.96 }
+// lawrencium: its low ionisation energy supports 7p1 rather than 6d1 (still a calculation)
+const CONFIG = { 103: '[Rn]5f14 7s2 7p1' }
+// states by calculation: copernicium a liquid (Mewes 2019), flerovium probably a liquid, oganesson a
+// solid (Smits 2020); never seen in bulk, so their states are predictions too: astatine, francium,
+// fermium to lawrencium
+const STATE = { 112: 'liquid', 114: 'liquid', 118: 'solid' }
+const STATE_PREDICTED = new Set([85, 87, 100, 101, 102, 103, 112, 114, 118])
+const BOIL = { 112: 340, 118: 450 }
+// superheavy isotopes (Wikipedia's "Isotopes of" pages, 2025): unconfirmed ones out, newer half-lives in
+const UNCONFIRMED = new Set(['Nh-290', 'Cn-286', 'Ds-282', 'Fl-290', 'Og-295'])
+const HALF = {
+  'Lr-266': [11, 'hour'], 'Rf-267': [48, 'minute'], 'Db-268': [16, 'hour'], 'Sg-269': [13, 'minute'],
+  'Bh-270': [2.4, 'minute'], 'Mt-277': [5, 'msec'], 'Hs-271': [46, 'sec'],
+}
+const SECONDS = { usec: 1e-6, msec: 1e-3, sec: 1, minute: 60, hour: 3600, day: 86400, year: 3.15576e7 }
+function fixIsotopes(symbol, list) {
+  const key = i => `${symbol}-${i.A}`
+  const half = ([v, u]) => ({ halfLife: v, halfLifeUnit: u, halfLifeSeconds: v * SECONDS[u] })
+  let out = list.filter(i => !UNCONFIRMED.has(key(i))).map(i => (HALF[key(i)] && !i.meta ? { ...i, ...half(HALF[key(i)]) } : i))
+  for (const [k, v] of Object.entries(HALF)) {
+    const [s, A] = k.split('-')
+    if (s === symbol && !out.some(i => i.A === Number(A))) out.push({ A: Number(A), abundance: null, ...half(v) })
+  }
+  if (out.length !== list.length || out.some((i, n) => i !== list[n])) {
+    // the radioactive ones longest first, as the sources list them
+    const natural = out.filter(i => i.abundance)
+    out = [...natural, ...out.filter(i => !i.abundance).sort((a, b) => (b.halfLifeSeconds ?? 0) - (a.halfLifeSeconds ?? 0))]
+  }
+  return out
+}
 // isotopes: tantalum's second natural one, Ta-180m (0.01201%, CIAAW); samarium-146 measured again in
 // 2024 (92 million years; the 68 of 2012 was retracted in 2023)
 const ISOTOPE = {
@@ -68,14 +111,17 @@ const SEA = { 49: 1e-7 }
 const SUBLIMES = { 6: 3915, 33: 887 }
 // aluminium's melting point had two digits swapped (the ITS-90 fixed point is 933.473 K); helium only
 // freezes under about 25 atm, so at normal pressure it has no melting point
-const MELT = { 2: null, 13: 933.473 }
-const EA = { 9: 3.401 }
+// (copernicium 283 K and oganesson 325 K by calculation)
+const MELT = { 2: null, 13: 933.473, 112: 283, 118: 325 }
+// astatine's electron affinity was measured in 2020: 2.416 eV (Leimbach)
+const EA = { 9: 3.401, 85: 2.416 }
 const SPELLING = [
   [/A\.C\.Wohl/g, 'A. C. Wahl'], [/Émillo Segrè/g, 'Emilio Segrè'], [/G\. Kirchoff/g, 'Gustav Kirchhoff'],
   [/Gustov Kirchoff/g, 'Gustav Kirchhoff'], [/Charles Hatchet/g, 'Charles Hatchett'], [/Johann Gahn/g, 'Johan Gottlieb Gahn'],
   [/Johann Gadolin/g, 'Johan Gadolin'], [/Karl Klaus/g, 'Karl Ernst Claus'], [/Collet-Descoltils/g, 'Collet-Descotils'], [/Humphrey Davy/g, 'Humphry Davy'], [/Johann Arfwedson/g, 'Johan August Arfwedson'],
   [/Ramsey/g, 'Ramsay'], [/Fredrich/g, 'Friedrich'], [/Smithson Tenant/g, 'Smithson Tennant'], [/S\.Tenant/g, 'S. Tennant'],
   [/Fourcory/g, 'Fourcroy'], [/Aver von Welsbach/g, 'Auer von Welsbach'], [/Nils Langet/g, 'Nils Langlet'], [/George Brandt/g, 'Georg Brandt'],
+  [/S\.G\.Tompson/g, 'S. G. Thompson'], [/Marguerite Derey/g, 'Marguerite Perey'], [/E\.Segré/g, 'E. Segrè'],
 ]
 const spell = t => (t == null ? t : SPELLING.reduce((s, [a, b]) => s.replace(a, b), t))
 
@@ -91,8 +137,8 @@ const elements = pubchem.Row.map(({ Cell }) => {
   const family = FAMILY[p.GroupBlock]
   if (!family) throw new Error(`unknown family ${p.GroupBlock} (${p.Symbol})`)
   const stateText = p.StandardState.toLowerCase()
-  const state = ['solid', 'liquid', 'gas'].find(s => stateText.includes(s)) ?? null
-  const config = p.ElectronConfiguration.replace(/\s*\(predicted\)\s*/i, '').trim()
+  const state = STATE[z] ?? ['solid', 'liquid', 'gas'].find(s => stateText.includes(s)) ?? null
+  const config = CONFIG[z] ?? p.ElectronConfiguration.replace(/\s*\((predicted|calculated)\)\s*/i, '').trim()
   const ancient = /ancient/i.test(p.YearDiscovered)
   return {
     z,
@@ -106,8 +152,8 @@ const elements = pubchem.Row.map(({ Cell }) => {
     period: m.period,
     block: m.block,
     config,
-    configPredicted: /predicted/i.test(p.ElectronConfiguration),
-    // From the configuration shown (PubChem's); mendeleev predicts other ones for Lr, Ds and Rg.
+    configPredicted: z in CONFIG || /predicted|calculated/i.test(p.ElectronConfiguration),
+    // From the configuration shown (PubChem's, lawrencium's from CONFIG); mendeleev predicts other ones for Ds and Rg.
     shells: shellsOf(config),
     // (PubChem drops leading zeros: palladium's "6985" is #006985)
     cpk: CPK[z] ? `#${CPK[z]}` : p.CPKHexColor ? `#${p.CPKHexColor.toLowerCase().padStart(6, '0')}` : null,
@@ -117,9 +163,9 @@ const elements = pubchem.Row.map(({ Cell }) => {
     ea: EA[z] ?? num(p.ElectronAffinity),
     oxidation: p.OxidationStates ? p.OxidationStates.split(',').map(s => Number(s.trim())).filter(Number.isFinite) : [],
     state,
-    statePredicted: /expected/i.test(p.StandardState),
+    statePredicted: STATE_PREDICTED.has(z) || /expected/i.test(p.StandardState),
     melt: z in MELT ? MELT[z] : num(p.MeltingPoint),
-    boil: num(p.BoilingPoint),
+    boil: z in BOIL ? BOIL[z] : num(p.BoilingPoint),
     density: DENSITY[z] ?? num(p.Density),
     discovered: YEAR[z] ?? (ancient ? null : num(p.YearDiscovered)),
     ancient: YEAR[z] ? false : ancient,
@@ -138,13 +184,13 @@ const elements = pubchem.Row.map(({ Cell }) => {
     thermalConductivity: m.thermalConductivity,
     specificHeat: m.specificHeat,
     pricePerKg: m.pricePerKg,
-    isotopes: (ISOTOPE[z] ?? (l => l))(m.isotopes.map(i => ({
+    isotopes: fixIsotopes(p.Symbol, (ISOTOPE[z] ?? (l => l))(m.isotopes.map(i => ({
       A: i.A,
       abundance: i.abundance,
       halfLife: i.halfLife,
       halfLifeUnit: i.halfLifeUnit,
       halfLifeSeconds: i.halfLifeSeconds,
-    }))),
+    })))),
   }
 })
 

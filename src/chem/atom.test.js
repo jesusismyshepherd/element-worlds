@@ -40,7 +40,7 @@ test('configurations expand to the right subshells and add up to Z', () => {
 test('shells agree between the two sources, except for predicted superheavy configurations', () => {
   const raw = JSON.parse(readFileSync(new URL('../../scripts/data/mendeleev.json', import.meta.url), 'utf8'))
   const differ = ELEMENTS.filter(e => shellsOf(e.config).join() !== raw[e.z - 1].shells.join())
-  assert.deepEqual(differ.map(e => e.symbol), ['Lr', 'Ds', 'Rg'])
+  assert.deepEqual(differ.map(e => e.symbol), ['Ds', 'Rg'])
   for (const e of ELEMENTS) assert.deepEqual(e.shells, shellsOf(e.config), e.symbol)
 })
 
