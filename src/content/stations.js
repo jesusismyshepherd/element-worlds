@@ -231,13 +231,15 @@ export function stationsOf(el, { lang, level, familyName }) {
       return [list ? { list } : { p: L.usesSoon }]
     }),
     make('family', [familyName], () => {
-      const members = el.block === 'f'
+      // the lanthanides and actinides as the table draws them (lanthanum and actinium in their rows)
+      const fRow = el.family === 'lanthanide' || el.family === 'actinide'
+      const members = fRow
         ? ELEMENTS.filter(e => e.family === el.family)
-        : ELEMENTS.filter(e => e.group === el.group && e.block !== 'f')
+        : ELEMENTS.filter(e => e.group === el.group && e.family !== 'lanthanide' && e.family !== 'actinide')
       const list = members.map(e => (sci ? `${e.symbol}` : `${nameOf(e, lang)}`)).join(', ')
       return [
         { big: familyName },
-        { p: el.block === 'f' ? L.fBlock(n, familyName.toLowerCase(), list) : L.family(n, familyName.toLowerCase(), el.group, list) },
+        { p: fRow ? L.fBlock(n, familyName.toLowerCase(), list) : L.family(n, familyName.toLowerCase(), el.group, list) },
       ]
     }),
     make('isotopes', [natural.length ? L.naturalCount(natural.length) : L.radioactive], () => {
@@ -248,7 +250,7 @@ export function stationsOf(el, { lang, level, familyName }) {
         text('isotopes') && { p: text('isotopes') },
         sci && el.isotopes.length > 0 && {
           rows: el.isotopes.slice(0, 6).map(i => [
-            `${el.symbol}-${i.A}`,
+            `${el.symbol}-${i.A}${i.meta ? 'm' : ''}`,
             [i.abundance ? `${fmt(i.abundance, 4)}%` : null, i.halfLife ? `${L.rows.halfLife}: ${halfLife(i)}` : i.abundance ? L.rows.stable : null].filter(Boolean).join(' · '),
           ]),
         },

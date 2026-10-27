@@ -40,16 +40,28 @@ const DISCOVERERS = {
   30: 'Andreas Sigismund Marggraf',
   36: 'William Ramsay, Morris Travers',
   54: 'William Ramsay, Morris Travers',
+  67: 'Marc Delafontaine, Jacques-Louis Soret, Per Teodor Cleve',
   78: 'Antonio de Ulloa',
+  83: 'Claude François Geoffroy',
   91: 'Kasimir Fajans, Oswald Helmuth Göhring',
 }
 const PLACE = {
   2: 'India, England', 4: 'France', 10: 'England', 18: 'England', 23: 'Mexico (1801), Sweden (1830)', 30: 'Germany',
-  36: 'England', 54: 'England', 78: 'Colombia',
+  36: 'England', 54: 'England', 78: 'Colombia', 83: 'France',
 }
 // IUPAC's conventional weights where PubChem gives a rounded one; densities at 20 °C
 const MASS = { 82: 207.2 }
-const DENSITY = { 19: 0.862, 29: 8.96, 44: 12.45 }
+const DENSITY = { 19: 0.862, 29: 8.96, 44: 12.45, 73: 16.69, 75: 21.02, 76: 22.59, 77: 22.56 }
+// erbium's colour is blank in PubChem (Jmol's #00e675, between holmium and thulium)
+const CPK = { 68: '00e675' }
+// francium's first ionisation energy (NIST: 4.0727 eV)
+const IE1 = { 87: 4.0727 }
+// isotopes: tantalum's second natural one, Ta-180m (0.01201%, CIAAW); samarium-146 measured again in
+// 2024 (92 million years; the 68 of 2012 was retracted in 2023)
+const ISOTOPE = {
+  73: list => [list[0], { A: 180, meta: true, abundance: 0.01201, halfLife: null, halfLifeUnit: null, halfLifeSeconds: null }, ...list.slice(1).filter(i => i.A !== 180)],
+  62: list => list.map(i => (i.A === 146 ? { ...i, halfLife: 92, halfLifeUnit: 'Myear', halfLifeSeconds: 92 * 3.15576e13 } : i)),
+}
 // indium in seawater: the old table value was about 100 000 times too high (Alibo, Nozaki and Jeandel 1999)
 const SEA = { 49: 1e-7 }
 // at normal pressure these turn straight from solid to gas (sublime) at this temperature, in K
@@ -61,7 +73,7 @@ const EA = { 9: 3.401 }
 const SPELLING = [
   [/A\.C\.Wohl/g, 'A. C. Wahl'], [/Émillo Segrè/g, 'Emilio Segrè'], [/G\. Kirchoff/g, 'Gustav Kirchhoff'],
   [/Gustov Kirchoff/g, 'Gustav Kirchhoff'], [/Charles Hatchet/g, 'Charles Hatchett'], [/Johann Gahn/g, 'Johan Gottlieb Gahn'],
-  [/Johann Gadolin/g, 'Johan Gadolin'], [/Karl Klaus/g, 'Karl Ernst Claus'], [/Humphrey Davy/g, 'Humphry Davy'], [/Johann Arfwedson/g, 'Johan August Arfwedson'],
+  [/Johann Gadolin/g, 'Johan Gadolin'], [/Karl Klaus/g, 'Karl Ernst Claus'], [/Collet-Descoltils/g, 'Collet-Descotils'], [/Humphrey Davy/g, 'Humphry Davy'], [/Johann Arfwedson/g, 'Johan August Arfwedson'],
   [/Ramsey/g, 'Ramsay'], [/Fredrich/g, 'Friedrich'], [/Smithson Tenant/g, 'Smithson Tennant'], [/S\.Tenant/g, 'S. Tennant'],
   [/Fourcory/g, 'Fourcroy'], [/Aver von Welsbach/g, 'Auer von Welsbach'], [/Nils Langet/g, 'Nils Langlet'], [/George Brandt/g, 'Georg Brandt'],
 ]
@@ -98,10 +110,10 @@ const elements = pubchem.Row.map(({ Cell }) => {
     // From the configuration shown (PubChem's); mendeleev predicts other ones for Lr, Ds and Rg.
     shells: shellsOf(config),
     // (PubChem drops leading zeros: palladium's "6985" is #006985)
-    cpk: p.CPKHexColor ? `#${p.CPKHexColor.toLowerCase().padStart(6, '0')}` : null,
+    cpk: CPK[z] ? `#${CPK[z]}` : p.CPKHexColor ? `#${p.CPKHexColor.toLowerCase().padStart(6, '0')}` : null,
     en: num(p.Electronegativity),
     // the first from PubChem; the next three from mendeleev where known
-    ie: [num(p.IonizationEnergy), ...m.ionisationEnergies.slice(1).map(v => round(v, 3))],
+    ie: [IE1[z] ?? num(p.IonizationEnergy), ...m.ionisationEnergies.slice(1).map(v => round(v, 3))],
     ea: EA[z] ?? num(p.ElectronAffinity),
     oxidation: p.OxidationStates ? p.OxidationStates.split(',').map(s => Number(s.trim())).filter(Number.isFinite) : [],
     state,
@@ -126,13 +138,13 @@ const elements = pubchem.Row.map(({ Cell }) => {
     thermalConductivity: m.thermalConductivity,
     specificHeat: m.specificHeat,
     pricePerKg: m.pricePerKg,
-    isotopes: m.isotopes.map(i => ({
+    isotopes: (ISOTOPE[z] ?? (l => l))(m.isotopes.map(i => ({
       A: i.A,
       abundance: i.abundance,
       halfLife: i.halfLife,
       halfLifeUnit: i.halfLifeUnit,
       halfLifeSeconds: i.halfLifeSeconds,
-    })),
+    }))),
   }
 })
 
