@@ -54,6 +54,7 @@ export class Engine {
     this.resize()
     store.set({ light: this.light })
     r.setAnimationLoop(() => this.frame())
+    this.compiles = new Set() // shader compiles under way (compileFor)
     window.__ew = this // for the probes in tools/
   }
 
@@ -118,6 +119,14 @@ export class Engine {
       return
     }
     const t2 = performance.now()
+    // never dispose a world while any shaders are still being compiled (its own warm-up, or a wing
+    // built ahead that may share materials with it): three.js keeps polling the materials and fails
+    // on a disposed one ("reading 'isReady'", walking into an arch while its wing was being prepared)
+    if (this.compiles.size) await Promise.all([...this.compiles])
+    if (token !== this.token) {
+      next.dispose?.()
+      return
+    }
     this.leave()
     this.enter(next, key, target)
     this.last = target
@@ -229,8 +238,15 @@ export class Engine {
     const r = this.renderer
     const old = r.getRenderTarget()
     r.setRenderTarget(this.composer ? this.composer.readBuffer : null)
-    const done = r.compileAsync(scene, this.camera)
-    r.setRenderTarget(old)
+    let done
+    try {
+      done = r.compileAsync(scene, this.camera)
+    } finally {
+      r.setRenderTarget(old)
+    }
+    // every pending compile is known, so no world is disposed under one (show)
+    const pending = done.catch(() => {}).then(() => this.compiles.delete(pending))
+    this.compiles.add(pending)
     return done
   }
 
