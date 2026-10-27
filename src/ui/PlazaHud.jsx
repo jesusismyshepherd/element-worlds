@@ -7,6 +7,7 @@ import { FAMILIES, element } from '../data/elements.js'
 import { TRENDS, SCALE_CSS } from '../worlds/plaza/layout.js'
 import { num, LANG_TAG } from './format.js'
 import ElementCard from './ElementCard.jsx'
+import Search from './Search.jsx'
 
 const touchScreen = () => window.matchMedia?.('(pointer: coarse)').matches
 
@@ -45,6 +46,9 @@ export default function PlazaHud({ engine }) {
 
   return (
     <>
+      <div className="absolute left-2 sm:left-3 top-[4.25rem] sm:top-[4.5rem]">
+        <Search onPick={z => world()?.select(z)} />
+      </div>
       <div className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 flex flex-col gap-2 items-start pointer-events-none">
         {level === 'scientist' && (
           <div className="glass rounded-xl p-2 pointer-events-auto max-w-[min(92vw,26rem)]">

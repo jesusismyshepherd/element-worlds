@@ -179,5 +179,8 @@
     },
     "dataTitle": "De onde vêm os números",
     "data": "Dados dos elementos da tabela periódica do PubChem (Biblioteca Nacional de Medicina dos EUA, domínio público) e do pacote Python mendeleev (licença MIT): massas, configurações, raios, isótopos, abundâncias. Os anos de descoberta seguem uma só regra (quando o elemento foi reconhecido ou isolado pela primeira vez). Os valores dos elementos super-pesados são em parte previsões e estão assinalados como tal."
+  },
+  "search": {
+    "placeholder": "Procurar elemento…"
   }
 }
