@@ -333,7 +333,8 @@ export async function build(ctx) {
       ring.scale.setScalar((bodyR(selected) / 0.6) * (1 + Math.sin(t * 5) * 0.06))
     } else ring.visible = false
     // keep the whole molecule in view
-    const want = Math.max(4.6, radius * 2.3)
+    // an upright phone sees less across: stand further back
+    const want = Math.max(4.6, radius * 2.3) * (camera.aspect < 1 ? 1.7 : 1)
     const d = camera.position.distanceTo(controls.target)
     if (d < want * 0.8 || d > want * 1.6) camera.position.sub(controls.target).setLength(d + (want - d) * Math.min(1, dt * 2)).add(controls.target)
   }

@@ -20,6 +20,8 @@ export default function LabHud({ engine }) {
   const lab = useStore(store, s => s.lab)
   const party = useStore(store, s => s.labCelebrate)
   const [hint, setHint] = useState(null)
+  // on a small screen the missions fold into a button, so the molecule stays in view
+  const [open, setOpen] = useState(() => window.innerWidth >= 640)
   const lang = i18n.resolvedLanguage
   const world = engine?.world
   useEffect(() => {
@@ -71,9 +73,12 @@ export default function LabHud({ engine }) {
         </div>
       </div>
 
-      <div className="absolute right-2 sm:right-3 top-28 sm:top-32 glass rounded-2xl p-3 w-[min(46vw,15rem)] pointer-events-auto max-h-[60vh] overflow-y-auto">
-        <div className="font-display font-bold text-sm mb-1">{t('lab.missions')} · {done}/{lab.missions.length}</div>
-        <ul className="space-y-0.5 text-[13px]">
+      <div className="absolute right-2 sm:right-3 top-48 sm:top-32 glass rounded-2xl p-3 w-[min(60vw,15rem)] pointer-events-auto max-h-[55vh] overflow-y-auto">
+        <button type="button" onClick={() => setOpen(o => !o)} className="font-display font-bold text-sm w-full text-left flex items-center justify-between gap-2">
+          <span>{t('lab.missions')} · {done}/{lab.missions.length}</span>
+          <span className="opacity-60">{open ? '▴' : '▾'}</span>
+        </button>
+        {open && <ul className="space-y-0.5 text-[13px] mt-1">
           {lab.missions.map(m => (
             <li key={m.show}>
               <button type="button" onClick={() => setHint(hint === m.show ? null : m.show)} className="w-full text-left flex items-center gap-1.5 rounded px-1 hover:bg-white/10">
@@ -89,7 +94,7 @@ export default function LabHud({ engine }) {
               )}
             </li>
           ))}
-        </ul>
+        </ul>}
       </div>
 
       <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2 pointer-events-none">
