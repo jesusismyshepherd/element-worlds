@@ -92,10 +92,20 @@ export class Engine {
     const started = performance.now()
     this.store.set({ fading: true, error: null })
     let next
+    const t0 = performance.now()
+    let t1 = t0
     try {
-      const mod = await loadWorld(target)
-      if (token !== this.token) return
-      next = await mod.build(this.context(), target, this.last ?? null)
+      // a world built ahead (prewarm) is taken as it is
+      const pre = this.pre?.key === key ? this.pre : null
+      this.pre = null
+      next = pre ? await pre.ready : null
+      t1 = performance.now()
+      if (!next) {
+        const mod = await loadWorld(target)
+        t1 = performance.now()
+        if (token !== this.token) return
+        next = await mod.build(this.context(), target, this.last ?? null)
+      }
     } catch (err) {
       console.error(err)
       if (token === this.token) this.store.set({ fading: false, error: String(err?.message ?? err) })
@@ -107,11 +117,52 @@ export class Engine {
       next.dispose?.()
       return
     }
+    const t2 = performance.now()
     this.leave()
     this.enter(next, key, target)
     this.last = target
+    this.lastTarget = target
     await this.warm()
+    // how long each part of the switch took (probes read it: load the code, build, compile shaders)
+    this.timings = { load: Math.round(t1 - t0), build: Math.round(t2 - t1), warm: Math.round(performance.now() - t2) }
     if (token === this.token) this.store.set({ fading: false })
+  }
+
+  /** Build a world ahead and compile its shaders in the background, so walking into it is quick
+   *  (the first visit to a big wing spent 8 s compiling shaders on Windows; the browser keeps them for
+   *  the next visits). The hall calls this when the player walks toward an arch. One at a time. */
+  prewarm(target) {
+    const key = worldKey(target)
+    if (this.light || this.key === key || this.pre) return
+    const pre = { key }
+    pre.ready = (async () => {
+      try {
+        const mod = await loadWorld(target)
+        const w = await mod.build(this.context(), target, this.lastTarget ?? null)
+        // compile against the world's own lights, fog and environment, as it will be drawn
+        const stage = new THREE.Scene()
+        stage.environment = w.env?.environment === null ? null : w.env?.environment ?? this.studio
+        stage.fog = w.env?.fog ?? null
+        stage.add(w.root)
+        await this.renderer.compileAsync(stage, this.camera)
+        stage.remove(w.root)
+        return w
+      } catch (err) {
+        console.warn('prewarm failed', err)
+        return null
+      }
+    })()
+    this.pre = pre
+    // a prewarmed world nobody entered within a minute is let go
+    setTimeout(async () => {
+      if (this.pre !== pre) return
+      this.pre = null
+      const w = await pre.ready
+      if (w) {
+        w.dispose?.()
+        disposeTree(w.root)
+      }
+    }, 60000)
   }
 
   /** Build the current world again (a new language: worlds write their words when built). */

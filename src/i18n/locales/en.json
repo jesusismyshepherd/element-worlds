@@ -3,7 +3,8 @@
     "title": "Element Worlds",
     "tagline": "Pick an element and step inside",
     "loading": "Loading…",
-    "error": "Something went wrong here."
+    "error": "Something went wrong here.",
+    "firstTime": "Getting this world ready for its first visit. Next time it opens much faster."
   },
   "families": {
     "alkali-metal": "Alkali metals",

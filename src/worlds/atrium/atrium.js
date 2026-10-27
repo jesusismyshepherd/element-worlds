@@ -332,6 +332,13 @@ export async function build(ctx, target, previous) {
     },
     update(dt, t) {
       for (const u of updates) u(t)
+      // walking toward a wing's arch: build it and compile its shaders ahead
+      const p = ctx.engine.player.pos
+      for (const d of doors) {
+        if (d.to.startsWith(`/e/${el.symbol}/`) && Math.hypot(d.x - p.x, d.z - p.z) < 7.5) {
+          ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: d.to.split('/').pop() })
+        }
+      }
     },
     dispose() {
       floorTex.dispose()

@@ -5,7 +5,7 @@ import { useStore, saveLevel } from '../engine/store.js'
 import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
 import { atriumPath, plazaPath } from '../worlds/registry.js'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PlazaHud from './PlazaHud.jsx'
 import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
@@ -24,6 +24,16 @@ export default function Hud({ engine }) {
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
   const [about, setAbout] = useState(false)
+  // a long wait (a big world's first visit compiles its shaders): say why
+  const [slow, setSlow] = useState(false)
+  useEffect(() => {
+    if (!fading) {
+      setSlow(false)
+      return undefined
+    }
+    const id = setTimeout(() => setSlow(true), 1500)
+    return () => clearTimeout(id)
+  }, [fading])
 
   const setLevel = l => {
     saveLevel(l)
@@ -136,7 +146,12 @@ export default function Hud({ engine }) {
         className="absolute inset-0 bg-[#0b0f24] transition-opacity duration-300 flex items-center justify-center"
         style={{ opacity: fading ? 1 : 0, pointerEvents: fading ? 'auto' : 'none' }}
       >
-        {fading && <div className="font-display text-lg opacity-70 animate-pulse">{t('app.loading')}</div>}
+        {fading && (
+          <div className="text-center px-6">
+            <div className="font-display text-lg opacity-70 animate-pulse">{t('app.loading')}</div>
+            {slow && <div className="text-sm opacity-60 mt-2 max-w-sm">{t('app.firstTime')}</div>}
+          </div>
+        )}
       </div>
     </div>
   )
