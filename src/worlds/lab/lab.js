@@ -3,12 +3,15 @@
 // let one hand go. The molecule takes its real shape by itself (chem/layout.js); when every hand is
 // held it is complete, and a molecule the lab knows is named (chem/build.js), with a fact, and kept
 // in the player's collection. The seed of the molecule games (docs/design.md).
+// A metal joined to a non-metal hands its electrons over (one flies across): the two become ions, held by
+// a glowing thread of attraction instead of hands, their charges floating above them (salt, NaCl).
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { element, nameOf } from '../../data/elements.js'
 import { createAtomling } from '../../characters/atomling.js'
-import { join, unjoin, removeAtom, freeHands, formulaOf, complete, recognise, MISSIONS, lonePairs } from '../../chem/build.js'
-import { relax } from '../../chem/layout.js'
+import { join, unjoin, removeAtom, freeHands, formulaOf, complete, recognise, MISSIONS, lonePairs, ionicBond, ionCharges, isMetal } from '../../chem/build.js'
+import { makeText } from '../../engine/text.js'
+import { relax, level } from '../../chem/layout.js'
 import { nightSky } from '../common/sky.js'
 import { markFound, isFound } from '../../engine/progress.js'
 import { MOLECULE_FACTS } from '../../content/molecules.js'
@@ -62,6 +65,12 @@ export async function build(ctx) {
   const armGeo = new THREE.CapsuleGeometry(0.065, 1, 4, 10)
   const claspMat = new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#a8ecff', emissiveIntensity: 0.9 })
   const loneMat = new THREE.MeshStandardMaterial({ color: '#a8ecff', emissive: '#a8ecff', emissiveIntensity: 1.2, transparent: true, opacity: 0.8 })
+  // an ionic bond: a thread of attraction; the electron that went over; the ions' charges
+  const ionMat = new THREE.MeshBasicMaterial({ color: '#ffd166', transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false })
+  const flyMat = new THREE.MeshStandardMaterial({ color: '#a8ecff', emissive: '#a8ecff', emissiveIntensity: 2.4 })
+  let transfers = [] // { from: atom, to: atom, start, mesh }
+  let clock = 0
+  let note = null
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.035, 8, 48), new THREE.MeshBasicMaterial({ color: '#ffd166' }))
   ring.visible = false
   molGroup.add(ring)
@@ -88,17 +97,46 @@ export async function build(ctx) {
       if (!next.includes(s)) {
         molGroup.remove(s.holder)
         s.holder.traverse(o => o.isMesh && o.geometry?.dispose())
+        if (s.charge) {
+          molGroup.remove(s.charge)
+          s.charge.dispose()
+        }
       }
     }
     shown = next
+    // the ions' charges, above their heads
+    const q = ionCharges(mol)
+    shown.forEach((s, i) => {
+      const text = q[i] > 0 ? `${q[i] > 1 ? q[i] : ''}+` : q[i] < 0 ? `${q[i] < -1 ? -q[i] : ''}−` : ''
+      if (text && !s.charge) {
+        s.charge = makeText(text, { size: 0.34, color: q[i] > 0 ? '#ffb86b' : '#8fd8ff', outlineWidth: 0.02, outlineColor: '#0b0f24' })
+        molGroup.add(s.charge)
+      }
+      if (s.charge) {
+        s.charge.visible = !!text
+        if (text && s.charge.text !== text) {
+          s.charge.text = text
+          s.charge.color = q[i] > 0 ? '#ffb86b' : '#8fd8ff'
+          s.charge.sync()
+        }
+      }
+    })
   }
 
   // bonds as held hands: an arm from each atom, meeting at a glowing clasp; free hands reach out
   const syncBonds = () => {
-    for (const b of bondMeshes) for (const m of [b.armA, b.armB, b.clasp]) molGroup.remove(m)
+    for (const b of bondMeshes) for (const m of [b.armA, b.armB, b.clasp, b.link]) m && molGroup.remove(m)
     for (const list of freeMeshes) for (const f of list) for (const m of [f.arm, f.hand]) m && molGroup.remove(m)
     bondMeshes = []
-    mol.bonds.forEach(([i, j, order], bi) => {
+    mol.bonds.forEach((bond, bi) => {
+      const [i, j, order] = bond
+      if (ionicBond(mol, bond)) {
+        const link = new THREE.Mesh(armGeo, ionMat)
+        link.userData.bond = bi
+        molGroup.add(link)
+        bondMeshes.push({ bi, i, j, k: 0, order, ionic: true, link })
+        return
+      }
       for (let k = 0; k < order; k++) {
         const armA = new THREE.Mesh(armGeo, shown[i].a.mats.hand)
         const armB = new THREE.Mesh(armGeo, shown[j].a.mats.hand)
@@ -151,6 +189,8 @@ export async function build(ctx) {
         formula: known?.show ?? formulaOf(mol),
         name: known ? known.name[lang] ?? known.name.en : null,
         complete: done,
+        ionic: !!known?.ionic,
+        note,
         free,
         pieces: mol.atoms.length > 1 && !mol.bonds.length ? 'apart' : null,
         selected: selected >= 0 ? mol.atoms[selected].el : null,
@@ -168,30 +208,55 @@ export async function build(ctx) {
   const changed = (steps = 160) => {
     syncAtoms()
     relayout(steps)
+    // a long molecule (or a row of ions) lies level, across the view, not up and down into the table
+    lay = level(lay)
     syncBonds()
     report()
   }
 
   // ---- what the HUD (and taps) do ----
+  // when a metal joins a non-metal, its electron flies over to it (one per hand)
+  const watch = (before, after) => {
+    for (const bond of after.bonds) {
+      if (!ionicBond(after, bond)) continue
+      const [a, b, o] = bond
+      const old = before.bonds.find(([x, y]) => (x === a && y === b) || (x === b && y === a))
+      if (old && old[2] >= o) continue
+      const [m, x] = isMetal(after.atoms[a].el) ? [a, b] : [b, a]
+      const mesh = new THREE.Mesh(handGeo, flyMat)
+      molGroup.add(mesh)
+      transfers.push({ from: after.atoms[m], to: after.atoms[x], start: clock, mesh })
+      play('electron')
+    }
+  }
   const add = sym => {
+    note = null
     const atoms = [...mol.atoms, { el: sym }]
     let next = { atoms, bonds: mol.bonds }
     const i = atoms.length - 1
     // joined at once to the selected atom when both have a free hand
-    if (selected >= 0) next = join(next, selected, i) ?? next
+    if (selected >= 0) {
+      const joined = join(next, selected, i)
+      if (joined) next = joined
+      else if (isMetal(sym) && isMetal(mol.atoms[selected].el)) note = 'metals'
+    }
     play(next.bonds.length > mol.bonds.length ? 'join' : 'tap')
+    watch(mol, next)
     mol = next
     if (selected < 0 || freeHands(mol, selected) === 0) selected = i
     changed()
   }
   const tapAtom = i => {
+    note = null
     if (selected < 0 || selected === i) {
       selected = selected === i ? -1 : i
     } else {
       const next = join(mol, selected, i)
+      if (!next && isMetal(mol.atoms[i].el) && isMetal(mol.atoms[selected].el)) note = 'metals'
       if (next) {
         const k = next.bonds.find(([a, b]) => (a === selected && b === i) || (a === i && b === selected))
         play('join', { order: k?.[2] ?? 1 })
+        watch(mol, next)
         mol = next
         selected = freeHands(mol, i) > 0 ? i : freeHands(mol, selected) > 0 ? selected : -1
         changed(120)
@@ -228,6 +293,7 @@ export async function build(ctx) {
     clear()
     mol = { atoms: plan.atoms.map(el => ({ el })), bonds: [] }
     for (const [i, j] of plan.pairs) mol = join(mol, i, j) ?? mol
+    watch({ atoms: mol.atoms, bonds: [] }, mol)
     changed(500)
   }
 
@@ -251,7 +317,7 @@ export async function build(ctx) {
     down = null
     const r = canvas.getBoundingClientRect()
     ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera)
-    const targets = [...shown.map(s => s.holder), ...bondMeshes.flatMap(b => [b.armA, b.armB, b.clasp])]
+    const targets = [...shown.map(s => s.holder), ...bondMeshes.flatMap(b => [b.armA, b.armB, b.clasp, b.link].filter(Boolean))]
     const hit = ray.intersectObjects(targets, true)[0]
     if (!hit) {
       selected = -1
@@ -272,6 +338,7 @@ export async function build(ctx) {
 
   const v = new THREE.Vector3()
   const update = (dt, t) => {
+    clock = t
     sky.userData.update(t)
     controls.update()
     // keep relaxing gently: the molecule settles and breathes
@@ -286,11 +353,39 @@ export async function build(ctx) {
       s.holder.position.set(s.cur.x, s.cur.y - (H * 0.5 + s.a.body.hover) * SCALE, s.cur.z)
       s.holder.rotation.y = Math.atan2(camera.position.x - s.cur.x, camera.position.z - s.cur.z)
       s.a.update(dt, t, { speed: 0 })
+      if (s.charge?.visible) {
+        s.charge.position.set(s.cur.x, s.cur.y + H * 0.5 * SCALE + 0.28, s.cur.z)
+        s.charge.quaternion.copy(camera.quaternion)
+      }
+    })
+    // electrons on their way from a metal to its partner
+    transfers = transfers.filter(tr => {
+      const f = (t - tr.start) / 0.7
+      const a = shown.find(s => s.atom === tr.from)?.cur
+      const b = shown.find(s => s.atom === tr.to)?.cur
+      if (f >= 1 || !a || !b) {
+        molGroup.remove(tr.mesh)
+        return false
+      }
+      const e = f * f * (3 - 2 * f)
+      tr.mesh.position.lerpVectors(a, b, e)
+      tr.mesh.position.y += Math.sin(f * Math.PI) * 0.6
+      tr.mesh.scale.setScalar(1.2 - f * 0.4)
+      return true
     })
     for (const b of bondMeshes) {
       const A = shown[b.i]?.cur
       const B = shown[b.j]?.cur
       if (!A || !B) continue
+      if (b.ionic) {
+        // the attraction: a glowing thread between the two ions, thicker for higher charges
+        const dir = B.clone().sub(A).normalize()
+        placeArm(b.link, A.clone().addScaledVector(dir, bodyR(b.i) * 0.8), B.clone().addScaledVector(dir, -bodyR(b.j) * 0.8))
+        const w = (0.9 + b.order * 0.35) * (1 + Math.sin(t * 4 + b.bi) * 0.15)
+        b.link.scale.x = w
+        b.link.scale.z = w
+        continue
+      }
       const dir = B.clone().sub(A).normalize()
       let side = new THREE.Vector3().crossVectors(dir, camera.position.clone().sub(A).normalize())
       if (side.lengthSq() < 1e-6) side = new THREE.Vector3(0, 1, 0)
@@ -384,4 +479,7 @@ const DEMOS = {
   C2H4: { atoms: ['C', 'C', 'H', 'H', 'H', 'H'], pairs: [[0, 1], [0, 1], [0, 2], [0, 3], [1, 4], [1, 5]] },
   C2H5OH: { atoms: ['C', 'C', 'O', 'H', 'H', 'H', 'H', 'H', 'H'], pairs: [[0, 1], [1, 2], [2, 3], [0, 4], [0, 5], [0, 6], [1, 7], [1, 8]] },
   C2H2: { atoms: ['C', 'C', 'H', 'H'], pairs: [[0, 1], [0, 1], [0, 1], [0, 2], [1, 3]] },
+  NaCl: { atoms: ['Na', 'Cl'], pairs: [[0, 1]] },
+  MgO: { atoms: ['Mg', 'O'], pairs: [[0, 1], [0, 1]] },
+  CaCl2: { atoms: ['Ca', 'Cl', 'Cl'], pairs: [[0, 1], [0, 2]] },
 }

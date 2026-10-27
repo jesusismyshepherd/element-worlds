@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
-import { handsOf, parseFormula } from '../chem/build.js'
+import { handsOf, parseFormula, isMetal } from '../chem/build.js'
 
-const PALETTE = ['H', 'C', 'N', 'O', 'F', 'Cl', 'S']
+// non-metals (they hold hands) and metals (their hands give electrons away: ionic compounds)
+const PALETTE = ['H', 'C', 'N', 'O', 'F', 'Cl', 'S', 'Li', 'Na', 'K', 'Mg', 'Ca', 'Al']
 const COLOR = { H: '#f4f6fb', C: '#5a5f68', N: '#3a5cf5', O: '#f2302b', F: '#90e050', Cl: '#1ff01f', S: '#ffd21f' }
+const colorOf = s => COLOR[s] ?? element(s).cpk
 
 /** A formula with real subscripts: CO2 -> CO₂. */
 export function Formula({ text }) {
@@ -40,17 +42,17 @@ export default function LabHud({ engine }) {
 
   return (
     <>
-      <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 flex flex-col gap-1.5 pointer-events-auto">
+      <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 grid grid-flow-col grid-rows-7 gap-1.5 pointer-events-auto">
         {PALETTE.map(s => (
           <button
             key={s}
             type="button"
-            title={`${nameOf(element(s), lang)}: ${t('lab.hands', { count: handsOf(s) })}`}
+            title={`${nameOf(element(s), lang)}: ${t(isMetal(s) ? 'lab.gives' : 'lab.hands', { count: handsOf(s) })}`}
             onClick={() => world?.add?.(s)}
-            className="glass w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center hover:bg-white/10 active:scale-95 transition"
+            className={`glass w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center hover:bg-white/10 active:scale-95 transition ${isMetal(s) ? 'border-amber-300/40' : ''}`}
           >
-            <span className="font-display text-xl font-bold" style={{ color: COLOR[s] }}>{s}</span>
-            <span className="text-[10px] opacity-80 leading-none">{'✋'.repeat(handsOf(s))}</span>
+            <span className="font-display text-lg sm:text-xl font-bold" style={{ color: colorOf(s) }}>{s}</span>
+            <span className="text-[10px] opacity-80 leading-none">{(isMetal(s) ? '🤲' : '✋').repeat(handsOf(s))}</span>
           </button>
         ))}
       </div>
@@ -68,6 +70,8 @@ export default function LabHud({ engine }) {
                 {lab.complete ? (lab.name ? null : <span>{t('lab.stable')}</span>) : <span>{t('lab.free', { count: lab.free })}</span>}
               </div>
               {lab.fact && lab.complete && <div className="text-[13px] opacity-90 mt-1">{lab.fact}</div>}
+              {lab.ionic && lab.complete && <div className="text-[12px] text-amber-200 mt-1">{t('lab.ionic')}</div>}
+              {lab.note && <div className="text-[12px] text-amber-200 mt-1">{t(`lab.${lab.note}`)}</div>}
             </>
           )}
         </div>

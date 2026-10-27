@@ -194,6 +194,10 @@
     "placeholder": "Procurar elemento…"
   },
   "lab": {
+    "gives_one": "dá {{count}} eletrão",
+    "gives_other": "dá {{count}} eletrões",
+    "ionic": "Iónico: o metal deu os seus eletrões e os iões seguram-se por atração. Num cristal a sério não há moléculas: cada ião fica entre iões da carga contrária.",
+    "metals": "Dois metais não dão as mãos: num metal, os eletrões passeiam por todos os átomos. Junta antes um metal a um não metal.",
     "title": "Laboratório de Moléculas",
     "hands_one": "{{count}} mão",
     "hands_other": "{{count}} mãos",

@@ -2,10 +2,33 @@
 // { atoms: [{ el }], bonds: [[i, j, order]] }. Hands are bondCount (chem/atom.js); a bond of order n
 // takes n hands from each atom. Known molecules are recognised by their formula and their pattern of
 // bonds (so ethanol and dimethyl ether, with the same formula, are told apart).
+// A metal's hands hold out electrons to give: joined to a non-metal it hands them over and both become
+// ions, held by attraction (an ionic bond: salt, NaCl). Two metals do not join (metals share a sea of
+// electrons among many atoms instead: that is for alloys). Ionic compounds are recognised by formula.
 import { element } from '../data/elements.js'
 import { bondCount, valenceElectrons } from './atom.js'
 
 export const handsOf = sym => bondCount(element(sym))
+
+const METALS = new Set(['alkali-metal', 'alkaline-earth-metal', 'transition-metal', 'post-transition-metal', 'lanthanide', 'actinide'])
+export const isMetal = sym => METALS.has(element(sym).family)
+
+/** A bond between a metal and a non-metal is ionic: the metal's electrons have gone over. */
+export const ionicBond = (mol, [a, b]) => isMetal(mol.atoms[a].el) !== isMetal(mol.atoms[b].el)
+
+/** Each atom's charge from its ionic bonds: + for the metal (an electron given per hand), - for the
+ *  other (one taken per hand). */
+export function ionCharges(mol) {
+  const q = mol.atoms.map(() => 0)
+  for (const bond of mol.bonds) {
+    if (!ionicBond(mol, bond)) continue
+    const [a, b, o] = bond
+    const [m, x] = isMetal(mol.atoms[a].el) ? [a, b] : [b, a]
+    q[m] += o
+    q[x] -= o
+  }
+  return q
+}
 
 /** Hands still free on atom i. */
 export function freeHands(mol, i) {
@@ -18,6 +41,7 @@ export function freeHands(mol, i) {
  *  null when either has no free hand or the bond is already triple. */
 export function join(mol, i, j) {
   if (i === j || freeHands(mol, i) < 1 || freeHands(mol, j) < 1) return null
+  if (isMetal(mol.atoms[i].el) && isMetal(mol.atoms[j].el)) return null
   const k = mol.bonds.findIndex(([a, b]) => (a === i && b === j) || (a === j && b === i))
   if (k >= 0 && mol.bonds[k][2] >= 3) return null
   const bonds = mol.bonds.map(b => [...b])
@@ -119,6 +143,33 @@ const KNOWN_LIST = [
   { show: 'O3', p: 'O-O,O=O', name: { en: 'ozone', 'pt-pt': 'ozono' }, charged: true },
 ]
 
+// Ionic compounds the lab knows (recognised by formula, when every bond is ionic and every hand used)
+const IONIC_LIST = [
+  { show: 'NaCl', name: { en: 'sodium chloride (table salt)', 'pt-pt': 'cloreto de sódio (sal de cozinha)' } },
+  { show: 'KCl', name: { en: 'potassium chloride', 'pt-pt': 'cloreto de potássio' } },
+  { show: 'NaF', name: { en: 'sodium fluoride (in toothpaste)', 'pt-pt': 'fluoreto de sódio (na pasta de dentes)' } },
+  { show: 'LiF', name: { en: 'lithium fluoride', 'pt-pt': 'fluoreto de lítio' } },
+  { show: 'NaH', name: { en: 'sodium hydride', 'pt-pt': 'hidreto de sódio' } },
+  { show: 'LiH', name: { en: 'lithium hydride', 'pt-pt': 'hidreto de lítio' } },
+  { show: 'MgO', name: { en: 'magnesium oxide', 'pt-pt': 'óxido de magnésio' } },
+  { show: 'CaO', name: { en: 'calcium oxide (quicklime)', 'pt-pt': 'óxido de cálcio (cal viva)' } },
+  { show: 'MgCl2', name: { en: 'magnesium chloride', 'pt-pt': 'cloreto de magnésio' } },
+  { show: 'CaCl2', name: { en: 'calcium chloride (road salt)', 'pt-pt': 'cloreto de cálcio (sal das estradas)' } },
+  { show: 'CaF2', name: { en: 'calcium fluoride (the mineral fluorite)', 'pt-pt': 'fluoreto de cálcio (o mineral fluorite)' } },
+  { show: 'MgF2', name: { en: 'magnesium fluoride', 'pt-pt': 'fluoreto de magnésio' } },
+  { show: 'Na2O', name: { en: 'sodium oxide', 'pt-pt': 'óxido de sódio' } },
+  { show: 'K2O', name: { en: 'potassium oxide', 'pt-pt': 'óxido de potássio' } },
+  { show: 'Li2O', name: { en: 'lithium oxide', 'pt-pt': 'óxido de lítio' } },
+  { show: 'Na2S', name: { en: 'sodium sulfide', 'pt-pt': 'sulfureto de sódio' } },
+  { show: 'MgS', name: { en: 'magnesium sulfide', 'pt-pt': 'sulfureto de magnésio' } },
+  { show: 'CaS', name: { en: 'calcium sulfide', 'pt-pt': 'sulfureto de cálcio' } },
+  { show: 'Li3N', name: { en: 'lithium nitride', 'pt-pt': 'nitreto de lítio' } },
+  { show: 'Mg3N2', name: { en: 'magnesium nitride', 'pt-pt': 'nitreto de magnésio' } },
+  { show: 'Al2O3', name: { en: 'aluminium oxide (corundum: ruby and sapphire)', 'pt-pt': 'óxido de alumínio (corindo: rubi e safira)' } },
+  { show: 'AlF3', name: { en: 'aluminium fluoride', 'pt-pt': 'fluoreto de alumínio' } },
+  { show: 'AlN', name: { en: 'aluminium nitride', 'pt-pt': 'nitreto de alumínio' } },
+].map(k => ({ ...k, ionic: true }))
+
 /** Atoms of a formula as people write it ("NH3", "C2H5OH", "CO(NH2)2"). */
 export function parseFormula(text) {
   // write groups out: CO(NH2)2 -> CONH2NH2
@@ -129,15 +180,19 @@ export function parseFormula(text) {
 }
 
 // matched by the Hill formula (C, H, then alphabetical; alphabetical without carbon: NH3 is H3N)
-export const KNOWN = KNOWN_LIST.map(k => ({ ...k, hill: formulaOf({ atoms: parseFormula(k.show), bonds: [] }) }))
+export const KNOWN = [...KNOWN_LIST, ...IONIC_LIST].map(k => ({ ...k, hill: formulaOf({ atoms: parseFormula(k.show), bonds: [] }) }))
 
 /** The known molecule this one is, or null. Ozone and carbon monoxide are known but cannot be closed
  *  with plain hands (they need charges), so they are recognised even with hands left over. */
 export function recognise(mol) {
   const f = formulaOf(mol)
   const p = bondPattern(mol)
-  return KNOWN.find(k => k.hill === f && k.p === p) ?? null
+  const molecule = KNOWN.find(k => !k.ionic && k.hill === f && k.p === p)
+  if (molecule) return molecule
+  // an ionic compound is a crystal, not a molecule: any arrangement of its ions will do
+  if (mol.bonds.length && mol.bonds.every(b => ionicBond(mol, b)) && complete(mol)) return KNOWN.find(k => k.ionic && k.hill === f) ?? null
+  return null
 }
 
 /** Missions for the lab, easiest first. */
-export const MISSIONS = ['H2', 'H2O', 'O2', 'CO2', 'CH4', 'NH3', 'N2', 'HCl', 'C2H6', 'C2H4', 'C2H5OH', 'C2H2'].map(show => KNOWN.find(k => k.show === show || k.hill === formulaOf({ atoms: parseFormula(show), bonds: [] })))
+export const MISSIONS = ['H2', 'H2O', 'O2', 'CO2', 'CH4', 'NH3', 'N2', 'HCl', 'C2H6', 'C2H4', 'C2H5OH', 'C2H2', 'NaCl', 'MgO', 'CaCl2'].map(show => KNOWN.find(k => k.show === show || k.hill === formulaOf({ atoms: parseFormula(show), bonds: [] })))

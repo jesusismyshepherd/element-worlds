@@ -194,6 +194,10 @@
     "placeholder": "Find an element…"
   },
   "lab": {
+    "gives_one": "gives away {{count}} electron",
+    "gives_other": "gives away {{count}} electrons",
+    "ionic": "Ionic: the metal handed its electrons over and the ions hold on by attraction. In a real crystal there are no molecules: every ion sits among ions of the other charge.",
+    "metals": "Two metals do not hold hands: in a metal, electrons wander among all the atoms. Join a metal to a non-metal instead.",
     "title": "Molecule Lab",
     "hands_one": "{{count}} hand",
     "hands_other": "{{count}} hands",

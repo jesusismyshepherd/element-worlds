@@ -21,6 +21,50 @@ export function spread(i) {
   return [Math.cos(a) * r, y, Math.sin(a) * r]
 }
 
+/** The layout turned so its longest axis lies along x (level, across the default view), when it is
+ *  clearly longer one way (a row of atoms); positions and the extra domains' directions turn together.
+ *  The shape is unchanged: the force layout does not care which way a molecule points. */
+export function level(state) {
+  const pos = state.pos
+  const n = pos.length
+  if (n < 2) return state
+  const c = [0, 1, 2].map(k => pos.reduce((s, p) => s + p[k], 0) / n)
+  const m = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+  for (const p of pos) {
+    const d = [p[0] - c[0], p[1] - c[1], p[2] - c[2]]
+    for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) m[a][b] += d[a] * d[b]
+  }
+  // the principal axis by power iteration
+  let v = [0.6, 0.5, 0.4]
+  for (let it = 0; it < 30; it++) {
+    const w = [0, 1, 2].map(a => m[a][0] * v[0] + m[a][1] * v[1] + m[a][2] * v[2])
+    const l = Math.hypot(w[0], w[1], w[2]) || 1
+    v = w.map(x => x / l)
+  }
+  const along = [0, 1, 2].reduce((s, a) => s + v[a] * (m[a][0] * v[0] + m[a][1] * v[1] + m[a][2] * v[2]), 0)
+  const trace = m[0][0] + m[1][1] + m[2][2]
+  if (trace < 1e-9 || along < trace * 0.6) return state
+  // the rotation taking v to +x (or -x, whichever is nearer): Rodrigues about v x x
+  if (v[0] < 0) v = v.map(x => -x)
+  const axis = [0, v[2], -v[1]]
+  const s = Math.hypot(axis[0], axis[1], axis[2])
+  if (s < 1e-6) return state
+  const k = axis.map(x => x / s)
+  const cos = v[0]
+  const rot = p => {
+    const kxp = [k[1] * p[2] - k[2] * p[1], k[2] * p[0] - k[0] * p[2], k[0] * p[1] - k[1] * p[0]]
+    const kdp = k[0] * p[0] + k[1] * p[1] + k[2] * p[2]
+    return [0, 1, 2].map(i => p[i] * cos + kxp[i] * s + k[i] * kdp * (1 - cos))
+  }
+  return {
+    pos: pos.map(p => {
+      const r = rot([p[0] - c[0], p[1] - c[1], p[2] - c[2]])
+      return [r[0] + c[0], r[1] + c[1], r[2] + c[2]]
+    }),
+    extra: (state.extra ?? []).map(list => list.map(e => ({ ...e, dir: rot(e.dir) }))),
+  }
+}
+
 /** Relax the layout. `pos`: [[x, y, z]] per atom (missing ones are placed); `extra`: per atom the
  *  directions of its free hands and lone pairs (kept between calls so they move smoothly). Returns
  *  { pos, extra } with extra[i] = [{ kind: 'free' | 'lone', dir }]. `bond`: the bond length (m). */
@@ -52,7 +96,9 @@ export function relax(mol, state = {}, { steps = 200, bond = 1.6 } = {}) {
   }
 
   for (let step = 0; step < steps; step++) {
-    const shake = Math.max(0, 1 - step / (steps * 0.6)) * 0.03
+    // (only a fresh layout is shaken: the lab's few steps a frame would otherwise add up to a drift
+    // that turned and bent molecules over time)
+    const shake = steps < 20 ? 0 : Math.max(0, 1 - step / (steps * 0.6)) * 0.03
     const force = pos.map(() => [0, 0, 0])
     // bonds: springs
     for (const [a, b] of mol.bonds) {

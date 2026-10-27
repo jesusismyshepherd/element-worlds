@@ -53,7 +53,7 @@ test('removing an atom keeps the other bonds right', () => {
 })
 
 test('every mission is a molecule the lab knows', () => {
-  assert.equal(MISSIONS.length, 12)
+  assert.equal(MISSIONS.length, 15)
   for (const m of MISSIONS) assert.ok(m && m.name, String(m))
 })
 
@@ -64,9 +64,39 @@ test('formulas as people write them match by the Hill formula', () => {
   assert.equal(by('C2H5OH').hill, 'C2H6O')
   assert.equal(by('CO(NH2)2').hill, 'CH4N2O')
   // the bond pattern of each known molecule uses exactly its atoms' hands (except the charged ones)
-  for (const k of KNOWN) {
+  for (const k of KNOWN.filter(k => !k.ionic)) {
     const atoms = parseFormula(k.show)
     const ends = k.p.split(',').length * 2
     if (atoms.length > 1) assert.ok(ends >= atoms.length, k.show)
+  }
+})
+
+test('a metal hands its electrons to a non-metal: ions, recognised by formula', async () => {
+  const b = await import('./build.js')
+  const mk = (els, pairs) => {
+    let mol = { atoms: els.map(el => ({ el })), bonds: [] }
+    for (const [i, j] of pairs) mol = b.join(mol, i, j) ?? mol
+    return mol
+  }
+  const salt = mk(['Na', 'Cl'], [[0, 1]])
+  assert.equal(b.recognise(salt)?.show, 'NaCl')
+  assert.deepEqual(b.ionCharges(salt), [1, -1])
+  const mgo = mk(['Mg', 'O'], [[0, 1], [0, 1]])
+  assert.equal(b.recognise(mgo)?.show, 'MgO')
+  assert.deepEqual(b.ionCharges(mgo), [2, -2])
+  const cacl2 = mk(['Cl', 'Ca', 'Cl'], [[1, 0], [1, 2]])
+  assert.equal(b.recognise(cacl2)?.show, 'CaCl2')
+  const alumina = mk(['Al', 'Al', 'O', 'O', 'O'], [[0, 2], [0, 2], [0, 3], [1, 3], [1, 4], [1, 4]])
+  assert.equal(b.recognise(alumina)?.show, 'Al2O3')
+  assert.deepEqual(b.ionCharges(alumina), [3, 3, -2, -2, -2])
+  // two metals do not hold hands; a half-made salt is not salt yet
+  assert.equal(b.join({ atoms: [{ el: 'Na' }, { el: 'K' }], bonds: [] }, 0, 1), null)
+  assert.equal(b.recognise(mk(['Ca', 'Cl'], [[0, 1]])), null)
+  // every ionic compound the lab knows can be made: its hands add up
+  for (const k of b.KNOWN.filter(k => k.ionic)) {
+    const atoms = b.parseFormula(k.show)
+    const give = atoms.filter(a => b.isMetal(a.el)).reduce((n, a) => n + b.handsOf(a.el), 0)
+    const take = atoms.filter(a => !b.isMetal(a.el)).reduce((n, a) => n + b.handsOf(a.el), 0)
+    assert.equal(give, take, k.show)
   }
 })

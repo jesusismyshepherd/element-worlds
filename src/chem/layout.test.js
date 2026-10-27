@@ -36,3 +36,17 @@ test('bonds settle near their length', () => {
   const d = Math.hypot(...p[1].map((v, k) => v - p[0][k]))
   assert.ok(Math.abs(d - 1.6) < 0.25, `${d}`)
 })
+
+test('a long layout is turned level along x, its shape unchanged', async () => {
+  const { level } = await import('./layout.js')
+  const pos = [[0, -2, 0.1], [0, 0, 0], [0.05, 2, -0.1]]
+  const out = level({ pos, extra: [[], [{ kind: 'lone', dir: [0, 0, 1] }], []] })
+  const d = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2])
+  assert.ok(Math.abs(d(out.pos[0], out.pos[2]) - d(pos[0], pos[2])) < 1e-9)
+  assert.ok(Math.abs(out.pos[0][1] - out.pos[2][1]) < 0.05, 'level')
+  assert.ok(Math.abs(out.pos[0][0] - out.pos[2][0]) > 3.9, 'along x')
+  assert.ok(Math.abs(Math.hypot(...out.extra[1][0].dir) - 1) < 1e-9)
+  // a compact shape (a tetrahedron) is left as it is
+  const tet = [[1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1]]
+  assert.deepEqual(level({ pos: tet, extra: [] }).pos, tet)
+})
