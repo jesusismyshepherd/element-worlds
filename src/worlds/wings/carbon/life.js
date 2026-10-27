@@ -14,10 +14,10 @@ import { formulaText, makeText } from '../../../engine/text.js'
 import { MOLECULES } from '../../../chem/molecules.js'
 import { atriumPath } from '../../registry.js'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
-import { standSign, refreshPrompt, onLevel, pick, glowMat, equation } from './kit.js'
+import { standSign, refreshPrompt, onLevel, pick, glowMat, equation, keepPlayerInView } from './kit.js'
 import { ethane, ethanol, glucose } from './structures.js'
 import { buildTree, breathing } from './tree.js'
-import { GREEN, skyDome, glassDome, garden, gardenLamps, dayNightDial, carbonPerson, moleculePedestal, c14Clock, cycleTable } from './life.parts.js'
+import { GREEN, skyDome, glassDome, garden, gardenLamps, dayNightDial, carbonPerson, moleculePedestal, c14Clock, cycleTable, butterflies } from './life.parts.js'
 import { wordsFor } from './life.words.js'
 
 const DOME_R = 17
@@ -88,6 +88,12 @@ export async function build(ctx) {
   root.add(lawn.group)
   updates.push((dt, t) => lawn.update(t))
   const lampSpots = [22, 82, 112, 152, 208, 258, 352].map(d => at(9.75, d))
+  const flutter = butterflies({ count: 12, radius: dome.floorRadius - 1.2, light })
+  root.add(flutter.group)
+  updates.push((dt, t) => {
+    flutter.group.visible = nightK < 0.6 // they rest at night
+    if (flutter.group.visible) flutter.update(t)
+  })
   const lamps = gardenLamps({ spots: lampSpots, light })
   root.add(lamps.group)
 
@@ -180,7 +186,7 @@ export async function build(ctx) {
     p.group.position.set(x, 0, z)
     p.group.rotation.y = facing(x, z)
     const f = formulaText(W.ex[m.id].formula, { size: 0.16, color: '#ffe8a3' })
-    f.position.set(0, 2.72, 0)
+    f.position.set(0, 2.45, 0)
     p.group.add(f)
     root.add(p.group)
     updates.push((dt, t) => p.update(dt, t))
@@ -327,41 +333,54 @@ export async function build(ctx) {
   const doors = [{ x: -15.2, z: 0, radius: 0.9, to: atriumPath('C') }]
   solids.push(box(-15.75, 0, 0.6, 4.2))
 
+  // ---- the third-person camera stays inside the round dome (the engine's bounds are a box)
+  const camTarget = new THREE.Vector3()
+  const camDir = new THREE.Vector3()
+  const keepCameraIn = () => {
+    const player = ctx.engine.player
+    if (player.mode !== 'third') return
+    const cam = ctx.camera
+    const max = dome.floorRadius - 0.7
+    if (Math.hypot(cam.position.x, cam.position.z) <= max) return
+    camTarget.set(player.pos.x, player.pos.y + avatar.body.height * 0.8, player.pos.z)
+    camDir.subVectors(cam.position, camTarget)
+    // the largest t in [0, 1] with |target + dir t| (on the ground plane) = max
+    const a = camDir.x * camDir.x + camDir.z * camDir.z
+    const b = 2 * (camTarget.x * camDir.x + camTarget.z * camDir.z)
+    const c = camTarget.x * camTarget.x + camTarget.z * camTarget.z - max * max
+    const disc = b * b - 4 * a * c
+    if (a < 1e-6 || disc < 0) return
+    const t = Math.max(0, Math.min(1, (-b + Math.sqrt(disc)) / (2 * a)))
+    cam.position.copy(camTarget).addScaledVector(camDir, t)
+    cam.lookAt(camTarget)
+  }
+
   // ---- carbon's Atomling
   const avatar = createAtomling(el, { light })
   root.add(avatar.root)
   if (shadows) avatar.root.traverse(o => o.isMesh && (o.castShadow = true))
 
   let unsubscribe = null
-  let shadowWas = null
   return {
     mode: 'walk',
     root,
     title: ctx.t('wings.C.life.title'),
-    env: { background: new THREE.Color('#bcd8f0'), fog, exposure: 0.92, envIntensity: 0.7, bloom: { strength: 0.32, radius: 0.5, threshold: 0.93 }, fov: 62 },
+    env: { background: new THREE.Color('#bcd8f0'), fog, exposure: 0.92, envIntensity: 0.7, bloom: { strength: 0.32, radius: 0.5, threshold: 0.93 }, fov: 62, shadows: true },
+    cameraPitchMax: 0.6,
     spawn: { x: -11.9, z: 0, yaw: -Math.PI / 2 },
     hostSpot: { x: -10.6, z: 2.0, yaw: -Math.PI / 2 - 0.9 },
     avatar,
     solids,
-    cameraBounds: { minX: -14.9, maxX: 16.2, minY: 0.3, maxY: 13.5, minZ: -16.2, maxZ: 16.2 },
+    cameraBounds: { minX: -14.9, maxX: 16.2, minY: 0.65, maxY: 13.5, minZ: -16.2, maxZ: 16.2 },
     interactables,
     doors,
-    attach(engine) {
-      if (shadows) {
-        shadowWas = { enabled: engine.renderer.shadowMap.enabled, type: engine.renderer.shadowMap.type }
-        engine.renderer.shadowMap.enabled = true
-        engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-      }
+    attach() {
       report()
       unsubscribe = onLevel(ctx, writeSigns)
       later(0.9, () => say(greeting()))
     },
-    detach(engine) {
+    detach() {
       unsubscribe?.()
-      if (shadowWas) {
-        engine.renderer.shadowMap.enabled = shadowWas.enabled
-        engine.renderer.shadowMap.type = shadowWas.type
-      }
       ctx.store.set({ speech: null, discoveries: null })
     },
     update(dt, t) {
@@ -374,6 +393,8 @@ export async function build(ctx) {
         }
       }
       for (const u of updates) u(dt, t)
+      keepCameraIn()
+      keepPlayerInView(ctx, avatar)
     },
     dispose() {
       timers.length = 0

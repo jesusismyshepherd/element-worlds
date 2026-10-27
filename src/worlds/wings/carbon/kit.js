@@ -369,3 +369,61 @@ export function paint(w, h, draw, { repeat = null, srgb = true } = {}) {
   }
   return t
 }
+
+/** Where the third-person camera looks (the player's head) and how wide a channel to clear toward it:
+ *  shared by every material made with nearFade; a world sets it each frame with keepPlayerInView. */
+export const FADE = { uFadeTarget: { value: new THREE.Vector3() }, uFadeRadius: { value: 0 } }
+
+/** Each frame: in third person, clear a channel between the camera and the player (radius `r`); in
+ *  first person nothing (only what touches the camera dissolves). */
+export function keepPlayerInView(ctx, avatar, r = 0.85) {
+  const p = ctx.engine.player
+  if (p.mode === 'third' && avatar) {
+    FADE.uFadeTarget.value.set(p.pos.x, p.pos.y + avatar.body.height * 0.6, p.pos.z)
+    FADE.uFadeRadius.value = r
+  } else FADE.uFadeRadius.value = 0
+}
+
+/** Dissolve a material (dithered) where it stands between the third-person camera and the player, or
+ *  within `near` metres of the camera, so bars of a tunnel or a cage never hide the player. Keeps any
+ *  onBeforeCompile the material already has. */
+export function nearFade(mat, near = 0.7) {
+  const prev = mat.onBeforeCompile
+  const prevKey = mat.customProgramCacheKey === THREE.Material.prototype.customProgramCacheKey ? null : mat.customProgramCacheKey.bind(mat)
+  mat.onBeforeCompile = (sh, renderer) => {
+    prev.call(mat, sh, renderer)
+    Object.assign(sh.uniforms, FADE, { uFadeNear: { value: near } })
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vNfWorld;')
+      .replace('#include <project_vertex>', `#include <project_vertex>
+        #ifdef USE_INSTANCING
+          vNfWorld = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
+        #else
+          vNfWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;
+        #endif`)
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vNfWorld;\nuniform float uFadeNear;\nuniform vec3 uFadeTarget;\nuniform float uFadeRadius;')
+      .replace('void main() {', `void main() {
+        {
+          float keep = smoothstep(uFadeNear * 0.4, uFadeNear, distance(vNfWorld, cameraPosition));
+          if (uFadeRadius > 0.0) {
+            vec3 ab = uFadeTarget - cameraPosition;
+            float l2 = max(dot(ab, ab), 1e-4);
+            vec3 ap = vNfWorld - cameraPosition;
+            float t = dot(ap, ab) / l2;
+            if (t > 0.0 && t < 1.0) {
+              float d = length(ap - ab * t);
+              // the channel narrows toward the player, so what stands right beside it stays
+              float r = uFadeRadius * mix(1.0, 0.55, t);
+              keep = min(keep, smoothstep(r * 0.6, r, d));
+            }
+          }
+          if (keep < 1.0) {
+            float n = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
+            if (n > keep) discard;
+          }
+        }`)
+  }
+  mat.customProgramCacheKey = () => `${prevKey ? prevKey() : 'std'}|nf${near}`
+  return mat
+}

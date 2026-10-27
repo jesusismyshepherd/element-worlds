@@ -4,7 +4,7 @@
 // drifting out while the sun shines (at night only a little CO2 comes out: respiration).
 import * as THREE from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
-import { taperedTube, paint } from './kit.js'
+import { taperedTube, paint, nearFade } from './kit.js'
 import { rng } from './structures.js'
 
 function barkTexture() {
@@ -115,7 +115,7 @@ export function buildTree({ light = false, seed = 4, scale = 1, leaves = light ?
   }
   // a leader going up the middle
   branch(trunkTop.clone(), new THREE.Vector3(0.05, 1, 0.02).normalize(), 3.6, 0.3, 3)
-  const wood = new THREE.Mesh(mergeGeometries(geos), new THREE.MeshStandardMaterial({ map: barkTexture(), color: '#a8876c', roughness: 0.92 }))
+  const wood = new THREE.Mesh(mergeGeometries(geos), nearFade(new THREE.MeshStandardMaterial({ map: barkTexture(), color: '#a8876c', roughness: 0.92 })))
   wood.castShadow = shadows
   wood.receiveShadow = shadows
   group.add(wood)
@@ -137,6 +137,7 @@ export function buildTree({ light = false, seed = 4, scale = 1, leaves = light ?
         #endif`)
   }
   leafMat.customProgramCacheKey = () => 'carbon-leaves'
+  nearFade(leafMat, 0.9)
   const leafMesh = new THREE.InstancedMesh(leafGeo, leafMat, leaves)
   const m4 = new THREE.Matrix4()
   const q = new THREE.Quaternion()

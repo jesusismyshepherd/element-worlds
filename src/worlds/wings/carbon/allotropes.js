@@ -14,7 +14,7 @@ import { roomWalls, box, circle } from '../../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../../engine/progress.js'
 import { makeText } from '../../../engine/text.js'
 import { atriumPath } from '../../registry.js'
-import { standSign, spotLamp, beam, refreshPrompt, onLevel, pick, glowMat } from './kit.js'
+import { standSign, spotLamp, beam, refreshPrompt, onLevel, pick, glowMat, keepPlayerInView } from './kit.js'
 import { sparkleEnv } from './gem.js'
 import {
   ACCENT, grapheneFloor, hallShell, diamondModel, brilliantGem, graphiteModel, giantPencil, nanotubeTunnel, c60Dome,
@@ -391,6 +391,33 @@ export async function build(ctx) {
   const avatar = createAtomling(el, { light })
   root.add(avatar.root)
 
+  // ---- the third-person camera stays on the player's side of the tube's and the dome's walls
+  // (looking at a player outside through a wall of bars, or from outside at a player inside)
+  const inTube = (x, z) => Math.abs(x) < 2.1 && z < tubeSouth && z > tubeNorth
+  const inDome = (x, z) => Math.hypot(x - DOME.x, z - DOME.z) < dome.floorRadius - 0.15
+  const camTarget = new THREE.Vector3()
+  const camDir = new THREE.Vector3()
+  const keepCameraClear = () => {
+    const player = ctx.engine.player
+    if (player.mode !== 'third') return
+    const cam = ctx.camera
+    camTarget.set(player.pos.x, player.pos.y + avatar.body.height * 0.8, player.pos.z)
+    camDir.subVectors(cam.position, camTarget)
+    const tubeT = inTube(camTarget.x, camTarget.z)
+    const domeT = inDome(camTarget.x, camTarget.z)
+    const steps = 24
+    for (let i = 1; i <= steps; i++) {
+      const u = i / steps
+      const x = camTarget.x + camDir.x * u
+      const z = camTarget.z + camDir.z * u
+      if (inTube(x, z) !== tubeT || inDome(x, z) !== domeT) {
+        cam.position.copy(camTarget).addScaledVector(camDir, Math.max(0.28, (i - 1) / steps))
+        cam.lookAt(camTarget)
+        return
+      }
+    }
+  }
+
   let unsubscribe = null
   return {
     mode: 'walk',
@@ -399,6 +426,7 @@ export async function build(ctx) {
     env: { background: new THREE.Color('#060a1c'), fog: new THREE.Fog('#060a1c', 32, 90), exposure: 1.0, envIntensity: 0.35, bloom: { strength: 0.6, radius: 0.5, threshold: 0.8 }, fov: 62 },
     spawn: { x: 0, z: 0.9, yaw: 0 },
     hostSpot: { x: 2.0, z: -0.4, yaw: 2.4 },
+    cameraPitchMax: 0.5,
     avatar,
     solids,
     cameraBounds: { minX: ROOM.x0 + 0.4, maxX: ROOM.x1 - 0.4, minY: 0.3, maxY: ROOM.h - 0.4, minZ: ROOM.z0 + 0.4, maxZ: ROOM.z1 - 0.4 },
@@ -424,6 +452,8 @@ export async function build(ctx) {
         }
       }
       for (const u of updates) u(dt, t)
+      keepCameraClear()
+      keepPlayerInView(ctx, avatar)
     },
     dispose() {
       timers.length = 0

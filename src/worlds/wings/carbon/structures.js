@@ -326,13 +326,13 @@ export function cuboOctahedron(cube = 0.72) {
 // ---- life: the human body, carbon-14 ----
 /** The body by mass (percent): oxygen mostly in water, carbon the backbone of every biomolecule. */
 export const BODY = [
-  { el: 'O', mass: 65, color: '#ff4b42' },
-  { el: 'C', mass: 18, color: '#3c4250' },
-  { el: 'H', mass: 10, color: '#eef3ff' },
-  { el: 'N', mass: 3, color: '#4f7bff' },
-  { el: 'Ca', mass: 1.5, color: '#9be07a' },
-  { el: 'P', mass: 1, color: '#ff9a3c' },
-  { el: 'other', mass: 1.5, color: '#c58bff' },
+  { el: 'O', mass: 65, color: '#e3241b' },
+  { el: 'C', mass: 18, color: '#2c3039' },
+  { el: 'H', mass: 10, color: '#f4f7ff' },
+  { el: 'N', mass: 3, color: '#2557ff' },
+  { el: 'Ca', mass: 1.5, color: '#3fc645' },
+  { el: 'P', mass: 1, color: '#ff8414' },
+  { el: 'other', mass: 1.5, color: '#9446ff' },
 ]
 
 /** By number of atoms (percent), for the Scientist. */

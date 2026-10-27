@@ -7,7 +7,6 @@ import { makeText } from '../../../engine/text.js'
 import { ballAndStick } from '../../../chem/ballAndStick.js'
 import { glowMat, taperedTube, easeInOut, easeOut, smooth, clamp, paint } from './kit.js'
 import { BODY, C14, rng } from './structures.js'
-import { buildTree } from './tree.js'
 
 export const GREEN = '#8be37a'
 const GOLD = '#ffd166'
@@ -265,7 +264,7 @@ export function garden({ radius = 16.9, ringIn = 7.6, ringOut = 9.4, spokes = []
       .replace('#include <color_fragment>', '#include <color_fragment>\n diffuseColor.rgb *= mix(0.42, 1.08, vH);')
   }
   bladeMat.customProgramCacheKey = () => 'carbon-grass'
-  const count = light ? 7000 : 26000
+  const count = light ? 9000 : 42000
   const blades = new THREE.InstancedMesh(blade, bladeMat, count)
   const r = rng(31)
   const m4 = new THREE.Matrix4()
@@ -282,8 +281,8 @@ export function garden({ radius = 16.9, ringIn = 7.6, ringOut = 9.4, spokes = []
     if (rad > ringIn - 0.1 && rad < ringOut + 0.1) continue
     if (keepOut(x, z)) continue
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), r() * Math.PI * 2)
-    const h = 0.16 + r() * 0.26
-    const w = 0.035 + r() * 0.02
+    const h = 0.13 + r() * 0.24
+    const w = 0.018 + r() * 0.014
     m4.compose(new THREE.Vector3(x, 0, z), q, new THREE.Vector3(w, h, w * 8))
     blades.setMatrixAt(n, m4)
     col.setHSL(0.24 + r() * 0.06, 0.5 + r() * 0.2, 0.3 + r() * 0.14)
@@ -538,7 +537,7 @@ export function carbonPerson({ light, words }) {
     uTime: { value: 0 },
     uGlowC: { value: 0 },
   }
-  const fillMat = new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0.25, clearcoat: light ? 0 : 0.6, transparent: false })
+  const fillMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.5, metalness: 0 })
   fillMat.onBeforeCompile = sh => {
     Object.assign(sh.uniforms, fillU)
     sh.vertexShader = sh.vertexShader
@@ -556,15 +555,40 @@ export function carbonPerson({ light, words }) {
         float surface = uFill + 0.012 * sin(vY * 0.0 + uTime * 3.0 + gl_FragCoord.x * 0.02);
         if (vY > surface) discard;
         int band;
-        diffuseColor.rgb = bandColor(vY, band);`)
+        diffuseColor.rgb = bandColor(vY, band);
+        float gap = 1.0;
+        for (int i = 0; i < 6; i++) gap = min(gap, abs(vY - uTops[i]));
+        diffuseColor.rgb *= mix(0.35, 1.0, smoothstep(0.004, 0.014, gap));`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
         int band2;
         vec3 bc = bandColor(vY, band2);
-        totalEmissiveRadiance += band2 == 1 ? mix(bc * 0.3, vec3(0.55, 0.9, 1.0), uGlowC * 0.55) : bc * 0.12;`)
+        totalEmissiveRadiance += band2 == 1 ? bc * 0.4 + vec3(0.12, 0.42, 0.62) * uGlowC * 0.35 : bc * 0.2;`)
   }
   fillMat.customProgramCacheKey = () => 'carbon-person-fill'
   const fill = new THREE.Mesh(fillGeo, fillMat)
-  const shell = new THREE.Mesh(shellGeo, new THREE.MeshPhysicalMaterial({ color: '#eaf6ff', roughness: 0.04, transparent: true, opacity: 0.18, clearcoat: light ? 0 : 1, depthWrite: false, side: THREE.DoubleSide }))
+  const shell = new THREE.Mesh(shellGeo, new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    uniforms: { uColor: { value: new THREE.Color('#eef8ff') } },
+    vertexShader: /* glsl */ `
+      varying vec3 vN; varying vec3 vV;
+      void main() {
+        vec4 w = modelMatrix * vec4(position, 1.0);
+        vN = normalize(mat3(modelMatrix) * normal);
+        vV = normalize(cameraPosition - w.xyz);
+        gl_Position = projectionMatrix * viewMatrix * w;
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform vec3 uColor; varying vec3 vN; varying vec3 vV;
+      void main() {
+        // glass: clear where you look straight through it, bright along its edges
+        float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.6);
+        gl_FragColor = vec4(uColor * (0.7 + 0.9 * f), 0.02 + 0.6 * f);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  }))
   shell.renderOrder = 4
   const figure = new THREE.Group()
   figure.position.y = 0.32
@@ -649,7 +673,7 @@ export function moleculePedestal({ mol, scale, name, light }) {
   spin.add(model)
   group.add(spin)
   const label = makeText(name, { size: 0.13, color: '#ffffff', outlineWidth: 0.008, outlineColor: '#24402a' })
-  label.position.set(0, 2.5, 0)
+  label.position.set(0, 2.25, 0)
   group.add(label)
   let boost = 0
   return {
@@ -668,6 +692,33 @@ export function moleculePedestal({ mol, scale, name, light }) {
 }
 
 // ---------------------------------------------------------------- carbon-14: the clock and the mammoth
+function ivoryTexture() {
+  // along a tusk: stained brown at the root (v = 0), creamy toward the tip, with growth bands
+  return paint(64, 512, (g, w, h) => {
+    const grad = g.createLinearGradient(0, h, 0, 0)
+    grad.addColorStop(0, '#7d5f3e')
+    grad.addColorStop(0.16, '#c4a77e')
+    grad.addColorStop(0.45, '#e6d6b6')
+    grad.addColorStop(1, '#f5ecd9')
+    g.fillStyle = grad
+    g.fillRect(0, 0, w, h)
+    const r = rng(19)
+    for (let yy = 0; yy < h; yy += 5 + r() * 9) {
+      g.fillStyle = `rgba(110,80,50,${0.05 + r() * 0.08})`
+      g.fillRect(0, yy, w, 1 + r() * 2)
+    }
+    for (let i = 0; i < 14; i++) {
+      g.strokeStyle = `rgba(90,65,40,${0.06 + r() * 0.1})`
+      g.beginPath()
+      const x = r() * w
+      const y0 = r() * h
+      g.moveTo(x, y0)
+      g.lineTo(x + (r() - 0.5) * 4, y0 + 30 + r() * 120)
+      g.stroke()
+    }
+  })
+}
+
 function boneTexture() {
   return paint(256, 256, (g, w, h) => {
     g.fillStyle = '#d9ccb0'
@@ -775,25 +826,60 @@ export function c14Clock({ light, words }) {
   const tag = makeText(W.boneTag, { size: 0.075, color: '#3a2c18', maxWidth: 1.3, font: 'medium' })
   tag.position.set(0, 0.62, 1.215)
   group.add(tag)
-  // the tusks, arching behind
-  const ivory = new THREE.MeshStandardMaterial({ color: '#efe3c8', roughness: 0.45, metalness: 0.05 })
-  for (const s of [-1, 1]) {
-    const pts = []
-    for (let i = 0; i <= 16; i++) {
-      const u = i / 16
-      pts.push(new THREE.Vector3(
-        s * (0.24 + 0.78 * Math.sin(u * Math.PI) + 0.12 * u),
-        1.15 - 0.42 * Math.sin(u * Math.PI * 0.62) + 1.05 * u * u,
-        -0.95 + 1.15 * Math.sin(u * Math.PI * 0.7),
-      ))
+  // a whole tusk lying behind the bone on two cradles, as museums show them: thick at the root (stained
+  // brown from the ground, cut open to show its rings), sweeping round in a long curve, the tip rising
+  // shown in profile, standing like a crescent: the root low on the left, the tusk sweeping out and up,
+  // its tip curling back in at the top (it also twists a little toward you, as tusks spiral)
+  const tuskCurve = new THREE.CatmullRomCurve3(Array.from({ length: 29 }, (_, i) => {
+    const u = i / 28
+    const phi = (-118 + 232 * u) * (Math.PI / 180)
+    const rr = 0.9 - 0.26 * u
+    return new THREE.Vector3(0.18 + rr * Math.cos(phi), 1.28 + rr * Math.sin(phi), -1.45 + 0.3 * u * u)
+  }), false, 'centripetal')
+  const tuskR = u => 0.02 + 0.13 * (1 - Math.pow(u, 1.5))
+  const ivory = new THREE.MeshPhysicalMaterial({ map: ivoryTexture(), roughness: 0.36, clearcoat: light ? 0 : 0.35, clearcoatRoughness: 0.4 })
+  const tusk = new THREE.Mesh(taperedTube(tuskCurve, 0.15, 0.02, { radial: 24, segments: 90, flare: u => tuskR(u) / (0.15 - 0.13 * u) }), ivory)
+  tusk.castShadow = true
+  group.add(tusk)
+  // the cut root: growth rings round a dark pulp cavity
+  const rootAt = tuskCurve.getPointAt(0)
+  const rootDir = tuskCurve.getTangentAt(0).negate()
+  const ringTex = paint(128, 128, (g, w) => {
+    const c = w / 2
+    for (let r = c; r > 2; r -= 3) {
+      g.fillStyle = r > c * 0.4 ? (r % 6 < 3 ? '#e3d2b0' : '#cdb58c') : '#5a3f28'
+      g.beginPath()
+      g.arc(c, c, r, 0, Math.PI * 2)
+      g.fill()
     }
-    const tusk = new THREE.Mesh(taperedTube(pts, 0.095, 0.022, { radial: 18, segments: 48 }), ivory)
-    tusk.castShadow = true
-    group.add(tusk)
+  })
+  const cap = new THREE.Mesh(new THREE.CircleGeometry(tuskR(0) * 1.0, 32), new THREE.MeshStandardMaterial({ map: ringTex, roughness: 0.6 }))
+  cap.position.copy(rootAt).addScaledVector(rootDir, 0.002)
+  cap.lookAt(rootAt.clone().add(rootDir))
+  group.add(cap)
+  // its mount: two dark metal posts with cradles that hold it up behind the bone
+  const mountMat = new THREE.MeshStandardMaterial({ color: '#2d2a28', roughness: 0.4, metalness: 0.8 })
+  for (const u of [0.1, 0.38]) {
+    const p = tuskCurve.getPointAt(u)
+    const h = p.y - tuskR(u) - 0.14
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.035, h, 12), mountMat)
+    post.position.set(p.x, 0.14 + h / 2, p.z)
+    const fork = new THREE.Mesh(new THREE.TorusGeometry(tuskR(u) * 1.05, 0.012, 6, 24, Math.PI), mountMat)
+    fork.position.set(p.x, p.y, p.z)
+    const t = tuskCurve.getTangentAt(u)
+    fork.rotation.set(0, Math.atan2(t.x, t.z) + Math.PI / 2, Math.PI)
+    const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.03, 20), mountMat)
+    foot.position.set(p.x, 0.155, p.z)
+    group.add(post, fork, foot)
   }
-  const mount = new THREE.Mesh(new RoundedBoxGeometry(0.9, 1.0, 0.4, 3, 0.05), new THREE.MeshStandardMaterial({ color: '#4a3c30', roughness: 0.7 }))
-  mount.position.set(0, 0.6, -0.95)
-  group.add(mount)
+  const tuskTag = makeText(W.tuskTag, { size: 0.065, color: '#3a2c18', maxWidth: 0.9, font: 'medium' })
+  const tagPlate = new THREE.Mesh(new RoundedBoxGeometry(1.0, 0.2, 0.03, 2, 0.01), new THREE.MeshStandardMaterial({ color: '#d8c79a', roughness: 0.4, metalness: 0.6 }))
+  const tagGroup = new THREE.Group()
+  tagGroup.position.set(1.42, 0.36, 1.22)
+  tagGroup.rotation.set(-0.85, 0, 0)
+  tuskTag.position.z = 0.02
+  tagGroup.add(tagPlate, tuskTag)
+  group.add(tagGroup)
   // the clock
   const clock = new THREE.Group()
   clock.position.set(-1.65, 1.8, -0.2)
@@ -926,13 +1012,13 @@ export function c14Clock({ light, words }) {
       }
       atoms.instanceMatrix.needsUpdate = true
       boneLit += ((halvings === C14.sampleHalvings ? 1 : 0) - boneLit) * Math.min(1, dt * 2)
-      boneGlowMat.opacity = boneLit * (0.18 + 0.08 * Math.sin(t * 3))
+      boneGlowMat.opacity = boneLit * (0.42 + 0.14 * Math.sin(t * 3))
     },
   }
 }
 
 // ---------------------------------------------------------------- the carbon cycle
-function sheep() {
+function sheep(s = 1) {
   const g = new THREE.Group()
   const wool = new THREE.MeshStandardMaterial({ color: '#f3f0ea', roughness: 0.95 })
   const dark = new THREE.MeshStandardMaterial({ color: '#2b2622', roughness: 0.7 })
@@ -952,30 +1038,31 @@ function sheep() {
     leg.position.set(x, 0.08, z)
     g.add(leg)
   }
+  g.scale.setScalar(s)
   return g
 }
 
-/** The carbon cycle on a round table: the air (a cloud), plants, an animal, the ocean, the soil, coal
- *  and oil deep under it, and a chimney where they are burned. Markers flow between them. Labels:
- *  setLevel(level) shows the Explorer names or the Scientist stores. */
+/** The carbon cycle on a round table: a little landscape (wooded hills, a meadow with sheep, the sea,
+ *  the soil with its mushrooms, a town whose power station burns coal and oil), a quarter cut away to
+ *  show the rock underneath with a coal seam and an oil pocket, and the air as a cloud over it all.
+ *  Markers flow between the stores. setLevel(level) shows Explorer names or Scientist stores. */
 export function cycleTable({ light, words }) {
   const group = new THREE.Group()
   const top = 1.0
   const R = 1.55
-  // the table: a disc of land with a quarter cut away to show what lies underneath
+  const smooth01 = t => t * t * (3 - 2 * t)
+  // the table: a disc of land with a quarter cut away (toward +z) to show what lies underneath
   const strata = [
-    ['#4c3828', 0.12], ['#7a6a58', 0.16], ['#20201f', 0.1], ['#8c7b66', 0.12], ['#5a4936', 0.16],
+    ['#4c3828', 0.12], ['#7a6a58', 0.16], ['#1b1b1b', 0.1], ['#8c7b66', 0.12], ['#5a4936', 0.16],
   ]
   let y = top
   const wedge = Math.PI * 0.5
   for (const [c, h] of strata) {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(R, R, h, 64, 1, false, wedge * 0.5, Math.PI * 2 - wedge), new THREE.MeshStandardMaterial({ color: c, roughness: 0.9 }))
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(R, R, h, 96, 1, false, wedge * 0.5, Math.PI * 2 - wedge), new THREE.MeshStandardMaterial({ color: c, roughness: 0.9 }))
     m.position.y = y - h / 2
     group.add(m)
     y -= h
   }
-  // the cut faces of the wedge
-  // the cut faces show the layers: soil, rock, a coal seam, rock, deep rock
   const total = strata.reduce((sum, [, h]) => sum + h, 0)
   const cutTex = paint(256, 256, (g, w, h) => {
     let yy = 0
@@ -986,9 +1073,8 @@ export function cycleTable({ light, words }) {
       g.fillRect(0, yy, w, band + 1)
       for (let i = 0; i < 160 * (hh / total); i++) {
         g.fillStyle = `rgba(${rr() < 0.5 ? '255,240,220' : '0,0,0'},${0.06 + rr() * 0.1})`
-        const r = 1 + rr() * 3
         g.beginPath()
-        g.arc(rr() * w, yy + rr() * band, r, 0, Math.PI * 2)
+        g.arc(rr() * w, yy + rr() * band, 1 + rr() * 3, 0, Math.PI * 2)
         g.fill()
       }
       yy += band
@@ -997,33 +1083,36 @@ export function cycleTable({ light, words }) {
   const cutMat = new THREE.MeshStandardMaterial({ map: cutTex, roughness: 0.95, side: THREE.DoubleSide })
   for (const a of [wedge * 0.5, -wedge * 0.5 + Math.PI * 2]) {
     const face = new THREE.Mesh(new THREE.PlaneGeometry(R, top - y), cutMat)
-    face.position.set(Math.sin(a) * R / 2, (top + y) / 2, Math.cos(a) * R / 2)
+    face.position.set((Math.sin(a) * R) / 2, (top + y) / 2, (Math.cos(a) * R) / 2)
     face.rotation.y = a + Math.PI / 2
     group.add(face)
   }
-  // inside the cut: the coal seam and an oil pocket
-  const oil = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 14), new THREE.MeshPhysicalMaterial({ color: '#1a1206', roughness: 0.1, clearcoat: 1 }))
+  const oil = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 16), new THREE.MeshPhysicalMaterial({ color: '#1a1206', roughness: 0.1, clearcoat: 1 }))
   oil.scale.set(1.4, 0.45, 1.4)
   oil.position.set(0, top - 0.56, 0.95)
   group.add(oil)
   const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.62, y, 32), new THREE.MeshStandardMaterial({ color: '#4a4036', roughness: 0.8 }))
   legs.position.y = y / 2
   group.add(legs)
-  // the landscape on top: grass, a patch of sea, a soil patch with mushrooms
-  const landGeo = new THREE.CircleGeometry(R, 96, wedge * 0.5 + Math.PI / 2, Math.PI * 2 - wedge)
-  {
-    // gentle hills, flat at the rim and where the sea and the soil lie
-    const p = landGeo.getAttribute('position')
-    for (let i = 0; i < p.count; i++) {
-      const x = p.getX(i)
-      const y = p.getY(i)
-      const rim = Math.max(0, 1 - Math.hypot(x, y) / R)
-      const hill = (Math.sin(x * 2.3 + 1.1) * Math.cos(y * 2.1) * 0.5 + 0.5) * 0.08
-      const flat = Math.min(1, Math.hypot(x + 0.82, y + 0.25) / 0.6) * Math.min(1, Math.hypot(x - 0.78, y - 0.33) / 0.45)
-      p.setZ(i, hill * Math.min(1, rim * 4) * flat)
-    }
-    landGeo.computeVertexNormals()
+
+  // the land: wooded hills at the back, flat toward the cut and where the sea, the soil and the town lie
+  const SEA = [-0.82, 0.32, 0.46]
+  const TOWN = [0.86, 0.42, 0.4]
+  const SOIL = [0.78, -0.38, 0.28]
+  const H = (x, z) => {
+    const r = Math.hypot(x, z)
+    const rim = smooth01(clamp((R - r) / 0.2, 0, 1))
+    const back = smooth01(clamp((0.25 - z) / 0.6, 0, 1))
+    const bump = (cx, cz, s, h) => h * Math.exp(-((x - cx) ** 2 + (z - cz) ** 2) / s)
+    let h = bump(-0.42, -0.72, 0.14, 0.22) + bump(0.12, -1.02, 0.07, 0.13) + bump(-0.98, -0.42, 0.05, 0.1)
+    h += 0.025 * (Math.sin(x * 5.3 + 0.6) * Math.cos(z * 4.7) * 0.5 + 0.5)
+    const flat = ([cx, cz, rr]) => smooth01(clamp((Math.hypot(x - cx, z - cz) - rr) / 0.18, 0, 1))
+    return h * rim * back * flat(SEA) * flat(TOWN) * flat(SOIL)
   }
+  const landGeo = new THREE.RingGeometry(0.001, R, 128, 48, -Math.PI / 2 + wedge / 2, Math.PI * 2 - wedge)
+  const lp = landGeo.getAttribute('position')
+  for (let i = 0; i < lp.count; i++) lp.setZ(i, H(lp.getX(i), -lp.getY(i)))
+  landGeo.computeVertexNormals()
   const landTex = paint(256, 256, (g, w, h) => {
     g.fillStyle = '#5c9443'
     g.fillRect(0, 0, w, h)
@@ -1036,44 +1125,113 @@ export function cycleTable({ light, words }) {
   const land = new THREE.Mesh(landGeo, new THREE.MeshStandardMaterial({ map: landTex, roughness: 0.95 }))
   land.rotation.x = -Math.PI / 2
   land.position.y = top + 0.002
+  land.receiveShadow = true
   group.add(land)
-  const sea = new THREE.Mesh(new THREE.CircleGeometry(0.5, 48), new THREE.MeshPhysicalMaterial({ color: '#1f6aa5', roughness: 0.06, clearcoat: 1, transparent: true, opacity: 0.94 }))
+  const at = (x, z, lift = 0) => new THREE.Vector3(x, top + H(x, z) + lift, z)
+  // the sea, a soil patch with mushrooms
+  const sea = new THREE.Mesh(new THREE.CircleGeometry(SEA[2], 48), new THREE.MeshPhysicalMaterial({ color: '#1f6aa5', roughness: 0.06, clearcoat: 1, transparent: true, opacity: 0.94 }))
   sea.rotation.x = -Math.PI / 2
-  sea.position.set(-0.82, top + 0.008, 0.25)
+  sea.position.set(SEA[0], top + 0.01, SEA[1])
   group.add(sea)
-  const soil = new THREE.Mesh(new THREE.CircleGeometry(0.34, 32), new THREE.MeshStandardMaterial({ color: '#5a3f26', roughness: 1 }))
+  const soil = new THREE.Mesh(new THREE.CircleGeometry(SOIL[2], 32), new THREE.MeshStandardMaterial({ color: '#5a3f26', roughness: 1 }))
   soil.rotation.x = -Math.PI / 2
-  soil.position.set(0.78, top + 0.006, -0.33)
+  soil.position.set(SOIL[0], top + 0.008, SOIL[1])
   group.add(soil)
-  for (const [x, z, s] of [[0.72, -0.3, 1], [0.86, -0.42, 0.7], [0.9, -0.22, 0.85]]) {
+  for (const [x, z, s] of [[0.72, -0.34, 1], [0.86, -0.46, 0.7], [0.9, -0.26, 0.85], [0.66, -0.47, 0.6]]) {
     const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.012 * s, 0.015 * s, 0.07 * s, 8), new THREE.MeshStandardMaterial({ color: '#f1e8d6' }))
     stem.position.set(x, top + 0.035 * s, z)
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(0.04 * s, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#b5462e', roughness: 0.6 }))
-    cap.position.set(x, top + 0.065 * s, z)
-    group.add(stem, cap)
+    const capM = new THREE.Mesh(new THREE.SphereGeometry(0.04 * s, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#b5462e', roughness: 0.6 }))
+    capM.position.set(x, top + 0.065 * s, z)
+    group.add(stem, capM)
   }
-  // a small tree, an animal, a chimney
-  const tree = buildTree({ light: true, seed: 12, scale: 0.1, leaves: light ? 1400 : 2600, shadows: false, leafSize: 0.55 })
-  tree.group.position.set(-0.45, top, -0.65)
-  group.add(tree.group)
-  const animal = sheep()
-  animal.position.set(0.3, top + 0.02, -0.88)
-  animal.rotation.y = 2.2
-  group.add(animal)
-  const chim = new THREE.Group()
-  chim.position.set(0.95, top, 0.6)
-  group.add(chim)
-  const factory = new THREE.Mesh(new RoundedBoxGeometry(0.34, 0.18, 0.24, 2, 0.02), new THREE.MeshStandardMaterial({ color: '#8d8478', roughness: 0.8 }))
-  factory.position.y = 0.09
-  const stack = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.036, 0.36, 12), new THREE.MeshStandardMaterial({ color: '#8a8f96', roughness: 0.6 }))
-  stack.position.set(0.1, 0.18, 0)
-  const flame = new THREE.Mesh(new THREE.ConeGeometry(0.026, 0.07, 10), glowMat('#ff8a2a', 3))
-  flame.position.set(0.1, 0.4, 0)
-  chim.add(factory, stack, flame)
+  // a forest on the hills: round broadleaf trees and pointed conifers
+  const fr = rng(12)
+  const trees = []
+  while (trees.length < (light ? 16 : 26)) {
+    const a = fr() * Math.PI * 2
+    const d = Math.sqrt(fr()) * 0.5
+    const x = -0.42 + Math.cos(a) * d * 1.3
+    const z = -0.72 + Math.sin(a) * d
+    if (Math.hypot(x, z) > R - 0.12 || trees.some(t => Math.hypot(t[0] - x, t[1] - z) < 0.085)) continue
+    trees.push([x, z, 0.75 + fr() * 0.5, fr() < 0.45])
+  }
+  const trunkGeo = new THREE.CylinderGeometry(0.008, 0.012, 0.07, 6)
+  trunkGeo.translate(0, 0.035, 0)
+  const trunks = new THREE.InstancedMesh(trunkGeo, new THREE.MeshStandardMaterial({ color: '#5a4030', roughness: 0.9 }), trees.length)
+  const roundGeo = new THREE.IcosahedronGeometry(0.06, 1)
+  const coneGeo = new THREE.ConeGeometry(0.05, 0.16, 8)
+  const rounds = new THREE.InstancedMesh(roundGeo, new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.85, flatShading: true }), trees.length)
+  const cones = new THREE.InstancedMesh(coneGeo, new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.85, flatShading: true }), trees.length)
+  const m4 = new THREE.Matrix4()
+  const q = new THREE.Quaternion()
+  const col = new THREE.Color()
+  let nr = 0
+  let nc = 0
+  trees.forEach(([x, z, s, conifer], i) => {
+    const base = at(x, z)
+    trunks.setMatrixAt(i, m4.compose(base, q.identity(), new THREE.Vector3(s, s, s)))
+    if (conifer) {
+      cones.setMatrixAt(nc, m4.compose(base.clone().add(new THREE.Vector3(0, 0.12 * s, 0)), q, new THREE.Vector3(s, s, s)))
+      cones.setColorAt(nc++, col.setHSL(0.36 + fr() * 0.04, 0.45, 0.2 + fr() * 0.06))
+    } else {
+      rounds.setMatrixAt(nr, m4.compose(base.clone().add(new THREE.Vector3(0, 0.1 * s, 0)), q.setFromEuler(new THREE.Euler(0, fr() * 3, 0)), new THREE.Vector3(s, s * 1.15, s)))
+      rounds.setColorAt(nr++, col.setHSL(0.25 + fr() * 0.07, 0.5, 0.26 + fr() * 0.08))
+    }
+  })
+  rounds.count = nr
+  cones.count = nc
+  for (const m of [trunks, rounds, cones]) {
+    m.castShadow = true
+    group.add(m)
+  }
+  // sheep on the meadow
+  for (const [x, z, rot] of [[0.18, -0.48, 2.2], [0.38, -0.62, 0.6], [0.3, -0.3, -1.2]]) {
+    const sh = sheep(0.62)
+    sh.position.copy(at(x, z))
+    sh.rotation.y = rot
+    group.add(sh)
+  }
+  // a town with a power station burning coal and oil
+  const town = new THREE.Group()
+  group.add(town)
+  const walls = new THREE.MeshStandardMaterial({ color: '#efe6d6', roughness: 0.8 })
+  const roof = new THREE.MeshStandardMaterial({ color: '#b5533c', roughness: 0.7 })
+  const tr = rng(29)
+  for (const [x, z] of [[0.62, 0.3], [0.7, 0.55], [0.84, 0.72], [1.04, 0.62], [0.6, 0.72], [1.12, 0.36]]) {
+    const w = 0.08 + tr() * 0.04
+    const h = 0.06 + tr() * 0.04
+    const house = new THREE.Mesh(new THREE.BoxGeometry(w, h, w * 0.8), walls)
+    house.position.set(x, top + h / 2, z)
+    house.rotation.y = tr() * 0.6
+    const r = new THREE.Mesh(new THREE.ConeGeometry(w * 0.78, 0.06, 4), roof)
+    r.position.set(x, top + h + 0.03, z)
+    r.rotation.y = house.rotation.y + Math.PI / 4
+    town.add(house, r)
+  }
+  const plant = new THREE.Mesh(new RoundedBoxGeometry(0.26, 0.13, 0.17, 2, 0.015), new THREE.MeshStandardMaterial({ color: '#8d8a86', roughness: 0.7 }))
+  plant.position.set(0.98, top + 0.065, 0.2)
+  const stackM = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.034, 0.34, 14), new THREE.MeshStandardMaterial({ color: '#a8574a', roughness: 0.7 }))
+  stackM.position.set(1.06, top + 0.17 + 0.13, 0.2)
+  for (const yy of [0.22, 0.29]) {
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.031, 0.005, 6, 20), new THREE.MeshStandardMaterial({ color: '#f2efe9' }))
+    band.rotation.x = Math.PI / 2
+    band.position.set(1.06, top + 0.13 + yy, 0.2)
+    town.add(band)
+  }
+  const ember = new THREE.Mesh(new THREE.SphereGeometry(0.018, 10, 8), glowMat('#ff8a2a', 3))
+  ember.position.set(1.06, top + 0.48, 0.2)
+  town.add(plant, stackM, ember)
+  const smokeMat = new THREE.MeshStandardMaterial({ color: '#8e8e8e', roughness: 1, transparent: true, opacity: 0.55, depthWrite: false })
+  const puffs = []
+  for (let i = 0; i < 6; i++) {
+    const puff = new THREE.Mesh(new THREE.SphereGeometry(0.04, 12, 10), smokeMat.clone())
+    town.add(puff)
+    puffs.push({ puff, ph: i / 6 })
+  }
   // the air: a cloud over the middle
   const cloud = new THREE.Group()
   cloud.position.set(0, top + 1.2, 0)
-  const cloudMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 1, transparent: true, opacity: 0.9 })
+  const cloudMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 1, transparent: true, opacity: 0.92 })
   const cr = rng(5)
   for (let i = 0; i < 9; i++) {
     const s = new THREE.Mesh(new THREE.SphereGeometry(0.12 + cr() * 0.09, 16, 12), cloudMat)
@@ -1081,15 +1239,15 @@ export function cycleTable({ light, words }) {
     cloud.add(s)
   }
   group.add(cloud)
-  // the flows between the stores, as curves with markers moving along them
+  // the flows between the stores
   const P = {
     air: new THREE.Vector3(0, top + 1.13, 0),
-    plants: new THREE.Vector3(-0.45, top + 0.5, -0.65),
-    animals: new THREE.Vector3(0.3, top + 0.28, -0.88),
-    ocean: new THREE.Vector3(-0.82, top + 0.05, 0.25),
-    soil: new THREE.Vector3(0.78, top + 0.06, -0.33),
+    plants: at(-0.42, -0.72, 0.3),
+    animals: at(0.28, -0.47, 0.2),
+    ocean: new THREE.Vector3(SEA[0], top + 0.05, SEA[1]),
+    soil: new THREE.Vector3(SOIL[0], top + 0.06, SOIL[1]),
     fossil: new THREE.Vector3(0, top - 0.42, 0.72),
-    fire: new THREE.Vector3(1.05, top + 0.45, 0.6),
+    fire: new THREE.Vector3(1.06, top + 0.5, 0.2),
   }
   const flows = [
     ['air', 'plants', '#5fdc5a', 1.0, 0.5],
@@ -1105,7 +1263,7 @@ export function cycleTable({ light, words }) {
     ['fossil', 'fire', '#3a3a3a', 0.4, 0.15],
     ['fire', 'air', '#ff8a3a', 0.55, 0.35],
   ]
-  const curves = flows.map(([a, b, c, , lift]) => {
+  const curves = flows.map(([a, b, , , lift]) => {
     const A = P[a]
     const B = P[b]
     const mid = A.clone().lerp(B, 0.5)
@@ -1117,10 +1275,9 @@ export function cycleTable({ light, words }) {
   const tubeMat = new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.12, depthWrite: false })
   for (const c of curves) group.add(new THREE.Mesh(new THREE.TubeGeometry(c, 30, 0.006, 4), tubeMat))
   const per = light ? 3 : 6
-  const markers = new THREE.InstancedMesh(new THREE.SphereGeometry(0.03, 10, 8), new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#ffffff', emissiveIntensity: 0.9, roughness: 0.4 }), flows.length * per)
-  const col = new THREE.Color()
+  const markers = new THREE.InstancedMesh(new THREE.SphereGeometry(0.03, 10, 8), new THREE.MeshBasicMaterial({ color: '#ffffff' }), flows.length * per)
   flows.forEach(([, , c], f) => {
-    for (let k = 0; k < per; k++) markers.setColorAt(f * per + k, col.set(c))
+    for (let k = 0; k < per; k++) markers.setColorAt(f * per + k, col.set(c).multiplyScalar(1.4))
   })
   markers.frustumCulled = false
   group.add(markers)
@@ -1128,21 +1285,22 @@ export function cycleTable({ light, words }) {
   const labels = {}
   const W = words()
   for (const id of Object.keys(P)) {
-    const t = makeText(W.cycle.kid[id], { size: 0.07, color: '#ffffff', outlineWidth: 0.006, outlineColor: '#1d2d1d', maxWidth: 0.9 })
-    const off = id === 'air' ? [0, 0.3, 0] : id === 'fossil' ? [0, -0.02, 0.45] : [0, 0.17, 0]
+    const t = makeText(W.cycle.kid[id], { size: 0.085, color: '#ffffff', outlineWidth: 0.007, outlineColor: '#1d2d1d', maxWidth: 1.0 })
+    const off = id === 'air' ? [0, 0.3, 0] : id === 'fossil' ? [0, -0.02, 0.45] : id === 'fire' ? [0, 0.2, 0] : [0, 0.17, 0]
     t.position.copy(P[id]).add(new THREE.Vector3(...off))
     group.add(t)
     labels[id] = t
   }
-  const m4 = new THREE.Matrix4()
   const pos = new THREE.Vector3()
   let speedBoost = 0
   return {
     group,
     labels,
     setLevel(level) {
+      // the Scientist's labels are longer: smaller letters, wider lines
+      const sci = level === 'scientist'
       for (const id of Object.keys(labels)) {
-        labels[id].text = level === 'scientist' ? W.cycle.sci[id] : W.cycle.kid[id]
+        Object.assign(labels[id], { text: sci ? W.cycle.sci[id] : W.cycle.kid[id], fontSize: sci ? 0.058 : 0.085, maxWidth: sci ? 1.5 : 1.0 })
         labels[id].sync()
       }
     },
@@ -1161,10 +1319,95 @@ export function cycleTable({ light, words }) {
         }
       })
       markers.instanceMatrix.needsUpdate = true
-      cloud.position.y = top + 1.45 + Math.sin(t * 0.8) * 0.03
-      flame.scale.y = 1 + Math.sin(t * 17) * 0.15 + Math.sin(t * 9.3) * 0.1
-      tree.update(t)
+      cloud.position.y = top + 1.2 + Math.sin(t * 0.8) * 0.03
+      for (const p of puffs) {
+        const u = (t * 0.25 + p.ph) % 1
+        p.puff.position.set(1.06 + u * 0.12, top + 0.5 + u * 0.38, 0.2 - u * 0.05)
+        p.puff.scale.setScalar(0.6 + u * 1.6)
+        p.puff.material.opacity = 0.5 * Math.sin(u * Math.PI)
+      }
+      ember.scale.setScalar(1 + Math.sin(t * 13) * 0.15)
       if (cameraQuat) for (const l of Object.values(labels)) l.quaternion.copy(cameraQuat)
+    },
+  }
+}
+
+// ---------------------------------------------------------------- butterflies
+/** A few butterflies over the flower beds: two wings each, flapping, wandering on looping paths. */
+export function butterflies({ count = 10, radius = 15, light }) {
+  const wingTex = paint(128, 128, (g, w, h) => {
+    g.clearRect(0, 0, w, h)
+    // one wing (the right one), its root at the left edge; white, tinted per butterfly
+    g.fillStyle = '#ffffff'
+    g.beginPath()
+    g.moveTo(4, 64)
+    g.bezierCurveTo(30, 6, 118, 2, 120, 40)
+    g.bezierCurveTo(122, 62, 90, 66, 70, 66)
+    g.bezierCurveTo(100, 76, 112, 110, 84, 122)
+    g.bezierCurveTo(56, 128, 20, 96, 4, 64)
+    g.fill()
+    g.fillStyle = 'rgba(30,20,20,0.85)'
+    g.beginPath()
+    g.ellipse(96, 30, 14, 9, 0.4, 0, Math.PI * 2)
+    g.fill()
+    g.strokeStyle = 'rgba(30,20,20,0.7)'
+    g.lineWidth = 5
+    g.beginPath()
+    g.moveTo(10, 64)
+    g.bezierCurveTo(40, 30, 100, 10, 118, 40)
+    g.stroke()
+    g.fillStyle = 'rgba(255,255,255,0.9)'
+    for (const [x, y] of [[108, 44], [96, 104], [80, 112]]) {
+      g.beginPath()
+      g.arc(x, y, 4, 0, Math.PI * 2)
+      g.fill()
+    }
+  })
+  const geo = new THREE.PlaneGeometry(0.11, 0.11)
+  geo.translate(0.055, 0, 0) // hinge at the body
+  const mat = new THREE.MeshStandardMaterial({ map: wingTex, alphaTest: 0.4, side: THREE.DoubleSide, roughness: 0.6 })
+  const n = light ? Math.ceil(count / 2) : count
+  const wings = new THREE.InstancedMesh(geo, mat, n * 2)
+  const r = rng(57)
+  const palette = ['#ff9f1c', '#3a86ff', '#ffd23f', '#ffffff', '#ff5d8f', '#8338ec']
+  const flies = Array.from({ length: n }, (_, i) => {
+    const a = r() * Math.PI * 2
+    const rad = radius * (0.72 + r() * 0.2)
+    return { cx: Math.cos(a) * rad, cz: Math.sin(a) * rad, ph: r() * 10, sp: 0.25 + r() * 0.2, rx: 1.2 + r() * 1.6, rz: 1.0 + r() * 1.4, flap: 9 + r() * 5, color: palette[i % palette.length] }
+  })
+  const col = new THREE.Color()
+  flies.forEach((f, i) => {
+    wings.setColorAt(i * 2, col.set(f.color))
+    wings.setColorAt(i * 2 + 1, col.set(f.color))
+  })
+  wings.frustumCulled = false
+  const m4 = new THREE.Matrix4()
+  const q = new THREE.Quaternion()
+  const qy = new THREE.Quaternion()
+  const qz = new THREE.Quaternion()
+  const one = new THREE.Vector3(1, 1, 1)
+  const p = new THREE.Vector3()
+  const yAxis = new THREE.Vector3(0, 1, 0)
+  const xAxis = new THREE.Vector3(1, 0, 0)
+  return {
+    group: wings,
+    update(t) {
+      flies.forEach((f, i) => {
+        const u = t * f.sp + f.ph
+        p.set(f.cx + Math.sin(u) * f.rx, 0.55 + Math.sin(u * 2.3) * 0.25 + Math.sin(u * 5.1) * 0.06, f.cz + Math.sin(u * 1.7) * f.rz)
+        // heading along its path
+        const dx = Math.cos(u) * f.rx
+        const dz = Math.cos(u * 1.7) * 1.7 * f.rz
+        qy.setFromAxisAngle(yAxis, Math.atan2(dx, dz))
+        const flap = 0.25 + 0.95 * (0.5 + 0.5 * Math.sin(t * f.flap + f.ph))
+        for (const side of [1, -1]) {
+          // a wing lies along +x from the body; the left wing is the right one turned round
+          qz.setFromAxisAngle(new THREE.Vector3(0, 0, 1), side * flap)
+          q.copy(qy).multiply(new THREE.Quaternion().setFromAxisAngle(yAxis, side > 0 ? -Math.PI / 2 : Math.PI / 2)).multiply(new THREE.Quaternion().setFromAxisAngle(xAxis, -Math.PI / 2)).multiply(qz)
+          wings.setMatrixAt(i * 2 + (side > 0 ? 0 : 1), m4.compose(p, q, one))
+        }
+      })
+      wings.instanceMatrix.needsUpdate = true
     },
   }
 }

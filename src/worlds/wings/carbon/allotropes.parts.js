@@ -5,7 +5,7 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint } from './kit.js'
+import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint, nearFade } from './kit.js'
 import { diamondCluster, graphiteStack, inHexagon, nanotube, c60, brilliant, cuboOctahedron, GRAPHENE, norm, add, mul } from './structures.js'
 import { facetGeometry, gemMaterial, gemMesh, glints } from './gem.js'
 import { HONEY_GLSL } from './honeycomb.js'
@@ -506,7 +506,7 @@ export function nanotubeTunnel({ scale = 0.5, axisY = 1.2, z0 = 0, light }) {
   }
   const bs = ballStick({
     atoms, bonds, atomR: 0.11, bondR: 0.035,
-    atomMat: withPulse(pearl(light, 0.06, '#d6e6f5')), bondMat: withPulse(glowMat('#4fb9f5', 0.62)), seg: light ? 10 : 16,
+    atomMat: nearFade(withPulse(pearl(light, 0.06, '#d6e6f5'))), bondMat: nearFade(withPulse(glowMat('#4fb9f5', 0.62))), seg: light ? 10 : 16,
   })
   const group = new THREE.Group()
   group.add(bs.group)
@@ -568,8 +568,8 @@ export function c60Dome({ radius = 4.6, light, words }) {
   const doorPlane = P[door[0]].z // all six corners of the door share this z
   const centre = new THREE.Vector3(0, lift, 0)
   const group = new THREE.Group()
-  const atomMat = pearl(light, 0.07, '#efe9df')
-  const bondMat = glowMat('#5cc4ff', 0.75)
+  const atomMat = nearFade(pearl(light, 0.07, '#efe9df'))
+  const bondMat = nearFade(glowMat('#5cc4ff', 0.75))
   const bs = ballStick({
     atoms, bonds: c.bonds, atomR: 0.2, bondR: 0.065, atomMat, bondMat, seg: light ? 12 : 20, doubles: true,
     side: (i, j, a, b) => new THREE.Vector3().crossVectors(b.clone().sub(a), a.clone().add(b).multiplyScalar(0.5).sub(centre)),

@@ -824,7 +824,7 @@ export function hammockCat({ light, words }) {
 /** Two graphene sheets, one over the other, the top one twisted by θ: the moiré appears, with a period
  *  a / (2 sin(θ/2)) (a = 0.246 nm), 52 lattice constants at the magic angle of 1.1°. The bright spots
  *  are where atoms sit on atoms (AA stacking), where the electrons gather at the magic angle. */
-export const MOIRE_ANGLES = [0, 10, 5, 3, 2, 1.1]
+export const MOIRE_ANGLES = [5, 3, 2, 1.1, 0, 10]
 
 export function moireDisc({ light, radius = 1.7 }) {
   const group = new THREE.Group()
@@ -915,9 +915,9 @@ export function moireDisc({ light, radius = 1.7 }) {
   const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.95, 0.08, 48), metal)
   foot.position.set(0, 0.04, -0.4)
   group.add(foot)
-  let theta = 0
-  let from = 0
-  let to = 0
+  let theta = MOIRE_ANGLES[0]
+  let from = theta
+  let to = theta
   let tt = 1
   let step = 0
   return {

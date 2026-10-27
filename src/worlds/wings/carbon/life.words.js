@@ -19,6 +19,7 @@ const EN = {
   el: { O: 'Oxygen', C: 'Carbon', H: 'Hydrogen', N: 'Nitrogen', Ca: 'Calcium', P: 'Phosphorus', other: 'Others' },
   personTitle: 'You are 18% carbon',
   boneTag: "Mammoth thigh bone: 1/16 of a living animal's carbon-14",
+  tuskTag: 'Mammoth tusk: ivory, a giant tooth',
   jarLabel: 'carbon-14 left',
   cycle: {
     kid: { air: 'Air', plants: 'Plants', animals: 'Animals', ocean: 'Ocean', soil: 'Soil', fossil: 'Coal, oil and gas', fire: 'Burning' },
@@ -225,6 +226,7 @@ const PT = {
   el: { O: 'Oxigénio', C: 'Carbono', H: 'Hidrogénio', N: 'Azoto', Ca: 'Cálcio', P: 'Fósforo', other: 'Outros' },
   personTitle: 'És 18% carbono',
   boneTag: 'Fémur de mamute: 1/16 do carbono-14 de um animal vivo',
+  tuskTag: 'Presa de mamute: marfim, um dente gigante',
   jarLabel: 'carbono-14 que resta',
   cycle: {
     kid: { air: 'Ar', plants: 'Plantas', animals: 'Animais', ocean: 'Oceano', soil: 'Solo', fossil: 'Carvão, petróleo e gás', fire: 'Queima' },
