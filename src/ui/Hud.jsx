@@ -13,6 +13,14 @@ import LabHud from './LabHud.jsx'
 import ForgeHud from './ForgeHud.jsx'
 import SoundButton from './SoundButton.jsx'
 
+// the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
+const PAGES = [
+  ['/passport', '🏅', 'passport.title', 'lg:inline'],
+  ['/lab', '🧪', 'hud.lab', 'sm:inline'],
+  ['/forge', '⚛️', 'hud.forge', 'sm:inline'],
+  ['/atomlings', '🙂', 'atomlings.title', 'sm:inline'],
+]
+
 /** Everything drawn over the 3D: the top bar (where you are, level, language), the HUD of the
  *  current world, the fade between worlds. */
 export default function Hud({ engine }) {
@@ -25,6 +33,8 @@ export default function Hud({ engine }) {
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
   const [about, setAbout] = useState(false)
+  // on a phone the pages (passport, lab, forge, Atomlings, about) fold into one menu
+  const [menu, setMenu] = useState(false)
   // a long wait (a big world's first visit compiles its shaders): say why
   const [slow, setSlow] = useState(false)
   useEffect(() => {
@@ -81,29 +91,33 @@ export default function Hud({ engine }) {
         <div className="flex gap-1.5 pointer-events-auto shrink-0">
           <SoundButton />
           {world?.kind === 'plaza' && (
-            <button type="button" onClick={() => setAbout(true)} className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10" aria-label={t('about.title')}>
-              ⓘ
-            </button>
-          )}
-          {world?.kind === 'plaza' && (
-            <Link to="/passport" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('passport.title')}>
-              🏅<span className="hidden lg:inline ml-1">{t('passport.title')}</span>
-            </Link>
-          )}
-          {world?.kind === 'plaza' && (
-            <Link to="/lab" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('hud.lab')}>
-              🧪<span className="hidden sm:inline ml-1">{t('hud.lab')}</span>
-            </Link>
-          )}
-          {world?.kind === 'plaza' && (
-            <Link to="/forge" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('hud.forge')}>
-              ⚛️<span className="hidden sm:inline ml-1">{t('hud.forge')}</span>
-            </Link>
-          )}
-          {world?.kind === 'plaza' && (
-            <Link to="/atomlings" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('atomlings.title')}>
-              🙂<span className="hidden sm:inline ml-1">{t('atomlings.title')}</span>
-            </Link>
+            <>
+              <button type="button" onClick={() => setAbout(true)} className="hidden sm:block glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10" aria-label={t('about.title')}>
+                ⓘ
+              </button>
+              {PAGES.map(([to, icon, key, wide]) => (
+                <Link key={to} to={to} className="hidden sm:flex glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 items-center" title={t(key)}>
+                  {icon}<span className={`hidden ${wide} ml-1`}>{t(key)}</span>
+                </Link>
+              ))}
+              <div className="relative sm:hidden">
+                <button type="button" onClick={() => setMenu(m => !m)} className={`glass rounded-xl px-2.5 py-1.5 text-xs font-bold ${menu ? 'bg-white/15' : ''}`} aria-label={t('hud.menu')} aria-expanded={menu}>
+                  ☰
+                </button>
+                {menu && (
+                  <div className="absolute right-0 top-full mt-1.5 glass rounded-xl p-1.5 flex flex-col min-w-[11rem] z-10">
+                    {PAGES.map(([to, icon, key]) => (
+                      <Link key={to} to={to} onClick={() => setMenu(false)} className="rounded-lg px-2.5 py-2 text-sm font-bold hover:bg-white/10">
+                        {icon} {t(key)}
+                      </Link>
+                    ))}
+                    <button type="button" onClick={() => { setMenu(false); setAbout(true) }} className="rounded-lg px-2.5 py-2 text-sm font-bold hover:bg-white/10 text-left">
+                      ⓘ {t('about.title')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
           )}
           <div className="glass rounded-xl p-1 flex text-xs font-bold" role="group" aria-label={t('level.label')}>
             {['explorer', 'scientist'].map(l => (

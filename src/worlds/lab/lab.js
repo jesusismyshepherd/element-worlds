@@ -354,7 +354,8 @@ export async function build(ctx) {
       s.holder.rotation.y = Math.atan2(camera.position.x - s.cur.x, camera.position.z - s.cur.z)
       s.a.update(dt, t, { speed: 0 })
       if (s.charge?.visible) {
-        s.charge.position.set(s.cur.x, s.cur.y + H * 0.5 * SCALE + 0.28, s.cur.z)
+        // (above anything the Atomling wears on its head: sodium's salt cellar)
+        s.charge.position.set(s.cur.x, s.cur.y + H * 0.5 * SCALE + 0.55, s.cur.z)
         s.charge.quaternion.copy(camera.quaternion)
       }
     })
@@ -427,9 +428,10 @@ export async function build(ctx) {
       ring.lookAt(camera.position)
       ring.scale.setScalar((bodyR(selected) / 0.6) * (1 + Math.sin(t * 5) * 0.06))
     } else ring.visible = false
-    // keep the whole molecule in view
-    // an upright phone sees less across: stand further back
-    const want = Math.max(4.6, radius * 2.3) * (camera.aspect < 1 ? 1.7 : 1)
+    // keep the whole molecule in view, across too: an upright phone sees little from side to side, so
+    // the distance also comes from the horizontal field of view
+    const tanAcross = Math.tan((camera.fov * Math.PI) / 360) * camera.aspect
+    const want = Math.max(4.6, radius * 2.3, (radius + 0.5) / tanAcross)
     const d = camera.position.distanceTo(controls.target)
     if (d < want * 0.8 || d > want * 1.6) camera.position.sub(controls.target).setLength(d + (want - d) * Math.min(1, dt * 2)).add(controls.target)
   }

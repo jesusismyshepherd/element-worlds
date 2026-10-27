@@ -22,8 +22,10 @@ export default function LabHud({ engine }) {
   const lab = useStore(store, s => s.lab)
   const party = useStore(store, s => s.labCelebrate)
   const [hint, setHint] = useState(null)
-  // on a small screen the missions fold into a button, so the molecule stays in view
-  const [open, setOpen] = useState(() => window.innerWidth >= 640)
+  // on a small screen the missions fold into a button and the palette is a bar at the bottom, so the
+  // molecule stays in view
+  const narrow = window.innerWidth < 640
+  const [open, setOpen] = useState(() => !narrow)
   const lang = i18n.resolvedLanguage
   const world = engine?.world
   useEffect(() => {
@@ -42,14 +44,17 @@ export default function LabHud({ engine }) {
 
   return (
     <>
-      <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 grid grid-flow-col grid-rows-7 gap-1.5 pointer-events-auto">
+      <div className={narrow
+        ? 'absolute inset-x-0 bottom-14 px-2 flex gap-1.5 overflow-x-auto pointer-events-auto pb-1'
+        : 'absolute left-3 top-1/2 -translate-y-1/2 grid grid-flow-col grid-rows-7 gap-1.5 pointer-events-auto'}
+      >
         {PALETTE.map(s => (
           <button
             key={s}
             type="button"
             title={`${nameOf(element(s), lang)}: ${t(isMetal(s) ? 'lab.gives' : 'lab.hands', { count: handsOf(s) })}`}
             onClick={() => world?.add?.(s)}
-            className={`glass w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center hover:bg-white/10 active:scale-95 transition ${isMetal(s) ? 'border-amber-300/40' : ''}`}
+            className={`glass shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center hover:bg-white/10 active:scale-95 transition ${isMetal(s) ? 'border-amber-300/40' : ''}`}
           >
             <span className="font-display text-lg sm:text-xl font-bold" style={{ color: colorOf(s) }}>{s}</span>
             <span className="text-[10px] opacity-80 leading-none">{(isMetal(s) ? '🤲' : '✋').repeat(handsOf(s))}</span>
@@ -77,7 +82,7 @@ export default function LabHud({ engine }) {
         </div>
       </div>
 
-      <div className="absolute right-2 sm:right-3 top-48 sm:top-32 glass rounded-2xl p-3 w-[min(60vw,15rem)] pointer-events-auto max-h-[55vh] overflow-y-auto">
+      <div className={`absolute right-2 sm:right-3 glass rounded-2xl p-3 w-[min(70vw,15rem)] pointer-events-auto overflow-y-auto ${narrow ? 'bottom-[7.6rem] max-h-[45vh]' : 'top-32 max-h-[55vh]'}`}>
         <button type="button" onClick={() => setOpen(o => !o)} className="font-display font-bold text-sm w-full text-left flex items-center justify-between gap-2">
           <span>{t('lab.missions')} · {done}/{lab.missions.length}</span>
           <span className="opacity-60">{open ? '▴' : '▾'}</span>
