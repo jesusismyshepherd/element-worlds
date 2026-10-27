@@ -19,7 +19,7 @@ import { globeExhibit } from './globe.js'
 import { goeExhibit } from './airGoe.js'
 import { breathExhibit } from './airBreath.js'
 import { AIR_WORDS } from './airWords.js'
-import { exhibitSet, onLevel, at, canvasTex, makeNoise, glowMat, softDot } from './kit.js'
+import { exhibitSet, onLevel, at, chem, canvasTex, makeNoise, glowMat, softDot } from './kit.js'
 
 const COLOR = '#8fd0ff'
 const R = 12.5 // the deck's radius
@@ -232,7 +232,7 @@ export async function build(ctx) {
   const doors = [{ x: 0, z: R - 0.05, radius: 0.85, to: atriumPath('O') }]
 
   // ---- exhibits ----
-  const ex = exhibitSet(ctx, { wing: 'air', color: COLOR, who })
+  const ex = exhibitSet(ctx, { wing: 'air', color: COLOR, who, busy: lv => at(W.busy, lv) })
   const level = () => ctx.level()
 
   // the box of air, in the middle
@@ -434,8 +434,28 @@ export async function build(ctx) {
     if (o.isMesh && o.material?.isMeshStandardMaterial && !o.material.transparent) o.receiveShadow = true
   })
 
+  // talking to the Atomling (T, the talk button, or E next to it in first person): hints and facts in turn
+  let said = 0
+  const talk = () => {
+    const lines = [at(W.greet, level()), ...W.talk[depth(level())]]
+    said = (said + 1) % lines.length
+    ctx.store.set({ panel: null, speech: { text: chem(lines[said]), who, color: COLOR } })
+  }
+  const host = {
+    id: 'host',
+    get x() {
+      return ctx.engine.player.npc?.x ?? 99
+    },
+    get z() {
+      return ctx.engine.player.npc?.z ?? 99
+    },
+    radius: 2.0,
+    label: who,
+    verb: W.talkTo,
+    onUse: talk,
+  }
+
   let unsub = null
-  let prevShadow = null
   const fogColor = new THREE.Color().setRGB(0.74, 0.81, 0.91, THREE.LinearSRGBColorSpace)
   return {
     mode: 'walk',
@@ -450,6 +470,7 @@ export async function build(ctx) {
       bloom: { strength: 0.32, radius: 0.55, threshold: 0.95 },
       fov: 62,
       far: 9000,
+      shadows: true,
     },
     spawn: { x: 0, z: R - 4.6, yaw: 0 },
     hostSpot: { x: 2.1, z: R - 6.2, yaw: Math.atan2(2.1, -1.6) },
@@ -457,23 +478,20 @@ export async function build(ctx) {
     solids,
     // the camera may swing out over the railing, but never behind the arch (its portal would fill the view)
     cameraBounds: { minX: -R - 3, maxX: R + 3, minY: 0.35, maxY: 14, minZ: -R - 3, maxZ: R - 0.8 },
-    interactables: ex.list,
+    // the Atomling's player can tilt the view up to the ozone layer and the Sun's rays
+    cameraPitchMax: 0.9,
+    interactables: [...ex.list, host],
     doors,
-    attach(engine) {
+    talk,
+    attach() {
       ex.report()
-      if (!light) {
-        prevShadow = { enabled: engine.renderer.shadowMap.enabled, type: engine.renderer.shadowMap.type }
-        engine.renderer.shadowMap.enabled = true
-        engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-      }
       unsub = onLevel(ctx.store, () => refreshers.forEach(f => f()))
       setTimeout(() => {
-        if (ctx.engine.world?.root === root) ctx.store.set({ speech: { text: at(W.greet, ctx.level()), who, color: COLOR } })
+        if (ctx.engine.world?.root === root) ctx.store.set({ speech: { text: chem(at(W.greet, ctx.level())), who, color: COLOR } })
       }, 900)
     },
-    detach(engine) {
+    detach() {
       unsub?.()
-      if (prevShadow) Object.assign(engine.renderer.shadowMap, prevShadow)
       ctx.store.set({ speech: null, discoveries: null })
     },
     update(dt, t) {

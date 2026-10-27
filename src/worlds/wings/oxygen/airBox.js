@@ -387,6 +387,22 @@ export function airBox({ x = 0, z = 0, w = 5.4, h = 3.0, d = 3.4, base = 0.36, c
   caseBack.position.y = caseFront.position.y = caseH + cube / 2
   caseBack.renderOrder = 2
   caseFront.renderOrder = 4
+  // its edges glow, so the case reads against the bright sky
+  const edgeMat = glowMat('#9ff0c0', 1.4, { metalness: 0.3 })
+  const e = 0.022
+  const caseEdges = new THREE.Group()
+  caseEdges.position.y = caseH + cube / 2
+  for (const a of [-1, 1]) {
+    for (const b of [-1, 1]) {
+      const v = new THREE.Mesh(new THREE.BoxGeometry(e, cube + e, e), edgeMat)
+      v.position.set((a * cube) / 2, 0, (b * cube) / 2)
+      const hx = new THREE.Mesh(new THREE.BoxGeometry(cube + e, e, e), edgeMat)
+      hx.position.set(0, (a * cube) / 2, (b * cube) / 2)
+      const hz = new THREE.Mesh(new THREE.BoxGeometry(e, e, cube + e), edgeMat)
+      hz.position.set((a * cube) / 2, (b * cube) / 2, 0)
+      caseEdges.add(v, hx, hz)
+    }
+  }
   const co2 = new THREE.Group()
   const cMat = new THREE.MeshPhysicalMaterial({ color: '#42464e', roughness: 0.3, clearcoat: 0.8 })
   const oMat = new THREE.MeshPhysicalMaterial({ color: '#f2302b', roughness: 0.3, clearcoat: 0.8 })
@@ -406,11 +422,22 @@ export function airBox({ x = 0, z = 0, w = 5.4, h = 3.0, d = 3.4, base = 0.36, c
   }
   co2.position.y = caseH + cube / 2
   co2.traverse(o => o.isMesh && (o.castShadow = true))
-  const tag = makeText(words.rareTag, { size: 0.085, color: hdr('#ffffff', 1.2), maxWidth: 0.9 })
-  tag.position.set(0, caseH * 0.62, 0.33)
-  const tagFormula = equation(['CO2'], { size: 0.11, color: '#9ff0c0' })
-  tagFormula.position.set(0, caseH * 0.62 + 0.13, 0.33)
-  rare.add(stand, ring, caseBack, caseFront, co2, tag, tagFormula)
+  // its label: a small navy plaque on the front of the stand, leaning back to the reader
+  const plaque = new THREE.Group()
+  plaque.position.set(0, 0.78, 0.27)
+  plaque.rotation.x = -0.35
+  const plFrame = new THREE.Mesh(new RoundedBoxGeometry(0.6, 0.27, 0.025, 2, 0.01), edgeMat)
+  const plFace = new THREE.Mesh(
+    new RoundedBoxGeometry(0.575, 0.245, 0.03, 2, 0.008),
+    new THREE.MeshStandardMaterial({ color: '#0d1233', roughness: 0.35, emissive: '#10173f', emissiveIntensity: 0.6 }),
+  )
+  plFace.position.z = 0.004
+  const tagFormula = equation(['CO2'], { size: 0.1, color: '#9ff0c0' })
+  tagFormula.position.set(0, 0.05, 0.022)
+  const tag = makeText(words.rareTag, { size: 0.058, color: hdr('#ffffff', 1.15), maxWidth: 0.55 })
+  tag.position.set(0, -0.055, 0.022)
+  plaque.add(plFrame, plFace, tagFormula, tag)
+  rare.add(stand, ring, caseBack, caseFront, caseEdges, co2, plaque)
   const rareUpdate = t => {
     co2.rotation.y = t * 0.7
     co2.rotation.z = Math.sin(t * 0.5) * 0.3

@@ -607,7 +607,7 @@ export { chem, chemBlocks, at } from './oxygenText.js'
  *  level changed) opens its panel and counts a discovery (`O:<wing>:<id>`), later uses let the Atomling
  *  say a line instead, so an exhibit can be played with without a panel each time. An exhibit with no
  *  action always opens its panel. */
-export function exhibitSet(ctx, { wing, color, who }) {
+export function exhibitSet(ctx, { wing, color, who, busy = null }) {
   const keys = []
   const list = []
   const shown = {}
@@ -637,7 +637,12 @@ export function exhibitSet(ctx, { wing, color, who }) {
       onUse() {
         const level = ctx.level()
         const result = act ? act() : null
-        if (result === false) return
+        if (result === false) {
+          // still busy (an animation running): say so, rather than nothing happening
+          const line = busy?.(level)
+          if (line && isFound(key)) ctx.store.set({ speech: { text: chem(line), who, color } })
+          return
+        }
         const first = markFound(key)
         if (first) for (const s of marks[key] ?? []) s.setRead(true)
         if (!act || first || shown[id] !== level) {

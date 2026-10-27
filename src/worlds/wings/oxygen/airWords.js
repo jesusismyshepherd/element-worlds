@@ -8,6 +8,24 @@ export const AIR_WORDS = {
   en: {
     back: "Back to oxygen's hall",
     kicker: 'The air',
+    talkTo: 'Talk to',
+    busy: { kid: 'Wait a moment: it is still happening!', sci: 'One moment: the last run is still going.' },
+    talk: {
+      kid: [
+        'Psst! Look up: the glowing band high in the sky is the ozone layer, full of ozone molecules, O3.',
+        'One breath of air holds about 10 thousand billion billion molecules. Twenty-one in every hundred are me!',
+        'On top of Mount Everest the air is still 21% oxygen, but it is so thin that each breath brings only a third as much.',
+        'I am a gas, so I float, but only a little: oxygen is a bit heavier than air.',
+        'Go and find the one carbon dioxide molecule: it is the rarest thing on this deck!',
+      ],
+      sci: [
+        'The ozone layer is drawn here 150 m up; the real one is 15 to 35 km up, and all of it squeezed to sea-level pressure would be only about 3 mm thick.',
+        'A 0.5 L breath at 20 °C holds about 1.25 × 10²² molecules (n = PV/RT, times Avogadro\'s number).',
+        'O2 partial pressure: 21.2 kPa at sea level, about 7 kPa on the summit of Everest (total about 34 kPa), though the share stays 20.95%.',
+        'O2 is 32.00 g/mol against 28.96 g/mol for dry air: about 10% denser, so my Atomling floats low.',
+        'Burning fossil fuels lowers the air\'s O2 by only about 4 ppm a year; the real concern is the CO2 it adds.',
+      ],
+    },
     greet: {
       kid: 'Welcome to the sky deck! All around you is air, and 21 of every 100 of its molecules are me: oxygen. Look round, and press E at anything that glows.',
       sci: 'The sky deck. Dry air by volume: 78.08% nitrogen, 20.95% oxygen, 0.93% argon, about 0.04% carbon dioxide. Each exhibit is about the O2 in it.',
@@ -225,6 +243,24 @@ export const AIR_WORDS = {
   'pt-pt': {
     back: 'Voltar ao salão do oxigénio',
     kicker: 'O ar',
+    talkTo: 'Falar com',
+    busy: { kid: 'Espera um bocadinho: ainda está a acontecer!', sci: 'Um momento: a experiência anterior ainda está a decorrer.' },
+    talk: {
+      kid: [
+        'Psst! Olha para cima: a faixa que brilha lá no alto é a camada de ozono, cheia de moléculas de ozono, O3.',
+        'Uma só inspiração tem cerca de 10 mil triliões de moléculas de ar. Vinte e uma em cada cem sou eu!',
+        'No cimo do Evereste o ar continua a ter 21% de oxigénio, mas é tão rarefeito que cada inspiração só traz um terço do oxigénio.',
+        'Sou um gás, por isso flutuo, mas só um bocadinho: o oxigénio é um pouco mais pesado do que o ar.',
+        'Vai procurar a única molécula de dióxido de carbono: é a coisa mais rara deste miradouro!',
+      ],
+      sci: [
+        'A camada de ozono está aqui desenhada a 150 m; a verdadeira está a 15 a 35 km, e todo o ozono comprimido à pressão do nível do mar teria só cerca de 3 mm de espessura.',
+        'Uma inspiração de 0,5 L a 20 °C tem cerca de 1,25 × 10²² moléculas (n = PV/RT, vezes o número de Avogadro).',
+        'Pressão parcial do O2: 21,2 kPa ao nível do mar, cerca de 7 kPa no cimo do Evereste (total de cerca de 34 kPa), embora a fração continue a ser 20,95%.',
+        'O O2 tem 32,00 g/mol e o ar seco 28,96 g/mol: cerca de 10% mais denso, por isso o meu Atomling flutua baixo.',
+        'A queima de combustíveis fósseis só baixa o O2 do ar cerca de 4 ppm por ano; o problema verdadeiro é o CO2 que acrescenta.',
+      ],
+    },
     greet: {
       kid: 'Bem-vindo ao miradouro do céu! À tua volta está o ar, e 21 em cada 100 das suas moléculas sou eu: o oxigénio. Olha à volta e carrega no E em tudo o que brilha.',
       sci: 'O miradouro do céu. Ar seco, em volume: 78,08% de azoto, 20,95% de oxigénio, 0,93% de árgon e cerca de 0,04% de dióxido de carbono. Cada experiência fala do O2 que lá está.',

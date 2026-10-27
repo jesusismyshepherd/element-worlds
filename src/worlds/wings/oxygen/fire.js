@@ -14,7 +14,7 @@ import { fireCave, CAVE } from './fireCave.js'
 import { campfire } from './flame.js'
 import { fireTriangle, SIDES } from './fireTriangle.js'
 import { candleJar, splintTest, methaneStage, rustTubes } from './fireBenches.js'
-import { exhibitSet, onLevel, at } from './kit.js'
+import { exhibitSet, onLevel, at, chem } from './kit.js'
 
 const COLOR = '#ff9a4d'
 
@@ -40,9 +40,10 @@ export async function build(ctx) {
   // ---- the campfire and the triangle round it ----
   const fire = campfire({ light, stoneMat })
   root.add(fire.group)
-  const tri = fireTriangle({ fire, stoneMat, words: W.triangle })
+  const tri = fireTriangle({ fire, stoneMat, words: W.triangle, level })
   root.add(tri.group)
   updates.push((dt, t) => tri.update(dt, t, ctx.camera, ctx.renderer))
+  refreshers.push(() => tri.refresh())
   // oxygen feeds a fire: the oxygen Atomling close to it makes it flare (not under the lid)
   let boost = 0
   updates.push((dt, t) => {
@@ -81,7 +82,7 @@ export async function build(ctx) {
   const doors = [{ x: 0, z: archZ + 0.25, radius: 0.85, to: atriumPath('O') }]
 
   // ---- exhibits ----
-  const ex = exhibitSet(ctx, { wing: 'fire', color: COLOR, who })
+  const ex = exhibitSet(ctx, { wing: 'fire', color: COLOR, who, busy: lv => at(W.busy, lv) })
 
   // the fire triangle: three posts, one discovery
   const triPanel = lv => ({ title: W.triangle.title, kicker: W.kicker, color: COLOR, blocks: W.triangle.panel[depth(lv)] })
@@ -221,8 +222,28 @@ export async function build(ctx) {
     if (o.isMesh && o.material?.isMeshStandardMaterial && !o.material.transparent) o.receiveShadow = true
   })
 
+  // talking to the Atomling (T, the talk button, or E next to it in first person): hints and facts in turn
+  let said = 0
+  const talk = () => {
+    const lines = [at(W.greet, level()), ...W.talk[depth(level())]]
+    said = (said + 1) % lines.length
+    ctx.store.set({ panel: null, speech: { text: chem(lines[said]), who, color: COLOR } })
+  }
+  const host = {
+    id: 'host',
+    get x() {
+      return ctx.engine.player.npc?.x ?? 99
+    },
+    get z() {
+      return ctx.engine.player.npc?.z ?? 99
+    },
+    radius: 2.0,
+    label: who,
+    verb: W.talkTo,
+    onUse: talk,
+  }
+
   let unsub = null
-  let prevShadow = null
   return {
     mode: 'walk',
     root,
@@ -234,6 +255,7 @@ export async function build(ctx) {
       envIntensity: 0.12,
       bloom: { strength: 0.42, radius: 0.4, threshold: 1.05 }, // above the screens' text, under the fire
       fov: 62,
+      shadows: true,
     },
     spawn: { x: 0, z: archZ - 2.4, yaw: 0 },
     hostSpot: { x: 1.7, z: archZ - 3.6, yaw: Math.atan2(1.7, -1.2) },
@@ -241,23 +263,20 @@ export async function build(ctx) {
     solids,
     // inside the dome, and in front of the arch (its portal would fill the view from behind)
     cameraBounds: { minX: -9.4, maxX: 9.4, minY: 0.4, maxY: 8, minZ: -9.4, maxZ: archZ - 0.6 },
-    interactables: ex.list,
+    // a little upward look, to the opening in the dome and the moonlight
+    cameraPitchMax: 0.45,
+    interactables: [...ex.list, host],
     doors,
-    attach(engine) {
+    talk,
+    attach() {
       ex.report()
-      if (!light) {
-        prevShadow = { enabled: engine.renderer.shadowMap.enabled, type: engine.renderer.shadowMap.type }
-        engine.renderer.shadowMap.enabled = true
-        engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-      }
       unsub = onLevel(ctx.store, () => refreshers.forEach(f => f()))
       setTimeout(() => {
-        if (ctx.engine.world?.root === root) ctx.store.set({ speech: { text: at(W.greet, ctx.level()), who, color: COLOR } })
+        if (ctx.engine.world?.root === root) ctx.store.set({ speech: { text: chem(at(W.greet, ctx.level())), who, color: COLOR } })
       }, 900)
     },
-    detach(engine) {
+    detach() {
       unsub?.()
-      if (prevShadow) Object.assign(engine.renderer.shadowMap, prevShadow)
       ctx.store.set({ speech: null, discoveries: null })
     },
     update(dt, t) {

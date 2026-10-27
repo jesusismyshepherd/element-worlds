@@ -8,6 +8,24 @@ export const FIRE_WORDS = {
   en: {
     back: "Back to oxygen's hall",
     kicker: 'Fire',
+    talkTo: 'Talk to',
+    busy: { kid: 'Wait a moment: it is still happening!', sci: 'One moment: the last run is still going.' },
+    talk: {
+      kid: [
+        'The blue post on the triangle is me, oxygen. Take me away and watch the fire go out!',
+        'A flame is not a thing: it is hot gas glowing while a reaction happens inside it.',
+        'The hottest part of a candle flame is about 1400 °C, hotter than lava!',
+        'Rust is iron burning very, very slowly: the same reaction as burning, only much slower.',
+        'Come close to the campfire with me: fire loves oxygen, watch it flare!',
+      ],
+      sci: [
+        'A candle\'s yellow light is glowing soot, carbon particles at about 1000 to 1400 °C; the blue at its base comes from excited C2 and CH radicals.',
+        'Wood does not burn directly: heat breaks it down (pyrolysis) into flammable gases, which burn in the flame, while the char left behind glows.',
+        'In pure O2, things that only smoulder in air burst into flame: oxygen cylinders are kept away from flames, oil and grease.',
+        'Iron burns too when finely divided or hot enough: steel wool in air, sparklers, and the oxygen lance that cuts steel.',
+        'Lavoisier\'s experiments in the 1770s replaced the phlogiston theory: burning adds oxygen, and mass is conserved.',
+      ],
+    },
     greet: {
       kid: 'Welcome to the fire chamber! Fire needs me, oxygen. Try taking me away from the campfire and see what happens.',
       sci: 'The fire chamber. Combustion: a fast reaction of a fuel with an oxidiser, almost always the O2 of the air, giving out energy as heat and light.',
@@ -15,7 +33,12 @@ export const FIRE_WORDS = {
     triangle: {
       title: 'The fire triangle',
       sides: { fuel: 'Fuel', heat: 'Heat', oxygen: 'Oxygen' },
-      labels: { fuel: 'Fuel: the wood', heat: 'Heat', oxygen: 'Oxygen: from the air' },
+      signs: {
+        fuel: { kid: 'the wood that burns', sci: 'what burns: wood, gas, wax' },
+        heat: { kid: 'to light it and keep it alight', sci: 'activation energy: the ignition temperature' },
+        oxygen: { kid: 'from the air: that is me!', sci: 'the oxidiser: oxygen from the air' },
+      },
+      off: { kid: 'taken away: the fire goes out', sci: 'removed: combustion stops' },
       verbs: { take: 'Take away', give: 'Put back' },
       screen: { kid: 'take one away and the fire goes out', sci: 'fuel + oxidiser + activation energy' },
       says: {
@@ -139,6 +162,24 @@ export const FIRE_WORDS = {
   'pt-pt': {
     back: 'Voltar ao salão do oxigénio',
     kicker: 'O fogo',
+    talkTo: 'Falar com',
+    busy: { kid: 'Espera um bocadinho: ainda está a acontecer!', sci: 'Um momento: a experiência anterior ainda está a decorrer.' },
+    talk: {
+      kid: [
+        'O poste azul do triângulo sou eu, o oxigénio. Tira-me e vê o fogo apagar-se!',
+        'Uma chama não é uma coisa: é gás quente a brilhar enquanto lá dentro acontece uma reação.',
+        'A parte mais quente da chama de uma vela anda pelos 1400 °C, mais quente do que a lava!',
+        'A ferrugem é o ferro a arder muito, muito devagar: a mesma reação de arder, só que muito mais lenta.',
+        'Chega-te à fogueira comigo: o fogo adora oxigénio, vê como se aviva!',
+      ],
+      sci: [
+        'A luz amarela de uma vela é fuligem incandescente, partículas de carbono a cerca de 1000 a 1400 °C; o azul na base vem de radicais C2 e CH excitados.',
+        'A madeira não arde diretamente: o calor decompõe-na (pirólise) em gases inflamáveis, que ardem na chama, enquanto o carvão que fica brilha em brasa.',
+        'No O2 puro, o que no ar só arde em brasa inflama-se: por isso as garrafas de oxigénio se guardam longe de chamas, óleos e gorduras.',
+        'O ferro também arde quando está em pó fino ou muito quente: a palha de aço no ar, as estrelinhas, e a lança de oxigénio que corta aço.',
+        'As experiências de Lavoisier na década de 1770 derrubaram a teoria do flogisto: arder é juntar oxigénio, e a massa conserva-se.',
+      ],
+    },
     greet: {
       kid: 'Bem-vindo à câmara do fogo! O fogo precisa de mim, o oxigénio. Experimenta tirar-me da fogueira e vê o que acontece.',
       sci: 'A câmara do fogo. A combustão é uma reação rápida entre um combustível e um comburente, quase sempre o O2 do ar, que liberta energia na forma de calor e luz.',
@@ -146,7 +187,12 @@ export const FIRE_WORDS = {
     triangle: {
       title: 'O triângulo do fogo',
       sides: { fuel: 'Combustível', heat: 'Calor', oxygen: 'Oxigénio' },
-      labels: { fuel: 'Combustível: a lenha', heat: 'Calor', oxygen: 'Oxigénio, o comburente' },
+      signs: {
+        fuel: { kid: 'a lenha que arde', sci: 'o que arde: madeira, gás, cera' },
+        heat: { kid: 'para o acender e o manter aceso', sci: 'energia de ativação: a temperatura de ignição' },
+        oxygen: { kid: 'do ar: sou eu!', sci: 'o comburente: o oxigénio do ar' },
+      },
+      off: { kid: 'tirado: o fogo apaga-se', sci: 'retirado: a combustão para' },
       verbs: { take: 'Tirar', give: 'Repor' },
       screen: { kid: 'tira um e o fogo apaga-se', sci: 'combustível + comburente + energia de ativação' },
       says: {

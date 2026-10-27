@@ -104,26 +104,32 @@ export function ozoneColumn({ color, light, words, level }) {
     group.add(band)
   }
 
-  // O3 molecules drifting in the layer
-  const count = light ? 16 : 34
-  const s = 0.075 // metres per angstrom here
+  // O3 molecules drifting in the layer: few and big enough to see their bent shape, turned to the reader
+  const count = light ? 9 : 15
+  const s = 0.115 // metres per angstrom here
   const half = (116.8 / 2) * (Math.PI / 180)
   const shape = [new THREE.Vector3(0, 0.4 * s, 0), new THREE.Vector3(-Math.sin(half) * 1.278 * s, (0.4 - Math.cos(half) * 1.278) * s, 0), new THREE.Vector3(Math.sin(half) * 1.278 * s, (0.4 - Math.cos(half) * 1.278) * s, 0)]
-  const atomMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.037, 14, 10), new THREE.MeshStandardMaterial({ color: '#ff5a4e', emissive: '#ff3b2f', emissiveIntensity: 0.5, roughness: 0.35 }), count * 3)
-  const stickMesh = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.008, 0.008, 1, 6), new THREE.MeshStandardMaterial({ color: '#f3ecff', emissive: '#c9a7ff', emissiveIntensity: 0.6 }), count * 2)
+  const atomMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(0.05, 18, 12), new THREE.MeshStandardMaterial({ color: '#ff6a5c', emissive: '#ff4436', emissiveIntensity: 0.7, roughness: 0.3 }), count * 3)
+  const stickMesh = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.012, 0.012, 1, 8), new THREE.MeshStandardMaterial({ color: '#f3ecff', emissive: '#c9a7ff', emissiveIntensity: 0.9 }), count * 2)
   atomMesh.renderOrder = stickMesh.renderOrder = 2
   group.add(atomMesh, stickMesh)
-  const mols = Array.from({ length: count }, () => {
-    const a = rnd() * Math.PI * 2
-    const r = Math.sqrt(rnd()) * (R - 0.14)
+  const mols = Array.from({ length: count }, (_, i) => {
+    const a = i * 2.39996
+    const r = (0.25 + 0.75 * ((i * 0.618034) % 1)) * (R - 0.2)
     return {
-      p: new THREE.Vector3(Math.cos(a) * r, H0 + (15 + Math.pow(rnd(), 0.8) * 20) * PER_KM, Math.sin(a) * r),
-      q: new THREE.Quaternion().setFromEuler(new THREE.Euler(rnd() * 6, rnd() * 6, rnd() * 6)),
-      w: new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).multiplyScalar(1.2),
-      v: new THREE.Vector3(rnd() - 0.5, (rnd() - 0.5) * 0.4, rnd() - 0.5).multiplyScalar(0.12),
+      p: new THREE.Vector3(Math.cos(a) * r, H0 + (17 + ((i * 0.381966) % 1) * 16) * PER_KM, Math.sin(a) * r),
+      q: new THREE.Quaternion(),
+      spin: rnd() * 6.3,
+      rate: (rnd() - 0.5) * 0.8,
+      wob: rnd() * 6.3,
+      v: new THREE.Vector3(rnd() - 0.5, (rnd() - 0.5) * 0.4, rnd() - 0.5).multiplyScalar(0.08),
       hit: 0,
     }
   })
+  const Zax = new THREE.Vector3(0, 0, 1)
+  const Xax = new THREE.Vector3(1, 0, 0)
+  const qw = new THREE.Quaternion()
+  let clock = 0
   const m4 = new THREE.Matrix4()
   const v1 = new THREE.Vector3()
   const v2 = new THREE.Vector3()
@@ -133,6 +139,7 @@ export function ozoneColumn({ color, light, words, level }) {
   const Y = new THREE.Vector3(0, 1, 0)
   const pts = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]
   const placeMols = dt => {
+    clock += dt
     mols.forEach((m, i) => {
       m.p.addScaledVector(m.v, dt)
       const rr = Math.hypot(m.p.x, m.p.z)
@@ -142,8 +149,10 @@ export function ozoneColumn({ color, light, words, level }) {
       }
       if (m.p.y < H0 + 16 * PER_KM) m.v.y = Math.abs(m.v.y)
       if (m.p.y > H0 + 34 * PER_KM) m.v.y = -Math.abs(m.v.y)
-      dq.setFromAxisAngle(v1.copy(m.w).normalize(), m.w.length() * dt * (1 + m.hit * 6))
-      m.q.multiply(dq)
+      // their bent side to the reader (+z), turning slowly in their own plane, a little wobble;
+      // a molecule hit by UV spins up for a moment
+      m.spin += m.rate * dt * (1 + m.hit * 8)
+      m.q.setFromAxisAngle(Zax, m.spin).premultiply(qw.setFromAxisAngle(Xax, Math.sin(clock * 0.7 + m.wob) * 0.35))
       m.hit = Math.max(0, m.hit - dt * 2)
       shape.forEach((a, j) => pts[j].copy(a).applyQuaternion(m.q).add(m.p))
       pts.forEach((p, j) => atomMesh.setMatrixAt(i * 3 + j, m4.compose(p, qq.identity(), one.setScalar(1 + m.hit * 0.6))))

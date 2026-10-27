@@ -271,12 +271,17 @@ export function peaks({ y = -46 } = {}) {
   return group
 }
 
-/** The ozone layer high above the deck, drawn to scale with nothing but itself (the real one is 15 to
- *  35 km up): a thin glowing sheet, faint overhead and brighter toward the horizon where a look passes
- *  through more of it, O3 molecules (bent, 116.8 degrees) floating in it, and the Sun's UV rays coming
- *  down: UV-C and most UV-B stop there with a flash, UV-A goes on. */
+/** The ozone layer high above the deck (the real one is 15 to 35 km up; here 150 m): a band of soft
+ *  violet haze in a ring round the sky, about 33 to 59 degrees up from the deck, with big glowing O3
+ *  molecules (bent, 116.8 degrees) in it, their bent side turned to the deck; a faint sheet beyond that
+ *  glows near the horizon; and the Sun's UV rays coming down: UV-C and most UV-B end on an ozone
+ *  molecule, which flares as it absorbs them, UV-A goes on past the deck. */
 export function ozoneLayer({ height = 150, light = false } = {}) {
   const group = new THREE.Group()
+  const rnd = random(116)
+  const IN = 90 // the band of molecules, seen from the deck between about 33 and 59 degrees up
+  const OUT = 230
+  // a faint sheet over the whole sky: it glows near the horizon, where a look passes through more of it
   const sheetMat = new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
@@ -301,9 +306,8 @@ export function ozoneLayer({ height = 150, light = false } = {}) {
         float path = 1.0 / max(abs(v.y), 0.06);
         float r = length(vWorld.xz);
         float n = snoise(vec3(vWorld.xz * 0.0035, uTime * 0.02)) * 0.5 + 0.5;
-        float wisps = snoise(vec3(vWorld.xz * 0.012, uTime * 0.05 + 4.0)) * 0.5 + 0.5;
-        float a = (0.010 + uFlash * 0.012) * path * (0.55 + 0.45 * n) * (0.8 + 0.4 * wisps);
-        a *= 1.0 - smoothstep(1600.0, 3300.0, r);
+        float a = (0.009 + uFlash * 0.01) * path * (0.55 + 0.45 * n);
+        a *= smoothstep(${(OUT * 0.8).toFixed(1)}, ${(OUT * 1.6).toFixed(1)}, r) * (1.0 - smoothstep(1600.0, 3300.0, r));
         vec3 col = mix(vec3(0.42, 0.42, 1.0), vec3(0.75, 0.5, 1.0), n) * a;
         gl_FragColor = vec4(col, 1.0);
         #include <tonemapping_fragment>
@@ -317,84 +321,144 @@ export function ozoneLayer({ height = 150, light = false } = {}) {
   sheet.renderOrder = -6
   group.add(sheet)
 
-  // O3 molecules: three atoms, two bonds, 116.8 degrees, scaled up hugely so they read from the deck
-  const count = light ? 28 : 70
-  const rnd = random(116)
-  const scale = 3.2 // metres per angstrom
+  // the band itself: soft violet haze in a ring round the sky above the deck, in three thin layers so
+  // it has depth when seen slanting; brighter where UV is being absorbed
+  const bandMat = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    side: THREE.DoubleSide,
+    fog: false,
+    uniforms: { uTime: { value: 0 }, uFlash: { value: 0 }, uHit: { value: new THREE.Vector3(0, -999, 0) }, uHitK: { value: 0 } },
+    vertexShader: /* glsl */ `
+      varying vec3 vWorld;
+      void main() {
+        vec4 w = modelMatrix * vec4(position, 1.0);
+        vWorld = w.xyz;
+        gl_Position = projectionMatrix * viewMatrix * w;
+      }`,
+    fragmentShader: /* glsl */ `
+      ${NOISE_GLSL}
+      uniform float uTime;
+      uniform float uFlash;
+      uniform vec3 uHit;
+      uniform float uHitK;
+      varying vec3 vWorld;
+      void main() {
+        float r = length(vWorld.xz);
+        float ring = smoothstep(${(IN - 50).toFixed(1)}, ${(IN + 30).toFixed(1)}, r) * (1.0 - smoothstep(${(OUT - 30).toFixed(1)}, ${(OUT + 70).toFixed(1)}, r));
+        float n = snoise(vec3(vWorld.xz * 0.012, uTime * 0.04 + vWorld.y * 0.05)) * 0.5 + 0.5;
+        float m = snoise(vec3(vWorld.xz * 0.04, uTime * 0.09)) * 0.5 + 0.5;
+        float a = ring * (0.034 + 0.07 * n * n + 0.02 * m) * (1.0 + uFlash * 0.8);
+        // a glow round the last absorption
+        a += uHitK * 0.22 * exp(-distance(vWorld, uHit) / 26.0);
+        vec3 col = mix(vec3(0.36, 0.38, 1.0), vec3(0.78, 0.5, 1.0), n) * a;
+        gl_FragColor = vec4(col, 1.0);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`,
+  })
+  for (const dy of light ? [0] : [-6, 0, 6]) {
+    const band = new THREE.Mesh(new THREE.RingGeometry(IN - 60, OUT + 80, 96, 1), bandMat)
+    band.rotation.x = -Math.PI / 2
+    band.position.y = height + dy
+    band.frustumCulled = false
+    band.renderOrder = -5
+    group.add(band)
+  }
+
+  // O3 molecules: fewer and big (about 20 m across), glowing, their bent side turned to the deck
+  const count = light ? 16 : 26
+  const scale = 6.5 // metres per angstrom
   const half = (116.8 / 2) * (Math.PI / 180)
   const bond = 1.278 * scale
   const atoms = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(-Math.sin(half) * bond, -Math.cos(half) * bond, 0), new THREE.Vector3(Math.sin(half) * bond, -Math.cos(half) * bond, 0)]
   const centre = atoms.reduce((s, a) => s.add(a), new THREE.Vector3()).multiplyScalar(1 / 3)
   atoms.forEach(a => a.sub(centre))
-  const atomMesh = new THREE.InstancedMesh(
-    new THREE.SphereGeometry(1, light ? 10 : 16, light ? 8 : 12),
-    new THREE.MeshStandardMaterial({ color: '#ff5a4e', emissive: '#ff3b2f', emissiveIntensity: 0.55, roughness: 0.35, fog: false }),
-    count * 3,
-  )
+  const atomR = 0.42 * scale
+  const atomMat = new THREE.MeshStandardMaterial({ color: '#ff6f62', emissive: '#ff4436', emissiveIntensity: 0.75, roughness: 0.32, fog: false })
+  const atomMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1, light ? 14 : 22, light ? 10 : 16), atomMat, count * 3)
+  atomMesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(count * 9).fill(1), 3)
   const stickMesh = new THREE.InstancedMesh(
-    new THREE.CylinderGeometry(0.28, 0.28, 1, 8),
-    new THREE.MeshStandardMaterial({ color: '#f1e6ff', emissive: '#c9a7ff', emissiveIntensity: 0.4, roughness: 0.4, fog: false }),
+    new THREE.CylinderGeometry(0.11 * scale, 0.11 * scale, 1, 10),
+    new THREE.MeshStandardMaterial({ color: '#f3ecff', emissive: '#c9b0ff', emissiveIntensity: 0.9, roughness: 0.4, fog: false }),
     count * 2,
   )
   atomMesh.frustumCulled = false
   stickMesh.frustumCulled = false
+  const halos = new Particles(count, { map: softDot(64), renderOrder: -4 })
   const mols = []
+  const eye = new THREE.Vector3(0, 1.5, 0)
   for (let i = 0; i < count; i++) {
-    const a = rnd() * Math.PI * 2
-    const r = 20 + Math.pow(rnd(), 0.8) * 240
-    mols.push({
-      p: new THREE.Vector3(Math.cos(a) * r, height - 8 + rnd() * 16, Math.sin(a) * r),
-      q: new THREE.Quaternion().setFromEuler(new THREE.Euler(rnd() * 6, rnd() * 6, rnd() * 6)),
-      w: new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).multiplyScalar(0.5),
-      drift: new THREE.Vector3(rnd() - 0.5, 0, rnd() - 0.5).multiplyScalar(1.2),
-      glow: 0,
-    })
+    // spread evenly round the sky (golden angle), at varied distances and heights
+    const a = i * 2.39996 + rnd() * 0.3
+    const r = IN + 15 + ((i * 0.618034) % 1) * (OUT - IN - 30)
+    const p = new THREE.Vector3(Math.cos(a) * r, height - 5 + rnd() * 10, Math.sin(a) * r)
+    mols.push({ p, a, r, spin: rnd() * 6.3, rate: (rnd() - 0.5) * 0.25, wob: rnd() * 6.3, glow: 0, y: p.y })
+    halos.spawn({ x: p.x, y: p.y, z: p.z, life: 1e9, size: 34, alpha: 0.32, r: 0.62, g: 0.42, b: 1.0 })
   }
-  group.add(atomMesh, stickMesh)
+  group.add(atomMesh, stickMesh, halos.points)
   const m4 = new THREE.Matrix4()
   const tmp = new THREE.Vector3()
   const tmp2 = new THREE.Vector3()
-  const dq = new THREE.Quaternion()
   const up = new THREE.Vector3(0, 1, 0)
+  const Z = new THREE.Vector3(0, 0, 1)
   const sq = new THREE.Quaternion()
+  const face = new THREE.Quaternion()
+  const roll = new THREE.Quaternion()
   const one = new THREE.Vector3(1, 1, 1)
-  const placeMolecules = dt => {
+  const world = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]
+  const base = new THREE.Color('#ffffff')
+  const hot = new THREE.Color('#fff2c8').multiplyScalar(2.2)
+  const col = new THREE.Color()
+  const placeMolecules = (dt, t) => {
     mols.forEach((m, i) => {
-      dq.setFromAxisAngle(tmp.copy(m.w).normalize(), m.w.length() * dt)
-      m.q.multiply(dq)
-      m.p.addScaledVector(m.drift, dt)
-      if (Math.hypot(m.p.x, m.p.z) > 270) {
-        m.p.x *= -0.98
-        m.p.z *= -0.98
-      }
-      const world = atoms.map(a => a.clone().applyQuaternion(m.q).add(m.p))
-      world.forEach((w, j) => atomMesh.setMatrixAt(i * 3 + j, m4.compose(w, sq.identity(), tmp2.setScalar(1.15 * scale * 0.37 * (1 + m.glow * 0.25)))))
+      // a slow drift round the sky, a gentle bob, and a slow turn in its own plane
+      m.a += dt * 0.004
+      m.p.set(Math.cos(m.a) * m.r, m.y + Math.sin(t * 0.3 + m.wob) * 1.5, Math.sin(m.a) * m.r)
+      m.spin += m.rate * dt
+      // the molecule's plane faces the deck, with a little wobble so it looks free, not pinned
+      face.setFromUnitVectors(Z, tmp.subVectors(eye, m.p).normalize())
+      roll.setFromAxisAngle(Z, m.spin + Math.sin(t * 0.5 + m.wob) * 0.25)
+      sq.copy(face).multiply(roll)
+      const swell = 1 + m.glow * 0.35
+      atoms.forEach((a, j) => world[j].copy(a).multiplyScalar(swell).applyQuaternion(sq).add(m.p))
+      world.forEach((w, j) => {
+        atomMesh.setMatrixAt(i * 3 + j, m4.compose(w, sq, tmp2.setScalar(atomR * swell)))
+        atomMesh.setColorAt(i * 3 + j, col.copy(base).lerp(hot, m.glow))
+      })
       for (let j = 0; j < 2; j++) {
-        const a = world[0]
-        const b = world[j + 1]
-        tmp.subVectors(b, a)
+        tmp.subVectors(world[j + 1], world[0])
         const len = tmp.length()
         sq.setFromUnitVectors(up, tmp.normalize())
-        stickMesh.setMatrixAt(i * 2 + j, m4.compose(tmp2.addVectors(a, b).multiplyScalar(0.5), sq, one.set(1, len, 1)))
+        stickMesh.setMatrixAt(i * 2 + j, m4.compose(tmp2.addVectors(world[0], world[j + 1]).multiplyScalar(0.5), sq, one.set(1, len, 1)))
       }
-      m.glow = Math.max(0, m.glow - dt * 1.5)
+      const h = halos.items[i]
+      h.x = m.p.x
+      h.y = m.p.y
+      h.z = m.p.z
+      h.size = 34 + m.glow * 40
+      h.alpha = 0.3 + m.glow * 0.6
+      m.glow = Math.max(0, m.glow - dt * 0.9)
     })
     atomMesh.instanceMatrix.needsUpdate = true
+    atomMesh.instanceColor.needsUpdate = true
     stickMesh.instanceMatrix.needsUpdate = true
   }
-  placeMolecules(0)
+  placeMolecules(0, 0)
 
-  // UV rays from the sun, as long glowing streaks: UV-A (lavender) gets through, UV-B (violet) mostly
-  // stops, UV-C (magenta) always stops, at the layer
+  // UV rays from the sun, as long glowing streaks. UV-C (magenta) and nine in ten UV-B (violet) end on
+  // an ozone molecule on the sun's side of the band, which flares as it absorbs them; UV-A (lavender)
+  // goes on down past the deck.
   const KINDS = [
     { id: 'A', color: new THREE.Color('#c8b0ff').multiplyScalar(1.4), pass: 0.95 },
     { id: 'B', color: new THREE.Color('#8f5bff').multiplyScalar(1.7), pass: 0.1 },
     { id: 'C', color: new THREE.Color('#ff4fd8').multiplyScalar(1.7), pass: 0 },
   ]
-  const rayCount = light ? 10 : 22
-  const rayGeo = new THREE.CylinderGeometry(0.35, 0.35, 1, 6, 1, true)
+  const rayCount = light ? 10 : 20
+  const rayGeo = new THREE.CylinderGeometry(0.55, 0.55, 1, 6, 1, true)
   rayGeo.translate(0, 0.5, 0) // the head at the origin, the tail behind it (toward the sun)
-  const rayMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false, fog: false, toneMapped: true })
+  const rayMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false, fog: false })
   const rays = new THREE.InstancedMesh(rayGeo, rayMat, rayCount)
   rays.frustumCulled = false
   rays.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(rayCount * 3), 3)
@@ -404,18 +468,31 @@ export function ozoneLayer({ height = 150, light = false } = {}) {
   const live = Array.from({ length: rayCount }, () => ({ on: false }))
   const down = SUN.clone().negate()
   const qRay = new THREE.Quaternion().setFromUnitVectors(up, SUN)
+  const sunAz = Math.atan2(SUN.z, SUN.x)
+  const sunSide = m => Math.cos(m.a - sunAz) > 0.2
   let wait = 0.5
   let burst = 0
   const spawnRay = kindIndex => {
     const r = live.find(x => !x.on)
     if (!r) return
     const kind = KINDS[kindIndex ?? Math.floor(rnd() * 3)]
-    const target = new THREE.Vector3((rnd() - 0.5) * 240, 0, (rnd() - 0.5) * 240 - 40)
-    // where the ray crosses the layer, and where it starts (far up toward the sun)
-    const toLayer = height / SUN.y
-    r.start = target.clone().addScaledVector(SUN, toLayer + 700)
-    r.cross = target.clone().addScaledVector(SUN, toLayer)
-    r.end = kind.pass > rnd() ? target.clone().addScaledVector(SUN, -20) : r.cross
+    const through = kind.pass > rnd()
+    let cross
+    if (through) {
+      // somewhere in the band on the sun's side, between molecules
+      const a = sunAz + (rnd() - 0.5) * 1.6
+      const rr = IN + rnd() * (OUT - IN)
+      cross = new THREE.Vector3(Math.cos(a) * rr, height, Math.sin(a) * rr)
+      r.mol = null
+    } else {
+      const side = mols.filter(sunSide)
+      const m = side[Math.floor(rnd() * side.length)] ?? mols[0]
+      cross = m.p.clone()
+      r.mol = m
+    }
+    r.start = cross.clone().addScaledVector(SUN, 650)
+    r.cross = cross
+    r.end = through ? cross.clone().addScaledVector(down, height / SUN.y) : cross
     r.kind = kind
     r.d = 0
     r.len = r.start.distanceTo(r.end)
@@ -429,30 +506,25 @@ export function ozoneLayer({ height = 150, light = false } = {}) {
         rays.setMatrixAt(i, m4.makeScale(0, 0, 0))
         continue
       }
-      r.d += dt * 420
+      r.d += dt * 380
       const head = Math.min(r.d, r.len)
-      const tail = Math.max(0, r.d - 70)
+      const tail = Math.max(0, r.d - 60)
       if (tail >= r.len) {
         r.on = false
         rays.setMatrixAt(i, m4.makeScale(0, 0, 0))
         continue
       }
-      const hp = r.start.clone().addScaledVector(down, head)
+      // an absorbed ray follows its molecule as it drifts
+      if (r.mol) r.cross.copy(r.mol.p)
+      const hp = tmp.copy(r.start).addScaledVector(down, head)
+      if (r.mol && head >= r.len) hp.copy(r.cross)
       const length = Math.max(0.01, head - tail)
-      if (!r.flashed && r.end === r.cross && head >= r.len) {
+      if (!r.flashed && r.mol && head >= r.len) {
         r.flashed = true
-        flashes.spawn({ x: hp.x, y: hp.y, z: hp.z, life: 0.7, size: 26, r: r.kind.color.r, g: r.kind.color.g, b: r.kind.color.b })
-        // the nearest molecule lights up
-        let best = null
-        let bd = 1e9
-        for (const m of mols) {
-          const d = m.p.distanceToSquared(hp)
-          if (d < bd) {
-            bd = d
-            best = m
-          }
-        }
-        if (best && bd < 120 * 120) best.glow = 1
+        flashes.spawn({ x: hp.x, y: hp.y, z: hp.z, life: 0.8, size: 30, r: r.kind.color.r, g: r.kind.color.g, b: r.kind.color.b })
+        r.mol.glow = 1
+        bandMat.uniforms.uHit.value.copy(hp)
+        bandMat.uniforms.uHitK.value = 1
       }
       rays.setMatrixAt(i, m4.compose(hp, qRay, tmp2.set(1, length, 1)))
       rays.setColorAt(i, r.kind.color)
@@ -468,26 +540,31 @@ export function ozoneLayer({ height = 150, light = false } = {}) {
     volley(n = 9) {
       burst = n
       sheetMat.uniforms.uFlash.value = 1
+      bandMat.uniforms.uFlash.value = 1
     },
     update(dt, t, camera, renderer) {
-      sheetMat.uniforms.uTime.value = t
-      sheetMat.uniforms.uFlash.value = Math.max(0, sheetMat.uniforms.uFlash.value - dt * 0.15)
+      for (const m of [sheetMat, bandMat]) {
+        m.uniforms.uTime.value = t
+        m.uniforms.uFlash.value = Math.max(0, m.uniforms.uFlash.value - dt * 0.15)
+      }
+      bandMat.uniforms.uHitK.value = Math.max(0, bandMat.uniforms.uHitK.value - dt * 1.2)
       wait -= dt
       if (wait <= 0) {
         if (burst > 0) {
           spawnRay(burst % 3)
           burst--
-          wait = 0.18
+          wait = 0.2
         } else {
           spawnRay()
-          wait = 0.7 + rnd() * 1.2
+          wait = 0.8 + rnd() * 1.3
         }
       }
       updateRays(dt)
-      placeMolecules(dt)
+      placeMolecules(dt, t)
+      halos.step(dt, null, camera, renderer)
       flashes.step(dt, (p, _dt, k) => {
         p.alpha = (1 - k) * (1 - k)
-        p.size = 26 + k * 30
+        p.size = 30 + k * 34
       }, camera, renderer)
     },
   }

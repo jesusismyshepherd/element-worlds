@@ -1,16 +1,18 @@
 // The fire triangle round the campfire: three glowing sides on the floor (fuel, heat, oxygen), each
-// with a stone post and its sign. Taking a side away does it for real: the logs are pulled out to a
+// with a knee-high stone post: a plaque on its top (an emblem, the word, a line at the reader's depth
+// that also says when the side has been taken away) and its sign above it (logs, a live flame, O2). Taking a side away does it for real: the logs are pulled out to a
 // woodpile (fuel), a bucket of water drowns the fire in steam (heat), an iron lid comes down over it
 // (oxygen). Putting the side back undoes it; when all three are there again the fire lights up.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { hdr, glowMat, label, Particles, softDot, damp, smooth, ease, random } from './kit.js'
+import { hdr, glowMat, Particles, softDot, damp, smooth, ease, random, canvasTex, at } from './kit.js'
+import { flameCard, FIRE } from './flame.js'
 
 export const SIDES = ['oxygen', 'fuel', 'heat']
 export const SIDE_COLOR = { fuel: '#ffb347', heat: '#ff5a36', oxygen: '#7fc8ff' }
 
-export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
+export function fireTriangle({ fire, stoneMat, words, level = () => 'explorer', R = 3.4 }) {
   const group = new THREE.Group()
   const s60 = Math.sin(Math.PI / 3)
   const A = new THREE.Vector2(0, -R)
@@ -41,66 +43,96 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
     ft.rotation.x = -Math.PI / 2
     floorText.add(ft)
     group.add(floorText)
-    // the post with its icon, just outside the side
+    // the post: knee high (the fire is seen over it), with a plaque on its top tilted to the reader
+    // and its sign above: a stack of logs, a live flame, the O2 molecule
     const post = new THREE.Group()
     post.position.set(mid.x + n.x * 0.42, 0, mid.y + n.y * 0.42)
     post.rotation.y = ang
     group.add(post)
-    // knee high, so the fire is seen over it
-    const pillar = new THREE.Mesh(new RoundedBoxGeometry(0.36, 0.55, 0.36, 3, 0.06), stoneMat)
+    const pillar = new THREE.Mesh(new RoundedBoxGeometry(0.46, 0.55, 0.46, 3, 0.06), stoneMat)
     pillar.position.y = 0.275
     pillar.castShadow = pillar.receiveShadow = true
-    const capMat = glowMat(color, 1.2)
-    const cap = new THREE.Mesh(new RoundedBoxGeometry(0.42, 0.05, 0.42, 2, 0.02), capMat)
-    cap.position.y = 0.565
+    const capMat = glowMat(color, 1.0)
+    const cap = new THREE.Mesh(new RoundedBoxGeometry(0.52, 0.045, 0.52, 2, 0.02), capMat)
+    cap.position.y = 0.57
     post.add(pillar, cap)
-    // the sign on the post's outer face (the post's +z points out of the triangle, to the reader)
-    const sign = label(words.labels[id], { size: 0.075, color, maxWidth: 0.9 })
-    sign.position.set(0, 0.33, 0.19)
-    post.add(sign)
-    // the icon
+    // the plaque (the post's +z points out of the triangle, to the reader)
+    const plaque = new THREE.Group()
+    plaque.position.set(0, 0.71, 0.1)
+    plaque.rotation.x = -0.85
+    post.add(plaque)
+    const frameMat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.9, roughness: 0.4 })
+    const frame = new THREE.Mesh(new RoundedBoxGeometry(0.76, 0.34, 0.03, 2, 0.012), frameMat)
+    const face = new THREE.Mesh(
+      new RoundedBoxGeometry(0.73, 0.31, 0.034, 2, 0.01),
+      new THREE.MeshStandardMaterial({ color: '#0d1233', roughness: 0.35, emissive: '#10173f', emissiveIntensity: 0.5 }),
+    )
+    face.position.z = 0.004
+    const emblemMat = new THREE.MeshBasicMaterial({ map: emblem(id), transparent: true, color: hdr('#ffffff', 1.05) })
+    const emb = new THREE.Mesh(new THREE.CircleGeometry(0.125, 48), emblemMat)
+    emb.position.set(-0.225, 0, 0.023)
+    const word = makeText(words.sides[id].toUpperCase(), { size: 0.074, color: hdr(color, 1.2), anchorX: 'left', align: 'left' })
+    word.position.set(-0.075, 0.062, 0.023)
+    const line = makeText('', { font: 'body', size: 0.036, color: hdr('#d6deff', 1.05), anchorX: 'left', anchorY: 'top', maxWidth: 0.42, lineHeight: 1.15, align: 'left' })
+    line.position.set(-0.075, 0.012, 0.023)
+    plaque.add(frame, face, emb, word, line)
+    plaque.traverse(o => o.isMesh && (o.castShadow = true))
+    // the sign above
     const icon = new THREE.Group()
-    icon.position.y = 0.82
+    icon.position.set(0, 1.04, -0.1)
     post.add(icon)
-    const iconMats = []
+    let flame = null
     if (id === 'fuel') {
-      const wood = new THREE.MeshStandardMaterial({ color: '#7a5233', roughness: 0.8 })
-      const end = new THREE.MeshStandardMaterial({ color: '#c79a62', roughness: 0.7 })
-      ;[[-0.07, 0], [0.07, 0], [0, 0.1]].forEach(([x, y]) => {
-        const l = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.32, 14, 1), [wood, end, end])
-        l.rotation.z = Math.PI / 2
-        l.rotation.y = 0.4
-        l.position.set(0, y, x)
+      const bark = barkTexture()
+      const rings = ringTexture()
+      const woodMat = new THREE.MeshStandardMaterial({ map: bark, roughness: 0.85 })
+      const endMat = new THREE.MeshStandardMaterial({ map: rings, roughness: 0.7 })
+      const logGeo = new THREE.CylinderGeometry(0.068, 0.072, 0.32, 18, 1)
+      logGeo.rotateX(Math.PI / 2) // the cut ends face the reader
+      ;[[-0.075, -0.06], [0.075, -0.06], [0, 0.068]].forEach(([x, y], k) => {
+        const l = new THREE.Mesh(logGeo, [woodMat, endMat, endMat])
+        l.position.set(x, y, (k - 1) * 0.02)
+        l.rotation.z = k * 1.3
         icon.add(l)
       })
-      iconMats.push(wood, end)
     } else if (id === 'heat') {
-      const fl = new THREE.Mesh(
-        new THREE.LatheGeometry([new THREE.Vector2(0, 0), new THREE.Vector2(0.09, 0.04), new THREE.Vector2(0.11, 0.12), new THREE.Vector2(0.08, 0.22), new THREE.Vector2(0.03, 0.3), new THREE.Vector2(0, 0.34)], 24),
-        new THREE.MeshStandardMaterial({ color: '#ff7a2e', emissive: '#ff5a1a', emissiveIntensity: 1.6, roughness: 0.4 }),
-      )
-      fl.position.y = -0.12
-      icon.add(fl)
-      iconMats.push(fl.material)
+      // a little fire of its own: embers and a live flame
+      const bed = new THREE.Mesh(new THREE.CircleGeometry(0.13, 32), new THREE.MeshStandardMaterial({ color: '#2a1208', emissive: '#ff5a12', emissiveIntensity: 1.1, roughness: 0.8 }))
+      bed.rotation.x = -Math.PI / 2
+      bed.position.y = -0.17
+      const coalMat = new THREE.MeshStandardMaterial({ color: '#1c120c', emissive: '#ff4a10', emissiveIntensity: 0.5, roughness: 0.9 })
+      for (let k = 0; k < 5; k++) {
+        const a = (k / 5) * Math.PI * 2
+        const coal = new THREE.Mesh(new THREE.DodecahedronGeometry(0.04, 0), coalMat)
+        coal.position.set(Math.cos(a) * 0.075, -0.155, Math.sin(a) * 0.075)
+        coal.rotation.set(k, k * 2, 0)
+        icon.add(coal)
+      }
+      icon.add(bed)
+      flame = flameCard({ w: 0.3, h: 0.5, colors: FIRE, seed: 9.3, turb: 0.9, gain: 1.35 })
+      flame.mesh.position.y = -0.17
+      icon.add(flame.mesh)
     } else {
-      const red = new THREE.MeshPhysicalMaterial({ color: '#f2302b', roughness: 0.25, clearcoat: 1, emissive: '#f2302b', emissiveIntensity: 0.15 })
+      const red = new THREE.MeshPhysicalMaterial({ color: '#f2302b', roughness: 0.22, clearcoat: 1, emissive: '#f2302b', emissiveIntensity: 0.12 })
       for (const sx of [-1, 1]) {
-        const a = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 14), red)
-        a.position.x = sx * 0.085
+        const a = new THREE.Mesh(new THREE.SphereGeometry(0.08, 24, 16), red)
+        a.position.x = sx * 0.095
         icon.add(a)
       }
-      const st = new THREE.MeshStandardMaterial({ color: '#e9eef7' })
-      for (const y of [-0.022, 0.022]) {
-        const b = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.1, 8), st)
+      const st = new THREE.MeshStandardMaterial({ color: '#e9eef7', roughness: 0.35 })
+      for (const y of [-0.024, 0.024]) {
+        const b = new THREE.Mesh(new THREE.CylinderGeometry(0.013, 0.013, 0.12, 10), st)
         b.rotation.z = Math.PI / 2
         b.position.y = y
         icon.add(b)
       }
-      iconMats.push(red)
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.009, 8, 64), glowMat(color, 1.4))
+      ring.rotation.x = 1.2
+      icon.add(ring)
     }
-    icon.traverse(o => o.isMesh && (o.castShadow = true))
+    icon.traverse(o => o.isMesh && !o.material?.transparent && (o.castShadow = true))
     const spot = mid.clone().addScaledVector(n, 1.45)
-    sides[id] = { id, on: true, bar, barMat, capMat, icon, iconMats, color: new THREE.Color(color), floorText: ft, spot, mid, n, ang, post, k: 1 }
+    sides[id] = { id, on: true, bar, barMat, capMat, frameMat, emblemMat, icon, flame, line, color: new THREE.Color(color), floorText: ft, spot, mid, n, ang, post, k: 1 }
   }
   // glowing nodes at the corners
   for (const v of [A, B, C]) {
@@ -145,6 +177,16 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
   lid.visible = false
   group.add(lid)
 
+  // each plaque's line: what the side is, at the reader's depth, or that it has been taken away
+  const writeLine = s => {
+    const text = at(s.on ? words.signs[s.id] : words.off, level())
+    if (s.line.text !== text) {
+      s.line.text = text
+      s.line.sync()
+    }
+  }
+  for (const id of SIDES) writeLine(sides[id])
+
   let anim = null // { id, take, t }
   const wanted = () => SIDES.every(id => sides[id].on)
   let relightAt = -1
@@ -159,6 +201,9 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
     missing() {
       return SIDES.filter(id => !sides[id].on)
     },
+    refresh() {
+      for (const id of SIDES) writeLine(sides[id])
+    },
     /** Take a side away or put it back. Returns false while one is still moving. */
     toggle(id) {
       if (anim) return false
@@ -169,6 +214,7 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
         // the fire dies its own way: drowned fast, smothered in a moment, starved slowly
         fire.setLevel(0, id === 'heat' ? 3 : id === 'oxygen' ? 1.3 : 0.7)
       } else if (wanted()) relightAt = 0.9
+      writeLine(s)
       return s.on ? 'give' : 'take'
     },
     update(dt, t, camera, renderer) {
@@ -177,10 +223,15 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
         s.k = damp(s.k, s.on ? 1 : 0, 4, dt)
         s.barMat.emissiveIntensity = 0.1 + 1.1 * s.k
         s.barMat.color.copy(s.color).multiplyScalar(0.35 + 0.65 * s.k)
-        s.capMat.emissiveIntensity = 0.15 + 1.05 * s.k
-        s.icon.position.y = 0.82 - (1 - s.k) * 0.1
-        s.icon.rotation.y = t * 0.6 + s.ang
-        for (const m of s.iconMats) if (m.emissive) m.emissiveIntensity = (id === 'heat' ? 1.6 : 0.15) * (0.25 + 0.75 * s.k)
+        s.capMat.emissiveIntensity = 0.12 + 0.88 * s.k
+        s.frameMat.emissiveIntensity = 0.15 + 0.75 * s.k
+        s.emblemMat.opacity = 0.35 + 0.65 * s.k
+        s.icon.position.y = 1.04 - (1 - s.k) * 0.12
+        s.icon.scale.setScalar(0.8 + 0.2 * s.k)
+        if (s.flame) {
+          s.flame.update(t)
+          s.flame.set(s.k * (0.9 + 0.1 * Math.sin(t * 9)))
+        } else s.icon.rotation.y = Math.sin(t * 0.6 + s.ang) * 0.5
         s.floorText.fillOpacity = 0.35 + 0.65 * s.k
       }
       if (relightAt >= 0) {
@@ -214,7 +265,7 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
               }
             }
             if (a.t > 1.1 && a.t < 2.6) {
-              for (let i = 0; i < 2; i++) steam.spawn({ x: (Math.random() - 0.5) * 0.9, y: 0.3, z: (Math.random() - 0.5) * 0.9, vx: (Math.random() - 0.5) * 0.3, vy: 0.8 + Math.random() * 0.7, vz: (Math.random() - 0.5) * 0.3, life: 2.5, size: 0.3, alpha: 0, r: 0.9, g: 0.92, b: 0.95 })
+              for (let i = 0; i < 2; i++) steam.spawn({ x: (Math.random() - 0.5) * 0.9, y: 0.25, z: (Math.random() - 0.5) * 0.9, vx: (Math.random() - 0.5) * 0.35, vy: 1.0 + Math.random() * 0.9, vz: (Math.random() - 0.5) * 0.35, life: 2.6 + Math.random(), size: 0.2, alpha: 0, r: 0.5, g: 0.52, b: 0.56, k: Math.random() * 9 })
             }
             if (a.t >= 3) {
               bucket.visible = false
@@ -241,8 +292,10 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
         if (p.y < 0.1) p.alpha = 0
       }, camera, renderer)
       steam.step(dt, (p, d, k) => {
-        p.size = 0.3 + k * 1.4
-        p.alpha = Math.sin(k * Math.PI) * 0.35
+        p.size = 0.2 + k * 0.9
+        p.alpha = Math.sin(k * Math.PI) * 0.22
+        p.vx += Math.sin(t * 2 + p.k) * d * 0.4
+        p.vy *= 1 - d * 0.3
       }, camera, renderer)
       spark.step(dt, (p, d, k) => {
         p.vy -= 3 * d
@@ -250,4 +303,113 @@ export function fireTriangle({ fire, stoneMat, words, R = 3.4 }) {
       }, camera, renderer)
     },
   }
+}
+
+/** A round emblem for a side of the triangle, drawn on a canvas: logs end on (fuel), a flame (heat),
+ *  the O2 molecule (oxygen), on a dark medallion ringed in the side's colour. */
+function emblem(id) {
+  return canvasTex(256, (g, s) => {
+    const c = s / 2
+    g.clearRect(0, 0, s, s)
+    g.fillStyle = '#121838'
+    g.beginPath()
+    g.arc(c, c, c - 6, 0, Math.PI * 2)
+    g.fill()
+    g.lineWidth = 10
+    g.strokeStyle = SIDE_COLOR[id]
+    g.beginPath()
+    g.arc(c, c, c - 11, 0, Math.PI * 2)
+    g.stroke()
+    if (id === 'fuel') {
+      for (const [x, y] of [[c - 44, c + 30], [c + 44, c + 30], [c, c - 40]]) {
+        g.fillStyle = '#5b3a22'
+        g.beginPath()
+        g.arc(x, y, 42, 0, Math.PI * 2)
+        g.fill()
+        g.fillStyle = '#e2b274'
+        g.beginPath()
+        g.arc(x, y, 34, 0, Math.PI * 2)
+        g.fill()
+        g.strokeStyle = '#a8743c'
+        g.lineWidth = 3
+        for (const r of [7, 14, 21, 28]) {
+          g.beginPath()
+          g.arc(x, y, r, 0, Math.PI * 2)
+          g.stroke()
+        }
+      }
+    } else if (id === 'heat') {
+      const tongue = (k, fill) => {
+        g.fillStyle = fill
+        g.beginPath()
+        g.moveTo(c, c + 80 * k)
+        g.bezierCurveTo(c - 66 * k, c + 74 * k, c - 70 * k, c - 4 * k, c - 26 * k, c - 46 * k)
+        g.bezierCurveTo(c - 24 * k, c - 18 * k, c - 8 * k, c - 20 * k, c + 2 * k, c - 92 * k)
+        g.bezierCurveTo(c + 44 * k, c - 52 * k, c + 74 * k, c + 6 * k, c + 54 * k, c + 50 * k)
+        g.bezierCurveTo(c + 44 * k, c + 72 * k, c + 22 * k, c + 80 * k, c, c + 80 * k)
+        g.fill()
+      }
+      const grad = g.createLinearGradient(0, c + 84, 0, c - 92)
+      grad.addColorStop(0, '#ff3a10')
+      grad.addColorStop(1, '#ffb347')
+      tongue(1, grad)
+      tongue(0.55, '#ffe08a')
+    } else {
+      for (const x of [c - 46, c + 46]) {
+        const rg = g.createRadialGradient(x - 12, c - 12, 6, x, c, 36)
+        rg.addColorStop(0, '#ff8f84')
+        rg.addColorStop(1, '#c81e18')
+        g.fillStyle = rg
+        g.beginPath()
+        g.arc(x, c, 34, 0, Math.PI * 2)
+        g.fill()
+      }
+      g.fillStyle = '#eef3ff'
+      g.fillRect(c - 13, c - 12, 26, 7)
+      g.fillRect(c - 13, c + 5, 26, 7)
+    }
+  })
+}
+
+/** Bark: dark brown with long cracks. */
+function barkTexture() {
+  const rnd = random(31)
+  return canvasTex(128, (g, s) => {
+    g.fillStyle = '#4a3020'
+    g.fillRect(0, 0, s, s)
+    for (let i = 0; i < 70; i++) {
+      const x = rnd() * s
+      g.strokeStyle = rnd() < 0.5 ? 'rgba(20,12,6,0.65)' : 'rgba(120,86,56,0.45)'
+      g.lineWidth = 1 + rnd() * 2.5
+      g.beginPath()
+      g.moveTo(x, 0)
+      g.bezierCurveTo(x + (rnd() - 0.5) * 12, s * 0.33, x + (rnd() - 0.5) * 12, s * 0.66, x + (rnd() - 0.5) * 8, s)
+      g.stroke()
+    }
+  })
+}
+
+/** A cut log's end: pale wood with growth rings and a little bark round it. */
+function ringTexture() {
+  const rnd = random(47)
+  return canvasTex(128, (g, s) => {
+    const c = s / 2
+    g.fillStyle = '#4a3020'
+    g.fillRect(0, 0, s, s)
+    g.fillStyle = '#d9a86a'
+    g.beginPath()
+    g.arc(c, c, c * 0.86, 0, Math.PI * 2)
+    g.fill()
+    for (let r = 4; r < c * 0.84; r += 4 + rnd() * 3) {
+      g.strokeStyle = `rgba(150,96,48,${0.35 + rnd() * 0.35})`
+      g.lineWidth = 1 + rnd()
+      g.beginPath()
+      g.arc(c + (rnd() - 0.5) * 2, c + (rnd() - 0.5) * 2, r, 0, Math.PI * 2)
+      g.stroke()
+    }
+    g.fillStyle = '#7a4e2a'
+    g.beginPath()
+    g.arc(c, c, 3, 0, Math.PI * 2)
+    g.fill()
+  })
 }

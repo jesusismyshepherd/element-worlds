@@ -282,12 +282,15 @@ export function magnetBench({ color, light, words, level }) {
   flask.traverse(o => o.isMesh && (o.castShadow = true))
   const lip = new THREE.Vector3(0, 0.165, 0)
 
-  // the pour, the bridge between the poles, the puddle in the dish
+  // the pour, the bridge between the poles, the puddle in the dish. Liquid oxygen is pale blue;
+  // liquid nitrogen is colourless, so its stream is drawn bright and silvery, with mist round it
   const loxColor = new THREE.Color('#9fd2ff')
-  const ln2Color = new THREE.Color('#e6f1ff')
+  const ln2Color = new THREE.Color('#eef6ff')
   const liquid = new THREE.MeshPhysicalMaterial({ color: loxColor, roughness: 0.05, metalness: 0, clearcoat: 1, transparent: true, opacity: 0.88, emissive: loxColor, emissiveIntensity: 0.15, envMapIntensity: 1.6 })
-  const stream = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.016, 1, 12, 1, true), liquid)
+  const streamMat = new THREE.MeshPhysicalMaterial({ color: loxColor, roughness: 0.04, metalness: 0.1, clearcoat: 1, transparent: true, opacity: 0.92, emissive: loxColor, emissiveIntensity: 0.3, envMapIntensity: 2.2 })
+  const stream = new THREE.Mesh(new THREE.CylinderGeometry(0.017, 0.022, 1, 14, 1, true), streamMat)
   stream.visible = false
+  stream.renderOrder = 7
   rig.add(stream)
   const bridge = new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.07, 8, 20), liquid)
   bridge.rotation.z = Math.PI / 2
@@ -305,8 +308,30 @@ export function magnetBench({ color, light, words, level }) {
     f.position.set(s * 0.068, 0, gapZ)
     magnet.add(f)
   }
-  const vapour = new Particles(light ? 30 : 70, { map: softDot(64), additive: false, renderOrder: 6 })
-  rig.add(vapour.points)
+  // vapour: wisps that rise (k 1) and cold fog that sinks and rolls along the bench (k 2)
+  const vapour = new Particles(light ? 50 : 150, { map: softDot(64), additive: false, renderOrder: 6 })
+  // drops running down the stream, a splash where it lands, the fizz of a boiling puddle
+  const drops = new Particles(light ? 30 : 80, { map: softDot(32, 0, true), additive: false, renderOrder: 8 })
+  rig.add(vapour.points, drops.points)
+  const BENCH = 0.96 // the bench top, in the rig's frame (the rig is scaled about it)
+  const DISH = 0.975
+  const cx = 0
+  const cz = gapZ - 0.05
+  const rnd = Math.random
+  const wisp = (x, y, z, spread) => vapour.spawn({
+    x: x + (rnd() - 0.5) * spread, y, z: z + (rnd() - 0.5) * spread,
+    vx: (rnd() - 0.5) * 0.05, vy: 0.04 + rnd() * 0.06, vz: (rnd() - 0.5) * 0.05,
+    life: 1.8 + rnd() * 1.3, size: 0.06, alpha: 0, r: 1, g: 1, b: 1, k: 1,
+  })
+  const fog = (x, y, z, reach) => {
+    const a = rnd() * Math.PI * 2
+    const s = reach * (0.5 + rnd() * 0.5)
+    vapour.spawn({
+      x: x + Math.cos(a) * 0.05, y, z: z + Math.sin(a) * 0.05,
+      vx: Math.cos(a) * s, vy: -0.04 - rnd() * 0.04, vz: Math.sin(a) * s,
+      life: 2.4 + rnd() * 1.6, size: 0.08, alpha: 0, r: 0.96, g: 0.98, b: 1, k: 2,
+    })
+  }
 
   // the screen beside the bench
   const scr = standingScreen(
@@ -323,16 +348,9 @@ export function magnetBench({ color, light, words, level }) {
   let show = null
   let next = 'lox'
   let bridgeFill = 0 // 0..1, how much liquid oxygen hangs between the poles
+  let puddleFill = 0
   const world = new THREE.Vector3()
-  const vapourAt = (x, y, z, n, spread = 0.06) => {
-    for (let i = 0; i < n; i++) {
-      vapour.spawn({
-        x: x + (Math.random() - 0.5) * spread, y, z: z + (Math.random() - 0.5) * spread,
-        vx: (Math.random() - 0.5) * 0.05, vy: 0.06 + Math.random() * 0.08, vz: (Math.random() - 0.5) * 0.05,
-        life: 1.6 + Math.random() * 1.2, size: 0.05, alpha: 0.5, r: 1, g: 1, b: 1,
-      })
-    }
-  }
+  const dropColor = new THREE.Color()
   return {
     group,
     screen: scr,
@@ -345,9 +363,15 @@ export function magnetBench({ color, light, words, level }) {
     pour() {
       if (show) return false
       show = { kind: next, t: 0 }
-      liquid.color.copy(next === 'lox' ? loxColor : ln2Color)
-      liquid.emissive.copy(liquid.color)
-      liquid.opacity = next === 'lox' ? 0.9 : 0.55
+      const c = next === 'lox' ? loxColor : ln2Color
+      for (const m of [liquid, streamMat]) {
+        m.color.copy(c)
+        m.emissive.copy(c)
+      }
+      liquid.opacity = next === 'lox' ? 0.9 : 0.78
+      liquid.emissiveIntensity = next === 'lox' ? 0.15 : 0.35
+      streamMat.emissiveIntensity = next === 'lox' ? 0.3 : 0.55
+      dropColor.copy(c).multiplyScalar(next === 'lox' ? 1.05 : 1.25)
       next = next === 'lox' ? 'ln2' : 'lox'
       return show.kind
     },
@@ -358,27 +382,39 @@ export function magnetBench({ color, light, words, level }) {
       let tilt = 0
       let streamOn = false
       let fill = bridgeFill
-      let pud = puddle.scale.x
+      let pud = puddleFill
+      const lox = show?.kind === 'lox'
       if (show) {
         show.t += dt
         const t = show.t
         tilt = smooth(0, 0.6, t) * (1 - smooth(2.6, 3.2, t))
         streamOn = t > 0.55 && t < 2.8
-        if (show.kind === 'lox') {
+        if (lox) {
           if (t > 0.8 && t < 2.9) fill = Math.min(1, fill + dt * 0.55)
-          if (t > 11) fill = Math.max(0, fill - dt * 0.18)
-          if (t > 0.8 && Math.random() < dt * 14) vapourAt(0, 1.36, gapZ - 0.05, 1, 0.12)
-          frost.opacity = damp(frost.opacity, t < 14 ? 0.85 : 0, 1.5, dt)
-          if (t > 17 && fill <= 0.001) show = null
+          if (t > 8) fill = Math.max(0, fill - dt * 0.26)
+          if (t > 0.8 && fill > 0.05 && rnd() < dt * 22 * fill) wisp(cx, 1.37, cz, 0.12)
+          frost.opacity = damp(frost.opacity, t < 10 ? 0.85 : 0, 1.5, dt)
+          if (t > 12 && fill <= 0.001) show = null
         } else {
           if (t > 0.9 && t < 3) pud = Math.min(1, pud + dt * 0.6)
-          if (t > 3) pud = Math.max(0, pud - dt * 0.28)
-          if (t > 0.9 && pud > 0.05 && Math.random() < dt * 18) vapourAt(0, 0.99, gapZ - 0.05, 1, 0.2)
-          if (t > 7 && pud <= 0.001) show = null
+          if (t > 3) pud = Math.max(0, pud - dt * 0.25)
+          // it boils hard: heavy cold fog rolls over the dish and along the bench, wisps rise
+          if (t > 0.9 && pud > 0.04) {
+            if (rnd() < dt * 40 * pud) fog(cx, DISH + 0.02, cz, 0.16 + pud * 0.12)
+            if (rnd() < dt * 14 * pud) wisp(cx, DISH + 0.03, cz, 0.18)
+            // the fizz on its surface
+            if (rnd() < dt * 50 * pud) {
+              const a = rnd() * Math.PI * 2
+              const r = Math.sqrt(rnd()) * 0.12 * pud
+              drops.spawn({ x: cx + Math.cos(a) * r, y: DISH + 0.004, z: cz + Math.sin(a) * r, vy: 0.08, life: 0.18, size: 0.012, alpha: 0.9, r: 1.3, g: 1.35, b: 1.4 })
+            }
+          }
+          if (t > 7.5 && pud <= 0.001) show = null
         }
       }
       flask.rotation.z = tilt * 1.9
       bridgeFill = fill
+      puddleFill = pud
       // the bridge fills the gap first (its length), then swells; it shrinks the same way as it boils
       const swell = Math.max(0.001, Math.min(1, fill * 1.4))
       bridge.scale.set(Math.max(0.001, Math.min(1, fill * 2)), swell, swell)
@@ -389,18 +425,52 @@ export function magnetBench({ color, light, words, level }) {
         world.copy(lip).applyMatrix4(flask.matrixWorld)
         rig.worldToLocal(world)
         // from the flask's lip down to the gap (oxygen stops there) or the dish (nitrogen runs through)
-        const bottom = show.kind === 'lox' ? 1.36 : 0.975
-        const dx = world.x
+        const bottom = lox ? 1.36 : DISH
+        const dx = world.x - cx
         const dy = Math.max(0.02, world.y - 0.01 - bottom)
         const len = Math.hypot(dx, dy)
-        stream.position.set(dx / 2, bottom + dy / 2, gapZ - 0.05)
+        stream.position.set(cx + dx / 2, bottom + dy / 2, cz)
         stream.scale.set(1, len, 1)
         stream.rotation.z = -Math.atan2(dx, dy)
+        // drops sliding down it show the flow; a splash where it lands; nitrogen trails mist all the way
+        const speed = 1.6
+        for (let i = 0; i < (light ? 1 : 3); i++) {
+          if (rnd() < dt * 30) {
+            const u = rnd() * 0.3
+            drops.spawn({
+              x: world.x - dx * u + (rnd() - 0.5) * 0.012, y: world.y - dy * u, z: cz + (rnd() - 0.5) * 0.012,
+              vx: (-dx / len) * speed, vy: (-dy / len) * speed, vz: 0,
+              life: (len * (1 - u)) / speed, size: 0.016 + rnd() * 0.01, alpha: 0.95, r: dropColor.r, g: dropColor.g, b: dropColor.b,
+            })
+          }
+        }
+        if (rnd() < dt * 24) {
+          drops.spawn({ x: cx, y: bottom + 0.01, z: cz, vx: (rnd() - 0.5) * 0.5, vy: 0.3 + rnd() * 0.4, vz: (rnd() - 0.5) * 0.5, life: 0.35, size: 0.012, alpha: 0.9, r: dropColor.r, g: dropColor.g, b: dropColor.b, k: 1 })
+        }
+        if (!lox && rnd() < dt * 18) {
+          const u = rnd()
+          wisp(world.x - dx * u, world.y - dy * u, cz, 0.05)
+        }
       }
-      vapour.step(dt, (p, _dt, k) => {
-        p.size = 0.05 + k * 0.16
-        p.alpha = (1 - k) * 0.35
-        p.vx += (Math.random() - 0.5) * dt * 0.1
+      vapour.step(dt, (p, d, k) => {
+        if (p.k === 2) {
+          // cold, heavy: it settles on the bench, spreads and slows
+          if (p.y < BENCH + 0.025) {
+            p.y = BENCH + 0.025
+            p.vy = 0
+          }
+          p.vx *= 1 - d * 0.6
+          p.vz *= 1 - d * 0.6
+          p.size = 0.08 + k * 0.34
+          p.alpha = Math.sin(Math.min(1, k * 1.4) * Math.PI) * 0.5
+        } else {
+          p.size = 0.06 + k * 0.26
+          p.alpha = Math.sin(k * Math.PI) * 0.42
+          p.vx += (rnd() - 0.5) * d * 0.1
+        }
+      }, camera, renderer)
+      drops.step(dt, (p, d) => {
+        if (p.k === 1) p.vy -= 3 * d
       }, camera, renderer)
     },
   }

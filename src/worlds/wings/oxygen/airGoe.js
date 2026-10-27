@@ -195,32 +195,44 @@ export async function goeExhibit({ color, light, words, level, lang }) {
     for (let y = 0; y < s; y++) {
       const n = noise.n2(3, y / 3)
       const layer = Math.sin(y * 0.9 + noise.n2(y / 9, 7) * 4) * 0.5 + 0.5
-      const k = 0.68 + layer * 0.22 + n * 0.12
+      const k = 0.76 + layer * 0.13 + n * 0.1
       g.fillStyle = `rgb(${172 * k},${150 * k},${118 * k})`
       g.fillRect(0, y, s, 1)
     }
   })
   const stromMat = new THREE.MeshStandardMaterial({ map: bandTex, roughness: 0.9 })
-  const matMat = new THREE.MeshStandardMaterial({ color: '#4a5a2c', emissive: '#4dffa6', emissiveIntensity: 0, roughness: 0.85 })
+  // the living mat: a thin olive film over each head, glowing softly while it makes oxygen
+  const matMat = new THREE.MeshStandardMaterial({ color: '#5a5e36', emissive: '#8dff9a', emissiveIntensity: 0, roughness: 0.95, transparent: true, opacity: 0.9 })
   const tops = []
   const spots = [[0, 0, 0.32, 0.4], [-0.55, 0.25, 0.24, 0.33], [0.5, 0.3, 0.27, 0.36], [-0.3, -0.55, 0.22, 0.31], [0.42, -0.5, 0.2, 0.34], [-0.72, -0.18, 0.16, 0.28]]
-  for (const [x, z, r, hgt] of spots) {
-    const prof = []
-    for (let i = 0; i <= 12; i++) {
-      const k = i / 12
-      const rad = r * (k < 0.75 ? 0.82 + 0.18 * Math.sin(k * 2.1) : Math.sqrt(Math.max(0, 1 - ((k - 0.75) / 0.25) ** 2)) * 0.98)
-      prof.push(new THREE.Vector2(Math.max(0.001, rad + (noise.n2(k * 7, x * 9) - 0.5) * 0.03), 0.12 + k * hgt))
+  // a head: a narrow neck widening upward, then a round dome (as the ones of Shark Bay)
+  const headShape = (r, hgt, seed) => {
+    const capH = Math.min(hgt * 0.5, r * 0.85)
+    const neck = hgt - capH
+    const pts = []
+    const N = 22
+    for (let i = 0; i <= N; i++) {
+      const y = (i / N) * hgt
+      let rad
+      if (y <= neck) rad = r * (0.72 + 0.28 * Math.pow(y / neck, 0.7))
+      else rad = r * Math.sqrt(Math.max(0, 1 - ((y - neck) / capH) ** 2))
+      rad += (noise.n2(i * 0.7, seed * 9) - 0.5) * r * 0.08 * (rad > 0.02 ? 1 : 0)
+      pts.push(new THREE.Vector2(Math.max(0.0015, rad), y))
     }
-    const dome = new THREE.Mesh(new THREE.LatheGeometry(prof, 28), stromMat)
-    dome.position.set(x, 0, z)
+    return { pts, neck, capH }
+  }
+  spots.forEach(([x, z, r, hgt], k) => {
+    const { pts, neck } = headShape(r, hgt, k + 1)
+    const dome = new THREE.Mesh(new THREE.LatheGeometry(pts, 32), stromMat)
+    dome.position.set(x, 0.12, z)
     dome.castShadow = true
-    // the dome's top is the profile's last quarter (a quarter ellipse r wide, hgt / 4 tall): a film on it
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 10, 0, Math.PI * 2, 0, Math.PI * 0.42), matMat)
-    cap.scale.set(r * 0.99, hgt * 0.25 * 1.03, r * 0.99)
-    cap.position.set(x, 0.12 + hgt * 0.75, z)
+    // the mat: the same shape from a little below the shoulder up, a few millimetres out
+    const film = pts.filter(p => p.y >= neck + (hgt - neck) * 0.25).map(p => new THREE.Vector2(p.x + 0.005, p.y + 0.003))
+    const cap = new THREE.Mesh(new THREE.LatheGeometry(film, 32), matMat)
+    cap.position.copy(dome.position)
     group.add(dome, cap)
     tops.push(new THREE.Vector3(x, 0.12 + hgt, z))
-  }
+  })
 
   // the water
   const waterHeights = new Float32Array(256 * 256)
@@ -328,7 +340,7 @@ export async function goeExhibit({ color, light, words, level, lang }) {
       const living = run >= 0 ? smooth(3.7, 3.3, ga) : 1
       const oxygen = run >= 0 ? smooth(2.6, 2.2, ga) : 1
       mats = damp(mats, living, 3, dt)
-      matMat.emissiveIntensity = mats * (0.05 + Math.sin(t * 2.5) * 0.02) + (run >= 0 ? 0.08 * mats : 0)
+      matMat.emissiveIntensity = mats * (0.025 + Math.sin(t * 2.5) * 0.01) + (run >= 0 ? 0.04 * mats : 0)
       waterMat.color.copy(early).lerp(now, run >= 0 ? oxygen : 1)
       waterNormal.offset.set(t * 0.01, t * 0.007)
       // bubbles: some from the start of the mats, many more once oxygen is building up

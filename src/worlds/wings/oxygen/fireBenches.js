@@ -27,8 +27,9 @@ export function stoneTable({ w = 1.5, d = 0.85, h = 0.95, stoneMat, color = AMBE
   g.add(top, base, seam)
   g.traverse(o => o.isMesh && (o.castShadow = o.receiveShadow = true))
   if (lamp) {
-    const spot = new THREE.SpotLight('#ffd6a8', 9, 5, 0.55, 0.7, 2)
-    spot.position.set(0, h + 2.6, 0.9)
+    // a museum lamp: a warm pool of light on the table and its exhibit
+    const spot = new THREE.SpotLight('#ffd9b0', 22, 6, 0.5, 0.65, 2)
+    spot.position.set(0, h + 2.4, 1.1)
     spot.target.position.set(0, h + 0.2, 0)
     g.add(spot, spot.target)
   }
