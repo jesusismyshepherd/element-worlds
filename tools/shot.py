@@ -4,6 +4,7 @@ pokemon arena's probes). Start the dev server first (npm run dev, port 5310).
     python tools/shot.py / --name plaza
     python tools/shot.py /e/C --name carbon --phone
     python tools/shot.py / --steps "wait:2; js:__ew.world.select(6); wait:1.5; shot:carbon-selected"
+    python tools/shot.py /forge --base https://element-worlds.vercel.app   (the live site)
 
 Steps (separated by ';'): wait:<seconds>, js:<code run in the page>, shot:<name>, key:<KeyCode>[*seconds held].
 Shots go to tools/shots/<name>.png. Console errors are printed; the exit code is 1 if there were any.
@@ -25,6 +26,7 @@ def main():
     ap.add_argument('path', nargs='?', default='/')
     ap.add_argument('--name', default=None)
     ap.add_argument('--port', type=int, default=5310)
+    ap.add_argument('--base', default=None, help='another site instead of the dev server, e.g. the live one')
     ap.add_argument('--size', default='1600x900')
     ap.add_argument('--phone', action='store_true', help='an upright phone (390x844, touch)')
     ap.add_argument('--lang', default='pt-pt')
@@ -37,7 +39,8 @@ def main():
     OUT.mkdir(exist_ok=True)
     w, h = (390, 844) if a.phone else map(int, a.size.split('x'))
     sep = '&' if '?' in a.path else '?'
-    url = f'http://localhost:{a.port}{a.path}{sep}lang={a.lang}' + (f'&{a.query}' if a.query else '')
+    base = (a.base or f'http://localhost:{a.port}').rstrip('/')
+    url = f'{base}{a.path}{sep}lang={a.lang}' + (f'&{a.query}' if a.query else '')
     errors = []
     with sync_playwright() as p:
         b = p.chromium.launch(channel='msedge', headless=True, args=['--use-angle=d3d11', '--ignore-gpu-blocklist'])
