@@ -211,15 +211,16 @@ export async function build(ctx, target, previous) {
       },
     })
   }
+  // the big atom itself opens the "Inside the atom" panel (its own id: the station is 'atom', and a
+  // lookup by id found the station, which crashed)
   interactables.push({
-    id: 'atom',
+    id: 'big-atom',
     x: 0,
     z: 2.6,
     radius: 1.6,
     label: W.theAtom,
     verb: W.look,
-    onUse: () => interactables.find(i => i.id === 'atom').open(),
-    open: () => {
+    onUse: () => {
       const fresh = stationsOf(el, { lang, level: ctx.level(), familyName }).find(s => s.id === 'atom')
       ctx.store.set({ panel: fresh.panel() })
       if (markFound(`${el.symbol}:atom`)) panels.atom.setRead(true)

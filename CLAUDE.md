@@ -62,7 +62,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `src/worlds/wings/carbon/`, `src/worlds/wings/oxygen/`: the four worlds (each folder has its own
   words, parts and tests).
 - `tools/shot.py` (screenshots of the dev server, `npm run dev` on port 5310, with steps),
-  `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back).
+  `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back),
+  `tools/halls_probe.py` (all 118 halls, every panel, both languages and depths: words gone wrong, errors;
+  under 2 minutes). `shot.py --base https://element-worlds.vercel.app` looks at the live site.
 - Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
 
 ## Working traps
