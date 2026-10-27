@@ -190,7 +190,11 @@ A wing is a module (see Architecture); adding one never touches the engine.
   discoveries.
 - The Atomlings: all 118 from the grammar, the `/atomlings` page (sets, click a character to read it).
 - Molecules as graphs with the hands rule (`chem/molecules.js`), drawn as ball-and-stick models.
-- Carbon's and oxygen's first wings (see `src/worlds/wings/`).
+- Carbon's and oxygen's first wings: the allotropes gallery (with graphene from physics, chemistry,
+  electronics, materials science and the frontier: twisted bilayers at the magic angle), the garden of
+  life, the sky deck, the fire chamber.
+- The Molecule Lab: Atomlings hold hands, shapes by VSEPR, 27 molecules recognised, 12 missions.
+- Sound, the passport (discoveries and badges), the stories of every element.
 
 ## Open for the user (iterate)
 

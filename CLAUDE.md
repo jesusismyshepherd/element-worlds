@@ -50,8 +50,13 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
   `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).
 - `src/ui/`: the HUD (React). `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`, all 118).
+- `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
+  `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
+  column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
+- `src/worlds/wings/carbon/`, `src/worlds/wings/oxygen/`: the four worlds (each folder has its own
+  words, parts and tests).
 - `tools/shot.py` (screenshots of the dev server, `npm run dev` on port 5310, with steps),
-  `tools/lineup.py` (the Atomlings page).
+  `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back).
 - Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
 
 ## Working traps
@@ -68,7 +73,24 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   for formulas, superscripts only in the HUD (HTML).
 - Commit by path while other agents or sessions have work in the tree (`git add <paths>`, never `-A`).
 
-## Status (2026-10-27)
+## Status (2026-10-27, end of the first day)
 
-- Plaza done: the table, hover, select (card), enter, families, trends (Scientist).
-- In progress: Atomlings (the character grammar), the atrium, carbon's and oxygen's first wings.
+- Live at https://element-worlds.vercel.app (Vercel deploys `main` on every push).
+- The plaza: the table, hover and select (the card, the element's Atomling on its cube), enter, families,
+  trends (Scientist), the time machine, search, golden stars over elements with worlds of their own,
+  About, links to the Atomlings, the lab and the passport.
+- Every element's hall: the atom, eight stations and the specimen case (what it looks like), talking
+  to the Atomling (its greeting, then its fun facts), discoveries; coming back from a wing you arrive at
+  its arch; walking toward a wing's arch builds it ahead (`engine.prewarm`).
+- Element stories in `src/content/`: every element (the last batches were written 2026-10-27 by agents,
+  checked by `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`).
+- Worlds: carbon (`/e/C/allotropes` with the graphene row, `/e/C/life`), oxygen (`/e/O/air`,
+  `/e/O/fire`). Ideas for the next ones: `docs/wing-ideas.md`.
+- Atomlings: the grammar and the second layer of looks (`characters/look.js`); `/atomlings` with cards.
+- The Molecule Lab (`/lab`, `docs/knowledge/molecule-lab.md`), sound (`src/audio/sound.js`), the
+  passport (`/passport`).
+- Open: the user's review (the Atomlings' look, the worlds); first visits to big worlds compile 70 to 90
+  shader programs (8 s on Windows, about 1 s after; prewarm hides most of it, fewer material variants
+  would cut it); the wing builders' polish notes (mammoth tusks, the cycle table's flat land, the
+  figure's pastel colours, ozone molecules as specks from afar, bright screens in the fire chamber, a
+  faint liquid-nitrogen stream); a test on a real phone.
