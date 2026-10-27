@@ -242,6 +242,8 @@
     "chartN": "neutrões (N)",
     "find": "Um elemento: C, Fe, urânio...",
     "go": "Ir",
+    "beam": "Feixe",
+    "fire": "Disparar",
     "kind": {
       "empty": "Vazio",
       "stable": "Estável",

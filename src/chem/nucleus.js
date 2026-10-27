@@ -173,6 +173,62 @@ export function chain(Z, N, max = 40) {
   return steps
 }
 
+// ---- the beam: nuclear reactions ----
+
+/** What the forge can fire at a nucleus: [Z, N] each. */
+export const BEAMS = {
+  n: [0, 1], p: [1, 0], d: [1, 1], t: [1, 2], a: [2, 2],
+  C12: [6, 6], O16: [8, 8], Ca48: [20, 28], Fe58: [26, 32], Zn70: [30, 40],
+}
+
+// Famous reactions, as they happened: target [Z, N] + beam -> what flies out and what stays.
+// (fragment: a second nucleus that flies away, { Z, N })
+const REACTIONS = [
+  { id: 'sun', target: [1, 0], beam: 'p', result: [1, 1], out: ['positron', 'neutrino'], year: 1938 },
+  { id: 'fusion', target: [1, 1], beam: 't', result: [2, 2], out: ['neutron'], year: 1934 },
+  { id: 'fusion', target: [1, 2], beam: 'd', result: [2, 2], out: ['neutron'], year: 1934 },
+  { id: 'splitLi', target: [3, 4], beam: 'p', result: [2, 2], out: ['alpha'], year: 1932 },
+  { id: 'neutron', target: [4, 5], beam: 'a', result: [6, 6], out: ['neutron'], year: 1932 },
+  { id: 'hoyle', target: [4, 4], beam: 'a', result: [6, 6], out: [], year: 1953 },
+  { id: 'c14', target: [7, 7], beam: 'n', result: [6, 8], out: ['proton'], year: 1946 },
+  { id: 'transmute', target: [7, 7], beam: 'a', result: [8, 9], out: ['proton'], year: 1919 },
+  { id: 'artificial', target: [13, 14], beam: 'a', result: [15, 15], out: ['neutron'], year: 1934 },
+  { id: 'fission', target: [92, 143], beam: 'n', result: [56, 85], out: ['fragment', 'neutron', 'neutron', 'neutron'], fragment: [36, 56], year: 1938 },
+]
+
+/**
+ * A beam particle fired at the nucleus (Z, N): { famous, compound, result: { Z, N }, out, fragment }.
+ * The famous reactions go as history saw them; otherwise the two fuse, and a heavy compound nucleus,
+ * hot from the hit, boils off neutrons (about three on an actinide target, one on lead or bismuth: hot
+ * and cold fusion, as the superheavy elements were made), then as many more as it takes to reach a
+ * nucleus that has been seen.
+ */
+export function collide(Z, N, beam) {
+  const [bz, bn] = BEAMS[beam]
+  const compound = { Z: Z + bz, N: N + bn }
+  const famous = REACTIONS.find(r => r.target[0] === Z && r.target[1] === N && r.beam === beam)
+  if (famous) {
+    return {
+      famous: famous.id, year: famous.year, compound, result: { Z: famous.result[0], N: famous.result[1] }, out: famous.out,
+      fragment: famous.fragment ? { Z: famous.fragment[0], N: famous.fragment[1] } : null,
+    }
+  }
+  let z = compound.Z
+  let n = compound.N
+  const out = []
+  const boil = Z >= 89 && bz >= 6 ? 3 : Z >= 82 && bz >= 6 ? 1 : 0
+  for (let i = 0; i < boil && n > 0; i++) {
+    n--
+    out.push('neutron')
+  }
+  const r = knownRange(z)
+  for (let k = 0; k < 6 && r && nuclide(z, n).kind === 'unknown' && n > r.min; k++) {
+    n--
+    out.push('neutron')
+  }
+  return { famous: null, compound, result: { Z: z, N: n }, out, fragment: null }
+}
+
 /** Electrons in each shell of an atom with Z protons and E electrons: the neutral atom's shells, with
  *  electrons taken from the outside first (a cation) or added to the outer shell (an anion). */
 export function ionShells(Z, E) {

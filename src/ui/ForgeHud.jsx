@@ -5,7 +5,8 @@ import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import { ELEMENTS, nameOf } from '../data/elements.js'
 import { nuclide, commonestN, nuclideSymbol } from '../chem/nucleus.js'
-import { MISSIONS, describe, decayText, isotopeName, halfLifeText, noteText } from '../worlds/forge/words.js'
+import { MISSIONS, describe, decayText, reactionText, isotopeName, halfLifeText, noteText, BEAM_NAMES, BEAM_SYMBOLS } from '../worlds/forge/words.js'
+import { BEAMS } from '../chem/nucleus.js'
 import NuclideChart from './NuclideChart.jsx'
 
 const DOT = { p: '#ff5a55', n: '#b9c6dc', e: '#a8ecff' }
@@ -88,6 +89,7 @@ export default function ForgeHud({ engine }) {
   const [hint, setHint] = useState(null)
   const [query, setQuery] = useState('')
   const [finding, setFinding] = useState(false)
+  const [beaming, setBeaming] = useState(false)
   useEffect(() => {
     if (!party) return undefined
     const id = setTimeout(() => store.set({ forgeCelebrate: null }), 6000)
@@ -98,7 +100,7 @@ export default function ForgeHud({ engine }) {
   const { Z, N, E } = f
   const nuc = nuclide(Z, N)
   const lines = describe({ Z, N, E, nuc, common: Z ? commonestN(Z) : 0, held: f.held, note: f.note }, lang, level)
-  const event = f.event ? decayText(f.event, lang) : null
+  const event = !f.event ? null : f.event.mode === 'reaction' || f.event.mode === 'fusion' ? reactionText(f.event, lang) : decayText(f.event, lang)
   const sym = nuclideSymbol(Z, N, E)
   const title = Z ? isotopeName(Z, N, lang) : N === 1 ? t('forge.aNeutron') : N > 1 ? t('forge.neutronsAlone', { count: N }) : t('forge.nothing')
   const half = nuc.t ? halfLifeText(nuc.t, lang) : null
@@ -147,6 +149,24 @@ export default function ForgeHud({ engine }) {
       <button type="submit" className="rounded-lg bg-white/15 hover:bg-white/25 px-2.5 py-1 text-xs font-bold">{t('forge.go')}</button>
     </form>
   )
+  const beams = (
+    <div className="glass rounded-2xl p-1.5 pointer-events-auto">
+      <div className="text-[11px] font-bold opacity-80 px-1 mb-1">🚀 {t('forge.beam')}</div>
+      <div className="grid grid-cols-5 gap-1">
+        {Object.keys(BEAMS).map(b => (
+          <button
+            key={b}
+            type="button"
+            onClick={() => world?.fire?.(b)}
+            title={`${t('forge.fire')}: ${BEAM_NAMES[lang]?.[b] ?? BEAM_NAMES.en[b]}`}
+            className="rounded-lg bg-white/10 hover:bg-amber-400/30 active:scale-95 py-1 text-[12px] font-bold"
+          >
+            {BEAM_SYMBOLS[b]}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
   const missions = (
     <div className="glass rounded-2xl p-2.5 w-[min(80vw,16rem)] pointer-events-auto max-h-[45vh] overflow-y-auto">
       <button type="button" onClick={() => setMissionsOpen(o => !o)} className="font-display font-bold text-sm w-full text-left flex items-center justify-between gap-2">
@@ -178,12 +198,14 @@ export default function ForgeHud({ engine }) {
       {narrow ? (
         <div className="absolute inset-x-0 bottom-0 p-2 flex flex-col gap-1.5 pointer-events-none">
           {finding && <div className="flex justify-center">{finder}</div>}
+          {beaming && <div className="flex justify-center">{beams}</div>}
           {missionsOpen && <div className="flex justify-end">{missions}</div>}
           <div className="flex flex-wrap gap-1 justify-center pointer-events-auto text-[11px] font-bold">
             {quick}
             <button type="button" className={btn} onClick={() => setMissionsOpen(o => !o)}>🏆 {f.done.length}/{MISSIONS.length}</button>
             <button type="button" className={`${btn} ${chart ? 'bg-white/25' : ''}`} onClick={() => setChart(c => !c)} aria-label={t('forge.chart')}>🗺️</button>
             <button type="button" className={`${btn} ${finding ? 'bg-white/25' : ''}`} onClick={() => setFinding(x => !x)} aria-label={t('forge.find')}>🔎</button>
+            <button type="button" className={`${btn} ${beaming ? 'bg-white/25' : ''}`} onClick={() => setBeaming(x => !x)} aria-label={t('forge.beam')}>🚀</button>
           </div>
           <div className="grid grid-cols-3 gap-1.5 pointer-events-auto">{[['p', Z], ['n', N], ['e', E]].map(particle)}</div>
         </div>
@@ -191,6 +213,7 @@ export default function ForgeHud({ engine }) {
         <div className="absolute left-3 top-1/2 -translate-y-1/2 flex flex-col gap-2 pointer-events-auto w-44">
           {[['p', Z], ['n', N], ['e', E]].map(particle)}
           <div className="glass rounded-2xl p-1.5 grid grid-cols-2 gap-1 text-xs font-bold">{quick}</div>
+          {beams}
         </div>
       )}
 

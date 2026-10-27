@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { useChart, nuclide, decay, chain, ionShells, nuclideSymbol, commonestN, halfLifeParts, modeFamily, knownRange } from './nucleus.js'
+import { useChart, nuclide, decay, chain, ionShells, nuclideSymbol, commonestN, halfLifeParts, modeFamily, knownRange, collide } from './nucleus.js'
 
 useChart(JSON.parse(readFileSync(new URL('../data/nuclides.json', import.meta.url), 'utf8')))
 
@@ -86,4 +86,43 @@ test('half-lives in words', () => {
   assert.equal(halfLifeParts(1.4e17).unit, 'billionYears')
   assert.deepEqual(halfLifeParts(0.0007), { value: 700, unit: 'us' })
   assert.equal(halfLifeParts(6e-22).unit, 'secondsSci')
+})
+
+test('the beam: famous reactions as history saw them, and superheavies made as they were', () => {
+  const r = (Z, N, beam) => {
+    const c = collide(Z, N, beam)
+    return [c.famous, c.result.Z, c.result.N, c.out.join(' ')]
+  }
+  assert.deepEqual(r(7, 7, 'a'), ['transmute', 8, 9, 'proton']) // Rutherford 1919: N-14 + alpha -> O-17 + p
+  assert.deepEqual(r(4, 5, 'a'), ['neutron', 6, 6, 'neutron']) // Chadwick 1932: Be-9 + alpha -> C-12 + n
+  assert.deepEqual(r(92, 143, 'n'), ['fission', 56, 85, 'fragment neutron neutron neutron'])
+  assert.deepEqual(r(1, 1, 't'), ['fusion', 2, 2, 'neutron'])
+  // hot fusion on actinides boils off three neutrons: oganesson-294 from californium-249 (Dubna 2006),
+  // tennessine-294 from berkelium-249 (2010)
+  assert.deepEqual(r(98, 151, 'Ca48'), [null, 118, 176, 'neutron neutron neutron'])
+  assert.deepEqual(r(97, 152, 'Ca48'), [null, 117, 177, 'neutron neutron neutron'])
+  // cold fusion on bismuth and lead boils off one: meitnerium-266 (GSI 1982), copernicium-277 (1996),
+  // nihonium-278 (RIKEN 2004)
+  assert.deepEqual(r(83, 126, 'Fe58'), [null, 109, 157, 'neutron'])
+  assert.deepEqual(r(82, 126, 'Zn70'), [null, 112, 165, 'neutron'])
+  assert.deepEqual(r(83, 126, 'Zn70'), [null, 113, 165, 'neutron'])
+  // a light pair just fuses
+  assert.deepEqual(r(6, 6, 'a'), [null, 8, 8, ''])
+  // every famous reaction keeps its protons and neutrons (what goes in comes out)
+  const NUC = { proton: [1, 0], neutron: [0, 1], alpha: [2, 2], positron: [1, -1], neutrino: [0, 0] } // (a positron leaves as a proton turns into a neutron)
+  for (const [Z, N, beam] of [[1, 0, 'p'], [1, 1, 't'], [1, 2, 'd'], [3, 4, 'p'], [4, 5, 'a'], [4, 4, 'a'], [7, 7, 'n'], [7, 7, 'a'], [13, 14, 'a'], [92, 143, 'n']]) {
+    const c = collide(Z, N, beam)
+    let z = c.result.Z
+    let n = c.result.N
+    for (const o of c.out) {
+      if (o === 'fragment') {
+        z += c.fragment.Z
+        n += c.fragment.N
+      } else {
+        z += NUC[o][0]
+        n += NUC[o][1]
+      }
+    }
+    assert.deepEqual([z, n], [c.compound.Z, c.compound.N], `${Z},${N} + ${beam}`)
+  }
 })

@@ -2,7 +2,7 @@
 makes an ion or two, and reads the HUD's text (both languages, both depths) for words gone wrong
 ("undefined", "NaN", "null", an unfilled {{template}}). Console errors fail the run. Also the odd
 cases: nothing, one neutron, two neutrons, an electron with no proton, too many electrons, a nucleus
-far past the drip lines. Start the dev server first (port 5310).
+far past the drip lines; the beam's reactions. Start the dev server first (port 5310).
 
     python tools/forge_probe.py           all 118
     python tools/forge_probe.py 6 92 118  some (atomic numbers)
@@ -64,6 +64,17 @@ def main():
             if page.evaluate('() => __ew.store.get().forge.canDecay'):
                 page.evaluate('() => __ew.world.decay()')
                 look(label + ' decayed')
+        # the beam: every famous reaction, and fusion with each beam on a few targets
+        shots = [((1, 0), 'p'), ((1, 1), 't'), ((1, 2), 'd'), ((3, 4), 'p'), ((4, 5), 'a'), ((4, 4), 'a'), ((7, 7), 'n'),
+                 ((7, 7), 'a'), ((13, 14), 'a'), ((92, 143), 'n'), ((98, 151), 'Ca48'), ((83, 126), 'Fe58'), ((0, 0), 'a')]
+        shots += [((26, 30), b) for b in ('n', 'p', 'd', 't', 'a', 'C12', 'O16', 'Ca48', 'Fe58', 'Zn70')]
+        for (z, n), beam in shots:
+            where['at'] = f'beam {beam} at {z},{n}'
+            page.evaluate(f'() => __ew.world.set({z}, {n}, {z})')
+            page.wait_for_timeout(150)
+            page.evaluate(f"() => __ew.world.fire('{beam}')")
+            page.wait_for_timeout(1100)
+            look(where['at'])
         t0 = time.time()
         for z in a.z or range(1, 119):
             where['at'] = f'Z={z}'

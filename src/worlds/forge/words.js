@@ -200,6 +200,115 @@ export function decayText(ev, lang) {
   return { kid: L[fam](from, to), sci: `${from} → ${toSym} + ${EQUATION_PARTICLE[fam]} (${SCIMODE[lang]?.[fam] ?? ev.mode})` }
 }
 
+// what the beam particles are called, and their symbols (A up front)
+export const BEAM_NAMES = {
+  en: { n: 'neutron', p: 'proton', d: 'deuteron', t: 'triton', a: 'alpha particle', C12: 'carbon-12', O16: 'oxygen-16', Ca48: 'calcium-48', Fe58: 'iron-58', Zn70: 'zinc-70' },
+  'pt-pt': { n: 'neutrão', p: 'protão', d: 'deuterão', t: 'tritão', a: 'partícula alfa', C12: 'carbono-12', O16: 'oxigénio-16', Ca48: 'cálcio-48', Fe58: 'ferro-58', Zn70: 'zinco-70' },
+}
+export const BEAM_SYMBOLS = { n: 'n', p: 'p', d: 'd', t: 't', a: 'α', C12: '¹²C', O16: '¹⁶O', Ca48: '⁴⁸Ca', Fe58: '⁵⁸Fe', Zn70: '⁷⁰Zn' }
+
+// the famous reactions, as history saw them (chem/nucleus.js REACTIONS)
+const FAMOUS = {
+  en: {
+    transmute: {
+      kid: 'You did what Ernest Rutherford did in 1919: an alpha particle hit nitrogen and knocked out a proton, and nitrogen became oxygen. The first time anyone turned one element into another!',
+      sci: '¹⁴N + α → ¹⁷O + p (Rutherford, 1919; seen in a cloud chamber by Blackett, 1925): the first artificial transmutation.',
+    },
+    neutron: {
+      kid: 'Beryllium hit by an alpha particle shoots out a neutron: that is how James Chadwick discovered the neutron, in 1932.',
+      sci: '⁹Be + α → ¹²C + n (Chadwick, 1932): the penetrating neutral radiation that knocked protons out of paraffin was a particle about as heavy as the proton.',
+    },
+    splitLi: {
+      kid: 'A proton split lithium into two helium nuclei: Cockcroft and Walton did it in 1932 with the first particle accelerator.',
+      sci: '⁷Li + p → 2 ⁴He + 17.3 MeV (Cockcroft and Walton, 1932): the first reaction made with accelerated particles, and a check of E = mc².',
+    },
+    artificial: {
+      kid: 'Aluminium hit by alpha particles became phosphorus-30, which is radioactive: Irène and Frédéric Joliot-Curie made the first artificial radioactivity, in 1934.',
+      sci: '²⁷Al + α → ³⁰P + n; ³⁰P decays by β⁺ with a half-life of 2.5 minutes (Joliot-Curie, 1934; Nobel Prize in Chemistry, 1935).',
+    },
+    fission: {
+      kid: 'A slow neutron made uranium-235 split in two, and more neutrons flew out: they can split more uranium. That chain reaction runs nuclear power stations.',
+      sci: '²³⁵U + n → ¹⁴¹Ba + ⁹²Kr + 3n, about 200 MeV a fission (Hahn and Strassmann, 1938; explained by Meitner and Frisch).',
+    },
+    fusion: {
+      kid: 'Deuterium and tritium fused into helium and a fast neutron: the reaction that fusion power stations like ITER hope to run on.',
+      sci: '²H + ³H → ⁴He (3.5 MeV) + n (14.1 MeV): 17.6 MeV, the easiest fusion reaction to ignite.',
+    },
+    sun: {
+      kid: 'Two protons fused and one of them turned into a neutron: deuterium! This is the first step of how the Sun shines. It is so rare that a proton in the Sun waits billions of years for it.',
+      sci: 'p + p → ²H + e⁺ + νₑ, the weak-interaction step of the proton-proton chain (Bethe and Critchfield, 1938); its slowness sets the Sun\'s life of about ten billion years.',
+    },
+    hoyle: {
+      kid: 'Beryllium-8 lasts almost no time, but inside old stars a third alpha particle can hit it first and make carbon-12. The carbon in you was made like this.',
+      sci: '⁸Be + α → ¹²C through the 7.65 MeV Hoyle state (predicted by Hoyle, 1953, and found by Fowler\'s group): the triple-alpha process.',
+    },
+    c14: {
+      kid: 'Neutrons from cosmic rays hit nitrogen in the air and make carbon-14 like this, all the time: the clock archaeologists read.',
+      sci: '¹⁴N + n → ¹⁴C + p in the upper atmosphere; the basis of Libby\'s radiocarbon dating (1946 to 1949).',
+    },
+  },
+  'pt-pt': {
+    transmute: {
+      kid: 'Fizeste o que Ernest Rutherford fez em 1919: uma partícula alfa bateu no azoto e arrancou-lhe um protão, e o azoto passou a oxigénio. A primeira vez que alguém transformou um elemento noutro!',
+      sci: '¹⁴N + α → ¹⁷O + p (Rutherford, 1919; visto numa câmara de nevoeiro por Blackett, 1925): a primeira transmutação artificial.',
+    },
+    neutron: {
+      kid: 'O berílio atingido por uma partícula alfa dispara um neutrão: foi assim que James Chadwick descobriu o neutrão, em 1932.',
+      sci: '⁹Be + α → ¹²C + n (Chadwick, 1932): a radiação neutra e penetrante que arrancava protões à parafina era uma partícula quase tão pesada como o protão.',
+    },
+    splitLi: {
+      kid: 'Um protão partiu o lítio em dois núcleos de hélio: Cockcroft e Walton fizeram-no em 1932, com o primeiro acelerador de partículas.',
+      sci: '⁷Li + p → 2 ⁴He + 17,3 MeV (Cockcroft e Walton, 1932): a primeira reação feita com partículas aceleradas, e uma prova de E = mc².',
+    },
+    artificial: {
+      kid: 'O alumínio atingido por partículas alfa passou a fósforo-30, que é radioativo: Irène e Frédéric Joliot-Curie fizeram a primeira radioatividade artificial, em 1934.',
+      sci: '²⁷Al + α → ³⁰P + n; o ³⁰P decai por β⁺ com meia-vida de 2,5 minutos (Joliot-Curie, 1934; Prémio Nobel da Química, 1935).',
+    },
+    fission: {
+      kid: 'Um neutrão lento fez o urânio-235 partir-se em dois, e saíram mais neutrões: podem partir mais urânio. Essa reação em cadeia faz funcionar as centrais nucleares.',
+      sci: '²³⁵U + n → ¹⁴¹Ba + ⁹²Kr + 3n, cerca de 200 MeV por fissão (Hahn e Strassmann, 1938; explicada por Meitner e Frisch).',
+    },
+    fusion: {
+      kid: 'O deutério e o trítio fundiram-se em hélio e num neutrão rápido: a reação com que as centrais de fusão, como o ITER, esperam funcionar.',
+      sci: '²H + ³H → ⁴He (3,5 MeV) + n (14,1 MeV): 17,6 MeV, a reação de fusão mais fácil de acender.',
+    },
+    sun: {
+      kid: 'Dois protões fundiram-se e um deles passou a neutrão: deutério! É o primeiro passo da maneira como o Sol brilha. É tão raro que um protão do Sol espera milhares de milhões de anos por ele.',
+      sci: 'p + p → ²H + e⁺ + νₑ, o passo de interação fraca da cadeia protão-protão (Bethe e Critchfield, 1938); a sua lentidão fixa a vida do Sol em cerca de dez mil milhões de anos.',
+    },
+    hoyle: {
+      kid: 'O berílio-8 quase não dura nada, mas dentro das estrelas velhas uma terceira partícula alfa pode bater-lhe antes e fazer carbono-12. O carbono do teu corpo foi feito assim.',
+      sci: '⁸Be + α → ¹²C através do estado de Hoyle, a 7,65 MeV (previsto por Hoyle, 1953, e encontrado pelo grupo de Fowler): o processo triplo-alfa.',
+    },
+    c14: {
+      kid: 'Os neutrões dos raios cósmicos batem no azoto do ar e fazem carbono-14 assim, a toda a hora: o relógio que os arqueólogos leem.',
+      sci: '¹⁴N + n → ¹⁴C + p na alta atmosfera; a base da datação por radiocarbono de Libby (1946 a 1949).',
+    },
+  },
+}
+
+/** What the forge says after a beam's reaction: { kid, sci }. */
+export function reactionText(ev, lang) {
+  const L = lang === 'pt-pt' ? 'pt-pt' : 'en'
+  if (ev.famous && FAMOUS[L][ev.famous]) return FAMOUS[L][ev.famous]
+  const to = ev.to.Z ? isotopeName(ev.to.Z, ev.to.N, lang) : (L === 'pt-pt' ? 'nada' : 'nothing')
+  const k = ev.out.filter(o => o === 'neutron').length
+  const target = ev.from.Z ? nuclideSymbol(ev.from.Z, ev.from.N, ev.from.Z) : '∅'
+  const toSym = ev.to.Z ? nuclideSymbol(ev.to.Z, ev.to.N, ev.to.Z) : '∅'
+  const sci = `${target} + ${BEAM_SYMBOLS[ev.beam]} → ${toSym}${k ? ` + ${k > 1 ? k : ''}n` : ''}`
+  const heavy = ev.to.Z >= 104
+  if (L === 'pt-pt') {
+    return {
+      kid: `O ${BEAM_NAMES['pt-pt'][ev.beam]} fundiu-se com o núcleo: agora é ${to}.${k ? ` Estava tão quente que largou ${k} ${k > 1 ? 'neutrões' : 'neutrão'}.` : ''}${heavy ? ' É assim que os laboratórios de Dubna, Darmstadt, Berkeley e RIKEN fazem elementos novos: um átomo de cada vez.' : ''}`,
+      sci: `${sci} (fusão${k ? '-evaporação' : ''}).`,
+    }
+  }
+  return {
+    kid: `The ${BEAM_NAMES.en[ev.beam]} fused with the nucleus: now it is ${to}.${k ? ` It was so hot that it boiled off ${k} neutron${k > 1 ? 's' : ''}.` : ''}${heavy ? ' This is how the laboratories in Dubna, Darmstadt, Berkeley and RIKEN make new elements: one atom at a time.' : ''}`,
+    sci: `${sci} (fusion${k ? '-evaporation' : ''}).`,
+  }
+}
+
 /**
  * The lines the forge shows about the atom on the table: [{ text, tone }], tone one of 'info', 'good',
  * 'warn', 'bad'. s: { Z, N, E, nuc (nucleus.js nuclide), common (the commonest N), held, note }.
@@ -257,4 +366,12 @@ export const MISSIONS = [
   { id: 'flash', check: s => s.nuc.t != null && s.nuc.t > 0 && s.nuc.t < 1e-6, name: { en: 'A millionth-of-a-second nucleus', 'pt-pt': 'Um núcleo de um milionésimo de segundo' }, hint: { en: 'Find a nucleus with a half-life under a millionth of a second (try too many neutrons).', 'pt-pt': 'Encontra um núcleo com meia-vida abaixo de um milionésimo de segundo (experimenta neutrões a mais).' } },
   { id: 'U238', check: (s, ev) => !!ev && ev.to.Z === 82 && ev.to.N === 124 && ev.origin?.Z === 92 && ev.origin?.N === 146, name: { en: 'From uranium to lead', 'pt-pt': 'Do urânio ao chumbo' }, hint: { en: 'Make uranium-238 (92 protons, 146 neutrons) and keep pressing decay until it is lead-206: 14 steps.', 'pt-pt': 'Faz urânio-238 (92 protões, 146 neutrões) e carrega em decair até ser chumbo-206: 14 passos.' } },
   { id: 'Og', check: s => s.Z === 118 && s.N === 176, name: { en: 'Oganesson-294', 'pt-pt': 'Oganésson-294' }, hint: { en: 'The heaviest atom ever made: 118 protons, 176 neutrons, gone in under a thousandth of a second.', 'pt-pt': 'O átomo mais pesado alguma vez feito: 118 protões, 176 neutrões, desaparece em menos de um milésimo de segundo.' } },
+  // the beam
+  { id: 'transmute', check: (s, ev) => ev?.famous === 'transmute', name: { en: "Rutherford's transmutation", 'pt-pt': 'A transmutação de Rutherford' }, hint: { en: 'Make nitrogen-14 and fire an alpha particle at it (1919).', 'pt-pt': 'Faz azoto-14 e dispara-lhe uma partícula alfa (1919).' } },
+  { id: 'neutronFound', check: (s, ev) => ev?.famous === 'neutron', name: { en: 'Find the neutron', 'pt-pt': 'Descobre o neutrão' }, hint: { en: 'Make beryllium-9 and fire an alpha particle at it, as Chadwick did (1932).', 'pt-pt': 'Faz berílio-9 e dispara-lhe uma partícula alfa, como Chadwick (1932).' } },
+  { id: 'sun', check: (s, ev) => ev?.famous === 'sun', name: { en: 'The first step of the Sun', 'pt-pt': 'O primeiro passo do Sol' }, hint: { en: 'Make a hydrogen nucleus (one proton) and fire a proton at it.', 'pt-pt': 'Faz um núcleo de hidrogénio (um protão) e dispara-lhe um protão.' } },
+  { id: 'fusion', check: (s, ev) => ev?.famous === 'fusion', name: { en: 'Fusion power', 'pt-pt': 'Energia de fusão' }, hint: { en: 'Fire a triton at deuterium (or a deuteron at tritium).', 'pt-pt': 'Dispara um tritão contra deutério (ou um deuterão contra trítio).' } },
+  { id: 'hoyle', check: (s, ev) => ev?.famous === 'hoyle', name: { en: 'Carbon from the stars', 'pt-pt': 'Carbono das estrelas' }, hint: { en: 'Hold beryllium-8 together (it falls apart at once) and fire an alpha particle at it.', 'pt-pt': 'Segura o berílio-8 (desfaz-se logo) e dispara-lhe uma partícula alfa.' } },
+  { id: 'fission', check: (s, ev) => ev?.famous === 'fission', name: { en: 'Split uranium', 'pt-pt': 'Parte o urânio' }, hint: { en: 'Make uranium-235 (143 neutrons) and fire a neutron at it (1938).', 'pt-pt': 'Faz urânio-235 (143 neutrões) e dispara-lhe um neutrão (1938).' } },
+  { id: 'beamNew', check: (s, ev) => ev?.mode === 'fusion' && ev.to.Z >= 104, name: { en: 'A new element by beam', 'pt-pt': 'Um elemento novo com um feixe' }, hint: { en: 'Fire calcium-48 at californium-249 (98 protons, 151 neutrons): oganesson, as at Dubna in 2006.', 'pt-pt': 'Dispara cálcio-48 contra califórnio-249 (98 protões, 151 neutrões): oganésson, como em Dubna em 2006.' } },
 ]

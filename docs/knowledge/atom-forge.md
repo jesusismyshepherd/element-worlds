@@ -28,6 +28,26 @@ chains. Every hall's "Inside the atom" panel links here with its element (`/forg
   and a close-up with names; a tap builds that nucleus).
 - `src/worlds/common/pack.js`: `packBall`, an even ball of points (the forge's and the halls' nuclei).
 
+## The beam (2026-10-28)
+
+Fire n, p, d, t, alpha, carbon-12, oxygen-16, calcium-48, iron-58 or zinc-70 at the nucleus on the table
+(`BEAMS`, `collide` in `chem/nucleus.js`; the HUD's beam panel, a 🚀 toggle on phones). The beam's
+nucleons fly in together; on arrival the compound nucleus reacts:
+- Famous reactions go as history saw them (`REACTIONS`): Rutherford's N-14 + alpha -> O-17 + p (1919),
+  Chadwick's Be-9 + alpha -> C-12 + n (1932), Cockcroft and Walton's Li-7 + p -> 2 alpha, the
+  Joliot-Curies' Al-27 + alpha -> P-30 + n (1934), U-235 + n fission to Ba-141, Kr-92 and 3n (1938),
+  D-T fusion, the Sun's p + p -> d + e+ + neutrino, the triple alpha (Be-8 + alpha -> C-12, the Hoyle
+  state), cosmic rays' N-14 + n -> C-14 + p. Each with its words (`words.js` FAMOUS).
+- Otherwise the two fuse and a heavy compound boils off neutrons: three on an actinide target (hot
+  fusion), one on lead or bismuth (cold fusion), then more until it reaches a seen nucleus. That rule
+  alone gives the real syntheses: Cf-249 + Ca-48 -> Og-294 + 3n (Dubna 2006), Bk-249 + Ca-48 ->
+  Ts-294 + 3n (2010), Bi-209 + Fe-58 -> Mt-266 + n (GSI 1982), Pb-208 + Zn-70 -> Cn-277 + n,
+  Bi-209 + Zn-70 -> Nh-278 + n (RIKEN 2004): `nucleus.test.js` checks them, and that every famous
+  reaction keeps its protons and neutrons.
+- The atom keeps its charge through a reaction (the beam's protons arrive bare; the target was
+  neutral, so the product is too). What the beam made stays on show a moment before it decays.
+- Seven beam missions (21 in all).
+
 ## Rules of play
 
 - A nucleus that cannot last decays by itself once the player stops building for 1.6 s (instant ones
@@ -65,7 +85,6 @@ and the odd cases, and reads the HUD in both languages and depths (about a minut
 
 ## Next
 
-- A particle accelerator mission (fire calcium-48 at a target, as the superheavies were made).
 - Fusion in a star: four protons to helium-4 step by step (the proton-proton chain), then the triple
   alpha to carbon-12 (the Hoyle state).
 - Binding energy per nucleon as a curve beside the chart (iron-56 and nickel-62 at the top).

@@ -242,6 +242,8 @@
     "chartN": "neutrons (N)",
     "find": "An element: C, Fe, uranium...",
     "go": "Go",
+    "beam": "Beam",
+    "fire": "Fire",
     "kind": {
       "empty": "Empty",
       "stable": "Stable",

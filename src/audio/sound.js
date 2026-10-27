@@ -149,7 +149,11 @@ export function play(kind, { order = 1 } = {}) {
   else if (kind === 'proton') tone(NOTE(67), 0.13, { type: 'triangle', gain: 0.2, to: NOTE(72) })
   else if (kind === 'neutron') tone(NOTE(60), 0.13, { type: 'triangle', gain: 0.17, to: NOTE(62) })
   else if (kind === 'electron') tone(NOTE(86), 0.09, { gain: 0.11, to: NOTE(93), out: 'ui' })
-  else if (kind === 'decay') {
+  else if (kind === 'beam') {
+    // a particle accelerator's rising whine
+    whoosh(300, 3600, 0.75, 0.2)
+    tone(NOTE(55), 0.7, { type: 'sawtooth', gain: 0.05, to: NOTE(79) })
+  } else if (kind === 'decay') {
     // a Geiger counter's clicks and a whoosh; heavier for alpha, fission and clusters (order 2)
     for (let i = 0; i < 6; i++) tone(1900 + Math.random() * 600, 0.012, { type: 'square', gain: 0.12, when: i * 0.035 + Math.random() * 0.02, out: 'effects' })
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)

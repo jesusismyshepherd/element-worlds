@@ -9,7 +9,7 @@ import { element } from '../../data/elements.js'
 import { createAtomling } from '../../characters/atomling.js'
 import { nightSky } from '../common/sky.js'
 import { packBall } from '../common/pack.js'
-import { loadChart, nuclide, decay, commonestN, ionShells, modeFamily } from '../../chem/nucleus.js'
+import { loadChart, nuclide, decay, commonestN, ionShells, modeFamily, collide, BEAMS } from '../../chem/nucleus.js'
 import { markFound, isFound } from '../../engine/progress.js'
 import { play, ambience } from '../../audio/sound.js'
 import { MISSIONS } from './words.js'
@@ -238,7 +238,7 @@ export async function build(ctx, target) {
   const report = () => {
     store.set({
       forge: {
-        Z, N, E, held, note,
+        Z, N, E, held: heldByPlayer, note,
         event: lastEvent,
         canDecay: !!decay(Z, N),
         done: MISSIONS.filter(m => isFound(`forge:${m.id}`)).map(m => m.id),
@@ -353,8 +353,10 @@ export async function build(ctx, target) {
     set(Z, commonestN(Z), E)
   }
   const clear = () => set(0, 0, 0)
+  let heldByPlayer = false
   const setHeld = h => {
     held = h
+    heldByPlayer = h
     report()
   }
 
@@ -392,46 +394,36 @@ export async function build(ctx, target) {
 
   const NUCLEONS_OF = { alpha: [2, 2], proton: [1, 0], neutron: [0, 1], deuteron: [1, 1], triton: [1, 2] }
 
-  /** One decay, by the nucleus's strongest mode. */
-  const decayNow = () => {
-    const d = decay(Z, N)
-    if (!d) return false
+  /** Turn the nucleus into d ({ mode, Z, N, emitted, piece?, fragment?, cluster? }): what leaves flies
+   *  away (nucleons taken from the side it leaves by, clusters together), what changes kind changes
+   *  colour (beta decays), electrons and neutrinos shoot out. A decay or a beam's reaction. */
+  const transform = (d, extra = {}) => {
     const before = { Z, N }
     const q = Z - E
     const dir = randomDir()
-    // what leaves as nucleons, and how many change kind (beta decays turn one into the other)
+    const taken = new Set()
+    const takeOut = (kind, n) => {
+      const xs = nucleons.filter(x => x.kind === kind && !taken.has(x)).sort((a, b) => b.pos.dot(dir) - a.pos.dot(dir)).slice(0, n)
+      xs.forEach(x => taken.add(x))
+      return xs
+    }
     let pOut = 0
-    let nOut = 0
-    if (d.mode === 'SF') {
-      pOut = Z - d.Z
-      nOut = N - d.N
-    } else if (d.cluster) {
-      pOut = d.cluster.Z
-      nOut = d.cluster.N
-    } else {
-      for (const k of d.emitted) {
-        const c = NUCLEONS_OF[k]
-        if (c) {
-          pOut += c[0]
-          nOut += c[1]
-        }
-      }
+    const leaving = []
+    for (const k of d.emitted) {
+      const c = k === 'fragment' ? (d.piece ?? d.fragment) : k === 'cluster' ? d.cluster : NUCLEONS_OF[k] ? { Z: NUCLEONS_OF[k][0], N: NUCLEONS_OF[k][1] } : null
+      if (!c) continue
+      leaving.push([...takeOut('p', c.Z), ...takeOut('n', c.N)])
+      pOut += c.Z
     }
-    const flips = d.Z - Z + pOut // > 0: neutrons become protons; < 0: protons become neutrons
-    for (const x of outermost(flips > 0 ? 'n' : 'p', Math.abs(flips), dir)) x.kind = flips > 0 ? 'p' : 'n'
-    const gone = [...outermost('p', pOut, dir), ...outermost('n', nOut, dir)]
-    if (d.mode === 'SF') {
-      // the light piece flies one way, three free neutrons scatter
-      const free = gone.filter(x => x.kind === 'n').slice(0, 3)
-      const piece = gone.filter(x => !free.includes(x))
-      launch(piece, dir, 3.2, true)
-      for (const f of free) launch([f], randomDir(), 5)
-    } else if (d.emitted.some(k => k === 'alpha' || k === 'deuteron' || k === 'triton' || k === 'cluster')) {
-      launch(gone, dir, 4.5, true)
-    } else {
-      for (const x of gone) launch([x], gone.length > 1 ? randomDir() : dir, 4.5)
-    }
-    removeNucleons(gone)
+    // what is left turns into d's protons and neutrons: beta decays turn one kind into the other
+    const flips = d.Z - Z + pOut
+    nucleons.filter(x => x.kind === (flips > 0 ? 'n' : 'p') && !taken.has(x))
+      .sort((a, b) => b.pos.dot(dir) - a.pos.dot(dir)).slice(0, Math.abs(flips))
+      .forEach(x => {
+        x.kind = flips > 0 ? 'p' : 'n'
+      })
+    leaving.forEach((list, i) => launch(list, i === 0 ? dir : randomDir(), list.length > 1 ? (d.mode === 'SF' || d.emitted[0] === 'fragment' ? 3.2 : 4.5) : 5, list.length > 1))
+    removeNucleons([...taken])
     for (const k of d.emitted) {
       if (k === 'electron') shoot('electron', dir.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), 0.4), 9)
       else if (k === 'positron') shoot('positron', dir.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), 0.4), 9)
@@ -440,17 +432,55 @@ export async function build(ctx, target) {
     Z = d.Z
     N = d.N
     E = Z === 0 ? 0 : Math.max(0, Math.min(Z + 3, Z - q))
-    chainOrigin ??= before
-    lastEvent = { mode: d.mode, from: before, to: { Z, N }, origin: chainOrigin }
+    if (extra.reaction) {
+      chainOrigin = null
+      lastEvent = { mode: d.mode, from: extra.from, to: { Z, N }, beam: extra.beam, famous: extra.famous, out: d.emitted }
+    } else {
+      chainOrigin ??= before
+      lastEvent = { mode: d.mode, from: before, to: { Z, N }, origin: chainOrigin }
+    }
     flash = 1
     note = null
-    play('decay', { order: ['alpha', 'fission', 'cluster'].includes(modeFamily(d.mode)) ? 2 : 1 })
+    play('decay', { order: extra.reaction || ['alpha', 'fission', 'cluster'].includes(modeFamily(d.mode)) ? 2 : 1 })
     pendingLing = { Z, at: clock + 0.35 }
     changed({ byPlayer: false, ev: lastEvent })
     return true
   }
 
-  // a nucleus that cannot last decays by itself once the player stops building (unless held)
+  /** One decay, by the nucleus's strongest mode. */
+  const decayNow = () => {
+    const d = decay(Z, N)
+    return d ? transform(d) : false
+  }
+
+  // ---- the beam: a nucleus fired at the one on the table ----
+  let incoming = null // { c: collide's answer, from, beam, at }
+  const fire = beam => {
+    if (incoming || !BEAMS[beam]) return
+    const [bz, bn] = BEAMS[beam]
+    const c = collide(Z, N, beam)
+    const from = { Z, N }
+    const charge = Z - E
+    // its nucleons fly in from the left together; on arrival they are the compound nucleus
+    const start = entry('n', core)
+    const spread = NR * Math.cbrt(bz + bn) * 1.2
+    for (let i = 0; i < bz + bn; i++) {
+      const off = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).multiplyScalar(spread * 2)
+      addNucleon(i < bz ? 'p' : 'n', start.clone().add(off))
+    }
+    Z += bz
+    N += bn
+    // the atom keeps the charge it had (a neutral target stays neutral); a beam particle fired at an
+    // empty table is a bare nucleus
+    E = Z === bz && N === bn ? 0 : Math.max(0, Math.min(Z + 3, Z - charge))
+    incoming = { c, from, beam, at: clock + 0.8 }
+    held = true // the compound waits for the beam to arrive
+    play('beam')
+    lastTouch = clock
+    changed({ byPlayer: false })
+  }
+
+    // a nucleus that cannot last decays by itself once the player stops building (unless held)
   const autoWait = nuc => {
     if (held) return null
     if (nuc.kind === 'instant' || nuc.kind === 'neutrons') return 0.8
@@ -514,6 +544,13 @@ export async function build(ctx, target) {
         play('part')
         changed({ byPlayer: false })
       }
+    }
+    if (incoming && t >= incoming.at) {
+      const { c, from, beam } = incoming
+      incoming = null
+      held = heldByPlayer
+      lastTouch = t // what the beam made stays on show a moment before it decays
+      transform({ mode: c.famous ? 'reaction' : 'fusion', Z: c.result.Z, N: c.result.N, emitted: c.out, fragment: c.fragment }, { reaction: true, from, beam, famous: c.famous })
     }
     if (pendingLing && t >= pendingLing.at) {
       showAtomling(pendingLing.Z)
@@ -635,6 +672,7 @@ export async function build(ctx, target) {
     clear,
     setHeld,
     decay: decayNow,
+    fire,
     /** For the probes: the nucleons' kinds and where they are. */
     nucleons: () => nucleons.map(x => ({ kind: x.kind, pos: x.pos.toArray(), target: x.target.toArray() })),
     retarget: t => {
