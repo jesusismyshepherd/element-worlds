@@ -93,3 +93,8 @@ test('discovery years follow one rule (recognised or isolated, not a compound kn
   assert.equal(element('Au').ancient, true)
   assert.ok(!/Ramsey|Fredrich|Tenant\b/.test(ELEMENTS.map(e => e.discoverers ?? '').join(' ')))
 })
+
+test('every colour is a full hex colour (PubChem drops leading zeros)', () => {
+  for (const e of ELEMENTS) if (e.cpk) assert.match(e.cpk, /^#[0-9a-f]{6}$/, e.symbol)
+  assert.equal(element('Pd').cpk, '#006985')
+})

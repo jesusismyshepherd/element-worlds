@@ -50,6 +50,7 @@ const T = {
     stateIs: (el, n, s) => `At 20 °C ${n} is a ${s}.`,
     melts: (m, b) => `It melts at ${m} and boils at ${b}.`,
     boils: b => `It boils at ${b}.`,
+    sublimes: b => `At normal pressure it does not melt: it turns straight into a gas at ${b}.`,
     unknownState: 'Nobody has measured it: only a few atoms of it have ever been made.',
     litre: (kg, heavier) => `A litre of it would weigh ${kg} kg, ${heavier ? 'more' : 'less'} than a litre of water (1 kg): it would ${heavier ? 'sink' : 'float'} in water.`,
     litreGas: g => `A litre of it weighs ${g} g (a litre of air: about 1.2 g).`,
@@ -94,6 +95,7 @@ const T = {
     stateIs: (el, n, s) => `A 20 °C, ${art(el)} ${n} é ${art(el) === 'a' ? s.replace(/o$/, 'a') : s}.`,
     melts: (m, b) => `Funde a ${m} e ferve a ${b}.`,
     boils: b => `Ferve a ${b}.`,
+    sublimes: b => `À pressão normal não funde: passa diretamente a gás a ${b}.`,
     unknownState: 'Ninguém o mediu: só se fizeram uns poucos átomos.',
     litre: (kg, heavier) => `Um litro pesaria ${kg} kg, ${heavier ? 'mais' : 'menos'} do que um litro de água (1 kg): ${heavier ? 'iria ao fundo' : 'flutuaria'} na água.`,
     litreGas: g => `Um litro pesa ${g} g (um litro de ar: cerca de 1,2 g).`,
@@ -183,7 +185,7 @@ export function stationsOf(el, { lang, level, familyName }) {
       const d = el.density
       return [
         { big: el.state ? cap(L.states[el.state].replace(/^um /, '')) : '?' },
-        { p: el.state && el.melt != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))}` : el.state && el.boil != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.boils(temperature(el.boil, level, tag))}` : L.unknownState },
+        { p: el.sublimes ? `${L.stateIs(el, n, L.states[el.state])} ${L.sublimes(temperature(el.sublimes, level, tag))}` : el.state && el.melt != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))}` : el.state && el.boil != null ? `${L.stateIs(el, n, L.states[el.state])} ${L.boils(temperature(el.boil, level, tag))}` : L.unknownState },
         d != null && { p: liquidOrSolid ? L.litre(fmt(d, 3), d > 1) : L.litreGas(fmt(d * 1000 * 273.15 / 293.15, 3)) },
         text('stateNote') && { p: text('stateNote') },
         sci && {

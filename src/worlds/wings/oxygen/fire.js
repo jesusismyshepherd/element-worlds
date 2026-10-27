@@ -232,7 +232,7 @@ export async function build(ctx) {
       fog: new THREE.Fog('#0d0806', 9, 32),
       exposure: 1.2,
       envIntensity: 0.12,
-      bloom: { strength: 0.55, radius: 0.45, threshold: 0.85 },
+      bloom: { strength: 0.42, radius: 0.4, threshold: 1.05 }, // above the screens' text, under the fire
       fov: 62,
     },
     spawn: { x: 0, z: archZ - 2.4, yaw: 0 },

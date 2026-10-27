@@ -44,17 +44,24 @@ const DISCOVERERS = {
   91: 'Kasimir Fajans, Oswald Helmuth Göhring',
 }
 const PLACE = {
-  2: 'India, England', 4: 'France', 10: 'England', 18: 'England', 30: 'Germany', 36: 'England', 54: 'England', 78: 'Colombia',
+  2: 'India, England', 4: 'France', 10: 'England', 18: 'England', 23: 'Mexico (1801), Sweden (1830)', 30: 'Germany',
+  36: 'England', 54: 'England', 78: 'Colombia',
 }
 // IUPAC's conventional weights where PubChem gives a rounded one; densities at 20 °C
 const MASS = { 82: 207.2 }
-const DENSITY = { 19: 0.862, 29: 8.96 }
+const DENSITY = { 19: 0.862, 29: 8.96, 44: 12.45 }
+// indium in seawater: the old table value was about 100 000 times too high (Alibo, Nozaki and Jeandel 1999)
+const SEA = { 49: 1e-7 }
+// at normal pressure these turn straight from solid to gas (sublime) at this temperature, in K
+const SUBLIMES = { 6: 3915, 33: 887 }
 // aluminium's melting point had two digits swapped (the ITS-90 fixed point is 933.473 K); helium only
 // freezes under about 25 atm, so at normal pressure it has no melting point
 const MELT = { 2: null, 13: 933.473 }
 const EA = { 9: 3.401 }
 const SPELLING = [
-  [/A\.C\.Wohl/g, 'A. C. Wahl'], [/Humphrey Davy/g, 'Humphry Davy'], [/Johann Arfwedson/g, 'Johan August Arfwedson'],
+  [/A\.C\.Wohl/g, 'A. C. Wahl'], [/Émillo Segrè/g, 'Emilio Segrè'], [/G\. Kirchoff/g, 'Gustav Kirchhoff'],
+  [/Gustov Kirchoff/g, 'Gustav Kirchhoff'], [/Charles Hatchet/g, 'Charles Hatchett'], [/Johann Gahn/g, 'Johan Gottlieb Gahn'],
+  [/Johann Gadolin/g, 'Johan Gadolin'], [/Karl Klaus/g, 'Karl Ernst Claus'], [/Humphrey Davy/g, 'Humphry Davy'], [/Johann Arfwedson/g, 'Johan August Arfwedson'],
   [/Ramsey/g, 'Ramsay'], [/Fredrich/g, 'Friedrich'], [/Smithson Tenant/g, 'Smithson Tennant'], [/S\.Tenant/g, 'S. Tennant'],
   [/Fourcory/g, 'Fourcroy'], [/Aver von Welsbach/g, 'Auer von Welsbach'], [/Nils Langet/g, 'Nils Langlet'], [/George Brandt/g, 'Georg Brandt'],
 ]
@@ -90,7 +97,8 @@ const elements = pubchem.Row.map(({ Cell }) => {
     configPredicted: /predicted/i.test(p.ElectronConfiguration),
     // From the configuration shown (PubChem's); mendeleev predicts other ones for Lr, Ds and Rg.
     shells: shellsOf(config),
-    cpk: p.CPKHexColor ? `#${p.CPKHexColor.toLowerCase()}` : null,
+    // (PubChem drops leading zeros: palladium's "6985" is #006985)
+    cpk: p.CPKHexColor ? `#${p.CPKHexColor.toLowerCase().padStart(6, '0')}` : null,
     en: num(p.Electronegativity),
     // the first from PubChem; the next three from mendeleev where known
     ie: [num(p.IonizationEnergy), ...m.ionisationEnergies.slice(1).map(v => round(v, 3))],
@@ -111,7 +119,8 @@ const elements = pubchem.Row.map(({ Cell }) => {
       vdw: round(m.vdwRadius, 1),
       metallic: round(m.metallicRadius, 1),
     },
-    abundance: { crust: m.abundanceCrust, sea: m.abundanceSea },
+    abundance: { crust: m.abundanceCrust, sea: z in SEA ? SEA[z] : m.abundanceSea },
+    sublimes: SUBLIMES[z] ?? null,
     radioactive: m.radioactive,
     lattice: m.latticeStructure,
     thermalConductivity: m.thermalConductivity,
