@@ -8,6 +8,7 @@
 import * as THREE from 'three'
 import { makeText } from '../engine/text.js'
 import { traitsOf } from './traits.js'
+import { lewisSlots, lewisAngle } from '../chem/atom.js'
 
 const ELECTRON = new THREE.Color('#a8ecff')
 const PROTON = new THREE.Color('#ff5a55')
@@ -31,19 +32,6 @@ function radiusAt(profile, y) {
     if (y >= a.y && y <= b.y) return a.x + (b.x - a.x) * ((y - a.y) / (b.y - a.y || 1))
   }
   return 0
-}
-
-/** Lewis dot places: four sides of two, filled one per side first, then paired. Returns, for each of
- *  the `places` positions round the hoop, whether an electron sits there. */
-export function lewisSlots(electrons, places) {
-  if (places === 2) return [electrons >= 1, electrons >= 2]
-  const filled = new Array(8).fill(false)
-  for (let i = 0; i < Math.min(electrons, 8); i++) {
-    const side = i % 4
-    const second = i >= 4
-    filled[side * 2 + (second ? 1 : 0)] = true
-  }
-  return filled
 }
 
 /** Points packed in a ball (a golden spiral, inside out), for the nucleus. */
@@ -210,7 +198,7 @@ export function createAtomling(el, { light = false, badge = true } = {}) {
   const n = slots.length
   slots.forEach((filled, i) => {
     // pairs sit close together on each of the four sides
-    const a = tr.places === 8 ? (Math.floor(i / 2) * Math.PI) / 2 + (i % 2 ? 0.2 : -0.2) : tr.places === 2 ? (i ? 0.25 : -0.25) : (i / n) * Math.PI * 2
+    const a = tr.places ? lewisAngle(i, tr.places) : (i / n) * Math.PI * 2
     const p = new THREE.Vector3(Math.sin(a) * hoopR, 0, Math.cos(a) * hoopR)
     const mesh = filled ? new THREE.Mesh(eGeo, mats.electron) : new THREE.Mesh(slotGeo, mats.hollow)
     mesh.position.copy(p)

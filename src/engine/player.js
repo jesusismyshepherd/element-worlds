@@ -26,7 +26,7 @@ export class Player {
     this.yaw = 0
     this.pitch = -0.08
     this.camOffset = 0
-    this.camPitch = -0.3
+    this.camPitch = -0.17
     this.camDist = 4.2
     this.speed = 0
     this.avatar = null
@@ -49,6 +49,7 @@ export class Player {
     this.yaw = spawn.yaw ?? 0
     this.pitch = -0.08
     this.camOffset = 0
+    this.camPitch = -0.17
     this.vy = 0
     this.speed = 0
     this.camSnap = true

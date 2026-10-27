@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { ELEMENTS, element, cellOf } from '../data/elements.js'
 import { subshells, shellsOf, valenceElectrons, octetPlaces, bondCount, hands, nucleus } from './atom.js'
+import * as ATOM from './atom.js'
 
 test('118 elements, numbered 1 to 118, each with both names', () => {
   assert.equal(ELEMENTS.length, 118)
@@ -74,4 +75,12 @@ test('nucleus of the commonest isotope', () => {
   assert.deepEqual(nucleus(element('U')), { A: 238, protons: 92, neutrons: 146 })
   assert.equal(nucleus(element('Tc')).A, 97)
   for (const e of ELEMENTS) assert.ok(nucleus(e).neutrons >= 0, e.symbol)
+})
+
+test('Lewis places: singles on each side first, then pairs', () => {
+  const { lewisSlots } = ATOM
+  assert.deepEqual(lewisSlots(4, 8), [true, false, true, false, true, false, true, false])
+  assert.deepEqual(lewisSlots(6, 8), [true, true, true, true, true, false, true, false])
+  assert.equal(lewisSlots(7, 8).filter(Boolean).length, 7)
+  assert.deepEqual(lewisSlots(1, 2), [true, false])
 })

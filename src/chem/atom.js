@@ -98,6 +98,22 @@ export function hands(el) {
   return { count: Math.min(4, bondCount(el)), giving: isMetal(el) }
 }
 
+/** Lewis dot places round an atom: four sides of two, filled one per side first, then paired (as
+ *  school diagrams draw them). For `places` positions (8, or 2 in the first period), whether an
+ *  electron sits there; position i is on side floor(i / 2). */
+export function lewisSlots(electrons, places) {
+  if (places === 2) return [electrons >= 1, electrons >= 2]
+  const filled = new Array(8).fill(false)
+  for (let i = 0; i < Math.min(electrons, 8); i++) filled[(i % 4) * 2 + (i >= 4 ? 1 : 0)] = true
+  return filled
+}
+
+/** Where Lewis place i sits round a ring, as an angle: pairs close together on four sides. */
+export function lewisAngle(i, places) {
+  if (places === 2) return i ? 0.25 : -0.25
+  return (Math.floor(i / 2) * Math.PI) / 2 + (i % 2 ? 0.2 : -0.2)
+}
+
 /** The nucleus of the commonest isotope (or the longest-lived when none occurs in nature). */
 export function nucleus(el) {
   const iso = el.isotopes ?? []

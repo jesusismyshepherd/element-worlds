@@ -117,7 +117,9 @@
     "plazaHelp": "Drag to turn · scroll to zoom · click a cube",
     "plazaHelpTouch": "Drag to turn · pinch to zoom · tap a cube",
     "families": "Families",
-    "graphics": "Graphics"
+    "graphics": "Graphics",
+    "discoveries": "Discoveries",
+    "says": "{{who}} says"
   },
   "atomlings": {
     "title": "Atomlings",
@@ -139,6 +141,24 @@
       "move": "Gases float (the lighter than air, the higher), liquids slide, solids walk.",
       "body": "Metals shine like metal; non-metals are see-through, with the nucleus inside; metalloids are half and half.",
       "mark": "On its head, its family: a flame, a helmet, spikes, a halo…"
+    }
+  },
+  "wings": {
+    "C": {
+      "allotropes": {
+        "title": "Diamond, graphite and company"
+      },
+      "life": {
+        "title": "The carbon of life"
+      }
+    },
+    "O": {
+      "air": {
+        "title": "The air"
+      },
+      "fire": {
+        "title": "Fire"
+      }
     }
   }
 }

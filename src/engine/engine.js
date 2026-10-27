@@ -181,6 +181,17 @@ export class Engine {
     if (this.world?.mode === 'walk') this.player.use()
   }
 
+  /** Put the walker somewhere (probes and screenshots): x, z in metres, yaw (0 looks along -z),
+   *  pitch for first person. */
+  teleport(x, z, yaw = this.player.yaw, pitch = this.player.pitch) {
+    const p = this.player
+    p.pos.set(x, p.pos.y, z)
+    p.yaw = yaw
+    p.pitch = pitch
+    p.camOffset = 0
+    p.camSnap = true
+  }
+
   frame() {
     const dt = Math.min(this.clock.getDelta(), 1 / 20)
     this.time += dt

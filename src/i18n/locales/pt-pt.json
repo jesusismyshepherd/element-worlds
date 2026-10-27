@@ -117,7 +117,9 @@
     "plazaHelp": "Arrasta para rodar · roda do rato para aproximar · clica num cubo",
     "plazaHelpTouch": "Arrasta para rodar · afasta os dedos para aproximar · toca num cubo",
     "families": "Famílias",
-    "graphics": "Gráficos"
+    "graphics": "Gráficos",
+    "discoveries": "Descobertas",
+    "says": "{{who}} diz"
   },
   "atomlings": {
     "title": "Atomitos",
@@ -139,6 +141,24 @@
       "move": "Os gases flutuam (quanto mais leves que o ar, mais alto), os líquidos deslizam, os sólidos andam.",
       "body": "Os metais brilham como metal; os não metais são transparentes, com o núcleo lá dentro; os semimetais são metade e metade.",
       "mark": "Na cabeça, a família: uma chama, um capacete, espinhos, um halo…"
+    }
+  },
+  "wings": {
+    "C": {
+      "allotropes": {
+        "title": "Diamante, grafite e companhia"
+      },
+      "life": {
+        "title": "O carbono da vida"
+      }
+    },
+    "O": {
+      "air": {
+        "title": "O ar"
+      },
+      "fire": {
+        "title": "O fogo"
+      }
     }
   }
 }

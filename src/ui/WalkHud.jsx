@@ -15,6 +15,8 @@ export default function WalkHud({ engine }) {
   const mode = useStore(store, s => s.mode)
   const prompt = useStore(store, s => s.prompt)
   const panel = useStore(store, s => s.panel)
+  const speech = useStore(store, s => s.speech)
+  const found = useStore(store, s => s.discoveries)
   const [touch] = useState(touchScreen)
   const [hint, setHint] = useState(true)
 
@@ -22,6 +24,13 @@ export default function WalkHud({ engine }) {
     const id = setTimeout(() => setHint(false), 9000)
     return () => clearTimeout(id)
   }, [])
+
+  // what the Atomling says stays a few seconds
+  useEffect(() => {
+    if (!speech) return undefined
+    const id = setTimeout(() => store.set({ speech: null }), 9000)
+    return () => clearTimeout(id)
+  }, [speech])
 
   useEffect(() => {
     if (!panel) return undefined
@@ -48,6 +57,26 @@ export default function WalkHud({ engine }) {
           {mode === 'first' ? '👁' : '🧍'} {t(`hud.mode.${mode}`)} <span className="opacity-60">⇄</span>
         </button>
       </div>
+
+      {found && (
+        <div className="absolute top-14 sm:top-16 left-2 sm:left-3 glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-none">
+          ✦ {t('hud.discoveries')}: {found.found}/{found.total}
+        </div>
+      )}
+
+      {speech && !panel && (
+        <div className="absolute inset-x-0 top-28 sm:top-24 flex justify-center px-3 pointer-events-none">
+          <button
+            type="button"
+            onClick={() => store.set({ speech: null })}
+            className="glass rounded-2xl px-4 py-3 max-w-xl text-left pointer-events-auto shadow-xl"
+            style={{ borderColor: `${speech.color}aa` }}
+          >
+            <div className="text-xs font-bold mb-0.5" style={{ color: speech.color }}>{t('hud.says', { who: speech.who })}</div>
+            <div className="text-[15px] leading-snug">{speech.text}</div>
+          </button>
+        </div>
+      )}
 
       {prompt && !panel && (
         <div className="absolute inset-x-0 bottom-24 sm:bottom-10 flex justify-center pointer-events-none">

@@ -15,5 +15,7 @@ export const store = createStore({
   prompt: null,
   panel: null,
   mode: 'third',
+  speech: null,
+  discoveries: null,
   level: savedLevel(),
 })
