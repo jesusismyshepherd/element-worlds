@@ -5,7 +5,9 @@ import { useStore, saveLevel } from '../engine/store.js'
 import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
 import { atriumPath, plazaPath } from '../worlds/registry.js'
+import { useState } from 'react'
 import PlazaHud from './PlazaHud.jsx'
+import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
 
 /** Everything drawn over the 3D: the top bar (where you are, level, language), the HUD of the
@@ -19,6 +21,7 @@ export default function Hud({ engine }) {
   const title = useStore(store, s => s.title)
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
+  const [about, setAbout] = useState(false)
 
   const setLevel = l => {
     saveLevel(l)
@@ -58,6 +61,11 @@ export default function Hud({ engine }) {
         </nav>
         <div className="flex gap-1.5 pointer-events-auto shrink-0">
           {world?.kind === 'plaza' && (
+            <button type="button" onClick={() => setAbout(true)} className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10" aria-label={t('about.title')}>
+              ⓘ
+            </button>
+          )}
+          {world?.kind === 'plaza' && (
             <Link to="/atomlings" className="glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 flex items-center" title={t('atomlings.title')}>
               🙂<span className="hidden sm:inline ml-1">{t('atomlings.title')}</span>
             </Link>
@@ -91,6 +99,8 @@ export default function Hud({ engine }) {
 
       {world?.kind === 'plaza' && <PlazaHud engine={engine} />}
       {world && world.kind !== 'plaza' && <WalkHud engine={engine} />}
+
+      {about && <About onClose={() => setAbout(false)} />}
 
       {error && (
         <div className="absolute inset-x-0 top-20 flex justify-center pointer-events-auto">

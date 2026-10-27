@@ -165,5 +165,19 @@
     "title": "Máquina do tempo",
     "year": "Ano",
     "status": "Em {{year}}: {{count}} elementos conhecidos"
+  },
+  "about": {
+    "title": "Sobre os Mundos dos Elementos",
+    "what": "Uma tabela periódica onde se pode entrar. Cada elemento é um cubo na praça; lá dentro, cada cubo é maior do que parece: um salão sobre esse elemento e, para alguns, mundos inteiros para explorar. Feito para curiosos de dez anos e de todas as outras idades.",
+    "howTitle": "Como explorar",
+    "how": {
+      "table": "Na praça: arrasta para rodar, usa a roda do rato ou afasta os dedos para aproximar, clica num cubo para ver o cartão e clica outra vez (ou carrega em Enter) para entrar. As setas andam de cubo em cubo.",
+      "inside": "Lá dentro: aproxima-te de um painel ou de uma experiência e carrega em E (ou toca no botão) para ler ou usar. Cada um que lês é uma descoberta.",
+      "views": "Duas maneiras de andar: como o Atomito do elemento ou na primeira pessoa. A tecla V troca entre elas.",
+      "levels": "O Explorador conta tudo de forma simples; o Cientista junta os números, as unidades e o porquê. Muda lá em cima.",
+      "time": "A máquina do tempo mostra a tabela a crescer ao longo da história, dos elementos conhecidos desde a Antiguidade aos últimos feitos em laboratório."
+    },
+    "dataTitle": "De onde vêm os números",
+    "data": "Dados dos elementos da tabela periódica do PubChem (Biblioteca Nacional de Medicina dos EUA, domínio público) e do pacote Python mendeleev (licença MIT): massas, configurações, raios, isótopos, abundâncias. Os anos de descoberta seguem uma só regra (quando o elemento foi reconhecido ou isolado pela primeira vez). Os valores dos elementos super-pesados são em parte previsões e estão assinalados como tal."
   }
 }

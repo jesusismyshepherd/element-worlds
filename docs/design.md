@@ -181,6 +181,17 @@ A wing is a module (see Architecture); adding one never touches the engine.
   a selection, each atrium and wing, the Atomlings page, on a computer and a phone screen; console errors;
   frame times.
 
+## Built so far (2026-10-27)
+
+- The plaza: all 118 cubes, hover and selection (the element's card, its Atomling popping up on the
+  cube), entering, the families, the trends as bars (Scientist), the time machine (1600 to today).
+- Every element's atrium: the atom, eight stations from the data (with carbon's and oxygen's own words),
+  the specimen case (what it looks like for real), the floor table, the Atomling as player or host,
+  discoveries.
+- The Atomlings: all 118 from the grammar, the `/atomlings` page (sets, click a character to read it).
+- Molecules as graphs with the hands rule (`chem/molecules.js`), drawn as ball-and-stick models.
+- Carbon's and oxygen's first wings (see `src/worlds/wings/`).
+
 ## Open for the user (iterate)
 
 - The Atomling look (first version from the grammar; the Atomlings page shows all 118).
