@@ -4,11 +4,10 @@
 import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
 import { nucleus, valenceElectrons, hands } from '../chem/atom.js'
 import { temperature, density, num, config } from '../ui/format.js'
-import C from './C.js'
-import O from './O.js'
+import { contentCached } from './index.js'
 
-const CONTENT = { C, O }
-export const contentOf = el => CONTENT[el.symbol] ?? null
+/** The element's own words, once loaded (content/index.js loadContent; the atrium waits for it). */
+export const contentOf = el => contentCached(el.symbol)
 
 /** A text at the right depth: the scientist's where there is one, else the explorer's. */
 export function pick(entry, lang, level) {

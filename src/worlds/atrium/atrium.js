@@ -11,6 +11,7 @@ import { bigAtom } from './atom.js'
 import { specimen } from './specimen.js'
 import { appearanceOf } from '../../data/appearance.js'
 import { stationsOf, greetingOf } from '../../content/stations.js'
+import { loadContent } from '../../content/index.js'
 import { wallPanel, arch, canvasTexture, portalMaterial } from '../common/props.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
@@ -48,6 +49,7 @@ const WORDS = {
 
 export async function build(ctx, target) {
   const el = element(target.symbol)
+  await loadContent(el.symbol)
   const lang = ctx.lang()
   const W = WORDS[lang] ?? WORDS.en
   const color = FAMILY[el.family].color
