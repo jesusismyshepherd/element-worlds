@@ -106,6 +106,22 @@ export class Lineup {
     this.controls.update()
   }
 
+  /** The member under a point of the canvas (client coordinates), or -1; it waves. */
+  pick(x, y) {
+    const r = this.canvas.getBoundingClientRect()
+    const ray = new THREE.Raycaster()
+    ray.setFromCamera(new THREE.Vector2(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1), this.camera)
+    const hits = ray.intersectObjects(this.members.map(m => m.a.root), true)
+    if (!hits.length) return -1
+    const i = this.members.findIndex(m => {
+      let o = hits[0].object
+      while (o && o !== m.a.root) o = o.parent
+      return !!o
+    })
+    if (i >= 0) this.members[i].a.wave()
+    return i
+  }
+
   frame() {
     const dt = Math.min(this.clock.getDelta(), 0.05)
     this.time += dt
