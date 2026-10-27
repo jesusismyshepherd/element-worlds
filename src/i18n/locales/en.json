@@ -292,6 +292,8 @@
     "badges": "Badges",
     "lab": "Molecule missions",
     "forge": "Forge missions",
+    "forgeStat": "forge missions",
+    "quizStat": "best quiz score",
     "badge": {
       "first": {
         "icon": "✨",
@@ -322,6 +324,16 @@
         "icon": "🏆",
         "name": "Master builder",
         "how": "Complete every molecule mission"
+      },
+      "smith": {
+        "icon": "⚒️",
+        "name": "Atom smith",
+        "how": "Complete five Atom Forge missions"
+      },
+      "detective": {
+        "icon": "🔎",
+        "name": "Element detective",
+        "how": "Score 40 points in a round of Who am I?"
       }
     }
   }

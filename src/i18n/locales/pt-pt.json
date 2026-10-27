@@ -292,6 +292,8 @@
     "badges": "Medalhas",
     "lab": "Missões de moléculas",
     "forge": "Missões da forja",
+    "forgeStat": "missões da forja",
+    "quizStat": "recorde do Quem sou eu?",
     "badge": {
       "first": {
         "icon": "✨",
@@ -322,6 +324,16 @@
         "icon": "🏆",
         "name": "Mestre construtor",
         "how": "Completa todas as missões de moléculas"
+      },
+      "smith": {
+        "icon": "⚒️",
+        "name": "Ferreiro de átomos",
+        "how": "Cumpre cinco missões da Forja de Átomos"
+      },
+      "detective": {
+        "icon": "🔎",
+        "name": "Detetive dos elementos",
+        "how": "Faz 40 pontos numa ronda do Quem sou eu?"
       }
     }
   }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ELEMENTS, FAMILY, cellOf, nameOf } from '../data/elements.js'
 import { MISSIONS } from '../chem/build.js'
+import { MISSIONS as FORGE } from '../worlds/forge/words.js'
 import { Formula } from '../ui/LabHud.jsx'
 
 const STATIONS = 9 // eight stations and the specimen case in every hall
@@ -15,8 +16,17 @@ function found() {
   }
 }
 
+function quizBest() {
+  try {
+    const b = JSON.parse(localStorage.getItem('ew-quiz-best') ?? '{}')
+    return Math.max(0, ...Object.values(b).map(Number).filter(Number.isFinite))
+  } catch {
+    return 0
+  }
+}
+
 /** The player's passport: every element's hall as a tile that fills with what was discovered there,
- *  the molecules made in the lab, and badges. */
+ *  the molecules made in the lab, the atoms forged, the quiz's best round, and badges. */
 export default function Passport() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
@@ -35,6 +45,8 @@ export default function Passport() {
   }, [keys])
   const visited = Object.keys(per).length
   const molecules = MISSIONS.filter(k => keys.has(`lab:${k.show}`))
+  const forged = FORGE.filter(m => keys.has(`forge:${m.id}`))
+  const best = useMemo(quizBest, [])
   const total = keys.size
   const badges = [
     { id: 'first', got: total >= 1 },
@@ -43,6 +55,8 @@ export default function Passport() {
     { id: 'wing', got: Object.values(per).some(p => p.wings >= 3) },
     { id: 'chemist', got: molecules.length >= 5 },
     { id: 'master', got: molecules.length === MISSIONS.length },
+    { id: 'smith', got: forged.length >= 5 },
+    { id: 'detective', got: best >= 40 },
   ]
 
   return (
@@ -52,8 +66,8 @@ export default function Passport() {
           <Link to="/" className="glass rounded-xl px-3 py-1.5 font-display font-bold">← {t('hud.table')}</Link>
           <h1 className="font-display text-3xl font-bold">{t('passport.title')}</h1>
         </div>
-        <div className="grid grid-cols-3 gap-2 max-w-xl mb-5">
-          {[['visited', `${visited}/118`], ['found', total], ['molecules', `${molecules.length}/${MISSIONS.length}`]].map(([k, v]) => (
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 max-w-3xl mb-5">
+          {[['visited', `${visited}/118`], ['found', total], ['molecules', `${molecules.length}/${MISSIONS.length}`], ['forgeStat', `${forged.length}/${FORGE.length}`], ['quizStat', best]].map(([k, v]) => (
             <div key={k} className="glass rounded-xl p-3 text-center">
               <div className="font-display text-2xl font-bold">{v}</div>
               <div className="text-xs opacity-80">{t(`passport.${k}`)}</div>
@@ -109,6 +123,15 @@ export default function Passport() {
               <span className="font-display font-bold"><Formula text={k.show} /></span>
               <span className="text-sm opacity-80 ml-1.5">{k.name[lang] ?? k.name.en}</span>
             </div>
+          ))}
+        </div>
+
+        <h2 className="font-display text-xl font-bold mt-6 mb-2">{t('passport.forge')}</h2>
+        <div className="flex flex-wrap gap-2">
+          {FORGE.map(m => (
+            <Link key={m.id} to="/forge" className={`glass rounded-xl px-3 py-2 text-sm ${keys.has(`forge:${m.id}`) ? '' : 'opacity-40'}`} title={m.hint[lang] ?? m.hint.en}>
+              {keys.has(`forge:${m.id}`) ? '✔ ' : ''}{m.name[lang] ?? m.name.en}
+            </Link>
           ))}
         </div>
       </div>
