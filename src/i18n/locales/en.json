@@ -1,0 +1,94 @@
+{
+  "app": {
+    "title": "Element Worlds",
+    "tagline": "Pick an element and step inside",
+    "loading": "Loading…",
+    "error": "Something went wrong here."
+  },
+  "families": {
+    "alkali-metal": "Alkali metals",
+    "alkaline-earth-metal": "Alkaline earth metals",
+    "transition-metal": "Transition metals",
+    "post-transition-metal": "Post-transition metals",
+    "metalloid": "Metalloids",
+    "nonmetal": "Non-metals",
+    "halogen": "Halogens",
+    "noble-gas": "Noble gases",
+    "lanthanide": "Lanthanides",
+    "actinide": "Actinides"
+  },
+  "family": {
+    "alkali-metal": "Alkali metal",
+    "alkaline-earth-metal": "Alkaline earth metal",
+    "transition-metal": "Transition metal",
+    "post-transition-metal": "Post-transition metal",
+    "metalloid": "Metalloid",
+    "nonmetal": "Non-metal",
+    "halogen": "Halogen",
+    "noble-gas": "Noble gas",
+    "lanthanide": "Lanthanide",
+    "actinide": "Actinide"
+  },
+  "state": {
+    "solid": "solid",
+    "liquid": "liquid",
+    "gas": "gas",
+    "at20": "At 20 °C it is a {{state}}",
+    "at20Predicted": "At 20 °C it should be a {{state}} (predicted)"
+  },
+  "card": {
+    "enter": "Step inside",
+    "number": "Atomic number",
+    "mass": "Atomic mass",
+    "group": "Group",
+    "period": "Period",
+    "block": "Block",
+    "config": "Electron configuration",
+    "en": "Electronegativity",
+    "melt": "Melts at",
+    "boil": "Boils at",
+    "density": "Density",
+    "discovered": "Discovered",
+    "ancient": "Known since ancient times",
+    "protons": "{{count}} protons",
+    "electrons": "{{count}} electrons",
+    "atomSentence": "Its atom has {{count}} protons in the centre and {{count}} electrons around them.",
+    "radioactive": "Radioactive",
+    "tapAgain": "Tap the cube again to go in",
+    "clickAgain": "Double-click the cube, or press Enter, to go in"
+  },
+  "level": {
+    "label": "Level",
+    "explorer": "Explorer",
+    "scientist": "Scientist"
+  },
+  "trends": {
+    "title": "Trends",
+    "off": "None",
+    "unknown": "unknown",
+    "radius": { "name": "Atomic radius", "unit": "pm" },
+    "en": { "name": "Electronegativity", "unit": "Pauling" },
+    "ie": { "name": "Ionisation energy", "unit": "eV" },
+    "melt": { "name": "Melting point", "unit": "K" },
+    "density": { "name": "Density", "unit": "g/cm³" },
+    "mass": { "name": "Atomic mass", "unit": "u" },
+    "crust": { "name": "Abundance in Earth's crust", "unit": "mg/kg" },
+    "year": { "name": "Year of discovery", "unit": "" }
+  },
+  "hud": {
+    "table": "The table",
+    "back": "Back to the table",
+    "atrium": "{{name}}'s hall",
+    "language": "Language",
+    "mode": { "third": "Character", "first": "First person", "switch": "Switch view (V)" },
+    "use": "Use",
+    "jump": "Jump",
+    "close": "Close",
+    "help": "W A S D to move · drag to look · Shift runs · Space jumps · E uses · V switches view",
+    "helpTouch": "Stick to move · drag to look",
+    "plazaHelp": "Drag to turn · scroll to zoom · click a cube",
+    "plazaHelpTouch": "Drag to turn · pinch to zoom · tap a cube",
+    "families": "Families",
+    "graphics": "Graphics"
+  }
+}

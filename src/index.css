@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: #0b0f24;
+  color: #eef2ff;
+  overscroll-behavior: none;
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+
+canvas.world {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  outline: none;
+}
+
+.glass {
+  background: rgba(16, 22, 52, 0.72);
+  border: 1px solid rgba(160, 190, 255, 0.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}

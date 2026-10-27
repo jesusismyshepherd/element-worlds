@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.*
+tools/shots/
+scripts/data/.venv/
+*.log

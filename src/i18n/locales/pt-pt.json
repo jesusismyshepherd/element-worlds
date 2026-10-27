@@ -1,0 +1,94 @@
+{
+  "app": {
+    "title": "Mundos dos Elementos",
+    "tagline": "Escolhe um elemento e entra",
+    "loading": "A carregar…",
+    "error": "Algo correu mal aqui."
+  },
+  "families": {
+    "alkali-metal": "Metais alcalinos",
+    "alkaline-earth-metal": "Metais alcalinoterrosos",
+    "transition-metal": "Metais de transição",
+    "post-transition-metal": "Metais pós-transição",
+    "metalloid": "Semimetais",
+    "nonmetal": "Não metais",
+    "halogen": "Halogéneos",
+    "noble-gas": "Gases nobres",
+    "lanthanide": "Lantanídeos",
+    "actinide": "Actinídeos"
+  },
+  "family": {
+    "alkali-metal": "Metal alcalino",
+    "alkaline-earth-metal": "Metal alcalinoterroso",
+    "transition-metal": "Metal de transição",
+    "post-transition-metal": "Metal pós-transição",
+    "metalloid": "Semimetal",
+    "nonmetal": "Não metal",
+    "halogen": "Halogéneo",
+    "noble-gas": "Gás nobre",
+    "lanthanide": "Lantanídeo",
+    "actinide": "Actinídeo"
+  },
+  "state": {
+    "solid": "sólido",
+    "liquid": "líquido",
+    "gas": "gás",
+    "at20": "A 20 °C é {{state}}",
+    "at20Predicted": "A 20 °C deverá ser {{state}} (previsto)"
+  },
+  "card": {
+    "enter": "Entrar",
+    "number": "Número atómico",
+    "mass": "Massa atómica",
+    "group": "Grupo",
+    "period": "Período",
+    "block": "Bloco",
+    "config": "Configuração eletrónica",
+    "en": "Eletronegatividade",
+    "melt": "Funde a",
+    "boil": "Ferve a",
+    "density": "Densidade",
+    "discovered": "Descoberto em",
+    "ancient": "Conhecido desde a Antiguidade",
+    "protons": "{{count}} protões",
+    "electrons": "{{count}} eletrões",
+    "atomSentence": "O seu átomo tem {{count}} protões no centro e {{count}} eletrões à volta.",
+    "radioactive": "Radioativo",
+    "tapAgain": "Toca outra vez no cubo para entrar",
+    "clickAgain": "Faz duplo clique no cubo, ou carrega em Enter, para entrar"
+  },
+  "level": {
+    "label": "Nível",
+    "explorer": "Explorador",
+    "scientist": "Cientista"
+  },
+  "trends": {
+    "title": "Tendências",
+    "off": "Nenhuma",
+    "unknown": "desconhecido",
+    "radius": { "name": "Raio atómico", "unit": "pm" },
+    "en": { "name": "Eletronegatividade", "unit": "Pauling" },
+    "ie": { "name": "Energia de ionização", "unit": "eV" },
+    "melt": { "name": "Ponto de fusão", "unit": "K" },
+    "density": { "name": "Densidade", "unit": "g/cm³" },
+    "mass": { "name": "Massa atómica", "unit": "u" },
+    "crust": { "name": "Abundância na crosta terrestre", "unit": "mg/kg" },
+    "year": { "name": "Ano da descoberta", "unit": "" }
+  },
+  "hud": {
+    "table": "A tabela",
+    "back": "Voltar à tabela",
+    "atrium": "{{name}}: o salão",
+    "language": "Língua",
+    "mode": { "third": "Personagem", "first": "Primeira pessoa", "switch": "Mudar de vista (V)" },
+    "use": "Usar",
+    "jump": "Saltar",
+    "close": "Fechar",
+    "help": "W A S D para andar · arrasta para olhar · Shift corre · Espaço salta · E usa · V muda a vista",
+    "helpTouch": "Manípulo para andar · arrasta para olhar",
+    "plazaHelp": "Arrasta para rodar · roda do rato para aproximar · clica num cubo",
+    "plazaHelpTouch": "Arrasta para rodar · afasta os dedos para aproximar · toca num cubo",
+    "families": "Famílias",
+    "graphics": "Gráficos"
+  }
+}
