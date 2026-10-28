@@ -1,6 +1,386 @@
 {
   "app": {
     "title": "Światy Pierwiastków",
-    "tagline": "Wybierz pierwiastek i wejdź do środka"
+    "tagline": "Wybierz pierwiastek i wejdź do środka",
+    "loading": "Ładowanie…",
+    "error": "Coś tu poszło nie tak.",
+    "firstTime": "Przygotowujemy ten świat na pierwsze odwiedziny. Następnym razem otworzy się dużo szybciej."
+  },
+  "families": {
+    "alkali-metal": "Metale alkaliczne",
+    "alkaline-earth-metal": "Metale ziem alkalicznych",
+    "transition-metal": "Metale przejściowe",
+    "post-transition-metal": "Metale bloku p",
+    "metalloid": "Półmetale",
+    "nonmetal": "Niemetale",
+    "halogen": "Fluorowce",
+    "noble-gas": "Gazy szlachetne",
+    "lanthanide": "Lantanowce",
+    "actinide": "Aktynowce"
+  },
+  "family": {
+    "alkali-metal": "Metal alkaliczny",
+    "alkaline-earth-metal": "Metal ziem alkalicznych",
+    "transition-metal": "Metal przejściowy",
+    "post-transition-metal": "Metal bloku p",
+    "metalloid": "Półmetal",
+    "nonmetal": "Niemetal",
+    "halogen": "Fluorowiec",
+    "noble-gas": "Gaz szlachetny",
+    "lanthanide": "Lantanowiec",
+    "actinide": "Aktynowiec"
+  },
+  "state": {
+    "solid": "ciało stałe",
+    "liquid": "ciecz",
+    "gas": "gaz",
+    "at20": "W 20 °C jest to {{state}}",
+    "at20Predicted": "W 20 °C według przewidywań jest to {{state}}"
+  },
+  "card": {
+    "enter": "Wejdź",
+    "number": "Liczba atomowa",
+    "mass": "Masa atomowa",
+    "group": "Grupa",
+    "period": "Okres",
+    "block": "Blok",
+    "config": "Konfiguracja elektronowa",
+    "en": "Elektroujemność",
+    "melt": "Topi się w",
+    "boil": "Wrze w",
+    "density": "Gęstość",
+    "discovered": "Odkrycie",
+    "ancient": "Znany od starożytności",
+    "protons": "{{count}} protonów",
+    "protons_one": "{{count}} proton",
+    "protons_few": "{{count}} protony",
+    "protons_many": "{{count}} protonów",
+    "protons_other": "{{count}} protonów",
+    "electrons": "{{count}} elektronów",
+    "electrons_one": "{{count}} elektron",
+    "electrons_few": "{{count}} elektrony",
+    "electrons_many": "{{count}} elektronów",
+    "electrons_other": "{{count}} elektronów",
+    "atomSentence": "Jego atom ma {{count}} protonów w środku i {{count}} elektronów wokół nich.",
+    "atomSentence_one": "Jego atom ma {{count}} proton w środku i {{count}} elektron wokół niego.",
+    "atomSentence_few": "Jego atom ma {{count}} protony w środku i {{count}} elektrony wokół nich.",
+    "atomSentence_many": "Jego atom ma {{count}} protonów w środku i {{count}} elektronów wokół nich.",
+    "atomSentence_other": "Jego atom ma {{count}} protonów w środku i {{count}} elektronów wokół nich.",
+    "radioactive": "Promieniotwórczy",
+    "tapAgain": "Dotknij kostki jeszcze raz, żeby wejść",
+    "clickAgain": "Kliknij kostkę dwa razy albo naciśnij Enter, żeby wejść",
+    "worlds_one": "Ma własny świat do odkrycia",
+    "worlds_few": "Ma {{count}} własne światy do odkrycia",
+    "worlds_many": "Ma {{count}} własnych światów do odkrycia",
+    "worlds_other": "Ma {{count}} własnego świata do odkrycia"
+  },
+  "level": {
+    "label": "Poziom",
+    "explorer": "Odkrywca",
+    "scientist": "Naukowiec"
+  },
+  "trends": {
+    "title": "Trendy",
+    "off": "Brak",
+    "unknown": "nieznane",
+    "radius": {
+      "name": "Promień atomowy",
+      "unit": "pm"
+    },
+    "en": {
+      "name": "Elektroujemność",
+      "unit": "skala Paulinga"
+    },
+    "ie": {
+      "name": "Energia jonizacji",
+      "unit": "eV"
+    },
+    "melt": {
+      "name": "Temperatura topnienia",
+      "unit": "K"
+    },
+    "density": {
+      "name": "Gęstość",
+      "unit": "g/cm³"
+    },
+    "mass": {
+      "name": "Masa atomowa",
+      "unit": "u"
+    },
+    "crust": {
+      "name": "Zawartość w skorupie ziemskiej",
+      "unit": "mg/kg"
+    },
+    "year": {
+      "name": "Rok odkrycia",
+      "unit": ""
+    }
+  },
+  "hud": {
+    "table": "Układ okresowy",
+    "back": "Wróć do układu okresowego",
+    "atrium": "{{name}}: sala",
+    "language": "Język",
+    "mode": {
+      "third": "Postać",
+      "first": "Pierwsza osoba",
+      "switch": "Zmień widok (V)"
+    },
+    "use": "Użyj",
+    "jump": "Skocz",
+    "close": "Zamknij",
+    "help": "W A S D: chodzenie · przeciągnij: rozglądanie się · Shift: bieg · Spacja: skok · E: użyj · V: zmiana widoku",
+    "helpTouch": "Drążek: chodzenie · przeciągnij: rozglądanie się",
+    "plazaHelp": "Przeciągnij: obrót · kółko myszy: przybliżenie · kliknij kostkę",
+    "plazaHelpTouch": "Przeciągnij: obrót · rozsuń palce: przybliżenie · dotknij kostki",
+    "families": "Rodziny",
+    "graphics": "Grafika",
+    "discoveries": "Odkrycia",
+    "says": "{{who}} mówi",
+    "talk": "Powiedz mi coś (T)",
+    "lab": "Laboratorium",
+    "forge": "Kuźnia Atomów",
+    "menu": "Menu",
+    "soundOn": "Włącz dźwięk",
+    "soundOff": "Wyłącz dźwięk",
+    "fullscreen": "Pełny ekran",
+    "exitFullscreen": "Zamknij pełny ekran",
+    "find": "Znajdź pierwiastek"
+  },
+  "atomlings": {
+    "title": "Atomki",
+    "sets": {
+      "featured": "Wyróżnione",
+      "p": "Okres {{n}}",
+      "lanthanides": "Lantanowce",
+      "actinides": "Aktynowce",
+      "g1": "Grupa 1",
+      "g17": "Fluorowce",
+      "g18": "Gazy szlachetne",
+      "only": "Wybrane"
+    },
+    "howTitle": "Jak czytać Atomka",
+    "how": {
+      "hands": "Ręce: wiązania, które tworzy (węgiel 4, tlen 2, wodór 1). Metale wyciągają elektrony, które oddają.",
+      "hoop": "Obręcz: jego zewnętrzne elektrony, ułożone jak kropki we wzorach Lewisa; puste kółko to miejsce, które jest jeszcze wolne.",
+      "size": "Wielkość: jego prawdziwy promień atomowy (duże na dole po lewej stronie układu, małe na górze po prawej).",
+      "move": "Gazy unoszą się (im lżejsze od powietrza, tym wyżej), ciecze się ślizgają, ciała stałe chodzą.",
+      "body": "Metale lśnią jak metal; niemetale są przezroczyste, z jądrem w środku; półmetale są pół na pół.",
+      "mark": "Na głowie jego rodzina: płomień, hełm, kolce, aureola…",
+      "look": "Kolory: metal nosi swój własny kolor, płomień pali się barwą z próby płomieniowej, a każda kolumna metali ma wspólny kształt hełmu.",
+      "story": "Przedmioty: większość nosi coś ze swojej historii, jak balon helu, dmuchane koło chloru, korona złota czy młot toru. Dotknij jednego, żeby dowiedzieć się dlaczego."
+    },
+    "tap": "Dotknij Atomka, żeby go odczytać."
+  },
+  "wings": {
+    "C": {
+      "allotropes": {
+        "title": "Diament, grafit i spółka"
+      },
+      "life": {
+        "title": "Węgiel życia"
+      }
+    },
+    "O": {
+      "air": {
+        "title": "Powietrze"
+      },
+      "fire": {
+        "title": "Ogień"
+      }
+    },
+    "He": { "signs": { "title": "Pracownia neonów" } },
+    "Ne": { "signs": { "title": "Pracownia neonów" } },
+    "Ar": { "signs": { "title": "Pracownia neonów" } },
+    "Kr": { "signs": { "title": "Pracownia neonów" } },
+    "Xe": { "signs": { "title": "Pracownia neonów" } },
+    "Rn": { "signs": { "title": "Pracownia neonów" } }
+  },
+  "time": {
+    "title": "Wehikuł czasu",
+    "year": "Rok",
+    "status": "W roku {{year}}: {{count}} znanych pierwiastków",
+    "status_one": "W roku {{year}}: {{count}} znany pierwiastek",
+    "status_few": "W roku {{year}}: {{count}} znane pierwiastki"
+  },
+  "about": {
+    "title": "O Światach Pierwiastków",
+    "what": "Układ okresowy, do którego można wejść. Każdy pierwiastek to kostka na placu; w środku każda kostka jest większa, niż się wydaje: to sala o tym pierwiastku, a przy niektórych pierwiastkach całe światy do odkrycia. Dla ciekawskich dziesięciolatków i ludzi w każdym innym wieku.",
+    "howTitle": "Jak zwiedzać",
+    "how": {
+      "table": "Na placu: przeciągnij, żeby obrócić, przewiń albo rozsuń palce, żeby przybliżyć, kliknij kostkę, żeby zobaczyć jej kartę, i kliknij ją jeszcze raz (albo naciśnij Enter), żeby wejść. Strzałki przenoszą od kostki do kostki.",
+      "inside": "W środku: podejdź do tablicy albo eksponatu i naciśnij E (albo dotknij przycisku), żeby go przeczytać lub użyć. Każda przeczytana rzecz to odkrycie.",
+      "views": "Dwa sposoby chodzenia: jako Atomek danego pierwiastka albo w pierwszej osobie. Klawisz V przełącza między nimi.",
+      "levels": "Poziom Odkrywca opowiada prosto; Naukowiec dodaje liczby, jednostki i odpowiedź na pytanie „dlaczego”. Przełącznik jest na górze.",
+      "time": "Wehikuł czasu pokazuje, jak układ okresowy rósł w historii, od pierwiastków znanych od starożytności do ostatnich wytworzonych w laboratoriach."
+    },
+    "dataTitle": "Skąd pochodzą liczby",
+    "data": "Dane o pierwiastkach pochodzą z układu okresowego PubChem (Narodowa Biblioteka Medyczna USA, domena publiczna) i z pakietu Pythona mendeleev (licencja MIT): masy, konfiguracje, promienie, izotopy, rozpowszechnienie. Lata odkrycia wynikają z jednej zasady (kiedy pierwiastek po raz pierwszy rozpoznano lub wyodrębniono). Wartości dla pierwiastków superciężkich są częściowo przewidywaniami i są tak oznaczone."
+  },
+  "search": {
+    "placeholder": "Znajdź pierwiastek…"
+  },
+  "lab": {
+    "gives_one": "oddaje {{count}} elektron",
+    "gives_few": "oddaje {{count}} elektrony",
+    "gives_many": "oddaje {{count}} elektronów",
+    "gives_other": "oddaje {{count}} elektronu",
+    "ionic": "Związek jonowy: metal oddał swoje elektrony, a jony trzymają się razem dzięki przyciąganiu. W prawdziwym krysztale nie ma cząsteczek: każdy jon siedzi wśród jonów o przeciwnym ładunku.",
+    "metals": "Dwa metale nie podają sobie rąk: w metalu elektrony wędrują między wszystkimi atomami. Połącz lepiej metal z niemetalem.",
+    "title": "Laboratorium cząsteczek",
+    "hands_one": "{{count}} ręka",
+    "hands_few": "{{count}} ręce",
+    "hands_many": "{{count}} rąk",
+    "hands_other": "{{count}} ręki",
+    "start": "Wybierz atom po lewej. Dotknij dwóch atomów, żeby połączyć ich ręce; dotknij wiązania, żeby je rozłączyć.",
+    "stable": "Wszystkie ręce są złapane: stabilna cząsteczka!",
+    "free_one": "{{count}} ręka jeszcze wolna",
+    "free_few": "{{count}} ręce jeszcze wolne",
+    "free_many": "{{count}} rąk jeszcze wolnych",
+    "free_other": "{{count}} ręki jeszcze wolnej",
+    "missions": "Misje",
+    "show": "pokaż",
+    "remove": "Usuń",
+    "clear": "Zacznij od nowa",
+    "help": "Dotknij atomu, a potem drugiego, żeby połączyć ręce. Dotknij tej samej pary jeszcze raz, żeby zrobić wiązanie podwójne. Przeciągnij, żeby obrócić, przewiń, żeby przybliżyć.",
+    "made": "Udało się: {{name}}!"
+  },
+  "forge": {
+    "title": "Kuźnia Atomów",
+    "p": "Protony",
+    "n": "Neutrony",
+    "e": "Elektrony",
+    "more": "Dodaj",
+    "less": "Zabierz",
+    "neutral": "Obojętny",
+    "neutralTip": "Tyle elektronów, ile protonów",
+    "commonest": "Najczęstszy",
+    "commonestTip": "Neutrony najczęstszego izotopu tego pierwiastka",
+    "hold": "Trzymaj",
+    "holdTip": "Pole siłowe trzyma jądro w całości, kiedy budujesz",
+    "clear": "Zacznij od nowa",
+    "nothing": "Jeszcze nic",
+    "aNeutron": "Jeden neutron",
+    "neutronsAlone": "{{count}} samotnych neutronów",
+    "neutronsAlone_few": "{{count}} samotne neutrony",
+    "decay": "Rozpad",
+    "waitFor": "Poczekaj {{t}}",
+    "moreText": "więcej...",
+    "missions": "Misje kuźni",
+    "missionDone": "Misja wykonana!",
+    "chart": "Mapa nuklidów",
+    "chartKid": "Każdy rodzaj jądra, jaki kiedykolwiek widziano: protony w górę, neutrony w bok. Białe trwają wiecznie; inne się rozpadają, czerwone powoli, niebieskie w mgnieniu oka. Dotknij jednego, żeby je zbudować.",
+    "chartSci": "Wszystkie 3552 znane nuklidy (NUBASE, przez pakiet mendeleev): Z w górę, N w bok, kolor według czasu połowicznego rozpadu. Biały pas to dolina stabilności; wygina się w stronę N > Z, w miarę jak rośnie odpychanie protonów. Dotknij, żeby zbudować.",
+    "chartZ": "protony (Z)",
+    "chartN": "neutrony (N)",
+    "find": "Pierwiastek: C, Fe, uran...",
+    "go": "Szukaj",
+    "beam": "Wiązka",
+    "fire": "Strzelaj",
+    "kind": {
+      "empty": "Pusto",
+      "stable": "Stabilny",
+      "radioactive": "Promieniotwórczy",
+      "instant": "Od razu się rozpada",
+      "unmeasured": "Jeszcze niezmierzony",
+      "unknown": "Nie utrzyma się",
+      "notMade": "Nigdy nie wytworzony",
+      "neutron": "Promieniotwórczy",
+      "neutrons": "Od razu się rozpada"
+    },
+    "band": {
+      "stable": "stabilne",
+      "years": "miesiące lub dłużej",
+      "hours": "od minut do miesięcy",
+      "seconds": "sekundy",
+      "ms": "poniżej sekundy",
+      "fast": "poniżej tysięcznej",
+      "instant": "natychmiast",
+      "unmeasured": "niezmierzone"
+    }
+  },
+  "quiz": {
+    "title": "Kim jestem?",
+    "start": "Kim jestem?",
+    "progress": "Pytanie {{n}} z {{of}}",
+    "score_one": "{{count}} punkt",
+    "score_few": "{{count}} punkty",
+    "score_many": "{{count}} punktów",
+    "score_other": "{{count}} punktu",
+    "clue": "Kolejna wskazówka",
+    "worth_one": "wtedy za {{count}} punkt",
+    "worth_few": "wtedy za {{count}} punkty",
+    "worth_many": "wtedy za {{count}} punktów",
+    "worth_other": "wtedy za {{count}} punktu",
+    "now_one": "Zgadnij teraz, a dostaniesz {{count}} punkt.",
+    "now_few": "Zgadnij teraz, a dostaniesz {{count}} punkty.",
+    "now_many": "Zgadnij teraz, a dostaniesz {{count}} punktów.",
+    "now_other": "Zgadnij teraz, a dostaniesz {{count}} punktu.",
+    "right_one": "Dobrze! +{{count}} punkt",
+    "right_few": "Dobrze! +{{count}} punkty",
+    "right_many": "Dobrze! +{{count}} punktów",
+    "right_other": "Dobrze! +{{count}} punktu",
+    "wrong": "Tym razem nie: poprawna odpowiedź to {{name}}.",
+    "end": "Wynik: {{score}} pkt w {{of}} pytaniach, dobre odpowiedzi: {{right}}.",
+    "best_one": "Twój rekord: {{count}} punkt.",
+    "best_few": "Twój rekord: {{count}} punkty.",
+    "best_many": "Twój rekord: {{count}} punktów.",
+    "best_other": "Twój rekord: {{count}} punktu.",
+    "again": "Zagraj jeszcze raz",
+    "next": "Dalej"
+  },
+  "passport": {
+    "title": "Mój paszport",
+    "visited": "odwiedzone pierwiastki",
+    "found": "odkrycia",
+    "molecules": "zbudowane cząsteczki",
+    "legend": "Każdy kafelek wypełnia się, gdy czytasz jego salę; gwiazdka oznacza zwiedzone światy. Dotknij kafelka, żeby wejść.",
+    "badges": "Odznaki",
+    "lab": "Misje z cząsteczkami",
+    "forge": "Misje kuźni",
+    "forgeStat": "misje kuźni",
+    "quizStat": "rekord w „Kim jestem?”",
+    "badge": {
+      "first": {
+        "icon": "✨",
+        "name": "Pierwsze odkrycie",
+        "how": "Przeczytaj swoją pierwszą tablicę"
+      },
+      "hall": {
+        "icon": "🏛",
+        "name": "Znawca sali",
+        "how": "Odkryj wszystko w sali jednego pierwiastka"
+      },
+      "ten": {
+        "icon": "🧭",
+        "name": "Odkrywca",
+        "how": "Odwiedź dziesięć pierwiastków"
+      },
+      "wing": {
+        "icon": "🌌",
+        "name": "Podróżnik po światach",
+        "how": "Zrób trzy odkrycia w światach jednego pierwiastka"
+      },
+      "chemist": {
+        "icon": "⚗",
+        "name": "Chemik",
+        "how": "Zbuduj pięć cząsteczek w laboratorium"
+      },
+      "master": {
+        "icon": "🏆",
+        "name": "Mistrz budowniczy",
+        "how": "Wykonaj wszystkie misje z cząsteczkami"
+      },
+      "smith": {
+        "icon": "⚒️",
+        "name": "Kowal atomów",
+        "how": "Wykonaj pięć misji Kuźni Atomów"
+      },
+      "detective": {
+        "icon": "🔎",
+        "name": "Detektyw pierwiastków",
+        "how": "Zdobądź 40 punktów w jednej rundzie „Kim jestem?”"
+      }
+    }
   }
 }

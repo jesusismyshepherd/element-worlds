@@ -2,12 +2,15 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
+import { CODES } from '../i18n/langs.js'
 
-const fold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+// accents optional: NFD splits them off; the Polish l with a stroke (\u0142) is a letter of its own, so
+// it folds to l by hand ("olow" finds lead's Polish name)
+const fold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\u0142/g, 'l')
 
-/** Find an element by its name (either language, accents optional), symbol or number; picking one
- *  selects its cube (the camera flies to it). wide: fills its box (the plaza's drawer on a phone),
- *  and the list opens upwards (the drawer sits at the bottom). */
+/** Find an element by its name (in any of the site's languages, accents optional), symbol or number;
+ *  picking one selects its cube (the camera flies to it). wide: fills its box (the plaza's drawer on a
+ *  phone), and the list opens upwards (the drawer sits at the bottom). */
 export default function Search({ onPick, wide = false }) {
   const { t, i18n } = useTranslation()
   const [q, setQ] = useState('')
@@ -18,7 +21,7 @@ export default function Search({ onPick, wide = false }) {
     const score = e => {
       if (String(e.z) === f) return 0
       if (e.symbol.toLowerCase() === f) return 1
-      const names = [nameOf(e, lang), e.name.en, e.name['pt-pt']].map(fold)
+      const names = [nameOf(e, lang), ...CODES.map(c => e.name[c])].filter(Boolean).map(fold)
       if (names.some(n => n.startsWith(f))) return 2
       if (names.some(n => n.includes(f))) return 3
       return 9

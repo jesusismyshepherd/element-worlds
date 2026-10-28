@@ -1,6 +1,360 @@
 {
   "app": {
     "title": "Elementwelten",
-    "tagline": "Wähle ein Element und tritt ein"
+    "tagline": "Wähle ein Element und tritt ein",
+    "loading": "Wird geladen…",
+    "error": "Hier ist etwas schiefgegangen.",
+    "firstTime": "Diese Welt wird für den ersten Besuch vorbereitet. Beim nächsten Mal öffnet sie sich viel schneller."
+  },
+  "families": {
+    "alkali-metal": "Alkalimetalle",
+    "alkaline-earth-metal": "Erdalkalimetalle",
+    "transition-metal": "Übergangsmetalle",
+    "post-transition-metal": "Post-Übergangsmetalle",
+    "metalloid": "Halbmetalle",
+    "nonmetal": "Nichtmetalle",
+    "halogen": "Halogene",
+    "noble-gas": "Edelgase",
+    "lanthanide": "Lanthanoide",
+    "actinide": "Actinoide"
+  },
+  "family": {
+    "alkali-metal": "Alkalimetall",
+    "alkaline-earth-metal": "Erdalkalimetall",
+    "transition-metal": "Übergangsmetall",
+    "post-transition-metal": "Post-Übergangsmetall",
+    "metalloid": "Halbmetall",
+    "nonmetal": "Nichtmetall",
+    "halogen": "Halogen",
+    "noble-gas": "Edelgas",
+    "lanthanide": "Lanthanoid",
+    "actinide": "Actinoid"
+  },
+  "state": {
+    "solid": "fest",
+    "liquid": "flüssig",
+    "gas": "gasförmig",
+    "at20": "Bei 20 °C ist es {{state}}",
+    "at20Predicted": "Bei 20 °C sollte es {{state}} sein (vorhergesagt)"
+  },
+  "card": {
+    "enter": "Eintreten",
+    "number": "Ordnungszahl",
+    "mass": "Atommasse",
+    "group": "Gruppe",
+    "period": "Periode",
+    "block": "Block",
+    "config": "Elektronenkonfiguration",
+    "en": "Elektronegativität",
+    "melt": "Schmilzt bei",
+    "boil": "Siedet bei",
+    "density": "Dichte",
+    "discovered": "Entdeckt",
+    "ancient": "Seit der Antike bekannt",
+    "protons": "{{count}} Protonen",
+    "protons_one": "{{count}} Proton",
+    "protons_other": "{{count}} Protonen",
+    "electrons": "{{count}} Elektronen",
+    "electrons_one": "{{count}} Elektron",
+    "electrons_other": "{{count}} Elektronen",
+    "atomSentence": "Sein Atom hat {{count}} Protonen in der Mitte und {{count}} Elektronen um sie herum.",
+    "atomSentence_one": "Sein Atom hat {{count}} Proton in der Mitte und {{count}} Elektron darum herum.",
+    "atomSentence_other": "Sein Atom hat {{count}} Protonen in der Mitte und {{count}} Elektronen um sie herum.",
+    "radioactive": "Radioaktiv",
+    "tapAgain": "Tippe noch einmal auf den Würfel, um hineinzugehen",
+    "clickAgain": "Doppelklicke auf den Würfel oder drücke Enter, um hineinzugehen",
+    "worlds_one": "Hat eine eigene Welt zum Erkunden",
+    "worlds_other": "Hat {{count}} eigene Welten zum Erkunden"
+  },
+  "level": {
+    "label": "Stufe",
+    "explorer": "Entdecker",
+    "scientist": "Wissenschaftler"
+  },
+  "trends": {
+    "title": "Trends",
+    "off": "Keine",
+    "unknown": "unbekannt",
+    "radius": {
+      "name": "Atomradius",
+      "unit": "pm"
+    },
+    "en": {
+      "name": "Elektronegativität",
+      "unit": "Pauling-Skala"
+    },
+    "ie": {
+      "name": "Ionisierungsenergie",
+      "unit": "eV"
+    },
+    "melt": {
+      "name": "Schmelzpunkt",
+      "unit": "K"
+    },
+    "density": {
+      "name": "Dichte",
+      "unit": "g/cm³"
+    },
+    "mass": {
+      "name": "Atommasse",
+      "unit": "u"
+    },
+    "crust": {
+      "name": "Häufigkeit in der Erdkruste",
+      "unit": "mg/kg"
+    },
+    "year": {
+      "name": "Entdeckungsjahr",
+      "unit": ""
+    }
+  },
+  "hud": {
+    "table": "Periodensystem",
+    "back": "Zurück zum Periodensystem",
+    "atrium": "{{name}}: die Halle",
+    "language": "Sprache",
+    "mode": {
+      "third": "Figur",
+      "first": "Ich-Perspektive",
+      "switch": "Ansicht wechseln (V)"
+    },
+    "use": "Benutzen",
+    "jump": "Springen",
+    "close": "Schließen",
+    "help": "W A S D zum Gehen · ziehen zum Umschauen · Shift rennt · Leertaste springt · E benutzt · V wechselt die Ansicht",
+    "helpTouch": "Stick zum Gehen · ziehen zum Umschauen",
+    "plazaHelp": "Ziehen zum Drehen · Mausrad zum Zoomen · Würfel anklicken",
+    "plazaHelpTouch": "Ziehen zum Drehen · Finger spreizen zum Zoomen · Würfel antippen",
+    "families": "Familien",
+    "graphics": "Grafik",
+    "discoveries": "Entdeckungen",
+    "says": "{{who}} sagt",
+    "talk": "Erzähl mir was (T)",
+    "lab": "Moleküllabor",
+    "forge": "Atomschmiede",
+    "menu": "Menü",
+    "soundOn": "Ton einschalten",
+    "soundOff": "Ton ausschalten",
+    "fullscreen": "Vollbild",
+    "exitFullscreen": "Vollbild beenden",
+    "find": "Element suchen"
+  },
+  "atomlings": {
+    "title": "Atomlinge",
+    "sets": {
+      "featured": "Highlights",
+      "p": "Periode {{n}}",
+      "lanthanides": "Lanthanoide",
+      "actinides": "Actinoide",
+      "g1": "Gruppe 1",
+      "g17": "Halogene",
+      "g18": "Edelgase",
+      "only": "Ausgewählt"
+    },
+    "howTitle": "So liest du einen Atomling",
+    "how": {
+      "hands": "Hände: die Bindungen, die es eingeht (Kohlenstoff 4, Sauerstoff 2, Wasserstoff 1). Metalle halten die Elektronen hin, die sie abgeben.",
+      "hoop": "Der Reif: seine äußeren Elektronen, angeordnet wie die Punkte einer Lewis-Formel; ein hohler Ring ist ein Platz, der noch frei ist.",
+      "size": "Größe: sein echter Atomradius (groß unten links im Periodensystem, klein oben rechts).",
+      "move": "Gase schweben (je leichter als Luft, desto höher), Flüssigkeiten gleiten, Feststoffe laufen.",
+      "body": "Metalle glänzen wie Metall; Nichtmetalle sind durchsichtig, mit dem Kern darin; Halbmetalle sind halb und halb.",
+      "mark": "Auf dem Kopf seine Familie: eine Flamme, ein Helm, Stacheln, ein Heiligenschein…",
+      "look": "Farben: Ein Metall trägt seine eigene Farbe, eine Flamme brennt in der Farbe seiner Flammenfärbung, und jede Spalte von Metallen hat dieselbe Helmform.",
+      "story": "Gegenstände: Die meisten tragen etwas aus ihrer eigenen Geschichte, wie den Ballon des Heliums, den Schwimmring des Chlors, die Krone des Goldes oder den Hammer des Thoriums. Tippe einen an, um zu erfahren, warum."
+    },
+    "tap": "Tippe auf einen Atomling, um ihn zu lesen."
+  },
+  "wings": {
+    "C": {
+      "allotropes": {
+        "title": "Diamant, Graphit und Co."
+      },
+      "life": {
+        "title": "Der Kohlenstoff des Lebens"
+      }
+    },
+    "O": {
+      "air": {
+        "title": "Die Luft"
+      },
+      "fire": {
+        "title": "Das Feuer"
+      }
+    },
+    "He": { "signs": { "title": "Die Neonwerkstatt" } },
+    "Ne": { "signs": { "title": "Die Neonwerkstatt" } },
+    "Ar": { "signs": { "title": "Die Neonwerkstatt" } },
+    "Kr": { "signs": { "title": "Die Neonwerkstatt" } },
+    "Xe": { "signs": { "title": "Die Neonwerkstatt" } },
+    "Rn": { "signs": { "title": "Die Neonwerkstatt" } }
+  },
+  "time": {
+    "title": "Zeitmaschine",
+    "year": "Jahr",
+    "status": "Im Jahr {{year}}: {{count}} bekannte Elemente",
+    "status_one": "Im Jahr {{year}}: {{count}} bekanntes Element"
+  },
+  "about": {
+    "title": "Über Elementwelten",
+    "what": "Ein Periodensystem, in das du hineingehen kannst. Jedes Element ist ein Würfel auf dem Platz; innen ist jeder Würfel größer, als er aussieht: eine Halle über dieses Element und bei manchen Elementen ganze Welten zum Erkunden. Gemacht für Neugierige mit zehn Jahren und in jedem anderen Alter.",
+    "howTitle": "So erkundest du",
+    "how": {
+      "table": "Auf dem Platz: Ziehen zum Drehen, Scrollen oder Finger spreizen zum Zoomen; klicke einen Würfel an, um seine Karte zu sehen, und klicke noch einmal (oder drücke Enter), um hineinzugehen. Mit den Pfeiltasten gehst du von Würfel zu Würfel.",
+      "inside": "Drinnen: Geh zu einer Tafel oder einem Exponat und drücke E (oder tippe auf den Knopf), um sie zu lesen oder zu benutzen. Alles, was du liest, ist eine Entdeckung.",
+      "views": "Zwei Arten zu gehen: als der Atomling des Elements oder aus der Ich-Perspektive. V wechselt zwischen beiden.",
+      "levels": "Als Entdecker hörst du es einfach erklärt; als Wissenschaftler kommen die Zahlen, die Einheiten und das Warum dazu. Umschalten kannst du oben.",
+      "time": "Die Zeitmaschine zeigt, wie das Periodensystem im Lauf der Geschichte wächst, von den seit der Antike bekannten Elementen bis zu den letzten, die in Laboren hergestellt wurden."
+    },
+    "dataTitle": "Woher die Zahlen kommen",
+    "data": "Elementdaten aus dem Periodensystem von PubChem (US National Library of Medicine, gemeinfrei) und dem Python-Paket mendeleev (MIT-Lizenz): Massen, Konfigurationen, Radien, Isotope, Häufigkeiten. Die Entdeckungsjahre folgen einer einzigen Regel (wann das Element zuerst erkannt oder isoliert wurde). Werte für die superschweren Elemente sind teilweise Vorhersagen und als solche gekennzeichnet."
+  },
+  "search": {
+    "placeholder": "Element suchen…"
+  },
+  "lab": {
+    "gives_one": "gibt {{count}} Elektron ab",
+    "gives_other": "gibt {{count}} Elektronen ab",
+    "ionic": "Ionisch: Das Metall hat seine Elektronen abgegeben, und die Ionen halten durch Anziehung zusammen. In einem echten Kristall gibt es keine Moleküle: Jedes Ion sitzt zwischen Ionen der anderen Ladung.",
+    "metals": "Zwei Metalle geben sich nicht die Hand: In einem Metall wandern die Elektronen zwischen allen Atomen umher. Verbinde lieber ein Metall mit einem Nichtmetall.",
+    "title": "Moleküllabor",
+    "hands_one": "{{count}} Hand",
+    "hands_other": "{{count}} Hände",
+    "start": "Wähle links ein Atom. Tippe zwei Atome an, damit sie sich die Hände geben; tippe auf eine Bindung, um sie zu lösen.",
+    "stable": "Jede Hand wird gehalten: ein stabiles Molekül!",
+    "free_one": "{{count}} Hand noch frei",
+    "free_other": "{{count}} Hände noch frei",
+    "missions": "Missionen",
+    "show": "zeig mir",
+    "remove": "Entfernen",
+    "clear": "Neu anfangen",
+    "help": "Tippe ein Atom an, dann ein anderes, damit sie sich die Hände geben. Tippe dasselbe Paar noch einmal für eine Doppelbindung. Ziehen zum Drehen, Scrollen zum Zoomen.",
+    "made": "Geschafft: {{name}}!"
+  },
+  "forge": {
+    "title": "Atomschmiede",
+    "p": "Protonen",
+    "n": "Neutronen",
+    "e": "Elektronen",
+    "more": "Hinzufügen",
+    "less": "Wegnehmen",
+    "neutral": "Neutral",
+    "neutralTip": "So viele Elektronen wie Protonen",
+    "commonest": "Häufigstes",
+    "commonestTip": "Die Neutronen des häufigsten Isotops dieses Elements",
+    "hold": "Halten",
+    "holdTip": "Ein Kraftfeld hält den Kern zusammen, während du baust",
+    "clear": "Neu anfangen",
+    "nothing": "Noch nichts",
+    "aNeutron": "Ein Neutron",
+    "neutronsAlone": "{{count}} Neutronen allein",
+    "decay": "Zerfallen",
+    "waitFor": "{{t}} warten",
+    "moreText": "mehr...",
+    "missions": "Missionen der Schmiede",
+    "missionDone": "Mission erfüllt!",
+    "chart": "Nuklidkarte",
+    "chartKid": "Jede Art von Atomkern, die je beobachtet wurde: Protonen nach oben, Neutronen zur Seite. Weiße halten für immer; die anderen zerfallen, rote langsam, blaue blitzschnell. Tippe einen an, um ihn zu bauen.",
+    "chartSci": "Alle 3552 bekannten Nuklide (NUBASE, über das Paket mendeleev): Z nach oben, N zur Seite, gefärbt nach der Halbwertszeit. Das weiße Band ist das Tal der Stabilität; es biegt sich zu N > Z hin, je stärker die Abstoßung der Protonen wird. Tippe zum Bauen.",
+    "chartZ": "Protonen (Z)",
+    "chartN": "Neutronen (N)",
+    "find": "Ein Element: C, Fe, Uran...",
+    "go": "Los",
+    "beam": "Strahl",
+    "fire": "Abfeuern",
+    "kind": {
+      "empty": "Leer",
+      "stable": "Stabil",
+      "radioactive": "Radioaktiv",
+      "instant": "Zerfällt sofort",
+      "unmeasured": "Noch nicht gemessen",
+      "unknown": "Hält nicht zusammen",
+      "notMade": "Nie hergestellt",
+      "neutron": "Radioaktiv",
+      "neutrons": "Zerfällt sofort"
+    },
+    "band": {
+      "stable": "stabil",
+      "years": "Monate oder mehr",
+      "hours": "Minuten bis Monate",
+      "seconds": "Sekunden",
+      "ms": "unter einer Sekunde",
+      "fast": "unter einem Tausendstel",
+      "instant": "sofort",
+      "unmeasured": "nicht gemessen"
+    }
+  },
+  "quiz": {
+    "title": "Wer bin ich?",
+    "start": "Wer bin ich?",
+    "progress": "Frage {{n}} von {{of}}",
+    "score_one": "{{count}} Punkt",
+    "score_other": "{{count}} Punkte",
+    "clue": "Noch ein Hinweis",
+    "worth_one": "dann {{count}} Punkt wert",
+    "worth_other": "dann {{count}} Punkte wert",
+    "now_one": "Rate jetzt für {{count}} Punkt.",
+    "now_other": "Rate jetzt für {{count}} Punkte.",
+    "right_one": "Richtig! +{{count}} Punkt",
+    "right_other": "Richtig! +{{count}} Punkte",
+    "wrong": "Diesmal nicht: Es war {{name}}.",
+    "end": "Ergebnis: {{score}} Pkt. in {{of}} Fragen, davon {{right}} richtig.",
+    "best_one": "Dein Rekord: {{count}} Punkt.",
+    "best_other": "Dein Rekord: {{count}} Punkte.",
+    "again": "Nochmal spielen",
+    "next": "Weiter"
+  },
+  "passport": {
+    "title": "Mein Pass",
+    "visited": "besuchte Elemente",
+    "found": "Entdeckungen",
+    "molecules": "gebaute Moleküle",
+    "legend": "Jede Kachel füllt sich, während du ihre Halle liest; ein Stern heißt, dass du ihre Welten erkundet hast. Tippe auf eine Kachel, um hineinzugehen.",
+    "badges": "Abzeichen",
+    "lab": "Molekül-Missionen",
+    "forge": "Missionen der Schmiede",
+    "forgeStat": "Missionen der Schmiede",
+    "quizStat": "Rekord bei „Wer bin ich?“",
+    "badge": {
+      "first": {
+        "icon": "✨",
+        "name": "Erste Entdeckung",
+        "how": "Lies deine erste Tafel"
+      },
+      "hall": {
+        "icon": "🏛",
+        "name": "Hallenexperte",
+        "how": "Entdecke alles in der Halle eines Elements"
+      },
+      "ten": {
+        "icon": "🧭",
+        "name": "Entdecker",
+        "how": "Besuche zehn Elemente"
+      },
+      "wing": {
+        "icon": "🌌",
+        "name": "Weltenreisender",
+        "how": "Mach drei Entdeckungen in den Welten eines Elements"
+      },
+      "chemist": {
+        "icon": "⚗",
+        "name": "Chemiker",
+        "how": "Baue fünf Moleküle im Labor"
+      },
+      "master": {
+        "icon": "🏆",
+        "name": "Baumeister",
+        "how": "Erfülle alle Molekül-Missionen"
+      },
+      "smith": {
+        "icon": "⚒️",
+        "name": "Atomschmied",
+        "how": "Erfülle fünf Missionen der Atomschmiede"
+      },
+      "detective": {
+        "icon": "🔎",
+        "name": "Elementdetektiv",
+        "how": "Hol 40 Punkte in einer Runde „Wer bin ich?“"
+      }
+    }
   }
 }

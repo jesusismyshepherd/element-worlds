@@ -11,6 +11,9 @@ import { useCover, useViewport } from './layout.js'
 
 const ROUND = 10
 const BEST = 'ew-quiz-best'
+// an element's name inside a sentence: lower case (helium, hélio, hel), but German nouns keep their capital
+const CAPITAL_NOUNS = new Set(['de'])
+const inSentence = (el, lang) => (CAPITAL_NOUNS.has(lang) ? nameOf(el, lang) : nameOf(el, lang).toLowerCase())
 
 function readBest() {
   try {
@@ -136,7 +139,7 @@ export default function QuizHud({ select, overview, onClose }) {
         {done && (
           <div className="mt-3">
             <div className={`font-bold ${right ? 'text-emerald-300' : 'text-rose-300'}`}>
-              {right ? t('quiz.right', { count: worth }) : t('quiz.wrong', { name: nameOf(el, lang).toLowerCase() })}
+              {right ? t('quiz.right', { count: worth }) : t('quiz.wrong', { name: inSentence(el, lang) })}
             </div>
             {over ? (
               <div className="mt-2">
