@@ -821,12 +821,14 @@ export function hammockCat({ light, words }) {
 }
 
 // ---------------------------------------------------------------- frontier: the moiré
-/** Two graphene sheets, one over the other, the top one twisted by θ: the moiré appears, with a period
- *  a / (2 sin(θ/2)) (a = 0.246 nm), 52 lattice constants at the magic angle of 1.1°. The bright spots
- *  are where atoms sit on atoms (AA stacking), where the electrons gather at the magic angle. */
-export const MOIRE_ANGLES = [5, 3, 2, 1.1, 0, 10]
-
-export function moireDisc({ light, radius = 1.7 }) {
+/** Two graphene sheets, one over the other, drawn as two printed transparencies on a light table: the
+ *  top one turns slowly by itself (0 to 12 degrees and back, lingering at the small angles) and the
+ *  moiré is not drawn, it comes out of the overlap, as it does with two net curtains in front of a
+ *  window (the user, 2026-10-28: the bright "AA spots" were insider knowledge; just show the two sheets
+ *  at changing angles). Where the atoms of both sheets coincide (AA) more light gets through; where they
+ *  interleave it is darker. The period is a / (2 sin(θ/2)) (a = 0.246 nm), 52 lattice constants at the
+ *  magic angle of 1.1°. `magic()` glides to 1.1° and holds it a while. `label(deg)` writes the readout. */
+export function moireDisc({ light, radius = 1.7, label = deg => `${deg.toFixed(1)}°` }) {
   const group = new THREE.Group()
   const bond = 0.0155 // drawn: a = 2.7 cm, the 1.1° moiré about 1.4 m across
   const a = bond * SQ3
@@ -835,8 +837,6 @@ export function moireDisc({ light, radius = 1.7 }) {
     uTheta: { value: 0 },
     uBond: { value: bond },
     uR: { value: radius },
-    uMagic: { value: 0 },
-    uTime: { value: 0 },
     uG0: { value: G[0] },
     uG1: { value: G[1] },
     uG2: { value: G[2] },
@@ -847,7 +847,7 @@ export function moireDisc({ light, radius = 1.7 }) {
       varying vec2 vP;
       void main() { vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
     fragmentShader: /* glsl */ `
-      uniform float uTheta; uniform float uBond; uniform float uR; uniform float uMagic; uniform float uTime;
+      uniform float uTheta; uniform float uBond; uniform float uR;
       uniform vec2 uG0; uniform vec2 uG1; uniform vec2 uG2;
       varying vec2 vP;
       ${HONEY_GLSL}
@@ -856,21 +856,29 @@ export function moireDisc({ light, radius = 1.7 }) {
         float c = cos(uTheta);
         float s = sin(uTheta);
         vec2 p2 = mat2(c, -s, s, c) * vP; // where this point falls in the top sheet's own frame
-        vec2 A = honeyInk(vP, uBond, 0.075, 0.17);
-        vec2 B = honeyInk(p2, uBond, 0.075, 0.17);
+        // inks bold enough that the overlap shows from across the room (each covers about 45 %)
+        vec2 A = honeyInk(vP, uBond, 0.17, 0.3);
+        vec2 B = honeyInk(p2, uBond, 0.17, 0.3);
         float ia = max(A.x, A.y);
         float ib = max(B.x, B.y);
-        // stacking registry: 1 where atoms sit on atoms (AA), -1/2 in the AB and BA regions
+        // where both inks cover the same spot: exactly, near; far away, where a pixel spans several
+        // bonds and each sheet is averaged, from how the two lattices sit on each other (1 where atoms
+        // sit on atoms, -1/2 where they interleave), or the pattern would wash out with distance
         vec2 u = vP - p2;
         float g = (cos(dot(uG0, u)) + cos(dot(uG1, u)) + cos(dot(uG2, u))) / 3.0;
-        float aa = smoothstep(0.35, 1.0, g);
-        float sAA = clamp((g + 0.5) / 1.5, 0.0, 1.0);
-        float k = smoothstep(0.05, 0.6, uTheta * 57.29578);
-        vec3 bg = vec3(0.012, 0.018, 0.05);
-        vec3 col = bg + vec3(0.2, 0.62, 1.0) * ia * 0.22 + vec3(1.0, 0.68, 0.28) * ib * 0.22;
-        float spot = sAA * sAA * sAA;
-        col += k * (vec3(1.0, 0.82, 0.5) * spot * (0.42 + 0.55 * uMagic * (0.85 + 0.15 * sin(uTime * 3.0))) + vec3(0.1, 0.25, 0.6) * (1.0 - sAA) * 0.06);
-        col += (1.0 - k) * vec3(0.05, 0.07, 0.12);
+        float reg = clamp((g + 0.5) / 1.5, 0.0, 1.0);
+        reg *= reg;
+        float px = length(fwidth(vP)) / uBond;
+        float far = smoothstep(0.12, 0.6, px);
+        // (interleaved, the inks fall apart: less overlap than chance; atop each other, all of it)
+        float both = mix(ia * ib, mix(ia * ib * 0.45, min(ia, ib), reg), far);
+        // the light table, and two dark inks (bluish below, amber above): both must take most of the
+        // light away, or where they fall apart the other's colour still gets through and the moiré
+        // nearly cancels (two complementary inks gave a 12 % contrast, these about 2 to 1)
+        vec3 lamp = vec3(0.62, 0.6, 0.55);
+        vec3 kA = vec3(0.95, 0.88, 0.72);
+        vec3 kB = vec3(0.72, 0.88, 0.95);
+        vec3 col = lamp * (1.0 - kA * ia - kB * ib + kA * kB * both);
         float edge = smoothstep(uR, uR - 0.02, r);
         gl_FragColor = vec4(col * edge, 1.0);
         #include <tonemapping_fragment>
@@ -892,6 +900,10 @@ export function moireDisc({ light, radius = 1.7 }) {
   const handle = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 16), glowMat(GOLD, 2.6))
   handle.position.set(0, radius + 0.1, 0.05)
   rimTop.add(handle)
+  // a mark at the top of the fixed rim, so the handle's turn away from it shows
+  const zero = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.01), glowMat('#5fc6ff', 1.6))
+  zero.position.set(0, radius + 0.2, 0)
+  tilt.add(zero)
   for (let i = 0; i < 36; i++) {
     const tick = new THREE.Mesh(new THREE.BoxGeometry(0.012, i % 9 === 0 ? 0.1 : 0.05, 0.01), glowMat('#5fc6ff', 1.4))
     const ang = (i / 36) * TAU
@@ -915,37 +927,70 @@ export function moireDisc({ light, radius = 1.7 }) {
   const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.95, 0.08, 48), metal)
   foot.position.set(0, 0.04, -0.4)
   group.add(foot)
-  let theta = MOIRE_ANGLES[0]
-  let from = theta
-  let to = theta
-  let tt = 1
-  let step = 0
+  // the angle now, under the disc
+  const readout = makeText(label(0), { size: 0.09, color: '#ffe3a8', anchorY: 'top', maxWidth: 2.6, outlineWidth: 0.006, outlineColor: '#05081a' })
+  readout.position.set(0, -radius - 0.3, 0.04)
+  tilt.add(readout)
+
+  // the sweep: 0 to MAX and back in PERIOD seconds, as the square of a cosine wave so the small angles,
+  // where the pattern is big, last longest
+  const MAX = 12
+  const PERIOD = 46
+  const MAGIC = 1.1
+  const sweepAngle = ph => MAX * Math.pow(0.5 - 0.5 * Math.cos(ph), 2)
+  let phase = 0.9
+  let theta = sweepAngle(phase)
+  let mode = 'sweep' // or 'glide' (to the magic angle) and 'hold'
+  let from = 0
+  let tt = 0
+  let hold = 0
+  let shown = null
+  let shownAt = -1
   return {
     group,
     get angle() {
-      return MOIRE_ANGLES[step]
+      return theta
     },
     get busy() {
-      return tt < 1
+      return mode === 'glide'
     },
-    twist() {
-      if (tt < 1) return null
-      step = (step + 1) % MOIRE_ANGLES.length
+    /** Glide to the magic angle and stay there a while; false while already gliding. */
+    magic() {
+      if (mode === 'glide') return false
+      mode = 'glide'
       from = theta
-      to = MOIRE_ANGLES[step]
       tt = 0
-      return to
+      return true
     },
     update(dt, t) {
-      if (tt < 1) {
-        tt = Math.min(1, tt + dt / 1.8)
-        theta = from + (to - from) * easeInOut(tt)
+      if (mode === 'sweep') {
+        phase = (phase + (dt * TAU) / PERIOD) % TAU
+        theta = sweepAngle(phase)
+      } else if (mode === 'glide') {
+        tt = Math.min(1, tt + dt / 2.2)
+        theta = from + (MAGIC - from) * easeInOut(tt)
+        if (tt >= 1) {
+          mode = 'hold'
+          hold = 14
+        }
+      } else {
+        hold -= dt
+        if (hold <= 0) {
+          // on with the sweep from where it stands, opening out
+          mode = 'sweep'
+          phase = Math.acos(1 - 2 * Math.sqrt(MAGIC / MAX))
+        }
       }
       uniforms.uTheta.value = (theta * Math.PI) / 180
-      const magic = Math.exp(-Math.pow((theta - 1.1) / 0.25, 2))
-      uniforms.uMagic.value += (magic - uniforms.uMagic.value) * Math.min(1, dt * 3)
-      uniforms.uTime.value = t
       rimTop.rotation.z = (theta * Math.PI) / 180 // the true turn: a tiny twist, a huge pattern
+      // the readout, a tenth of a degree at a time, at most eight times a second
+      const deg = Math.round(theta * 10) / 10
+      if (deg !== shown && t - shownAt > 0.12) {
+        shown = deg
+        shownAt = t
+        readout.text = label(deg)
+        readout.sync()
+      }
     },
   }
 }

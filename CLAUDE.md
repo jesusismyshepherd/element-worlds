@@ -123,7 +123,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`: discovery credit as
   IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed
   isotopes out).
-- Worlds: carbon (`/e/C/allotropes` with the graphene row, `/e/C/life`), oxygen (`/e/O/air`,
+- Worlds: carbon (`/e/C/allotropes` with the graphene row and, since 2026-10-28, the twisted graphene as
+  two transparencies on a light table turning by themselves, with why twistronics matters; `/e/C/life`), oxygen (`/e/O/air`,
   `/e/O/fire`), the noble gases' neon sign workshop (`/e/He/signs` to `/e/Rn/signs`, 2026-10-28: filling
   bench, radon's lead box, your name in neon, spectroscope with NIST lines, the atom's energy ladder,
   history board, balloons). Ideas for the next ones: `docs/wing-ideas.md`.
@@ -150,6 +151,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   was left at the top of a phone's screen); a pinch zooms on phones; no jump button on phones; the
   nanotube's camera eased (it jumped 2.2 m going in and out); an open panel follows a change of
   level; a neighbour exhibit is offered beside an open panel and E switches to it.
+- The neon workshop's rooms (2026-10-28): each starts with its own gas's name on the wall in its own
+  light (the name is kept per room), its lamplight, OPEN sign and greeting are the gas's own.
 - Open: the user's review (the Atomlings' look, the worlds, the forge, the new HUD, walking). First visits: shaders are
   now warmed for the bloom's linear buffer (2026-10-28; they were warmed for the screen, a wasted half
   that recompiled on the first frames): cold first visits 1.2 to 3.9 s (carbon's gallery was 10 s);

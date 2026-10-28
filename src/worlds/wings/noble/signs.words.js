@@ -19,6 +19,28 @@ export const SIGNS_WORDS = {
       kid: 'Welcome to the neon sign workshop! Here we fill glass tubes with gases like me and make them glow. Light the tubes, write your name in neon and split the light with the prism.',
       sci: 'The neon sign workshop: glow discharges in the noble gases. Fill and light the tubes, write your name in any of them, and take their light apart in the spectroscope.',
     },
+    greetGas: {
+      He: {
+        kid: 'Welcome to the neon sign workshop, in my room! I am helium; my name comes from the Greek word for the Sun, because I was found in the Sun before anyone found me on Earth. In a glass tube I glow a soft peach pink. Light the tubes and write your name in me on the wall!',
+        sci: 'Helium’s room of the sign workshop. A helium discharge glows peach pink; its most visible line is the yellow one at 587.6 nm, the line that revealed helium in the Sun’s spectrum in 1868. Fill and light the tubes, write your name in any gas, and split their light in the spectroscope.',
+      },
+      Ne: {
+        kid: 'Welcome to my workshop: neon signs are named after me! My name comes from the Greek word for “new”. Lit up, I glow the famous red-orange of shop signs. Light the tubes and write your name in me on the wall!',
+        sci: 'Neon’s room: the gas that gave the signs their name. Its red-orange glow is a crowd of lines from yellow-orange to deep red; Georges Claude showed the first neon lights in Paris in 1910. Fill and light the tubes, write your name in any gas, and split their light in the spectroscope.',
+      },
+      Ar: {
+        kid: 'Welcome to my room of the workshop! I am argon; my name comes from the Greek word for “lazy”, because I hardly ever react. Old light bulbs were filled with me. In a tube I glow pale lavender, and with a drop of mercury I make the blue signs.',
+        sci: 'Argon’s room. Argon is 0.93 % of the air, the commonest noble gas here; a pure argon discharge glows lavender to violet, and argon with a drop of mercury and a coating on the glass makes most “neon” signs that are not red. Fill and light the tubes, write your name in any gas, and split their light in the spectroscope.',
+      },
+      Kr: {
+        kid: 'Welcome to my room! I am krypton; my name comes from the Greek word for “hidden”, because there is so little of me in the air. Lit up, I glow almost white, with a hint of lilac. Light the tubes and write your name in me on the wall!',
+        sci: 'Krypton’s room. About one part per million of the air. A krypton discharge looks whitish lilac, from strong lines across the spectrum (green at 557 nm, yellow at 587 nm); from 1960 to 1983 the metre was defined by an orange line of krypton-86 (605.8 nm). Fill and light the tubes, write your name in any gas, and split their light in the spectroscope.',
+      },
+      Xe: {
+        kid: 'Welcome to my room! I am xenon; my name comes from the Greek word for “stranger”. I glow blue-violet, I light some car headlights, and some spacecraft fly with engines that push my atoms out behind them!',
+        sci: 'Xenon’s room: the rarest stable noble gas in the air, about 0.09 parts per million. A xenon discharge glows blue to violet; xenon arc lamps give cinema projectors their daylight-like light, and ion engines such as those of NASA’s Dawn probe ran on xenon. Fill and light the tubes, write your name in any gas, and split their light in the spectroscope.',
+      },
+    },
     greetRadon: {
       kid: "Welcome to the neon sign workshop! The other gases glow in the signs, but not me: I am locked in the lead box at the end of the bench. Come and see why.",
       sci: 'The neon sign workshop. Radon is the one noble gas that never goes into a sign: its box is at the end of the filling bench, behind lead glass.',
@@ -253,6 +275,28 @@ export const SIGNS_WORDS = {
     greet: {
       kid: 'Bem-vindo à oficina do néon! Aqui enchemos tubos de vidro com gases como eu e pomo-los a brilhar. Acende os tubos, escreve o teu nome em néon e separa a luz com o prisma.',
       sci: 'A oficina do néon: descargas luminosas nos gases nobres. Enche e acende os tubos, escreve o teu nome em qualquer um deles e decompõe a sua luz no espetroscópio.',
+    },
+    greetGas: {
+      He: {
+        kid: 'Bem-vindo à oficina do néon, à minha sala! Sou o hélio; o meu nome vem da palavra grega para Sol, porque fui descoberto no Sol antes de alguém me encontrar na Terra. Num tubo de vidro brilho num rosa-pêssego suave. Acende os tubos e escreve o teu nome em mim, na parede!',
+        sci: 'A sala do hélio na oficina do néon. Uma descarga em hélio brilha em rosa-pêssego; a sua risca mais visível é a amarela, de 587,6 nm, a mesma que revelou o hélio no espetro do Sol em 1868. Enche e acende os tubos, escreve o teu nome em qualquer gás e decompõe a sua luz no espetroscópio.',
+      },
+      Ne: {
+        kid: 'Bem-vindo à minha oficina: os letreiros de néon têm o meu nome! O meu nome vem da palavra grega para “novo”. Aceso, brilho no famoso vermelho-alaranjado dos letreiros das lojas. Acende os tubos e escreve o teu nome em mim, na parede!',
+        sci: 'A sala do néon, o gás que deu nome aos letreiros. O seu brilho vermelho-alaranjado é uma multidão de riscas, do amarelo-alaranjado ao vermelho profundo; Georges Claude mostrou as primeiras luzes de néon em Paris, em 1910. Enche e acende os tubos, escreve o teu nome em qualquer gás e decompõe a sua luz no espetroscópio.',
+      },
+      Ar: {
+        kid: 'Bem-vindo à minha sala da oficina! Sou o árgon; o meu nome vem da palavra grega para “preguiçoso”, porque quase nunca reajo. As lâmpadas antigas eram cheias de mim. Num tubo brilho num lilás pálido, e com uma gota de mercúrio faço os letreiros azuis.',
+        sci: 'A sala do árgon. O árgon é 0,93 % do ar, o gás nobre mais comum aqui; uma descarga em árgon puro brilha de lilás a violeta, e árgon com uma gota de mercúrio e um revestimento no vidro faz a maior parte dos letreiros “de néon” que não são vermelhos. Enche e acende os tubos, escreve o teu nome em qualquer gás e decompõe a sua luz no espetroscópio.',
+      },
+      Kr: {
+        kid: 'Bem-vindo à minha sala! Sou o crípton; o meu nome vem da palavra grega para “escondido”, porque há muito pouco de mim no ar. Aceso, brilho quase branco, com um toque de lilás. Acende os tubos e escreve o teu nome em mim, na parede!',
+        sci: 'A sala do crípton. Cerca de uma parte por milhão do ar. Uma descarga em crípton parece branco-lilás, com riscas fortes por todo o espetro (verde a 557 nm, amarela a 587 nm); de 1960 a 1983, o metro foi definido por uma risca laranja do crípton-86 (605,8 nm). Enche e acende os tubos, escreve o teu nome em qualquer gás e decompõe a sua luz no espetroscópio.',
+      },
+      Xe: {
+        kid: 'Bem-vindo à minha sala! Sou o xénon; o meu nome vem da palavra grega para “estrangeiro”. Brilho azul-violeta, ilumino alguns faróis de automóveis, e há naves espaciais que voam com motores que atiram os meus átomos para trás!',
+        sci: 'A sala do xénon, o gás nobre estável mais raro no ar, cerca de 0,09 partes por milhão. Uma descarga em xénon brilha de azul a violeta; as lâmpadas de arco de xénon dão aos projetores de cinema uma luz parecida com a do dia, e motores iónicos como os da sonda Dawn, da NASA, funcionavam a xénon. Enche e acende os tubos, escreve o teu nome em qualquer gás e decompõe a sua luz no espetroscópio.',
+      },
     },
     greetRadon: {
       kid: 'Bem-vindo à oficina do néon! Os outros gases brilham nos letreiros, mas eu não: estou fechado na caixa de chumbo, no fim da bancada. Anda ver porquê.',

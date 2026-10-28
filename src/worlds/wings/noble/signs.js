@@ -23,18 +23,20 @@ import { spectroscope, atomDisplay } from './signs.optics.js'
 import { nameWall, historyBoard, balloonRack } from './signs.parts.js'
 import { nameOverlay } from './nameOverlay.js'
 
-const NAME_KEY = 'ew-neon-name'
-const loadName = () => {
+// the name written on the wall, kept per room: a room starts with its own gas's name until a name is
+// written there (one key for all six rooms showed NÉON in every room once it was lit in neon's)
+const nameKey = sym => `ew-neon-name:${sym}`
+const loadName = sym => {
   try {
-    const v = JSON.parse(localStorage.getItem(NAME_KEY) ?? 'null')
+    const v = JSON.parse(localStorage.getItem(nameKey(sym)) ?? 'null')
     return v && typeof v.text === 'string' && SIGN_GASES.includes(v.gas) ? { text: sanitizeName(v.text).trim(), gas: v.gas } : null
   } catch {
     return null
   }
 }
-const saveName = v => {
+const saveName = (sym, v) => {
   try {
-    localStorage.setItem(NAME_KEY, JSON.stringify(v))
+    localStorage.setItem(nameKey(sym), JSON.stringify(v))
   } catch {
     // storage blocked: kept for this visit
   }
@@ -72,14 +74,16 @@ export async function build(ctx, target) {
   await fontsReady()
 
   // ---- the room ----
-  const room = workshopRoom({ light })
+  // each gas's room is lit a little in its own colour (radon, which never goes into a sign, keeps
+  // the workshop's warm light)
+  const room = workshopRoom({ light, tint: sym === 'Rn' ? null : COLOR })
   root.add(room.group)
   updates.push((dt, t) => room.update(dt, t))
   const { mats } = room
   const { x0, x1, z0, z1, h } = ROOM
   const solids = roomWalls(x0, x1, z0, z1, [{ side: 's', at: 0, width: DOOR.width }], 1)
-  // a shop sign by the door: open
-  const open = neonSign({ text: lang === 'pt-pt' ? 'ABERTO' : 'OPEN', cap: 0.3, radius: 0.012, light, color: glowOf('Ne'), postMat: mats.dark })
+  // a shop sign by the door: open, in the room's own gas (neon's in radon's room)
+  const open = neonSign({ text: lang === 'pt-pt' ? 'ABERTO' : 'OPEN', cap: 0.3, radius: 0.012, light, color: glowOf(SIGN_GASES.includes(sym) ? sym : 'Ne'), postMat: mats.dark })
   open.setAll(1)
   open.group.position.set(-4.7, 2.75, z1)
   open.group.rotation.y = Math.PI
@@ -153,9 +157,10 @@ export async function build(ctx, target) {
   })
 
   // the name on the north wall and the desk below it
-  const saved = loadName()
-  const fallback = sanitizeName(GasName(sym === 'Rn' ? 'Ne' : sym))
-  let current = saved?.text ? saved : { text: fallback, gas: sym === 'Rn' ? 'Ne' : sym }
+  // the room's own gas's name, in its own light (radon's name in neon's)
+  const saved = loadName(sym)
+  const fallback = sanitizeName(GasName(sym))
+  let current = saved?.text ? saved : { text: fallback, gas: SIGN_GASES.includes(sym) ? sym : 'Ne' }
   const wall = nameWall({ mats, words: W.name, light, text: current.text, color: glowOf(current.gas) })
   place(root, wall.group, 0, z0, 0)
   updates.push((dt, t) => wall.update(dt, t))
@@ -177,7 +182,7 @@ export async function build(ctx, target) {
       },
       onSubmit: (word, gas) => {
         current = { text: word, gas }
-        saveName(current)
+        saveName(sym, current)
         wall.light(word, glowOf(gas))
         // the tube it took: its length in font units, at the scale the wall drew it
         const metres = num((tubeLength(word) * wall.sign.width) / Math.max(1e-6, layoutText(word).width), 1, lang)
@@ -351,7 +356,8 @@ export async function build(ctx, target) {
 
   // talking to it: the greeting, then hints and facts in turn
   let said = 0
-  const greet = () => at(sym === 'Rn' ? W.greetRadon : W.greet, level())
+  // each gas greets in its own words: its name, its colour, what it does
+  const greet = () => at(sym === 'Rn' ? W.greetRadon : W.greetGas?.[sym] ?? W.greet, level())
   const talk = () => {
     const lines = [greet(), ...W.talk[depth(level())]]
     said = (said + 1) % lines.length

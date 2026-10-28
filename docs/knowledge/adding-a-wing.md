@@ -111,6 +111,13 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
   them for the composer's linear buffer (`engine.compileFor`); compiling for the screen instead made
   every program twice.
 - The RoomEnvironment light washes out dark places: set `env.envIntensity` low there.
+- Show a phenomenon, do not paint its explanation on it (the user, 2026-10-28, on the twisted
+  graphene's bright "AA spots": insider knowledge). The moiré is now two transparencies on a light
+  table turning by themselves (`graphene.parts.js` `moireDisc`), the pattern coming from the overlap;
+  the panel says why it matters. Two inks overlapping must both take most of the light away, or where
+  they fall apart the other's colour gets through and the pattern nearly cancels (complementary inks
+  gave 12 % contrast); far away, where a pixel spans several bonds, blend in the lattices' registry or
+  the pattern washes out with distance.
 - A transmission (glass) material dims what is behind it by its base colour: keep the base light and
   put the colour in `attenuationColor` (see `characters/atomling.js`).
 
@@ -123,6 +130,14 @@ neon's hall" and leads to `atriumPath(target.symbol)`, and discoveries are kept 
 `<Symbol>:signs:<exhibit>` (each hall's passport tile counts its own). `/e/Ne/signs` and `/e/Ar/signs`
 are different worlds to the engine (`worldKey`), so each is built for its gas. The wing's notes, parts
 and traps: the folder's module headers; its pure data and words are tested in `noble.test.js`.
+
+Each room must feel like its own gas's (the user, 2026-10-28: "the prewritten word always shows Neon"):
+what a visitor leaves in a room is kept per room (the name on the wall: `ew-neon-name:<Symbol>`; one key
+for all six put NÉON in every room once it was lit in neon's), and the room takes the gas's colour where
+it costs nothing: the name wall starts with the gas's own name in its own light, the OPEN sign by the
+door, the lamplight and fill (`workshopRoom({ tint })`), and each gas greets in its own words
+(`greetGas`: where its name comes from, its colour, what it does). Radon keeps neon's light (it never
+goes into a sign).
 
 More traps met there (each with its fix):
 

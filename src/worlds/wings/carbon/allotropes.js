@@ -130,7 +130,9 @@ export async function build(ctx) {
   updates.push((dt, t) => hammock.update(dt, t))
   lamp(...LAYOUT.materials.at, 0.8, 200, '#fff1dc')
   // frontier: the moiré
-  const moire = moireDisc({ light })
+  // the pattern's period at an angle, in nm (a = 0.246 nm)
+  const moireNm = deg => (0.246 / (2 * Math.sin((deg * Math.PI) / 360))).toFixed(1).replace('.', W.decimal)
+  const moire = moireDisc({ light, label: deg => W.signLine.readout(deg, deg < 0.05 ? '' : moireNm(deg)) })
   at('moire', moire.group, 0.48)
   updates.push((dt, t) => moire.update(dt, t))
   // graphite
@@ -268,15 +270,17 @@ export async function build(ctx) {
     found('materials')
     later(1.4, () => panel('materials'))
   })
+  // the top sheet turns by itself; E glides it to the magic angle and holds it there
   add('moire', () => {
-    const deg = moire.twist()
-    if (deg === null) return
+    if (!moire.magic()) return
     found('moire')
-    const nm = deg ? (0.246 / (2 * Math.sin((deg * Math.PI) / 360))).toFixed(1).replace('.', W.decimal) : ''
-    moireLine = W.signLine.moire(deg, nm)
+    const nm = moireNm(1.1)
+    moireLine = W.signLine.moire(1.1, nm)
     signs.moire.set({ line: moireLine })
-    say(W.say.moire(deg, nm))
-    if (deg === 1.1) later(2.2, () => panel('moire'))
+    later(2.2, () => {
+      say(W.say.moire(nm))
+      panel('moire')
+    })
   })
   add('graphite', it => {
     const out = !gr.slid

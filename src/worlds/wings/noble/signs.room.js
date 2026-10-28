@@ -133,7 +133,10 @@ function wallPiece(a0, a1, y0, y1, size) {
   return g
 }
 
-export function workshopRoom({ light }) {
+/** The workshop; `tint` (a gas's glow colour, or null) shades its lamplight and its fill toward that
+ *  gas, so each gas's room feels its own. */
+export function workshopRoom({ light, tint = null }) {
+  const toward = (base, k) => (tint ? new THREE.Color(base).lerp(new THREE.Color(tint), k) : new THREE.Color(base))
   const group = new THREE.Group()
   const { x0, x1, z0, z1, h } = ROOM
   const bricks = brickTextures(light)
@@ -217,7 +220,7 @@ export function workshopRoom({ light }) {
     new THREE.Vector2(0.255, -0.01),
   ], 28)
   const shadeMat = new THREE.MeshStandardMaterial({ color: '#2e4a3c', roughness: 0.45, metalness: 0.3, side: THREE.DoubleSide })
-  const bulbMat = new THREE.MeshStandardMaterial({ color: '#fff2d8', emissive: '#ffd49a', emissiveIntensity: 2.4 })
+  const bulbMat = new THREE.MeshStandardMaterial({ color: '#fff2d8', emissive: toward('#ffd49a', 0.3), emissiveIntensity: 2.4 })
   const lights = []
   const lamp = (x, z, drop, withLight) => {
     const y = h - drop
@@ -229,7 +232,7 @@ export function workshopRoom({ light }) {
     bulb.position.set(x, y - 0.15, z)
     group.add(cord, shade, bulb)
     if (withLight) {
-      const l = new THREE.PointLight('#ffcf95', 7, 9, 2)
+      const l = new THREE.PointLight(toward('#ffcf95', 0.32), 7, 9, 2)
       l.position.set(x, y - 0.3, z)
       group.add(l)
       lights.push(l)
@@ -285,7 +288,7 @@ export function workshopRoom({ light }) {
   group.add(table)
 
   // a faint fill so nothing is pitch black
-  const fill = new THREE.HemisphereLight('#5a6488', '#2a1c16', light ? 1.1 : 0.8)
+  const fill = new THREE.HemisphereLight(toward('#5a6488', 0.45), '#2a1c16', light ? 1.1 : 0.8)
   group.add(fill)
 
   let flicker = 0

@@ -45,14 +45,11 @@ const EN = {
       'See? At the lowest point the current still flows: plain graphene cannot switch off. Try again with a gap.',
       'With two layers in an electric field there is a gap, and the current stops: OFF!',
     ],
-    moire: (deg, nm) => (deg === 0
-      ? 'Twist 0°: the two sheets line up again, no pattern.'
-      : deg === 1.1
-        ? `The magic angle, 1.1°! The pattern is ${nm} nm across, and the electrons crowd into the bright spots.`
-        : `Twisted ${deg}°: the big pattern repeats every ${nm} nm. Twist less and it grows!`),
+    moire: nm => `The magic angle, 1.1°! The big pattern is ${nm} nm across, 52 atoms. Cooled almost to absolute zero, these two sheets carry electricity with no resistance at all.`,
   },
   signLine: {
     moire: (deg, nm) => (deg === 0 ? 'Aligned: no moiré. Twist the top sheet!' : `Twist ${deg}°: moiré ${nm} nm${deg === 1.1 ? ' (the magic angle)' : ''}`),
+    readout: (deg, nm) => (deg < 0.05 ? 'Aligned: no pattern' : `Turned ${deg.toFixed(1)}°\nthe pattern repeats every ${nm} nm`),
   },
   ex: {
     graphene: {
@@ -165,25 +162,28 @@ const EN = {
       },
     },
     moire: {
-      label: 'the top sheet', verb: 'Twist',
-      sign: { title: 'Frontier: twisted graphene', kid: 'Twist one sheet over another: a giant pattern appears.', sci: 'Twisted bilayer: at the magic angle (1.1°), superconductivity.' },
+      label: 'the magic angle (1.1°)', verb: 'Turn to',
+      sign: { title: 'Frontier: twisted graphene', kid: 'Two sheets, one turning: watch a giant pattern appear by itself.', sci: 'Twisted bilayer: at the magic angle (1.1°), superconductivity.' },
       panel: {
         title: 'Frontier: twisted graphene',
         kid: [
-          { p: 'Lay one sheet of graphene on another and twist it a little: a much bigger pattern of hexagons appears, a moiré. The smaller the twist, the bigger the pattern!' },
+          { p: 'Two sheets of graphene, one on top of the other, the top one turning slowly. Nothing is painted on them: the big pattern appears by itself where the two honeycombs overlap, like two net curtains in front of a window. The smaller the turn, the bigger the pattern.' },
           { big: '1.1°', small: 'the magic angle' },
-          { p: 'At the magic angle, about 1.1°, the electrons slow down so much that they start to pair up, and the two layers conduct electricity with no resistance at all (superconductivity), when very cold. Scientists found this in 2018, and now they twist all sorts of layers to see what happens.' },
+          { p: 'At 1.1°, about how far a clock’s minute hand moves in 11 seconds, two plain sheets of carbon, cooled almost to absolute zero, carry electricity with no resistance at all: they are a superconductor. Change a little how many electrons they hold and the same sheets block electricity completely. A tiny turn changes what the material is!' },
+          { p: 'Why it is such a big deal: it was found in 2018 by Yuan Cao, a young student in Pablo Jarillo-Herrero’s lab at MIT. The magazine Physics World called it the breakthrough of the year; Jarillo-Herrero and the two physicists who had predicted the magic angle shared the Wolf Prize in Physics in 2020; and science got a new word, twistronics: electronics by twisting. Today labs all over the world stack and twist sheets one atom thin, like a deck of cards, to make materials that do not exist in nature.' },
         ],
         sci: [
           { big: 'θ ≈ 1.1°', small: 'the magic angle: flat bands, correlated insulators, superconductivity' },
           { rows: [
-            ['Moiré period', 'λ = a / (2 sin(θ/2)): about 13 nm at 1.1° (a = 0.246 nm)'],
-            ['Prediction', 'flat bands at the magic angle: Rafi Bistritzer and Allan MacDonald, 2011'],
-            ['Discovery', 'Yuan Cao, Pablo Jarillo-Herrero and colleagues (MIT), two papers in Nature, 2018: correlated insulating states and superconductivity below about 1.7 K'],
-            ['Twistronics', 'tuning a material by the angle between its layers'],
+            ['Moiré period', 'λ = a / (2 sin(θ/2)): about 13 nm at 1.1° (a = 0.246 nm), some 11,000 atoms in each moiré cell'],
+            ['Prediction', 'flat bands at the magic angle: Rafi Bistritzer and Allan MacDonald, PNAS, 2011'],
+            ['Discovery', 'Yuan Cao, Pablo Jarillo-Herrero and colleagues (MIT), two papers in Nature, 2018: correlated insulating states at half filling of the flat bands and, next to them, superconductivity below about 1.7 K'],
+            ['A new word', 'twistronics: tuning a material by the angle between its layers (Efthimios Kaxiras’s group, Harvard, 2017)'],
+            ['Recognition', 'Physics World Breakthrough of the Year 2018; Wolf Prize in Physics 2020 (Bistritzer, Jarillo-Herrero, MacDonald)'],
+            ['Since', 'magnetism and Chern insulators in the flat bands, twisted trilayers, twisted transition-metal dichalcogenides: the fractional quantum anomalous Hall effect in twisted MoTe₂ (2023), quasiparticles carrying a fraction of an electron’s charge, with no magnet at all'],
           ] },
-          { p: 'Near the magic angle the electrons’ kinetic energy in the moiré bands becomes smaller than their mutual repulsion, so they organise collectively; the bright AA regions, where atoms sit on atoms, are where they gather. Rhombohedral (ABC-stacked) trilayer graphene superconducts even without a twist (2021), and other two-dimensional crystals, such as molybdenum ditelluride, are now twisted the same way.' },
-          { p: 'Here the lattice is drawn with a = 2.7 cm, so the 1.1° moiré is about 1.4 m across.' },
+          { p: 'Why: near the magic angle the moiré bands become almost flat, the electrons’ kinetic energy falls below their mutual repulsion and they organise collectively, much as in the copper-oxide superconductors, but in one tunable device: a gate voltage sets how many electrons fill the bands. Samples are made by “tear and stack” (2016): half of one graphene flake is picked up, turned by the wanted angle and laid on the other half. Keeping one angle across a whole device (twist-angle disorder) is still the hard part.' },
+          { p: 'Here the sheets are drawn as transparencies on a light table, with a = 2.7 cm, so the 1.1° moiré is about 1.4 m across. Nothing marks the moiré: it comes from the overlap, lighter where atoms sit on atoms (AA), darker where they interleave (AB).' },
         ],
       },
     },
@@ -403,14 +403,11 @@ const PT = {
       'Vês? No ponto mais baixo a corrente continua a passar: o grafeno simples não consegue desligar. Experimenta outra vez, com um hiato.',
       'Com duas camadas num campo elétrico há um hiato, e a corrente para: DESLIGADO!',
     ],
-    moire: (deg, nm) => (deg === 0
-      ? 'Rotação 0°: as duas folhas voltam a alinhar-se, sem padrão.'
-      : deg === 1.1
-        ? `O ângulo mágico, 1,1°! O padrão tem ${nm} nm e os eletrões juntam-se nas manchas brilhantes.`
-        : `Rodada ${String(deg).replace('.', ',')}°: o padrão grande repete-se a cada ${nm} nm. Roda menos e ele cresce!`),
+    moire: nm => `O ângulo mágico, 1,1°! O padrão grande tem ${nm} nm, 52 átomos. Arrefecidas quase até ao zero absoluto, estas duas folhas conduzem a eletricidade sem resistência nenhuma.`,
   },
   signLine: {
     moire: (deg, nm) => (deg === 0 ? 'Alinhadas: sem moiré. Roda a folha de cima!' : `Rotação ${String(deg).replace('.', ',')}°: moiré de ${nm} nm${deg === 1.1 ? ' (o ângulo mágico)' : ''}`),
+    readout: (deg, nm) => (deg < 0.05 ? 'Alinhadas: sem padrão' : `Rodada ${deg.toFixed(1).replace('.', ',')}°\no padrão repete-se a cada ${nm} nm`),
   },
   ex: {
     graphene: {
@@ -523,25 +520,28 @@ const PT = {
       },
     },
     moire: {
-      label: 'a folha de cima', verb: 'Rodar',
-      sign: { title: 'Fronteira: grafeno torcido', kid: 'Roda uma folha sobre a outra: aparece um padrão gigante.', sci: 'Bicamada torcida: no ângulo mágico (1,1°), supercondutividade.' },
+      label: 'o ângulo mágico (1,1°)', verb: 'Rodar até',
+      sign: { title: 'Fronteira: grafeno torcido', kid: 'Duas folhas, uma a rodar: vê um padrão gigante aparecer sozinho.', sci: 'Bicamada torcida: no ângulo mágico (1,1°), supercondutividade.' },
       panel: {
         title: 'Fronteira: grafeno torcido',
         kid: [
-          { p: 'Pousa uma folha de grafeno sobre outra e roda-a um bocadinho: aparece um padrão de hexágonos muito maior, um moiré. Quanto menor a rotação, maior o padrão!' },
+          { p: 'Duas folhas de grafeno, uma em cima da outra, a de cima a rodar devagar. Não há nada pintado nelas: o padrão grande aparece sozinho onde os dois favos se sobrepõem, como duas cortinas de renda em frente a uma janela. Quanto menor a rotação, maior o padrão.' },
           { big: '1,1°', small: 'o ângulo mágico' },
-          { p: 'No ângulo mágico, cerca de 1,1°, os eletrões ficam tão lentos que começam a emparelhar e as duas camadas conduzem a eletricidade sem resistência nenhuma (supercondutividade), quando estão muito frias. Os cientistas descobriram isto em 2018, e agora rodam todo o tipo de camadas para ver o que acontece.' },
+          { p: 'A 1,1°, mais ou menos o que o ponteiro dos minutos de um relógio anda em 11 segundos, duas simples folhas de carbono, arrefecidas quase até ao zero absoluto, conduzem a eletricidade sem resistência nenhuma: são um supercondutor. Muda-se um pouco quantos eletrões têm e as mesmas folhas bloqueiam a eletricidade por completo. Uma pequena rotação muda aquilo que o material é!' },
+          { p: 'Porque é tão importante: foi descoberto em 2018 por Yuan Cao, um jovem estudante do laboratório de Pablo Jarillo-Herrero, no MIT. A revista Physics World chamou-lhe a grande descoberta do ano; Jarillo-Herrero e os dois físicos que tinham previsto o ângulo mágico partilharam o Prémio Wolf de Física em 2020; e a ciência ganhou uma palavra nova, twistrónica: a eletrónica das rotações. Hoje, laboratórios do mundo inteiro empilham e rodam folhas com um átomo de espessura, como um baralho de cartas, para criar materiais que não existem na natureza.' },
         ],
         sci: [
           { big: 'θ ≈ 1,1°', small: 'o ângulo mágico: bandas planas, isoladores correlacionados, supercondutividade' },
           { rows: [
-            ['Período do moiré', 'λ = a / (2 sen(θ/2)): cerca de 13 nm a 1,1° (a = 0,246 nm)'],
-            ['Previsão', 'bandas planas no ângulo mágico: Rafi Bistritzer e Allan MacDonald, 2011'],
-            ['Descoberta', 'Yuan Cao, Pablo Jarillo-Herrero e colegas (MIT), dois artigos na Nature, 2018: estados isoladores correlacionados e supercondutividade abaixo de cerca de 1,7 K'],
-            ['Twistrónica', 'afinar um material pelo ângulo entre as suas camadas'],
+            ['Período do moiré', 'λ = a / (2 sen(θ/2)): cerca de 13 nm a 1,1° (a = 0,246 nm), uns 11 000 átomos em cada célula do moiré'],
+            ['Previsão', 'bandas planas no ângulo mágico: Rafi Bistritzer e Allan MacDonald, PNAS, 2011'],
+            ['Descoberta', 'Yuan Cao, Pablo Jarillo-Herrero e colegas (MIT), dois artigos na Nature, 2018: estados isoladores correlacionados a meio enchimento das bandas planas e, junto deles, supercondutividade abaixo de cerca de 1,7 K'],
+            ['Uma palavra nova', 'twistrónica: afinar um material pelo ângulo entre as suas camadas (grupo de Efthimios Kaxiras, Harvard, 2017)'],
+            ['Reconhecimento', 'Breakthrough of the Year 2018 da Physics World; Prémio Wolf de Física 2020 (Bistritzer, Jarillo-Herrero, MacDonald)'],
+            ['Desde então', 'magnetismo e isoladores de Chern nas bandas planas, tricamadas torcidas, dicalcogenetos de metais de transição torcidos: o efeito Hall anómalo quântico fracionário no MoTe₂ torcido (2023), quasipartículas com uma fração da carga do eletrão, sem íman nenhum'],
           ] },
-          { p: 'Perto do ângulo mágico, a energia cinética dos eletrões nas bandas do moiré fica menor do que a repulsão entre eles, e organizam-se coletivamente; as regiões AA brilhantes, onde os átomos ficam sobre átomos, são onde se juntam. O grafeno romboédrico de três camadas (empilhamento ABC) é supercondutor mesmo sem rotação (2021), e outros cristais bidimensionais, como o ditelureto de molibdénio, já se rodam da mesma maneira.' },
-          { p: 'Aqui a rede está desenhada com a = 2,7 cm, por isso o moiré de 1,1° tem cerca de 1,4 m.' },
+          { p: 'Porquê: perto do ângulo mágico as bandas do moiré ficam quase planas, a energia cinética dos eletrões fica abaixo da repulsão entre eles e organizam-se coletivamente, um pouco como nos supercondutores de óxido de cobre, mas num só dispositivo afinável: uma tensão de porta escolhe quantos eletrões enchem as bandas. As amostras fazem-se por “rasgar e empilhar” (2016): metade de um floco de grafeno é levantada, rodada pelo ângulo pretendido e pousada sobre a outra metade. Manter o mesmo ângulo em todo o dispositivo (a desordem do ângulo) ainda é a parte difícil.' },
+          { p: 'Aqui as folhas estão desenhadas como transparências numa mesa de luz, com a = 2,7 cm, por isso o moiré de 1,1° tem cerca de 1,4 m. Nada marca o moiré: vem da sobreposição, mais claro onde os átomos ficam sobre átomos (AA), mais escuro onde se intercalam (AB).' },
         ],
       },
     },
