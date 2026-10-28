@@ -97,7 +97,6 @@ for (const [lang, file] of targets) {
 const inst = i18next.createInstance()
 await inst.init({ resources: res, fallbackLng: 'en', interpolation: { escapeValue: false } })
 const samples = [
-  ['card.atomSentence', [1, 2, 5, 12, 22, 25, 118]],
   ['lab.hands', [1, 2, 4, 5]],
   ['lab.free', [1, 3, 6]],
   ['lab.gives', [1, 2]],

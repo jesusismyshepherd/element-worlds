@@ -56,7 +56,10 @@ mechanics, engineering and chemistry games. Everything below is shaped so that t
   and name on the top face (read from above) and the symbol and name on the front face (read when
   walking). Opaque glowing blocks, not clear glass: clear glass hides the cubes behind it in three.js.
 - Overview camera (orbit, zoom, pan, limits). Hover lifts a cube and shows its card; a click selects it,
-  the camera frames its front, its Atomling appears on top and waves, the card offers "Enter". Arrow keys
+  the camera frames its front, its Atomling appears on top and waves, the card offers "Enter". In Explorer
+  the card tells the Atomling's facts (what it says to "Tell me something" in its hall), one at a time:
+  the arrows, a click on the text or T go through them (`ElementCard.jsx` `Facts`; every element has 3
+  to 5). Arrow keys
   move the selection, Enter goes in.
 - Family legend: hover or tap a family to light it and dim the rest.
 - Trends (Scientist): cubes stretch into bars by a property (atomic radius, electronegativity, first

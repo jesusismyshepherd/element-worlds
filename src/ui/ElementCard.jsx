@@ -1,9 +1,64 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FAMILY, nameOf } from '../data/elements.js'
 import { temperature, density, num, config, LANG_TAG } from './format.js'
 import { WINGS } from '../worlds/registry.js'
+import { loadContent, contentCached } from '../content/index.js'
+import { pick } from '../content/stations.js'
+
+// which fact each element's card was on, so coming back to an element goes on from there
+const AT = new Map()
+
+/** What the element's Atomling says when asked to "tell me something" (its facts), one at a time:
+ *  the arrows, a click on the text or T go through them (the user, 2026-10-28: the card said only
+ *  how many protons and electrons, which the number already says). Every fact sits in the same grid
+ *  cell, so the card keeps the height of the longest and the arrows stay where they are. */
+function Facts({ el, lang, level, color, touch }) {
+  const { t } = useTranslation()
+  const [, redraw] = useState(0)
+  const words = contentCached(el.symbol)
+  useEffect(() => {
+    if (!contentCached(el.symbol)) loadContent(el.symbol).then(() => redraw(n => n + 1))
+  }, [el.symbol])
+  const facts = pick(words?.facts, lang, level) ?? []
+  const n = facts.length
+  const i = (AT.get(el.symbol) ?? 0) % Math.max(n, 1)
+  const go = step => {
+    AT.set(el.symbol, (i + step + n) % n)
+    redraw(k => k + 1)
+  }
+  useEffect(() => {
+    if (n < 2) return undefined
+    const onKey = e => {
+      if (e.code !== 'KeyT' || e.repeat || e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target?.tagName)) return
+      go(1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+  if (!n) return null
+  const arrow = 'w-8 h-7 rounded-lg text-base leading-none hover:bg-white/10 active:scale-95 transition'
+  return (
+    <div data-facts className="mt-2 rounded-xl bg-white/5 border-l-2" style={{ borderColor: color }}>
+      <button type="button" data-fact="text" onClick={() => go(1)} className="grid w-full text-left px-2.5 pt-1.5 text-sm" aria-live="polite">
+        {facts.map((f, k) => (
+          <span key={k} className={`[grid-area:1/1] ${k === i ? '' : 'invisible'}`} aria-hidden={k !== i}>{f}</span>
+        ))}
+      </button>
+      <div className="flex items-center gap-0.5 pl-2.5 pr-1 pb-0.5 text-xs">
+        <span className="mr-auto opacity-70">💬 {t('card.facts')}</span>
+        {n > 1 && (
+          <>
+            <button type="button" data-fact="prev" onClick={() => go(-1)} aria-label={t('card.prevFact')} title={t('card.prevFact')} className={arrow}>‹</button>
+            <span data-fact="count" className="opacity-70 tabular-nums">{i + 1} / {n}</span>
+            <button type="button" data-fact="next" onClick={() => go(1)} aria-label={t('card.nextFact')} title={touch ? t('card.nextFact') : `${t('card.nextFact')} (T)`} className={arrow}>›</button>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
 
 /** An element's card on the plaza: the tile as on a printed table and what matters at each level.
  *  compact (a phone): the tile, the name and "Step inside" in one strip; the rest a tap away. */
@@ -16,7 +71,7 @@ export default function ElementCard({ el, level, selected, onEnter, touch, compa
   const state = el.state ? t(el.statePredicted ? 'state.at20Predicted' : 'state.at20', { state: t(`state.${el.state}`) }) : null
   const sci = level === 'scientist'
   if (compact) return (
-    <div className="glass rounded-2xl p-2 shadow-2xl text-left w-full">
+    <div data-card className="glass rounded-2xl p-2 shadow-2xl text-left w-full">
       <div className="flex gap-2.5 items-center">
         <div
           className="shrink-0 w-14 h-14 rounded-xl flex flex-col justify-between p-1 font-display"
@@ -45,7 +100,7 @@ export default function ElementCard({ el, level, selected, onEnter, touch, compa
         <div className="mt-2 max-h-[30vh] overflow-y-auto">
           {el.radioactive && <div className="text-xs text-lime-300">☢ {t('card.radioactive')}</div>}
           {WINGS[el.symbol] && <div className="text-xs text-amber-300">★ {t('card.worlds', { count: WINGS[el.symbol].length })}</div>}
-          {!sci && <p className="text-sm mt-1 opacity-90">{t('card.atomSentence', { count: el.z })}</p>}
+          {!sci && <Facts el={el} lang={lang} level={level} color={color} touch={touch} />}
           {sci && (
             <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[13px] mt-1">
               <dt className="opacity-70">{t('card.mass')}</dt><dd>{num(el.mass, tag, 6)} u</dd>
@@ -64,7 +119,7 @@ export default function ElementCard({ el, level, selected, onEnter, touch, compa
     </div>
   )
   return (
-    <div className="glass rounded-2xl p-3 sm:p-4 w-[min(92vw,22rem)] shadow-2xl text-left">
+    <div data-card className="glass rounded-2xl p-3 sm:p-4 w-[min(92vw,22rem)] shadow-2xl text-left">
       <div className="flex gap-3 items-stretch">
         <div
           className="shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl flex flex-col justify-between p-1.5 font-display"
@@ -82,7 +137,7 @@ export default function ElementCard({ el, level, selected, onEnter, touch, compa
           {WINGS[el.symbol] && <div className="text-xs mt-0.5 text-amber-300">★ {t('card.worlds', { count: WINGS[el.symbol].length })}</div>}
         </div>
       </div>
-      {!sci && <p className="text-sm mt-2 opacity-90">{t('card.atomSentence', { count: el.z })}</p>}
+      {!sci && <Facts el={el} lang={lang} level={level} color={color} touch={touch} />}
       {sci && (
         <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[13px] mt-2">
           <dt className="opacity-70">{t('card.mass')}</dt><dd>{num(el.mass, tag, 6)} u</dd>

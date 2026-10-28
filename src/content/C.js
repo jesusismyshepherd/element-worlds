@@ -167,4 +167,66 @@ export default {
       sci: '14C entsteht in der oberen Atmosphäre (Neutronen der kosmischen Strahlung treffen auf 14N), gelangt über CO2 in Lebewesen und zerfällt unter Aussendung von Betastrahlung mit einer Halbwertszeit von 5730 Jahren: die Grundlage der Radiokarbondatierung (Willard Libby, Nobelpreis 1960).',
     },
   },
+  facts: {
+    en: {
+      kid: [
+        'A diamond can burn! Heat it hot enough in air and it disappears into an invisible gas, carbon dioxide.',
+        'Every leaf is built from me: plants take carbon dioxide out of the air and use sunlight to turn it into sugar.',
+        "Peel one single layer off your pencil's graphite and you get graphene: just one atom thick, and one of the strongest materials ever measured.",
+        'In 1985 scientists found a molecule made of 60 of my atoms, shaped exactly like a football. They called it the buckyball.',
+        'Every carbon atom in you was made inside a star, long before the Earth existed.',
+      ],
+      sci: [
+        'Diamond conducts heat about five times better than copper (around 2000 W/(m·K)), yet it is an electrical insulator, with a band gap of about 5.5 eV.',
+        'The triple-alpha process works only because carbon-12 has an excited state at 7.65 MeV, just above the energy of three helium-4 nuclei. Fred Hoyle predicted it in 1953, and it was found at Caltech the same year.',
+        'Carbon sets the scale of atomic masses: 1 u (the dalton) is one twelfth of the mass of a carbon-12 atom; until 2019 a mole was the number of atoms in 12 g of carbon-12.',
+        'Buckminsterfullerene, C60 (12 pentagons and 20 hexagons, like a football), was found in 1985 by Harold Kroto, Robert Curl and Richard Smalley: Nobel Prize in Chemistry 1996.',
+      ],
+    },
+    'pt-pt': {
+      kid: [
+        'Um diamante pode arder! Aquece-o o suficiente ao ar e ele desaparece, transformado num gás invisível, o dióxido de carbono.',
+        'Todas as folhas são feitas de mim: as plantas tiram dióxido de carbono do ar e usam a luz do Sol para o transformar em açúcar.',
+        'Tira uma única camada da grafite do teu lápis e tens o grafeno: só um átomo de espessura e um dos materiais mais resistentes alguma vez medidos.',
+        'Em 1985 os cientistas descobriram uma molécula feita de 60 átomos meus, com a forma exata de uma bola de futebol. Chamaram-lhe buckyball.',
+        'Cada átomo de carbono que há em ti foi feito dentro de uma estrela, muito antes de a Terra existir.',
+      ],
+      sci: [
+        'O diamante conduz o calor cerca de cinco vezes melhor do que o cobre (cerca de 2000 W/(m·K)) e, no entanto, é um isolador elétrico, com uma banda proibida de cerca de 5,5 eV.',
+        'O processo triplo-alfa só funciona porque o carbono-12 tem um estado excitado a 7,65 MeV, logo acima da energia de três núcleos de hélio-4. Fred Hoyle previu-o em 1953 e foi encontrado no Caltech nesse mesmo ano.',
+        'O carbono define a escala das massas atómicas: 1 u (o dalton) é um doze avos da massa de um átomo de carbono-12; até 2019, uma mole era o número de átomos em 12 g de carbono-12.',
+        'O buckminsterfulereno, C60 (12 pentágonos e 20 hexágonos, como uma bola de futebol), foi descoberto em 1985 por Harold Kroto, Robert Curl e Richard Smalley: Prémio Nobel da Química de 1996.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Diament może się palić! Rozgrzej go w powietrzu wystarczająco mocno, a zniknie, zamieniając się w niewidzialny gaz, dwutlenek węgla.',
+        'Każdy liść jest zbudowany ze mnie: rośliny pobierają z powietrza dwutlenek węgla i dzięki światłu słonecznemu zamieniają go w cukier.',
+        'Oderwij jedną jedyną warstwę grafitu z ołówka, a dostaniesz grafen: ma grubość jednego atomu i jest jednym z najwytrzymalszych materiałów, jakie kiedykolwiek zmierzono.',
+        'W 1985 roku naukowcy odkryli cząsteczkę z 60 moich atomów, która ma dokładnie kształt piłki nożnej. Nazwali ją buckyball.',
+        'Każdy atom węgla w tobie powstał we wnętrzu gwiazdy, na długo przed powstaniem Ziemi.',
+      ],
+      sci: [
+        'Diament przewodzi ciepło około pięć razy lepiej niż miedź (około 2000 W/(m·K)), a mimo to jest izolatorem elektrycznym, z przerwą energetyczną około 5,5 eV.',
+        'Proces potrójnej alfa działa tylko dlatego, że węgiel-12 ma stan wzbudzony o energii 7,65 MeV, tuż powyżej energii trzech jąder helu-4. Fred Hoyle przewidział go w 1953 roku i jeszcze w tym samym roku odkryto go w Caltechu.',
+        'Węgiel wyznacza skalę mas atomowych: 1 u (dalton) to jedna dwunasta masy atomu węgla-12; do 2019 roku mol był liczbą atomów w 12 g węgla-12.',
+        'Buckminsterfuleren, C60 (12 pięciokątów i 20 sześciokątów, jak piłka nożna), odkryli w 1985 roku Harold Kroto, Robert Curl i Richard Smalley: Nagroda Nobla w dziedzinie chemii 1996.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ein Diamant kann brennen! Erhitz ihn an der Luft stark genug, dann verschwindet er als unsichtbares Gas: Kohlenstoffdioxid.',
+        'Jedes Blatt ist aus mir gebaut: Pflanzen holen Kohlenstoffdioxid aus der Luft und verwandeln es mit Sonnenlicht in Zucker.',
+        'Zieh eine einzige Schicht vom Graphit deines Bleistifts ab, und du hast Graphen: nur ein Atom dick und eines der festesten Materialien, die je gemessen wurden.',
+        '1985 entdeckten Forscher ein Molekül aus 60 meiner Atome, das genau wie ein Fußball geformt ist. Sie nannten es Buckyball.',
+        'Jedes Kohlenstoffatom in dir ist im Inneren eines Sterns entstanden, lange bevor es die Erde gab.',
+      ],
+      sci: [
+        'Diamant leitet Wärme etwa fünfmal besser als Kupfer (rund 2000 W/(m·K)) und ist trotzdem ein elektrischer Isolator, mit einer Bandlücke von etwa 5,5 eV.',
+        'Der Drei-Alpha-Prozess funktioniert nur, weil Kohlenstoff-12 einen angeregten Zustand bei 7,65 MeV hat, knapp über der Energie dreier Helium-4-Kerne. Fred Hoyle sagte ihn 1953 voraus, und noch im selben Jahr wurde er am Caltech gefunden.',
+        'Kohlenstoff legt die Skala der Atommassen fest: 1 u (das Dalton) ist ein Zwölftel der Masse eines Kohlenstoff-12-Atoms; bis 2019 war ein Mol die Anzahl der Atome in 12 g Kohlenstoff-12.',
+        'Buckminsterfulleren, C60 (12 Fünfecke und 20 Sechsecke, wie ein Fußball), wurde 1985 von Harold Kroto, Robert Curl und Richard Smalley entdeckt: Nobelpreis für Chemie 1996.',
+      ],
+    },
+  },
 }

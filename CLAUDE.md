@@ -84,6 +84,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   under 2 minutes). `shot.py --base https://element-worlds.vercel.app` looks at the live site.
   `tools/hud_probe.py` (the HUD keeps the middle free on six screens, ten scenes; screenshots in
   `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons),
+  `tools/card_probe.py` (the plaza card's facts on every element, four languages, a computer and a phone:
+  the arrows, a click on the text and T go through them, the arrows stay put),
   `tools/nav_probe.py` (walking and looking: turning, looking up, helium framed, the nanotube's camera,
   panels following the level and switching between exhibits, the pinch). `tools/phone.py`: the site on
   a real Android phone over Wi-Fi (adb, installed 2026-10-28 with winget; Chrome's DevTools socket):
@@ -122,7 +124,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 ## Status (2026-10-27, end of the first day)
 
 - Live at https://element-worlds.vercel.app (Vercel deploys `main` on every push).
-- The plaza: the table, hover and select (the card, the element's Atomling on its cube), enter, families,
+- The plaza: the table, hover and select (the card, the element's Atomling on its cube; in Explorer the
+  card tells the Atomling's facts, "Tell me something", one at a time to click through, since the user's
+  request of 2026-10-28: it said only how many protons and electrons), enter, families,
   trends (Scientist), the time machine, search, golden stars over elements with worlds of their own,
   About, links to the Atomlings, the lab and the passport.
 - Every element's hall: the atom, eight stations and the specimen case (what it looks like), talking

@@ -154,4 +154,66 @@ export default {
       sci: '16O 99,76%, 18O 0,20%, 17O 0,04%. Das Verhältnis 18O/16O in Eisbohrkernen und Muscheln ist ein klassisches Thermometer vergangener Klimate.',
     },
   },
+  facts: {
+    en: {
+      kid: [
+        "For about the first two billion years, the Earth's air had almost none of me. Tiny living things in the sea, cyanobacteria, slowly filled it up.",
+        "Ozone is three of my atoms stuck together. High in the sky it is a shield that blocks most of the Sun's harmful ultraviolet light.",
+        'Rust is iron joined with me: I turn shiny iron into flaky red-brown rust.',
+        'Fish breathe me too: their gills take the oxygen dissolved in the water.',
+        'The green glow of the northern lights comes from my atoms, high in the sky, lit up by particles from the Sun.',
+      ],
+      sci: [
+        'About 2.4 billion years ago oxygen made by cyanobacteria began to build up in the air (the Great Oxidation Event); before that, dissolved iron and volcanic gases used it up as fast as it was made.',
+        'Ground-state O2 is a triplet, with two unpaired electrons, while most organic molecules are singlets; their direct reaction is spin-forbidden and slow, which is why wood (and you) do not burst into flame in air.',
+        'Stratospheric ozone, mostly 15 to 35 km up, absorbs nearly all UV-C and most UV-B; since the 1987 Montreal Protocol phased out CFCs, the Antarctic ozone hole is expected to recover to its 1980 level around 2066.',
+        'After fluorine, oxygen is the most electronegative element (3.44 on the Pauling scale), so it takes the electrons in almost all its compounds; the oxygen fluorides are the exceptions.',
+      ],
+    },
+    'pt-pt': {
+      kid: [
+        'Durante cerca de dois mil milhões de anos, o ar da Terra quase não tinha nada de mim. Uns seres minúsculos do mar, as cianobactérias, foram-no enchendo devagarinho.',
+        'O ozono são três átomos meus agarrados uns aos outros. Lá no alto do céu é um escudo que trava a maior parte da luz ultravioleta perigosa do Sol.',
+        'A ferrugem é ferro ligado a mim: sou eu que transformo o ferro brilhante numa crosta castanho-avermelhada que se desfaz.',
+        'Os peixes também me respiram: as guelras tiram o oxigénio que está dissolvido na água.',
+        'O verde das auroras boreais vem dos meus átomos, lá no alto do céu, acesos por partículas vindas do Sol.',
+      ],
+      sci: [
+        'Há cerca de 2,4 mil milhões de anos, o oxigénio produzido pelas cianobactérias começou a acumular-se no ar (o Grande Evento de Oxidação); antes disso, o ferro dissolvido e os gases vulcânicos consumiam-no à medida que era produzido.',
+        'O O2 no estado fundamental é um tripleto, com dois eletrões desemparelhados, e a maioria das moléculas orgânicas são singuletos; a reação direta entre eles é proibida por spin e lenta, e é por isso que nem a madeira nem tu ardem espontaneamente ao ar.',
+        'O ozono da estratosfera, sobretudo entre 15 e 35 km de altitude, absorve quase toda a radiação UV-C e a maior parte da UV-B; depois de o Protocolo de Montreal (1987) ter eliminado os CFC, espera-se que o buraco do ozono na Antártida recupere o nível de 1980 por volta de 2066.',
+        'Depois do flúor, o oxigénio é o elemento mais eletronegativo (3,44 na escala de Pauling), por isso fica com os eletrões em quase todos os seus compostos; as exceções são os fluoretos de oxigénio.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Przez mniej więcej pierwsze dwa miliardy lat w powietrzu Ziemi prawie mnie nie było. Malutkie organizmy w morzu, sinice, powoli je mną wypełniły.',
+        'Ozon to trzy moje atomy połączone razem. Wysoko na niebie tworzy tarczę, która zatrzymuje większość szkodliwego ultrafioletu ze Słońca.',
+        'Rdza to żelazo połączone ze mną: zamieniam błyszczące żelazo w łuszczącą się, rudobrązową rdzę.',
+        'Ryby też mną oddychają: ich skrzela wyłapują tlen rozpuszczony w wodzie.',
+        'Zielony blask zorzy polarnej pochodzi od moich atomów, wysoko na niebie, pobudzonych przez cząstki ze Słońca.',
+      ],
+      sci: [
+        'Około 2,4 miliarda lat temu tlen wytwarzany przez sinice zaczął gromadzić się w powietrzu (tzw. katastrofa tlenowa); wcześniej rozpuszczone żelazo i gazy wulkaniczne zużywały go tak szybko, jak powstawał.',
+        'O2 w stanie podstawowym jest trypletem, z dwoma niesparowanymi elektronami, a większość cząsteczek organicznych to singlety; ich bezpośrednia reakcja jest wzbroniona spinowo i powolna, dlatego drewno nie zapala się samo na powietrzu (ty zresztą też nie).',
+        'Ozon w stratosferze, głównie na wysokości od 15 do 35 km, pochłania prawie całe promieniowanie UV-C i większość UV-B; od kiedy protokół montrealski (1987) wycofał freony (CFC), dziura ozonowa nad Antarktydą ma wrócić do poziomu z 1980 roku około 2066 roku.',
+        'Po fluorze tlen jest najbardziej elektroujemnym pierwiastkiem (3,44 w skali Paulinga), więc w prawie wszystkich swoich związkach przyciąga elektrony do siebie; wyjątkiem są fluorki tlenu.',
+      ],
+    },
+    de: {
+      kid: [
+        'Etwa die ersten zwei Milliarden Jahre gab es in der Luft der Erde fast nichts von mir. Winzige Lebewesen im Meer, die Cyanobakterien, haben sie langsam mit mir gefüllt.',
+        'Ozon besteht aus drei meiner Atome, die zusammenhalten. Hoch oben am Himmel ist es ein Schutzschild, das den größten Teil des schädlichen UV-Lichts der Sonne abhält.',
+        'Rost ist Eisen, das sich mit mir verbunden hat: Ich verwandle glänzendes Eisen in bröseligen, rotbraunen Rost.',
+        'Auch Fische atmen mich: Ihre Kiemen holen den Sauerstoff, der im Wasser gelöst ist.',
+        'Das grüne Leuchten der Polarlichter kommt von meinen Atomen, hoch oben am Himmel, angeregt von Teilchen der Sonne.',
+      ],
+      sci: [
+        'Vor etwa 2,4 Milliarden Jahren begann sich der von Cyanobakterien erzeugte Sauerstoff in der Luft anzureichern (die Große Sauerstoffkatastrophe); vorher verbrauchten gelöstes Eisen und vulkanische Gase ihn so schnell, wie er entstand.',
+        'O2 ist im Grundzustand ein Triplett mit zwei ungepaarten Elektronen, die meisten organischen Moleküle sind Singuletts; ihre direkte Reaktion ist spinverboten und langsam, deshalb gehen Holz und auch du an der Luft nicht von selbst in Flammen auf.',
+        'Das Ozon der Stratosphäre, meist in 15 bis 35 km Höhe, absorbiert fast das gesamte UV-C und den größten Teil des UV-B; seit das Montreal-Protokoll (1987) die FCKW schrittweise verboten hat, soll sich das Ozonloch über der Antarktis um 2066 auf den Stand von 1980 erholen.',
+        'Nach Fluor ist Sauerstoff das elektronegativste Element (3,44 auf der Pauling-Skala), deshalb zieht er in fast allen seinen Verbindungen die Elektronen an sich; die Sauerstofffluoride sind die Ausnahme.',
+      ],
+    },
+  },
 }
