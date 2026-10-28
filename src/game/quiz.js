@@ -1,6 +1,7 @@
 // "Who am I?" (Quem sou eu?): a mystery element told by clues, from hard to easy; the player picks it
 // from four. The clues come from the element's data and its own words (src/content), its name hidden.
 // Fewer clues, more points. The HUD is ui/QuizHud.jsx; the plaza flies to the answer.
+import { discoverersOf } from '../data/discovery.js'
 import { tagOf } from '../i18n/langs.js'
 import { ELEMENTS, nameOf } from '../data/elements.js'
 import { bondCount } from '../chem/atom.js'
@@ -261,7 +262,7 @@ export function cluesFor(q, content, lang, level, familyName) {
   if (uses.length) out.push(L.use(uses[(q.seed >> 3) % uses.length]))
   if (level === 'scientist') {
     if (el.ancient) out.push(L.ancient)
-    else if (el.discovered) out.push(el.discoverers ? L.yearBy(el.discovered, mask(el.discoverers, el, lang), f) : L.year(el.discovered, f))
+    else if (el.discovered) out.push(el.discoverers ? L.yearBy(el.discovered, mask(discoverersOf(el, lang), el, lang), f) : L.year(el.discovered, f))
     out.push(el.statePredicted || !el.state ? L.statePredicted : `${state[el.state]}${el.melt != null ? ` ${L.melts(temperature(el.melt, 'scientist', tagOf(lang)))}` : ''}`)
     out.push(L.family(low(familyName)))
     out.push(L.place(el.period, el.group))

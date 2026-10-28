@@ -4,7 +4,8 @@ export const celsius = k => (k == null ? null : Math.round(k - 273.15))
 
 export function temperature(k, level, lang) {
   if (k == null) return '?'
-  const c = celsius(k).toLocaleString(lang)
+  // a real minus sign (the stories write −269 °C), and no separator in four digits (3550 °C)
+  const c = celsius(k).toLocaleString(lang, { useGrouping: 'min2' }).replace(/^-/, '−')
   return level === 'scientist' ? `${c} °C (${num(k, lang, 6)} K)` : `${c} °C`
 }
 
@@ -17,7 +18,7 @@ export function num(v, lang, digits = 4) {
     const sup = String(e).replace(/-/g, '⁻').replace(/\d/g, d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d])
     return `${m.toLocaleString(lang)} × 10${sup}`
   }
-  return Number(v.toPrecision(digits)).toLocaleString(lang, { maximumFractionDigits: 6 })
+  return Number(v.toPrecision(digits)).toLocaleString(lang, { maximumFractionDigits: 6, useGrouping: 'min2' })
 }
 
 /** Density: g/cm³ for solids and liquids, g/L for gases (a gas in g/cm³ reads as 0.0013). */

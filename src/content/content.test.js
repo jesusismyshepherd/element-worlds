@@ -6,7 +6,7 @@ import assert from 'node:assert/strict'
 import { readdirSync } from 'node:fs'
 import { element } from '../data/elements.js'
 
-const ALL_LANGUAGES = false
+const ALL_LANGUAGES = true
 const LANGUAGES = ['en', 'pt-pt', 'pl', 'de']
 const FIELDS = ['greeting', 'nameOrigin', 'discovery', 'stateNote', 'found', 'uses', 'isotopes', 'facts']
 const LISTS = new Set(['uses', 'facts'])

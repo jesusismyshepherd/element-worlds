@@ -1,6 +1,7 @@
 // The atrium's stations for any element: what the data says, in every language and at both depths,
 // plus the element's own words where they exist (content/<Symbol>.js). Each station:
 // { id, title, teaser: [short lines for the wall], panel(): { title, kicker, color, blocks } }.
+import { discoverersOf, discoveryPlaceOf } from '../data/discovery.js'
 import { tagOf } from '../i18n/langs.js'
 import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
 import { nucleus, valenceElectrons, hands, bondCount } from '../chem/atom.js'
@@ -393,8 +394,8 @@ export function stationsOf(el, { lang, level, familyName }) {
       !el.ancient && {
         rows: [
           [L.year, el.discovered ?? '?'],
-          ...(el.discoverers ? [[L.who, el.discoverers]] : []),
-          ...(el.discoveryPlace ? [[L.where, el.discoveryPlace]] : []),
+          ...(el.discoverers ? [[L.who, discoverersOf(el, lang)]] : []),
+          ...(el.discoveryPlace ? [[L.where, discoveryPlaceOf(el, lang)]] : []),
         ],
       },
     ]),
