@@ -30,7 +30,15 @@ COLLECT = """async () => {
   const out = []
   const text = p => !p ? '' : [p.title, p.kicker, ...(p.blocks || []).map(b => [b.p, b.big, b.small, ...(b.rows || []).flat(), ...(b.list || []), b.link && b.link.label].filter(x => x != null).join(' | '))].join(' || ')
   for (const lang of ['pt-pt', 'en', 'pl', 'de']) {
-    await ew.i18n.changeLanguage(lang)
+    // a world writes its words when it is built: after a change of language wait for the rebuild (the
+    // probe used to read every hall in the language the last one ended in)
+    if (ew.i18n.resolvedLanguage !== lang) {
+      const before = ew.world
+      await ew.i18n.changeLanguage(lang)
+      const t0 = performance.now()
+      while ((ew.world === before || !ew.world || ew.store.get().fading) && performance.now() - t0 < 20000) await new Promise(r => setTimeout(r, 40))
+      if (ew.world === before) out.push({ lang, level: '-', id: 'rebuild', error: 'the hall was not rebuilt in ' + lang })
+    }
     for (const level of ['explorer', 'scientist']) {
       ew.store.set({ level })
       for (const it of ew.world.interactables || []) {
