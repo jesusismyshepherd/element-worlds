@@ -156,12 +156,21 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
       g.fillStyle = '#04050c'
       g.fillRect(L.x, L.sunY, L.w, L.sunH)
       g.fillRect(L.x, L.gasY, L.w, L.gasH)
-      g.font = '700 38px Outfit, sans-serif'
+      // each name as large as fits left of its band (the English "The Sun, 1868" ran 9 px off the
+      // canvas at 38 px; Polish and German names are longer still)
       g.textAlign = 'right'
-      g.fillStyle = '#ffd98a'
-      g.fillText(words.sun, L.x - 24, L.sunY + L.sunH / 2)
-      g.fillStyle = glowOf(sym)
-      g.fillText(nameOf(sym), L.x - 24, L.gasY + L.gasH / 2)
+      const label = (text, color, y) => {
+        let size = 38
+        g.font = `700 ${size}px Outfit, sans-serif`
+        while (size > 20 && g.measureText(text).width > L.x - 34) {
+          size -= 2
+          g.font = `700 ${size}px Outfit, sans-serif`
+        }
+        g.fillStyle = color
+        g.fillText(text, L.x - 24, y)
+      }
+      label(words.sun, '#ffd98a', L.sunY + L.sunH / 2)
+      label(nameOf(sym), glowOf(sym), L.gasY + L.gasH / 2)
       // the mystery mark over the Sun's yellow line
       const d3 = nmX(587.56, L.x, L.w)
       g.textAlign = 'center'
