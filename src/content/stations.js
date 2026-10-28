@@ -1,6 +1,7 @@
 // The atrium's stations for any element: what the data says, in both languages and at both depths,
 // plus the element's own words where they exist (content/<Symbol>.js). Each station:
 // { id, title, teaser: [short lines for the wall], panel(): { title, kicker, color, blocks } }.
+import { tagOf } from '../i18n/langs.js'
 import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
 import { nucleus, valenceElectrons, hands, bondCount } from '../chem/atom.js'
 import { temperature, density, num, config } from '../ui/format.js'
@@ -136,11 +137,10 @@ const T = {
 }
 
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1)
-const TAG = { 'pt-pt': 'pt-PT', en: 'en' }
 
 export function stationsOf(el, { lang, level, familyName }) {
   const L = T[lang] ?? T.en
-  const tag = TAG[lang] ?? 'en'
+  const tag = tagOf(lang)
   const sci = level === 'scientist'
   const n = nameOf(el, lang).toLowerCase()
   const content = contentOf(el)

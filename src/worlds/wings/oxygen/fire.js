@@ -3,6 +3,7 @@
 // triangle (take away fuel, heat or oxygen and the fire dies; put it back and it lights again); on
 // stone benches round the walls, the candle under a jar, the glowing splint test, methane burning atom
 // by atom, and rust as a slow burning. Contract: docs/knowledge/adding-a-wing.md.
+import { decimalOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -130,7 +131,7 @@ export async function build(ctx) {
   }
 
   // the candle under the jar (west)
-  const candle = candleJar({ stoneMat, words: W.candle, level, light, decimal: lang === 'pt-pt' ? ',' : '.' })
+  const candle = candleJar({ stoneMat, words: W.candle, level, light, decimal: decimalOf(lang) })
   const candleAt = stand(candle.group, -90, 7.7)
   benchSolids(candleAt, 1.6, 1.45, 0.35)
   updates.push((dt, t) => candle.update(dt, t, ctx.camera, ctx.renderer))

@@ -14,6 +14,7 @@ import ForgeHud from './ForgeHud.jsx'
 import SoundButton from './SoundButton.jsx'
 import { useCover, useViewport } from './layout.js'
 import { useFullscreen } from './fullscreen.js'
+import { LANGS } from '../i18n/langs.js'
 
 // the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
 const PAGES = [
@@ -106,7 +107,7 @@ export default function Hud({ engine }) {
     store.set({ level: l })
   }
   const levels = [['explorer', '🧭'], ['scientist', '🔬']]
-  const langs = [['pt-pt', 'PT'], ['en', 'EN']]
+  const langs = LANGS.map(l => [l.code, l.label])
   const other = mode === 'first' ? 'third' : 'first'
 
   return (

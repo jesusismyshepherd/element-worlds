@@ -1,4 +1,5 @@
 // Numbers for people: temperatures in °C (and K for the scientist), masses, densities.
+import { LANGS } from '../i18n/langs.js'
 export const celsius = k => (k == null ? null : Math.round(k - 273.15))
 
 export function temperature(k, level, lang) {
@@ -32,4 +33,4 @@ export function config(text) {
   return text.replace(/\]/, '] ').replace(/(\d[spdf])(\d+)/g, (_, a, b) => a + [...b].map(d => sup[d]).join(''))
 }
 
-export const LANG_TAG = { 'pt-pt': 'pt-PT', en: 'en' }
+export const LANG_TAG = Object.fromEntries(LANGS.map(l => [l.code, l.tag]))

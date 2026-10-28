@@ -6,6 +6,7 @@
 // today). East: the spectroscope, every gas's lines (NIST) under the Sun's 1868 line that was helium.
 // In the middle, five balloons to let go. The visitor's gas starts everything, and the arch leads back
 // to its hall. Contract: docs/knowledge/adding-a-wing.md.
+import { tagOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -55,12 +56,13 @@ function place(root, obj, x, z, rotY) {
 export async function build(ctx, target) {
   const sym = GASES.includes(target?.symbol) ? target.symbol : 'Ne'
   const el = element(sym)
-  const lang = ctx.lang() === 'pt-pt' ? 'pt-pt' : 'en'
+  // the language's words, or English's where the wing has none yet
+  const lang = SIGNS_WORDS[ctx.lang()] ? ctx.lang() : 'en'
   const W = SIGNS_WORDS[lang]
   const light = ctx.light
   const level = () => ctx.level()
   const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
-  const gasName = s => nameOf(element(s), lang).toLocaleLowerCase(lang === 'pt-pt' ? 'pt-PT' : 'en')
+  const gasName = s => nameOf(element(s), lang).toLocaleLowerCase(tagOf(lang))
   const GasName = s => nameOf(element(s), lang)
   const who = GasName(sym)
   const COLOR = glowOf(sym)
@@ -83,7 +85,7 @@ export async function build(ctx, target) {
   const { x0, x1, z0, z1, h } = ROOM
   const solids = roomWalls(x0, x1, z0, z1, [{ side: 's', at: 0, width: DOOR.width }], 1)
   // a shop sign by the door: open, in the room's own gas (neon's in radon's room)
-  const open = neonSign({ text: lang === 'pt-pt' ? 'ABERTO' : 'OPEN', cap: 0.3, radius: 0.012, light, color: glowOf(SIGN_GASES.includes(sym) ? sym : 'Ne'), postMat: mats.dark })
+  const open = neonSign({ text: W.open, cap: 0.3, radius: 0.012, light, color: glowOf(SIGN_GASES.includes(sym) ? sym : 'Ne'), postMat: mats.dark })
   open.setAll(1)
   open.group.position.set(-4.7, 2.75, z1)
   open.group.rotation.y = Math.PI
@@ -254,7 +256,7 @@ export async function build(ctx, target) {
   refreshers.push(() => history.refresh(at(W.history.screen, level())))
   solids.push(box(5.6, -10.3, 2.8, 0.6, { rot: -Math.PI / 4 }))
   const historySpot = historyAt(0, 3.1)
-  const yearOf = key => (key === 'today' ? W.history.today.toLocaleLowerCase(lang === 'pt-pt' ? 'pt-PT' : 'en') : key)
+  const yearOf = key => (key === 'today' ? W.history.today.toLocaleLowerCase(tagOf(lang)) : key)
   ex.add({
     id: 'history',
     x: historySpot.x,

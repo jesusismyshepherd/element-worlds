@@ -161,7 +161,7 @@ export async function build(ctx) {
   updates.push(dt => gr.update(dt))
   lamp(EAST, -3.2, 1.6)
   // the pencil, inside a ring of stanchions
-  const pencil = giantPencil({ light, label: 'HB  ·  ' + (lang.startsWith('pt') ? 'GRAFITE' : 'GRAPHITE') + '  ·  C' })
+  const pencil = giantPencil({ light, label: `HB  ·  ${W.graphiteWord}  ·  C` })
   at('pencil', pencil.group)
   updates.push((dt, t) => pencil.update(dt, t))
   lamp(7.2, -9.6, 0.5, 220, '#fff4e2')
@@ -380,7 +380,7 @@ export async function build(ctx) {
     get z() { return ctx.engine.player.npc?.z ?? 99 },
     radius: 2.2,
     label: nameOf(el, lang),
-    verb: lang.startsWith('pt') ? 'Falar com' : 'Talk to',
+    verb: W.talkTo,
     onUse: () => say(greeting()),
   })
 

@@ -2,6 +2,7 @@
 // navy faces, glowing edges in the exhibit's colour, gold once discovered), words at the reader's depth,
 // and the exhibits' rules (use, discover, tell). Discoveries are kept under the gas whose hall the
 // visitor came from ("Ne:signs:bench"), so the passport counts them for that gas.
+import { decimalOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
@@ -67,7 +68,7 @@ export const num = (v, digits, lang) => {
   // rounded half up (0.1785 is stored as 0.17849999... and toFixed alone would give 0.178)
   const f = 10 ** digits
   const s = (Math.round(v * f + 1e-7) / f).toFixed(digits)
-  return lang === 'pt-pt' ? s.replace('.', ',') : s
+  return s.replace('.', decimalOf(lang))
 }
 
 // ---- materials ----

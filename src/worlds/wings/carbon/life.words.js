@@ -9,6 +9,7 @@ const EN = {
   back: 'Back to the atrium',
   kicker: 'The carbon of life',
   decimal: '.',
+  talkTo: 'Talk to',
   fmt: groupEN,
   years: 'years',
   greeting: {
@@ -216,6 +217,7 @@ const PT = {
   back: 'Voltar ao átrio',
   kicker: 'O carbono da vida',
   decimal: ',',
+  talkTo: 'Falar com',
   fmt: groupPT,
   years: 'anos',
   greeting: {
@@ -420,4 +422,4 @@ const PT = {
 }
 
 export const WORDS = { en: EN, 'pt-pt': PT }
-export const wordsFor = lang => WORDS[lang] ?? (String(lang).startsWith('pt') ? PT : EN)
+export const wordsFor = lang => WORDS[lang] ?? EN

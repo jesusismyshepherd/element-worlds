@@ -1,7 +1,7 @@
 // Builds src/data/elements.json from the raw sources kept in scripts/data/ (no network needed):
 //   pubchem.json    PubChem's periodic table (public domain): https://pubchem.ncbi.nlm.nih.gov/rest/pug/periodictable/JSON
 //   mendeleev.json  numeric fields of the mendeleev package (MIT), made by export_mendeleev.py
-//   names.mjs       names in English (IUPAC) and European Portuguese
+//   names.mjs       names in English (IUPAC), European Portuguese, Polish and German
 // Run: npm run data. Derived values (table position, valence, hands) are computed at run time in
 // src/data/elements.js and src/chem/atom.js, where the tests can reach them.
 import { readFileSync, writeFileSync, renameSync } from 'node:fs'
@@ -136,7 +136,7 @@ const elements = pubchem.Row.map(({ Cell }) => {
   return {
     z,
     symbol: p.Symbol,
-    name: { en: NAMES[z][0], 'pt-pt': NAMES[z][1] },
+    name: { en: NAMES[z][0], 'pt-pt': NAMES[z][1], pl: NAMES[z][2], de: NAMES[z][3] },
     // the conventional atomic weight (mendeleev: Li 6.94, Ar 39.948, Pb 207.2) where PubChem gives
     // IUPAC's shorter abridged one; PubChem's for the superheavies (a mass number)
     mass: MASS[z] ?? (m.atomicWeight != null && m.isotopes.some(i => i.abundance) ? m.atomicWeight : num(p.AtomicMass)),

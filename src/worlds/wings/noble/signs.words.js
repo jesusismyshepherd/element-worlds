@@ -14,6 +14,7 @@ export const SIGNS_WORDS = {
     back: "Back to {gas}'s hall",
     kicker: 'The neon sign workshop',
     talkTo: 'Talk to',
+    open: 'OPEN',
     busy: { kid: 'Wait a moment: it is still working!', sci: 'One moment: the last run is still going.' },
     greet: {
       kid: 'Welcome to the neon sign workshop! Here we fill glass tubes with gases like me and make them glow. Light the tubes, write your name in neon and split the light with the prism.',
@@ -150,6 +151,7 @@ export const SIGNS_WORDS = {
 
     spectrum: {
       title: 'The spectroscope',
+      lines: 'lines',
       label: 'the spectroscope',
       verb: 'Try {gas}',
       screen: { kid: 'A prism splits the light into its colours.', sci: 'Emission lines in air, NIST Atomic Spectra Database.' },
@@ -271,6 +273,7 @@ export const SIGNS_WORDS = {
     back: 'Voltar ao salão do {gas}',
     kicker: 'A oficina do néon',
     talkTo: 'Falar com',
+    open: 'ABERTO',
     busy: { kid: 'Espera um bocadinho: ainda está a funcionar!', sci: 'Um momento: a experiência anterior ainda está a decorrer.' },
     greet: {
       kid: 'Bem-vindo à oficina do néon! Aqui enchemos tubos de vidro com gases como eu e pomo-los a brilhar. Acende os tubos, escreve o teu nome em néon e separa a luz com o prisma.',
@@ -407,6 +410,7 @@ export const SIGNS_WORDS = {
 
     spectrum: {
       title: 'O espetroscópio',
+      lines: 'riscas',
       label: 'o espetroscópio',
       verb: 'Experimentar o {gas}',
       screen: { kid: 'Um prisma separa a luz nas suas cores.', sci: 'Riscas de emissão no ar, base de dados de espetros atómicos do NIST.' },

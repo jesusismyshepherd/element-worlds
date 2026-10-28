@@ -151,7 +151,7 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
       const tw = g.measureText(`${nameOf(sym)}`).width
       g.font = '700 40px Nunito, sans-serif'
       g.fillStyle = '#c9d4ff'
-      g.fillText(sci ? `${sym} I  ·  ${LINES[sym].length} ${lang === 'pt-pt' ? 'riscas' : 'lines'}` : words.screen.kid, L.x + tw + 40, 78)
+      g.fillText(sci ? `${sym} I  ·  ${LINES[sym].length} ${words.lines}` : words.screen.kid, L.x + tw + 40, 78)
       // the two bands and their names
       g.fillStyle = '#04050c'
       g.fillRect(L.x, L.sunY, L.w, L.sunH)

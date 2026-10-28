@@ -304,7 +304,7 @@ export async function build(ctx) {
     get z() { return ctx.engine.player.npc?.z ?? 99 },
     radius: 2.2,
     label: nameOf(el, lang),
-    verb: lang.startsWith('pt') ? 'Falar com' : 'Talk to',
+    verb: W.talkTo,
     onUse: () => say(greeting()),
   })
 

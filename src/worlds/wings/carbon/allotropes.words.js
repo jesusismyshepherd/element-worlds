@@ -6,6 +6,8 @@ const EN = {
   back: 'Back to the atrium',
   kicker: 'Diamond, graphite and company',
   decimal: '.',
+  talkTo: 'Talk to',
+  graphiteWord: 'GRAPHITE',
   wall: 'One element, many forms',
   greeting: {
     kid: "Welcome to my gallery! Look down: you're walking on graphene, a single layer of my atoms. In here I'm a diamond, a pencil, a tube and a ball. Try every exhibit to discover them all!",
@@ -386,6 +388,8 @@ const PT = {
   back: 'Voltar ao átrio',
   kicker: 'Diamante, grafite e companhia',
   decimal: ',',
+  talkTo: 'Falar com',
+  graphiteWord: 'GRAFITE',
   wall: 'Um elemento, muitas formas',
   greeting: {
     kid: 'Bem-vindo à minha galeria! Olha para o chão: estás a andar em grafeno, uma só camada dos meus átomos. Aqui sou diamante, lápis, tubo e bola. Experimenta cada peça para as descobrires todas!',
@@ -763,4 +767,4 @@ const PT = {
 }
 
 export const WORDS = { en: EN, 'pt-pt': PT }
-export const wordsFor = lang => WORDS[lang] ?? (String(lang).startsWith('pt') ? PT : EN)
+export const wordsFor = lang => WORDS[lang] ?? EN

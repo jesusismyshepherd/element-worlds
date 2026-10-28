@@ -1,37 +1,38 @@
 // Languages as in pokemon-site (src/i18n): the choice is kept on the device (app_language), else the
-// browser's. European Portuguese and English now; German, Japanese and Chinese can follow.
+// browser's. European Portuguese, English, Polish and German (langs.js); a key missing in one falls
+// back to English.
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import en from './locales/en.json'
 import ptPt from './locales/pt-pt.json'
+import pl from './locales/pl.json'
+import de from './locales/de.json'
+import { CODES, codeFor, tagOf } from './langs.js'
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     fallbackLng: { pt: ['pt-pt'], default: ['en'] },
-    supportedLngs: ['en', 'pt-pt'],
+    supportedLngs: CODES,
     lowerCaseLng: true,
     load: 'currentOnly',
     nonExplicitSupportedLngs: false,
-    resources: { en: { translation: en }, 'pt-pt': { translation: ptPt } },
+    resources: { en: { translation: en }, 'pt-pt': { translation: ptPt }, pl: { translation: pl }, de: { translation: de } },
     interpolation: { escapeValue: false },
     detection: {
       order: ['querystring', 'localStorage', 'navigator'],
       lookupQuerystring: 'lang',
       caches: ['localStorage'],
       lookupLocalStorage: 'app_language',
-      convertDetectedLanguage: lng => {
-        const l = lng.toLowerCase()
-        return l.startsWith('pt') ? 'pt-pt' : l.startsWith('en') ? 'en' : l
-      },
+      convertDetectedLanguage: codeFor,
     },
   })
 
-document.documentElement.lang = i18n.resolvedLanguage === 'pt-pt' ? 'pt-PT' : 'en'
+document.documentElement.lang = tagOf(i18n.resolvedLanguage)
 i18n.on('languageChanged', l => {
-  document.documentElement.lang = l === 'pt-pt' ? 'pt-PT' : 'en'
+  document.documentElement.lang = tagOf(l)
 })
 
 export default i18n

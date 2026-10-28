@@ -3,6 +3,7 @@
 // in the air over 4.6 billion years. Using it travels through time: the curve draws itself from the
 // Earth's birth to today, the mats wake up (the first stromatolites, about 3.5 billion years ago), the
 // bubbles come, and at about 2.4 billion years the oxygen in the air begins to rise.
+import { tagOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
@@ -31,7 +32,7 @@ function graphTextures(words, lang) {
   const ph = h - T - B
   const X = ga => L + ((4.6 - ga) / 4.6) * pw
   const Y = pct => T + ph - (pct / MAX_PCT) * ph
-  const num = v => v.toLocaleString(lang === 'pt-pt' ? 'pt-PT' : 'en')
+  const num = v => v.toLocaleString(tagOf(lang))
   const back = canvasTex(w, g => {
     g.clearRect(0, 0, w, h)
     g.lineWidth = 3

@@ -1,6 +1,7 @@
 // The Atom Forge's words: the missions and what the forge says about the atom on the table, in both
 // languages and at both depths (kid: Explorer, sci: Scientist). The HUD's button labels are in the
 // locale files (forge.*).
+import { tagOf } from '../../i18n/langs.js'
 import { ELEMENTS, nameOf } from '../../data/elements.js'
 import { halfLifeParts, modeFamily, nuclideSymbol } from '../../chem/nucleus.js'
 
@@ -29,7 +30,6 @@ const UNITS = {
     ns: 'mil-milionésimos de segundo',
   },
 }
-const TAG = { en: 'en', 'pt-pt': 'pt-PT' }
 const SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹'
 const power = v => {
   const e = Math.floor(Math.log10(v))
@@ -41,7 +41,7 @@ const power = v => {
 export function halfLifeText(t, lang) {
   const p = halfLifeParts(t)
   if (!p) return ''
-  const n = v => v.toLocaleString(TAG[lang] ?? 'en', { maximumFractionDigits: 3 })
+  const n = v => v.toLocaleString(tagOf(lang), { maximumFractionDigits: 3 })
   if (p.unit === 'secondsSci') return `${power(p.value)} s`
   if (p.unit === 'yearsSci') return `${power(p.value)} ${lang === 'pt-pt' ? 'anos' : 'years'}`
   return `${n(p.value)} ${UNITS[lang]?.[p.unit] ?? UNITS.en[p.unit]}`

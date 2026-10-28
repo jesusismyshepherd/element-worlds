@@ -1,5 +1,6 @@
 // An Atomling read aloud: each feature and what it says about the element (the Atomlings page's
 // card). Pure: traits in, sentences out, in both languages.
+import { decimalOf } from '../i18n/langs.js'
 import { ELEMENTS, nameOf } from '../data/elements.js'
 import { traitsOf } from './traits.js'
 import { HELMET, SIGNATURE, TAKES_HEAD } from './look.js'
@@ -175,7 +176,7 @@ export function explain(el, lang) {
   if (tr.electronsInHands) out.push(L.inHands(tr.valence))
   else if (tr.places) out.push(L.hoop(tr.valence, tr.places - tr.valence, tr.places))
   else out.push(L.hoopInner(tr.valence))
-  const h = tr.height.toFixed(2).replace('.', lang === 'pt-pt' ? ',' : '.')
+  const h = tr.height.toFixed(2).replace('.', decimalOf(lang))
   out.push(L.size(h, el.radius.covalent, radiusRank.get(el.z), byRadius.length))
   out.push(tr.locomotion === 'walk' ? L.walk : tr.locomotion === 'slide' ? L.slide : tr.hover > 0.5 ? L.floatHigh : L.floatLow)
   out.push(L[tr.material])
