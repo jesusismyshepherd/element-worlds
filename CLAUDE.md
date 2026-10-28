@@ -12,7 +12,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 
 - Commit and push when a unit of work is done (the user's standing rule), on `main`. Identity:
   jesusismyshepherd <christskingdomwork@gmail.com> (set in this repo's git config). Vercel deploys `main`.
-- Text for people in European Portuguese (pt-PT) and English, both always; no em dashes anywhere.
+- Text for people in European Portuguese (pt-PT), English, Polish and German, all four always
+  (`docs/knowledge/translating.md`; a text missing in one falls back to English); no em dashes anywhere.
   pt-PT element names follow the Sociedade Portuguesa de Química (azoto, crómio, árgon, xénon).
 - Two depths for every text: `kid` (Explorer) and `sci` (Scientist).
 - Look at what you made: `python tools/shot.py <path>` (screenshots, console errors) before calling
@@ -50,7 +51,7 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `signatures.js` (the objects from each element's story, 75 so far, and where they go), `explain.js`,
   `lineup.js` (the stage of the Atomlings page). `tools/atomsheet.py`: contact sheets of Atomlings
   (each alone from several angles, or the page's rows) for judging them.
-- `src/content/`: `stations.js` (the atrium's stations for any element, from the data, both languages,
+- `src/content/`: `stations.js` (the atrium's stations for any element, from the data, all four languages,
   both depths), `C.js`, `O.js` (an element's own words).
 - `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode, `teleport` for probes),
   `player.js` (walking, both views), `collide.js` (solids on the ground plane), `input.js`, `text.js`
@@ -78,7 +79,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   noble gases (`/e/<Symbol>/signs`; adding-a-wing.md, "A wing shared by several elements").
 - `tools/shot.py` (screenshots of the dev server, `npm run dev` on port 5310, with steps),
   `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back),
-  `tools/halls_probe.py` (all 118 halls, every panel, both languages and depths: words gone wrong, errors;
+  `tools/halls_probe.py` (all 118 halls, every panel, all four languages (each hall rebuilt in it) and
+  both depths: words gone wrong, errors;
   under 2 minutes). `shot.py --base https://element-worlds.vercel.app` looks at the live site.
   `tools/hud_probe.py` (the HUD keeps the middle free on six screens, ten scenes; screenshots in
   `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons),

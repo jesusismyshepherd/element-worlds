@@ -42,7 +42,8 @@ mechanics, engineering and chemistry games. Everything below is shaped so that t
 6. **Procedural 3D first.** Lattices, nanotubes, buckyballs, orbitals and atoms are exact geometry made
    in code; the Atomlings are generated from data. Blender (the pokemon project's pipeline: baked light,
    KTX2) comes in later for rich environments, through the same loaders.
-7. **Languages:** European Portuguese and English from the start (element names for all 118 in both);
+7. **Languages:** European Portuguese and English from the start, Polish and German since 2026-10-28
+   (`docs/knowledge/translating.md`; element names for all 118 in all four);
    the i18n layout is pokemon-site's, so German, Japanese and Chinese can follow.
 
 ## The plaza (outside)

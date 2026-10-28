@@ -23,7 +23,7 @@ chains. Every hall's "Inside the atom" panel links here with its element (`/forg
   decay modes). The isotope fixes are shared with the elements' data: `scripts/data/fixes.mjs`
   (unconfirmed superheavy isotopes out, newer half-lives in).
 - `src/worlds/forge/forge.js`: the 3D (an orbit world like the lab). `words.js`: the missions and every
-  line the forge says, both languages, both depths. `src/ui/ForgeHud.jsx` (the HUD words it from the
+  line the forge says, in all four languages, both depths. `src/ui/ForgeHud.jsx` (the HUD words it from the
   state, so a change of language or level shows at once) and `src/ui/NuclideChart.jsx` (the whole chart
   and a close-up with names; a tap builds that nucleus).
 - `src/worlds/common/pack.js`: `packBall`, an even ball of points (the forge's and the halls' nuclei).
@@ -81,7 +81,8 @@ nucleons fly in together; on arrival the compound nucleus reacts:
 `MSYS_NO_PATHCONV=1 python tools/shot.py /forge --steps "js:__ew.world.goTo('U'); wait:3; shot:u; js:__ew.world.decay(); wait:0.4; shot:alpha"`;
 `__ew.world.set(Z, N, E)`, `add('p'|'n'|'e')`, `remove(...)`, `decay()`, `nucleons()` (positions, for
 probes). `--phone` for the bottom bar. `tools/forge_probe.py` builds every element, decays it, makes ions
-and the odd cases, and reads the HUD in both languages and depths (about a minute).
+and the odd cases, and reads the HUD in all four languages and both depths (about a minute). A beam that
+would pass element 118 is refused with why (note `beyond`): zinc-70 at uranium made 122 and broke the names.
 
 ## Next
 

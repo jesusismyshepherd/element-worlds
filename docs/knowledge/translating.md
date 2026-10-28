@@ -38,10 +38,37 @@ units, names and dates).
 - Do not change the English or the Portuguese, the keys, or any code beyond what a language needs
   (a branch that picks "Portuguese or English" in code becomes a table by language).
 
+## Decisions (2026-10-28, from the first pass)
+
+- The Atomlings: Polish "Atomek" (plural "Atomki"), German "der Atomling" ("die Atomlinge").
+- An Atomling introduces itself by its name, as a character: Polish "Cześć! Jestem Węgiel." (capitalised,
+  nominative; elsewhere names are lowercase and inflected), German "Ich bin der Kohlenstoff."
+- Prompts read "<verb>: <label>": informal imperatives (Polish Zobacz, Porozmawiaj; German Betrachte,
+  Sprich mit), the label in the case its verb takes. "Talk to": Porozmawiaj / Sprich mit.
+- Shared terms: hall sala / Halle, panel tablica / Tafel, the periodic table układ okresowy /
+  Periodensystem, the Atom Forge Kuźnia Atomów / Atomschmiede.
+- German nouns keep their capital: code that lowercases an element's name inside a sentence skips
+  German (`nameCase` in the noble words, the stations, the quiz's answer line).
+- Polish avoids gendered past forms of "you" (zrobiłeś / zrobiłaś): impersonal or present forms.
+- Discoverers and places (English in elements.json) are translated in `src/data/discovery.js`.
+- Numbers: no separator in four digits (3550 °C) in any language (`useGrouping: 'min2'`), a real minus.
+
+## The quiz in Polish and German
+
+`src/game/quiz.js` hides the element's name also when inflected (Polish węgla, węglem, w węglu;
+German Kohlenstoffs, Kohlenstoffatom) and keeps each language's symbols that are ordinary words
+(Polish i, w, o, u, na, po, co, ta, ni, te, no; German In, Am, Es, Er); `quiz.test.js` has the cases.
+
 ## Checking
 
 - `npm test` (the words modules' tests compare shapes across languages; the content test checks every
   language present: no em dashes, both depths where English has them, lists as lists).
 - `node -e "import('./src/.../file.js').then(m => console.log(Object.keys(m)))"` loads a module alone.
+- `node tools/check_locales.mjs <repo>`: the interface files against en.json (keys, order, placeholders,
+  plural families: Polish one/few/many/other, German one/other).
+- `tools/halls_probe.py` reads every hall in every language; a world writes its words when built, so a
+  probe that changes language must wait for the rebuild (it read every hall in one language until
+  2026-10-28). With agents editing files, probe a separate build (`npx vite build --outDir <scratch>`,
+  `npx vite preview --outDir <scratch> --port 5317`, `--port 5317`).
 - Look in the browser with `?lang=pl` or `?lang=de` (`tools/shot.py <path> --lang pl`), when no one else
   is editing the files the dev server serves (each save reloads the page under a probe).

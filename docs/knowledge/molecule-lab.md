@@ -20,7 +20,7 @@ The seed of the molecule games (docs/design.md, "Molecules and alloys"): Atomlin
   centre; a seeded jitter early on shakes the layout out of symmetric dead ends.
 - Missions (`MISSIONS`): H2, H2O, O2, CO2, CH4, NH3, N2, HCl, C2H6, C2H4, C2H5OH, C2H2. A completed one is
   a discovery `lab:<show>` (`engine/progress.js`); facts for every known molecule in
-  `src/content/molecules.js` (both languages, both depths).
+  `src/content/molecules.js` (all four languages, both depths).
 - Ionic compounds (2026-10-28): the metals Li, Na, K, Mg, Ca, Al are in the palette (their hands give
   electrons, 🤲). A metal joined to a non-metal is an ionic bond (`ionicBond`, `ionCharges` in
   `chem/build.js`): an electron flies across when it forms, the two show their charges (Na⁺, Cl⁻, Mg²⁺,

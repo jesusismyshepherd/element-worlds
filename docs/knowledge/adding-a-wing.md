@@ -29,7 +29,7 @@ atrium draws its arch by itself, titled from `wings.<Symbol>.<id>.title` in both
 
 ## Words
 
-- Every text in European Portuguese and English, and at two depths: `kid` (Explorer: plain words, a
+- Every text in European Portuguese, English, Polish and German (`translating.md`), and at two depths: `kid` (Explorer: plain words, a
   ten-year-old) and `sci` (Scientist: numbers with units, equations, names and dates). Keep a wing's
   words in its module: `const WORDS = { en: { ... }, 'pt-pt': { ... } }`, chosen with `ctx.lang()`;
   read `ctx.level()` when a panel opens, so a change of level shows at once.

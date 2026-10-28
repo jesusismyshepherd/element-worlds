@@ -27,7 +27,7 @@ The grammar (what an element's properties become) is in `docs/design.md`; the co
 ## Signatures (objects from an element's story)
 
 75 of the 118 carry one (2026-10-28). `look.js` `SIGNATURE` maps a symbol to a kind, `signatures.js`
-builds each kind from a few primitives, `explain.js` `SIG` says why (both languages; the card on
+builds each kind from a few primitives, `explain.js` `SIG` says why (an object by language code, all four; the card on
 /atomlings reads it out), `signatures.test.js` checks them all.
 
 - Chosen where the object is truly the element's: a use everyone meets (Al can, F toothbrush, Cl swim
