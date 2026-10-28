@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Ástato, o elemento natural mais raro de todos. Uma mão, pronta a agarrar um eletrão, como os meus primos halogéneos. O meu brilho suave quer dizer que sou radioativo, e nunca ninguém viu um pedaço de mim: há tão pouco, e desfaço-me tão depressa.',
       sci: 'Ástato: [Xe] 4f14 5d10 6s2 6p5, o halogéneo mais pesado que existe na natureza, com estados de oxidação de −1 a +7. A primeira energia de ionização, medida no CERN em 2013, é 9,32 eV. O isótopo que dura mais, o At-210, tem meia-vida de 8,1 horas.',
     },
+    pl: {
+      kid: 'Cześć! Jestem Astat, najrzadszy pierwiastek występujący w przyrodzie. Jedna ręka, wyciągnięta, żeby złapać elektron, jak u moich kuzynów fluorowców. Mój delikatny blask znaczy, że jestem promieniotwórczy, i nikt nigdy nie widział kawałka mnie: jest mnie tak mało i tak szybko się rozpadam.',
+      sci: 'Astat: [Xe] 4f14 5d10 6s2 6p5, najcięższy fluorowiec występujący w przyrodzie, o stopniach utlenienia od −1 do +7. Jego pierwsza energia jonizacji, zmierzona w CERN-ie w 2013 roku, wynosi 9,32 eV. Najdłużej żyjący izotop, At-210, ma okres półtrwania 8,1 godziny.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin Astat, das seltenste Element, das in der Natur vorkommt. Eine Hand, ausgestreckt, um ein Elektron zu schnappen, wie bei meinen Halogen-Cousins. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und noch nie hat jemand ein Stück von mir gesehen: Es gibt so wenig von mir, und ich zerfalle so schnell.',
+      sci: 'Astat: [Xe] 4f14 5d10 6s2 6p5, das schwerste in der Natur vorkommende Halogen, mit Oxidationsstufen von −1 bis +7. Seine erste Ionisierungsenergie, 2013 am CERN gemessen, beträgt 9,32 eV. Das langlebigste Isotop, At-210, hat eine Halbwertszeit von 8,1 Stunden.',
+    },
   },
   nameOrigin: {
     en: { kid: "From the Greek astatos, 'unstable', because every kind of astatine is radioactive and short-lived. Before it was found, Mendeleev called the empty place below iodine 'eka-iodine'." },
     'pt-pt': { kid: "Do grego astatos, 'instável', porque todos os tipos de ástato são radioativos e duram pouco. Antes de ser encontrado, Mendeleev chamava 'eka-iodo' ao lugar vazio por baixo do iodo." },
+    pl: { kid: 'Od greckiego astatos, „nietrwały”, bo każdy rodzaj astatu jest promieniotwórczy i krótko żyje. Zanim go znaleziono, Mendelejew nazywał puste miejsce pod jodem „eka-jodem”.' },
+    de: { kid: 'Vom griechischen astatos, „unbeständig“, weil jede Sorte Astat radioaktiv und kurzlebig ist. Bevor es gefunden wurde, nannte Mendelejew den leeren Platz unter dem Iod „Eka-Iod“.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'Vários cientistas disseram ter encontrado o elemento 85 e estavam enganados. Em 1940, em Berkeley, na Califórnia, Dale Corson, Kenneth MacKenzie e Emilio Segrè conseguiram finalmente fazê-lo, disparando partículas alfa contra bismuto num ciclotrão. Em 1943, duas cientistas austríacas, Berta Karlik e Traude Bernert, encontraram um bocadinho dele na natureza.',
       sci: "Corson, MacKenzie e Segrè fizeram At-211 em 1940 com o ciclotrão de 60 polegadas de Berkeley: Bi-209 + alfa → At-211 + 2n. Anúncios anteriores ('alabamine', 1931; 'helvetium', 1940) não se confirmaram. Karlik e Bernert (Viena, 1943) encontraram At-218 natural na série do urânio; o nome ástato foi proposto em 1947.",
+    },
+    pl: {
+      kid: 'Kilku naukowców twierdziło, że znalazło pierwiastek 85, i się myliło. W 1940 roku w Berkeley w Kalifornii Dale Corson, Kenneth MacKenzie i Emilio Segrè w końcu go wytworzyli, strzelając w cyklotronie cząstkami alfa w bizmut. W 1943 roku dwie austriackie badaczki, Berta Karlik i Traude Bernert, znalazły odrobinę astatu w przyrodzie.',
+      sci: 'Corson, MacKenzie i Segrè wytworzyli At-211 w 1940 roku w 60-calowym cyklotronie w Berkeley: Bi-209 + alfa → At-211 + 2n. Wcześniejsze doniesienia („alabamine”, 1931; „helvetium”, 1940) się nie potwierdziły. Karlik i Bernert (Wiedeń, 1943) znalazły naturalny At-218 w szeregu uranowym; nazwę astat (ang. astatine) zaproponowano w 1947 roku.',
+    },
+    de: {
+      kid: 'Mehrere Forscher behaupteten, Element 85 gefunden zu haben, und irrten sich. 1940 stellten Dale Corson, Kenneth MacKenzie und Emilio Segrè in Berkeley in Kalifornien es endlich her, indem sie in einem Zyklotron Alphateilchen auf Bismut schossen. 1943 fanden zwei österreichische Forscherinnen, Berta Karlik und Traude Bernert, ein winziges bisschen davon in der Natur.',
+      sci: 'Corson, MacKenzie und Segrè stellten 1940 mit dem 60-Zoll-Zyklotron in Berkeley At-211 her: Bi-209 + alpha → At-211 + 2n. Frühere Meldungen („Alabamine“, 1931; „Helvetium“, 1940) hielten nicht stand. Karlik und Bernert (Wien, 1943) fanden natürliches At-218 in der Uranreihe; der Name Astat (englisch astatine) wurde 1947 vorgeschlagen.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'Ninguém sabe que aspeto tem o ástato: um pedaço suficientemente grande para se ver evaporava-se com o calor da sua própria radioatividade. O ponto de fusão aqui mostrado é só uma estimativa. Os cálculos dizem que seria um metal brilhante, ao contrário dos outros halogéneos.',
       sci: 'Nunca foi visto em quantidade: uma amostra visível vaporizava-se com o calor do próprio decaimento, por isso o ponto de fusão (cerca de 300 °C) e a densidade são estimativas. Cálculos de 2013 preveem que o ástato condensado seja um metal cúbico de faces centradas, ao contrário dos cristais moleculares do iodo.',
     },
+    pl: {
+      kid: 'Nikt nie wie, jak wygląda astat: kawałek na tyle duży, żeby go zobaczyć, wyparowałby od ciepła własnej promieniotwórczości. Pokazana tu temperatura topnienia to tylko szacunek. Obliczenia sugerują, że byłby błyszczącym metalem, inaczej niż pozostałe fluorowce.',
+      sci: 'Nigdy nie widziany w większej ilości: widoczna próbka wyparowałaby od własnego ciepła rozpadu, więc temperatura topnienia (około 300 °C) i gęstość to szacunki. Obliczenia (2013) przewidują, że skondensowany astat byłby metalem o sieci regularnej ściennie centrowanej, w odróżnieniu od kryształów cząsteczkowych jodu.',
+    },
+    de: {
+      kid: 'Niemand weiß, wie Astat aussieht: Ein Stück, das groß genug zum Sehen wäre, würde durch die Hitze seiner eigenen Radioaktivität verdampfen. Der hier gezeigte Schmelzpunkt ist nur eine Schätzung. Berechnungen deuten darauf hin, dass es ein glänzendes Metall wäre, anders als die anderen Halogene.',
+      sci: 'Nie in größerer Menge gesehen: Eine sichtbare Probe würde durch ihre eigene Zerfallswärme verdampfen, deshalb sind Schmelzpunkt (etwa 300 °C) und Dichte Schätzungen. Berechnungen (2013) sagen voraus, dass kondensiertes Astat ein kubisch-flächenzentriertes Metall wäre, anders als die Molekülkristalle des Iods.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O ástato forma-se por um instante nas cadeias de decaimento do urânio e do tório, e depois desaparece. Segundo uma estimativa, há menos de um grama em toda a crosta terrestre em cada momento.',
       sci: 'O ástato natural (At-215, At-218, At-219) aparece em ramos menores das séries de decaimento do urânio e do tório, com meias-vidas de um minuto ou menos. Estima-se que toda a crosta tenha menos de um grama em cada momento. Para investigação faz-se em ciclotrões, como At-211.',
+    },
+    pl: {
+      kid: 'Astat powstaje na chwilę w łańcuchach rozpadu uranu i toru, a potem znika. Według jednego z szacunków w całej skorupie ziemskiej jest go w każdej chwili mniej niż gram.',
+      sci: 'Naturalny astat (At-215, At-218, At-219) pojawia się w bocznych odgałęzieniach szeregów promieniotwórczych uranu i toru, z okresami półtrwania rzędu minuty lub krótszymi. Szacuje się, że cała skorupa zawiera go w każdej chwili mniej niż gram. Do badań wytwarza się go w cyklotronach, jako At-211.',
+    },
+    de: {
+      kid: 'Astat entsteht für einen Moment in den Zerfallsketten von Uran und Thorium, und dann ist es weg. Einer Schätzung nach gibt es davon in der ganzen Erdkruste zu jedem Zeitpunkt weniger als ein Gramm.',
+      sci: 'Natürliches Astat (At-215, At-218, At-219) tritt in Nebenzweigen der Uran- und Thorium-Zerfallsreihen auf, mit Halbwertszeiten von einer Minute oder weniger. Die ganze Kruste enthält schätzungsweise zu jedem Zeitpunkt weniger als ein Gramm. Für die Forschung wird es in Zyklotrons hergestellt, als At-211.',
     },
   },
   uses: {
@@ -65,6 +99,26 @@ export default {
         'A sua química fica entre a de um halogéneo e a de um metal, o que torna difícil prendê-lo bem às moléculas que o transportam.',
       ],
     },
+    pl: {
+      kid: [
+        'Lekarze testują astat-211 w walce z rakiem: jego maleńkie cząstki alfa zatrzymują się w komórkach, do których dotrze.',
+        'Poza tym bada się go tylko w laboratoriach naukowych.',
+      ],
+      sci: [
+        'Celowana terapia alfa: At-211 (7,2 h) przyłączony do przeciwciał lub małych cząsteczek, które wyszukują komórki nowotworowe; jego cząstki alfa przebywają w tkance tylko około 50 do 80 µm.',
+        'Jego chemia leży pomiędzy chemią fluorowca i metalu, przez co trudno go trwale związać z cząsteczkami nośnikowymi.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ärzte testen Astat-211 gegen Krebs: Seine winzigen Alphateilchen bleiben in den Zellen stecken, die es erreicht.',
+        'Davon abgesehen wird es nur in Forschungslaboren untersucht.',
+      ],
+      sci: [
+        'Gezielte Alphatherapie: At-211 (7,2 h), gekoppelt an Antikörper oder kleine Moleküle, die Krebszellen aufspüren; seine Alphateilchen fliegen im Gewebe nur etwa 50 bis 80 µm weit.',
+        'Seine Chemie liegt zwischen der eines Halogens und der eines Metalls, deshalb lässt es sich schwer fest an Trägermoleküle binden.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -74,6 +128,14 @@ export default {
     'pt-pt': {
       kid: 'Todos os tipos de ástato são radioativos, e nenhum dura muito. O que dura mais, o ástato-210, perde metade de si em cerca de 8 horas.',
       sci: 'Não tem isótopos estáveis. O At-210 (8,1 h) é o que vive mais, o At-211 (7,2 h) é o útil, e os naturais (At-215, At-218, At-219) duram de um décimo de milissegundo a cerca de um minuto.',
+    },
+    pl: {
+      kid: 'Każdy rodzaj astatu jest promieniotwórczy i żaden nie żyje długo. Najdłużej żyjący, astat-210, traci połowę siebie w około 8 godzin.',
+      sci: 'Brak trwałych izotopów. At-210 (8,1 h) żyje najdłużej, At-211 (7,2 h) jest użyteczny, a naturalne (At-215, At-218, At-219) żyją od jednej dziesiątej milisekundy do około minuty.',
+    },
+    de: {
+      kid: 'Jede Sorte Astat ist radioaktiv, und keine hält lange. Die langlebigste, Astat-210, verliert in etwa 8 Stunden die Hälfte von sich.',
+      sci: 'Keine stabilen Isotope. At-210 (8,1 h) lebt am längsten, At-211 (7,2 h) ist das nützliche, und die natürlichen (At-215, At-218, At-219) halten von einer Zehntelmillisekunde bis etwa einer Minute.',
     },
   },
   facts: {
@@ -103,6 +165,34 @@ export default {
         'A afinidade eletrónica, 2,42 eV, foi medida em 2020, também no ISOLDE: menor do que a do iodo (3,06 eV).',
         'Foram duas mulheres, Berta Karlik e Traude Bernert, que o encontraram na natureza, em 1943.',
         'Forma catiões At+ e também aniões astateto (At−): é mais metálico do que o iodo.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Jestem najrzadszym pierwiastkiem w przyrodzie: w całej skorupie ziemskiej jest mnie mniej niż gram.',
+        'Nikt nigdy mnie nie widział: kawałek na tyle duży, żeby go zobaczyć, wyparowałby od własnego ciepła.',
+        'Moja nazwa znaczy po grecku „nietrwały”.',
+        'Naukowcy sądzą, że byłbym błyszczącym metalem, inaczej niż moi kuzyni fluorowce.',
+      ],
+      sci: [
+        'Jego pierwszą energię jonizacji, 9,32 eV, zmierzono w 2013 roku w ISOLDE w CERN-ie metodą spektroskopii laserowej, na atomach wytwarzanych po kilka naraz.',
+        'Jego powinowactwo elektronowe, 2,42 eV, zmierzono w 2020 roku, także w ISOLDE: jest niższe niż jodu (3,06 eV).',
+        'Dwie kobiety, Berta Karlik i Traude Bernert, znalazły go w przyrodzie w 1943 roku.',
+        'Tworzy kationy At+, a także aniony astatkowe (At−): jest bardziej metaliczny niż jod.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ich bin das seltenste Element der Natur: weniger als ein Gramm von mir in der ganzen Erdkruste.',
+        'Niemand hat mich je gesehen: Ein Stück, groß genug zum Sehen, würde durch seine eigene Hitze verdampfen.',
+        'Mein Name bedeutet auf Griechisch „unbeständig“.',
+        'Forscher glauben, dass ich ein glänzendes Metall wäre, anders als meine Halogen-Cousins.',
+      ],
+      sci: [
+        'Seine erste Ionisierungsenergie, 9,32 eV, wurde 2013 an ISOLDE am CERN durch Laserspektroskopie gemessen, an Atomen, die jeweils nur zu wenigen erzeugt wurden.',
+        'Seine Elektronenaffinität, 2,42 eV, wurde 2020 gemessen, ebenfalls an ISOLDE: niedriger als die des Iods mit 3,06 eV.',
+        'Zwei Frauen, Berta Karlik und Traude Bernert, fanden es 1943 in der Natur.',
+        'Es bildet At+-Kationen ebenso wie Astatid-Anionen (At−): metallischer als Iod.',
       ],
     },
   },

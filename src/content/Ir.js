@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Irídio, o metal mais resistente à corrosão do mundo, e quase tão denso como o ósmio. Três mãos para os eletrões que costumo dar. Muito de mim chegou à Terra no asteroide que acabou com a era dos dinossauros, e os cientistas encontraram a minha camada nas rochas!',
       sci: 'Irídio: [Xe] 4f14 5d7 6s2, sobretudo Ir(III) e Ir(IV), e no IrO4+ o estado de oxidação mais alto alguma vez encontrado, +9 (2014). O metal mais resistente à corrosão e o segundo elemento mais denso, depois do ósmio.',
     },
+    pl: {
+      kid: 'Cześć! Jestem Iryd, najbardziej odporny na korozję metal na świecie i prawie tak gęsty jak osm. Trzy ręce na elektrony, które zwykle oddaję. Mnóstwo mnie przyleciało na Ziemię z asteroidą, która zakończyła erę dinozaurów, a naukowcy znaleźli moją warstwę w skałach!',
+      sci: 'Iryd: [Xe] 4f14 5d7 6s2, głównie Ir(III) i Ir(IV), a w IrO4+ najwyższy stopień utlenienia, jaki kiedykolwiek znaleziono, +9 (2014). Najbardziej odporny na korozję metal i drugi najgęstszy pierwiastek, po osmie.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin Iridium, das korrosionsbeständigste Metall der Welt und fast so dicht wie Osmium. Drei Hände für die Elektronen, die ich meistens abgebe. Viel von mir kam mit dem Asteroiden auf die Erde, der das Zeitalter der Dinosaurier beendete, und Forscher fanden meine Schicht im Gestein!',
+      sci: 'Iridium: [Xe] 4f14 5d7 6s2, meist Ir(III) und Ir(IV), und in IrO4+ die höchste je gefundene Oxidationsstufe, +9 (2014). Das korrosionsbeständigste Metall und das zweitdichteste Element, nach Osmium.',
+    },
   },
   nameOrigin: {
     en: { kid: 'From Iris, the Greek goddess of the rainbow, because its salts come in so many colours.' },
     'pt-pt': { kid: 'De Íris, a deusa grega do arco-íris, porque os seus sais têm muitíssimas cores.' },
+    pl: { kid: 'Od Iris, greckiej bogini tęczy, bo jego sole mają tak wiele kolorów.' },
+    de: { kid: 'Von Iris, der griechischen Göttin des Regenbogens, weil seine Salze so viele Farben haben.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'Smithson Tennant encontrou-o em 1803, em Londres, no mesmo pó negro que sobrava da platina e que lhe deu o ósmio. Três químicos franceses também repararam nele nesse pó, mais ou menos ao mesmo tempo.',
       sci: 'Tennant separou o irídio e o ósmio do resíduo da platina bruta que não se dissolve em água-régia, em 1803 (Royal Society, 1804); Collet-Descotils, Fourcroy e Vauquelin tinham visto os sais coloridos do metal novo no mesmo resíduo nesse ano.',
+    },
+    pl: {
+      kid: 'Smithson Tennant znalazł go w 1803 roku w Londynie, w tym samym czarnym proszku pozostałym po platynie, z którego wydobył osm. Trzej francuscy chemicy też zauważyli go w tym proszku, mniej więcej w tym samym czasie.',
+      sci: 'Tennant wyodrębnił iryd i osm w 1803 roku z pozostałości surowej platyny, która nie rozpuszcza się w wodzie królewskiej (Royal Society, 1804); Collet-Descotils, Fourcroy i Vauquelin widzieli w tym samym roku barwne sole nowego metalu w tej samej pozostałości.',
+    },
+    de: {
+      kid: 'Smithson Tennant fand es 1803 in London, in demselben schwarzen Pulver aus Platinresten, das ihm auch das Osmium geliefert hatte. Drei französische Chemiker bemerkten es etwa zur gleichen Zeit ebenfalls in diesem Pulver.',
+      sci: 'Tennant trennte 1803 Iridium und Osmium aus dem Rückstand von Rohplatin ab, der sich in Königswasser nicht löst (Royal Society, 1804); Collet-Descotils, Fourcroy und Vauquelin hatten im selben Jahr die farbigen Salze des neuen Metalls im selben Rückstand gesehen.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O irídio é um metal duro, quebradiço e branco-prateado. Nem a água-régia, a mistura de ácidos que dissolve o ouro, o consegue atacar. Um litro pesaria mais de 22 kg.',
       sci: 'Cúbico de faces centradas, funde a 2446 °C; mantém a resistência a temperaturas muito altas e, em peça maciça, resiste a todos os ácidos, mesmo à água-régia quente. Os pós finos podem dissolver-se em sais fundidos.',
     },
+    pl: {
+      kid: 'Iryd to twardy, kruchy, srebrzystobiały metal. Nawet woda królewska, mieszanina kwasów, która rozpuszcza złoto, nie może go ruszyć. Litr irydu ważyłby ponad 22 kg.',
+      sci: 'Sieć regularna ściennie centrowana, topi się w 2446 °C; zachowuje wytrzymałość w bardzo wysokich temperaturach, a w litym kawałku opiera się wszystkim kwasom, nawet gorącej wodzie królewskiej. Drobne proszki można rozpuścić w stopionych solach.',
+    },
+    de: {
+      kid: 'Iridium ist ein hartes, sprödes, silbrig-weißes Metall. Nicht einmal Königswasser, die Säuremischung, die Gold auflöst, kann es angreifen. Ein Liter davon würde über 22 kg wiegen.',
+      sci: 'Kubisch-flächenzentriert, schmilzt bei 2446 °C; es behält seine Festigkeit bei sehr hohen Temperaturen und widersteht als massives Stück jeder Säure, sogar heißem Königswasser. Feine Pulver lassen sich in Salzschmelzen lösen.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O irídio é um dos elementos mais raros da crosta terrestre, mas os meteoritos têm muito mais: quase todo o irídio da Terra afundou-se no núcleo de ferro há muito tempo. Extrai-se junto com a platina, sobretudo na África do Sul.',
       sci: 'Cerca de 0,001 mg/kg da crosta (80.º); os meteoritos condríticos têm cerca de 0,5 mg/kg, centenas de vezes mais, porque o irídio, que tem afinidade pelo ferro, foi para o núcleo. É um subproduto da mineração da platina (Bushveld, África do Sul) e da refinação do níquel: umas poucas toneladas por ano.',
+    },
+    pl: {
+      kid: 'Iryd to jeden z najrzadszych pierwiastków w skorupie ziemskiej, ale meteoryty mają go znacznie więcej: większość irydu Ziemi dawno temu opadła do jej żelaznego jądra. Wydobywa się go razem z platyną, głównie w Afryce Południowej.',
+      sci: 'Około 0,001 mg/kg skorupy ziemskiej (80. miejsce); meteoryty chondrytowe zawierają około 0,5 mg/kg, setki razy więcej, bo żelazolubny iryd Ziemi trafił do jądra. Jest produktem ubocznym wydobycia platyny (Bushveld, Afryka Południowa) i rafinacji niklu: kilka ton rocznie.',
+    },
+    de: {
+      kid: 'Iridium ist eines der seltensten Elemente der Erdkruste, aber Meteoriten enthalten viel mehr davon: Das meiste Iridium der Erde ist vor langer Zeit in ihren Eisenkern gesunken. Es wird zusammen mit Platin abgebaut, vor allem in Südafrika.',
+      sci: 'Etwa 0,001 mg/kg der Erdkruste (Platz 80); chondritische Meteoriten enthalten etwa 0,5 mg/kg, Hunderte Male mehr, weil das eisenliebende Iridium der Erde in den Kern ging. Es ist ein Nebenprodukt des Platinbergbaus (Bushveld, Südafrika) und der Nickelraffination: einige Tonnen pro Jahr.',
     },
   },
   uses: {
@@ -75,6 +109,36 @@ export default {
         'O Protótipo Internacional do Quilograma e o do Metro, de 1889: 90% de Pt, 10% de Ir.',
       ],
     },
+    pl: {
+      kid: [
+        'Długowieczne świece zapłonowe w samochodach.',
+        'Światowe wzorce kilograma i metra zrobiono kiedyś z platyny z 10% irydu.',
+        'Jaskrawe kolory na ekranach telefonów: cząsteczki z irydem pomagają świecić ekranom OLED.',
+        'Tygle do hodowania kryształów używanych w laserach i elektronice.',
+      ],
+      sci: [
+        'Końcówki świec zapłonowych oraz tygle do hodowli tlenkowych monokryształów, takich jak YAG i tantalan litu.',
+        'Fosforyzujące kompleksy Ir(III) (takie jak Ir(ppy)3) wykorzystują ekscytony trypletowe w wyświetlaczach OLED, głównie w czerwieni i zieleni.',
+        'Anody z tlenku irydu do elektrolizy wody PEM (zielony wodór), popyt, który szybko rośnie.',
+        'Ir-192 (73,8 dnia) do przemysłowej radiografii gamma i brachyterapii.',
+        'Międzynarodowe wzorce kilograma i metra z 1889 roku: 90% Pt, 10% Ir.',
+      ],
+    },
+    de: {
+      kid: [
+        'Langlebige Zündkerzen in Autos.',
+        'Das Urkilogramm und das Urmeter der Welt bestanden einst aus Platin mit 10% Iridium.',
+        'Leuchtende Farben auf Handybildschirmen: Iridium-Moleküle helfen OLED-Bildschirmen zu leuchten.',
+        'Tiegel zum Züchten der Kristalle, die in Lasern und in der Elektronik verwendet werden.',
+      ],
+      sci: [
+        'Zündkerzenspitzen und Tiegel zum Züchten oxidischer Einkristalle wie YAG und Lithiumtantalat.',
+        'Phosphoreszierende Ir(III)-Komplexe (etwa Ir(ppy)3) nutzen Triplett-Exzitonen in OLED-Displays, vor allem im Roten und Grünen.',
+        'Iridiumoxid-Anoden für die PEM-Wasserelektrolyse (grüner Wasserstoff), eine schnell wachsende Nachfrage.',
+        'Ir-192 (73,8 Tage) für die industrielle Gammaradiographie und die Brachytherapie.',
+        'Das Internationale Urkilogramm und das Urmeter von 1889: 90% Pt, 10% Ir.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -84,6 +148,14 @@ export default {
     'pt-pt': {
       kid: "O irídio natural é uma mistura de irídio-191 e irídio-193. O irídio-192, radioativo e feito em reatores, usa-se para tirar 'radiografias' através de soldaduras de aço e para tratar alguns cancros por dentro.",
       sci: 'Ir-193, 62,7%; Ir-191, 37,3%. O Ir-192 (73,8 dias), feito por captura de neutrões no Ir-191, emite raios gama (sobretudo de 0,3 a 0,6 MeV) para radiografia de soldaduras e braquiterapia de alta taxa de dose. O Ir-191 foi o núcleo da descoberta de Rudolf Mössbauer, em 1958, da emissão gama sem recuo.',
+    },
+    pl: {
+      kid: 'Naturalny iryd to mieszanina irydu-191 i irydu-193. Promieniotwórczy iryd-192, wytwarzany w reaktorach, służy do robienia zdjęć podobnych do rentgenowskich przez stalowe spawy i do leczenia niektórych nowotworów od środka.',
+      sci: 'Ir-193 62,7%, Ir-191 37,3%. Ir-192 (73,8 dnia), powstający przez wychwyt neutronu przez Ir-191, emituje promienie gamma (głównie od 0,3 do 0,6 MeV) do radiografii spoin i brachyterapii o wysokiej mocy dawki. Ir-191 to jądro, na którym Rudolf Mössbauer odkrył w 1958 roku bezodrzutową emisję gamma.',
+    },
+    de: {
+      kid: 'Natürliches Iridium ist eine Mischung aus Iridium-191 und Iridium-193. Mit radioaktivem Iridium-192, das in Reaktoren hergestellt wird, macht man röntgenähnliche Bilder durch Schweißnähte aus Stahl und behandelt manche Krebsarten von innen.',
+      sci: 'Ir-193 62,7%, Ir-191 37,3%. Ir-192 (73,8 Tage), durch Neutroneneinfang an Ir-191 erzeugt, sendet Gammastrahlen aus (vor allem 0,3 bis 0,6 MeV) für die Schweißnahtradiographie und die Brachytherapie mit hoher Dosisleistung. Ir-191 war der Kern, an dem Rudolf Mössbauer 1958 die rückstoßfreie Gammaemission entdeckte.',
     },
   },
   facts: {
@@ -113,6 +185,34 @@ export default {
         'A cratera de Chicxulub, com cerca de 180 km, sob a península do Iucatão, no México, foi identificada como o local do impacto em 1991.',
         'Em 2014 detetou-se o catião IrO4+ em fase gasosa: irídio no estado de oxidação +9, o mais alto conhecido para qualquer elemento.',
         'A constelação Iridium foi reduzida de 77 para 66 satélites; os fabricantes mantiveram o nome em vez de passarem para o elemento 66, o disprósio.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Asteroida, która 66 milionów lat temu zgładziła wielkie dinozaury, zostawiła cienką warstwę irydu na całym świecie.',
+        'Ta warstwa była wskazówką: w 1980 roku ojciec i syn, Luis i Walter Alvarezowie, odkryli, że w Ziemię uderzyła olbrzymia asteroida.',
+        'Satelity Iridium, które przenoszą rozmowy telefoniczne z każdego miejsca na Ziemi, nazwano na moją cześć: miało ich być 77, tyle, ile wynosi moja liczba atomowa.',
+        'Nawet najsilniejsze kwasy nie dadzą rady rozpuścić mojej bryłki.',
+      ],
+      sci: [
+        'Alvarez, Alvarez, Asaro i Michel (Science, 1980) stwierdzili, że ił z granicy kreda-paleogen jest wzbogacony w iryd około 30 razy w Gubbio (Włochy) i 160 razy w Stevns Klint (Dania), i zaproponowali 10-kilometrową asteroidę.',
+        'Krater Chicxulub, szeroki na około 180 km, pod meksykańskim półwyspem Jukatan, zidentyfikowano jako miejsce uderzenia w 1991 roku.',
+        'W 2014 roku wykryto w fazie gazowej kation IrO4+: iryd na stopniu utlenienia +9, najwyższym znanym dla jakiegokolwiek pierwiastka.',
+        'Konstelację Iridium zmniejszono z 77 do 66 satelitów; jej twórcy zachowali nazwę, zamiast przejść na pierwiastek 66, dysproz.',
+      ],
+    },
+    de: {
+      kid: [
+        'Der Asteroid, der vor 66 Millionen Jahren die großen Dinosaurier auslöschte, hinterließ rund um die Welt eine dünne Schicht Iridium.',
+        'Diese Schicht war der Hinweis: 1980 fanden ein Vater und sein Sohn, Luis und Walter Alvarez, heraus, dass ein riesiger Asteroid die Erde getroffen hatte.',
+        'Die Iridium-Satelliten, die Telefongespräche von überall auf der Erde übertragen, sind nach mir benannt: Es sollten 77 sein, meine Ordnungszahl.',
+        'Nicht einmal die stärksten Säuren können einen Klumpen von mir auflösen.',
+      ],
+      sci: [
+        'Alvarez, Alvarez, Asaro und Michel (Science, 1980) fanden den Ton an der Kreide-Paläogen-Grenze in Gubbio (Italien) etwa 30-fach und in Stevns Klint (Dänemark) 160-fach mit Iridium angereichert und schlugen einen 10 km großen Asteroiden vor.',
+        'Der Chicxulub-Krater, etwa 180 km breit, unter der mexikanischen Halbinsel Yucatán, wurde 1991 als Einschlagstelle erkannt.',
+        '2014 wurde das Kation IrO4+ in der Gasphase nachgewiesen: Iridium in der Oxidationsstufe +9, der höchsten, die für ein Element bekannt ist.',
+        'Die Iridium-Konstellation wurde von 77 auf 66 Satelliten verkleinert; ihre Macher behielten den Namen, statt zu Element 66, Dysprosium, zu wechseln.',
       ],
     },
   },
