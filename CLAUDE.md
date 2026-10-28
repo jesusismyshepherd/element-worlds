@@ -83,7 +83,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `tools/hud_probe.py` (the HUD keeps the middle free on six screens, ten scenes; screenshots in
   `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons),
   `tools/nav_probe.py` (walking and looking: turning, looking up, helium framed, the nanotube's camera,
-  panels following the level and switching between exhibits, the pinch).
+  panels following the level and switching between exhibits, the pinch). `tools/phone.py`: the site on
+  a real Android phone over Wi-Fi (adb, installed 2026-10-28 with winget; Chrome's DevTools socket):
+  screenshots, taps, drags and frame times on the phone's own chip; pairing steps in its header.
   Probes run with `py -3.11` (Playwright is installed there).
 - Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
 

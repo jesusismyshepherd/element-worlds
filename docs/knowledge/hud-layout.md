@@ -68,6 +68,9 @@ full screen.
   look at them too. About 4 minutes.
 - `MSYS_NO_PATHCONV=1 py -3.11 tools/fullscreen_probe.py`: the first tap, the button off and on, a
   computer's click.
+- On a real phone: `py -3.11 tools/phone.py` (pair once with Wireless debugging; then `shot` with steps
+  and `frames`). A headless browser cannot tell the phone's frame times, its browser's own full screen
+  or how a thumb reaches the controls.
 
 ## Traps
 
