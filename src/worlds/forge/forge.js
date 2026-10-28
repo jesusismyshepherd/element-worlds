@@ -630,10 +630,15 @@ export async function build(ctx, target) {
     stage.rotation.y = Math.atan2(camera.position.x - stage.position.x, camera.position.z - stage.position.z)
     ling?.update(dt, t, { speed: 0 })
 
-    // keep the atom big in the free middle of the screen: the HUD's card covers the top, so look a
-    // little above the atom (it then sits lower), and a little toward the Atomling
-    const dist = Math.max(6.4, (outerR() + 0.7) * 2.85) * (upright ? 1.75 : 1)
-    controls.target.lerp(upright ? v.set(0.2, LIFT - dist * 0.02, outerR() * 0.3) : v.set(stage.position.x * 0.3, LIFT + dist * 0.075, 0), 1 - Math.exp(-dt * 2))
+    // keep the atom and its Atomling big in the part of the screen the HUD leaves free (the view
+    // offset centres the target there): far enough that both fit it, up and down and across
+    const free = ctx.engine.freeShare()
+    const tan = Math.tan((camera.fov * Math.PI) / 360)
+    const r = outerR() + 0.7
+    const aimX = upright ? 0.2 : stage.position.x * 0.3
+    const across = upright ? r : Math.max(r + aimX, stage.position.x + 0.8 * big - aimX)
+    const dist = Math.max(6.4, 1.15 * Math.max(r / (tan * Math.max(0.35, free.h)), across / (tan * camera.aspect * Math.max(0.35, free.w))))
+    controls.target.lerp(v.set(aimX, LIFT, upright ? outerR() * 0.3 : 0), 1 - Math.exp(-dt * 2))
     const d = camera.position.distanceTo(controls.target)
     if (d < dist * 0.8 || d > dist * 1.45) camera.position.sub(controls.target).setLength(d + (dist - d) * Math.min(1, dt * 2)).add(controls.target)
   }

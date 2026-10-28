@@ -9,8 +9,11 @@ import './i18n'
 import './index.css'
 import App from './App'
 import { watchReleases } from './engine/release.js'
+import { autoFullscreen } from './ui/fullscreen.js'
 
 watchReleases()
+// phones and tablets go full screen at the first touch (src/ui/fullscreen.js)
+autoFullscreen()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

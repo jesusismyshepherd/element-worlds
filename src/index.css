@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* how far down the HUD's top bar reaches (Hud.jsx keeps it measured); panels start below it */
+:root {
+  --bar: 3.5rem;
+}
+
 html, body, #root {
   height: 100%;
   margin: 0;

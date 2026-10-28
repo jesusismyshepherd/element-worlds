@@ -5,13 +5,15 @@ import { useStore, saveLevel } from '../engine/store.js'
 import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
 import { atriumPath, plazaPath } from '../worlds/registry.js'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import PlazaHud from './PlazaHud.jsx'
 import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
 import LabHud from './LabHud.jsx'
 import ForgeHud from './ForgeHud.jsx'
 import SoundButton from './SoundButton.jsx'
+import { useCover, useViewport } from './layout.js'
+import { useFullscreen } from './fullscreen.js'
 
 // the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
 const PAGES = [
@@ -20,9 +22,44 @@ const PAGES = [
   ['/forge', '⚛️', 'hud.forge', 'sm:inline'],
   ['/atomlings', '🙂', 'atomlings.title', 'sm:inline'],
 ]
+const BTN = 'glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10'
 
-/** Everything drawn over the 3D: the top bar (where you are, level, language), the HUD of the
- *  current world, the fade between worlds. */
+/** Full screen on and off (hidden where the browser has none: an iPhone). */
+function FullscreenButton() {
+  const { t } = useTranslation()
+  const { can, on, toggle } = useFullscreen()
+  if (!can) return null
+  return (
+    <button type="button" onClick={toggle} className={BTN} aria-label={t(on ? 'hud.exitFullscreen' : 'hud.fullscreen')} title={t(on ? 'hud.exitFullscreen' : 'hud.fullscreen')}>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {on ? <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" /> : <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />}
+      </svg>
+    </button>
+  )
+}
+
+/** A choice of two or more (the level, the language). */
+function Toggle({ label, options, value, onPick, wide }) {
+  return (
+    <div className={`glass rounded-xl p-1 flex text-xs font-bold ${wide ? 'w-full' : ''}`} role="group" aria-label={label}>
+      {options.map(([v, text]) => (
+        <button
+          key={v}
+          type="button"
+          onClick={() => onPick(v)}
+          className={`px-2 py-1 rounded-lg ${wide ? 'flex-1' : ''} ${value === v ? 'bg-white text-[#0b0f24]' : 'opacity-80 hover:bg-white/10'}`}
+        >
+          {text}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/** Everything drawn over the 3D: the top bar (where you are, the view, sound, full screen, level,
+ *  language; on a phone the pages, level and language fold into one menu), the HUD of the current
+ *  world, the fade between worlds. Nothing here sits in the middle of the screen
+ *  (docs/knowledge/hud-layout.md). */
 export default function Hud({ engine }) {
   const { t, i18n } = useTranslation()
   const world = useStore(store, s => s.world)
@@ -30,11 +67,15 @@ export default function Hud({ engine }) {
   const error = useStore(store, s => s.error)
   const level = useStore(store, s => s.level)
   const title = useStore(store, s => s.title)
+  const mode = useStore(store, s => s.mode)
+  const found = useStore(store, s => s.discoveries)
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
+  const vp = useViewport()
   const [about, setAbout] = useState(false)
-  // on a phone the pages (passport, lab, forge, Atomlings, about) fold into one menu
   const [menu, setMenu] = useState(false)
+  const walking = !!world && !['plaza', 'lab', 'forge'].includes(world.kind)
+  const canTalk = walking && !!engine?.world?.talk
   // a long wait (a big world's first visit compiles its shaders): say why
   const [slow, setSlow] = useState(false)
   useEffect(() => {
@@ -45,29 +86,46 @@ export default function Hud({ engine }) {
     const id = setTimeout(() => setSlow(true), 1500)
     return () => clearTimeout(id)
   }, [fading])
+  useEffect(() => setMenu(false), [world?.kind, world?.symbol, world?.wing])
+
+  // the top bar covers the top edge; panels below it (and the worlds' own windows) read its height
+  // from --bar, set on the page's root
+  const bar = useRef(null)
+  useCover(bar, 'top')
+  useLayoutEffect(() => {
+    const el = bar.current
+    const set = () => document.documentElement.style.setProperty('--bar', `${Math.round(el.getBoundingClientRect().bottom)}px`)
+    set()
+    const ro = new ResizeObserver(set)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   const setLevel = l => {
     saveLevel(l)
     store.set({ level: l })
   }
+  const levels = [['explorer', '🧭'], ['scientist', '🔬']]
+  const langs = [['pt-pt', 'PT'], ['en', 'EN']]
+  const other = mode === 'first' ? 'third' : 'first'
 
   return (
     <div className="absolute inset-0 pointer-events-none select-none">
-      <div className="absolute top-0 inset-x-0 p-2 sm:p-3 flex items-start justify-between gap-2">
+      <div ref={bar} className={`absolute top-0 inset-x-0 flex items-start justify-between gap-2 ${vp.short ? 'p-1.5' : 'p-2 sm:p-3'}`}>
         <nav className="glass rounded-xl px-3 py-1.5 pointer-events-auto flex items-center gap-2 min-w-0 text-sm">
           {world?.kind === 'plaza' || !world ? (
             <div className="min-w-0">
-              <div className="font-display font-bold text-base sm:text-lg leading-tight">{t('app.title')}</div>
-              <div className="text-xs opacity-75 leading-tight">{t('app.tagline')}</div>
+              <div className="font-display font-bold text-base sm:text-lg leading-tight truncate">{t('app.title')}</div>
+              {!vp.compact && <div className="text-xs opacity-75 leading-tight">{t('app.tagline')}</div>}
             </div>
           ) : (
             <>
-              <Link to={plazaPath(world.symbol)} className="font-display font-bold hover:underline whitespace-nowrap">← {t('hud.table')}</Link>
+              <Link to={plazaPath(world.symbol)} className="font-display font-bold hover:underline whitespace-nowrap">← {vp.narrow && el ? '' : t('hud.table')}</Link>
               {el && (
                 <>
-                  <span className="opacity-50">/</span>
+                  {!vp.narrow && <span className="opacity-50">/</span>}
                   {world.kind === 'wing' ? (
-                    <Link to={atriumPath(el.symbol)} className="font-display hover:underline truncate">{nameOf(el, lang)}</Link>
+                    <Link to={atriumPath(el.symbol)} className={`font-display hover:underline ${vp.narrow ? 'shrink-0' : 'truncate'}`}>{vp.narrow ? el.symbol : nameOf(el, lang)}</Link>
                   ) : (
                     <span className="font-display font-bold truncate">{nameOf(el, lang)}</span>
                   )}
@@ -85,71 +143,68 @@ export default function Hud({ engine }) {
                   <span className="font-display font-bold truncate">{title}</span>
                 </>
               )}
+              {walking && found && (
+                <span className="shrink-0 text-xs font-bold opacity-90 whitespace-nowrap" title={t('hud.discoveries')}>✦ {found.found}/{found.total}</span>
+              )}
             </>
           )}
         </nav>
         <div className="flex gap-1.5 pointer-events-auto shrink-0">
+          {walking && (
+            <button type="button" title={t('hud.mode.switch')} onClick={() => engine?.setMode(other)} className={BTN}>
+              {mode === 'first' ? '👁' : '🧍'}
+              {!vp.compact && <> {t(`hud.mode.${mode}`)} <span className="opacity-60">⇄</span></>}
+            </button>
+          )}
+          {canTalk && (
+            <button type="button" title={t('hud.talk')} onClick={() => engine.world.talk()} className={BTN}>
+              💬{!vp.compact && <span> {t('hud.talk')}</span>}
+            </button>
+          )}
           <SoundButton />
-          {world?.kind === 'plaza' && (
+          <FullscreenButton />
+          {world?.kind === 'plaza' && !vp.compact && (
             <>
-              <button type="button" onClick={() => setAbout(true)} className="hidden sm:block glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10" aria-label={t('about.title')}>
-                ⓘ
-              </button>
+              <button type="button" onClick={() => setAbout(true)} className={BTN} aria-label={t('about.title')}>ⓘ</button>
               {PAGES.map(([to, icon, key, wide]) => (
-                <Link key={to} to={to} className="hidden sm:flex glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10 items-center" title={t(key)}>
+                <Link key={to} to={to} className={`${BTN} flex items-center`} title={t(key)}>
                   {icon}<span className={`hidden ${wide} ml-1`}>{t(key)}</span>
                 </Link>
               ))}
-              <div className="relative sm:hidden">
-                <button type="button" onClick={() => setMenu(m => !m)} className={`glass rounded-xl px-2.5 py-1.5 text-xs font-bold ${menu ? 'bg-white/15' : ''}`} aria-label={t('hud.menu')} aria-expanded={menu}>
-                  ☰
-                </button>
-                {menu && (
-                  <div className="absolute right-0 top-full mt-1.5 glass rounded-xl p-1.5 flex flex-col min-w-[11rem] z-10">
-                    {PAGES.map(([to, icon, key]) => (
-                      <Link key={to} to={to} onClick={() => setMenu(false)} className="rounded-lg px-2.5 py-2 text-sm font-bold hover:bg-white/10">
-                        {icon} {t(key)}
-                      </Link>
-                    ))}
-                    <button type="button" onClick={() => { setMenu(false); setAbout(true) }} className="rounded-lg px-2.5 py-2 text-sm font-bold hover:bg-white/10 text-left">
-                      ⓘ {t('about.title')}
-                    </button>
-                  </div>
-                )}
-              </div>
             </>
           )}
-          <div className="glass rounded-xl p-1 flex text-xs font-bold" role="group" aria-label={t('level.label')}>
-            {['explorer', 'scientist'].map(l => (
-              <button
-                key={l}
-                type="button"
-                onClick={() => setLevel(l)}
-                className={`px-2 py-1 rounded-lg ${level === l ? 'bg-white text-[#0b0f24]' : 'opacity-80 hover:bg-white/10'}`}
-              >
-                {l === 'explorer' ? '🧭' : '🔬'}<span className="hidden sm:inline"> {t(`level.${l}`)}</span>
-              </button>
-            ))}
-          </div>
-          <div className="glass rounded-xl p-1 flex text-xs font-bold" role="group" aria-label={t('hud.language')}>
-            {[['pt-pt', 'PT'], ['en', 'EN']].map(([code, label]) => (
-              <button
-                key={code}
-                type="button"
-                onClick={() => i18n.changeLanguage(code)}
-                className={`px-2 py-1 rounded-lg ${lang === code ? 'bg-white text-[#0b0f24]' : 'opacity-80 hover:bg-white/10'}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          {!vp.compact && (
+            <>
+              <Toggle label={t('level.label')} value={level} onPick={setLevel} options={levels.map(([l, icon]) => [l, <span key={l}>{icon}<span className="hidden sm:inline"> {t(`level.${l}`)}</span></span>])} />
+              <Toggle label={t('hud.language')} value={lang} onPick={code => i18n.changeLanguage(code)} options={langs} />
+            </>
+          )}
+          {vp.compact && (
+            <div className="relative">
+              <button type="button" onClick={() => setMenu(m => !m)} className={`${BTN} ${menu ? 'bg-white/15' : ''}`} aria-label={t('hud.menu')} aria-expanded={menu}>☰</button>
+              {menu && (
+                <div className="absolute right-0 top-full mt-1.5 glass rounded-xl p-1.5 flex flex-col gap-1 min-w-[12rem] z-10 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                  <Toggle wide label={t('level.label')} value={level} onPick={setLevel} options={levels.map(([l, icon]) => [l, `${icon} ${t(`level.${l}`)}`])} />
+                  <Toggle wide label={t('hud.language')} value={lang} onPick={code => i18n.changeLanguage(code)} options={langs} />
+                  {PAGES.map(([to, icon, key]) => (
+                    <Link key={to} to={to} onClick={() => setMenu(false)} className="rounded-lg px-2.5 py-1.5 text-sm font-bold hover:bg-white/10">
+                      {icon} {t(key)}
+                    </Link>
+                  ))}
+                  <button type="button" onClick={() => { setMenu(false); setAbout(true) }} className="rounded-lg px-2.5 py-1.5 text-sm font-bold hover:bg-white/10 text-left">
+                    ⓘ {t('about.title')}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
       {world?.kind === 'plaza' && <PlazaHud engine={engine} />}
       {world?.kind === 'lab' && <LabHud engine={engine} />}
       {world?.kind === 'forge' && <ForgeHud engine={engine} />}
-      {world && world.kind !== 'plaza' && world.kind !== 'lab' && world.kind !== 'forge' && <WalkHud engine={engine} />}
+      {walking && <WalkHud engine={engine} />}
 
       {about && <About onClose={() => setAbout(false)} />}
 

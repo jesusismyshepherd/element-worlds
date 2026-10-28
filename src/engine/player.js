@@ -206,6 +206,7 @@ export class Player {
 
     this.placeCamera(dt, world, b, cam)
     this.findNear(world)
+    this.keepReading()
     this.checkDoors(world)
   }
 
@@ -272,6 +273,23 @@ export class Player {
 
   use() {
     this.near?.onUse?.()
+  }
+
+  /** A panel belongs to where it was opened: it stays open while the walker moves about there (the
+   *  stick and the keys keep working under it) and closes once they walk away. */
+  keepReading() {
+    const store = this.engine.store
+    const panel = store.get().panel
+    if (!panel) {
+      this.reading = null
+      return
+    }
+    if (this.reading?.panel !== panel) {
+      const it = this.near
+      this.reading = { panel, x: it?.x ?? this.pos.x, z: it?.z ?? this.pos.z, reach: (it?.radius ?? 2) * 1.5 + 1 }
+    }
+    const r = this.reading
+    if (Math.hypot(r.x - this.pos.x, r.z - this.pos.z) > r.reach) store.set({ panel: null })
   }
 
   checkDoors(world) {

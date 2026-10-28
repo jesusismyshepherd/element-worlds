@@ -428,10 +428,12 @@ export async function build(ctx) {
       ring.lookAt(camera.position)
       ring.scale.setScalar((bodyR(selected) / 0.6) * (1 + Math.sin(t * 5) * 0.06))
     } else ring.visible = false
-    // keep the whole molecule in view, across too: an upright phone sees little from side to side, so
-    // the distance also comes from the horizontal field of view
-    const tanAcross = Math.tan((camera.fov * Math.PI) / 360) * camera.aspect
-    const want = Math.max(4.6, radius * 2.3, (radius + 0.5) / tanAcross)
+    // keep the whole molecule in view in the part of the screen the HUD leaves free (the view offset
+    // centres it there), across too: an upright phone sees little from side to side, so the distance
+    // also comes from the horizontal field of view
+    const free = ctx.engine.freeShare()
+    const tanAcross = Math.tan((camera.fov * Math.PI) / 360) * camera.aspect * free.w
+    const want = Math.max(4.6, (radius * 2.3) / Math.max(0.5, free.h), (radius + 0.5) / tanAcross)
     const d = camera.position.distanceTo(controls.target)
     if (d < want * 0.8 || d > want * 1.6) camera.position.sub(controls.target).setLength(d + (want - d) * Math.min(1, dt * 2)).add(controls.target)
   }

@@ -14,6 +14,7 @@ import { Player } from './player.js'
 import { loadWorld, worldKey } from '../worlds/registry.js'
 import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
+import { insets, freeArea } from './covers.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -56,6 +57,10 @@ export class Engine {
     store.set({ light: this.light })
     r.setAnimationLoop(() => this.frame())
     this.compiles = new Set() // shader compiles under way (compileFor)
+    // where the world's centre is drawn: the centre of the screen the HUD leaves free (covers.js);
+    // x, y in CSS px from the screen's centre, w, h the free share of the width and the height
+    this.view = { x: 0, y: 0, w: 1, h: 1 }
+    this.viewSnap = true
     window.__ew = this // for the probes in tools/
   }
 
@@ -206,6 +211,7 @@ export class Engine {
     this.camera.far = env.far ?? 4000
     this.camera.updateProjectionMatrix()
     this.input.pointerLook = w.mode === 'walk'
+    this.viewSnap = true
     if (w.mode === 'walk') {
       this.player.mode = this.store.get().mode ?? 'third'
       this.player.place(w.spawn, w)
@@ -217,6 +223,7 @@ export class Engine {
       world: { kind: target.kind, symbol: target.symbol ?? null, wing: target.wing ?? null },
       prompt: null,
       panel: null,
+      overlay: false,
       title: w.title ?? null,
     })
   }
@@ -296,9 +303,45 @@ export class Engine {
       w.update?.(dt, this.time, this)
     }
     this.input.endFrame()
+    this.updateView(dt)
     if (this.composer) this.composer.render(dt)
     else this.renderer.render(this.scene, this.camera)
     this.frames++
+  }
+
+  /** Ease the camera's view offset so the world's centre is drawn at the centre of the part of the
+   *  screen the HUD leaves free: a panel opening on the right slides the view left, beside it. */
+  updateView(dt) {
+    const c = this.canvas
+    const w = c.clientWidth || 1
+    const h = c.clientHeight || 1
+    const f = freeArea(w, h, insets())
+    const want = { x: f.x + f.w / 2 - w / 2, y: f.y + f.h / 2 - h / 2, w: f.w / w, h: f.h / h }
+    const v = this.view
+    const k = this.viewSnap ? 1 : 1 - Math.exp(-dt * 7)
+    this.viewSnap = false
+    let moved = false
+    for (const key of ['x', 'y', 'w', 'h']) {
+      const d = want[key] - v[key]
+      if (Math.abs(d) > (key === 'x' || key === 'y' ? 0.2 : 1e-4)) {
+        v[key] += d * k
+        moved = true
+      } else v[key] = want[key]
+    }
+    const size = `${w}x${h}`
+    if (!moved && size === this.viewSize) return
+    this.viewSize = size
+    if (Math.abs(v.x) < 0.5 && Math.abs(v.y) < 0.5) this.camera.clearViewOffset()
+    else this.camera.setViewOffset(w, h, -v.x, -v.y, w, h)
+  }
+
+  /** The share of the screen's width and height the HUD leaves free now (not eased): worlds that
+   *  frame something fit it into that share; the view offset centres it there. */
+  freeShare() {
+    const w = this.canvas.clientWidth || 1
+    const h = this.canvas.clientHeight || 1
+    const f = freeArea(w, h, insets())
+    return { w: f.w / w, h: f.h / h }
   }
 
   resize() {

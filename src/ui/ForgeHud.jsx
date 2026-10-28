@@ -8,6 +8,7 @@ import { nuclide, commonestN, nuclideSymbol } from '../chem/nucleus.js'
 import { MISSIONS, describe, decayText, reactionText, isotopeName, halfLifeText, noteText, BEAM_NAMES, BEAM_SYMBOLS } from '../worlds/forge/words.js'
 import { BEAMS } from '../chem/nucleus.js'
 import NuclideChart from './NuclideChart.jsx'
+import { useCover, useViewport } from './layout.js'
 
 const DOT = { p: '#ff5a55', n: '#b9c6dc', e: '#a8ecff' }
 const TONE = { info: 'opacity-90', good: 'text-emerald-300', warn: 'text-amber-200', bad: 'text-rose-300' }
@@ -55,17 +56,6 @@ function Repeat({ onFire, children, className, label }) {
   )
 }
 
-/** True on a narrow (upright phone) screen, kept up to date. */
-function useNarrow() {
-  const [narrow, setNarrow] = useState(() => typeof window !== 'undefined' && window.innerWidth < 640)
-  useEffect(() => {
-    const on = () => setNarrow(window.innerWidth < 640)
-    window.addEventListener('resize', on)
-    return () => window.removeEventListener('resize', on)
-  }, [])
-  return narrow
-}
-
 /** Finds an element by symbol, number or name (either language), or the first whose name starts so. */
 function findElement(q) {
   const s = q.trim().toLowerCase()
@@ -74,7 +64,10 @@ function findElement(q) {
   return exact ?? ELEMENTS.find(e => nameOf(e, 'en').toLowerCase().startsWith(s) || nameOf(e, 'pt-pt').toLowerCase().startsWith(s))
 }
 
-/** The Atom Forge's HUD: the particles, what the atom is, the missions, the chart of nuclides. */
+/** The Atom Forge's HUD, at the edges so the atom has the middle (docs/knowledge/hud-layout.md): the
+ *  particles (a column on the left; a bar at the bottom of an upright phone), what the atom is and
+ *  the celebration (a card at the top; on a phone on its side, down the right), the missions, the
+ *  chart, the finder and the beam (right and bottom; on a phone they open from the tool buttons). */
 export default function ForgeHud({ engine }) {
   const { t, i18n } = useTranslation()
   const f = useStore(store, s => s.forge)
@@ -82,14 +75,27 @@ export default function ForgeHud({ engine }) {
   const level = useStore(store, s => s.level)
   const lang = i18n.resolvedLanguage
   const world = engine?.world
-  const narrow = useNarrow()
-  const [missionsOpen, setMissionsOpen] = useState(!narrow)
-  const [more, setMore] = useState(!narrow)
+  const vp = useViewport()
+  const narrow = vp.narrow
+  // a phone on its side: the particles down the left, the atom's card down the right
+  const side = vp.short && !vp.narrow
+  const [missionsOpen, setMissionsOpen] = useState(() => !(window.innerWidth < 640 || window.innerHeight < 520))
+  // the card shows two lines of what the atom is until tapped (all of them stood a third of a laptop's
+  // screen tall)
+  const [more, setMore] = useState(false)
   const [chart, setChart] = useState(false)
   const [hint, setHint] = useState(null)
   const [query, setQuery] = useState('')
   const [finding, setFinding] = useState(false)
   const [beaming, setBeaming] = useState(false)
+  const leftRef = useRef(null)
+  const topRef = useRef(null)
+  const rightRef = useRef(null)
+  const bottomRef = useRef(null)
+  useCover(leftRef, 'left', !!f && !narrow)
+  useCover(topRef, 'top', !!f && !side)
+  useCover(rightRef, 'right', !!f && !narrow)
+  useCover(bottomRef, 'bottom', !!f && !side)
   useEffect(() => {
     if (!party) return undefined
     const id = setTimeout(() => store.set({ forgeCelebrate: null }), 6000)
@@ -122,7 +128,15 @@ export default function ForgeHud({ engine }) {
     <button key="hold" type="button" className={`${btn} ${f.held ? 'bg-sky-400/40 hover:bg-sky-400/50' : ''}`} onClick={() => world?.setHeld?.(!f.held)} title={t('forge.holdTip')}>🧲 {t('forge.hold')}</button>,
     <button key="clear" type="button" className={btn} onClick={() => world?.clear?.()}>{t('forge.clear')}</button>,
   ]
-  const particle = ([k, count]) => (
+  const particle = ([k, count]) => side ? (
+    <div key={k} className="glass rounded-xl px-1.5 py-1 flex items-center gap-1.5 text-xs font-bold">
+      <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: DOT[k], boxShadow: `0 0 8px ${DOT[k]}` }} />
+      <span className="truncate flex-1">{t(`forge.${k}`)}</span>
+      <span className="font-display text-base tabular-nums">{count}</span>
+      <Repeat onFire={() => world?.remove?.(k)} label={`${t('forge.less')} ${t(`forge.${k}`)}`} className="w-7 h-7 rounded-lg bg-white/10 active:scale-95 text-base font-bold">−</Repeat>
+      <Repeat onFire={() => world?.add?.(k)} label={`${t('forge.more')} ${t(`forge.${k}`)}`} className="w-7 h-7 rounded-lg bg-white/20 active:scale-95 text-base font-bold">+</Repeat>
+    </div>
+  ) : (
     <div key={k} className="glass rounded-2xl p-1.5 sm:p-2">
       <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold">
         <span className="w-3 h-3 rounded-full shrink-0" style={{ background: DOT[k], boxShadow: `0 0 10px ${DOT[k]}` }} />
@@ -144,7 +158,7 @@ export default function ForgeHud({ engine }) {
         placeholder={t('forge.find')}
         className="bg-transparent outline-none text-sm w-44 sm:w-56 placeholder:text-white/50"
         aria-label={t('forge.find')}
-        autoFocus={narrow}
+        autoFocus={vp.compact}
       />
       <button type="submit" className="rounded-lg bg-white/15 hover:bg-white/25 px-2.5 py-1 text-xs font-bold">{t('forge.go')}</button>
     </form>
@@ -168,7 +182,7 @@ export default function ForgeHud({ engine }) {
     </div>
   )
   const missions = (
-    <div className="glass rounded-2xl p-2.5 w-[min(80vw,16rem)] pointer-events-auto max-h-[45vh] overflow-y-auto">
+    <div className={`glass rounded-2xl p-2.5 pointer-events-auto overflow-y-auto ${side ? 'w-full' : 'w-[min(80vw,16rem)]'} ${narrow ? 'max-h-[35vh]' : side ? '' : 'max-h-[45vh]'}`}>
       <button type="button" onClick={() => setMissionsOpen(o => !o)} className="font-display font-bold text-sm w-full text-left flex items-center justify-between gap-2">
         <span>{t('forge.missions')} · {f.done.length}/{MISSIONS.length}</span>
         <span className="opacity-60">{missionsOpen ? '▴' : '▾'}</span>
@@ -192,89 +206,114 @@ export default function ForgeHud({ engine }) {
     </div>
   )
 
-  return (
-    <>
-      {/* the particles: a column on the left, or a bar at the bottom of an upright phone */}
-      {narrow ? (
-        <div className="absolute inset-x-0 bottom-0 p-2 flex flex-col gap-1.5 pointer-events-none">
-          {finding && <div className="flex justify-center">{finder}</div>}
-          {beaming && <div className="flex justify-center">{beams}</div>}
-          {missionsOpen && <div className="flex justify-end">{missions}</div>}
-          <div className="flex flex-wrap gap-1 justify-center pointer-events-auto text-[11px] font-bold">
-            {quick}
-            <button type="button" className={btn} onClick={() => setMissionsOpen(o => !o)}>🏆 {f.done.length}/{MISSIONS.length}</button>
-            <button type="button" className={`${btn} ${chart ? 'bg-white/25' : ''}`} onClick={() => setChart(c => !c)} aria-label={t('forge.chart')}>🗺️</button>
-            <button type="button" className={`${btn} ${finding ? 'bg-white/25' : ''}`} onClick={() => setFinding(x => !x)} aria-label={t('forge.find')}>🔎</button>
-            <button type="button" className={`${btn} ${beaming ? 'bg-white/25' : ''}`} onClick={() => setBeaming(x => !x)} aria-label={t('forge.beam')}>🚀</button>
-          </div>
-          <div className="grid grid-cols-3 gap-1.5 pointer-events-auto">{[['p', Z], ['n', N], ['e', E]].map(particle)}</div>
-        </div>
-      ) : (
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 flex flex-col gap-2 pointer-events-auto w-44">
-          {[['p', Z], ['n', N], ['e', E]].map(particle)}
-          <div className="glass rounded-2xl p-1.5 grid grid-cols-2 gap-1 text-xs font-bold">{quick}</div>
-          {beams}
-        </div>
+  // what the atom is (with the celebration of a mission done at its top)
+  const card = (
+    <div className={`glass rounded-2xl px-3 sm:px-4 py-2 text-center pointer-events-auto w-full ${party ? 'border-amber-300/70 shadow-[0_0_24px_rgba(252,211,77,0.35)]' : ''}`}>
+      {party && (
+        <div className="font-display font-bold text-amber-300 leading-tight mb-1">🎉 {t('forge.missionDone')} <span className="whitespace-nowrap">{party.name}</span></div>
       )}
-
-      {/* what the atom is */}
-      <div className="absolute inset-x-0 top-14 sm:top-16 flex justify-center pointer-events-none px-2">
-        <div className="glass rounded-2xl px-3 sm:px-4 py-2 text-center w-full max-w-lg pointer-events-auto">
-          <div className="flex items-baseline justify-center gap-2.5 flex-wrap">
-            {sym && <span className="font-display text-3xl sm:text-4xl font-bold leading-none">{sym}</span>}
-            <span className="font-display text-base sm:text-lg font-bold">{title}</span>
-          </div>
-          <div className="flex items-center justify-center gap-2 mt-1 flex-wrap">
-            <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${CHIP[nuc.kind] ?? ''}`}>{chip}{half && nuc.kind !== 'instant' ? ` · ${half}` : ''}</span>
-            {f.canDecay && (
-              <button type="button" onClick={() => world?.decay?.()} className="rounded-full bg-amber-400 text-[#1a1030] font-bold text-xs px-3 py-1 hover:bg-amber-300 active:scale-95">
-                ⏩ {half && nuc.kind === 'radioactive' && nuc.t > 3 ? t('forge.waitFor', { t: half }) : t('forge.decay')}
-              </button>
-            )}
-          </div>
-          {event && <div className="mt-1.5 text-[13px] text-amber-200 font-bold">{level === 'scientist' ? event.sci : event.kid}</div>}
-          {lonely && <div className="mt-1 text-[13px] text-amber-200">{lonely}</div>}
-          <button type="button" onClick={() => setMore(m => !m)} className="w-full text-left mt-1">
-            <ul className={`space-y-0.5 text-[13px] leading-snug ${more ? '' : 'line-clamp-2'}`}>
-              {lines.map((l, i) => <li key={i} className={TONE[l.tone]}>{l.text}</li>)}
-            </ul>
-            {!more && lines.length > 1 && <span className="text-xs opacity-60">{t('forge.moreText')}</span>}
+      <div className="flex items-baseline justify-center gap-2.5 flex-wrap">
+        {sym && <span className={`font-display font-bold leading-none ${side ? 'text-2xl' : 'text-3xl sm:text-4xl'}`}>{sym}</span>}
+        <span className="font-display text-base sm:text-lg font-bold">{title}</span>
+      </div>
+      <div className="flex items-center justify-center gap-2 mt-1 flex-wrap">
+        <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${CHIP[nuc.kind] ?? ''}`}>{chip}{half && nuc.kind !== 'instant' ? ` · ${half}` : ''}</span>
+        {f.canDecay && (
+          <button type="button" onClick={() => world?.decay?.()} className="rounded-full bg-amber-400 text-[#1a1030] font-bold text-xs px-3 py-1 hover:bg-amber-300 active:scale-95">
+            ⏩ {half && nuc.kind === 'radioactive' && nuc.t > 3 ? t('forge.waitFor', { t: half }) : t('forge.decay')}
           </button>
+        )}
+      </div>
+      {event && <div className="mt-1.5 text-[13px] text-amber-200 font-bold">{level === 'scientist' ? event.sci : event.kid}</div>}
+      {lonely && <div className="mt-1 text-[13px] text-amber-200">{lonely}</div>}
+      <button type="button" onClick={() => setMore(m => !m)} className="w-full text-left mt-1">
+        <ul className={`space-y-0.5 text-[13px] leading-snug ${more ? '' : 'line-clamp-2'}`}>
+          {lines.map((l, i) => <li key={i} className={TONE[l.tone]}>{l.text}</li>)}
+        </ul>
+        {!more && lines.length > 1 && <span className="text-xs opacity-60">{t('forge.moreText')}</span>}
+      </button>
+    </div>
+  )
+  const chartBox = (
+    <div className="glass rounded-2xl p-3 pointer-events-auto">
+      <div className="flex items-center justify-between mb-1.5">
+        <div className="font-display font-bold">{t('forge.chart')}</div>
+        <button type="button" onClick={() => setChart(false)} className="rounded-lg px-2 py-0.5 text-sm hover:bg-white/10" aria-label={t('hud.close')}>✕</button>
+      </div>
+      <div className="text-xs opacity-80 mb-2">{t(level === 'scientist' ? 'forge.chartSci' : 'forge.chartKid')}</div>
+      <NuclideChart Z={Z} N={N} onPick={(z, n) => world?.set?.(z, n, z)} />
+    </div>
+  )
+  // on a phone the missions, the chart, the finder and the beam open from these
+  const tools = [
+    <button key="missions" type="button" className={`${btn} ${missionsOpen ? 'bg-white/25' : ''}`} onClick={() => setMissionsOpen(o => !o)}>🏆 {f.done.length}/{MISSIONS.length}</button>,
+    <button key="chart" type="button" className={`${btn} ${chart ? 'bg-white/25' : ''}`} onClick={() => setChart(c => !c)} aria-label={t('forge.chart')}>🗺️</button>,
+    <button key="find" type="button" className={`${btn} ${finding ? 'bg-white/25' : ''}`} onClick={() => setFinding(x => !x)} aria-label={t('forge.find')}>🔎</button>,
+    <button key="beam" type="button" className={`${btn} ${beaming ? 'bg-white/25' : ''}`} onClick={() => setBeaming(x => !x)} aria-label={t('forge.beam')}>🚀</button>,
+  ]
+
+  // an upright phone: the card (or the chart) at the top, the particles and the tools in a bar at the
+  // bottom
+  if (narrow) return (
+    <>
+      <div ref={topRef} className="absolute inset-x-2 top-[calc(var(--bar)+0.25rem)] flex flex-col pointer-events-none">
+        {chart ? <div className="max-h-[45vh] overflow-y-auto overscroll-contain pointer-events-auto rounded-2xl">{chartBox}</div> : card}
+      </div>
+      <div ref={bottomRef} className="absolute inset-x-0 bottom-0 p-2 flex flex-col gap-1.5 pointer-events-none">
+        {finding && <div className="flex justify-center">{finder}</div>}
+        {beaming && <div className="flex justify-center">{beams}</div>}
+        {missionsOpen && <div className="flex justify-end">{missions}</div>}
+        <div className="flex flex-wrap gap-1 justify-center pointer-events-auto text-[11px] font-bold">
+          {quick}
+          {tools}
+        </div>
+        <div className="grid grid-cols-3 gap-1.5 pointer-events-auto">{[['p', Z], ['n', N], ['e', E]].map(particle)}</div>
+      </div>
+    </>
+  )
+
+  // a phone on its side: the particles and the tools down the left, the card (or the tool opened)
+  // down the right
+  if (side) return (
+    <>
+      <div ref={leftRef} className="absolute left-1.5 top-[calc(var(--bar)+0.25rem)] bottom-1.5 w-[11.5rem] flex flex-col gap-1 overflow-y-auto pointer-events-auto">
+        {[['p', Z], ['n', N], ['e', E]].map(particle)}
+        <div className="glass rounded-xl p-1 grid grid-cols-2 gap-1 text-[11px] font-bold">
+          {quick}
+          {tools}
         </div>
       </div>
+      <div ref={rightRef} className="absolute right-1.5 top-[calc(var(--bar)+0.25rem)] flex flex-col gap-1.5 overflow-y-auto overscroll-contain pointer-events-auto" style={{ width: 'min(18rem, 36vw)', maxHeight: 'calc(100vh - var(--bar) - 0.75rem)' }}>
+        {chart ? chartBox : finding ? finder : beaming ? beams : missionsOpen ? missions : card}
+      </div>
+    </>
+  )
 
-      {/* the missions and the chart (on a phone they open from the bottom bar) */}
-      {!narrow && (
-        <div className="absolute right-3 top-36 flex flex-col gap-2 items-end pointer-events-none">
-          {missions}
-          <button type="button" onClick={() => setChart(c => !c)} className="glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto hover:bg-white/10">
-            🗺️ {t('forge.chart')}
-          </button>
-        </div>
-      )}
+  // a computer or a tablet: the particles on the left, the card at the top, the missions and the chart
+  // on the right, the finder at the bottom
+  return (
+    <>
+      <div ref={leftRef} className="absolute left-3 top-1/2 -translate-y-1/2 flex flex-col gap-2 pointer-events-auto w-44">
+        {[['p', Z], ['n', N], ['e', E]].map(particle)}
+        <div className="glass rounded-2xl p-1.5 grid grid-cols-2 gap-1 text-xs font-bold">{quick}</div>
+        {beams}
+      </div>
 
-      {chart && (
-        <div className={`absolute glass rounded-2xl p-3 pointer-events-auto ${narrow ? 'inset-x-2 top-14 max-h-[70vh] overflow-y-auto' : 'right-3 bottom-20 w-[24rem]'}`}>
-          <div className="flex items-center justify-between mb-1.5">
-            <div className="font-display font-bold">{t('forge.chart')}</div>
-            <button type="button" onClick={() => setChart(false)} className="rounded-lg px-2 py-0.5 text-sm hover:bg-white/10" aria-label={t('hud.close')}>✕</button>
-          </div>
-          <div className="text-xs opacity-80 mb-2">{t(level === 'scientist' ? 'forge.chartSci' : 'forge.chartKid')}</div>
-          <NuclideChart Z={Z} N={N} onPick={(z, n) => world?.set?.(z, n, z)} />
-        </div>
-      )}
+      <div className="absolute inset-x-0 top-[calc(var(--bar)+0.25rem)] flex justify-center pointer-events-none px-2">
+        <div ref={topRef} style={{ width: 'min(32rem, calc(100vw - 35rem))', minWidth: '16rem' }}>{card}</div>
+      </div>
 
-      {!narrow && <div className="absolute inset-x-0 bottom-3 flex justify-center pointer-events-none px-2">{finder}</div>}
+      <div ref={rightRef} className="absolute right-3 top-[calc(var(--bar)+0.25rem)] flex flex-col gap-2 items-end pointer-events-none" style={{ maxHeight: 'calc(100vh - var(--bar) - 4.5rem)' }}>
+        {!chart && missions}
+        <button type="button" onClick={() => setChart(c => !c)} className={`glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto hover:bg-white/10 ${chart ? 'bg-white/20' : ''}`}>
+          🗺️ {t('forge.chart')}
+        </button>
+        {chart && <div className="w-[24rem] max-h-[calc(100vh-var(--bar)-7rem)] overflow-y-auto overscroll-contain pointer-events-auto rounded-2xl">{chartBox}</div>}
+      </div>
 
-      {party && (
-        <div className={`absolute inset-x-0 flex justify-center pointer-events-none px-2 ${narrow ? 'bottom-48' : 'bottom-16'}`}>
-          <div className="glass rounded-3xl px-6 py-4 text-center shadow-2xl animate-[pulse_1.2s_ease-in-out_2] border-amber-300/60">
-            <div className="text-3xl">🎉</div>
-            <div className="font-display text-sm font-bold opacity-80 mt-1">{t('forge.missionDone')}</div>
-            <div className="font-display text-2xl font-bold text-amber-300">{party.name}</div>
-          </div>
-        </div>
-      )}
+      <div className="absolute inset-x-0 bottom-3 flex justify-center pointer-events-none px-2">
+        <div ref={bottomRef}>{finder}</div>
+      </div>
     </>
   )
 }

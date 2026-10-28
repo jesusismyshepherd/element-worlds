@@ -128,7 +128,10 @@
     "forge": "Atom Forge",
     "menu": "Menu",
     "soundOn": "Turn the sound on",
-    "soundOff": "Turn the sound off"
+    "soundOff": "Turn the sound off",
+    "fullscreen": "Full screen",
+    "exitFullscreen": "Leave full screen",
+    "find": "Find an element"
   },
   "atomlings": {
     "title": "Atomlings",

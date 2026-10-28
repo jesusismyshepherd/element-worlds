@@ -1,8 +1,10 @@
 // The little window for writing your name in neon: a text box, a button for each sign gas (in its
 // colour), "Light it!" and "Close". Plain DOM over the 3D (the wing adds it while it is open and takes
-// it away when you leave), in the HUD's glass look. Keys typed here never reach the walker (the box
+// it away when you leave), in the HUD's glass look, at the left edge under the top bar (across the top
+// of an upright phone) so the sign being written stays in view (docs/knowledge/hud-layout.md). Keys typed here never reach the walker (the box
 // stops them), Enter lights the word, Escape closes.
 import { sanitizeName, NAME_MAX } from './tubeFont.js'
+import { coverId, setCover } from '../../../engine/covers.js'
 
 export function nameOverlay({ parent, words, gases, glowOf, nameOf, onPreview, onSubmit, onClose }) {
   let root = null
@@ -10,6 +12,19 @@ export function nameOverlay({ parent, words, gases, glowOf, nameOf, onPreview, o
   let chips = []
   let gas = gases[0]
   let isOpen = false
+  const cover = coverId()
+  const portrait = () => window.innerHeight > window.innerWidth
+  // what the window covers moves the world's centre beside it
+  const report = () => {
+    if (!isOpen || !root) return setCover(cover, null)
+    const r = root.getBoundingClientRect()
+    setCover(cover, portrait() ? { side: 'top', size: r.bottom } : { side: 'left', size: r.right })
+  }
+  const place = () => {
+    if (!root) return
+    Object.assign(root.style, portrait() ? { left: '8px', right: '8px', width: 'auto' } : { left: '8px', right: 'auto', width: 'min(24rem, 44vw)' })
+    report()
+  }
 
   const paintChips = () => {
     for (const c of chips) {
@@ -23,7 +38,7 @@ export function nameOverlay({ parent, words, gases, glowOf, nameOf, onPreview, o
     root = document.createElement('div')
     root.className = 'glass'
     Object.assign(root.style, {
-      position: 'absolute', top: '96px', left: '50%', transform: 'translateX(-50%)', width: 'min(92vw, 27rem)',
+      position: 'absolute', top: 'calc(var(--bar) + 4px)', maxHeight: 'calc(100vh - var(--bar) - 12px)', overflowY: 'auto', boxSizing: 'border-box',
       zIndex: '30', padding: '14px 16px 16px', borderRadius: '18px', color: '#eef2ff', pointerEvents: 'auto',
       boxShadow: '0 12px 40px rgba(0,0,0,0.5)', borderColor: 'rgba(255,138,92,0.55)', fontFamily: 'Nunito, system-ui, sans-serif',
     })
@@ -127,6 +142,8 @@ export function nameOverlay({ parent, words, gases, glowOf, nameOf, onPreview, o
     paintChips()
     if (!root.parentNode) parent.append(root)
     isOpen = true
+    place()
+    window.addEventListener('resize', place)
     setTimeout(() => {
       input.focus()
       input.select()
@@ -138,6 +155,8 @@ export function nameOverlay({ parent, words, gases, glowOf, nameOf, onPreview, o
     isOpen = false
     root?.remove()
     input?.blur()
+    window.removeEventListener('resize', place)
+    setCover(cover, null)
     onClose?.(submitted)
   }
 
@@ -150,6 +169,8 @@ export function nameOverlay({ parent, words, gases, glowOf, nameOf, onPreview, o
     dispose() {
       isOpen = false
       root?.remove()
+      window.removeEventListener('resize', place)
+      setCover(cover, null)
       root = null
     },
   }

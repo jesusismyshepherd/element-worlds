@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
@@ -7,6 +7,7 @@ import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
 import { loadContent } from '../content/index.js'
 import { makeQuestion, cluesFor, points } from '../game/quiz.js'
 import { play } from '../audio/sound.js'
+import { useCover, useViewport } from './layout.js'
 
 const ROUND = 10
 const BEST = 'ew-quiz-best'
@@ -19,7 +20,8 @@ function readBest() {
   }
 }
 
-/** "Who am I?": ten mystery elements a round, told by clues; the plaza flies to each answer. */
+/** "Who am I?": ten mystery elements a round, told by clues; the plaza flies to each answer. It sits
+ *  down the left side (across the top of an upright phone), and the table moves into the rest. */
 export default function QuizHud({ select, overview, onClose }) {
   const { t, i18n } = useTranslation()
   const level = useStore(store, s => s.level)
@@ -29,6 +31,10 @@ export default function QuizHud({ select, overview, onClose }) {
   const [shown, setShown] = useState(1)
   const [picked, setPicked] = useState(null)
   const [best, setBest] = useState(readBest)
+  const { portrait } = useViewport()
+  // the box is there from the start, so the first overview already fits the table beside it
+  const box = useRef(null)
+  useCover(box, portrait ? 'top' : 'left')
 
   const next = async (asked = round.asked) => {
     const nq = makeQuestion(level, Math.random, asked)
@@ -44,7 +50,15 @@ export default function QuizHud({ select, overview, onClose }) {
     // a change of level starts a new round (the elements asked about change)
   }, [level]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!q) return null
+  const place = portrait
+    ? { left: '0.5rem', right: '0.5rem', top: 'calc(var(--bar) + 0.25rem)', maxHeight: '48vh' }
+    : { left: '0.5rem', top: 'calc(var(--bar) + 0.25rem)', width: 'min(24rem, 44vw)', maxHeight: 'calc(100vh - var(--bar) - 0.75rem)' }
+  const frame = body => (
+    <div ref={box} className="absolute glass rounded-2xl p-3 sm:p-4 pointer-events-auto shadow-2xl overflow-y-auto overscroll-contain" style={place}>
+      {body}
+    </div>
+  )
+  if (!q) return frame(<div className="font-display text-lg font-bold">❓ {t('quiz.title')}</div>)
   const el = ELEMENTS[q.answer - 1]
   const clues = cluesFor(q, q.content, lang, q.level, t(`families.${el.family}`))
   const done = picked != null
@@ -76,12 +90,11 @@ export default function QuizHud({ select, overview, onClose }) {
     next([])
   }
 
-  return (
-    <div className="absolute inset-x-2 top-14 sm:top-16 flex justify-center pointer-events-none">
-      <div className="glass rounded-2xl p-3 sm:p-4 w-full max-w-md pointer-events-auto shadow-2xl max-h-[70vh] overflow-y-auto">
+  return frame(
+      <>
         <div className="flex items-center gap-2">
-          <div className="font-display text-lg font-bold">❓ {t('quiz.title')}</div>
-          <div className="text-xs opacity-80 ml-auto">{t('quiz.progress', { n: Math.min(ROUND, round.n + (done ? 0 : 1)), of: ROUND })} · {t('quiz.score', { count: round.score })}</div>
+          <div className="font-display text-lg font-bold whitespace-nowrap">❓ {t('quiz.title')}</div>
+          <div className="text-xs opacity-80 ml-auto text-right">{t('quiz.progress', { n: Math.min(ROUND, round.n + (done ? 0 : 1)), of: ROUND })} · {t('quiz.score', { count: round.score })}</div>
           <button type="button" onClick={onClose} className="rounded-lg px-2 py-0.5 text-sm hover:bg-white/10" aria-label={t('hud.close')}>✕</button>
         </div>
 
@@ -136,7 +149,6 @@ export default function QuizHud({ select, overview, onClose }) {
             )}
           </div>
         )}
-      </div>
-    </div>
+      </>,
   )
 }

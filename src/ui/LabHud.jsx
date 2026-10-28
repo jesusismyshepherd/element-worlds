@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
 import { handsOf, parseFormula, isMetal } from '../chem/build.js'
+import { useCover, useViewport } from './layout.js'
 
 // non-metals (they hold hands) and metals (their hands give electrons away: ionic compounds)
 const PALETTE = ['H', 'C', 'N', 'O', 'F', 'Cl', 'S', 'Li', 'Na', 'K', 'Mg', 'Ca', 'Al']
@@ -16,16 +17,29 @@ export function Formula({ text }) {
   return <span>{[...text.matchAll(/([A-Z][a-z]?|\(|\))|(\d+)/g)].map((m, i) => (m[2] ? <sub key={i}>{m[2]}</sub> : <span key={i}>{m[1]}</span>))}</span>
 }
 
-/** The Molecule Lab's HUD: the palette, what is on the table, the missions, the celebration. */
+/** The Molecule Lab's HUD, at the edges so the molecule has the middle (docs/knowledge/hud-layout.md):
+ *  the palette (a column on the left, a bar at the bottom of an upright phone), what is on the table
+ *  and the celebration (a card at the top), the missions (right), remove and clear (bottom). */
 export default function LabHud({ engine }) {
   const { t, i18n } = useTranslation()
   const lab = useStore(store, s => s.lab)
   const party = useStore(store, s => s.labCelebrate)
   const [hint, setHint] = useState(null)
-  // on a small screen the missions fold into a button and the palette is a bar at the bottom, so the
-  // molecule stays in view
-  const narrow = window.innerWidth < 640
-  const [open, setOpen] = useState(() => !narrow)
+  // on a phone the missions fold into a button and the palette is a bar at the bottom (upright) or a
+  // narrow column (on its side), so the molecule stays in view
+  const vp = useViewport()
+  const narrow = vp.narrow
+  const side = vp.short && !vp.narrow
+  const [open, setOpen] = useState(() => !(window.innerWidth < 640 || window.innerHeight < 520))
+  const [factOpen, setFactOpen] = useState(false)
+  const paletteRef = useRef(null)
+  const infoRef = useRef(null)
+  const missionsRef = useRef(null)
+  const buttonsRef = useRef(null)
+  useCover(paletteRef, narrow ? 'bottom' : 'left', !!lab)
+  useCover(infoRef, 'top', !!lab)
+  useCover(missionsRef, 'right', !!lab && open && !narrow)
+  useCover(buttonsRef, 'bottom', !!lab && side)
   const lang = i18n.resolvedLanguage
   const world = engine?.world
   useEffect(() => {
@@ -44,9 +58,11 @@ export default function LabHud({ engine }) {
 
   return (
     <>
-      <div className={narrow
+      <div ref={paletteRef} className={narrow
         ? 'absolute inset-x-0 bottom-14 px-2 flex gap-1.5 overflow-x-auto pointer-events-auto pb-1'
-        : 'absolute left-3 top-1/2 -translate-y-1/2 grid grid-flow-col grid-rows-7 gap-1.5 pointer-events-auto'}
+        : side
+          ? 'absolute left-1.5 top-[calc(var(--bar)+0.25rem)] bottom-1.5 grid grid-cols-2 auto-rows-min gap-1 overflow-y-auto pointer-events-auto'
+          : 'absolute left-3 top-1/2 -translate-y-1/2 grid grid-flow-col grid-rows-7 gap-1.5 pointer-events-auto'}
       >
         {PALETTE.map(s => (
           <button
@@ -54,7 +70,7 @@ export default function LabHud({ engine }) {
             type="button"
             title={`${nameOf(element(s), lang)}: ${t(isMetal(s) ? 'lab.gives' : 'lab.hands', { count: handsOf(s) })}`}
             onClick={() => world?.add?.(s)}
-            className={`glass shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center hover:bg-white/10 active:scale-95 transition ${isMetal(s) ? 'border-amber-300/40' : ''}`}
+            className={`glass shrink-0 ${side ? 'w-11 h-11 rounded-xl' : 'w-12 h-12 sm:w-14 sm:h-14 rounded-2xl'} flex flex-col items-center justify-center hover:bg-white/10 active:scale-95 transition ${isMetal(s) ? 'border-amber-300/40' : ''}`}
           >
             <span className="font-display text-lg sm:text-xl font-bold" style={{ color: colorOf(s) }}>{s}</span>
             <span className="text-[10px] opacity-80 leading-none">{(isMetal(s) ? '🤲' : '✋').repeat(handsOf(s))}</span>
@@ -62,19 +78,29 @@ export default function LabHud({ engine }) {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 top-14 sm:top-16 flex justify-center pointer-events-none px-2">
-        <div className="glass rounded-2xl px-4 py-2 text-center max-w-md">
+      <div className={`absolute top-[calc(var(--bar)+0.25rem)] flex pointer-events-none ${side ? 'left-[6.75rem] justify-start' : 'inset-x-0 justify-center px-2'}`}>
+        <div ref={infoRef} className={`glass rounded-2xl px-4 py-2 text-center pointer-events-auto ${party ? 'border-amber-300/70 shadow-[0_0_24px_rgba(252,211,77,0.35)]' : ''}`} style={{ maxWidth: side ? 'min(28rem, 46vw)' : '28rem' }}>
+          {party && (
+            <div className="font-display font-bold text-amber-300 leading-tight mb-1">🎉 {t('lab.made', { name: party.name })}</div>
+          )}
           {lab.count === 0 ? (
             <div className="text-sm">{t('lab.start')}</div>
           ) : (
             <>
-              <div className="font-display text-2xl font-bold"><Formula text={lab.formula} /></div>
+              <div className={`font-display font-bold ${side ? 'text-xl' : 'text-2xl'}`}>
+                <Formula text={lab.formula} />
+                {side && lab.name && <span className="text-base text-amber-300"> · {lab.name}</span>}
+              </div>
               <div className="text-sm">
-                {lab.name ? <span className="font-bold text-amber-300">{lab.name}</span> : null}
-                {lab.name && !lab.complete ? <span> · </span> : null}
+                {lab.name && !side ? <span className="font-bold text-amber-300">{lab.name}</span> : null}
+                {lab.name && !side && !lab.complete ? <span> · </span> : null}
                 {lab.complete ? (lab.name ? null : <span>{t('lab.stable')}</span>) : <span>{t('lab.free', { count: lab.free })}</span>}
               </div>
-              {lab.fact && lab.complete && <div className="text-[13px] opacity-90 mt-1">{lab.fact}</div>}
+              {lab.fact && lab.complete && (
+                <button type="button" onClick={() => setFactOpen(o => !o)} className={`w-full text-[13px] opacity-90 mt-1 ${vp.compact && !factOpen ? (side ? 'line-clamp-1' : 'line-clamp-2') : ''}`}>
+                  {lab.fact}
+                </button>
+              )}
               {lab.ionic && lab.complete && <div className="text-[12px] text-amber-200 mt-1">{t('lab.ionic')}</div>}
               {lab.note && <div className="text-[12px] text-amber-200 mt-1">{t(`lab.${lab.note}`)}</div>}
             </>
@@ -82,7 +108,7 @@ export default function LabHud({ engine }) {
         </div>
       </div>
 
-      <div className={`absolute right-2 sm:right-3 glass rounded-2xl p-3 w-[min(70vw,15rem)] pointer-events-auto overflow-y-auto ${narrow ? 'bottom-[7.6rem] max-h-[45vh]' : 'top-32 max-h-[55vh]'}`}>
+      <div ref={missionsRef} className={`absolute right-2 sm:right-3 glass rounded-2xl p-3 w-[min(70vw,15rem)] pointer-events-auto overflow-y-auto ${narrow ? 'bottom-[7.6rem] max-h-[45vh]' : side ? 'top-[calc(var(--bar)+0.25rem)] max-h-[calc(100vh-var(--bar)-3.5rem)]' : 'top-32 max-h-[55vh]'}`}>
         <button type="button" onClick={() => setOpen(o => !o)} className="font-display font-bold text-sm w-full text-left flex items-center justify-between gap-2">
           <span>{t('lab.missions')} · {done}/{lab.missions.length}</span>
           <span className="opacity-60">{open ? '▴' : '▾'}</span>
@@ -106,24 +132,14 @@ export default function LabHud({ engine }) {
         </ul>}
       </div>
 
-      <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2 pointer-events-none">
+      <div ref={buttonsRef} className={`absolute flex gap-2 pointer-events-none ${side ? 'right-1.5 bottom-1.5 justify-end' : 'inset-x-0 bottom-3 justify-center'}`}>
         <button type="button" disabled={!lab.selected} onClick={() => world?.removeSelected?.()} className="glass rounded-xl px-3 py-1.5 text-sm font-bold pointer-events-auto disabled:opacity-40">
           {t('lab.remove')}{lab.selected ? ` ${lab.selected}` : ''}
         </button>
         <button type="button" onClick={() => world?.clear?.()} className="glass rounded-xl px-3 py-1.5 text-sm font-bold pointer-events-auto">{t('lab.clear')}</button>
       </div>
 
-      <div className="absolute inset-x-0 bottom-14 text-center text-xs opacity-70 px-4 pointer-events-none hidden sm:block">{t('lab.help')}</div>
-
-      {party && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="glass rounded-3xl px-6 py-5 text-center shadow-2xl animate-[pulse_1.2s_ease-in-out_2] border-amber-300/60">
-            <div className="text-4xl">🎉</div>
-            <div className="font-display text-2xl font-bold mt-1">{t('lab.made', { name: party.name })}</div>
-            <div className="font-display text-3xl font-bold text-amber-300"><Formula text={party.show} /></div>
-          </div>
-        </div>
-      )}
+      {!vp.compact && <div className="absolute inset-x-0 bottom-14 text-center text-xs opacity-70 px-4 pointer-events-none">{t('lab.help')}</div>}
     </>
   )
 }

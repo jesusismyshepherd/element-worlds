@@ -15,5 +15,8 @@ description: Build or change a wing (a world designed for one element, reached f
 5. Check facts (numbers from `src/data/elements.json`; say "predicted" for predictions).
 6. Look at it: `MSYS_NO_PATHCONV=1 python tools/shot.py /e/<Symbol>/<id> --steps "js:__ew.teleport(x, z, yaw, pitch); wait:1; shot:name"`
    for every exhibit, both views (`__ew.setMode('first')`), `--lang en`, `--level scientist`, `--phone`.
+   Nothing of the HUD in the middle of the screen (`docs/knowledge/hud-layout.md`): panels and speech
+   go through the store; a window of the wing's own sits at an edge, reports its cover and sets
+   `store.overlay`; add it to `tools/hud_probe.py` and run that.
 7. `npm test`, `npx vite build`; write what you learned into `docs/knowledge/` (traps and fixes) and
    the status in `CLAUDE.md`; commit and push.

@@ -21,6 +21,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   Say "predicted" where a value is a prediction (superheavy elements).
 - Never truncate a file before its new content exists (patch scripts: build the text, write a temp
   file, rename it over the original).
+- The middle of the screen stays free (the user, 2026-10-28): every prompt, label, story and tool hugs an
+  edge; what opens to be read is a side sheet (a top sheet on an upright phone) and reports what it
+  covers, so the world's centre moves into the part left free. `docs/knowledge/hud-layout.md`; check
+  with `tools/hud_probe.py` after any HUD change or any new window a world opens.
 - Heavy jobs on this machine (browser probes, renders) go through the pokemon project's lock when other
   sessions are busy: `python "D:/Family/Artur/pokemon images/blender/arena/tools/heavy.py" <label> -- <cmd>`.
 
@@ -28,8 +32,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 
 - `docs/design.md`: what it is, the decisions, the Atomling grammar, the extension path to molecules.
 - `docs/knowledge/`: `adding-a-wing.md` (the world contract, words, pieces, checking), `atomlings.md`
-  (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`. Read the one for the
-  area you touch.
+  (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `hud-layout.md` (the
+  HUD's layout rule, covers and the view offset, full screen). Read the one for the area you touch.
 - `.claude/skills/element-wing/`: the steps for building an element's wing.
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
@@ -55,7 +59,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `src/worlds/registry.js`: addresses (`/`, `/e/C`, `/e/C/allotropes`) and which module builds each world.
   `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
   `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).
-- `src/ui/`: the HUD (React). `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`, all 118).
+- `src/ui/`: the HUD (React). `layout.js` (`useViewport`: computer, upright phone, phone on its side;
+  `useCover`), `fullscreen.js` (the button, full screen at a touch screen's first tap); the engine side
+  of covers is `src/engine/covers.js`. `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`).
+  `public/manifest.webmanifest`: the site added to a home screen opens full screen (iPhone too).
 - `src/worlds/forge/` + `src/ui/ForgeHud.jsx`, `src/ui/NuclideChart.jsx`: the Atom Forge (`/forge`):
   build atoms from protons, neutrons and electrons, watch nuclei decay; physics in `src/chem/nucleus.js`.
   `src/worlds/common/pack.js`: an even ball of points (every nucleus).
@@ -72,6 +79,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back),
   `tools/halls_probe.py` (all 118 halls, every panel, both languages and depths: words gone wrong, errors;
   under 2 minutes). `shot.py --base https://element-worlds.vercel.app` looks at the live site.
+  `tools/hud_probe.py` (the HUD keeps the middle free on six screens, ten scenes; screenshots in
+  `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons).
+  Probes run with `py -3.11` (Playwright is installed there).
 - Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
 
 ## Working traps
@@ -88,7 +98,7 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   for formulas, superscripts only in the HUD (HTML).
 - Commit by path while other agents or sessions have work in the tree (`git add <paths>`, never `-A`).
   A shared file that also holds another agent's unfinished lines (the locale files, `registry.js`): stage
-  only yours, `python -X utf8 E:\Business\loveandhealing	ools\stage_own_edits.py <file> <edits.json>`
+  only yours, `python -X utf8 E:\Business\loveandhealing\tools\stage_own_edits.py <file> <edits.json>`
   (HEAD's version plus your replacements; then commit without a pathspec). Check that what is staged
   stands alone: `python -X utf8 tools/check_staged.py` (exports the index, tests and builds it) (2026-10-28: the noble-gas wing's titles and registry entries sat in the same
   files as the lab's keys; committing them early would have broken the live site).
@@ -126,7 +136,13 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   particles and nuclei at it; famous reactions as history saw them, superheavies by fusion-evaporation.
 - "Who am I?" (2026-10-28 night): a quiz in the plaza, Explorer from 40 well-known elements, Scientist
   from all 118; fewer clues, more points; the best score kept on the device.
-- Open: the user's review (the Atomlings' look, the worlds, the forge). First visits: shaders are
+- The HUD around the middle (2026-10-28, the user's first feedback from a phone: no full screen, the
+  pop-ups covered the table, something always in the middle inside the halls): one rule for every
+  screen (`docs/knowledge/hud-layout.md`): edges only, a dock of tools on the plaza, side or top sheets
+  for stories and the quiz, the world's centre drawn in the part left free (covers and the camera's
+  view offset), phones' pages, level and language in the ☰ menu, full screen (a button; a touch
+  screen's first tap; the home-screen app). `tools/hud_probe.py` passes 60 of 60.
+- Open: the user's review (the Atomlings' look, the worlds, the forge, the new HUD). First visits: shaders are
   now warmed for the bloom's linear buffer (2026-10-28; they were warmed for the screen, a wasted half
   that recompiled on the first frames): cold first visits 1.2 to 3.9 s (carbon's gallery was 10 s);
   fewer material variants would cut more (the gallery still needs 53 programs); the third-person camera keeps clear of solids and looks up when the

@@ -1,17 +1,68 @@
 /* eslint-disable react/prop-types */
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FAMILY, nameOf } from '../data/elements.js'
 import { temperature, density, num, config, LANG_TAG } from './format.js'
 import { WINGS } from '../worlds/registry.js'
 
-/** An element's card on the plaza: the tile as on a printed table and what matters at each level. */
-export default function ElementCard({ el, level, selected, onEnter, touch }) {
+/** An element's card on the plaza: the tile as on a printed table and what matters at each level.
+ *  compact (a phone): the tile, the name and "Step inside" in one strip; the rest a tap away. */
+export default function ElementCard({ el, level, selected, onEnter, touch, compact = false }) {
+  const [more, setMore] = useState(false)
   const { t, i18n } = useTranslation()
   const lang = i18n.resolvedLanguage
   const tag = LANG_TAG[lang] ?? lang
   const color = FAMILY[el.family].color
   const state = el.state ? t(el.statePredicted ? 'state.at20Predicted' : 'state.at20', { state: t(`state.${el.state}`) }) : null
   const sci = level === 'scientist'
+  if (compact) return (
+    <div className="glass rounded-2xl p-2 shadow-2xl text-left w-full">
+      <div className="flex gap-2.5 items-center">
+        <div
+          className="shrink-0 w-14 h-14 rounded-xl flex flex-col justify-between p-1 font-display"
+          style={{ background: `linear-gradient(160deg, ${color}55, ${color}18)`, border: `2px solid ${color}` }}
+        >
+          <div className="text-[10px] leading-none opacity-90">{el.z}</div>
+          <div className="text-2xl font-bold leading-none text-center">{el.symbol}</div>
+          <div className="text-[9px] leading-none text-center opacity-80">{num(el.mass, tag, 4)}</div>
+        </div>
+        <button type="button" onClick={() => setMore(m => !m)} className="min-w-0 flex-1 text-left" aria-expanded={more}>
+          <div className="font-display text-xl font-bold leading-tight truncate">{nameOf(el, lang)} <span className="text-xs opacity-60 align-middle">{more ? '▴' : '▾'}</span></div>
+          <div className="text-xs font-bold truncate" style={{ color }}>{t(`family.${el.family}`)}{state ? <span className="text-white/80 font-normal"> · {state}</span> : null}</div>
+        </button>
+        {selected && (
+          <button
+            type="button"
+            onClick={onEnter}
+            className="shrink-0 font-display font-bold text-base px-3 py-2 rounded-xl text-[#0b0f24] shadow-lg active:scale-95 transition"
+            style={{ background: color }}
+          >
+            {t('card.enter')} ▶
+          </button>
+        )}
+      </div>
+      {more && (
+        <div className="mt-2 max-h-[30vh] overflow-y-auto">
+          {el.radioactive && <div className="text-xs text-lime-300">☢ {t('card.radioactive')}</div>}
+          {WINGS[el.symbol] && <div className="text-xs text-amber-300">★ {t('card.worlds', { count: WINGS[el.symbol].length })}</div>}
+          {!sci && <p className="text-sm mt-1 opacity-90">{t('card.atomSentence', { count: el.z })}</p>}
+          {sci && (
+            <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[13px] mt-1">
+              <dt className="opacity-70">{t('card.mass')}</dt><dd>{num(el.mass, tag, 6)} u</dd>
+              <dt className="opacity-70">{t('card.config')}</dt><dd>{config(el.config)}</dd>
+              <dt className="opacity-70">{t('card.group')} · {t('card.period')} · {t('card.block')}</dt>
+              <dd>{el.group ?? '–'} · {el.period} · {el.block}</dd>
+              <dt className="opacity-70">{t('card.en')}</dt><dd>{el.en ?? '?'}</dd>
+              <dt className="opacity-70">{t('card.melt')}</dt><dd>{temperature(el.melt, level, tag)}</dd>
+              <dt className="opacity-70">{t('card.boil')}</dt><dd>{temperature(el.boil, level, tag)}</dd>
+              <dt className="opacity-70">{t('card.density')}</dt><dd>{density(el, tag)}</dd>
+              <dt className="opacity-70">{t('card.discovered')}</dt><dd>{el.ancient ? t('card.ancient') : el.discovered ?? '?'}</dd>
+            </dl>
+          )}
+        </div>
+      )}
+    </div>
+  )
   return (
     <div className="glass rounded-2xl p-3 sm:p-4 w-[min(92vw,22rem)] shadow-2xl text-left">
       <div className="flex gap-3 items-stretch">

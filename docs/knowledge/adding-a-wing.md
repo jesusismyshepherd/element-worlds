@@ -35,6 +35,10 @@ atrium draws its arch by itself, titled from `wings.<Symbol>.<id>.title` in both
   read `ctx.level()` when a panel opens, so a change of level shows at once.
 - Panels: `ctx.store.set({ panel: { title, kicker, color, blocks } })`, blocks `{ p }`, `{ big, small }`,
   `{ rows: [[label, value]] }`, `{ list: [...] }`. The Atomling talks: `ctx.store.set({ speech: { text, who, color } })`.
+  The HUD places both at the edges (`hud-layout.md`). A wing's own DOM window goes at an edge too (under
+  the top bar: `top: calc(var(--bar) + 4px)`, the left side in landscape, across the top upright),
+  reports what it covers (`setCover(coverId(), { side, size })` from `engine/covers.js`) and sets
+  `store.overlay` while open, so the prompt waits (`noble/nameOverlay.js`, `noble/signs.js`).
 - No em dashes. Portuguese element names take articles ("o carbono", but "a prata", "a platina").
 - Facts must be right; numbers from `src/data/elements.json` where it has them.
 
@@ -71,7 +75,8 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
   `__ew.teleport(x, z, yaw, pitch)` puts the walker anywhere; `__ew.setMode('first')` switches view;
   `__ew.world.interactables` lists the exhibits; `__ew.player.near?.onUse()` uses the one in reach.
   Look at every exhibit from where a player stands, in both views; console errors fail the run.
-- `npm test` and `npx vite build` pass.
+- `npm test` and `npx vite build` pass. A wing with a window of its own: add a scene to
+  `tools/hud_probe.py` (the neon name window is one) and run it.
 
 ## Traps
 

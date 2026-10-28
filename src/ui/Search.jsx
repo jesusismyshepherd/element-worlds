@@ -6,8 +6,9 @@ import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
 const fold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 
 /** Find an element by its name (either language, accents optional), symbol or number; picking one
- *  selects its cube (the camera flies to it). */
-export default function Search({ onPick }) {
+ *  selects its cube (the camera flies to it). wide: fills its box (the plaza's drawer on a phone),
+ *  and the list opens upwards (the drawer sits at the bottom). */
+export default function Search({ onPick, wide = false }) {
   const { t, i18n } = useTranslation()
   const [q, setQ] = useState('')
   const lang = i18n.resolvedLanguage
@@ -40,11 +41,12 @@ export default function Search({ onPick }) {
           e.stopPropagation()
         }}
         placeholder={t('search.placeholder')}
+        autoFocus={wide}
         aria-label={t('search.placeholder')}
-        className="glass rounded-xl px-3 py-1.5 text-sm w-40 sm:w-56 outline-none focus:ring-2 focus:ring-sky-300/60 placeholder:text-white/50"
+        className={`glass rounded-xl px-3 py-1.5 text-sm outline-none ${wide ? 'w-full' : 'w-40 sm:w-56'} focus:ring-2 focus:ring-sky-300/60 placeholder:text-white/50`}
       />
       {hits.length > 0 && (
-        <ul className="absolute left-0 right-0 mt-1 glass rounded-xl overflow-hidden text-sm z-10">
+        <ul className={`absolute left-0 right-0 glass rounded-xl overflow-hidden text-sm z-10 ${wide ? 'bottom-full mb-1' : 'mt-1'}`}>
           {hits.map(e => (
             <li key={e.z}>
               <button type="button" onClick={() => pick(e)} className="w-full text-left px-3 py-1.5 hover:bg-white/10 flex items-center gap-2">

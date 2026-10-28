@@ -4,9 +4,9 @@
 // focus (a call, the app switcher), since the pointer-up never comes then.
 import { useEffect, useRef, useState } from 'react'
 
-const RADIUS = 48
-
-export default function TouchStick({ onChange }) {
+/** small: a phone on its side (little height), a smaller stick nearer the corner. */
+export default function TouchStick({ onChange, small = false }) {
+  const RADIUS = small ? 40 : 48
   const baseRef = useRef(null)
   const [knob, setKnob] = useState({ x: 0, y: 0 })
 
@@ -43,7 +43,8 @@ export default function TouchStick({ onChange }) {
   return (
     <div
       ref={baseRef}
-      className="absolute left-4 bottom-4 w-32 h-32 rounded-full bg-white/10 border border-white/30 touch-none pointer-events-auto"
+      data-thumb
+      className={`absolute rounded-full ${small ? 'left-3 bottom-3 w-[6.5rem] h-[6.5rem]' : 'left-4 bottom-4 w-32 h-32'} bg-white/10 border border-white/30 touch-none pointer-events-auto`}
       onPointerDown={e => {
         e.currentTarget.setPointerCapture(e.pointerId)
         update(e)

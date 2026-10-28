@@ -163,7 +163,7 @@ export async function build(ctx, target) {
   solids.push(box(0, z0 + 2.05, 2.15, 1.15), circle(-2.1, z0 + 1.9, 0.35))
   let overlay = null
   const openOverlay = () => {
-    ctx.store.set({ panel: null, speech: null })
+    ctx.store.set({ panel: null, speech: null, overlay: true })
     overlay ??= nameOverlay({
       parent: ctx.canvas.parentElement ?? document.body,
       words: W.name.overlay,
@@ -172,6 +172,7 @@ export async function build(ctx, target) {
       nameOf: GasName,
       onPreview: word => wall.preview(word),
       onClose: submitted => {
+        ctx.store.set({ overlay: false })
         if (!submitted) wall.restore(current.text, glowOf(current.gas))
       },
       onSubmit: (word, gas) => {

@@ -200,7 +200,10 @@ export async function build(ctx, target) {
     const corners = [
       [TABLE.minX, TABLE.minZ], [TABLE.maxX, TABLE.minZ], [TABLE.minX, TABLE.maxZ], [TABLE.maxX, TABLE.maxZ],
     ].map(([x, z]) => new THREE.Vector3(x, CUBE, z))
+    // fitted into the part of the screen the HUD leaves free (the view offset centres it there)
     const probe = camera.clone()
+    probe.clearViewOffset()
+    const free = ctx.engine.freeShare()
     let d = 30
     for (; d < 150; d *= 1.04) {
       probe.position.copy(center).addScaledVector(dir, d)
@@ -208,7 +211,7 @@ export async function build(ctx, target) {
       probe.updateMatrixWorld()
       const fits = corners.every(c => {
         const v = c.clone().project(probe)
-        return Math.abs(v.x) < 0.94 && Math.abs(v.y) < 0.86
+        return Math.abs(v.x) < 0.94 * free.w && Math.abs(v.y) < 0.86 * free.h
       })
       if (fits) break
     }

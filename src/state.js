@@ -16,6 +16,7 @@ export const store = createStore({
   trendRange: null,
   prompt: null,
   panel: null,
+  overlay: false, // a world's own window is open (the neon name): the prompt waits
   mode: 'third',
   speech: null,
   discoveries: null,
