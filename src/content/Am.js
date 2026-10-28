@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Amerício, e é provável que haja um grãozinho de mim em tua casa: trabalho dentro dos detetores de fumo! Três mãos, a estender os três eletrões que dou. O meu brilho suave quer dizer que sou radioativo, mas num detetor de fumo estou bem fechado e em segurança.',
       sci: 'Amerício: [Rn] 5f7 7s2, sobretudo Am(III) em solução (o Am(IV) a Am(VI) precisa de oxidantes fortes), um gémeo químico do európio. O Am-241 (432 anos) forma-se pelo decaimento do Pu-241; o Am-243 (7370 anos) é o que vive mais.',
     },
+    pl: {
+      kid: 'Cześć! Jestem amerykiem i pewnie masz w domu odrobinkę mnie: pracuję w czujnikach dymu! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, ale w czujniku dymu jestem bezpiecznie zamknięty.',
+      sci: 'Ameryk: [Rn] 5f7 7s2, w roztworze głównie Am(III) (Am(IV) do Am(VI) wymagają silnych utleniaczy), chemiczny bliźniak europu. Am-241 (432 lata) powstaje z rozpadu Pu-241; najdłużej żyje Am-243 (7370 lat).',
+    },
+    de: {
+      kid: 'Hi! Ich bin das Americium, und wahrscheinlich gibt es bei dir zu Hause ein Stäubchen von mir: Ich arbeite in Rauchmeldern! Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, aber im Rauchmelder bin ich sicher eingeschlossen.',
+      sci: 'Americium: [Rn] 5f7 7s2, in Lösung meist Am(III) (Am(IV) bis Am(VI) brauchen starke Oxidationsmittel), ein chemischer Zwilling des Europiums. Am-241 (432 Jahre) entsteht beim Zerfall von Pu-241; Am-243 (7370 Jahre) lebt am längsten.',
+    },
   },
   nameOrigin: {
     en: { kid: 'Named after the Americas, where it was discovered, just as europium, the element right above it in the f-block, is named after Europe.' },
     'pt-pt': { kid: 'Tem o nome das Américas, onde foi descoberto, tal como o európio, o elemento mesmo por cima dele no bloco f, tem o nome da Europa.' },
+    pl: { kid: 'Nazwany na cześć Ameryk, gdzie go odkryto, tak jak europ, pierwiastek tuż nad nim w bloku f, nosi imię Europy.' },
+    de: { kid: 'Benannt nach Amerika, wo es entdeckt wurde, so wie Europium, das Element direkt darüber im f-Block, nach Europa benannt ist.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'No final de 1944, durante a Segunda Guerra Mundial, a equipa de Glenn Seaborg, em Chicago, fez amerício atingindo plutónio com neutrões num reator. Foi segredo até novembro de 1945, quando Seaborg o deixou escapar num concurso de rádio para crianças: um dos miúdos perguntou se tinham sido descobertos elementos novos!',
       sci: "Seaborg, Ralph James, Leon Morgan e Albert Ghiorso (Metallurgical Laboratory, Universidade de Chicago, final de 1944): Pu-239 + n → Pu-240, + n → Pu-241 → beta → Am-241. Separá-lo do cúrio era tão difícil que a equipa chamou aos dois 'pandemónio' e 'delírio'.",
+    },
+    pl: {
+      kid: 'Pod koniec 1944 roku, w czasie drugiej wojny światowej, zespół Glenna Seaborga w Chicago wytworzył ameryk, ostrzeliwując pluton neutronami w reaktorze. Był tajemnicą do listopada 1945 roku, kiedy Seaborg wygadał się w radiowym teleturnieju dla dzieci: jedno z dzieci zapytało, czy znaleziono jakieś nowe pierwiastki!',
+      sci: 'Seaborg, Ralph James, Leon Morgan i Albert Ghiorso (Metallurgical Laboratory, Uniwersytet Chicagowski, koniec 1944): Pu-239 + n → Pu-240, + n → Pu-241 → beta → Am-241. Oddzielenie go od kiuru było tak trudne, że zespół przezwał te dwa pierwiastki „pandemonium” i „delirium”.',
+    },
+    de: {
+      kid: 'Ende 1944, während des Zweiten Weltkriegs, stellte das Team von Glenn Seaborg in Chicago Americium her, indem es Plutonium in einem Reaktor mit Neutronen beschoss. Es blieb geheim bis November 1945, als Seaborg es in einer Radio-Quizsendung für Kinder ausplauderte: Eines der Kinder fragte, ob neue Elemente gefunden worden seien!',
+      sci: 'Seaborg, Ralph James, Leon Morgan und Albert Ghiorso (Metallurgical Laboratory, University of Chicago, Ende 1944): Pu-239 + n → Pu-240, + n → Pu-241 → beta → Am-241. Die Trennung vom Curium war so schwierig, dass das Team die beiden „Pandemonium“ und „Delirium“ taufte.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O amerício é um metal mole, prateado e brilhante, que embacia devagar ao ar.',
       sci: 'O amerício alfa é hexagonal compacto duplo, com densidade de 13,7 g/cm³, e funde a 1176 °C. Os seus eletrões 5f estão localizados, por isso comporta-se mais como um lantanídeo do que os actinídeos anteriores.',
     },
+    pl: {
+      kid: 'Ameryk to miękki, lśniący, srebrzysty metal, który powoli matowieje na powietrzu.',
+      sci: 'Ameryk alfa ma strukturę podwójnie heksagonalną gęsto upakowaną, gęstość 13,7 g/cm³, topnieje w 1176 °C. Jego elektrony 5f są zlokalizowane, więc zachowuje się bardziej jak lantanowiec niż aktynowce przed nim.',
+    },
+    de: {
+      kid: 'Americium ist ein weiches, glänzendes, silbriges Metall, das an der Luft langsam anläuft.',
+      sci: 'Alpha-Americium hat eine doppelt hexagonal dichteste Kugelpackung, Dichte 13,7 g/cm³, Schmelzpunkt 1176 °C. Seine 5f-Elektronen sind lokalisiert, daher verhält es sich eher wie ein Lanthanoid als wie die Actinoide vor ihm.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O amerício não existe na natureza. Acumula-se no combustível dos reatores nucleares e no plutónio armazenado, aos quilogramas, à medida que o plutónio-241 decai devagar.',
       sci: 'Não é natural. Forma-se no combustível dos reatores e vai crescendo no plutónio armazenado, pelo decaimento beta do Pu-241 (14,3 anos); separa-se em quantidades de quilogramas. O Am-243 acumula-se com irradiações mais longas.',
+    },
+    pl: {
+      kid: 'Ameryku nie ma w przyrodzie. Gromadzi się w paliwie reaktorów jądrowych i w składowanym plutonie, całe kilogramy, w miarę jak pluton-241 powoli się rozpada.',
+      sci: 'Nie występuje naturalnie. Powstaje w paliwie reaktorowym i przybywa go w składowanym plutonie z rozpadu beta Pu-241 (14,3 roku); oddziela się go w ilościach kilogramowych. Am-243 gromadzi się przy dłuższym napromienianiu.',
+    },
+    de: {
+      kid: 'Americium kommt in der Natur nicht vor. Es sammelt sich in Kernbrennstoff und in gelagertem Plutonium an, kiloweise, während Plutonium-241 langsam zerfällt.',
+      sci: 'Nicht natürlich. Es bildet sich in Reaktorbrennstoff und wächst in gelagertem Plutonium durch den Betazerfall von Pu-241 (14,3 Jahre) nach; es wird in Kilogrammmengen abgetrennt. Am-243 reichert sich bei längerer Bestrahlung an.',
     },
   },
   uses: {
@@ -71,6 +105,32 @@ export default {
         'Os raios gama de 59,5 keV do Am-241 servem para calibrar detetores de raios X e gama.',
       ],
     },
+    pl: {
+      kid: [
+        'Czujniki dymu: malutka drobinka ameryku pomaga czujnikowi „wywęszyć” dym.',
+        'Urządzenia, które mierzą grubość szkła, papieru albo blach.',
+        'Może kiedyś zasilanie europejskich statków kosmicznych.',
+      ],
+      sci: [
+        'Jonizacyjne czujniki dymu: około 0,3 µg Am-241 (37 kBq) jonizuje powietrze między dwiema płytkami; cząstki dymu pochłaniają jony, prąd spada i włącza się alarm.',
+        'Mierniki grubości i gęstości; źródła neutronów ameryk-beryl do karotażu odwiertów naftowych.',
+        'ESA rozwija radioizotopowe źródła zasilania z Am-241: około jednej piątej ciepła na gram w porównaniu z Pu-238, ale dostępne z europejskiego cywilnego plutonu.',
+        'Promieniowanie gamma Am-241 o energii 59,5 keV służy do kalibracji detektorów promieniowania rentgenowskiego i gamma.',
+      ],
+    },
+    de: {
+      kid: [
+        'Rauchmelder: Ein winziges Stäubchen Americium hilft dem Melder, Rauch zu „riechen“.',
+        'Geräte, die messen, wie dick Glas, Papier oder Bleche sind.',
+        'Vielleicht eines Tages Energie für europäische Raumsonden.',
+      ],
+      sci: [
+        'Ionisationsrauchmelder: Etwa 0,3 µg Am-241 (37 kBq) ionisieren die Luft zwischen zwei Platten; Rauchteilchen fangen die Ionen ein, der Strom sinkt und der Alarm ertönt.',
+        'Dicken- und Dichtemessgeräte; Americium-Beryllium-Neutronenquellen für Bohrlochmessungen in Ölbohrungen.',
+        'Die ESA entwickelt Radioisotopen-Energiequellen mit Am-241: etwa ein Fünftel der Wärme pro Gramm von Pu-238, aber aus europäischem zivilem Plutonium verfügbar.',
+        'Die 59,5-keV-Gammastrahlung von Am-241 dient zur Kalibrierung von Röntgen- und Gammadetektoren.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -80,6 +140,14 @@ export default {
     'pt-pt': {
       kid: 'Todos os tipos de amerício são radioativos. O dos detetores de fumo, o amerício-241, perde metade de si em 432 anos, por isso o grãozinho dura muito mais do que o detetor. O amerício-243 dura ainda mais: cerca de 7400 anos.',
       sci: 'Não tem isótopos estáveis. O Am-241 (432,6 anos, alfa com um gama de 59,5 keV) e o Am-243 (7370 anos) são os úteis; o Am-242m (141 anos) tem uma das maiores secções eficazes de fissão com neutrões térmicos que se conhecem.',
+    },
+    pl: {
+      kid: 'Każda odmiana ameryku jest promieniotwórcza. Ta z czujników dymu, ameryk-241, traci połowę siebie w 432 lata, więc drobinka w czujniku żyje o wiele dłużej niż sam czujnik. Ameryk-243 trwa jeszcze dłużej: około 7400 lat.',
+      sci: 'Brak trwałych izotopów. Użyteczne są Am-241 (432,6 roku, rozpad alfa z promieniowaniem gamma 59,5 keV) i Am-243 (7370 lat); Am-242m (141 lat) ma jeden z największych znanych przekrojów czynnych na rozszczepienie neutronami termicznymi.',
+    },
+    de: {
+      kid: 'Jede Sorte Americium ist radioaktiv. Die aus Rauchmeldern, Americium-241, verliert in 432 Jahren die Hälfte von sich, also überdauert das Stäubchen den Melder bei Weitem. Americium-243 hält noch länger: etwa 7400 Jahre.',
+      sci: 'Keine stabilen Isotope. Nützlich sind Am-241 (432,6 Jahre, Alpha mit einer 59,5-keV-Gammalinie) und Am-243 (7370 Jahre); Am-242m (141 Jahre) hat einen der größten bekannten Spaltquerschnitte für thermische Neutronen.',
     },
   },
   facts: {
@@ -109,6 +177,34 @@ export default {
         'O Am-241 vai crescendo no plutónio armazenado a partir do Pu-241 (14,3 anos), por isso o plutónio antigo emite cada vez mais raios gama nas primeiras décadas.',
         'O amerício é o primeiro actinídeo cujos eletrões 5f ficam localizados, como num lantanídeo.',
         'A fonte de um detetor de fumo perde só cerca de 0,16% da atividade por ano.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Pewnie jestem jedynym pierwiastkiem wytworzonym przez ludzi, który masz w domu.',
+        'Seaborg po raz pierwszy opowiedział światu o mnie w radiowym teleturnieju dla dzieci w 1945 roku.',
+        'W czujniku dymu jest mniej niż milionowa część grama mnie.',
+        'Mój kuzyn europ nosi imię Europy, a ja noszę imię Ameryk.',
+      ],
+      sci: [
+        'Zespół przezwał ameryk i kiur „pandemonium” i „delirium”, bo tak trudno było je rozdzielić.',
+        'Am-241 przybywa w składowanym plutonie z Pu-241 (14,3 roku), więc stary pluton przez pierwsze dziesięciolecia emituje coraz więcej promieniowania gamma.',
+        'Ameryk to pierwszy aktynowiec, którego elektrony 5f pozostają zlokalizowane, jak u lantanowca.',
+        'Źródło w czujniku dymu traci rocznie tylko około 0,16% aktywności.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ich bin wahrscheinlich das einzige von Menschen gemachte Element, das du zu Hause hast.',
+        'Seaborg hat der Welt 1945 zum ersten Mal in einer Radio-Quizsendung für Kinder von mir erzählt.',
+        'Ein Rauchmelder enthält weniger als ein Millionstel Gramm von mir.',
+        'Mein Cousin Europium ist nach Europa benannt, und ich bin nach Amerika benannt.',
+      ],
+      sci: [
+        'Das Team gab Americium und Curium die Spitznamen „Pandemonium“ und „Delirium“, weil sie so schwer zu trennen waren.',
+        'Am-241 wächst in gelagertem Plutonium aus Pu-241 (14,3 Jahre) nach, daher gibt altes Plutonium in seinen ersten Jahrzehnten zunehmend mehr Gammastrahlung ab.',
+        'Americium ist das erste Actinoid, dessen 5f-Elektronen lokalisiert bleiben, wie bei einem Lanthanoid.',
+        'Eine Rauchmelderquelle verliert jedes Jahr nur etwa 0,16% ihrer Aktivität.',
       ],
     },
   },
