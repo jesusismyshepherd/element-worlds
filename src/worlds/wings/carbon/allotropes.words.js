@@ -1,6 +1,7 @@
-// Every word of the allotropes gallery, in English and European Portuguese, at two depths: kid
-// (Explorer) and sci (Scientist). Signs are the lecterns in the gallery (3D text: Latin letters only,
-// no Greek, no subscripts); panels open in the HUD (any character). No em dashes.
+// Every word of the allotropes gallery, in English, European Portuguese, Polish and German, at two
+// depths: kid (Explorer) and sci (Scientist). Signs are the lecterns in the gallery (3D text: Latin
+// letters with the Polish and German ones, no Greek, no subscripts); panels open in the HUD (any
+// character). No em dashes. Prompts read "verb: label", so a label takes the case its verb needs.
 
 const EN = {
   back: 'Back to the atrium',
@@ -766,5 +767,769 @@ const PT = {
   },
 }
 
-export const WORDS = { en: EN, 'pt-pt': PT }
+const PL = {
+  back: 'Powrót do atrium',
+  kicker: 'Diament, grafit i spółka',
+  decimal: ',',
+  talkTo: 'Porozmawiaj',
+  graphiteWord: 'GRAFIT',
+  wall: 'Jeden pierwiastek, wiele postaci',
+  greeting: {
+    kid: 'Witaj w mojej galerii! Spójrz w dół: chodzisz po grafenie, jednej warstwie moich atomów. Tutaj jestem diamentem, ołówkiem, rurką i piłką. Wypróbuj każdy eksponat, żeby odkryć je wszystkie!',
+    sci: 'Odmiany alotropowe: jeden pierwiastek, różne wiązania. sp³ w diamencie; sp² w graficie, grafenie, nanorurkach i fulerenach. Podłoga to grafen narysowany w skali 0,5 m na angstrem. Wzdłuż lewej ściany: grafen z czterech stron i skręcona dwuwarstwa.',
+  },
+  pentagons: 'pięciokąty',
+  hexagons: 'sześciokąty',
+  totals: 'atomy · wiązania',
+  pressTitle: 'PRASA DIAMENTOWA',
+  source: 'źródło',
+  drain: 'dren',
+  gate: 'bramka',
+  gateVoltage: 'napięcie bramki',
+  modes: ['zwykły grafen', 'dwuwarstwa w polu'],
+  catLabel: 'kot: 4 kg',
+  press: {
+    steps: [
+      { verb: 'Włóż', label: 'grafit do prasy' },
+      { verb: 'Dociśnij', label: 'prasę do 6 GPa' },
+      { verb: 'Podgrzej', label: 'kapsułę do 1500 °C' },
+      { verb: 'Otwórz', label: 'prasę' },
+      { verb: 'Zacznij od nowa', label: 'z nowym grafitem' },
+    ],
+    wait: 'Czekaj',
+    working: 'prasa pracuje…',
+    say: [
+      'Grafit jest w kapsule. Teraz ściskaj!',
+      '6 GPa: jak 25 słoni stojących na monecie jednocentowej. Teraz podgrzej!',
+      '1500 °C! Płaskie warstwy zamieniają się w trójwymiarową sieć diamentu. Otwórz prasę!',
+    ],
+  },
+  say: {
+    peelFree: 'Jedna pojedyncza warstwa, wolna: to jest grafen! Użyj taśmy jeszcze raz, żeby ją odłożyć.',
+    peelBack: 'Z powrotem na stosie: warstwy grafenu ułożone jedna na drugiej to grafit.',
+    slideBack: 'Znowu w stosie. Warstwy tylko na sobie leżą, więc łatwo się przesuwają.',
+    transistor: [
+      'Widzisz? W najniższym punkcie prąd wciąż płynie: zwykły grafen nie potrafi się wyłączyć. Spróbuj jeszcze raz, z przerwą.',
+      'Przy dwóch warstwach w polu elektrycznym jest przerwa i prąd staje: WYŁĄCZONE!',
+    ],
+    moire: nm => `Magiczny kąt, 1,1°! Duży wzór ma ${nm} nm szerokości, 52 atomy. Ochłodzone prawie do zera absolutnego, te dwie warstwy przewodzą prąd bez żadnego oporu.`,
+  },
+  moireControls: {
+    hint: {
+      kid: 'Obracaj górną warstwę suwakiem: patrz na jej rogi, na wzór i na tablicę. Przy 1,1° dwie złote linie robią się płaskie: elektrony prawie stoją.',
+      sci: 'Skręcaj suwakiem; tablica pokazuje pasma wzdłuż K′-K-Γ-M-K′ i szerokość środkowych pasm w funkcji kąta.',
+    },
+    twist: 'Skręt',
+    rings: 'Wielkość pierścieni (tylko na rysunku)',
+    magic: '✨ Magiczny kąt, 1,1°',
+    auto: 'Niech obraca się sama',
+  },
+  board: {
+    kid: {
+      title: 'Co mogą robić elektrony', sub: 'każda linia: jeden sposób ruchu elektronów', energy: 'energia',
+      speed: 'Jak szybko mogą się poruszać elektrony', speedKid: p => `${p} % ich prędkości w zwykłym grafenie`, speedSci: (v, w) => `v*/v = ${v} · środkowe pasma szerokie na ${w} meV`,
+      strip: 'Jak płaskie są środkowe linie (niżej: płaściej)', magic: 'magiczny 1,1°', tooSmall: 'Obróć o więcej niż pół stopnia, by zobaczyć linie',
+    },
+    sci: {
+      title: 'Pasma blisko poziomu Fermiego (meV)', sub: 'model Bistritzera-MacDonalda, jedna dolina', energy: 'E (meV)',
+      speed: 'Prędkość Diraca', speedKid: p => `${p} %`, speedSci: (v, w) => `v*/v = ${v} · środkowe pasma szerokie na ${w} meV`,
+      strip: 'Szerokość środkowych pasm a skręt (meV, skala log.)', magic: 'magiczny 1,1°', tooSmall: 'Poniżej 0,5° pasma się zagęszczają',
+    },
+  },
+  signLine: {
+    moire: (deg, nm) => (deg === 0 ? 'Ułożone równo: brak mory. Obróć górną warstwę!' : `Skręt ${String(deg).replace('.', ',')}°: mora ${nm} nm${deg === 1.1 ? ' (magiczny kąt)' : ''}`),
+    readout: (deg, nm) => (deg < 0.05 ? 'Ułożone równo: brak wzoru' : `Obrót ${deg.toFixed(deg < 2 ? 2 : 1).replace('.', ',')}°\nwzór powtarza się co ${nm} nm`),
+  },
+  ex: {
+    graphene: {
+      label: 'taśmy klejącej', verb: 'Użyj', labelBack: 'warstwę grafenu', verbBack: 'Odłóż',
+      sign: { title: 'Grafen', kid: 'Oderwij taśmą klejącą jedną warstwę grafitu.', sci: 'Jedna warstwa grafitu: 2004, Geim i Novoselov (Nagroda Nobla 2010).' },
+      panel: {
+        title: 'Grafen',
+        kid: [
+          { p: 'Grafit to stos płaskich warstw. Oderwij tylko jedną warstwę, a masz grafen: pojedynczą warstwę atomów węgla połączonych w sześciokąty, jak plaster miodu. Każdy atom trzyma trzech sąsiadów.' },
+          { big: '1 atom', small: 'grubości: najcieńszy materiał, jaki istnieje' },
+          { p: 'W 2004 roku Andre Geim i Konstantin Novoselov w Manchesterze odrywali grafit taśmą klejącą raz za razem, aż została tylko jedna warstwa. W 2010 roku dostali za to Nagrodę Nobla z fizyki.' },
+          { p: 'Podłoga tej galerii to też grafen, narysowany 5 miliardów razy większy niż w rzeczywistości. Wzdłuż tej ściany możesz go zbadać jak fizyk, chemik, inżynier i specjalista od materiałów.' },
+        ],
+        sci: [
+          { rows: [['Wiązanie', 'C–C 0,142 nm, sp², 120°'], ['Sieć', 'heksagonalna, a = 0,246 nm, dwa atomy na komórkę'], ['Grubość', 'jeden atom (warstwy w graficie dzieli 0,335 nm)'], ['Wyodrębniony', '2004, Andre Geim i Konstantin Novoselov (Manchester), przez mechaniczną eksfoliację taśmą klejącą'], ['Nagroda Nobla', 'fizyka, 2010']] },
+          { p: 'Cienkie płatki na utlenionym krzemie (300 nm SiO₂) widać dzięki interferencji, więc pojedynczą warstwę dało się znaleźć pod zwykłym mikroskopem optycznym; stos tutaj odrywa w ten sam sposób górną warstwę kryształu o ułożeniu AB.' },
+          { p: 'Skala podłogi: 0,5 m na angstrem, 5 × 10⁹ razy więcej niż w rzeczywistości.' },
+        ],
+      },
+    },
+    physics: {
+      label: 'stożki energii grafenu', verb: 'Zobacz',
+      sign: { title: 'Grafen · Fizyka', kid: 'Elektrony pędzą przez niego, jakby nic nie ważyły.', sci: 'Stożki Diraca w sześciu punktach K; elektrony z prędkością ok. 1 000 000 m/s.' },
+      panel: {
+        title: 'Grafen · Fizyka',
+        kid: [
+          { p: 'W grafenie elektrony pędzą przez warstwę, jakby nic nie ważyły, z prędkością około 1000 km na sekundę (1/300 prędkości światła).' },
+          { p: 'Rzeźba pokazuje energie, jakie elektron może mieć w grafenie: niebieską powierzchnię na dole i pomarańczową na górze. Stykają się tylko w sześciu punktach, gdzie każda powierzchnia jest stożkiem. To właśnie te punkty czynią grafen wyjątkowym.' },
+          { big: '2,3%', small: 'światła zatrzymuje jedna pojedyncza warstwa: widać ją gołym okiem' },
+          { p: 'Grafen świetnie przewodzi też ciepło. Kanadyjski fizyk Philip Wallace obliczył to wszystko na papierze w 1947 roku, ponad 50 lat zanim ktokolwiek wytworzył grafen.' },
+        ],
+        sci: [
+          { big: 'E = ±ħv|k|', small: 'w pobliżu punktów K: bezmasowe fermiony Diraca z liniową dyspersją (v, prędkość Fermiego)' },
+          { rows: [
+            ['Prędkość Fermiego', 'v ≈ 1 × 10⁶ m/s, ok. 1/300 prędkości światła'],
+            ['Struktura pasmowa', 'P. R. Wallace, 1947, model ciasnego wiązania: E(k) = ±t·|1 + exp(ik·a₁) + exp(ik·a₂)|, t ≈ 2,8 eV'],
+            ['Kwantowy efekt Halla', 'połówkowy, σxy = ±4(n + ½)e²/h (2005); widoczny nawet w temperaturze pokojowej (2007)'],
+            ['Światło', 'jedna warstwa pochłania πα ≈ 2,3% światła białego (α to stała struktury subtelnej)'],
+            ['Ciepło', 'zawieszony grafen przewodzi tysiące W/(m·K)'],
+          ] },
+          { p: 'Rzeźba to pasmo π nad heksagonalną strefą Brillouina: pasmo walencyjne (niebieskie) jest pełne, pasmo przewodnictwa (pomarańczowe) puste, a spotykają się tylko w sześciu narożnikach K i K′, gdzie powierzchnie stają się stożkami. Linie to kontury stałej energii: okręgi wokół każdego punktu K, dalej trójkąty. Użyj jej: od punktów K rozchodzą się pierścienie o stałym nachyleniu, czyli liniowa dyspersja.' },
+        ],
+      },
+    },
+    chemistry: {
+      label: 'orbitale pi', verb: 'Zobacz',
+      sign: { title: 'Grafen · Chemia', kid: 'Trzy ręce w płaszczyźnie, jeden elektron wspólny dla wszystkich.', sci: 'sp²: trzy wiązania sigma pod kątem 120°, jeden elektron pi na atom.' },
+      panel: {
+        title: 'Grafen · Chemia',
+        kid: [
+          { p: 'W grafenie każdy atom węgla trzyma trzech sąsiadów, płasko, pod równymi kątami 120°. Swój czwarty elektron dzieli z całą warstwą, w chmurach nad nią i pod nią (niebieskie i pomarańczowe kształty).' },
+          { big: '120°', small: 'między trzema wiązaniami każdego atomu' },
+          { p: 'Chemicy go przerabiają: dodaj tlen, a dostaniesz tlenek grafenu; dodaj atom wodoru do każdego atomu węgla, a dostaniesz grafan, który już nie przewodzi prądu.' },
+          { p: 'Duże warstwy hoduje się, przepuszczając gaz zawierający węgiel (metan) nad bardzo gorącą folią miedzianą: atomy węgla układają się w jedną pojedynczą warstwę.' },
+        ],
+        sci: [
+          { rows: [
+            ['Wiązania', 'sp²: trzy wiązania σ pod kątem 120°, C–C 0,142 nm; jeden elektron pz na atom w zdelokalizowanych wiązaniach π'],
+            ['Tlenek grafenu', 'utleniony grafit (metoda Hummersa, 1958) rozdzielony na warstwy: grupy epoksydowe i hydroksylowe na płaszczyźnie, karboksylowe na brzegach; izolator, który można z powrotem zredukować'],
+            ['Grafan', 'każdy atom węgla związany z jednym atomem wodoru (sp³); otrzymany w 2009 roku przez wystawienie grafenu na plazmę wodorową; izolator, odwracalny przez ogrzanie'],
+            ['Wzrost', 'chemiczne osadzanie z fazy gazowej: metan na folii miedzianej w ok. 1000 °C daje duże jednowarstwowe arkusze (2009); węgiel prawie nie rozpuszcza się w miedzi, więc wzrost kończy się na jednej warstwie'],
+          ] },
+          { p: 'Model pokazuje jeden sześciokąt grafenu: wiązania σ w płaszczyźnie i orbital p każdego atomu stojący w poprzek niej, jedna faza nad nią (niebieska), druga pod nią (pomarańczowa). Użyj go: orbitale p łączą się w chmury π, które rozlewają się po całej warstwie.' },
+        ],
+      },
+    },
+    electronics: {
+      label: 'tranzystor grafenowy', verb: 'Wypróbuj',
+      sign: { title: 'Grafen · Elektronika', kid: 'Bardzo szybki przełącznik, który nigdy nie wyłącza się całkiem.', sci: 'Brak przerwy energetycznej: półmetal. Stosunek on/off tylko ok. 5 do 10.' },
+      panel: {
+        title: 'Grafen · Elektronika',
+        kid: [
+          { p: 'Tranzystor to malutki przełącznik: komputer ma ich miliardy. Elektrony pędzą przez grafen tak szybko, że powstają z niego bardzo szybkie tranzystory, ale jest problem: grafenu nie da się całkiem wyłączyć.' },
+          { p: 'Przekręć pokrętło: prąd spada, ale nawet w najniższym punkcie wciąż płynie. Przekręć je znowu: teraz są dwie warstwy w polu elektrycznym i prąd staje.' },
+          { big: 'brak przerwy', small: 'sam grafen nigdy nie wyłącza się całkiem' },
+          { p: 'Naukowcy otwierają przerwę: dwie warstwy w polu elektrycznym albo grafen pocięty na bardzo wąskie wstążki. Używa się go też w przezroczystych elektrodach i w czujnikach, które wyczuwają pojedyncze cząsteczki.' },
+        ],
+        sci: [
+          { rows: [
+            ['Przerwa energetyczna', 'brak: półmetal (przerwa zerowa); w punkcie Diraca konduktancja ma minimum, a nie zero'],
+            ['Stosunek on/off', 'ok. 5 do 10 w temperaturze pokojowej dla zwykłego tranzystora grafenowego; logika krzemowa potrzebuje ok. 10⁴ do 10⁷'],
+            ['Otwarcie przerwy', 'grafen dwuwarstwowy w prostopadłym polu elektrycznym (do ok. 0,25 eV, 2009); nanowstążki szerokie na kilka nanometrów'],
+            ['Zastosowania', 'tranzystory wielkiej częstotliwości (częstotliwości graniczne rzędu setek GHz), przezroczyste warstwy przewodzące, czujniki zdolne wykryć pojedyncze cząsteczki gazu'],
+          ] },
+          { p: 'Przewodnictwo ambipolarne: bramka przesuwa poziom Fermiego w górę, do pasma przewodnictwa (elektrony), albo w dół, do pasma walencyjnego (dziury); prąd jest najmniejszy tam, gdzie stykają się dwa stożki, w punkcie neutralności ładunku.' },
+        ],
+      },
+    },
+    materials: {
+      label: 'hamak z grafenu', verb: 'Zobacz',
+      sign: { title: 'Grafen · Materiały', kid: 'Metr kwadratowy utrzymałby kota i ważyłby mniej niż jeden wąs.', sci: 'Wytrzymałość ok. 130 GPa, moduł Younga ok. 1 TPa, 0,77 mg na metr kwadratowy.' },
+      panel: {
+        title: 'Grafen · Materiały',
+        kid: [
+          { p: 'Hamak z grafenu o powierzchni jednego metra kwadratowego utrzymałby tego kota ważącego 4 kg, a sam ważyłby tylko 0,77 miligrama: mniej niż jeden z kocich wąsów!' },
+          { big: '0,77 mg', small: 'masa jednego metra kwadratowego grafenu' },
+          { p: 'To jeden z najwytrzymalszych materiałów, jakie kiedykolwiek zmierzono. A przez idealną warstwę nie przejdą nawet najmniejsze atomy gazu, atomy helu.' },
+          { p: 'Dlatego próbuje się go w mocnych, lekkich tworzywach, w powłokach chroniących przed rdzą, w bateriach i w filtrach, które oczyszczają wodę.' },
+        ],
+        sci: [
+          { rows: [
+            ['Grubość', 'jeden atom (0,335 nm jako warstwa w graficie)'],
+            ['Wytrzymałość', 'wytrzymałość wewnętrzna ok. 130 GPa, moduł Younga ok. 1 TPa (Lee, Wei, Kysar i Hone, Science 2008, przez wciskanie ostrza AFM w zawieszone warstwy)'],
+            ['Gęstość powierzchniowa', '0,77 mg na metr kwadratowy'],
+            ['Bariera', 'nieprzepuszczalny dla gazów, nawet dla helu (2008)'],
+            ['Zastosowania', 'kompozyty, powłoki antykorozyjne, elektrody baterii i superkondensatory, membrany do filtrowania i odsalania wody'],
+          ] },
+          { p: 'Hamak to przykład komitetu noblowskiego z 2010 roku: pas o szerokości jednego metra pęka dopiero przy ok. 42 N, czyli ciężarze ok. 4 kg. Prawdziwe warstwy mają defekty i granice ziaren, więc duże są słabsze niż ten ideał.' },
+        ],
+      },
+    },
+    moire: {
+      label: 'dwie warstwy', verb: 'Skręć',
+      sign: { title: 'Front badań: skręcony grafen', kid: 'Dwie warstwy, jedna się obraca: zobacz, jak sam pojawia się olbrzymi wzór.', sci: 'Skręcona dwuwarstwa: przy magicznym kącie (1,1°) nadprzewodnictwo.' },
+      panel: {
+        title: 'Front badań: skręcony grafen',
+        kid: [
+          { p: 'Dwie warstwy grafenu, jedna na drugiej, górna powoli się obraca. Nic na nich nie jest namalowane: duży wzór pojawia się sam tam, gdzie dwa plastry miodu na siebie zachodzą, jak dwie firanki przed oknem. Im mniejszy obrót, tym większy wzór.' },
+          { big: '1,1°', small: 'magiczny kąt' },
+          { p: 'Przy 1,1°, mniej więcej tyle, o ile wskazówka minutowa zegara przesuwa się w 11 sekund, dwie zwykłe warstwy węgla, ochłodzone prawie do zera absolutnego, przewodzą prąd bez żadnego oporu: są nadprzewodnikiem. Zmień trochę, ile mają elektronów, a te same warstwy całkiem zablokują prąd. Malutki obrót zmienia to, czym jest materiał!' },
+          { p: 'Dlaczego to takie ważne: odkrył to w 2018 roku Yuan Cao, młody student w laboratorium Pabla Jarillo-Herrero w MIT. Czasopismo Physics World nazwało to przełomem roku; Jarillo-Herrero i dwaj fizycy, którzy przewidzieli magiczny kąt, podzielili się w 2020 roku Nagrodą Wolfa z fizyki; a nauka zyskała nowe słowo, twistronika: elektronika przez skręcanie. Dziś laboratoria na całym świecie układają i skręcają warstwy grube na jeden atom, jak talię kart, żeby tworzyć materiały, których nie ma w przyrodzie.' },
+        ],
+        sci: [
+          { big: 'θ ≈ 1,1°', small: 'magiczny kąt: płaskie pasma, skorelowane izolatory, nadprzewodnictwo' },
+          { rows: [
+            ['Okres mory (moiré)', 'λ = a / (2 sin(θ/2)): ok. 13 nm przy 1,1° (a = 0,246 nm), ok. 11 000 atomów w każdej komórce mory'],
+            ['Przewidywanie', 'płaskie pasma przy magicznym kącie: Rafi Bistritzer i Allan MacDonald, PNAS, 2011'],
+            ['Odkrycie', 'Yuan Cao, Pablo Jarillo-Herrero i współpracownicy (MIT), dwie prace w Nature, 2018: skorelowane stany izolujące przy połowicznym zapełnieniu płaskich pasm, a tuż obok nich nadprzewodnictwo poniżej ok. 1,7 K'],
+            ['Nowe słowo', 'twistronika: strojenie materiału kątem między jego warstwami (grupa Efthimiosa Kaxirasa, Harvard, 2017)'],
+            ['Uznanie', 'Physics World Breakthrough of the Year 2018; Nagroda Wolfa z fizyki 2020 (Bistritzer, Jarillo-Herrero, MacDonald)'],
+            ['Od tamtej pory', 'magnetyzm i izolatory Cherna w płaskich pasmach, skręcone trójwarstwy, skręcone dichalkogenki metali przejściowych: ułamkowy kwantowy anomalny efekt Halla w skręconym MoTe₂ (2023), kwazicząstki niosące ułamek ładunku elektronu, zupełnie bez magnesu'],
+          ] },
+          { p: 'Dlaczego: blisko magicznego kąta pasma mory stają się prawie płaskie, energia kinetyczna elektronów spada poniżej ich wzajemnego odpychania i elektrony organizują się zbiorowo, podobnie jak w nadprzewodnikach na bazie tlenków miedzi, ale w jednym przestrajalnym urządzeniu: napięcie bramki ustala, ile elektronów wypełnia pasma. Próbki robi się metodą „rozerwij i ułóż” (2016): połowę jednego płatka grafenu się podnosi, obraca o zadany kąt i kładzie na drugiej połowie. Utrzymanie jednego kąta w całym urządzeniu (nieporządek kąta skręcenia) to wciąż najtrudniejsza część.' },
+          { p: 'Tutaj warstwy są narysowane jak folie na podświetlanym stole, z a = 2,7 cm, więc mora przy 1,1° ma ok. 1,4 m szerokości. Nic nie zaznacza mory: bierze się z nakładania, jaśniejsza tam, gdzie atomy leżą na atomach (AA), ciemniejsza tam, gdzie się przeplatają (AB).' },
+        ],
+      },
+    },
+    graphite: {
+      label: 'warstwy grafitu', verb: 'Przesuń', verbBack: 'Ułóż w stos',
+      sign: { title: 'Grafit', kid: 'Warstwy sześciokątów, które ślizgają się po sobie.', sci: 'Ułożenie AB, warstwy co 3,35 Å; C–C 1,42 Å w każdej warstwie.' },
+      panel: {
+        title: 'Grafit',
+        kid: [
+          { p: 'Grafit to grafen ułożony w stos: płaskie warstwy sześciokątów, jedna na drugiej. Wewnątrz warstwy atomy trzymają się mocno, ale warstwy tylko słabo lgną do siebie, więc się ślizgają.' },
+          { big: '3 ręce', small: 'każdy atom trzyma trzech sąsiadów w swojej warstwie' },
+          { p: 'Dlatego grafit jest miękki i śliski: jest w ołówkach i służy jako suchy smar do zamków.' },
+          { p: 'Elektrony mogą wędrować wzdłuż warstw, więc grafit przewodzi prąd: jest w bateriach i w silnikach elektrycznych.' },
+        ],
+        sci: [
+          { rows: [
+            ['Ułożenie', 'ABAB (Bernala): co druga warstwa jest przesunięta o jedno wiązanie, więc połowa jej atomów leży nad atomami, a połowa nad środkami sześciokątów'],
+            ['Odległość warstw', '3,35 Å, utrzymywana przez siły van der Waalsa'],
+            ['Wiązanie w warstwie', 'C–C 1,42 Å, sp²'],
+            ['Gęstość', '2,27 g/cm³'],
+            ['Przewodnictwo', 'metaliczne wzdłuż warstw; tysiące razy mniejsze w poprzek nich'],
+            ['Nazwa', 'od greckiego graphein, pisać (A. G. Werner, 1789)'],
+          ] },
+          { p: 'Przy codziennym ciśnieniu i temperaturze najtrwalszą odmianą węgla jest grafit, nie diament. Czwarte elektrony są zdelokalizowane w pasmach π na całej warstwie, dlatego grafit przewodzi wzdłuż warstw i ma szary połysk.' },
+        ],
+      },
+    },
+    pencil: {
+      label: 'olbrzymim ołówkiem', verb: 'Pisz',
+      sign: { title: 'Ołówek', kid: 'Pisanie zostawia na papierze cienkie warstwy grafitu.', sci: 'Grafit i glina, wypalone: ani grama ołowiu.' },
+      panel: {
+        title: 'Ołówek',
+        kid: [
+          { p: 'Kiedy piszesz, papier zdrapuje z czubka malutkie płatki: zsuwające się warstwy grafitu. Twoja kreska składa się z cienkich warstw węgla!' },
+          { p: 'Nazwa „ołówek” pochodzi od ołowiu, ale w ołówku nie ma ołowiu: jest grafit zmieszany z gliną. Więcej gliny daje twardszą, jaśniejszą kreskę (H); więcej grafitu bardziej miękką, ciemniejszą (B).' },
+          { big: 'grafit', small: 'od greckiego graphein: pisać' },
+        ],
+        sci: [
+          { rows: [
+            ['Rdzeń', 'proszek grafitowy i glina, zmieszane, sprasowane i wypalone'],
+            ['Twardości', 'od 9H (twardy, jasny) do 9B (miękki, czarny); HB pośrodku'],
+            ['Kreska', 'płatki grafitu o grubości od kilku nanometrów do mikrometrów, uwięzione we włóknach papieru'],
+          ] },
+          { p: 'W XVI wieku w Borrowdale w Anglii znaleziono duże złoże niezwykle czystego grafitu. Ludzie wzięli go za rodzaj ołowiu (plumbago) i nazwa się przyjęła. Carl Scheele wykazał w 1779 roku, że grafit to węgiel.' },
+        ],
+      },
+    },
+    diamond: {
+      label: 'sieć diamentu', verb: 'Zobacz',
+      sign: { title: 'Diament', kid: 'Każdy atom trzyma cztery inne, w 3D. Najtwardszy naturalny materiał.', sci: 'Regularny, a = 3,567 Å; C–C 1,545 Å pod kątem 109,5°; sp³.' },
+      panel: {
+        title: 'Diament',
+        kid: [
+          { p: 'W diamencie każdy atom węgla trzyma cztery inne, skierowane do narożników piramidy o trójkątnej podstawie (czworościanu). Wszystkie atomy są zamknięte w jednej mocnej sieci, która biegnie we wszystkich kierunkach.' },
+          { big: '10', small: 'w skali Mohsa: najtwardszy naturalny materiał' },
+          { p: 'Diament przewodzi ciepło lepiej niż jakikolwiek inny naturalny materiał, około pięć razy lepiej niż miedź. Dlatego diament wydaje się zimny, kiedy go dotkniesz.' },
+          { p: 'Naturalne diamenty rosły około 150 km pod ziemią, ściskane i podgrzewane we wnętrzu Ziemi, i zostały wyniesione na górę przez erupcje wulkanów.' },
+        ],
+        sci: [
+          { rows: [
+            ['Struktura', 'struktura diamentu: dwie sieci regularne ściennie centrowane, jedna przesunięta o ćwierć przekątnej sześcianu'],
+            ['Komórka', 'a = 3,567 Å, 8 atomów'],
+            ['Wiązanie', 'C–C 1,545 Å, sp³, 109,47°'],
+            ['Gęstość', '3,51 g/cm³ (grafit 2,27)'],
+            ['Twardość', '10 w skali Mohsa'],
+            ['Przewodność cieplna', 'ok. 2000 do 2200 W/(m·K); miedź ok. 400'],
+            ['Przerwa energetyczna', '5,5 eV: izolator elektryczny'],
+          ] },
+          { p: 'Przy ciśnieniu atmosferycznym diament jest metastabilny: grafit jest nieco trwalszy, ale przemiana musiałaby zerwać każde wiązanie, więc w temperaturze pokojowej nigdy nie zachodzi. Naturalne diamenty powstały na głębokości 140 do 200 km (ok. 4,5 do 6 GPa, 900 do 1300 °C) i dotarły na powierzchnię w erupcjach kimberlitowych.' },
+        ],
+      },
+    },
+    brilliant: {
+      label: 'brylant', verb: 'Zobacz',
+      sign: { title: 'Brylant', kid: 'Światło odbija się w środku i rozszczepia na kolory.', sci: 'n = 2,42, kąt graniczny 24,4°, dyspersja 0,044; 57 faset.' },
+      panel: {
+        title: 'Brylant',
+        kid: [
+          { p: 'Oszlifowany diament lśni, bo bardzo mocno załamuje światło. Światło, które wpadnie do środka, odbija się od fasety do fasety i wychodzi z powrotem górą, w stronę twoich oczu.' },
+          { big: '57 faset', small: 'okrągły szlif brylantowy' },
+          { p: 'Diament rozszczepia też białe światło na kolory, jak pryzmat. Jubilerzy nazywają te błyski koloru ogniem.' },
+          { p: 'Ten kamień jest narysowany tak samo: każdy promień światła śledzi się w jego wnętrzu, odbicie po odbiciu.' },
+        ],
+        sci: [
+          { rows: [
+            ['Współczynnik załamania', 'n = 2,42 (szkło ok. 1,5, woda 1,33)'],
+            ['Kąt graniczny', '24,4°: w środku światło padające na fasetę pod kątem większym niż ten (od prostopadłej) ulega całkowitemu odbiciu'],
+            ['Dyspersja', '0,044 (n dla fioletu 2,45 minus n dla czerwieni 2,41)'],
+            ['Szlif', 'okrągły brylantowy: 57 faset (58 z koletem); Marcel Tolkowsky obliczył jego proporcje w 1919 roku'],
+          ] },
+          { p: 'Fasety pawilonu są nachylone pod kątem ok. 41°, więc światło wpadające przez taflę odbija się całkowicie od jednej strony pawilonu do drugiej i wychodzi przez koronę. Tutaj każdy piksel śledzi swój promień przez prawdziwe fasety, z innym współczynnikiem dla światła czerwonego, zielonego i niebieskiego.' },
+        ],
+      },
+    },
+    press: {
+      sign: { title: 'Prasa do diamentów', kid: 'Ściśnij i podgrzej grafit, żeby zrobić diament.', sci: 'HPHT: ok. 6 GPa i 1500 °C, z metalicznym katalizatorem.' },
+      panel: {
+        title: 'Udało ci się zrobić diament!',
+        kid: [
+          { p: 'Grafit został ściśnięty tak mocno, jak gdyby 25 słoni stanęło na monecie jednocentowej, i podgrzany do 1500 °C. Jego płaskie warstwy przebudowały się w mocną trójwymiarową sieć diamentu.' },
+          { big: '6 GPa', small: '60 000 razy więcej niż ciśnienie powietrza' },
+          { p: 'Tak dzieje się w przyrodzie około 150 km pod twoimi stopami. Fabryki robią w ten sposób diamenty do wierteł i pił, które tną kamień.' },
+        ],
+        sci: [
+          { rows: [
+            ['Ciśnienie', 'ok. 5 do 6 GPa (tutaj 6 GPa)'],
+            ['Temperatura', 'ok. 1300 do 1600 °C (tutaj 1500 °C)'],
+            ['Katalizator', 'stopione żelazo, nikiel lub kobalt rozpuszcza grafit; diament z niego krystalizuje'],
+            ['Pierwszy raz', 'General Electric, 1954: prasa typu belt Tracy’ego Halla'],
+            ['Dziś', 'prasy kubiczne i chemiczne osadzanie z fazy gazowej (CVD); większość diamentów przemysłowych jest wytwarzana, a nie wydobywana'],
+          ] },
+          { p: 'W 1500 °C diament staje się trwałą odmianą węgla powyżej ok. 5,7 GPa (linia równowagi grafit–diament). Diamenty z prasy wychodzą jako małe kryształy kubooktaedryczne, często żółte od atomów azotu w sieci.' },
+        ],
+      },
+    },
+    nanotube: {
+      label: 'nanorurkę', verb: 'Rozświetl',
+      sign: { title: 'Nanorurka', kid: 'Warstwa grafenu zwinięta w rurkę. Przejdź przez nią!', sci: 'Typu armchair (6,6): średnica 0,81 nm, ścianki grubości jednego atomu (Iijima, 1991).' },
+      panel: {
+        title: 'Nanorurka węglowa',
+        kid: [
+          { p: 'Zwiń warstwę grafenu w rurkę, a dostaniesz nanorurkę węglową. Przez tę możesz przejść, bo jest 5 miliardów razy większa: prawdziwa jest około 80 000 razy cieńsza od włosa.' },
+          { big: '1 atom', small: 'ścianki mają grubość jednego atomu' },
+          { p: 'Nanorurki należą do najwytrzymalszych materiałów, jakie kiedykolwiek wytworzono, i przewodzą prąd. Japoński naukowiec Sumio Iijima opisał je w 1991 roku.' },
+        ],
+        sci: [
+          { rows: [
+            ['Ta rurka', '(6,6) armchair: średnica 0,81 nm, metaliczna'],
+            ['Zwijanie', 'wektor chiralny C = n·a₁ + m·a₂ staje się obwodem'],
+            ['Elektrony', 'metaliczna, gdy n − m jest wielokrotnością 3 (wszystkie rurki armchair), w przeciwnym razie półprzewodnikowa'],
+            ['Odkrycie', 'Sumio Iijima (NEC), 1991, wielościenne; jednościenne w 1993 roku'],
+            ['Wytrzymałość', 'zmierzona wytrzymałość na rozciąganie do ok. 60 GPa (mocna stal: 1 do 2 GPa)'],
+          ] },
+          { p: 'Niektóre rurki mają centymetry długości i tylko nanometr szerokości. Używa się ich do wzmacniania tworzyw sztucznych, w elektrodach baterii i w badaniach nad malutkimi tranzystorami.' },
+        ],
+      },
+    },
+    fullerene: {
+      label: 'ściany C60', verb: 'Policz',
+      sign: { title: 'Buckminsterfuleren', kid: 'C60: pusta w środku kula z 60 atomów. Jesteś w jej wnętrzu!', sci: '60 atomów, 90 wiązań, 12 pięciokątów, 20 sześciokątów (1985).' },
+      panel: {
+        title: 'Buckminsterfuleren, C₆₀',
+        kid: [
+          { p: 'Jesteś wewnątrz cząsteczki C₆₀: 60 atomów węgla tworzy pustą w środku klatkę w kształcie piłki. Jej ściany: 12 pięciokątów i 20 sześciokątów.' },
+          { big: 'C₆₀', small: '60 atomów, 90 wiązań' },
+          { p: 'Odkryli ją w 1985 roku Harold Kroto, Robert Curl i Richard Smalley, którzy w 1996 roku dostali Nagrodę Nobla z chemii. Nazwali ją na cześć architekta Buckminstera Fullera, słynnego z kopuł właśnie takich jak ta.' },
+        ],
+        sci: [
+          { rows: [
+            ['Kształt', 'dwudziestościan ścięty, symetria Ih'],
+            ['Liczenie', '60 wierzchołków − 90 krawędzi + 32 ściany = 2 (Euler)'],
+            ['Wiązania', '30 między dwoma sześciokątami (6:6), 1,40 Å, o charakterze wiązania podwójnego; 60 między pięciokątem a sześciokątem (5:6), 1,45 Å'],
+            ['Rozmiar', '0,71 nm między przeciwległymi jądrami; ta kopuła jest narysowana w skali 1,3 m na angstrem'],
+            ['Odkrycie', '1985, Rice University: Kroto, Curl i Smalley, z Heathem i O’Brienem; Nagroda Nobla z chemii 1996'],
+          ] },
+          { p: 'Każda zamknięta klatka z atomów o trzech wiązaniach, złożona z pięciokątów i sześciokątów, ma dokładnie 12 pięciokątów, bez względu na liczbę sześciokątów. C₆₀ jest najmniejszą, w której żadne dwa pięciokąty się nie stykają (reguła izolowanych pięciokątów), co czyni ją szczególnie trwałą. Podwójne pręciki to wiązania 6:6.' },
+        ],
+      },
+    },
+    football: {
+      label: 'piłkę', verb: 'Kopnij',
+      sign: { title: 'Ten sam wzór', kid: '12 pięciokątów i 20 sześciokątów, jak C60.', sci: 'Dwudziestościan ścięty: 32 łaty, 60 wierzchołków, 90 szwów.' },
+      panel: {
+        title: 'Ten sam wzór',
+        kid: [
+          { p: 'Klasyczna piłka nożna jest zszyta z 12 czarnych pięciokątów i 20 białych sześciokątów: to ten sam wzór co C₆₀! Dlatego C₆₀ ma przezwisko buckyball.' },
+          { big: '12 + 20', small: 'pięciokąty + sześciokąty, tak jak w C₆₀' },
+        ],
+        sci: [
+          { p: 'Piłka z 32 łat to dwudziestościan ścięty nadmuchany do kształtu kuli: 60 wierzchołków, w których spotykają się trzy łaty, i 90 szwów, jak 60 atomów i 90 wiązań C₆₀. Rozsławił ją Adidas Telstar z mundialu w 1970 roku, czarno-biały, żeby był dobrze widoczny w czarno-białej telewizji.' },
+        ],
+      },
+    },
+  },
+}
+
+const DE = {
+  back: 'Zurück zum Atrium',
+  kicker: 'Diamant, Graphit und Co.',
+  decimal: ',',
+  talkTo: 'Sprechen mit',
+  graphiteWord: 'GRAPHIT',
+  wall: 'Ein Element, viele Formen',
+  greeting: {
+    kid: 'Willkommen in meiner Galerie! Schau nach unten: Du läufst auf Graphen, einer einzigen Schicht meiner Atome. Hier drin bin ich ein Diamant, ein Bleistift, eine Röhre und ein Ball. Probier jedes Ausstellungsstück aus, um sie alle zu entdecken!',
+    sci: 'Allotrope: ein Element, verschiedene Bindungen. sp³ im Diamanten; sp² in Graphit, Graphen, Nanoröhren und Fullerenen. Der Boden ist Graphen im Maßstab 0,5 m pro Ångström. Entlang der linken Wand: Graphen von vier Seiten und die verdrehte Doppelschicht.',
+  },
+  pentagons: 'Fünfecke',
+  hexagons: 'Sechsecke',
+  totals: 'Atome · Bindungen',
+  pressTitle: 'DIAMANTPRESSE',
+  source: 'Source',
+  drain: 'Drain',
+  gate: 'Gate',
+  gateVoltage: 'Gate-Spannung',
+  modes: ['einfaches Graphen', 'Doppelschicht im Feld'],
+  catLabel: 'Katze: 4 kg',
+  press: {
+    steps: [
+      { verb: 'Einlegen', label: 'Graphit in die Presse' },
+      { verb: 'Hochfahren', label: 'die Presse auf 6 GPa' },
+      { verb: 'Erhitzen', label: 'die Kapsel auf 1500 °C' },
+      { verb: 'Öffnen', label: 'die Presse' },
+      { verb: 'Neu beginnen', label: 'mit neuem Graphit' },
+    ],
+    wait: 'Warten',
+    working: 'die Presse arbeitet…',
+    say: [
+      'Der Graphit ist in der Kapsel. Jetzt pressen!',
+      '6 GPa: wie 25 Elefanten auf einer Ein-Cent-Münze. Jetzt erhitzen!',
+      '1500 °C! Die flachen Schichten werden zum 3D-Netz des Diamanten. Öffne die Presse!',
+    ],
+  },
+  say: {
+    peelFree: 'Eine einzige Schicht, ganz frei: Das ist Graphen! Nimm das Klebeband noch einmal, um sie zurückzulegen.',
+    peelBack: 'Zurück auf dem Stapel: Aufeinandergestapelte Graphenschichten sind Graphit.',
+    slideBack: 'Wieder gestapelt. Die Schichten liegen nur aufeinander, deshalb gleiten sie leicht.',
+    transistor: [
+      'Siehst du? Am tiefsten Punkt fließt der Strom immer noch: Einfaches Graphen kann nicht ausschalten. Probier es noch einmal, mit einer Lücke.',
+      'Mit zwei Schichten in einem elektrischen Feld gibt es eine Lücke, und der Strom stoppt: AUS!',
+    ],
+    moire: nm => `Der magische Winkel, 1,1°! Das große Muster ist ${nm} nm breit, 52 Atome. Fast bis zum absoluten Nullpunkt gekühlt, leiten diese zwei Schichten Strom ganz ohne Widerstand.`,
+  },
+  moireControls: {
+    hint: {
+      kid: 'Dreh die obere Schicht mit dem Schieberegler: Schau auf ihre Ecken, das Muster und die Tafel. Bei 1,1° werden die zwei goldenen Linien flach: Die Elektronen bleiben fast stehen.',
+      sci: 'Verdrehe mit dem Schieberegler; die Tafel zeigt die Bänder entlang K′-K-Γ-M-K′ und die Breite der Mittelbänder abhängig vom Winkel.',
+    },
+    twist: 'Verdrehung',
+    rings: 'Ringgröße (nur die Zeichnung)',
+    magic: '✨ Der magische Winkel, 1,1°',
+    auto: 'Von selbst drehen lassen',
+  },
+  board: {
+    kid: {
+      title: 'Was die Elektronen können', sub: 'jede Linie: eine Bewegungsart der Elektronen', energy: 'Energie',
+      speed: 'Wie schnell sich die Elektronen bewegen', speedKid: p => `${p} % ihres Tempos in normalem Graphen`, speedSci: (v, w) => `v*/v = ${v} · Mittelbänder ${w} meV breit`,
+      strip: 'Wie flach die mittleren Linien sind (tiefer ist flacher)', magic: 'magisch 1,1°', tooSmall: 'Ab einem halben Grad siehst du die Linien',
+    },
+    sci: {
+      title: 'Bänder nahe dem Fermi-Niveau (meV)', sub: 'Bistritzer-MacDonald-Modell, ein Tal', energy: 'E (meV)',
+      speed: 'Dirac-Geschwindigkeit', speedKid: p => `${p} %`, speedSci: (v, w) => `v*/v = ${v} · Mittelbänder ${w} meV breit`,
+      strip: 'Mittelband-Breite gegen Verdrehung (meV, log. Skala)', magic: 'magisch 1,1°', tooSmall: 'Unter 0,5° drängen sich die Bänder',
+    },
+  },
+  signLine: {
+    moire: (deg, nm) => (deg === 0 ? 'Deckungsgleich: kein Moiré. Dreh die obere Schicht!' : `Drehung ${String(deg).replace('.', ',')}°: Moiré ${nm} nm${deg === 1.1 ? ' (der magische Winkel)' : ''}`),
+    readout: (deg, nm) => (deg < 0.05 ? 'Deckungsgleich: kein Muster' : `Gedreht um ${deg.toFixed(deg < 2 ? 2 : 1).replace('.', ',')}°\ndas Muster wiederholt sich alle ${nm} nm`),
+  },
+  ex: {
+    graphene: {
+      label: 'das Klebeband', verb: 'Benutzen', labelBack: 'die Graphenschicht', verbBack: 'Zurücklegen',
+      sign: { title: 'Graphen', kid: 'Zieh mit Klebeband eine Schicht vom Graphit ab.', sci: 'Eine Schicht Graphit: 2004, Geim und Novoselov (Nobelpreis 2010).' },
+      panel: {
+        title: 'Graphen',
+        kid: [
+          { p: 'Graphit ist ein Stapel flacher Schichten. Zieh nur eine Schicht ab, und du hast Graphen: eine einzige Lage Kohlenstoffatome, in Sechsecken verbunden wie eine Bienenwabe. Jedes Atom hält drei Nachbarn fest.' },
+          { big: '1 Atom', small: 'dick: das dünnste Material, das es gibt' },
+          { p: '2004 zogen Andre Geim und Konstantin Novoselov in Manchester Graphit immer wieder mit Klebeband ab, bis nur noch eine Schicht übrig war. 2010 bekamen sie dafür den Nobelpreis für Physik.' },
+          { p: 'Auch der Boden dieser Galerie ist Graphen, 5 Milliarden Mal größer gezeichnet als in Wirklichkeit. Entlang dieser Wand kannst du es erforschen wie ein Physiker, ein Chemiker, ein Ingenieur und ein Materialwissenschaftler.' },
+        ],
+        sci: [
+          { rows: [['Bindung', 'C–C 0,142 nm, sp², 120°'], ['Gitter', 'hexagonal, a = 0,246 nm, zwei Atome pro Zelle'], ['Dicke', 'ein Atom (im Graphit liegen die Schichten 0,335 nm auseinander)'], ['Isoliert', '2004, Andre Geim und Konstantin Novoselov (Manchester), durch mechanische Exfoliation mit Klebeband'], ['Nobelpreis', 'Physik, 2010']] },
+          { p: 'Dünne Flocken auf oxidiertem Silicium (300 nm SiO₂) werden durch Interferenz sichtbar, so ließ sich eine einzelne Schicht unter einem gewöhnlichen Lichtmikroskop finden; der Stapel hier löst die oberste Schicht eines AB-gestapelten Kristalls auf dieselbe Weise ab.' },
+          { p: 'Maßstab des Bodens: 0,5 m pro Ångström, 5 × 10⁹-fache Lebensgröße.' },
+        ],
+      },
+    },
+    physics: {
+      label: 'die Energiekegel des Graphens', verb: 'Ansehen',
+      sign: { title: 'Graphen · Physik', kid: 'Elektronen rasen hindurch, als wären sie gewichtslos.', sci: 'Dirac-Kegel an den sechs K-Punkten; Elektronen mit etwa 1 000 000 m/s.' },
+      panel: {
+        title: 'Graphen · Physik',
+        kid: [
+          { p: 'Im Graphen rasen Elektronen durch die Schicht, als wären sie gewichtslos, mit etwa 1000 km pro Sekunde (1/300 der Lichtgeschwindigkeit).' },
+          { p: 'Die Skulptur zeigt die Energien, die ein Elektron im Graphen haben kann: eine blaue Fläche unten und eine orangefarbene oben. Sie berühren sich nur an sechs Punkten, wo jede Fläche ein Kegel ist. Diese Punkte machen Graphen so besonders.' },
+          { big: '2,3%', small: 'des Lichts hält eine einzige Schicht auf: Du kannst sie mit bloßem Auge sehen' },
+          { p: 'Es leitet auch Wärme extrem gut. Ein kanadischer Physiker, Philip Wallace, hat das alles schon 1947 auf Papier ausgerechnet, mehr als 50 Jahre bevor jemand Graphen herstellte.' },
+        ],
+        sci: [
+          { big: 'E = ±ħv|k|', small: 'nahe den K-Punkten: masselose Dirac-Fermionen mit linearer Dispersion (v, die Fermi-Geschwindigkeit)' },
+          { rows: [
+            ['Fermi-Geschwindigkeit', 'v ≈ 1 × 10⁶ m/s, etwa 1/300 der Lichtgeschwindigkeit'],
+            ['Bandstruktur', 'P. R. Wallace, 1947, Tight-Binding-Modell: E(k) = ±t·|1 + exp(ik·a₁) + exp(ik·a₂)|, t ≈ 2,8 eV'],
+            ['Quanten-Hall-Effekt', 'halbzahlig, σxy = ±4(n + ½)e²/h (2005); sogar bei Raumtemperatur beobachtet (2007)'],
+            ['Licht', 'eine Schicht absorbiert πα ≈ 2,3% des weißen Lichts (α die Feinstrukturkonstante)'],
+            ['Wärme', 'freitragendes Graphen leitet Tausende W/(m·K)'],
+          ] },
+          { p: 'Die Skulptur ist das π-Band über der hexagonalen Brillouin-Zone: Das Valenzband (blau) ist voll, das Leitungsband (orange) leer, und sie treffen sich nur an den sechs Ecken K und K′, wo die Flächen zu Kegeln werden. Die Linien sind Linien gleicher Energie: Kreise um jeden K-Punkt, weiter außen Dreiecke. Benutze sie: Von den K-Punkten laufen Ringe mit konstanter Steigung aus, das ist die lineare Dispersion.' },
+        ],
+      },
+    },
+    chemistry: {
+      label: 'die Pi-Orbitale', verb: 'Ansehen',
+      sign: { title: 'Graphen · Chemie', kid: 'Drei Hände in der Ebene, ein Elektron, das allen gehört.', sci: 'sp²: drei Sigma-Bindungen im Winkel von 120°, ein Pi-Elektron pro Atom.' },
+      panel: {
+        title: 'Graphen · Chemie',
+        kid: [
+          { p: 'Im Graphen hält jedes Kohlenstoffatom drei Nachbarn fest, flach, in gleichen Winkeln von 120°. Sein viertes Elektron teilt es mit der ganzen Schicht, in Wolken über und unter ihr (die blauen und orangefarbenen Formen).' },
+          { big: '120°', small: 'zwischen den drei Bindungen jedes Atoms' },
+          { p: 'Chemiker verändern es: Gib Sauerstoff dazu, und du bekommst Graphenoxid; häng an jedes Atom ein Wasserstoffatom, und du bekommst Graphan, das keinen Strom mehr leitet.' },
+          { p: 'Große Schichten wachsen, wenn man ein Gas mit Kohlenstoff darin (Methan) über sehr heiße Kupferfolie leitet: Die Kohlenstoffatome legen sich zu einer einzigen Schicht zusammen.' },
+        ],
+        sci: [
+          { rows: [
+            ['Bindung', 'sp²: drei σ-Bindungen im Winkel von 120°, C–C 0,142 nm; ein pz-Elektron pro Atom in delokalisierten π-Bindungen'],
+            ['Graphenoxid', 'oxidierter Graphit (Hummers-Methode, 1958), in Schichten getrennt: Epoxid- und Hydroxylgruppen auf der Fläche, Carboxylgruppen an den Rändern; ein Isolator, der sich wieder reduzieren lässt'],
+            ['Graphan', 'jedes Kohlenstoffatom an ein Wasserstoffatom gebunden (sp³); 2009 hergestellt, indem Graphen einem Wasserstoffplasma ausgesetzt wurde; ein Isolator, beim Erhitzen umkehrbar'],
+            ['Wachstum', 'chemische Gasphasenabscheidung: Methan auf Kupferfolie bei etwa 1000 °C ergibt große einlagige Schichten (2009); Kohlenstoff löst sich kaum in Kupfer, daher stoppt das Wachstum bei einer Lage'],
+          ] },
+          { p: 'Das Modell zeigt ein Sechseck des Graphens: die σ-Bindungen in der Ebene und das p-Orbital jedes Atoms, das quer dazu steht, eine Phase oben (blau) und eine unten (orange). Benutze es: Die p-Orbitale verschmelzen zu den π-Wolken, die sich über die ganze Schicht ausbreiten.' },
+        ],
+      },
+    },
+    electronics: {
+      label: 'den Graphen-Transistor', verb: 'Ausprobieren',
+      sign: { title: 'Graphen · Elektronik', kid: 'Ein sehr schneller Schalter, der nie ganz ausschaltet.', sci: 'Keine Bandlücke: ein Halbmetall. An/Aus-Verhältnis nur etwa 5 bis 10.' },
+      panel: {
+        title: 'Graphen · Elektronik',
+        kid: [
+          { p: 'Ein Transistor ist ein winziger Schalter: Ein Computer hat Milliarden davon. Elektronen rasen so schnell durch Graphen, dass sich daraus sehr schnelle Transistoren bauen lassen, aber es gibt ein Problem: Graphen lässt sich nicht ganz ausschalten.' },
+          { p: 'Dreh am Knopf: Der Strom sinkt, aber selbst am tiefsten Punkt fließt er weiter. Dreh noch einmal: Jetzt sind es zwei Schichten in einem elektrischen Feld, und der Strom stoppt.' },
+          { big: 'keine Lücke', small: 'Graphen allein schaltet nie ganz aus' },
+          { p: 'Forscher öffnen eine Lücke: zwei Schichten in einem elektrischen Feld oder Graphen, in sehr schmale Bänder geschnitten. Es steckt auch in durchsichtigen Elektroden und in Sensoren, die einzelne Moleküle spüren können.' },
+        ],
+        sci: [
+          { rows: [
+            ['Bandlücke', 'keine: ein Halbmetall (Lücke null); am Dirac-Punkt hat der Leitwert ein Minimum, nicht null'],
+            ['An/Aus-Verhältnis', 'etwa 5 bis 10 bei Raumtemperatur für einen einfachen Graphen-Transistor; Siliciumlogik braucht etwa 10⁴ bis 10⁷'],
+            ['Eine Lücke öffnen', 'zweilagiges Graphen in einem senkrechten elektrischen Feld (bis etwa 0,25 eV, 2009); Nanobänder von wenigen Nanometern Breite'],
+            ['Anwendungen', 'Hochfrequenztransistoren (Grenzfrequenzen von Hunderten GHz), transparente leitfähige Schichten, Sensoren, die einzelne Gasmoleküle nachweisen können'],
+          ] },
+          { p: 'Ambipolare Leitung: Das Gate schiebt das Fermi-Niveau hinauf ins Leitungsband (Elektronen) oder hinab ins Valenzband (Löcher); der Strom ist dort am kleinsten, wo sich die beiden Kegel treffen, am Ladungsneutralitätspunkt.' },
+        ],
+      },
+    },
+    materials: {
+      label: 'die Graphen-Hängematte', verb: 'Ansehen',
+      sign: { title: 'Graphen · Materialien', kid: 'Ein Quadratmeter würde eine Katze tragen und weniger wiegen als ein Schnurrhaar.', sci: 'Festigkeit etwa 130 GPa, E-Modul etwa 1 TPa, 0,77 mg pro Quadratmeter.' },
+      panel: {
+        title: 'Graphen · Materialien',
+        kid: [
+          { p: 'Eine Hängematte aus Graphen, einen Quadratmeter groß, könnte diese 4 kg schwere Katze tragen und würde doch nur 0,77 Milligramm wiegen: weniger als eines der Schnurrhaare der Katze!' },
+          { big: '0,77 mg', small: 'die Masse von einem Quadratmeter Graphen' },
+          { p: 'Es ist eines der festesten Materialien, die je gemessen wurden. Und nicht einmal die kleinsten Gasatome, die des Heliums, kommen durch eine perfekte Schicht.' },
+          { p: 'Deshalb wird es in festen, leichten Kunststoffen ausprobiert, in Beschichtungen gegen Rost, in Batterien und in Filtern, die Wasser reinigen.' },
+        ],
+        sci: [
+          { rows: [
+            ['Dicke', 'ein Atom (0,335 nm als Schicht im Graphit)'],
+            ['Festigkeit', 'intrinsische Festigkeit etwa 130 GPa, Elastizitätsmodul etwa 1 TPa (Lee, Wei, Kysar und Hone, Science 2008, durch Eindrücken einer AFM-Spitze in freitragende Schichten)'],
+            ['Flächendichte', '0,77 mg pro Quadratmeter'],
+            ['Barriere', 'undurchlässig für Gase, sogar für Helium (2008)'],
+            ['Anwendungen', 'Verbundwerkstoffe, Korrosionsschutzschichten, Batterieelektroden und Superkondensatoren, Membranen zum Filtern und Entsalzen von Wasser'],
+          ] },
+          { p: 'Die Hängematte ist das Beispiel des Nobelkomitees von 2010: Ein Streifen von einem Meter Breite reißt erst bei etwa 42 N, dem Gewicht von etwa 4 kg. Echte Schichten haben Defekte und Korngrenzen, deshalb sind große schwächer als dieses Ideal.' },
+        ],
+      },
+    },
+    moire: {
+      label: 'die zwei Schichten', verb: 'Verdrehen',
+      sign: { title: 'Neuland: verdrehtes Graphen', kid: 'Zwei Schichten, eine dreht sich: Sieh zu, wie von selbst ein Riesenmuster entsteht.', sci: 'Verdrehte Doppelschicht: beim magischen Winkel (1,1°) Supraleitung.' },
+      panel: {
+        title: 'Neuland: verdrehtes Graphen',
+        kid: [
+          { p: 'Zwei Schichten Graphen übereinander, die obere dreht sich langsam. Auf ihnen ist nichts aufgemalt: Das große Muster entsteht von selbst, wo sich die zwei Waben überlappen, wie bei zwei Gardinen vor einem Fenster. Je kleiner die Drehung, desto größer das Muster.' },
+          { big: '1,1°', small: 'der magische Winkel' },
+          { p: 'Bei 1,1°, etwa so weit, wie der Minutenzeiger einer Uhr in 11 Sekunden weiterrückt, leiten zwei schlichte Schichten Kohlenstoff, fast bis zum absoluten Nullpunkt gekühlt, Strom ganz ohne Widerstand: Sie sind ein Supraleiter. Ändert man ein wenig, wie viele Elektronen sie enthalten, sperren dieselben Schichten den Strom vollständig. Eine winzige Drehung verändert, was das Material ist!' },
+          { p: 'Warum das so wichtig ist: Entdeckt hat es 2018 Yuan Cao, ein junger Student im Labor von Pablo Jarillo-Herrero am MIT. Die Zeitschrift Physics World nannte es den Durchbruch des Jahres; Jarillo-Herrero und die zwei Physiker, die den magischen Winkel vorhergesagt hatten, teilten sich 2020 den Wolf-Preis für Physik; und die Wissenschaft bekam ein neues Wort, Twistronik: Elektronik durch Verdrehen. Heute stapeln und verdrehen Labore auf der ganzen Welt atomdünne Schichten wie ein Kartenspiel, um Materialien herzustellen, die es in der Natur nicht gibt.' },
+        ],
+        sci: [
+          { big: 'θ ≈ 1,1°', small: 'der magische Winkel: flache Bänder, korrelierte Isolatoren, Supraleitung' },
+          { rows: [
+            ['Moiré-Periode', 'λ = a / (2 sin(θ/2)): etwa 13 nm bei 1,1° (a = 0,246 nm), rund 11 000 Atome in jeder Moiré-Zelle'],
+            ['Vorhersage', 'flache Bänder beim magischen Winkel: Rafi Bistritzer und Allan MacDonald, PNAS, 2011'],
+            ['Entdeckung', 'Yuan Cao, Pablo Jarillo-Herrero und Kollegen (MIT), zwei Artikel in Nature, 2018: korrelierte isolierende Zustände bei halber Füllung der flachen Bänder und gleich daneben Supraleitung unter etwa 1,7 K'],
+            ['Ein neues Wort', 'Twistronik: ein Material über den Winkel zwischen seinen Schichten einstellen (Gruppe von Efthimios Kaxiras, Harvard, 2017)'],
+            ['Anerkennung', 'Physics World Breakthrough of the Year 2018; Wolf-Preis für Physik 2020 (Bistritzer, Jarillo-Herrero, MacDonald)'],
+            ['Seitdem', 'Magnetismus und Chern-Isolatoren in den flachen Bändern, verdrehte Dreifachschichten, verdrehte Übergangsmetall-Dichalkogenide: der fraktionale anomale Quanten-Hall-Effekt in verdrehtem MoTe₂ (2023), Quasiteilchen mit einem Bruchteil der Elektronenladung, ganz ohne Magnet'],
+          ] },
+          { p: 'Warum: Nahe dem magischen Winkel werden die Moiré-Bänder fast flach, die kinetische Energie der Elektronen fällt unter ihre gegenseitige Abstoßung, und sie ordnen sich kollektiv, ähnlich wie in den Kupferoxid-Supraleitern, aber in einem einzigen einstellbaren Bauteil: Eine Gate-Spannung legt fest, wie viele Elektronen die Bänder füllen. Proben entstehen durch „Abreißen und Stapeln“ (2016): Die Hälfte einer Graphenflocke wird abgehoben, um den gewünschten Winkel gedreht und auf die andere Hälfte gelegt. Einen einzigen Winkel über ein ganzes Bauteil zu halten (Unordnung des Drehwinkels), ist noch immer der schwierige Teil.' },
+          { p: 'Hier sind die Schichten als Folien auf einem Leuchttisch gezeichnet, mit a = 2,7 cm, daher ist das Moiré bei 1,1° etwa 1,4 m breit. Nichts markiert das Moiré: Es entsteht aus der Überlagerung, heller, wo Atome auf Atomen sitzen (AA), dunkler, wo sie ineinandergreifen (AB).' },
+        ],
+      },
+    },
+    graphite: {
+      label: 'die Graphitschichten', verb: 'Verschieben', verbBack: 'Aufstapeln',
+      sign: { title: 'Graphit', kid: 'Schichten aus Sechsecken, die übereinander gleiten.', sci: 'AB-Stapelung, Schichtabstand 3,35 Å; C–C 1,42 Å in jeder Schicht.' },
+      panel: {
+        title: 'Graphit',
+        kid: [
+          { p: 'Graphit ist gestapeltes Graphen: flache Schichten aus Sechsecken, eine über der anderen. Innerhalb einer Schicht halten sich die Atome fest, aber die Schichten haften nur schwach aneinander, deshalb gleiten sie.' },
+          { big: '3 Hände', small: 'jedes Atom hält drei Nachbarn in seiner Schicht' },
+          { p: 'Deshalb ist Graphit weich und rutschig: Es steckt in Bleistiften und dient als Trockenschmiermittel für Schlösser.' },
+          { p: 'Elektronen können sich entlang der Schichten bewegen, deshalb leitet Graphit Strom: Es steckt in Batterien und in Elektromotoren.' },
+        ],
+        sci: [
+          { rows: [
+            ['Stapelung', 'ABAB (Bernal): Jede zweite Schicht ist um eine Bindung verschoben, so liegt die Hälfte ihrer Atome über Atomen und die Hälfte über Sechseckmitten'],
+            ['Schichtabstand', '3,35 Å, gehalten von Van-der-Waals-Kräften'],
+            ['Bindung in der Schicht', 'C–C 1,42 Å, sp²'],
+            ['Dichte', '2,27 g/cm³'],
+            ['Leitfähigkeit', 'metallisch entlang der Schichten; quer dazu tausende Male geringer'],
+            ['Name', 'vom griechischen graphein, schreiben (A. G. Werner, 1789)'],
+          ] },
+          { p: 'Bei alltäglichem Druck und alltäglicher Temperatur ist Graphit, nicht Diamant, die stabilste Form des Kohlenstoffs. Die vierten Elektronen sind in π-Bändern über jede ganze Schicht delokalisiert, deshalb leitet Graphit entlang seiner Schichten und hat einen grauen Glanz.' },
+        ],
+      },
+    },
+    pencil: {
+      label: 'dem Riesenbleistift', verb: 'Schreiben mit',
+      sign: { title: 'Der Bleistift', kid: 'Beim Schreiben bleiben dünne Graphitschichten auf dem Papier.', sci: 'Graphit und Ton, gebrannt: überhaupt kein Blei.' },
+      panel: {
+        title: 'Der Bleistift',
+        kid: [
+          { p: 'Wenn du schreibst, schabt das Papier winzige Flocken von der Spitze: Graphitschichten, die abgleiten. Deine Linie besteht aus dünnen Schichten Kohlenstoff!' },
+          { p: 'Ein Bleistift enthält gar kein Blei: Seine Mine ist Graphit, mit Ton gemischt. Mehr Ton ergibt eine härtere, hellere Linie (H); mehr Graphit eine weichere, dunklere (B).' },
+          { big: 'Graphit', small: 'vom griechischen graphein: schreiben' },
+        ],
+        sci: [
+          { rows: [
+            ['Mine', 'Graphitpulver und Ton, gemischt, gepresst und gebrannt'],
+            ['Härtegrade', 'von 9H (hart, hell) bis 9B (weich, schwarz); HB in der Mitte'],
+            ['Strich', 'Graphitflocken von wenigen Nanometern bis Mikrometern Dicke, in den Papierfasern festgehalten'],
+          ] },
+          { p: 'Im 16. Jahrhundert fand man in Borrowdale in England ein großes Vorkommen ungewöhnlich reinen Graphits. Man hielt ihn für eine Art Blei (Plumbago), und der Name blieb. Carl Scheele zeigte 1779, dass Graphit Kohlenstoff ist.' },
+        ],
+      },
+    },
+    diamond: {
+      label: 'das Diamantgitter', verb: 'Ansehen',
+      sign: { title: 'Diamant', kid: 'Jedes Atom hält vier andere, in 3D. Das härteste natürliche Material.', sci: 'Kubisch, a = 3,567 Å; C–C 1,545 Å bei 109,5°; sp³.' },
+      panel: {
+        title: 'Diamant',
+        kid: [
+          { p: 'Im Diamanten hält jedes Kohlenstoffatom vier andere fest, die zu den Ecken einer Pyramide mit dreieckiger Grundfläche zeigen (einem Tetraeder). Alle Atome sind in einem einzigen festen Netz verankert, das in alle Richtungen reicht.' },
+          { big: '10', small: 'auf der Mohs-Skala: das härteste natürliche Material' },
+          { p: 'Diamant leitet Wärme besser als jedes andere natürliche Material, etwa fünfmal besser als Kupfer. Deshalb fühlt sich ein Diamant kalt an, wenn du ihn berührst.' },
+          { p: 'Natürliche Diamanten sind etwa 150 km tief im Inneren der Erde gewachsen, gepresst und erhitzt, und wurden von Vulkanausbrüchen nach oben getragen.' },
+        ],
+        sci: [
+          { rows: [
+            ['Struktur', 'Diamantstruktur: zwei kubisch-flächenzentrierte Gitter, eines um ein Viertel der Würfeldiagonale verschoben'],
+            ['Zelle', 'a = 3,567 Å, 8 Atome'],
+            ['Bindung', 'C–C 1,545 Å, sp³, 109,47°'],
+            ['Dichte', '3,51 g/cm³ (Graphit 2,27)'],
+            ['Härte', 'Mohs 10'],
+            ['Wärmeleitfähigkeit', 'etwa 2000 bis 2200 W/(m·K); Kupfer etwa 400'],
+            ['Bandlücke', '5,5 eV: ein elektrischer Isolator'],
+          ] },
+          { p: 'Bei Normaldruck ist Diamant metastabil: Graphit ist etwas stabiler, aber die Umwandlung müsste jede Bindung brechen, deshalb geschieht sie bei Raumtemperatur nie. Natürliche Diamanten entstanden in 140 bis 200 km Tiefe (etwa 4,5 bis 6 GPa, 900 bis 1300 °C) und gelangten in Kimberlit-Ausbrüchen an die Oberfläche.' },
+        ],
+      },
+    },
+    brilliant: {
+      label: 'den Brillanten', verb: 'Ansehen',
+      sign: { title: 'Der Brillant', kid: 'Licht springt darin hin und her und zerfällt in Farben.', sci: 'n = 2,42, Grenzwinkel 24,4°, Dispersion 0,044; 57 Facetten.' },
+      panel: {
+        title: 'Der Brillant',
+        kid: [
+          { p: 'Ein geschliffener Diamant funkelt, weil er Licht sehr stark bricht. Licht, das hineinkommt, springt drinnen von Facette zu Facette und kommt oben wieder heraus, auf deine Augen zu.' },
+          { big: '57 Facetten', small: 'der runde Brillantschliff' },
+          { p: 'Diamant zerlegt weißes Licht auch in seine Farben, wie ein Prisma. Juweliere nennen diese Farbblitze Feuer.' },
+          { p: 'Dieser Stein ist genauso gezeichnet: Jeder Lichtstrahl wird in seinem Inneren verfolgt, Spiegelung für Spiegelung.' },
+        ],
+        sci: [
+          { rows: [
+            ['Brechungsindex', 'n = 2,42 (Glas etwa 1,5, Wasser 1,33)'],
+            ['Grenzwinkel', '24,4°: Licht, das innen unter mehr als diesem Winkel zum Lot auf eine Facette trifft, wird total reflektiert'],
+            ['Dispersion', '0,044 (n für Violett 2,45 minus n für Rot 2,41)'],
+            ['Schliff', 'runder Brillant: 57 Facetten (58 mit Kalette); Marcel Tolkowsky berechnete seine Proportionen 1919'],
+          ] },
+          { p: 'Die Pavillonfacetten sind um etwa 41° geneigt, so wird Licht, das durch die Tafel eintritt, von einer Seite des Pavillons zur anderen total reflektiert und verlässt den Stein durch die Krone. Hier verfolgt jedes Pixel seinen Strahl durch die echten Facetten, mit einem anderen Index für rotes, grünes und blaues Licht.' },
+        ],
+      },
+    },
+    press: {
+      sign: { title: 'Die Diamantpresse', kid: 'Press und erhitze Graphit, um einen Diamanten zu machen.', sci: 'HPHT: etwa 6 GPa und 1500 °C, mit einem Metallkatalysator.' },
+      panel: {
+        title: 'Du hast einen Diamanten gemacht!',
+        kid: [
+          { p: 'Du hast Graphit so fest gepresst wie 25 Elefanten auf einer Ein-Cent-Münze und auf 1500 °C erhitzt. Seine flachen Schichten haben sich zum festen 3D-Netz des Diamanten umgeordnet.' },
+          { big: '6 GPa', small: 'das 60 000-Fache des Luftdrucks' },
+          { p: 'Genau das passiert in der Natur etwa 150 km unter deinen Füßen. Fabriken stellen so Diamanten für Bohrer und Sägen her, die Stein schneiden.' },
+        ],
+        sci: [
+          { rows: [
+            ['Druck', 'etwa 5 bis 6 GPa (hier 6 GPa)'],
+            ['Temperatur', 'etwa 1300 bis 1600 °C (hier 1500 °C)'],
+            ['Katalysator', 'geschmolzenes Eisen, Nickel oder Cobalt löst den Graphit; der Diamant kristallisiert daraus'],
+            ['Zum ersten Mal', 'General Electric, 1954: die Belt-Presse von Tracy Hall'],
+            ['Heute', 'kubische Pressen und chemische Gasphasenabscheidung (CVD); der meiste Industriediamant wird hergestellt, nicht abgebaut'],
+          ] },
+          { p: 'Bei 1500 °C wird Diamant oberhalb von etwa 5,7 GPa zur stabilen Form des Kohlenstoffs (die Gleichgewichtslinie Graphit–Diamant). In der Presse gewachsene Diamanten kommen als kleine kuboktaedrische Kristalle heraus, oft gelb durch Stickstoffatome im Gitter.' },
+        ],
+      },
+    },
+    nanotube: {
+      label: 'die Nanoröhre', verb: 'Leuchten lassen',
+      sign: { title: 'Nanoröhre', kid: 'Eine Graphenschicht, zu einer Röhre gerollt. Geh hindurch!', sci: 'Armchair (6,6): 0,81 nm Durchmesser, Wände ein Atom dick (Iijima, 1991).' },
+      panel: {
+        title: 'Kohlenstoffnanoröhre',
+        kid: [
+          { p: 'Roll eine Graphenschicht zu einer Röhre, und du hast eine Kohlenstoffnanoröhre. Durch diese hier kannst du gehen, sie ist 5 Milliarden Mal vergrößert: Eine echte ist etwa 80 000-mal dünner als ein Haar.' },
+          { big: '1 Atom', small: 'die Wände sind ein Atom dick' },
+          { p: 'Nanoröhren gehören zu den festesten Materialien, die je hergestellt wurden, und sie leiten Strom. Der japanische Forscher Sumio Iijima beschrieb sie 1991.' },
+        ],
+        sci: [
+          { rows: [
+            ['Diese Röhre', '(6,6) Armchair: 0,81 nm Durchmesser, metallisch'],
+            ['Aufrollen', 'der chirale Vektor C = n·a₁ + m·a₂ wird zum Umfang'],
+            ['Elektronen', 'metallisch, wenn n − m ein Vielfaches von 3 ist (alle Armchair-Röhren), sonst halbleitend'],
+            ['Entdeckung', 'Sumio Iijima (NEC), 1991, mehrwandig; einwandige Röhren 1993'],
+            ['Festigkeit', 'Zugfestigkeit gemessen bis etwa 60 GPa (fester Stahl: 1 bis 2 GPa)'],
+          ] },
+          { p: 'Manche Röhren sind Zentimeter lang und nur einen Nanometer breit. Sie verstärken Kunststoffe, stecken in Batterieelektroden und werden für winzige Transistoren erforscht.' },
+        ],
+      },
+    },
+    fullerene: {
+      label: 'die Flächen von C60', verb: 'Zählen',
+      sign: { title: 'Buckminsterfulleren', kid: 'C60: ein hohler Ball aus 60 Atomen. Du bist in einem drin!', sci: '60 Atome, 90 Bindungen, 12 Fünfecke, 20 Sechsecke (1985).' },
+      panel: {
+        title: 'Buckminsterfulleren, C₆₀',
+        kid: [
+          { p: 'Du bist in einem C₆₀-Molekül: 60 Kohlenstoffatome bilden einen hohlen Käfig in Form eines Balls. Seine Flächen: 12 Fünfecke und 20 Sechsecke.' },
+          { big: 'C₆₀', small: '60 Atome, 90 Bindungen' },
+          { p: 'Entdeckt wurde es 1985 von Harold Kroto, Robert Curl und Richard Smalley, die 1996 den Nobelpreis für Chemie bekamen. Sie benannten es nach dem Architekten Buckminster Fuller, berühmt für genau solche Kuppeln.' },
+        ],
+        sci: [
+          { rows: [
+            ['Form', 'Ikosaederstumpf, Symmetrie Ih'],
+            ['Zählung', '60 Ecken − 90 Kanten + 32 Flächen = 2 (Euler)'],
+            ['Bindungen', '30 zwischen zwei Sechsecken (6:6), 1,40 Å, mit Doppelbindungscharakter; 60 zwischen einem Fünfeck und einem Sechseck (5:6), 1,45 Å'],
+            ['Größe', '0,71 nm zwischen gegenüberliegenden Kernen; diese Kuppel ist mit 1,3 m pro Ångström gezeichnet'],
+            ['Entdeckung', '1985, Rice University: Kroto, Curl und Smalley, mit Heath und O’Brien; Nobelpreis für Chemie 1996'],
+          ] },
+          { p: 'Jeder geschlossene Käfig aus Atomen mit drei Bindungen, der aus Fünf- und Sechsecken besteht, hat genau 12 Fünfecke, egal wie viele Sechsecke. C₆₀ ist der kleinste, in dem sich keine zwei Fünfecke berühren (die Regel der isolierten Fünfecke), was ihn besonders stabil macht. Die Doppelstäbe hier sind die 6:6-Bindungen.' },
+        ],
+      },
+    },
+    football: {
+      label: 'den Fußball', verb: 'Schießen',
+      sign: { title: 'Dasselbe Muster', kid: '12 Fünfecke und 20 Sechsecke, wie C60.', sci: 'Ein Ikosaederstumpf: 32 Felder, 60 Ecken, 90 Nähte.' },
+      panel: {
+        title: 'Dasselbe Muster',
+        kid: [
+          { p: 'Ein klassischer Fußball ist aus 12 schwarzen Fünfecken und 20 weißen Sechsecken genäht: dasselbe Muster wie C₆₀! Deshalb hat C₆₀ den Spitznamen Buckyball.' },
+          { big: '12 + 20', small: 'Fünfecke + Sechsecke, genau wie bei C₆₀' },
+        ],
+        sci: [
+          { p: 'Der Ball aus 32 Feldern ist ein zur Kugel aufgeblasener Ikosaederstumpf: 60 Ecken, an denen drei Felder zusammentreffen, und 90 Nähte, wie die 60 Atome und 90 Bindungen von C₆₀. Berühmt wurde er mit dem Adidas Telstar der Weltmeisterschaft 1970, schwarz-weiß, damit er im Schwarz-Weiß-Fernsehen gut zu sehen war.' },
+        ],
+      },
+    },
+  },
+}
+
+export const WORDS = { en: EN, 'pt-pt': PT, pl: PL, de: DE }
 export const wordsFor = lang => WORDS[lang] ?? EN
