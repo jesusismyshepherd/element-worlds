@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Érbio, outro filho da aldeia de Ytterby! Três mãos para os meus três eletrões. Os meus sais são de um cor-de-rosa bonito, e reforço a luz que leva a internet pelos cabos do fundo dos oceanos.',
       sci: 'Érbio: [Xe] 4f12 6s2, Er3+ (sais cor-de-rosa). A transição do Er3+ perto de 1,53 a 1,56 µm cai na janela de baixas perdas da fibra de sílica, por isso os amplificadores de fibra dopada com érbio sustentam as comunicações óticas de longa distância.',
     },
+    pl: {
+      kid: 'Cześć! Jestem erbem, kolejnym dzieckiem wioski Ytterby! Trzy ręce na moje trzy elektrony. Moje sole mają ładny różowy kolor, a ja wzmacniam światło, które niesie internet kablami na dnie oceanów.',
+      sci: 'Erb: [Xe] 4f12 6s2, Er3+ (różowe sole). Przejście Er3+ w pobliżu 1,53 do 1,56 µm wypada w oknie niskich strat światłowodu krzemionkowego, dlatego wzmacniacze światłowodowe domieszkowane erbem przenoszą dalekosiężną łączność optyczną.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin das Erbium, noch ein Kind des Dorfes Ytterby! Drei Hände für meine drei Elektronen. Meine Salze sind hübsch rosa, und ich verstärke das Licht, das das Internet durch Kabel am Grund der Ozeane trägt.',
+      sci: 'Erbium: [Xe] 4f12 6s2, Er3+ (rosa Salze). Der Er3+-Übergang bei etwa 1,53 bis 1,56 µm liegt im verlustarmen Fenster von Quarzglasfasern, deshalb tragen erbiumdotierte Faserverstärker die optische Fernkommunikation.',
+    },
   },
   nameOrigin: {
     en: { kid: 'Named after Ytterby, the Swedish village whose quarry also named yttrium, terbium and ytterbium.' },
     'pt-pt': { kid: 'Tem o nome de Ytterby, a aldeia sueca cuja pedreira também deu nome ao ítrio, ao térbio e ao itérbio.' },
+    pl: { kid: 'Od Ytterby, szwedzkiej wioski, której kamieniołom dał też nazwę itrowi, terbowi i iterbowi.' },
+    de: { kid: 'Benannt nach Ytterby, dem schwedischen Dorf, dessen Steinbruch auch Yttrium, Terbium und Ytterbium den Namen gab.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'Em 1843, Carl Gustaf Mosander, em Estocolmo, encontrou o érbio e o térbio escondidos na ítria de Ytterby. Mais tarde, os seus nomes trocaram-se por engano, e ficaram assim!',
       sci: "Mosander (1843) encontrou-o na ítria. A sua 'térbia' e a sua 'érbia' trocaram de nome mais tarde; Marignac (1878) e Cleve (1879) tiraram depois da érbia a itérbia, a hólmia e a túlia. O Er2O3 razoavelmente puro chegou em 1905 (Urbain; Charles James), e o metal em 1934 (Klemm e Bommer).",
+    },
+    pl: {
+      kid: 'W 1843 roku Carl Gustaf Mosander w Sztokholmie znalazł erb i terb ukryte w itrii z Ytterby. Później ich nazwy przez pomyłkę się zamieniły i tak już zostało!',
+      sci: 'Mosander (1843) znalazł go w itrii. Jego „terbia” i „erbia” zamieniły się później nazwami; Marignac (1878) i Cleve (1879) wydobyli następnie z erbii iterbię, holmię i tulię. Dość czysty Er2O3 otrzymano w 1905 roku (Urbain; Charles James), a metal w 1934 roku (Klemm i Bommer).',
+    },
+    de: {
+      kid: '1843 fand Carl Gustaf Mosander in Stockholm Erbium und Terbium, versteckt in der Yttererde aus Ytterby. Später wurden ihre Namen aus Versehen vertauscht, und so ist es geblieben!',
+      sci: 'Mosander (1843) fand es in der Yttererde. Seine „Terbinerde“ und „Erbinerde“ tauschten später die Namen; Marignac (1878) und Cleve (1879) holten dann Ytterbia, Holmia und Thulia aus der Erbinerde. Ziemlich reines Er2O3 gab es 1905 (Urbain; Charles James), das Metall 1934 (Klemm und Bommer).',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O érbio é um metal mole e prateado que se mantém razoavelmente brilhante ao ar. O seu óxido e os seus sais são cor-de-rosa e dão ao vidro um tom rosado.',
       sci: "Hexagonal compacto, funde a 1529 °C. O óxido de érbio é cor-de-rosa. O Er3+, com o Yb3+ como sensibilizador, consegue 'converter para cima' dois fotões infravermelhos de 980 nm num fotão verde.",
     },
+    pl: {
+      kid: 'Erb to miękki, srebrzysty metal, który na powietrzu zostaje dość błyszczący. Jego tlenek i sole są różowe i nadają szkłu różany odcień.',
+      sci: 'Heksagonalny gęsto upakowany, topi się w 1529 °C. Tlenek erbu jest różowy. Er3+, z Yb3+ jako sensybilizatorem, potrafi „przekształcić w górę” dwa fotony podczerwieni o długości 980 nm w jeden zielony foton.',
+    },
+    de: {
+      kid: 'Erbium ist ein weiches, silbriges Metall, das an der Luft ziemlich glänzend bleibt. Sein Oxid und seine Salze sind rosa und geben Glas eine rosige Farbe.',
+      sci: 'Hexagonal dichteste Kugelpackung, schmilzt bei 1529 °C. Erbiumoxid ist rosarot. Er3+ kann mit Yb3+ als Sensibilisator zwei Infrarotphotonen bei 980 nm in ein grünes Photon „hochkonvertieren“.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O érbio extrai-se com os lantanídeos mais pesados, sobretudo de argilas do sul da China e do mineral xenótima.',
       sci: '3,5 mg/kg da crosta (44.º), mais do que o estanho; sobretudo das argilas de adsorção iónica do sul da China e da xenótima, YPO4.',
+    },
+    pl: {
+      kid: 'Erb wydobywa się razem z cięższymi lantanowcami, głównie z glin w południowych Chinach i z minerału ksenotymu.',
+      sci: '3,5 mg/kg skorupy (44. miejsce), więcej niż cyny; głównie z glin jonowo-adsorpcyjnych południowych Chin i z ksenotymu, YPO4.',
+    },
+    de: {
+      kid: 'Erbium wird mit den schwereren Lanthanoiden gewonnen, vor allem aus Tonen in Südchina und aus dem Mineral Xenotim.',
+      sci: '3,5 mg/kg der Erdkruste (Platz 44), mehr als Zinn; vor allem aus den Ionenadsorptionstonen Südchinas und aus Xenotim, YPO4.',
     },
   },
   uses: {
@@ -71,6 +105,32 @@ export default {
         'Lasers de vidro de érbio a 1,54 µm, um comprimento de onda seguro para os olhos, para telémetros e lidar.',
       ],
     },
+    pl: {
+      kid: [
+        'Wzmacniacze w światłowodach, które przenoszą internet, rozmowy telefoniczne i telewizję przez kontynenty i oceany.',
+        'Różowy kolor dla szkła, okularów przeciwsłonecznych i taniej biżuterii.',
+        'Lasery erbowe, których używają dentyści i dermatolodzy.',
+      ],
+      sci: [
+        'Wzmacniacze światłowodowe domieszkowane erbem (EDFA, 1987): kilka metrów krzemionkowego światłowodu z Er, pompowanego przy 980 lub 1480 nm, wzmacnia naraz wszystkie kanały w światłowodzie, bez zamiany na sygnał elektroniczny.',
+        'Lasery Er:YAG (2,94 µm, silnie pochłaniane przez wodę): stomatologia i laserowe odnawianie skóry.',
+        'Er2O3 jako różowy barwnik do szkła i szkliw porcelanowych.',
+        'Lasery na szkle erbowym przy 1,54 µm, długości fali bezpiecznej dla oczu, do dalmierzy i lidarów.',
+      ],
+    },
+    de: {
+      kid: [
+        'Verstärker in den Glasfasern, die Internet, Telefongespräche und Fernsehen über Kontinente und Ozeane tragen.',
+        'Eine rosa Farbe für Glas, Sonnenbrillen und billigen Schmuck.',
+        'Erbiumlaser, die Zahnärzte und Hautärzte benutzen.',
+      ],
+      sci: [
+        'Erbiumdotierte Faserverstärker (EDFA, 1987): ein paar Meter Er-dotierte Quarzglasfaser, gepumpt bei 980 oder 1480 nm, verstärken alle Kanäle einer Faser auf einmal, ohne Umwandlung in Elektronik.',
+        'Er:YAG-Laser (2,94 µm, stark von Wasser absorbiert): Zahnmedizin und Hauterneuerung.',
+        'Er2O3 als rosa Färbemittel für Glas und Porzellanglasuren.',
+        'Er:Glas-Laser bei 1,54 µm, einer augensicheren Wellenlänge, für Entfernungsmesser und Lidar.',
+      ],
+    },
   },
   facts: {
     en: {
@@ -97,6 +157,32 @@ export default {
         'O grupo de David Payne, em Southampton, e o de Emmanuel Desurvire, nos Bell Labs, demonstraram os amplificadores de fibra dopada com érbio em 1987; tornaram possíveis as ligações por fibra através dos oceanos sem regeneradores eletrónicos.',
         'O Er3+ na sílica tem um nível metaestável que dura cerca de 10 ms, o suficiente para guardar a energia de bombagem para a amplificação.',
         'Nanopartículas de conversão ascendente dopadas com Er3+ e Yb3+ usam-se em imagiologia biológica e em tintas de segurança.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Wzdłuż podmorskich kabli internetowych mniej więcej co 50 do 100 km krótki odcinek światłowodu z erbem wzmacnia słabnące światło.',
+        'Kabel EllaLink, z Sines w Portugalii do Fortalezy w Brazylii, dzięki erbowi utrzymuje silne światło przez cały Atlantyk.',
+        'Moje imię i imię terbu zamieniono przez pomyłkę około 150 lat temu i nikt ich z powrotem nie zamienił.',
+        'Różowe szkło i różowe okulary przeciwsłoneczne często zawdzięczają kolor erbowi.',
+      ],
+      sci: [
+        "Grupa Davida Payne'a w Southampton i grupa Emmanuela Desurvire'a w Bell Labs zademonstrowały wzmacniacze światłowodowe domieszkowane erbem w 1987 roku; umożliwiły one transoceaniczne łącza światłowodowe bez elektronicznych regeneratorów.",
+        'Er3+ w krzemionce ma poziom metastabilny, który trwa około 10 ms, wystarczająco długo, by zmagazynować energię pompowania do wzmocnienia.',
+        'Nanocząstki konwertujące w górę, domieszkowane Er3+ i Yb3+, stosuje się w obrazowaniu biologicznym i w farbach zabezpieczających.',
+      ],
+    },
+    de: {
+      kid: [
+        'Entlang von Internet-Seekabeln verstärkt etwa alle 50 bis 100 km ein kurzes Stück Erbiumfaser das schwächer werdende Licht.',
+        'Das EllaLink-Kabel von Sines in Portugal nach Fortaleza in Brasilien hält sein Licht mit Erbium über den ganzen Atlantik hinweg stark.',
+        'Mein Name und der von Terbium wurden vor etwa 150 Jahren aus Versehen vertauscht, und niemand hat sie zurückgetauscht.',
+        'Rosa Glas und rosa Sonnenbrillen haben ihre Farbe oft vom Erbium.',
+      ],
+      sci: [
+        'Die Gruppe von David Payne in Southampton und die von Emmanuel Desurvire bei Bell Labs führten 1987 erbiumdotierte Faserverstärker vor; sie machten transozeanische Glasfaserverbindungen ohne elektronische Regeneratoren möglich.',
+        'Er3+ in Quarzglas hat ein metastabiles Niveau, das etwa 10 ms lebt, lang genug, um Pumpenergie für die Verstärkung zu speichern.',
+        'Hochkonvertierende Nanopartikel, dotiert mit Er3+ und Yb3+, werden in der biologischen Bildgebung und in fälschungssicheren Farben verwendet.',
       ],
     },
   },

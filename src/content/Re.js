@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Rénio, um dos elementos mais raros da Terra. Mostro quatro mãos, mas consigo dar até sete eletrões! Fui o último elemento estável a ser descoberto, e ajudo os motores a jato a trabalhar muito quentes.',
       sci: 'Rénio: [Xe] 4f14 5d5 6s2, com estados de oxidação de −3 a +7 (perrenato, ReO4−); o Atomito mostra no máximo quatro mãos. Cerca de 0,7 partes por mil milhões da crosta; ponto de fusão de 3186 °C, entre os metais só ultrapassado pelo tungsténio.',
     },
+    pl: {
+      kid: 'Cześć! Jestem renem, jednym z najrzadszych pierwiastków na Ziemi. Pokazuję cztery ręce, ale potrafię oddać aż siedem elektronów! Byłem ostatnim odkrytym trwałym pierwiastkiem i pomagam silnikom odrzutowym pracować w wysokiej temperaturze.',
+      sci: 'Ren: [Xe] 4f14 5d5 6s2, stopnie utlenienia od −3 do +7 (nadrenian, ReO4−); Atomek pokazuje najwyżej cztery ręce. Około 0,7 części na miliard skorupy; temperatura topnienia 3186 °C, wśród metali ustępuje tylko wolframowi.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin das Rhenium, eines der seltensten Elemente der Erde. Ich zeige vier Hände, aber ich kann bis zu sieben Elektronen abgeben! Ich war das allerletzte stabile Element, das entdeckt wurde, und ich helfe Strahltriebwerken, heiß zu laufen.',
+      sci: 'Rhenium: [Xe] 4f14 5d5 6s2, mit Oxidationsstufen von −3 bis +7 (Perrhenat, ReO4−); der Atomling zeigt höchstens vier Hände. Etwa 0,7 Teile pro Milliarde der Erdkruste; Schmelzpunkt 3186 °C, unter den Metallen nur von Wolfram übertroffen.',
+    },
   },
   nameOrigin: {
     en: { kid: 'From Rhenus, the Latin name of the river Rhine, in Germany, where it was discovered.' },
     'pt-pt': { kid: 'De Rhenus, o nome latino do rio Reno, na Alemanha, onde foi descoberto.' },
+    pl: { kid: 'Od Rhenus, łacińskiej nazwy Renu, rzeki w Niemczech, gdzie go odkryto.' },
+    de: { kid: 'Von Rhenus, dem lateinischen Namen des Rheins, in Deutschland, wo es entdeckt wurde.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: "Em 1925, em Berlim, Walter Noddack, Ida Tacke e Otto Berg encontraram a 'impressão digital' de raios X do rénio em minérios de platina e noutros minerais. Levaram mais três anos, e 660 kg do mineral molibdenite, para obter o primeiro grama!",
       sci: 'Noddack, Tacke e Berg detetaram-no por espetroscopia de raios X em 1925, na columbite, na gadolinite e em minérios de platina; em 1928 extraíram 1 g de 660 kg de molibdenite. Ida Noddack sugeriu mais tarde (1934) que o urânio bombardeado com neutrões se poderia partir em fragmentos grandes, anos antes de se reconhecer a fissão.',
+    },
+    pl: {
+      kid: 'W 1925 roku w Berlinie Walter Noddack, Ida Tacke i Otto Berg znaleźli rentgenowski „odcisk palca” renu w rudach platyny i innych minerałach. Potrzebowali jeszcze trzech lat i 660 kg minerału molibdenitu, żeby otrzymać pierwszy gram!',
+      sci: 'Noddack, Tacke i Berg wykryli go spektroskopią rentgenowską w 1925 roku w kolumbicie, gadolinicie i rudach platyny; w 1928 roku wyodrębnili 1 g z 660 kg molibdenitu. Ida Noddack zasugerowała później (1934), że uran bombardowany neutronami może rozpaść się na duże fragmenty, lata przed uznaniem rozszczepienia.',
+    },
+    de: {
+      kid: '1925 fanden Walter Noddack, Ida Tacke und Otto Berg in Berlin den Röntgen-„Fingerabdruck“ des Rheniums in Platinerzen und anderen Mineralen. Sie brauchten noch drei Jahre und 660 kg des Minerals Molybdänit, um das allererste Gramm zu gewinnen!',
+      sci: 'Noddack, Tacke und Berg wiesen es 1925 röntgenspektroskopisch in Columbit, Gadolinit und Platinerzen nach; 1928 gewannen sie 1 g aus 660 kg Molybdänit. Ida Noddack schlug später (1934) vor, dass Uran unter Neutronenbeschuss in große Bruchstücke zerfallen könnte, Jahre bevor die Kernspaltung erkannt wurde.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O rénio é um metal pesado, cinzento-prateado, que só funde a 3186 °C. Um litro pesaria quase 21 kg.',
       sci: "Hexagonal compacto, funde a 3186 °C; um dos elementos mais densos. Ao contrário do tungsténio e do molibdénio, continua dúctil depois de aquecido (não fica frágil ao recristalizar), e por isso pequenas quantidades dele tornam esses metais mais tenazes (o 'efeito do rénio').",
     },
+    pl: {
+      kid: 'Ren to ciężki, srebrzystoszary metal, który topi się dopiero w 3186 °C. Litr renu ważyłby prawie 21 kg.',
+      sci: 'Heksagonalny gęsto upakowany, topi się w 3186 °C; jeden z najgęstszych pierwiastków. W przeciwieństwie do wolframu i molibdenu pozostaje ciągliwy po ogrzaniu (nie kruszeje przy rekrystalizacji), więc niewielkie jego dodatki czynią te metale bardziej ciągliwymi („efekt renowy”).',
+    },
+    de: {
+      kid: 'Rhenium ist ein schweres, silbergraues Metall, das erst bei 3186 °C schmilzt. Ein Liter davon würde fast 21 kg wiegen.',
+      sci: 'Hexagonal dichteste Kugelpackung, schmilzt bei 3186 °C; eines der dichtesten Elemente. Anders als Wolfram und Molybdän bleibt es nach dem Erhitzen duktil (keine Rekristallisationsversprödung), deshalb machen kleine Zusätze davon diese Metalle zäher (der „Rheniumeffekt“).',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O rénio é um dos elementos mais raros da crosta terrestre. Recolhe-se em quantidades minúsculas do pó do tratamento do molibdénio e do cobre, sobretudo no Chile. Só se conhece um lugar onde cresce um mineral de rénio puro: à volta das saídas de gás quente de um vulcão nas Ilhas Curilas.',
       sci: 'Cerca de 0,0007 mg/kg da crosta (81.º). Não tem minério próprio: recupera-se das poeiras da ustulação da molibdenite das minas de cobre porfírico, sobretudo no Chile, nos EUA e na Polónia. O único mineral de rénio, a reniite (ReS2), foi encontrado em 1994 nas fumarolas (até cerca de 900 °C) do vulcão Kudriavy, em Iturup, nas Ilhas Curilas.',
+    },
+    pl: {
+      kid: 'Ren to jeden z najrzadszych pierwiastków w skorupie ziemskiej. Zbiera się go w maleńkich ilościach z pyłu z przeróbki molibdenu i miedzi, głównie w Chile. Znane jest tylko jedno miejsce, gdzie rośnie czysty minerał renu: wokół wylotów gorących gazów wulkanu na Wyspach Kurylskich.',
+      sci: 'Około 0,0007 mg/kg skorupy (81. miejsce). Nie ma własnej rudy: odzyskuje się go z pyłów z prażenia molibdenitu z kopalń porfirowych rud miedzi, głównie w Chile, USA i Polsce. Jedyny minerał renu, renit (ReS2), znaleziono w 1994 roku w fumarolach (do około 900 °C) wulkanu Kudriavy na Iturupie, na Wyspach Kurylskich.',
+    },
+    de: {
+      kid: 'Rhenium ist eines der seltensten Elemente der Erdkruste. Man sammelt es in winzigen Mengen aus dem Staub der Molybdän- und Kupferverarbeitung, vor allem in Chile. Nur ein Ort ist bekannt, an dem ein reines Rheniummineral wächst: rund um die heißen Gasaustritte eines Vulkans auf den Kurilen.',
+      sci: 'Etwa 0,0007 mg/kg der Erdkruste (Platz 81). Es hat kein eigenes Erz: Man gewinnt es aus dem Flugstaub beim Rösten von Molybdänit aus porphyrischen Kupferlagerstätten, vor allem in Chile, den USA und Polen. Das einzige Rheniummineral, Rheniit (ReS2), wurde 1994 an den Fumarolen (bis etwa 900 °C) des Vulkans Kudriavy auf Iturup, auf den Kurilen, gefunden.',
     },
   },
   uses: {
@@ -73,6 +107,34 @@ export default {
         'O Re-188 (17 horas) está a ser estudado para radioterapia do cancro.',
       ],
     },
+    pl: {
+      kid: [
+        'Najgorętsze części silników odrzutowych: łopatki turbin z nadstopów zawierających ren.',
+        'Katalizatory, które pomagają wytwarzać benzynę.',
+        'Termometry do bardzo gorących pieców (termopary).',
+        'Styki elektryczne i włókna niektórych specjalnych przyrządów.',
+      ],
+      sci: [
+        'Około 80% trafia do nadstopów niklu: monokrystaliczne łopatki turbin z 3 do 6% Re opierają się pełzaniu powyżej 1000 °C.',
+        'Katalizatory reformingu Pt-Re (od końca lat 60. XX wieku) do benzyny o wysokiej liczbie oktanowej.',
+        'Termopary W-Re do około 2300 °C; anody lamp rentgenowskich; styki elektryczne i włókna spektrometrów mas.',
+        'Re-188 (17 godzin) jest badany pod kątem radioterapii nowotworów.',
+      ],
+    },
+    de: {
+      kid: [
+        'Die heißesten Teile von Strahltriebwerken: Turbinenschaufeln aus Superlegierungen mit Rhenium.',
+        'Katalysatoren, die bei der Herstellung von Benzin helfen.',
+        'Thermometer für sehr heiße Öfen (Thermoelemente).',
+        'Elektrische Kontakte und die Glühfäden mancher Spezialgeräte.',
+      ],
+      sci: [
+        'Etwa 80% gehen in Nickel-Superlegierungen: Einkristalline Turbinenschaufeln mit 3 bis 6% Re widerstehen dem Kriechen über 1000 °C.',
+        'Pt-Re-Reformierkatalysatoren (seit Ende der 1960er-Jahre) für Benzin mit hoher Oktanzahl.',
+        'W-Re-Thermoelemente bis etwa 2300 °C; Anoden von Röntgenröhren; elektrische Kontakte und Glühfäden von Massenspektrometern.',
+        'Re-188 (17 Stunden) wird für die Strahlentherapie von Krebs erforscht.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -82,6 +144,14 @@ export default {
     'pt-pt': {
       kid: 'A maior parte dos átomos de rénio são rénio-187, muito ligeiramente radioativo: transforma-se devagar em ósmio. Os geólogos usam isso para datar rochas, meteoritos e até petróleo.',
       sci: 'O Re-187 (62,6%) decai por beta para Os-187 com meia-vida de 41,6 mil milhões de anos e uma das menores energias de decaimento de todos os emissores beta (cerca de 2,5 keV), por isso a maior parte do rénio é radioativa; o Re-185 (37,4%) é estável. O sistema Re-Os data minérios de sulfuretos, xistos ricos em matéria orgânica e até petróleo.',
+    },
+    pl: {
+      kid: 'Większość atomów renu to ren-187, który jest odrobinę promieniotwórczy: powoli zmienia się w osm. Geolodzy wykorzystują to do datowania skał, meteorytów, a nawet ropy naftowej.',
+      sci: 'Re-187 (62,6%) ulega rozpadowi beta do Os-187 z okresem półtrwania 41,6 miliarda lat i jedną z najniższych energii rozpadu wśród emiterów beta (około 2,5 keV), więc większość renu jest promieniotwórcza; Re-185 (37,4%) jest trwały. Układ Re-Os datuje rudy siarczkowe, łupki bogate w materię organiczną, a nawet ropę naftową.',
+    },
+    de: {
+      kid: 'Die meisten Rheniumatome sind Rhenium-187, das ganz leicht radioaktiv ist: Es wird langsam zu Osmium. Geologen nutzen das, um Gesteine, Meteoriten und sogar Erdöl zu datieren.',
+      sci: 'Re-187 (62,6%) wird durch Betazerfall zu Os-187, mit einer Halbwertszeit von 41,6 Milliarden Jahren und einer der niedrigsten Zerfallsenergien aller Betastrahler (etwa 2,5 keV), deshalb ist das meiste Rhenium radioaktiv; Re-185 (37,4%) ist stabil. Das Re-Os-System datiert Sulfiderze, organikreiche Schiefer und sogar Erdöl.',
     },
   },
   facts: {
@@ -109,6 +179,32 @@ export default {
         'F. Albert Cotton mostrou em 1964 que o [Re2Cl8]2− tem uma ligação quádrupla entre os seus dois átomos de rénio, a primeira alguma vez reconhecida.',
         'O metiltrioxorrénio (CH3ReO3) é um catalisador de oxidação muito usado.',
         'O perrenato porta-se como o pertecnetato, por isso o rénio, que não é radioativo, substitui o tecnécio nas experiências de química dos resíduos nucleares.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Byłem ostatnim odkrytym trwałym pierwiastkiem: każdy pierwiastek znaleziony po 1925 roku jest promieniotwórczy.',
+        'W każdym tysiącu ton skał jest mnie mniej niż jeden gram.',
+        'Jedyny minerał renu znaleziono na wulkanie, gdzie rośnie wokół strumieni gazu gorętszych niż piec do pizzy.',
+        'Jestem bardzo hojnym atomem: potrafię oddać aż siedem elektronów.',
+      ],
+      sci: [
+        'F. Albert Cotton wykazał w 1964 roku, że w [Re2Cl8]2− między dwoma atomami renu istnieje wiązanie poczwórne, pierwsze kiedykolwiek rozpoznane.',
+        'Metylotrioksoren (CH3ReO3) to szeroko stosowany katalizator utleniania.',
+        'Nadrenian zachowuje się jak nadtechnecjan, więc niepromieniotwórczy ren zastępuje technet w doświadczeniach z chemii odpadów jądrowych.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ich war das letzte stabile Element, das je entdeckt wurde: Jedes Element, das nach 1925 gefunden wurde, ist radioaktiv.',
+        'In tausend Tonnen Gestein steckt weniger als ein Gramm von mir.',
+        'Das einzige Rheniummineral wurde auf einem Vulkan gefunden, wo es um Gasstrahlen herum wächst, die heißer sind als ein Pizzaofen.',
+        'Ich bin ein sehr großzügiges Atom: Ich kann bis zu sieben Elektronen abgeben.',
+      ],
+      sci: [
+        'F. Albert Cotton zeigte 1964, dass [Re2Cl8]2− zwischen seinen beiden Rheniumatomen eine Vierfachbindung hat, die erste, die je erkannt wurde.',
+        'Methyltrioxorhenium (CH3ReO3) ist ein vielgenutzter Oxidationskatalysator.',
+        'Perrhenat verhält sich wie Pertechnetat, deshalb vertritt das nicht radioaktive Rhenium das Technetium in chemischen Experimenten zum Atommüll.',
       ],
     },
   },
