@@ -10,11 +10,11 @@ export default {
       sci: 'Níquel: [Ar] 3d8 4s2, quase sempre Ni2+. Ferromagnético, resistente à corrosão e um catalisador excelente; cerca de dois terços de todo o níquel vão para o aço inoxidável.',
     },
     pl: {
-      kid: 'Cześć! Jestem Nikiel. Dwie ręce na dwa elektrony, które oddaję. Jestem w monetach, w stali nierdzewnej, w akumulatorach i głęboko w jądrze Ziemi z moim przyjacielem Żelazem!',
+      kid: 'Cześć! Jestem Nikiel. Dwie ręce na dwa elektrony, które oddaję. Jestem w monetach, w stali nierdzewnej, w akumulatorach i głęboko w jądrze Ziemi z moim przyjacielem żelazem!',
       sci: 'Nikiel: [Ar] 3d8 4s2, prawie zawsze Ni2+. Ferromagnetyczny, odporny na korozję i znakomity katalizator; około dwóch trzecich całego niklu trafia do stali nierdzewnej.',
     },
     de: {
-      kid: 'Hallo! Ich bin Nickel. Zwei Hände für die zwei Elektronen, die ich abgebe. Ich bin in Münzen, in rostfreiem Stahl, in Batterien und tief im Erdkern mit meinem Freund Eisen!',
+      kid: 'Hallo! Ich bin das Nickel. Zwei Hände für die zwei Elektronen, die ich abgebe. Ich bin in Münzen, in rostfreiem Stahl, in Batterien und tief im Erdkern mit meinem Freund Eisen!',
       sci: 'Nickel: [Ar] 3d8 4s2, fast immer Ni2+. Ferromagnetisch, korrosionsbeständig und ein hervorragender Katalysator; etwa zwei Drittel allen Nickels gehen in rostfreien Stahl.',
     },
   },

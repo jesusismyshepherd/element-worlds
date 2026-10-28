@@ -10,7 +10,7 @@ export default {
       sci: 'Európio: [Xe] 4f7 6s2. A camada 4f7, meio cheia, torna o Eu2+ invulgarmente estável; o Eu3+ emite uma luz vermelha estreita a cerca de 612 nm. O mais reativo e o menos denso dos lantanídeos metálicos (5,24 g/cm³).',
     },
     pl: {
-      kid: 'Cześć! Jestem europem, nazwanym na cześć Europy. Zwykle oddaję trzy elektrony, ale chętnie oddam też tylko dwa. Poświeć ultrafioletem na banknot euro, a jego części zaczną świecić: to ja! Robiłem też czerwień w ekranach starych telewizorów.',
+      kid: 'Cześć! Jestem Europ, nazwany na cześć Europy. Zwykle oddaję trzy elektrony, ale chętnie oddam też tylko dwa. Poświeć ultrafioletem na banknot euro, a jego części zaczną świecić: to ja! Robiłem też czerwień w ekranach starych telewizorów.',
       sci: 'Europ: [Xe] 4f7 6s2. Do połowy zapełniona powłoka 4f7 czyni Eu2+ niezwykle trwałym; Eu3+ emituje ostre czerwone światło przy około 612 nm. Najbardziej reaktywny i najmniej gęsty z metalicznych lantanowców (5,24 g/cm³).',
     },
     de: {

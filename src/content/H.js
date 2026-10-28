@@ -10,7 +10,7 @@ export default {
       sci: 'Hidrogénio: um protão, um eletrão, uma ligação. O elemento mais leve (1,008 u) e o mais abundante do universo: cerca de três quartos da massa da matéria comum e nove em cada dez átomos.',
     },
     pl: {
-      kid: 'Cześć! Jestem wodorem, najlżejszym atomem ze wszystkich. Mam tylko jedną rękę, więc trzymam za rękę tylko jednego przyjaciela naraz. Dwóch takich jak ja, trzymając za ręce jeden tlen, tworzy wodę!',
+      kid: 'Cześć! Jestem Wodór, najlżejszy atom ze wszystkich. Mam tylko jedną rękę, więc trzymam za rękę tylko jednego przyjaciela naraz. Dwóch takich jak ja, trzymając za ręce jeden tlen, tworzy wodę!',
       sci: 'Wodór: jeden proton, jeden elektron, jedno wiązanie. Najlżejszy pierwiastek (1,008 u) i najpowszechniejszy we wszechświecie: około trzech czwartych masy zwykłej materii i dziewięć na każde dziesięć atomów.',
     },
     de: {

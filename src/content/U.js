@@ -10,11 +10,11 @@ export default {
       sci: 'Urânio: [Rn] 5f3 6d1 7s2, sobretudo U(IV) (UO2) e U(VI) (o ião uranilo, UO2 2+); o Atomito mostra no máximo quatro mãos. O elemento mais pesado que existe em quantidade na natureza; o U-235 é o único nuclídeo natural que sofre fissão com neutrões lentos.',
     },
     pl: {
-      kid: 'Cześć! Jestem uranem, ciężkim metalem, który jest łagodnie i powoli promieniotwórczy. Pokazuję cztery ręce, choć potrafię oddać nawet sześć elektronów. Moje atomy mogą się rozszczepiać i uwalniać ogromną energię: tak elektrownie jądrowe wytwarzają prąd!',
+      kid: 'Cześć! Jestem Uran, ciężki metal, który jest łagodnie i powoli promieniotwórczy. Pokazuję cztery ręce, choć potrafię oddać nawet sześć elektronów. Moje atomy mogą się rozszczepiać i uwalniać ogromną energię: tak elektrownie jądrowe wytwarzają prąd!',
       sci: 'Uran: [Rn] 5f3 6d1 7s2, głównie U(IV) (UO2) i U(VI) (jon uranylowy, UO2 2+); Atomek pokazuje najwyżej cztery ręce. Najcięższy pierwiastek występujący w przyrodzie w dużych ilościach; U-235 to jedyny naturalny nuklid, który ulega rozszczepieniu pod wpływem powolnych neutronów.',
     },
     de: {
-      kid: 'Hi! Ich bin das Uran, ein schweres Metall, das sanft und langsam radioaktiv ist. Ich zeige vier Hände, obwohl ich bis zu sechs Elektronen abgeben kann. Meine Atome können sich spalten und riesige Energie freisetzen: So machen Kernkraftwerke Strom!',
+      kid: 'Hallo! Ich bin das Uran, ein schweres Metall, das sanft und langsam radioaktiv ist. Ich zeige vier Hände, obwohl ich bis zu sechs Elektronen abgeben kann. Meine Atome können sich spalten und riesige Energie freisetzen: So machen Kernkraftwerke Strom!',
       sci: 'Uran: [Rn] 5f3 6d1 7s2, meist U(IV) (UO2) und U(VI) (das Uranyl-Ion, UO2 2+); der Atomling zeigt höchstens vier Hände. Das schwerste Element, das in nennenswerter Menge in der Natur vorkommt; U-235 ist das einzige natürliche Nuklid, das sich mit langsamen Neutronen spalten lässt.',
     },
   },

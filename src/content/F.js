@@ -10,7 +10,7 @@ export default {
       sci: 'Flúor: sete eletrões de valência, uma ligação e a eletronegatividade mais alta de todas (3,98). Sou o elemento mais oxidante e reajo com quase todos os outros elementos, até com o xénon e o crípton.',
     },
     pl: {
-      kid: 'Cześć, jestem fluorem, najbardziej chciwym atomem w całym układzie okresowym! Mam jedną rękę i używam jej, żeby wyrwać elektron prawie każdemu. Uwaga: jestem bladożółtym gazem, który reaguje prawie ze wszystkim!',
+      kid: 'Cześć, jestem Fluor, najbardziej chciwy atom w całym układzie okresowym! Mam jedną rękę i używam jej, żeby wyrwać elektron prawie każdemu. Uwaga: jestem bladożółtym gazem, który reaguje prawie ze wszystkim!',
       sci: 'Fluor: siedem elektronów walencyjnych, jedno wiązanie i najwyższa elektroujemność ze wszystkich (3,98). Jestem najsilniejszym utleniaczem wśród pierwiastków i reaguję z prawie każdym innym pierwiastkiem, nawet z ksenonem i kryptonem.',
     },
     de: {

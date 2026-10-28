@@ -10,7 +10,7 @@ export default {
       sci: 'Hólmio: [Xe] 4f11 6s2, Ho3+. Tenho o maior momento magnético de todos os elementos naturais (10,6 magnetões de Bohr) e a maior magnetização de saturação, e por isso as peças polares de hólmio concentram os campos dos ímanes estáticos mais fortes.',
     },
     pl: {
-      kid: 'Cześć! Jestem holmem, nazwanym od Sztokholmu, stolicy Szwecji. Trzy ręce na moje trzy elektrony. Moje atomy to najsilniejsze maleńkie magnesy spośród wszystkich pierwiastków występujących w przyrodzie, a lekarze używają moich laserów do kruszenia kamieni nerkowych!',
+      kid: 'Cześć! Jestem Holm, nazwany od Sztokholmu, stolicy Szwecji. Trzy ręce na moje trzy elektrony. Moje atomy to najsilniejsze maleńkie magnesy spośród wszystkich pierwiastków występujących w przyrodzie, a lekarze używają moich laserów do kruszenia kamieni nerkowych!',
       sci: 'Holm: [Xe] 4f11 6s2, Ho3+. Mam największy moment magnetyczny spośród wszystkich pierwiastków naturalnych (10,6 magnetonu Bohra) i największe namagnesowanie nasycenia, dlatego nabiegunniki z holmu skupiają pola najsilniejszych magnesów statycznych.',
     },
     de: {

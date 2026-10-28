@@ -535,9 +535,9 @@ export const SIGNS_WORDS = {
 
   pl: {
     nameCase: 'lower',
-    back: 'Wróć do sali {gas}u',
+    back: 'Powrót do sali: {gas}',
     kicker: 'Pracownia neonów',
-    talkTo: 'Porozmawiaj z',
+    talkTo: 'Porozmawiaj',
     open: 'OTWARTE',
     busy: { kid: 'Zaczekaj chwilę: to jeszcze działa!', sci: 'Chwileczkę: poprzednia próba jeszcze trwa.' },
     greet: {
@@ -546,7 +546,7 @@ export const SIGNS_WORDS = {
     },
     greetGas: {
       He: {
-        kid: 'Witaj w pracowni neonów, w moim pokoju! Jestem hel; moja nazwa pochodzi od greckiego słowa oznaczającego Słońce, bo odkryto mnie na Słońcu, zanim ktokolwiek znalazł mnie na Ziemi. W szklanej rurce świecę delikatnym brzoskwiniowym różem. Zapal rurki i napisz mną swoje imię na ścianie!',
+        kid: 'Witaj w pracowni neonów, w moim pokoju! Jestem Hel; moja nazwa pochodzi od greckiego słowa oznaczającego Słońce, bo odkryto mnie na Słońcu, zanim ktokolwiek znalazł mnie na Ziemi. W szklanej rurce świecę delikatnym brzoskwiniowym różem. Zapal rurki i napisz mną swoje imię na ścianie!',
         sci: 'Pokój helu w pracowni neonów. Wyładowanie w helu świeci brzoskwiniowym różem; jego najlepiej widoczna linia to żółta linia 587,6 nm, ta sama, która w 1868 roku ujawniła hel w widmie Słońca. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
       },
       Ne: {
@@ -554,15 +554,15 @@ export const SIGNS_WORDS = {
         sci: 'Pokój neonu: gazu, od którego neony wzięły nazwę. Jego czerwonopomarańczowy blask to tłum linii od żółtopomarańczowej do ciemnoczerwonej; Georges Claude pokazał pierwsze lampy neonowe w Paryżu w 1910 roku. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
       },
       Ar: {
-        kid: 'Witaj w moim pokoju pracowni! Jestem argon; moja nazwa pochodzi od greckiego słowa „leniwy”, bo prawie nigdy nie reaguję. Dawniej napełniano mną żarówki. W rurce świecę bladą lawendą, a z kropelką rtęci robię niebieskie neony.',
+        kid: 'Witaj w moim pokoju pracowni! Jestem Argon; moja nazwa pochodzi od greckiego słowa „leniwy”, bo prawie nigdy nie reaguję. Dawniej napełniano mną żarówki. W rurce świecę bladą lawendą, a z kropelką rtęci robię niebieskie neony.',
         sci: 'Pokój argonu. Argon to 0,93% powietrza, najczęstszy tu gaz szlachetny; wyładowanie w czystym argonie świeci od lawendowego do fioletowego, a argon z kropelką rtęci i powłoką na szkle tworzy większość „neonów”, które nie są czerwone. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
       },
       Kr: {
-        kid: 'Witaj w moim pokoju! Jestem krypton; moja nazwa pochodzi od greckiego słowa „ukryty”, bo w powietrzu jest mnie bardzo mało. Kiedy się zapalę, świecę prawie na biało, z odrobiną liliowego. Zapal rurki i napisz mną swoje imię na ścianie!',
+        kid: 'Witaj w moim pokoju! Jestem Krypton; moja nazwa pochodzi od greckiego słowa „ukryty”, bo w powietrzu jest mnie bardzo mało. Kiedy się zapalę, świecę prawie na biało, z odrobiną liliowego. Zapal rurki i napisz mną swoje imię na ścianie!',
         sci: 'Pokój kryptonu. Około jednej milionowej części powietrza. Wyładowanie w kryptonie wygląda na białoliliowe, dzięki silnym liniom w całym widmie (zielona przy 557 nm, żółta przy 587 nm); od 1960 do 1983 roku metr definiowała pomarańczowa linia kryptonu-86 (605,8 nm). Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
       },
       Xe: {
-        kid: 'Witaj w moim pokoju! Jestem ksenon; moja nazwa pochodzi od greckiego słowa „obcy”. Świecę niebieskofioletowo, daję światło niektórym reflektorom samochodów, a niektóre statki kosmiczne latają dzięki silnikom, które wypychają moje atomy do tyłu!',
+        kid: 'Witaj w moim pokoju! Jestem Ksenon; moja nazwa pochodzi od greckiego słowa „obcy”. Świecę niebieskofioletowo, daję światło niektórym reflektorom samochodów, a niektóre statki kosmiczne latają dzięki silnikom, które wypychają moje atomy do tyłu!',
         sci: 'Pokój ksenonu: najrzadszego stabilnego gazu szlachetnego w powietrzu, około 0,09 części na milion. Wyładowanie w ksenonie świeci od niebieskiego do fioletowego; ksenonowe lampy łukowe dają projektorom kinowym światło podobne do dziennego, a silniki jonowe, takie jak w sondzie Dawn należącej do NASA, działały na ksenonie. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
       },
     },
@@ -622,7 +622,7 @@ export const SIGNS_WORDS = {
 
     radon: {
       title: 'Radon za szkłem ołowiowym',
-      label: 'skrzynka z radonem',
+      label: 'skrzynkę z radonem',
       verb: 'Zmierz',
       screen: { kid: 'Nigdy w neonie: jest promieniotwórczy.', sci: 'Radon-222, okres półtrwania {half} dnia. Jego linie zmierzono w zatopionych rurkach (NIST).' },
       sign: 'RADIOAKTYWNE',
@@ -795,7 +795,7 @@ export const SIGNS_WORDS = {
 
   de: {
     nameCase: 'keep',
-    back: 'Zurück in {gas}s Halle',
+    back: 'Zurück zur Halle: {gas}',
     kicker: 'Die Neonwerkstatt',
     talkTo: 'Sprich mit',
     open: 'OFFEN',
@@ -806,7 +806,7 @@ export const SIGNS_WORDS = {
     },
     greetGas: {
       He: {
-        kid: 'Willkommen in der Neonwerkstatt, in meinem Raum! Ich bin Helium; mein Name kommt vom griechischen Wort für die Sonne, denn man hat mich auf der Sonne entdeckt, bevor mich irgendwer auf der Erde fand. In einer Glasröhre leuchte ich in einem zarten Pfirsichrosa. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
+        kid: 'Willkommen in der Neonwerkstatt, in meinem Raum! Ich bin das Helium; mein Name kommt vom griechischen Wort für die Sonne, denn man hat mich auf der Sonne entdeckt, bevor mich irgendwer auf der Erde fand. In einer Glasröhre leuchte ich in einem zarten Pfirsichrosa. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
         sci: 'Der Raum des Heliums in der Neonwerkstatt. Eine Heliumentladung leuchtet pfirsichrosa; ihre auffälligste Linie ist die gelbe bei 587,6 nm, die Linie, die 1868 das Helium im Spektrum der Sonne verriet. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
       },
       Ne: {
@@ -814,15 +814,15 @@ export const SIGNS_WORDS = {
         sci: 'Der Raum des Neons: das Gas, das den Leuchtschildern ihren Namen gab. Sein Leuchten in Rotorange ist eine Menge von Linien von Gelborange bis Tiefrot; Georges Claude zeigte 1910 in Paris die ersten Neonlichter. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
       },
       Ar: {
-        kid: 'Willkommen in meinem Raum der Werkstatt! Ich bin Argon; mein Name kommt vom griechischen Wort für „faul“, weil ich fast nie reagiere. Alte Glühbirnen waren mit mir gefüllt. In einer Röhre leuchte ich blass lavendelfarben, und mit einem Tropfen Quecksilber mache ich die blauen Schilder.',
+        kid: 'Willkommen in meinem Raum der Werkstatt! Ich bin das Argon; mein Name kommt vom griechischen Wort für „faul“, weil ich fast nie reagiere. Alte Glühbirnen waren mit mir gefüllt. In einer Röhre leuchte ich blass lavendelfarben, und mit einem Tropfen Quecksilber mache ich die blauen Schilder.',
         sci: 'Der Raum des Argons. Argon macht 0,93% der Luft aus, das häufigste Edelgas hier; eine Entladung in reinem Argon leuchtet lavendelfarben bis violett, und Argon mit einem Tropfen Quecksilber und einer Beschichtung auf dem Glas ergibt die meisten „Neon“-Schilder, die nicht rot sind. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
       },
       Kr: {
-        kid: 'Willkommen in meinem Raum! Ich bin Krypton; mein Name kommt vom griechischen Wort für „verborgen“, weil es so wenig von mir in der Luft gibt. Wenn ich leuchte, bin ich fast weiß, mit einem Hauch Flieder. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
+        kid: 'Willkommen in meinem Raum! Ich bin das Krypton; mein Name kommt vom griechischen Wort für „verborgen“, weil es so wenig von mir in der Luft gibt. Wenn ich leuchte, bin ich fast weiß, mit einem Hauch Flieder. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
         sci: 'Der Raum des Kryptons. Etwa ein Millionstel der Luft. Eine Kryptonentladung wirkt weißlich fliederfarben, durch starke Linien quer durch das Spektrum (Grün bei 557 nm, Gelb bei 587 nm); von 1960 bis 1983 war der Meter über eine orange Linie von Krypton-86 definiert (605,8 nm). Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
       },
       Xe: {
-        kid: 'Willkommen in meinem Raum! Ich bin Xenon; mein Name kommt vom griechischen Wort für „Fremder“. Ich leuchte blauviolett, ich stecke in manchen Autoscheinwerfern, und manche Raumfahrzeuge fliegen mit Triebwerken, die meine Atome nach hinten hinausstoßen!',
+        kid: 'Willkommen in meinem Raum! Ich bin das Xenon; mein Name kommt vom griechischen Wort für „Fremder“. Ich leuchte blauviolett, ich stecke in manchen Autoscheinwerfern, und manche Raumfahrzeuge fliegen mit Triebwerken, die meine Atome nach hinten hinausstoßen!',
         sci: 'Der Raum des Xenons: das seltenste stabile Edelgas der Luft, etwa 0,09 Teile pro Million. Eine Xenonentladung leuchtet blau bis violett; Xenon-Bogenlampen geben Kinoprojektoren ihr tageslichtähnliches Licht, und Ionentriebwerke wie die der NASA-Sonde Dawn liefen mit Xenon. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
       },
     },
@@ -908,7 +908,7 @@ export const SIGNS_WORDS = {
 
     name: {
       title: 'Dein Name in Neon',
-      label: 'dein Name in Neon',
+      label: 'deinen Namen in Neon',
       verb: 'Schreib',
       screen: { kid: 'Tipp ein Wort ein und lass es in einem beliebigen Gas leuchten.', sci: 'Dein Wort, aus Röhren gebogen und in einem beliebigen Gas gezündet.' },
       overlay: {

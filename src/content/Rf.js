@@ -10,11 +10,11 @@ export default {
       sci: 'Rutherfórdio: [Rn] 5f14 6d2 7s2, o primeiro transactinídeo, no grupo 4, por baixo do titânio, do zircónio e do háfnio. A química átomo a átomo mostra o Rf(IV), como se esperava; os isótopos que vivem mais duram de minutos a horas.',
     },
     pl: {
-      kid: 'Cześć! Jestem rutherfordem, pierwszym z pierwiastków superciężkich. Widzisz, jak migoczę, jak hologram? Istniało dotąd tylko kilka moich atomów, każdy przez krótką chwilę. Cztery ręce, w których trzymam cztery elektrony do oddania, tak jak mój kuzyn hafn.',
+      kid: 'Cześć! Jestem Rutherford, pierwszy z pierwiastków superciężkich. Widzisz, jak migoczę, jak hologram? Istniało dotąd tylko kilka moich atomów, każdy przez krótką chwilę. Cztery ręce, w których trzymam cztery elektrony do oddania, tak jak mój kuzyn hafn.',
       sci: 'Rutherford: [Rn] 5f14 6d2 7s2, pierwszy transaktynowiec, w grupie 4 pod tytanem, cyrkonem i hafnem. Chemia atom po atomie pokazuje, zgodnie z oczekiwaniami, Rf(IV); jego najdłużej żyjące izotopy trwają od minut do godzin.',
     },
     de: {
-      kid: 'Hi! Ich bin das Rutherfordium, das erste der superschweren Elemente. Siehst du, wie ich flimmere, wie ein Hologramm? Es hat immer nur ein paar Atome von mir gegeben, jedes für kurze Zeit. Vier Hände, in denen ich die vier Elektronen hinhalte, die ich abgebe, genau wie mein Cousin Hafnium.',
+      kid: 'Hallo! Ich bin das Rutherfordium, das erste der superschweren Elemente. Siehst du, wie ich flackere, wie ein Hologramm? Es hat bisher nur ein paar Atome von mir gegeben, jedes für kurze Zeit. Vier Hände, in denen ich die vier Elektronen hinhalte, die ich abgebe, genau wie mein Cousin Hafnium.',
       sci: 'Rutherfordium: [Rn] 5f14 6d2 7s2, das erste Transactinoid, in Gruppe 4 unter Titan, Zirconium und Hafnium. Chemie Atom für Atom zeigt wie erwartet Rf(IV); seine langlebigsten Isotope halten Minuten bis Stunden.',
     },
   },

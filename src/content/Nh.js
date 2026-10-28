@@ -10,7 +10,7 @@ export default {
       sci: 'Nihónio: previsto [Rn] 5f14 6d10 7s2 7p1, grupo 13, por baixo do boro, do alumínio, do gálio, do índio e do tálio. A relatividade estabiliza o eletrão 7p1/2, por isso espera-se o Nh(I), como o Tl(I). O Nh-286 dura cerca de 10 segundos.',
     },
     pl: {
-      kid: 'Hej! Jestem nihonem, pierwszym pierwiastkiem odkrytym w Japonii. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów: zespół w Japonii potrzebował dziewięciu lat, żeby złapać trzy! Mam jedną rękę i wyciągam w niej jeden elektron, który podobno oddaję.',
+      kid: 'Cześć! Jestem Nihon, pierwszy pierwiastek odkryty w Japonii. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów: zespół w Japonii potrzebował dziewięciu lat, żeby złapać trzy! Mam jedną rękę i wyciągam w niej jeden elektron, który podobno oddaję.',
       sci: 'Nihon: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p1, grupa 13 pod borem, glinem, galem, indem i talem. Efekty relatywistyczne stabilizują elektron 7p1/2, więc oczekuje się Nh(I), jak Tl(I). Nh-286 żyje około 10 sekund.',
     },
     de: {

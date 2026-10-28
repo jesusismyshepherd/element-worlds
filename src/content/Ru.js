@@ -10,11 +10,11 @@ export default {
       sci: 'Ruténio: [Kr] 4d7 5s1, estados de oxidação de −2 a +8 (RuO4, como o ósmio); normalmente Ru(III), o das mãos. Um metal do grupo da platina: duro, quebradiço e muito resistente aos ácidos, e um dos elementos mais raros da crosta.',
     },
     pl: {
-      kid: 'Cześć! Jestem rutenem, twardym, błyszczącym metalem z rodziny platyny, a nazwę mam od Rosji. Mam trzy ręce na trzy elektrony, które zwykle oddaję, chociaż potrafię oddać nawet osiem! Warstwa mnie o grubości zaledwie trzech atomów pomogła dyskom twardym zapisywać dużo więcej.',
+      kid: 'Cześć! Jestem Ruten, twardy, błyszczący metal z rodziny platyny, a nazwę mam od Rosji. Mam trzy ręce na trzy elektrony, które zwykle oddaję, chociaż potrafię oddać nawet osiem! Warstwa mnie o grubości zaledwie trzech atomów pomogła dyskom twardym zapisywać dużo więcej.',
       sci: 'Ruten: [Kr] 4d7 5s1, stopnie utlenienia od −2 do +8 (RuO4, jak u osmu); zwykle Ru(III) i to właśnie pokazują ręce. Metal z grupy platynowców: twardy, kruchy i bardzo odporny na kwasy, a przy tym jeden z najrzadszych pierwiastków w skorupie ziemskiej.',
     },
     de: {
-      kid: 'Hallo! Ich bin Ruthenium, ein hartes, glänzendes Metall aus der Platinfamilie, benannt nach Russland. Drei Hände für die drei Elektronen, die ich meistens abgebe, obwohl ich bis zu acht abgeben kann! Eine Schicht von mir, nur drei Atome dick, hat Festplatten geholfen, viel mehr zu speichern.',
+      kid: 'Hallo! Ich bin das Ruthenium, ein hartes, glänzendes Metall aus der Platinfamilie, benannt nach Russland. Drei Hände für die drei Elektronen, die ich meistens abgebe, obwohl ich bis zu acht abgeben kann! Eine Schicht von mir, nur drei Atome dick, hat Festplatten geholfen, viel mehr zu speichern.',
       sci: 'Ruthenium: [Kr] 4d7 5s1, Oxidationsstufen von −2 bis +8 (RuO4, wie beim Osmium); meist Ru(III), das zeigen hier die Hände. Ein Platinmetall: hart, spröde und sehr säurebeständig, und eines der seltensten Elemente der Erdkruste.',
     },
   },

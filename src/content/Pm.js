@@ -10,7 +10,7 @@ export default {
       sci: 'Promécio: [Xe] 4f5 6s2, Pm3+. O elemento 61 não tem nenhum isótopo estável (o que dura mais, o Pm-145, tem meia-vida de 17,7 anos), por isso a natureza só tem vestígios, da fissão espontânea do urânio. Foi o último lantanídeo a ser encontrado, em 1945, entre os produtos de fissão do urânio.',
     },
     pl: {
-      kid: 'Cześć! Jestem prometem, lantanowcem, którego nikt nie mógł znaleźć! Wszystkie moje atomy są promieniotwórcze, więc trochę świecę, a w przyrodzie prawie nic ze mnie nie zostało. Trzy ręce na moje trzy elektrony. Ludzie w końcu znaleźli mnie w 1945 roku, w resztkach z reaktora jądrowego.',
+      kid: 'Cześć! Jestem Promet, lantanowiec, którego nikt nie mógł znaleźć! Wszystkie moje atomy są promieniotwórcze, więc trochę świecę, a w przyrodzie prawie nic ze mnie nie zostało. Trzy ręce na moje trzy elektrony. Ludzie w końcu znaleźli mnie w 1945 roku, w resztkach z reaktora jądrowego.',
       sci: 'Promet: [Xe] 4f5 6s2, Pm3+. Pierwiastek 61 nie ma trwałego izotopu (najdłużej żyjący, Pm-145, ma okres półtrwania 17,7 roku), więc w przyrodzie są tylko jego ślady, z samorzutnego rozszczepienia uranu. Był ostatnim odkrytym lantanowcem: znaleziono go w 1945 roku wśród produktów rozszczepienia uranu.',
     },
     de: {

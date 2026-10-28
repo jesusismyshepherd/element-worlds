@@ -10,11 +10,11 @@ export default {
       sci: 'Califórnio: [Rn] 5f10 7s2, sobretudo Cf(III) (também se conhecem o Cf(II) e o Cf(IV)). O Cf-252 (2,645 anos) decai 3,1% por fissão espontânea e dá 2,3 milhões de neutrões por segundo por micrograma: uma fonte de neutrões invulgarmente compacta.',
     },
     pl: {
-      kid: 'Cześć! Jestem kalifornem, nazwanym na cześć Kalifornii, gdzie mnie wytworzono w 1950 roku. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, a do tego jestem mistrzem w rzucaniu neutronami: milionowa część grama mnie wystrzeliwuje co sekundę miliony neutronów!',
+      kid: 'Cześć! Jestem Kaliforn, nazwany na cześć Kalifornii, gdzie mnie wytworzono w 1950 roku. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, a do tego jestem mistrzem w rzucaniu neutronami: milionowa część grama mnie wystrzeliwuje co sekundę miliony neutronów!',
       sci: 'Kaliforn: [Rn] 5f10 7s2, głównie Cf(III) (znane są też Cf(II) i Cf(IV)). Cf-252 (2,645 roku) w 3,1% rozpada się przez samorzutne rozszczepienie, dając 2,3 miliona neutronów na sekundę na mikrogram: niezwykle zwarte źródło neutronów.',
     },
     de: {
-      kid: 'Hi! Ich bin das Californium, benannt nach Kalifornien, wo ich 1950 hergestellt wurde. Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und ich bin ein Meister im Neutronenwerfen: Ein Millionstel Gramm von mir schießt jede Sekunde Millionen Neutronen hinaus!',
+      kid: 'Hallo! Ich bin das Californium, benannt nach Kalifornien, wo ich 1950 hergestellt wurde. Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und ich bin ein Meister im Neutronenwerfen: Ein Millionstel Gramm von mir schießt jede Sekunde Millionen Neutronen hinaus!',
       sci: 'Californium: [Rn] 5f10 7s2, hauptsächlich Cf(III) (Cf(II) und Cf(IV) sind ebenfalls bekannt). Cf-252 (2,645 Jahre) zerfällt zu 3,1% durch Spontanspaltung und liefert 2,3 Millionen Neutronen pro Sekunde und Mikrogramm: eine ungewöhnlich kompakte Neutronenquelle.',
     },
   },

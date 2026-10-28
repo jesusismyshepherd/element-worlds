@@ -10,11 +10,11 @@ export default {
       sci: 'Seabórgio: [Rn] 5f14 6d4 7s2, grupo 6, por baixo do crómio, do molibdénio e do tungsténio, Sg(VI) como no SgO2Cl2 e no carbonilo Sg(CO)6; o Atomito mostra quatro mãos. Os isótopos que vivem mais duram vários minutos.',
     },
     pl: {
-      kid: 'Cześć! Jestem seaborgiem, nazwanym na cześć Glenna Seaborga, a on jeszcze żył, kiedy dostałem nazwę od jego nazwiska! Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć mogę oddać sześć elektronów, tak jak mój kuzyn wolfram.',
+      kid: 'Cześć! Jestem Seaborg, nazwany na cześć Glenna Seaborga, a on jeszcze żył, kiedy dostałem nazwę od jego nazwiska! Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć mogę oddać sześć elektronów, tak jak mój kuzyn wolfram.',
       sci: 'Seaborg: [Rn] 5f14 6d4 7s2, grupa 6 pod chromem, molibdenem i wolframem, Sg(VI) jak w SgO2Cl2 i w karbonylku Sg(CO)6; Atomek pokazuje cztery ręce. Jego najdłużej żyjące izotopy przetrwają kilka minut.',
     },
     de: {
-      kid: 'Hi! Ich bin das Seaborgium, benannt nach Glenn Seaborg, und er lebte noch, als ich seinen Namen bekam! Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Ich zeige vier Hände, obwohl ich sechs Elektronen abgeben kann, wie mein Cousin Wolfram.',
+      kid: 'Hallo! Ich bin das Seaborgium, benannt nach Glenn Seaborg, und er lebte noch, als ich seinen Namen bekam! Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Ich zeige vier Hände, obwohl ich sechs Elektronen abgeben kann, wie mein Cousin Wolfram.',
       sci: 'Seaborgium: [Rn] 5f14 6d4 7s2, Gruppe 6 unter Chrom, Molybdän und Wolfram, Sg(VI) wie in SgO2Cl2 und im Carbonyl Sg(CO)6; der Atomling zeigt vier Hände. Seine langlebigsten Isotope leben mehrere Minuten.',
     },
   },

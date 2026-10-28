@@ -10,7 +10,7 @@ export default {
       sci: 'Itérbio: [Xe] 4f14 6s2. Com a camada 4f cheia, o metal é divalente, como o cálcio: mole, e funde a apenas 819 °C; nos compostos, Yb3+ e Yb2+. Os átomos neutros de Yb em redes óticas e os iões Yb+ fazem funcionar relógios óticos ao nível de 10⁻¹⁸.',
     },
     pl: {
-      kid: 'Cześć! Jestem iterbem, czwartym pierwiastkiem nazwanym od wioski Ytterby! Trzy ręce, choć często oddaję tylko dwa elektrony. Tykam w środku jednych z najdokładniejszych zegarów, jakie kiedykolwiek zbudowano: przez miliardy lat nie pomyliłyby się nawet o sekundę.',
+      kid: 'Cześć! Jestem Iterb, czwarty pierwiastek nazwany od wioski Ytterby! Trzy ręce, choć często oddaję tylko dwa elektrony. Tykam w środku jednych z najdokładniejszych zegarów, jakie kiedykolwiek zbudowano: przez miliardy lat nie pomyliłyby się nawet o sekundę.',
       sci: 'Iterb: [Xe] 4f14 6s2. Przy pełnej powłoce 4f metal jest dwuwartościowy, jak wapń: miękki i topi się w zaledwie 819 °C; w związkach Yb3+ i Yb2+. Obojętne atomy Yb w sieciach optycznych i jony Yb+ napędzają zegary optyczne na poziomie 10⁻¹⁸.',
     },
     de: {

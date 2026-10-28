@@ -10,11 +10,11 @@ export default {
       sci: 'Tecnécio: [Kr] 4d5 5s2, estados de oxidação até +7 (pertecnetato, TcO4-); o Atomito mostra no máximo quatro mãos. O elemento mais leve sem nenhum isótopo estável; o 99mTc é usado em cerca de 30 milhões de exames médicos por ano.',
     },
     pl: {
-      kid: 'Cześć! Jestem technetem, pierwszym pierwiastkiem, jaki kiedykolwiek wytworzyli ludzie! Widzisz mój pulsujący zielony blask? To znaczy, że jestem promieniotwórczy. Pokazuję cztery ręce, chociaż potrafię oddać nawet siedem elektronów. Lekarze używają mnie, żeby zajrzeć do wnętrza twojego ciała.',
-      sci: 'Technet: [Kr] 4d5 5s2, stopnie utlenienia do +7 (nadtechnecjan, TcO4-); Atomling pokazuje najwyżej cztery ręce. Najlżejszy pierwiastek bez żadnego trwałego izotopu; 99mTc jest używany w około 30 milionach badań medycznych rocznie.',
+      kid: 'Cześć! Jestem Technet, pierwszy pierwiastek, jaki kiedykolwiek wytworzyli ludzie! Widzisz mój pulsujący zielony blask? To znaczy, że jestem promieniotwórczy. Pokazuję cztery ręce, chociaż potrafię oddać nawet siedem elektronów. Lekarze używają mnie, żeby zajrzeć do wnętrza twojego ciała.',
+      sci: 'Technet: [Kr] 4d5 5s2, stopnie utlenienia do +7 (nadtechnecjan, TcO4-); Atomek pokazuje najwyżej cztery ręce. Najlżejszy pierwiastek bez żadnego trwałego izotopu; 99mTc jest używany w około 30 milionach badań medycznych rocznie.',
     },
     de: {
-      kid: 'Hallo! Ich bin Technetium, das erste Element, das je von Menschen gemacht wurde! Siehst du mein pulsierendes grünes Leuchten? Es bedeutet, dass ich radioaktiv bin. Ich zeige vier Hände, obwohl ich bis zu sieben Elektronen abgeben kann. Ärzte nutzen mich, um in deinen Körper hineinzuschauen.',
+      kid: 'Hallo! Ich bin das Technetium, das erste Element, das je von Menschen gemacht wurde! Siehst du mein pulsierendes grünes Leuchten? Es bedeutet, dass ich radioaktiv bin. Ich zeige vier Hände, obwohl ich bis zu sieben Elektronen abgeben kann. Ärzte nutzen mich, um in deinen Körper hineinzuschauen.',
       sci: 'Technetium: [Kr] 4d5 5s2, Oxidationsstufen bis +7 (Pertechnetat, TcO4-); der Atomling zeigt höchstens vier Hände. Das leichteste Element ohne stabiles Isotop; 99mTc wird in etwa 30 Millionen medizinischen Untersuchungen pro Jahr verwendet.',
     },
   },

@@ -10,11 +10,11 @@ export default {
       sci: 'Berquélio: [Rn] 5f9 7s2, sobretudo Bk(III), e Bk(IV) (5f7, semipreenchida, como o Tb(IV) do térbio), um oxidante forte. O Bk-247 (1380 anos) é o que vive mais; o Bk-249 (cerca de 330 dias) é o que se faz nos reatores.',
     },
     pl: {
-      kid: 'Cześć! Jestem berkelem, nazwanym na cześć Berkeley, miasta w Kalifornii, gdzie po raz pierwszy mnie wytworzono, w 1949 roku. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, i jestem bardzo rzadki: w USA wytworzono mnie dotąd zaledwie około grama.',
+      kid: 'Cześć! Jestem Berkel, nazwany na cześć Berkeley, miasta w Kalifornii, gdzie po raz pierwszy mnie wytworzono, w 1949 roku. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, i jestem bardzo rzadki: w USA wytworzono mnie dotąd zaledwie około grama.',
       sci: 'Berkel: [Rn] 5f9 7s2, głównie Bk(III), a także Bk(IV) (5f7, do połowy zapełniona, jak Tb(IV) u terbu), silny utleniacz. Najdłużej żyje Bk-247 (1380 lat); Bk-249 (około 330 dni) to izotop wytwarzany w reaktorach.',
     },
     de: {
-      kid: 'Hi! Ich bin das Berkelium, benannt nach Berkeley, der Stadt in Kalifornien, in der ich 1949 zum ersten Mal hergestellt wurde. Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und ich bin sehr selten: In den USA wurde bisher nur etwa ein Gramm von mir hergestellt.',
+      kid: 'Hallo! Ich bin das Berkelium, benannt nach Berkeley, der Stadt in Kalifornien, in der ich 1949 zum ersten Mal hergestellt wurde. Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und ich bin sehr selten: In den USA wurde bisher nur etwa ein Gramm von mir hergestellt.',
       sci: 'Berkelium: [Rn] 5f9 7s2, meist Bk(III), und Bk(IV) (5f7, halb gefüllt, wie Tb(IV) beim Terbium), ein starkes Oxidationsmittel. Bk-247 (1380 Jahre) lebt am längsten; Bk-249 (etwa 330 Tage) ist das Isotop, das in Reaktoren entsteht.',
     },
   },

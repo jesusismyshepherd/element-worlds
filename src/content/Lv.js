@@ -10,11 +10,11 @@ export default {
       sci: 'Livermório: previsto [Rn] 5f14 6d10 7s2 7p4, grupo 16, por baixo do oxigénio, do enxofre, do selénio, do telúrio e do polónio. O efeito do par inerte deverá tornar o Lv(II) mais estável do que o Lv(IV). O isótopo que vive mais, o Lv-293, dura cerca de 60 ms.',
     },
     pl: {
-      kid: 'Cześć! Jestem liwermorem, nazwanym od Livermore, miasta w Kalifornii z laboratorium, które pomogło mnie zrobić. Widzisz, jak migoczę? Moje atomy żyją krócej niż jedną dziesiątą sekundy. Mam dwie ręce na dwa elektrony, które podobno oddaję.',
+      kid: 'Cześć! Jestem Liwermor, nazwany od Livermore, miasta w Kalifornii z laboratorium, które pomogło mnie zrobić. Widzisz, jak migoczę? Moje atomy żyją krócej niż jedną dziesiątą sekundy. Mam dwie ręce na dwa elektrony, które podobno oddaję.',
       sci: 'Liwermor: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p4, grupa 16 pod tlenem, siarką, selenem, tellurem i polonem. Efekt nieczynnej pary elektronowej powinien sprawić, że Lv(II) będzie trwalszy niż Lv(IV). Jego najdłużej żyjący izotop, Lv-293, żyje około 60 ms.',
     },
     de: {
-      kid: 'Hi! Ich bin das Livermorium, benannt nach Livermore, einer Stadt in Kalifornien mit einem Labor, das geholfen hat, mich herzustellen. Siehst du, wie ich flackere? Meine Atome halten weniger als eine Zehntelsekunde. Zwei Hände, für die zwei Elektronen, die ich vermutlich abgebe.',
+      kid: 'Hallo! Ich bin das Livermorium, benannt nach Livermore, einer Stadt in Kalifornien mit einem Labor, das geholfen hat, mich herzustellen. Siehst du, wie ich flackere? Meine Atome halten weniger als eine Zehntelsekunde. Zwei Hände, für die zwei Elektronen, die ich vermutlich abgebe.',
       sci: 'Livermorium: vorhergesagt [Rn] 5f14 6d10 7s2 7p4, Gruppe 16 unter Sauerstoff, Schwefel, Selen, Tellur und Polonium. Der Effekt des inerten Elektronenpaars sollte Lv(II) stabiler machen als Lv(IV). Sein langlebigstes Isotop, Lv-293, lebt etwa 60 ms.',
     },
   },

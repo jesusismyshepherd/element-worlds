@@ -10,11 +10,11 @@ export default {
       sci: 'Zircónio: [Kr] 4d2 5s2, quase sempre Zr(IV). Resistente à corrosão graças a uma película de ZrO2 e quase transparente aos neutrões térmicos (0,18 barn), por isso o Zircaloy reveste a maior parte do combustível nuclear. O meu gémeo, o háfnio, quase idêntico na química, tem de ser retirado primeiro.',
     },
     pl: {
-      kid: 'Cześć! Jestem cyrkonem. Mam cztery ręce, po jednej na każdy elektron, który oddaję. Neutrony przelatują przeze mnie na wylot, więc otulam paliwo w elektrowniach jądrowych. A moje kryształy, cyrkony, to najstarsze kawałki Ziemi, jakie kiedykolwiek znaleziono!',
+      kid: 'Cześć! Jestem Cyrkon. Mam cztery ręce, po jednej na każdy elektron, który oddaję. Neutrony przelatują przeze mnie na wylot, więc otulam paliwo w elektrowniach jądrowych. A moje kryształy, cyrkony, to najstarsze kawałki Ziemi, jakie kiedykolwiek znaleziono!',
       sci: 'Cyrkon: [Kr] 4d2 5s2, prawie zawsze Zr(IV). Odporny na korozję dzięki warstewce ZrO2 i prawie przezroczysty dla neutronów termicznych (0,18 barna), dlatego Zircaloy tworzy koszulki większości paliwa reaktorowego. Mój bliźniak, hafn, niemal identyczny chemicznie, musi zostać najpierw usunięty.',
     },
     de: {
-      kid: 'Hallo! Ich bin Zirconium. Vier Hände, eine für jedes Elektron, das ich abgebe. Neutronen fliegen glatt durch mich hindurch, darum umhülle ich den Brennstoff in Kernkraftwerken. Und meine Kristalle, die Zirkone, sind die ältesten Stücke der Erde, die je gefunden wurden!',
+      kid: 'Hallo! Ich bin das Zirconium. Vier Hände, eine für jedes Elektron, das ich abgebe. Neutronen fliegen glatt durch mich hindurch, darum umhülle ich den Brennstoff in Kernkraftwerken. Und meine Kristalle, die Zirkone, sind die ältesten Stücke der Erde, die je gefunden wurden!',
       sci: 'Zirconium: [Kr] 4d2 5s2, fast immer Zr(IV). Korrosionsbeständig dank eines ZrO2-Films und für thermische Neutronen fast durchsichtig (0,18 barn), darum umhüllt Zircaloy den meisten Reaktorbrennstoff. Mein Zwilling Hafnium, chemisch fast gleich, muss vorher entfernt werden.',
     },
   },

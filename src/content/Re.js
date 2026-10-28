@@ -10,7 +10,7 @@ export default {
       sci: 'Rénio: [Xe] 4f14 5d5 6s2, com estados de oxidação de −3 a +7 (perrenato, ReO4−); o Atomito mostra no máximo quatro mãos. Cerca de 0,7 partes por mil milhões da crosta; ponto de fusão de 3186 °C, entre os metais só ultrapassado pelo tungsténio.',
     },
     pl: {
-      kid: 'Cześć! Jestem renem, jednym z najrzadszych pierwiastków na Ziemi. Pokazuję cztery ręce, ale potrafię oddać aż siedem elektronów! Byłem ostatnim odkrytym trwałym pierwiastkiem i pomagam silnikom odrzutowym pracować w wysokiej temperaturze.',
+      kid: 'Cześć! Jestem Ren, jeden z najrzadszych pierwiastków na Ziemi. Pokazuję cztery ręce, ale potrafię oddać aż siedem elektronów! Byłem ostatnim odkrytym trwałym pierwiastkiem i pomagam silnikom odrzutowym pracować w wysokiej temperaturze.',
       sci: 'Ren: [Xe] 4f14 5d5 6s2, stopnie utlenienia od −3 do +7 (nadrenian, ReO4−); Atomek pokazuje najwyżej cztery ręce. Około 0,7 części na miliard skorupy; temperatura topnienia 3186 °C, wśród metali ustępuje tylko wolframowi.',
     },
     de: {

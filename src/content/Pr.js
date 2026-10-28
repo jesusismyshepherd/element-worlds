@@ -10,11 +10,11 @@ export default {
       sci: "Praseodímio: [Xe] 4f3 6s2, sobretudo Pr3+ (verde, 4f2), e Pr(IV) em sólidos como o óxido Pr6O11. O 'didímio' de Mosander (1841) era afinal eu e o neodímio juntos; Auer von Welsbach separou-o em 1885.",
     },
     pl: {
-      kid: 'Cześć! Jestem prazeodym: spróbuj to szybko powiedzieć! Trzy ręce na trzy elektrony, które oddaję. Moje imię znaczy „zielony bliźniak”, bo ukrywałem się razem z moim bliźniakiem, neodymem, a moje sole są zielone jak por.',
+      kid: 'Cześć! Jestem Prazeodym: spróbuj to szybko powiedzieć! Trzy ręce na trzy elektrony, które oddaję. Moje imię znaczy „zielony bliźniak”, bo ukrywałem się razem z moim bliźniakiem, neodymem, a moje sole są zielone jak por.',
       sci: 'Prazeodym: [Xe] 4f3 6s2, głównie Pr3+ (zielony, 4f2), a Pr(IV) w ciałach stałych, takich jak tlenek Pr6O11. „Dydym” Mosandera (1841) był w rzeczywistości mną i neodymem razem; Auer von Welsbach rozdzielił go w 1885 roku.',
     },
     de: {
-      kid: 'Hallo! Ich bin Praseodym: Versuch mal, das schnell zu sagen! Drei Hände für die drei Elektronen, die ich abgebe. Mein Name bedeutet „grüner Zwilling“, weil ich mich zusammen mit meinem Zwilling, dem Neodym, versteckt habe, und meine Salze sind grün wie Lauch.',
+      kid: 'Hallo! Ich bin das Praseodym: Versuch mal, das schnell zu sagen! Drei Hände für die drei Elektronen, die ich abgebe. Mein Name bedeutet „grüner Zwilling“, weil ich mich zusammen mit meinem Zwilling, dem Neodym, versteckt habe, und meine Salze sind grün wie Lauch.',
       sci: 'Praseodym: [Xe] 4f3 6s2, meist Pr3+ (grün, 4f2), und Pr(IV) in Feststoffen wie dem Oxid Pr6O11. Mosanders „Didym“ (1841) war in Wirklichkeit ich und Neodym zusammen; Auer von Welsbach trennte es 1885.',
     },
   },

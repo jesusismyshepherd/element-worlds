@@ -10,11 +10,11 @@ export default {
       sci: 'Copernício: previsto [Rn] 5f14 6d10 7s2, grupo 12, por baixo do zinco, do cádmio e do mercúrio. A relatividade segura o par 7s com tanta força que é muito volátil: as experiências em fase gasosa mostram que só se agarra fracamente ao ouro. O Cn-285 dura cerca de 30 segundos.',
     },
     pl: {
-      kid: 'Cześć! Jestem kopernikiem, nazwanym na cześć Mikołaja Kopernika, który powiedział, że Ziemia krąży wokół Słońca. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam dwie ręce na dwa elektrony, które podobno oddaję, tak jak moja kuzynka rtęć.',
+      kid: 'Cześć! Jestem Kopernik, nazwany na cześć Mikołaja Kopernika, który powiedział, że Ziemia krąży wokół Słońca. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam dwie ręce na dwa elektrony, które podobno oddaję, tak jak moja kuzynka rtęć.',
       sci: 'Kopernik: przewidywana konfiguracja [Rn] 5f14 6d10 7s2, grupa 12 pod cynkiem, kadmem i rtęcią. Efekty relatywistyczne trzymają jego parę 7s tak mocno, że jest bardzo lotny: eksperymenty w fazie gazowej pokazują, że tylko słabo przylega do złota. Cn-285 żyje około 30 sekund.',
     },
     de: {
-      kid: 'Hi! Ich bin das Copernicium, benannt nach Nikolaus Kopernikus, der gesagt hat, dass sich die Erde um die Sonne dreht. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Zwei Hände, für die zwei Elektronen, die ich vermutlich abgebe, wie mein Cousin Quecksilber.',
+      kid: 'Hallo! Ich bin das Copernicium, benannt nach Nikolaus Kopernikus, der gesagt hat, dass sich die Erde um die Sonne dreht. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Zwei Hände, für die zwei Elektronen, die ich vermutlich abgebe, wie mein Cousin Quecksilber.',
       sci: 'Copernicium: vorhergesagt [Rn] 5f14 6d10 7s2, Gruppe 12 unter Zink, Cadmium und Quecksilber. Relativistische Effekte halten sein 7s-Paar so fest, dass es sehr flüchtig ist: Experimente in der Gasphase zeigen, dass es nur schwach an Gold haftet. Cn-285 lebt etwa 30 Sekunden.',
     },
   },

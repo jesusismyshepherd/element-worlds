@@ -10,7 +10,7 @@ export default {
       sci: 'Disprósio: [Xe] 4f10 6s2, Dy3+. O meu grande momento magnético e a minha anisotropia fazem de mim o aditivo-chave (uns poucos por cento) que permite aos ímanes NdFeB manterem a coercividade a 150 a 200 °C nos motores de tração e nos geradores eólicos.',
     },
     pl: {
-      kid: 'Cześć! Jestem dysprozem, a moje imię znaczy „trudno dostępny”! Oddzielenie mnie od rodziny wymagało mnóstwa cierpliwości. Trzy ręce na moje trzy elektrony. Pomagam magnesom w samochodach elektrycznych i turbinach wiatrowych zachować siłę, kiedy się nagrzeją.',
+      kid: 'Cześć! Jestem Dysproz, a moje imię znaczy „trudno dostępny”! Oddzielenie mnie od rodziny wymagało mnóstwa cierpliwości. Trzy ręce na moje trzy elektrony. Pomagam magnesom w samochodach elektrycznych i turbinach wiatrowych zachować siłę, kiedy się nagrzeją.',
       sci: 'Dysproz: [Xe] 4f10 6s2, Dy3+. Mój duży moment magnetyczny i anizotropia czynią mnie kluczowym dodatkiem (kilka procent), dzięki któremu magnesy NdFeB zachowują koercję w 150 do 200 °C w silnikach trakcyjnych i generatorach wiatrowych.',
     },
     de: {

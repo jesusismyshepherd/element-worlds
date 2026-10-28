@@ -14,7 +14,7 @@ export default {
       sci: 'Iryd: [Xe] 4f14 5d7 6s2, głównie Ir(III) i Ir(IV), a w IrO4+ najwyższy stopień utlenienia, jaki kiedykolwiek znaleziono, +9 (2014). Najbardziej odporny na korozję metal i drugi najgęstszy pierwiastek, po osmie.',
     },
     de: {
-      kid: 'Hallo! Ich bin Iridium, das korrosionsbeständigste Metall der Welt und fast so dicht wie Osmium. Drei Hände für die Elektronen, die ich meistens abgebe. Viel von mir kam mit dem Asteroiden auf die Erde, der das Zeitalter der Dinosaurier beendete, und Forscher fanden meine Schicht im Gestein!',
+      kid: 'Hallo! Ich bin das Iridium, das korrosionsbeständigste Metall der Welt und fast so dicht wie Osmium. Drei Hände für die Elektronen, die ich meistens abgebe. Viel von mir kam mit dem Asteroiden auf die Erde, der das Zeitalter der Dinosaurier beendete, und Forscher fanden meine Schicht im Gestein!',
       sci: 'Iridium: [Xe] 4f14 5d7 6s2, meist Ir(III) und Ir(IV), und in IrO4+ die höchste je gefundene Oxidationsstufe, +9 (2014). Das korrosionsbeständigste Metall und das zweitdichteste Element, nach Osmium.',
     },
   },

@@ -14,7 +14,7 @@ export default {
       sci: 'Ołów: [Xe] 4f14 5d10 6s2 6p2, zwykle Pb(II): para 6s trzyma się z tyłu (efekt nieczynnej pary), więc Pb(IV) to silny utleniacz. Z = 82 to liczba magiczna, a ołów jest najcięższym pierwiastkiem o trwałych izotopach.',
     },
     de: {
-      kid: 'Hallo! Ich bin Blei, ein weiches, schweres, blaugraues Metall. Zwei Hände für die zwei Elektronen, die ich meistens abgebe. Menschen benutzen mich seit Tausenden von Jahren, aber ich bin nicht gut für den Körper, deshalb arbeite ich heute vor allem in Autobatterien und im Röntgenschutz.',
+      kid: 'Hallo! Ich bin das Blei, ein weiches, schweres, blaugraues Metall. Zwei Hände für die zwei Elektronen, die ich meistens abgebe. Menschen benutzen mich seit Tausenden von Jahren, aber ich bin nicht gut für den Körper, deshalb arbeite ich heute vor allem in Autobatterien und im Röntgenschutz.',
       sci: 'Blei: [Xe] 4f14 5d10 6s2 6p2, meist Pb(II): Das 6s-Paar hält sich zurück (Effekt des inerten Elektronenpaares), deshalb ist Pb(IV) ein starkes Oxidationsmittel. Z = 82 ist eine magische Zahl, und Blei ist das schwerste Element mit stabilen Isotopen.',
     },
   },

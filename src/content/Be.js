@@ -10,7 +10,7 @@ export default {
       sci: 'Berílio: dois eletrões 2s e um átomo pequeníssimo, tão pequeno que a minha química é invulgarmente covalente para um metal. Leve (1,85 g/cm³) mas mais rígido do que o aço, fundo a 1287 °C e deixo passar os raios X quase sem os travar.',
     },
     pl: {
-      kid: 'Cześć! Jestem berylem, lekkim, ale bardzo sztywnym metalem. Wyciągam dwa elektrony, po jednym w każdej ręce. Teleskopy kosmiczne mnie uwielbiają: wielkie złote zwierciadło Kosmicznego Teleskopu Jamesa Webba jest zrobione ze mnie!',
+      kid: 'Cześć! Jestem Beryl, lekki, ale bardzo sztywny metal. Wyciągam dwa elektrony, po jednym w każdej ręce. Teleskopy kosmiczne mnie uwielbiają: wielkie złote zwierciadło Kosmicznego Teleskopu Jamesa Webba jest zrobione ze mnie!',
       sci: 'Beryl: dwa elektrony 2s i malutki atom, tak mały, że moja chemia jest jak na metal niezwykle kowalencyjna. Lekki (1,85 g/cm³), a zarazem sztywniejszy od stali, topię się w 1287 °C i niemal swobodnie przepuszczam promienie rentgenowskie.',
     },
     de: {

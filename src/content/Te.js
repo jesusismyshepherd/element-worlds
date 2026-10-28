@@ -10,11 +10,11 @@ export default {
       sci: 'Telúrio: [Kr] 4d10 5s2 5p4, duas ligações como no H2Te, com estados de oxidação −2, +4 e +6. Um semicondutor frágil e prateado, feito de cadeias em hélice; um dos elementos estáveis mais raros da crosta, e um dos poucos com que o ouro se combina na natureza.',
     },
     pl: {
-      kid: 'Cześć! Jestem tellur, nazwany na cześć Ziemi. W połowie metal, a w połowie nie (widzisz moją antenkę?), z dwiema rękami jak moi kuzyni: tlen, siarka i selen. W skorupie ziemskiej jestem rzadszy niż złoto i pomagam panelom słonecznym zamieniać światło słoneczne w prąd.',
+      kid: 'Cześć! Jestem Tellur, nazwany na cześć Ziemi. W połowie metal, a w połowie nie (widzisz moją antenkę?), z dwiema rękami jak moi kuzyni: tlen, siarka i selen. W skorupie ziemskiej jestem rzadszy niż złoto i pomagam panelom słonecznym zamieniać światło słoneczne w prąd.',
       sci: 'Tellur: [Kr] 4d10 5s2 5p4, dwa wiązania jak w H2Te, stopnie utlenienia −2, +4 i +6. Kruchy, srebrzysty półprzewodnik zbudowany ze spiralnych łańcuchów; jeden z najrzadszych trwałych pierwiastków w skorupie ziemskiej i jeden z nielicznych, z którymi złoto łączy się w przyrodzie.',
     },
     de: {
-      kid: 'Hallo! Ich bin Tellur, benannt nach der Erde. Halb Metall und halb nicht (siehst du meine Antenne?), mit zwei Händen wie meine Vettern Sauerstoff, Schwefel und Selen. In der Erdkruste bin ich seltener als Gold, und ich helfe Solarmodulen, Sonnenlicht in Strom zu verwandeln.',
+      kid: 'Hallo! Ich bin das Tellur, benannt nach der Erde. Halb Metall und halb nicht (siehst du meine Antenne?), mit zwei Händen wie meine Cousins Sauerstoff, Schwefel und Selen. In der Erdkruste bin ich seltener als Gold, und ich helfe Solarmodulen, Sonnenlicht in Strom zu verwandeln.',
       sci: 'Tellur: [Kr] 4d10 5s2 5p4, zwei Bindungen wie in H2Te, mit den Oxidationsstufen −2, +4 und +6. Ein spröder, silbriger Halbleiter aus schraubenförmigen Ketten; eines der seltensten stabilen Elemente der Erdkruste und eines der wenigen, mit denen sich Gold in der Natur verbindet.',
     },
   },

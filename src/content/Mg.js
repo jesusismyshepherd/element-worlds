@@ -10,7 +10,7 @@ export default {
       sci: 'Magnésio: dois eletrões 3s, que cedo como Mg2+. O metal estrutural mais leve (1,74 g/cm³, cerca de dois terços da densidade do alumínio) e o átomo no centro de todas as moléculas de clorofila.',
     },
     pl: {
-      kid: 'Cześć! Jestem magnezem, lekkim, srebrzystym metalem. Wyciągam dwa elektrony, po jednym w każdej ręce. Gdy ktoś mnie podpali, płonę tak jasnym białym światłem, że nie wolno się w nie wpatrywać!',
+      kid: 'Cześć! Jestem Magnez, lekki, srebrzysty metal. Wyciągam dwa elektrony, po jednym w każdej ręce. Gdy ktoś mnie podpali, płonę tak jasnym białym światłem, że nie wolno się w nie wpatrywać!',
       sci: 'Magnez: dwa elektrony 3s, oddawane jako Mg2+. Najlżejszy metal konstrukcyjny (1,74 g/cm³, około dwóch trzecich gęstości glinu) i atom w środku każdej cząsteczki chlorofilu.',
     },
     de: {

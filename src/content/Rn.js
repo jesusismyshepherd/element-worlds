@@ -14,7 +14,7 @@ export default {
       sci: 'Radon: [Xe] 4f14 5d10 6s2 6p6, zamknięta powłoka. Każdy izotop jest promieniotwórczy; Rn-222 (okres półtrwania 3,8 dnia) pochodzi z radu w szeregu uranu-238. Około 7,7 razy gęstszy od powietrza, najgęstszy pierwiastek gazowy.',
     },
     de: {
-      kid: 'Hallo! Ich bin Radon, das schwerste Edelgas. Keine Hände: Meine äußere Schale ist voll. Ich bin so schwer, dass ich tief schwebe, nah am Boden. Ich bin radioaktiv und halte nicht lange: Die Hälfte von mir ist in weniger als vier Tagen weg.',
+      kid: 'Hallo! Ich bin das Radon, das schwerste Edelgas. Keine Hände: Meine äußere Schale ist voll. Ich bin so schwer, dass ich tief schwebe, nah am Boden. Ich bin radioaktiv und halte nicht lange: Die Hälfte von mir ist in weniger als vier Tagen weg.',
       sci: 'Radon: [Xe] 4f14 5d10 6s2 6p6, eine abgeschlossene Schale. Jedes Isotop ist radioaktiv; Rn-222 (Halbwertszeit 3,8 Tage) entsteht aus Radium in der Uran-238-Reihe. Etwa 7,7-mal dichter als Luft, das dichteste gasförmige Element.',
     },
   },

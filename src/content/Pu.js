@@ -10,11 +10,11 @@ export default {
       sci: 'Plutónio: [Rn] 5f6 7s2, com estados de oxidação de +3 a +7 (o +4, o das mãos, é o mais habitual). Seis fases sólidas à pressão normal, mais do que qualquer outro elemento; o Pu-239 é físsil e o Pu-238 uma fonte de calor compacta.',
     },
     pl: {
-      kid: 'Cześć! Jestem plutonem, nazwanym na cześć Plutona. Mam cztery ręce, na cztery elektrony, które lubię oddawać. Wytwarzają mnie prawie wyłącznie ludzie, w reaktorach jądrowych, i sam się ogrzewam: moje ciepło zasilało statki kosmiczne lecące aż na skraj Układu Słonecznego!',
+      kid: 'Cześć! Jestem Pluton, nazwany na cześć Plutona. Mam cztery ręce, na cztery elektrony, które lubię oddawać. Wytwarzają mnie prawie wyłącznie ludzie, w reaktorach jądrowych, i sam się ogrzewam: moje ciepło zasilało statki kosmiczne lecące aż na skraj Układu Słonecznego!',
       sci: 'Pluton: [Rn] 5f6 7s2, stopnie utlenienia od +3 do +7 (+4, czyli ręce tutaj, jest najczęstszy). Sześć faz stałych pod zwykłym ciśnieniem, więcej niż u jakiegokolwiek innego pierwiastka; Pu-239 jest rozszczepialny, Pu-238 to zwarte źródło ciepła.',
     },
     de: {
-      kid: 'Hi! Ich bin das Plutonium, benannt nach Pluto. Vier Hände, für die vier Elektronen, die ich gern abgebe. Ich werde fast nur von Menschen gemacht, in Kernreaktoren, und ich halte mich selbst warm: Meine Wärme hat Raumsonden bis an den Rand des Sonnensystems mit Energie versorgt!',
+      kid: 'Hallo! Ich bin das Plutonium, benannt nach Pluto. Vier Hände, für die vier Elektronen, die ich gern abgebe. Ich werde fast nur von Menschen gemacht, in Kernreaktoren, und ich halte mich selbst warm: Meine Wärme hat Raumsonden bis an den Rand des Sonnensystems mit Energie versorgt!',
       sci: 'Plutonium: [Rn] 5f6 7s2, mit Oxidationsstufen von +3 bis +7 (+4, die Hände hier, ist die häufigste). Sechs feste Phasen bei normalem Druck, mehr als bei jedem anderen Element; Pu-239 ist spaltbar, Pu-238 eine kompakte Wärmequelle.',
     },
   },

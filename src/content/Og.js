@@ -10,11 +10,11 @@ export default {
       sci: 'Oganésson: previsto [Rn] 5f14 6d10 7s2 7p6, a última casa da sétima fila, no grupo 18. Os cálculos preveem um sólido à temperatura ambiente, talvez um semicondutor, e mais reativo do que o rádon. O Og-294 dura cerca de 0,7 ms.',
     },
     pl: {
-      kid: 'Cześć! Jestem oganesonem, pierwiastkiem 118, najcięższym, jaki kiedykolwiek zrobiono. Widzisz, jak migoczę? Wykryto dotąd tylko garstkę moich atomów. Nie mam rąk: moja zewnętrzna powłoka jest pełna, jak u innych gazów szlachetnych. Ale naukowcy uważają, że jestem bardzo dziwnym gazem szlachetnym!',
+      kid: 'Cześć! Jestem Oganeson, pierwiastek 118, najcięższy, jaki kiedykolwiek zrobiono. Widzisz, jak migoczę? Wykryto dotąd tylko garstkę moich atomów. Nie mam rąk: moja zewnętrzna powłoka jest pełna, jak u innych gazów szlachetnych. Ale naukowcy uważają, że jestem bardzo dziwnym gazem szlachetnym!',
       sci: 'Oganeson: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p6, ostatnie pole siódmego rzędu, w grupie 18. Obliczenia przewidują ciało stałe w temperaturze pokojowej, być może półprzewodnik, i większą reaktywność niż u radonu. Og-294 żyje około 0,7 ms.',
     },
     de: {
-      kid: 'Hi! Ich bin das Oganesson, Element 118, das schwerste Element, das je hergestellt wurde. Siehst du, wie ich flackere? Bisher wurde nur eine Handvoll meiner Atome nachgewiesen. Keine Hände: Meine äußere Schale ist voll, wie bei den anderen Edelgasen. Aber Forscher glauben, dass ich ein sehr seltsames Edelgas bin!',
+      kid: 'Hallo! Ich bin das Oganesson, Element 118, das schwerste Element, das je hergestellt wurde. Siehst du, wie ich flackere? Bisher wurde nur eine Handvoll meiner Atome nachgewiesen. Keine Hände: Meine äußere Schale ist voll, wie bei den anderen Edelgasen. Aber Forscher glauben, dass ich ein sehr seltsames Edelgas bin!',
       sci: 'Oganesson: vorhergesagt [Rn] 5f14 6d10 7s2 7p6, das letzte Feld der siebten Reihe, in Gruppe 18. Berechnungen sagen einen Feststoff bei Zimmertemperatur voraus, vielleicht einen Halbleiter, reaktiver als Radon. Og-294 lebt etwa 0,7 ms.',
     },
   },

@@ -10,7 +10,7 @@ export default {
       sci: 'Boro: três eletrões de valência, três ligações e um átomo pobre em eletrões. No BF3 fico só com seis eletrões à minha volta, por isso aceito um par de eletrões não ligante (um ácido de Lewis clássico); nos boranos partilho eletrões em ligações de três centros e dois eletrões.',
     },
     pl: {
-      kid: 'Cześć! Jestem borem, trochę metalem, a trochę nie (półmetalem: widzisz moją antenkę?). Mam trzy ręce, więc trzymam trzech przyjaciół, i wciąż mam miejsce na jeszcze jednego: chętnie wpuszczam czwartego!',
+      kid: 'Cześć! Jestem Bor, trochę metal, a trochę nie (półmetal: widzisz moją antenkę?). Mam trzy ręce, więc trzymam trzech przyjaciół, i wciąż mam miejsce na jeszcze jednego: chętnie wpuszczam czwartego!',
       sci: 'Bor: trzy elektrony walencyjne, trzy wiązania i atom ubogi w elektrony. W BF3 mam wokół siebie tylko sześć elektronów, więc przyjmuję wolną parę elektronową (klasyczny kwas Lewisa); w boranach dzielę się elektronami w wiązaniach trójcentrowych dwuelektronowych.',
     },
     de: {

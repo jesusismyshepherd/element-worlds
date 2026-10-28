@@ -14,7 +14,7 @@ export default {
       sci: 'Tal: [Xe] 4f14 5d10 6s2 6p1, głównie Tl+ (efekt nieczynnej pary zatrzymuje parę 6s2), także Tl3+, silny utleniacz. Tl+ (150 pm) ma rozmiar zbliżony do K+ (138 pm), co tłumaczy zarówno moją toksyczność, jak i moje zastosowanie w obrazowaniu serca.',
     },
     de: {
-      kid: 'Hallo! Ich bin Thallium, ein weiches, schweres Metall. Eine Hand: Ich gebe meistens nur ein Elektron ab. Mein Name bedeutet „grüner Trieb“, nach der leuchtend grünen Linie in meinem Licht. Meine Verbindungen sind aber sehr giftig, deshalb fassen mich nur Fachleute an.',
+      kid: 'Hallo! Ich bin das Thallium, ein weiches, schweres Metall. Eine Hand: Ich gebe meistens nur ein Elektron ab. Mein Name bedeutet „grüner Trieb“, nach der leuchtend grünen Linie in meinem Licht. Meine Verbindungen sind aber sehr giftig, deshalb fassen mich nur Fachleute an.',
       sci: 'Thallium: [Xe] 4f14 5d10 6s2 6p1, meist Tl+ (der Effekt des inerten Elektronenpaares hält das 6s2-Paar fest), auch Tl3+, ein starkes Oxidationsmittel. Tl+ (150 pm) ist ähnlich groß wie K+ (138 pm), was sowohl meine Giftigkeit als auch meinen Einsatz in der Herzbildgebung erklärt.',
     },
   },

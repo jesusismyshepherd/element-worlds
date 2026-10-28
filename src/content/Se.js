@@ -10,11 +10,11 @@ export default {
       sci: 'Selénio: [Ar] 3d10 4s2 4p4, duas ligações como no H2Se, com estados de oxidação −2, +4 e +6. O selénio cinzento é fotocondutor; no corpo sou o 21.º aminoácido, a selenocisteína, no centro de enzimas antioxidantes.',
     },
     pl: {
-      kid: 'Witaj! Jestem selenem, a moja nazwa pochodzi od Księżyca. Mam dwie ręce, jak moi kuzyni tlen i siarka. Twój organizm potrzebuje odrobiny mnie każdego dnia: jeden orzech brazylijski zawiera mniej więcej tyle, ile trzeba na cały dzień! Ale za dużo mnie szkodzi.',
+      kid: 'Cześć! Jestem Selen, a moja nazwa pochodzi od Księżyca. Mam dwie ręce, jak moi kuzyni tlen i siarka. Twój organizm potrzebuje odrobiny mnie każdego dnia: jeden orzech brazylijski zawiera mniej więcej tyle, ile trzeba na cały dzień! Ale za dużo mnie szkodzi.',
       sci: 'Selen: [Ar] 3d10 4s2 4p4, dwa wiązania jak w H2Se, stopnie utlenienia −2, +4 i +6. Selen szary jest fotoprzewodnikiem; w organizmie jestem 21. aminokwasem, selenocysteiną, w samym sercu enzymów antyoksydacyjnych.',
     },
     de: {
-      kid: 'Hallo! Ich bin Selen, benannt nach dem Mond. Zwei Hände, wie meine Cousins Sauerstoff und Schwefel. Dein Körper braucht jeden Tag ein winziges bisschen von mir: Eine einzige Paranuss enthält ungefähr eine Tagesmenge! Aber zu viel von mir schadet.',
+      kid: 'Hallo! Ich bin das Selen, benannt nach dem Mond. Zwei Hände, wie meine Cousins Sauerstoff und Schwefel. Dein Körper braucht jeden Tag ein winziges bisschen von mir: Eine einzige Paranuss enthält ungefähr eine Tagesmenge! Aber zu viel von mir schadet.',
       sci: 'Selen: [Ar] 3d10 4s2 4p4, zwei Bindungen wie in H2Se, mit den Oxidationsstufen −2, +4 und +6. Graues Selen ist ein Fotoleiter; im Körper bin ich die 21. Aminosäure, Selenocystein, im Herzen antioxidativer Enzyme.',
     },
   },

@@ -10,11 +10,11 @@ export default {
       sci: 'Neodímio: [Xe] 4f4 6s2, como Nd3+ (4f3). O Nd2Fe14B, descoberto entre 1982 e 1984, faz os ímanes permanentes mais fortes que se conhecem, com produtos energéticos até cerca de 450 kJ/m³; o Nd3+ no YAG ou no vidro é o ião laser clássico de 1064 nm.',
     },
     pl: {
-      kid: 'Cześć! Jestem neodym, „nowy bliźniak”, i robię najsilniejsze magnesy na świecie! Trzy ręce na trzy elektrony, które oddaję. Jestem w twoich słuchawkach, telefonach, samochodach elektrycznych i w olbrzymich turbinach wiatrowych, które wytwarzają prąd.',
+      kid: 'Cześć! Jestem Neodym, „nowy bliźniak”, i robię najsilniejsze magnesy na świecie! Trzy ręce na trzy elektrony, które oddaję. Jestem w twoich słuchawkach, telefonach, samochodach elektrycznych i w olbrzymich turbinach wiatrowych, które wytwarzają prąd.',
       sci: 'Neodym: [Xe] 4f4 6s2, jako Nd3+ (4f3). Nd2Fe14B, odkryty w latach 1982 do 1984, tworzy najsilniejsze znane magnesy trwałe, z iloczynem energetycznym do około 450 kJ/m³; Nd3+ w YAG lub w szkle to klasyczny jon laserowy 1064 nm.',
     },
     de: {
-      kid: 'Hallo! Ich bin Neodym, der „neue Zwilling“, und ich mache die stärksten Magnete der Welt! Drei Hände für die drei Elektronen, die ich abgebe. Ich stecke in deinen Kopfhörern, in Handys, Elektroautos und den riesigen Windrädern, die Strom erzeugen.',
+      kid: 'Hallo! Ich bin das Neodym, der „neue Zwilling“, und ich mache die stärksten Magnete der Welt! Drei Hände für die drei Elektronen, die ich abgebe. Ich stecke in deinen Kopfhörern, in Handys, Elektroautos und den riesigen Windrädern, die Strom erzeugen.',
       sci: 'Neodym: [Xe] 4f4 6s2, als Nd3+ (4f3). Nd2Fe14B, gefunden zwischen 1982 und 1984, ergibt die stärksten bekannten Dauermagnete, mit Energieprodukten bis etwa 450 kJ/m³; Nd3+ in YAG oder Glas ist das klassische Laser-Ion für 1064 nm.',
     },
   },

@@ -14,7 +14,7 @@ export default {
       sci: 'Potas: jeden elektron 4s, oddawany już przy 4,34 eV, więc prawie wszędzie jestem K+. Bardziej miękki i reaktywny niż sód oraz główny jon dodatni wewnątrz twoich komórek (około 140 mmol/L).',
     },
     de: {
-      kid: 'Hallo! Ich bin Kalium. Siehst du das Elektron in meiner Hand? Ich gebe es noch schneller her als mein Cousin Natrium! Du brauchst mich jeden Tag: Bananen, Kartoffeln und Bohnen sind voll von mir, und ich helfe deinem Herzen zu schlagen.',
+      kid: 'Hallo! Ich bin das Kalium. Siehst du das Elektron in meiner Hand? Ich gebe es noch schneller her als mein Cousin Natrium! Du brauchst mich jeden Tag: Bananen, Kartoffeln und Bohnen sind voll von mir, und ich helfe deinem Herzen zu schlagen.',
       sci: 'Kalium: ein 4s-Elektron, abgegeben schon bei 4,34 eV, deshalb bin ich fast überall K+. Weicher und reaktiver als Natrium und das wichtigste positive Ion in deinen Zellen (etwa 140 mmol/L).',
     },
   },

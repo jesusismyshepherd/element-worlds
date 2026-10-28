@@ -317,9 +317,9 @@ export const FIRE_WORDS = {
   },
 
   pl: {
-    back: 'Wróć do sali tlenu',
+    back: 'Powrót do sali: Tlen',
     kicker: 'Ogień',
-    talkTo: 'Porozmawiaj z',
+    talkTo: 'Porozmawiaj',
     busy: { kid: 'Chwileczkę: to jeszcze trwa!', sci: 'Chwila: poprzednia próba jeszcze trwa.' },
     talk: {
       kid: [
@@ -472,7 +472,7 @@ export const FIRE_WORDS = {
   },
 
   de: {
-    back: 'Zurück zur Sauerstoffhalle',
+    back: 'Zurück zur Halle: Sauerstoff',
     kicker: 'Feuer',
     talkTo: 'Sprich mit',
     busy: { kid: 'Warte kurz: es passiert noch!', sci: 'Einen Moment: der letzte Durchlauf läuft noch.' },

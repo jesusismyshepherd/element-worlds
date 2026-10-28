@@ -10,11 +10,11 @@ export default {
       sci: 'Nióbio: [Kr] 4d4 5s1, sobretudo Nb(V) (Nb2O5, os niobatos); o Atomito mostra no máximo quatro mãos. O elemento com a temperatura crítica de supercondutividade mais alta à pressão normal, 9,2 K; cerca de nove décimos da minha produção vão para o aço.',
     },
     pl: {
-      kid: 'Cześć! Jestem niobem. Pokazuję cztery ręce, ale potrafię oddać nawet pięć elektronów. Szczypta mnie sprawia, że stal jest dużo mocniejsza, a gdy schłodzić mnie prawie do zera bezwzględnego, przewodzę prąd bez żadnego oporu!',
-      sci: 'Niob: [Kr] 4d4 5s1, głównie Nb(V) (Nb2O5, niobiany); Atomling pokazuje najwyżej cztery ręce. Pierwiastek o najwyższej temperaturze krytycznej nadprzewodnictwa pod ciśnieniem normalnym, 9,2 K; około dziewięciu dziesiątych mojej produkcji trafia do stali.',
+      kid: 'Cześć! Jestem Niob. Pokazuję cztery ręce, ale potrafię oddać nawet pięć elektronów. Szczypta mnie sprawia, że stal jest dużo mocniejsza, a gdy schłodzić mnie prawie do zera bezwzględnego, przewodzę prąd bez żadnego oporu!',
+      sci: 'Niob: [Kr] 4d4 5s1, głównie Nb(V) (Nb2O5, niobiany); Atomek pokazuje najwyżej cztery ręce. Pierwiastek o najwyższej temperaturze krytycznej nadprzewodnictwa pod ciśnieniem normalnym, 9,2 K; około dziewięciu dziesiątych mojej produkcji trafia do stali.',
     },
     de: {
-      kid: 'Hallo! Ich bin Niob. Ich zeige vier Hände, kann aber bis zu fünf Elektronen abgeben. Eine Prise von mir macht Stahl viel fester, und wenn man mich fast bis zum absoluten Nullpunkt kühlt, leite ich Strom ganz ohne Widerstand!',
+      kid: 'Hallo! Ich bin das Niob. Ich zeige vier Hände, kann aber bis zu fünf Elektronen abgeben. Eine Prise von mir macht Stahl viel fester, und wenn man mich fast bis zum absoluten Nullpunkt kühlt, leite ich Strom ganz ohne Widerstand!',
       sci: 'Niob: [Kr] 4d4 5s1, meist Nb(V) (Nb2O5, die Niobate); der Atomling zeigt höchstens vier Hände. Das Element mit der höchsten Sprungtemperatur der Supraleitung bei Normaldruck, 9,2 K; etwa neun Zehntel meiner Produktion gehen in Stahl.',
     },
   },

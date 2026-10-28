@@ -10,11 +10,11 @@ export default {
       sci: 'Arsénio: [Ar] 3d10 4s2 4p3, três ligações (AsH3, AsCl3) e estados de oxidação −3, +3 e +5. O arsénio cinzento é um semimetal frágil; à pressão normal sublimo a 614 °C em vez de fundir, a não ser que me apertem a cerca de 36 atmosferas.',
     },
     pl: {
-      kid: 'Witaj! Jestem arsenem, w połowie metalem, a w połowie nie (widzisz moją antenkę?). Mam trzy ręce, jak moi kuzyni azot i fosfor. Słynę jako trucizna, więc ludzie obchodzą się ze mną ostrożnie, ale pomagam też robić szybkie układy scalone i lek na jeden z rodzajów białaczki.',
+      kid: 'Cześć! Jestem Arsen, w połowie metal, a w połowie nie (widzisz moją antenkę?). Mam trzy ręce, jak moi kuzyni azot i fosfor. Słynę jako trucizna, więc ludzie obchodzą się ze mną ostrożnie, ale pomagam też robić szybkie układy scalone i lek na jeden z rodzajów białaczki.',
       sci: 'Arsen: [Ar] 3d10 4s2 4p3, trzy wiązania (AsH3, AsCl3) i stopnie utlenienia −3, +3 i +5. Arsen szary to kruchy półmetal; pod ciśnieniem normalnym sublimuję w 614 °C, zamiast się topić, chyba że ściśnie się mnie do około 36 atmosfer.',
     },
     de: {
-      kid: 'Hallo! Ich bin Arsen, halb Metall und halb nicht (siehst du meine Antenne?). Drei Hände, wie meine Cousins Stickstoff und Phosphor. Ich bin als Gift berühmt, darum gehen die Menschen vorsichtig mit mir um, aber ich helfe auch, schnelle Chips und ein Medikament gegen eine Art von Leukämie herzustellen.',
+      kid: 'Hallo! Ich bin das Arsen, halb Metall und halb nicht (siehst du meine Antenne?). Drei Hände, wie meine Cousins Stickstoff und Phosphor. Ich bin als Gift berühmt, darum gehen die Menschen vorsichtig mit mir um, aber ich helfe auch, schnelle Chips und ein Medikament gegen eine Art von Leukämie herzustellen.',
       sci: 'Arsen: [Ar] 3d10 4s2 4p3, drei Bindungen (AsH3, AsCl3) und die Oxidationsstufen −3, +3 und +5. Graues Arsen ist ein sprödes Halbmetall; bei Normaldruck sublimiere ich bei 614 °C, statt zu schmelzen, außer man presst mich auf etwa 36 Atmosphären.',
     },
   },

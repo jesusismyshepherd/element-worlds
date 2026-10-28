@@ -426,7 +426,7 @@ const PT = {
 }
 
 const PL = {
-  back: 'Powrót do atrium',
+  back: 'Powrót do sali: Węgiel',
   kicker: 'Węgiel życia',
   decimal: ',',
   talkTo: 'Porozmawiaj',
@@ -634,10 +634,10 @@ const PL = {
 }
 
 const DE = {
-  back: 'Zurück zum Atrium',
+  back: 'Zurück zur Halle: Kohlenstoff',
   kicker: 'Der Kohlenstoff des Lebens',
   decimal: ',',
-  talkTo: 'Sprechen mit',
+  talkTo: 'Sprich mit',
   fmt: groupPT,
   years: 'Jahre',
   greeting: {
@@ -672,10 +672,10 @@ const DE = {
       `${years} Jahre: 1/256 ist übrig. Nach etwa 50 000 Jahren ist zu wenig übrig, um es zu messen.`,
     ][h],
   },
-  verbs: { night: 'Nacht machen', day: 'Tag machen' },
+  verbs: { night: 'Mach Nacht', day: 'Mach Tag' },
   ex: {
     tree: {
-      label: 'den atmenden Baum', verb: 'Ansehen',
+      label: 'den atmenden Baum', verb: 'Betrachte',
       sign: { title: 'Der atmende Baum', kid: 'Im Sonnenlicht atmet er Kohlendioxid ein und Sauerstoff aus.', sci: 'Photosynthese: Kohlendioxid und Wasser ergeben mit Licht Glucose und Sauerstoff.' },
       panel: {
         title: 'Der atmende Baum',
@@ -701,7 +701,7 @@ const DE = {
       sign: { title: 'Tag und Nacht', kid: 'Dreh den Regler: kein Licht, keine Photosynthese.', sci: 'Im Dunkeln läuft nur die Atmung weiter.' },
     },
     body: {
-      label: 'den Kohlenstoff in dir', verb: 'Füllen',
+      label: 'den Kohlenstoff in dir', verb: 'Füll',
       sign: { title: 'Du bist zu 18% Kohlenstoff', kid: 'Woraus dein Körper besteht, nach Masse.', sci: 'Nach Masse: O 65, C 18, H 10, N 3, Ca 1,5, P 1 (Prozent).' },
       panel: {
         title: 'Du bist zu 18% Kohlenstoff',
@@ -719,7 +719,7 @@ const DE = {
       },
     },
     c14: {
-      label: 'die Kohlenstoff-14-Uhr', verb: '5730 Jahre vordrehen',
+      label: 'die Kohlenstoff-14-Uhr', verb: 'Dreh 5730 Jahre vor',
       sign: { title: 'Radiokarbondatierung', kid: 'Alle 5730 Jahre verschwindet die Hälfte des Kohlenstoff-14.', sci: 'Halbwertszeit 5730 Jahre; Betazerfall zu Stickstoff-14; datiert bis etwa 50 000 Jahre.' },
       panel: {
         title: 'Radiokarbondatierung',
@@ -742,7 +742,7 @@ const DE = {
       },
     },
     cycle: {
-      label: 'den Kohlenstoffkreislauf', verb: 'Ansehen',
+      label: 'den Kohlenstoffkreislauf', verb: 'Betrachte',
       sign: { title: 'Kohlenstoffkreislauf', kid: 'Kohlenstoff wandert im Kreis: Luft, Pflanzen, Tiere, Boden.', sci: 'Speicher in Gigatonnen Kohlenstoff (Gt C); Flüsse in Gt C pro Jahr.' },
       panel: {
         title: 'Der Kohlenstoffkreislauf',
@@ -771,7 +771,7 @@ const DE = {
       },
     },
     methane: {
-      name: 'Methan', formula: 'CH4', label: 'Methan', verb: 'Ansehen',
+      name: 'Methan', formula: 'CH4', label: 'Methan', verb: 'Betrachte',
       panel: {
         title: 'Methan, CH₄',
         kid: [
@@ -785,7 +785,7 @@ const DE = {
       },
     },
     ethane: {
-      name: 'Ethan', formula: 'C2H6', label: 'Ethan', verb: 'Ansehen',
+      name: 'Ethan', formula: 'C2H6', label: 'Ethan', verb: 'Betrachte',
       panel: {
         title: 'Ethan, C₂H₆',
         kid: [
@@ -798,7 +798,7 @@ const DE = {
       },
     },
     ethanol: {
-      name: 'Ethanol', formula: 'C2H5OH', label: 'Ethanol', verb: 'Ansehen',
+      name: 'Ethanol', formula: 'C2H5OH', label: 'Ethanol', verb: 'Betrachte',
       panel: {
         title: 'Ethanol, C₂H₅OH',
         kid: [
@@ -811,7 +811,7 @@ const DE = {
       },
     },
     benzene: {
-      name: 'Benzol', formula: 'C6H6', label: 'Benzol', verb: 'Ansehen',
+      name: 'Benzol', formula: 'C6H6', label: 'Benzol', verb: 'Betrachte',
       panel: {
         title: 'Benzol, C₆H₆',
         kid: [
@@ -825,7 +825,7 @@ const DE = {
       },
     },
     glucose: {
-      name: 'Glucose', formula: 'C6H12O6', label: 'Glucose', verb: 'Ansehen',
+      name: 'Glucose', formula: 'C6H12O6', label: 'Glucose', verb: 'Betrachte',
       panel: {
         title: 'Glucose, C₆H₁₂O₆',
         kid: [

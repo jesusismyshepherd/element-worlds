@@ -10,11 +10,11 @@ export default {
       sci: 'Darmstácio: previsto [Rn] 5f14 6d8 7s2, grupo 10, por baixo do níquel, do paládio e da platina. Prevê-se que seja um metal muito nobre, cúbico de corpo centrado, ao contrário dos primos mais leves. O seu isótopo de vida longa mais conhecido, o Ds-281, dura cerca de 14 segundos.',
     },
     pl: {
-      kid: 'Cześć! Jestem darmsztadtem, nazwanym od niemieckiego miasta Darmstadt, w którym mnie zrobiono w 1994 roku. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam dwie ręce i wyciągam w nich dwa elektrony, które podobno oddaję, tak jak moja kuzynka platyna.',
+      kid: 'Cześć! Jestem Darmsztadt, nazwany od niemieckiego miasta Darmstadt, w którym mnie zrobiono w 1994 roku. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam dwie ręce i wyciągam w nich dwa elektrony, które podobno oddaję, tak jak moja kuzynka platyna.',
       sci: 'Darmsztadt: przewidywana konfiguracja [Rn] 5f14 6d8 7s2, grupa 10 pod niklem, palladem i platyną. Według przewidywań bardzo szlachetny metal o sieci regularnej przestrzennie centrowanej, w odróżnieniu od lżejszych kuzynów. Jego najlepiej znany długo żyjący izotop, Ds-281, żyje około 14 sekund.',
     },
     de: {
-      kid: 'Hi! Ich bin das Darmstadtium, benannt nach der deutschen Stadt Darmstadt, wo ich 1994 gemacht wurde. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Zwei Hände, die die zwei Elektronen hinhalten, die ich vermutlich abgebe, wie mein Cousin Platin.',
+      kid: 'Hallo! Ich bin das Darmstadtium, benannt nach der deutschen Stadt Darmstadt, wo ich 1994 gemacht wurde. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Zwei Hände, die die zwei Elektronen hinhalten, die ich vermutlich abgebe, wie mein Cousin Platin.',
       sci: 'Darmstadtium: vorhergesagt [Rn] 5f14 6d8 7s2, Gruppe 10 unter Nickel, Palladium und Platin. Vorhergesagt als sehr edles Metall, kubisch-raumzentriert, anders als seine leichteren Verwandten. Sein bekanntestes langlebiges Isotop, Ds-281, lebt etwa 14 Sekunden.',
     },
   },

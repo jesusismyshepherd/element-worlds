@@ -14,7 +14,7 @@ export default {
       sci: 'Rtęć: [Xe] 4f14 5d10 6s2, jako Hg2+ i jako jon Hg2 2+ z wiązaniem Hg-Hg. Topi się w −38,8 °C: relatywistyczne skurczenie pary 6s osłabia wiązanie metaliczne. Gęstość 13,5 g/cm³.',
     },
     de: {
-      kid: 'Hallo! Ich bin Quecksilber, das einzige Metall, das bei Raumtemperatur flüssig ist, deshalb gleite ich, statt zu laufen! Zwei Hände für die zwei Elektronen, die ich abgebe. Ich werde gern in geschlossenen Gläsern aufbewahrt: Meinen Dampf sollte man nicht einatmen.',
+      kid: 'Hallo! Ich bin das Quecksilber, das einzige Metall, das bei Raumtemperatur flüssig ist, deshalb gleite ich, statt zu laufen! Zwei Hände für die zwei Elektronen, die ich abgebe. Ich werde gern in geschlossenen Gläsern aufbewahrt: Meinen Dampf sollte man nicht einatmen.',
       sci: 'Quecksilber: [Xe] 4f14 5d10 6s2, als Hg2+ und als Ion Hg2 2+ mit einer Hg-Hg-Bindung. Schmilzt bei −38,8 °C: Die relativistische Kontraktion des 6s-Paars schwächt die metallische Bindung. Dichte 13,5 g/cm³.',
     },
   },

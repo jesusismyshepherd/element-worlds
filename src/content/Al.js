@@ -10,7 +10,7 @@ export default {
       sci: 'Alumínio: três eletrões de valência (3s2 3p1), que cedo como Al3+. O metal mais abundante da crosta terrestre (8,2%), leve (2,70 g/cm³) e protegido por uma película passiva de óxido com poucos nanómetros de espessura.',
     },
     pl: {
-      kid: 'Cześć! Jestem glinem, choć na co dzień mówicie na mnie aluminium: to ja jestem metalem puszek, folii i samolotów. Wyciągam trzy elektrony, gotów oddać je wszystkie. Wyglądam delikatnie, ale niewidzialna skórka z tlenku chroni mnie przed korozją.',
+      kid: 'Cześć! Jestem Glin, choć na co dzień mówicie na mnie aluminium: to ja jestem metalem puszek, folii i samolotów. Wyciągam trzy elektrony, gotów oddać je wszystkie. Wyglądam delikatnie, ale niewidzialna skórka z tlenku chroni mnie przed korozją.',
       sci: 'Glin: trzy elektrony walencyjne (3s2 3p1), oddawane jako Al3+. Najpowszechniejszy metal w skorupie ziemskiej (8,2%), lekki (2,70 g/cm³) i chroniony pasywną warstewką tlenku o grubości kilku nanometrów.',
     },
     de: {

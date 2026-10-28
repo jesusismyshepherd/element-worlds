@@ -14,7 +14,7 @@ export default {
       sci: 'Żelazo: [Ar] 3d6 4s2, zwykle Fe2+ lub Fe3+. Najobficiej występujący pierwiastek Ziemi jako całości (około 32% masy), 5,6% skorupy ziemskiej i popiół gwiazd: synteza żelaza w cięższe jądra nie uwalnia energii.',
     },
     de: {
-      kid: 'Hallo! Ich bin Eisen. Drei Hände, eine für jedes Elektron, das ich abgeben kann. Ich bin in deinem Blut, in Brücken und Autos und ganz in der Mitte der Erde!',
+      kid: 'Hallo! Ich bin das Eisen. Drei Hände, eine für jedes Elektron, das ich abgeben kann. Ich bin in deinem Blut, in Brücken und Autos und ganz in der Mitte der Erde!',
       sci: 'Eisen: [Ar] 3d6 4s2, meist Fe2+ oder Fe3+. Das häufigste Element der Erde als Ganzes (etwa 32% der Masse), 5,6% der Erdkruste und die Asche der Sterne: Die Fusion von Eisen zu schwereren Kernen setzt keine Energie frei.',
     },
   },

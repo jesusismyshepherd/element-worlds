@@ -14,7 +14,7 @@ export default {
       sci: 'Astat: [Xe] 4f14 5d10 6s2 6p5, najcięższy fluorowiec występujący w przyrodzie, o stopniach utlenienia od −1 do +7. Jego pierwsza energia jonizacji, zmierzona w CERN-ie w 2013 roku, wynosi 9,32 eV. Najdłużej żyjący izotop, At-210, ma okres półtrwania 8,1 godziny.',
     },
     de: {
-      kid: 'Hallo! Ich bin Astat, das seltenste Element, das in der Natur vorkommt. Eine Hand, ausgestreckt, um ein Elektron zu schnappen, wie bei meinen Halogen-Cousins. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und noch nie hat jemand ein Stück von mir gesehen: Es gibt so wenig von mir, und ich zerfalle so schnell.',
+      kid: 'Hallo! Ich bin das Astat, das seltenste Element, das in der Natur vorkommt. Eine Hand, ausgestreckt, um ein Elektron zu schnappen, wie bei meinen Halogen-Cousins. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und noch nie hat jemand ein Stück von mir gesehen: Es gibt so wenig von mir, und ich zerfalle so schnell.',
       sci: 'Astat: [Xe] 4f14 5d10 6s2 6p5, das schwerste in der Natur vorkommende Halogen, mit Oxidationsstufen von −1 bis +7. Seine erste Ionisierungsenergie, 2013 am CERN gemessen, beträgt 9,32 eV. Das langlebigste Isotop, At-210, hat eine Halbwertszeit von 8,1 Stunden.',
     },
   },

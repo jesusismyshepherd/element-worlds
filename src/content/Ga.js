@@ -10,11 +10,11 @@ export default {
       sci: 'Gálio: [Ar] 3d10 4s2 4p1, sobretudo Ga3+. Fundo a 29,76 °C mas só fervo acima de 2000 °C, um dos maiores intervalos de líquido de todos os elementos; o GaN e o GaAs fazem de mim um metal essencial dos semicondutores.',
     },
     pl: {
-      kid: 'Cześć! Jestem galem, metalem, który topi się w temperaturze około 30 °C: kawałek mnie robi się płynny od ciepła twojej dłoni! Wyciągam trzy elektrony, po jednym w każdej ręce. Jestem w układach scalonych telefonów i w diodach LED, które oświetlają twój dom.',
+      kid: 'Cześć! Jestem Gal, metal, który topi się w temperaturze około 30 °C: kawałek mnie robi się płynny od ciepła twojej dłoni! Wyciągam trzy elektrony, po jednym w każdej ręce. Jestem w układach scalonych telefonów i w diodach LED, które oświetlają twój dom.',
       sci: 'Gal: [Ar] 3d10 4s2 4p1, głównie Ga3+. Topię się w 29,76 °C, a wrę dopiero powyżej 2000 °C, co daje jeden z najszerszych zakresów stanu ciekłego wśród wszystkich pierwiastków; GaN i GaAs czynią mnie kluczowym metalem półprzewodników.',
     },
     de: {
-      kid: 'Hallo! Ich bin Gallium, ein Metall, das bei etwa 30 °C schmilzt: Ein Stück von mir wird in der Wärme deiner Hand flüssig! Ich halte drei Elektronen hin, eins in jeder Hand. Ich stecke in Handychips und in den LEDs, die dein Zuhause beleuchten.',
+      kid: 'Hallo! Ich bin das Gallium, ein Metall, das bei etwa 30 °C schmilzt: Ein Stück von mir wird in der Wärme deiner Hand flüssig! Ich halte drei Elektronen hin, eins in jeder Hand. Ich stecke in Handychips und in den LEDs, die dein Zuhause beleuchten.',
       sci: 'Gallium: [Ar] 3d10 4s2 4p1, meist Ga3+. Ich schmelze bei 29,76 °C, siede aber erst über 2000 °C, einer der größten Flüssigkeitsbereiche aller Elemente; GaN und GaAs machen mich zu einem Schlüsselmetall der Halbleitertechnik.',
     },
   },

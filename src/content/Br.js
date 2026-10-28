@@ -10,11 +10,11 @@ export default {
       sci: 'Bromo: [Ar] 3d10 4s2 4p5, falta-me um eletrão para o octeto, por isso uma ligação (ou Br−). Líquido, como Br2, entre −7 °C e 59 °C: um dos dois únicos elementos líquidos à temperatura ambiente, com o mercúrio.',
     },
     pl: {
-      kid: 'Cześć! Jestem bromem, ciemnoczerwoną cieczą, więc zamiast chodzić, ślizgam się. Mam jedną rękę: uwielbiam łapać jeden elektron. Brzydko pachnę i parzę, więc chemicy trzymają mnie w zamkniętych butelkach!',
+      kid: 'Cześć! Jestem Brom, ciemnoczerwona ciecz, więc zamiast chodzić, ślizgam się. Mam jedną rękę: uwielbiam łapać jeden elektron. Brzydko pachnę i parzę, więc chemicy trzymają mnie w zamkniętych butelkach!',
       sci: 'Brom: [Ar] 3d10 4s2 4p5, brakuje mi jednego elektronu do oktetu, więc tworzę jedno wiązanie (albo Br−). Jako Br2 jestem cieczą od −7 °C do 59 °C: obok rtęci jednym z zaledwie dwóch pierwiastków ciekłych w temperaturze pokojowej.',
     },
     de: {
-      kid: 'Hallo! Ich bin Brom, eine dunkelrote Flüssigkeit, darum gleite ich, statt zu gehen. Eine Hand: Ich schnappe mir für mein Leben gern ein Elektron. Ich stinke und ätze, darum bewahren Chemiker mich in geschlossenen Flaschen auf!',
+      kid: 'Hallo! Ich bin das Brom, eine dunkelrote Flüssigkeit, darum gleite ich, statt zu gehen. Eine Hand: Ich schnappe mir für mein Leben gern ein Elektron. Ich stinke und ätze, darum bewahren Chemiker mich in geschlossenen Flaschen auf!',
       sci: 'Brom: [Ar] 3d10 4s2 4p5, mir fehlt ein Elektron zum Oktett, also eine Bindung (oder Br−). Als Br2 flüssig von −7 °C bis 59 °C: neben Quecksilber eines von nur zwei Elementen, die bei Raumtemperatur flüssig sind.',
     },
   },

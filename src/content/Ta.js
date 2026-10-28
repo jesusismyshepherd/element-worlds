@@ -10,7 +10,7 @@ export default {
       sci: 'Tântalo: [Xe] 4f14 5d3 6s2, sobretudo Ta(V) (Ta2O5); o Atomito mostra no máximo quatro mãos. Ponto de fusão de 3017 °C; uma película densa e protetora de Ta2O5 torna-me quase imune aos ácidos abaixo de 150 °C, exceto ao ácido fluorídrico.',
     },
     pl: {
-      kid: 'Cześć! Jestem tantalem. Pokazuję cztery ręce, ale potrafię oddać pięć elektronów. Prawie żaden kwas nie może mi zaszkodzić, a twojemu ciału zupełnie nie przeszkadzam, więc chirurdzy używają mnie do implantów. Jestem też w telefonach, w maleńkich częściach, które przechowują elektryczność.',
+      kid: 'Cześć! Jestem Tantal. Pokazuję cztery ręce, ale potrafię oddać pięć elektronów. Prawie żaden kwas nie może mi zaszkodzić, a twojemu ciału zupełnie nie przeszkadzam, więc chirurdzy używają mnie do implantów. Jestem też w telefonach, w maleńkich częściach, które przechowują elektryczność.',
       sci: 'Tantal: [Xe] 4f14 5d3 6s2, głównie Ta(V) (Ta2O5); Atomek pokazuje najwyżej cztery ręce. Temperatura topnienia 3017 °C; gęsta, ochronna warstewka Ta2O5 czyni mnie prawie odpornym na kwasy poniżej 150 °C, z wyjątkiem kwasu fluorowodorowego.',
     },
     de: {

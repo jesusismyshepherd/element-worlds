@@ -10,7 +10,7 @@ export default {
       sci: 'Laurêncio: prevê-se que o estado fundamental seja [Rn] 5f14 7s2 7p1 e não 6d1, por efeitos relativistas; a medição da energia de ionização em 2015 (4,96 eV) apoia isto. Lr(III) em solução.',
     },
     pl: {
-      kid: 'Cześć! Jestem lorensem, ostatnim z aktynowców. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy. Noszę imię Ernesta Lawrence’a, który wynalazł cyklotron, maszynę, która rozpędza cząstki w kółko, żeby tworzyć atomy takie jak ja.',
+      kid: 'Cześć! Jestem Lorens, ostatni z aktynowców. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy. Noszę imię Ernesta Lawrence’a, który wynalazł cyklotron, maszynę, która rozpędza cząstki w kółko, żeby tworzyć atomy takie jak ja.',
       sci: 'Lorens: przewiduje się, że jego stan podstawowy to [Rn] 5f14 7s2 7p1, a nie 6d1, z powodu efektów relatywistycznych; przemawia za tym pomiar jego energii jonizacji z 2015 roku (4,96 eV). W roztworze Lr(III).',
     },
     de: {

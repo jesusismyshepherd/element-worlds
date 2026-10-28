@@ -10,11 +10,11 @@ export default {
       sci: "Hássio: [Rn] 5f14 6d6 7s2, grupo 8, por baixo do ferro, do ruténio e do ósmio; Hs(VIII), como no tetróxido volátil HsO4. O Atomito mostra quatro mãos. O Hs-270 tem um núcleo deformado 'duplamente mágico': 108 protões e 162 neutrões.",
     },
     pl: {
-      kid: 'Cześć! Jestem hasem, nazwanym od Hesji, niemieckiego kraju związkowego, w którym mnie zrobiono. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć mogę oddać osiem elektronów, tak jak mój kuzyn osm.',
+      kid: 'Cześć! Jestem Has, nazwany od Hesji, niemieckiego kraju związkowego, w którym mnie zrobiono. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć mogę oddać osiem elektronów, tak jak mój kuzyn osm.',
       sci: 'Has: [Rn] 5f14 6d6 7s2, grupa 8 pod żelazem, rutenem i osmem; Hs(VIII), jak w lotnym tetratlenku HsO4. Atomek pokazuje cztery ręce. Hs-270 ma zdeformowane jądro „podwójnie magiczne”: 108 protonów i 162 neutrony.',
     },
     de: {
-      kid: 'Hi! Ich bin das Hassium, benannt nach Hessen, dem deutschen Bundesland, in dem ich gemacht wurde. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Ich zeige vier Hände, obwohl ich acht Elektronen abgeben kann, wie mein Cousin Osmium.',
+      kid: 'Hallo! Ich bin das Hassium, benannt nach Hessen, dem deutschen Bundesland, in dem ich gemacht wurde. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Ich zeige vier Hände, obwohl ich acht Elektronen abgeben kann, wie mein Cousin Osmium.',
       sci: 'Hassium: [Rn] 5f14 6d6 7s2, Gruppe 8 unter Eisen, Ruthenium und Osmium; Hs(VIII), wie im flüchtigen Tetroxid HsO4. Der Atomling zeigt vier Hände. Hs-270 hat einen deformierten „doppelt magischen“ Kern: 108 Protonen und 162 Neutronen.',
     },
   },

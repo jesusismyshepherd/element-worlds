@@ -10,7 +10,7 @@ export default {
       sci: 'Háfnio: [Xe] 4f14 5d2 6s2, Hf(IV). Por causa da contração dos lantanídeos, o Hf4+ e o Zr4+ têm quase o mesmo tamanho (71 e 72 pm), por isso somos gémeos químicos quase idênticos; mas o háfnio absorve neutrões térmicos cerca de 500 vezes mais do que o zircónio.',
     },
     pl: {
-      kid: 'Cześć! Jestem hafnem. Cztery ręce, po jednej na każdy elektron, który oddaję. Jestem identycznym bliźniakiem cyrkonu: jesteśmy tak podobni, że aż do 1923 roku ukrywałem się w jego minerałach! Teraz jestem w chipach komputerowych i w prętach sterujących atomowych okrętów podwodnych.',
+      kid: 'Cześć! Jestem Hafn. Cztery ręce, po jednej na każdy elektron, który oddaję. Jestem identycznym bliźniakiem cyrkonu: jesteśmy tak podobni, że aż do 1923 roku ukrywałem się w jego minerałach! Teraz jestem w chipach komputerowych i w prętach sterujących atomowych okrętów podwodnych.',
       sci: 'Hafn: [Xe] 4f14 5d2 6s2, Hf(IV). Dzięki kontrakcji lantanowców Hf4+ i Zr4+ mają prawie ten sam rozmiar (71 i 72 pm), więc jesteśmy niemal identycznymi chemicznymi bliźniakami; a jednak hafn pochłania neutrony termiczne około 500 razy silniej niż cyrkon.',
     },
     de: {

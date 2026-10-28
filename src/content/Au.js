@@ -14,7 +14,7 @@ export default {
       sci: 'Złoto: [Xe] 4f14 5d10 6s1, jako Au(I) i Au(III). Efekty relatywistyczne czynią mnie żółtym i najbardziej elektroujemnym metalem (2,54). Jestem też najbardziej kowalnym metalem.',
     },
     de: {
-      kid: 'Hallo! Ich bin Gold, das glänzende gelbe Metall, das alle lieben. Ich habe drei Hände für die Elektronen, die ich abgeben kann, aber ich gebe sie fast nie ab: Ich roste nie und glänze Tausende von Jahren lang!',
+      kid: 'Hallo! Ich bin das Gold, das glänzende gelbe Metall, das alle lieben. Ich habe drei Hände für die Elektronen, die ich abgeben kann, aber ich gebe sie fast nie ab: Ich roste nie und glänze Tausende von Jahren lang!',
       sci: 'Gold: [Xe] 4f14 5d10 6s1, als Au(I) und Au(III). Relativistische Effekte machen mich gelb und zum elektronegativsten Metall (2,54). Außerdem bin ich das am besten schmiedbare Metall.',
     },
   },

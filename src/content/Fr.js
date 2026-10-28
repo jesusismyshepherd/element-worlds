@@ -14,7 +14,7 @@ export default {
       sci: 'Frans: [Rn] 7s1, zawsze Fr(I). Jego pierwsza energia jonizacji (4,07 eV) jest wyższa niż cezu (3,89 eV): efekty relatywistyczne przyciągają elektron 7s bliżej jądra. Fr-223 (22 minuty) to jego najdłużej żyjący izotop.',
     },
     de: {
-      kid: 'Hallo! Ich bin Francium, das letzte der Alkalimetalle. Eine Hand, die mein einziges äußeres Elektron zum Verschenken hinhält. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin: Die Hälfte von jedem Francium ist in 22 Minuten weg, deshalb gibt es mich fast nirgends.',
+      kid: 'Hallo! Ich bin das Francium, das letzte der Alkalimetalle. Eine Hand, die mein einziges äußeres Elektron zum Verschenken hinhält. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin: Die Hälfte von jedem Francium ist in 22 Minuten weg, deshalb gibt es mich fast nirgends.',
       sci: 'Francium: [Rn] 7s1, immer Fr(I). Seine erste Ionisierungsenergie (4,07 eV) ist höher als die von Caesium (3,89 eV): Relativistische Effekte ziehen das 7s-Elektron nach innen. Fr-223 (22 Minuten) ist sein langlebigstes Isotop.',
     },
   },

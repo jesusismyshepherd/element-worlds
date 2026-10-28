@@ -10,7 +10,7 @@ export default {
       sci: 'Samário: [Xe] 4f6 6s2, como Sm3+ e Sm2+ (o SmI2, um redutor de um eletrão poderoso). Os ímanes de SmCo5 e Sm2Co17 mantêm a força até cerca de 300 a 350 °C, muito acima dos de neodímio.',
     },
     pl: {
-      kid: 'Cześć! Jestem samarem. Mam trzy ręce, choć czasem oddaję tylko dwa elektrony. Robię magnesy, które zostają silne, nawet kiedy bardzo się nagrzeją, i byłem pierwszym pierwiastkiem nazwanym na cześć człowieka!',
+      kid: 'Cześć! Jestem Samar. Mam trzy ręce, choć czasem oddaję tylko dwa elektrony. Robię magnesy, które zostają silne, nawet kiedy bardzo się nagrzeją, i byłem pierwszym pierwiastkiem nazwanym na cześć człowieka!',
       sci: 'Samar: [Xe] 4f6 6s2, jako Sm3+ i Sm2+ (SmI2, silny reduktor jednoelektronowy). Magnesy SmCo5 i Sm2Co17 zachowują siłę do około 300 do 350 °C, znacznie powyżej magnesów neodymowych.',
     },
     de: {

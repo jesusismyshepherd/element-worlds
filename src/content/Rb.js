@@ -10,11 +10,11 @@ export default {
       sci: 'Rubídio: [Kr] 5s1, cedido com apenas 4,18 eV, por isso sou Rb+. Fundo a 39,3 °C e inflamo-me sozinho ao ar; a transição hiperfina de 6,83 GHz do 87Rb faz funcionar relógios atómicos compactos.',
     },
     pl: {
-      kid: 'Cześć! Jestem rubidem. Widzisz elektron w mojej ręce? Oddaję go jeszcze szybciej niż sód i potas! Jestem tak miękki i chętny, że sam zapalam się w powietrzu. W zegarach atomowych pomagam odmierzać czas prawie idealnie.',
+      kid: 'Cześć! Jestem Rubid. Widzisz elektron w mojej ręce? Oddaję go jeszcze szybciej niż sód i potas! Jestem tak miękki i chętny, że sam zapalam się w powietrzu. W zegarach atomowych pomagam odmierzać czas prawie idealnie.',
       sci: 'Rubid: [Kr] 5s1, oddawany przy zaledwie 4,18 eV, więc jestem Rb+. Topię się w 39,3 °C i sam zapalam się w powietrzu; przejście nadsubtelne 87Rb o częstotliwości 6,83 GHz napędza kompaktowe zegary atomowe.',
     },
     de: {
-      kid: 'Hallo! Ich bin Rubidium. Siehst du das Elektron in meiner Hand? Ich gebe es noch schneller ab als Natrium und Kalium! Ich bin so weich und eifrig, dass ich an der Luft von selbst Feuer fange. In Atomuhren helfe ich, die Zeit fast perfekt zu messen.',
+      kid: 'Hallo! Ich bin das Rubidium. Siehst du das Elektron in meiner Hand? Ich gebe es noch schneller ab als Natrium und Kalium! Ich bin so weich und eifrig, dass ich an der Luft von selbst Feuer fange. In Atomuhren helfe ich, die Zeit fast perfekt zu messen.',
       sci: 'Rubidium: [Kr] 5s1, abgegeben bei nur 4,18 eV, also bin ich Rb+. Ich schmelze bei 39,3 °C und entzünde mich an der Luft von selbst; der Hyperfeinübergang von 87Rb bei 6,83 GHz treibt kompakte Atomuhren an.',
     },
   },

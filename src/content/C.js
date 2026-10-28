@@ -11,8 +11,8 @@ export default {
       sci: 'Carbono: quatro eletrões de valência, quatro ligações e o esqueleto de milhões de compostos conhecidos. Ligações simples, duplas ou triplas, cadeias, anéis: faço tudo.',
     },
     pl: {
-      kid: 'Cześć! Jestem węglem. Widzisz moje cztery ręce? Mogę trzymać czterech przyjaciół naraz, więc buduję najwspanialsze rzeczy: diamenty, ołówki i wszystkie żywe istoty, także ciebie!',
-      sci: 'Tu węgiel: cztery elektrony walencyjne, cztery wiązania i szkielet milionów znanych związków. Wiązania pojedyncze, podwójne lub potrójne, łańcuchy, pierścienie: tworzę je wszystkie.',
+      kid: 'Cześć! Jestem Węgiel. Widzisz moje cztery ręce? Mogę trzymać czterech przyjaciół naraz, więc buduję najwspanialsze rzeczy: diamenty, ołówki i wszystkie żywe istoty, także ciebie!',
+      sci: 'Tu Węgiel: cztery elektrony walencyjne, cztery wiązania i szkielet milionów znanych związków. Wiązania pojedyncze, podwójne lub potrójne, łańcuchy, pierścienie: tworzę je wszystkie.',
     },
     de: {
       kid: 'Hallo! Ich bin der Kohlenstoff. Siehst du meine vier Hände? Ich kann vier Freunde gleichzeitig festhalten, deshalb baue ich die tollsten Sachen: Diamanten, Bleistifte und alle Lebewesen, dich eingeschlossen!',

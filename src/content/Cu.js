@@ -14,7 +14,7 @@ export default {
       sci: 'Miedź: [Ar] 3d10 4s1 (kolejny wyjątek), jako Cu2+ i Cu+. Po srebrze najlepszy przewodnik elektryczności; jeden z nielicznych barwnych metali; obrabiana od ponad 10 000 lat.',
     },
     de: {
-      kid: 'Hallo! Ich bin Kupfer, das rötliche Metall. Zwei Hände für die zwei Elektronen, die ich abgebe. Ich bringe den Strom durch die Leitungen in deinen Wänden, und ich war eines der allerersten Metalle, die Menschen je benutzt haben!',
+      kid: 'Hallo! Ich bin das Kupfer, das rötliche Metall. Zwei Hände für die zwei Elektronen, die ich abgebe. Ich bringe den Strom durch die Leitungen in deinen Wänden, und ich war eines der allerersten Metalle, die Menschen je benutzt haben!',
       sci: 'Kupfer: [Ar] 3d10 4s1 (eine weitere Ausnahme), als Cu2+ und Cu+. Nach Silber der beste elektrische Leiter; eines der wenigen farbigen Metalle; seit mehr als 10 000 Jahren bearbeitet.',
     },
   },

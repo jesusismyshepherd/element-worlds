@@ -10,7 +10,7 @@ export default {
       sci: 'Érbio: [Xe] 4f12 6s2, Er3+ (sais cor-de-rosa). A transição do Er3+ perto de 1,53 a 1,56 µm cai na janela de baixas perdas da fibra de sílica, por isso os amplificadores de fibra dopada com érbio sustentam as comunicações óticas de longa distância.',
     },
     pl: {
-      kid: 'Cześć! Jestem erbem, kolejnym dzieckiem wioski Ytterby! Trzy ręce na moje trzy elektrony. Moje sole mają ładny różowy kolor, a ja wzmacniam światło, które niesie internet kablami na dnie oceanów.',
+      kid: 'Cześć! Jestem Erb, kolejne dziecko wioski Ytterby! Trzy ręce na moje trzy elektrony. Moje sole mają ładny różowy kolor, a ja wzmacniam światło, które niesie internet kablami na dnie oceanów.',
       sci: 'Erb: [Xe] 4f12 6s2, Er3+ (różowe sole). Przejście Er3+ w pobliżu 1,53 do 1,56 µm wypada w oknie niskich strat światłowodu krzemionkowego, dlatego wzmacniacze światłowodowe domieszkowane erbem przenoszą dalekosiężną łączność optyczną.',
     },
     de: {

@@ -10,11 +10,11 @@ export default {
       sci: 'Índio: [Kr] 4d10 5s2 5p1, sobretudo In(III), às vezes In(I). Mais mole do que o chumbo e com ponto de fusão de 157 °C; o óxido de índio e estanho, um condutor transparente, gasta a maior parte do índio refinado em cada ano.',
     },
     pl: {
-      kid: 'Cześć! Jestem ind i jestem taki miękki, że można by mnie zarysować paznokciem. Wyciągam trzy elektrony, po jednym w każdej ręce. Jestem niewidzialną powłoką, dzięki której działają ekrany dotykowe, a kiedy mnie zginasz, piszczę!',
+      kid: 'Cześć! Jestem Ind i jestem taki miękki, że można by mnie zarysować paznokciem. Wyciągam trzy elektrony, po jednym w każdej ręce. Jestem niewidzialną powłoką, dzięki której działają ekrany dotykowe, a kiedy mnie zginasz, piszczę!',
       sci: 'Ind: [Kr] 4d10 5s2 5p1, głównie In(III), czasem In(I). Bardziej miękki niż ołów, topi się w 157 °C; tlenek indu i cyny, przezroczysty przewodnik, pochłania większość indu rafinowanego każdego roku.',
     },
     de: {
-      kid: 'Hallo! Ich bin Indium, so weich, dass du mich mit dem Fingernagel ritzen könntest. Ich strecke drei Elektronen hin, eins in jeder Hand. Ich bin die unsichtbare Schicht, die Touchscreens funktionieren lässt, und wenn du mich biegst, quietsche ich!',
+      kid: 'Hallo! Ich bin das Indium, so weich, dass du mich mit dem Fingernagel ritzen könntest. Ich strecke drei Elektronen hin, eins in jeder Hand. Ich bin die unsichtbare Schicht, die Touchscreens funktionieren lässt, und wenn du mich biegst, quietsche ich!',
       sci: 'Indium: [Kr] 4d10 5s2 5p1, meist In(III), manchmal In(I). Weicher als Blei, schmilzt bei 157 °C; Indiumzinnoxid, ein transparenter Leiter, verbraucht den größten Teil des jährlich raffinierten Indiums.',
     },
   },

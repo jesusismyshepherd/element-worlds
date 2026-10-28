@@ -10,7 +10,7 @@ export default {
       sci: 'Protactínio: [Rn] 5f2 6d1 7s2, sobretudo Pa(V), também Pa(IV); o Atomito mostra no máximo quatro mãos. O Pa-231 (cerca de 33 000 anos) pertence à série do U-235 e decai para o Ac-227.',
     },
     pl: {
-      kid: 'Cześć! Jestem protaktynem, jednym z najrzadszych i najbardziej kłopotliwych pierwiastków ze wszystkich. Pokazuję cztery ręce, choć zwykle oddaję pięć elektronów. Mój delikatny blask oznacza, że jestem promieniotwórczy: kiedy się rozpadam, zamieniam się w aktyn, i stąd pochodzi moje imię.',
+      kid: 'Cześć! Jestem Protaktyn, jeden z najrzadszych i najbardziej kłopotliwych pierwiastków ze wszystkich. Pokazuję cztery ręce, choć zwykle oddaję pięć elektronów. Mój delikatny blask oznacza, że jestem promieniotwórczy: kiedy się rozpadam, zamieniam się w aktyn, i stąd pochodzi moje imię.',
       sci: 'Protaktyn: [Rn] 5f2 6d1 7s2, głównie Pa(V), także Pa(IV); Atomek pokazuje najwyżej cztery ręce. Pa-231 (około 33 000 lat) należy do szeregu U-235 i rozpada się do Ac-227.',
     },
     de: {

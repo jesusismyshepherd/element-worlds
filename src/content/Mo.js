@@ -10,11 +10,11 @@ export default {
       sci: 'Molibdénio: [Kr] 4d5 5s1, uma camada d meio cheia, com estados de oxidação até +6 (os molibdatos, MoO4 2-); o Atomito mostra no máximo quatro mãos. Um metal refratário que funde a 2623 °C, e um oligoelemento essencial a quase todos os seres vivos.',
     },
     pl: {
-      kid: 'Cześć! Jestem molibdenem: powiedz mo-LIB-den! Pokazuję cztery ręce, ale potrafię oddać nawet sześć elektronów. Sprawiam, że stal jest mocna i odporna na żar, a bakterie, które karmią rośliny, potrzebują mnie, żeby łapać azot z powietrza.',
-      sci: 'Molibden: [Kr] 4d5 5s1, do połowy zapełniona powłoka d, stopnie utlenienia do +6 (molibdeniany, MoO4 2-); Atomling pokazuje najwyżej cztery ręce. Metal trudnotopliwy o temperaturze topnienia 2623 °C i pierwiastek śladowy niezbędny prawie wszystkim organizmom.',
+      kid: 'Cześć! Jestem Molibden: powiedz mo-LIB-den! Pokazuję cztery ręce, ale potrafię oddać nawet sześć elektronów. Sprawiam, że stal jest mocna i odporna na żar, a bakterie, które karmią rośliny, potrzebują mnie, żeby łapać azot z powietrza.',
+      sci: 'Molibden: [Kr] 4d5 5s1, do połowy zapełniona powłoka d, stopnie utlenienia do +6 (molibdeniany, MoO4 2-); Atomek pokazuje najwyżej cztery ręce. Metal trudnotopliwy o temperaturze topnienia 2623 °C i pierwiastek śladowy niezbędny prawie wszystkim organizmom.',
     },
     de: {
-      kid: 'Hallo! Ich bin Molybdän: sag mo-lüb-DÄN! Ich zeige vier Hände, kann aber bis zu sechs Elektronen abgeben. Ich mache Stahl fest und hitzebeständig, und die Bakterien, die Pflanzen ernähren, brauchen mich, um Stickstoff aus der Luft einzufangen.',
+      kid: 'Hallo! Ich bin das Molybdän: sag mo-lüb-DÄN! Ich zeige vier Hände, kann aber bis zu sechs Elektronen abgeben. Ich mache Stahl fest und hitzebeständig, und die Bakterien, die Pflanzen ernähren, brauchen mich, um Stickstoff aus der Luft einzufangen.',
       sci: 'Molybdän: [Kr] 4d5 5s1, eine halb gefüllte d-Schale, mit Oxidationsstufen bis +6 (die Molybdate, MoO4 2-); der Atomling zeigt höchstens vier Hände. Ein hochschmelzendes Metall mit einem Schmelzpunkt von 2623 °C und ein Spurenelement, das fast alle Lebewesen brauchen.',
     },
   },

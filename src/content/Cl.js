@@ -14,7 +14,7 @@ export default {
       sci: 'Chlor: siedem elektronów walencyjnych, jedno wiązanie i największe powinowactwo elektronowe ze wszystkich pierwiastków (3,62 eV). Cl2 to żółtozielony gaz, około 2,5 raza gęstszy od powietrza; jako chlorek jestem głównym jonem ujemnym wody morskiej i twojej krwi.',
     },
     de: {
-      kid: 'Hallo, ich bin Chlor, ein grünlich-gelbes Gas mit einer greifenden Hand. Ich liebe es, dem Natrium ein Elektron zu schnappen: Zusammen machen wir das Salz auf deinem Tisch! Allein bin ich aber giftig, deshalb bewahrt man mich in starken Stahltanks auf.',
+      kid: 'Hallo, ich bin das Chlor, ein grünlich-gelbes Gas mit einer greifenden Hand. Ich liebe es, dem Natrium ein Elektron zu schnappen: Zusammen machen wir das Salz auf deinem Tisch! Allein bin ich aber giftig, deshalb bewahrt man mich in starken Stahltanks auf.',
       sci: 'Chlor: sieben Valenzelektronen, eine Bindung und die höchste Elektronenaffinität aller Elemente (3,62 eV). Cl2 ist ein gelbgrünes Gas, etwa 2,5-mal dichter als Luft; als Chlorid bin ich das wichtigste negative Ion des Meerwassers und deines Blutes.',
     },
   },

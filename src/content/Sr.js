@@ -10,11 +10,11 @@ export default {
       sci: 'Estrôncio: [Kr] 5s2, cedidos como Sr2+, entre o cálcio e o bário no grupo 2. Tão parecido com o cálcio que os meus iões entram nos ossos; a razão 87Sr/86Sr revela de onde vêm as rochas, as águas e os povos antigos.',
     },
     pl: {
-      kid: 'Cześć! Jestem strontem. Wyciągam dwa elektrony, po jednym w każdej ręce. Jestem jaskrawą czerwienią w fajerwerkach, sprawiam, że zabawki świecące w ciemności świecą godzinami, a magnesy na lodówkę robi się ze mną!',
+      kid: 'Cześć! Jestem Stront. Wyciągam dwa elektrony, po jednym w każdej ręce. Jestem jaskrawą czerwienią w fajerwerkach, sprawiam, że zabawki świecące w ciemności świecą godzinami, a magnesy na lodówkę robi się ze mną!',
       sci: 'Stront: [Kr] 5s2, oddawane jako Sr2+, między wapniem a barem w grupie 2. Jestem tak podobny do wapnia, że moje jony wbudowują się w kości; stosunek 87Sr/86Sr zdradza pochodzenie skał, wód i dawnych ludzi.',
     },
     de: {
-      kid: 'Hallo! Ich bin Strontium. Ich halte zwei Elektronen hin, eins in jeder Hand. Ich bin das leuchtende Rot im Feuerwerk, ich lasse Spielzeug, das im Dunkeln leuchtet, stundenlang strahlen, und Kühlschrankmagnete werden mit mir gemacht!',
+      kid: 'Hallo! Ich bin das Strontium. Ich halte zwei Elektronen hin, eins in jeder Hand. Ich bin das leuchtende Rot im Feuerwerk, ich lasse Spielzeug, das im Dunkeln leuchtet, stundenlang strahlen, und Kühlschrankmagnete werden mit mir gemacht!',
       sci: 'Strontium: [Kr] 5s2, abgegeben als Sr2+, zwischen Calcium und Barium in Gruppe 2. Dem Calcium so ähnlich, dass meine Ionen in Knochen eingebaut werden; das Verhältnis 87Sr/86Sr verrät, woher Gesteine, Gewässer und Menschen der Vorzeit stammen.',
     },
   },

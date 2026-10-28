@@ -10,11 +10,11 @@ export default {
       sci: 'Crípton: [Ar] 3d10 4s2 4p6, camada fechada (primeira energia de ionização de 14,0 eV). Monoatómico, cerca de três vezes mais denso do que o ar, 1,14 ppm da atmosfera. Não é totalmente inerte: existe KrF2.',
     },
     pl: {
-      kid: 'Witaj! Jestem kryptonem, gazem szlachetnym. Nie mam rąk: moja zewnętrzna powłoka jest pełna, więc prawie nigdy z nikim się nie łączę. Jestem cięższy od powietrza, więc unoszę się nisko. Daj mi prąd, a zaświecę łagodną bielą!',
+      kid: 'Cześć! Jestem Krypton, gaz szlachetny. Nie mam rąk: moja zewnętrzna powłoka jest pełna, więc prawie nigdy z nikim się nie łączę. Jestem cięższy od powietrza, więc unoszę się nisko. Daj mi prąd, a zaświecę łagodną bielą!',
       sci: 'Krypton: [Ar] 3d10 4s2 4p6, zamknięta powłoka (pierwsza energia jonizacji 14,0 eV). Jednoatomowy, około trzech razy gęstszy od powietrza, 1,14 ppm atmosfery. Nie całkiem bierny: istnieje KrF2.',
     },
     de: {
-      kid: 'Hallo! Ich bin Krypton, ein Edelgas. Keine Hände: Meine äußere Schale ist voll, darum verbinde ich mich fast nie mit jemandem. Ich bin schwerer als Luft, darum schwebe ich tief. Gib mir Strom, und ich leuchte sanft weiß!',
+      kid: 'Hallo! Ich bin das Krypton, ein Edelgas. Keine Hände: Meine äußere Schale ist voll, darum verbinde ich mich fast nie mit jemandem. Ich bin schwerer als Luft, darum schwebe ich tief. Gib mir Strom, und ich leuchte sanft weiß!',
       sci: 'Krypton: [Ar] 3d10 4s2 4p6, eine abgeschlossene Schale (erste Ionisierungsenergie 14,0 eV). Einatomig, etwa dreimal dichter als Luft, 1,14 ppm der Atmosphäre. Nicht völlig inert: KrF2 existiert.',
     },
   },

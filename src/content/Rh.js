@@ -10,11 +10,11 @@ export default {
       sci: 'Ródio: [Kr] 4d8 5s1, sobretudo Rh(III) (o das mãos), e Rh(I) nos catalisadores. Um metal do grupo da platina: muito refletor, duro, imune à maioria dos ácidos e, acima de tudo, o catalisador que volta a transformar os óxidos de azoto em azoto nos escapes dos carros.',
     },
     pl: {
-      kid: 'Cześć! Jestem rodem, jednym z najrzadszych i najcenniejszych metali na świecie. Mam trzy ręce na trzy elektrony, które zwykle oddaję. Sprawiam, że biżuteria z białego złota lśni, i oczyszczam spaliny, które wychodzą z samochodów!',
+      kid: 'Cześć! Jestem Rod, jeden z najrzadszych i najcenniejszych metali na świecie. Mam trzy ręce na trzy elektrony, które zwykle oddaję. Sprawiam, że biżuteria z białego złota lśni, i oczyszczam spaliny, które wychodzą z samochodów!',
       sci: 'Rod: [Kr] 4d8 5s1, głównie Rh(III) (to pokazują tu ręce), a w katalizatorach Rh(I). Platynowiec: silnie odbija światło, jest twardy, nie działa na niego większość kwasów, a przede wszystkim to katalizator, który w układach wydechowych samochodów zamienia tlenki azotu z powrotem w azot.',
     },
     de: {
-      kid: 'Hallo! Ich bin Rhodium, eines der seltensten und kostbarsten Metalle der Welt. Drei Hände für die drei Elektronen, die ich meistens abgebe. Ich lasse Weißgoldschmuck glänzen und reinige die Abgase, die aus Autos kommen!',
+      kid: 'Hallo! Ich bin das Rhodium, eines der seltensten und kostbarsten Metalle der Welt. Drei Hände für die drei Elektronen, die ich meistens abgebe. Ich lasse Weißgoldschmuck glänzen und reinige die Abgase, die aus Autos kommen!',
       sci: 'Rhodium: [Kr] 4d8 5s1, meist Rh(III) (das zeigen hier die Hände) und Rh(I) in Katalysatoren. Ein Platinmetall: stark reflektierend, hart, von den meisten Säuren unberührt und vor allem der Katalysator, der in Autoabgasen Stickoxide wieder in Stickstoff verwandelt.',
     },
   },

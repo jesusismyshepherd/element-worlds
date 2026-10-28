@@ -480,9 +480,9 @@ export const AIR_WORDS = {
   },
 
   pl: {
-    back: 'Wróć do sali tlenu',
+    back: 'Powrót do sali: Tlen',
     kicker: 'Powietrze',
-    talkTo: 'Porozmawiaj z',
+    talkTo: 'Porozmawiaj',
     busy: { kid: 'Chwileczkę: to jeszcze trwa!', sci: 'Chwila: poprzednia próba jeszcze trwa.' },
     talk: {
       kid: [
@@ -496,7 +496,7 @@ export const AIR_WORDS = {
         'Warstwa ozonowa jest tu narysowana 150 m nad nami; prawdziwa leży na wysokości od 15 do 35 km, a cały ozon sprężony do ciśnienia na poziomie morza miałby tylko około 3 mm grubości.',
         'Oddech o objętości 0,5 L w 20 °C zawiera około 1,25 × 10²² cząsteczek (n = PV/RT, razy stała Avogadra).',
         'Ciśnienie cząstkowe O2: 21,2 kPa na poziomie morza, około 7 kPa na szczycie Everestu (całkowite około 34 kPa), choć udział wciąż wynosi 20,95%.',
-        'O2 ma 32,00 g/mol, a suche powietrze 28,96 g/mol: tlen jest o około 10% gęstszy, więc mój Atomling unosi się nisko.',
+        'O2 ma 32,00 g/mol, a suche powietrze 28,96 g/mol: tlen jest o około 10% gęstszy, więc mój Atomek unosi się nisko.',
         'Spalanie paliw kopalnych obniża zawartość O2 w powietrzu tylko o około 4 ppm rocznie; prawdziwym problemem jest dodawany przy tym CO2.',
       ],
     },
@@ -715,7 +715,7 @@ export const AIR_WORDS = {
   },
 
   de: {
-    back: 'Zurück zur Sauerstoffhalle',
+    back: 'Zurück zur Halle: Sauerstoff',
     kicker: 'Die Luft',
     talkTo: 'Sprich mit',
     busy: { kid: 'Warte kurz: es passiert noch!', sci: 'Einen Moment: der letzte Durchlauf läuft noch.' },
@@ -770,7 +770,7 @@ export const AIR_WORDS = {
     rare: {
       title: 'Der Seltene: Kohlenstoffdioxid',
       label: 'Der Seltene: Kohlenstoffdioxid',
-      verb: 'Schau es dir an',
+      verb: 'Betrachte',
       tag: '1 von etwa 2400',
       panel: {
         kid: [

@@ -14,7 +14,7 @@ export default {
       sci: 'Aktyn: [Rn] 6d1 7s2, zawsze Ac(III), chemicznie cięższy bliźniak lantanu. Ac3+ to największy znany jon trójdodatni. Ac-227 (21,8 roku) należy do szeregu U-235; Ac-225 (9,9 dnia) to emiter alfa stosowany w medycynie.',
     },
     de: {
-      kid: 'Hallo! Ich bin Actinium, und eine ganze Reihe des Periodensystems, die Actinoide, ist nach mir benannt. Drei Hände, die die drei Elektronen hinhalten, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin: Im Dunkeln leuchtet Actinium wirklich blassblau!',
+      kid: 'Hallo! Ich bin das Actinium, und eine ganze Reihe des Periodensystems, die Actinoide, ist nach mir benannt. Drei Hände, die die drei Elektronen hinhalten, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin: Im Dunkeln leuchtet Actinium wirklich blassblau!',
       sci: 'Actinium: [Rn] 6d1 7s2, immer Ac(III), chemisch ein schwererer Zwilling des Lanthans. Ac3+ ist das größte bekannte dreifach positive Ion. Ac-227 (21,8 Jahre) gehört zur U-235-Reihe; Ac-225 (9,9 Tage) ist ein medizinischer Alphastrahler.',
     },
   },

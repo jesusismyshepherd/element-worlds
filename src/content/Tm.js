@@ -10,7 +10,7 @@ export default {
       sci: 'Túlio: [Xe] 4f13 6s2, Tm3+ (e Tm2+ em alguns compostos). 0,52 mg/kg da crosta: o lantanídeo menos abundante depois do promécio, mas cerca de sete vezes mais abundante do que a prata.',
     },
     pl: {
-      kid: 'Cześć! Jestem tulem, nazwanym od Thule, krainy na dalekiej północy starych map. Trzy ręce na moje trzy elektrony. Jestem najrzadszym z lantanowców, które nie są promieniotwórcze, ale i tak spotyka się mnie częściej niż srebro czy złoto!',
+      kid: 'Cześć! Jestem Tul, nazwany od Thule, krainy na dalekiej północy starych map. Trzy ręce na moje trzy elektrony. Jestem najrzadszym z lantanowców, które nie są promieniotwórcze, ale i tak spotyka się mnie częściej niż srebro czy złoto!',
       sci: 'Tul: [Xe] 4f13 6s2, Tm3+ (i Tm2+ w kilku związkach). 0,52 mg/kg skorupy: najmniej rozpowszechniony lantanowiec po promecie, a jednak około siedem razy bardziej rozpowszechniony niż srebro.',
     },
     de: {

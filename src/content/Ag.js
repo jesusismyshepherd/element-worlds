@@ -10,11 +10,11 @@ export default {
       sci: 'Prata: [Kr] 4d10 5s1, quase sempre Ag+. A maior condutividade elétrica e térmica e a maior refletância visível de todos os metais.',
     },
     pl: {
-      kid: 'Cześć! Jestem srebro. Jedna ręka, na jeden elektron, który oddaję. Jestem najbardziej błyszczącym metalem i najlepiej ze wszystkich przewodzę prąd, a ludzie od tysięcy lat robią ze mnie skarby!',
+      kid: 'Cześć! Jestem Srebro. Jedna ręka, na jeden elektron, który oddaję. Jestem najbardziej błyszczącym metalem i najlepiej ze wszystkich przewodzę prąd, a ludzie od tysięcy lat robią ze mnie skarby!',
       sci: 'Srebro: [Kr] 4d10 5s1, prawie zawsze Ag+. Najwyższe przewodnictwo elektryczne i cieplne oraz najwyższy współczynnik odbicia światła widzialnego spośród wszystkich metali.',
     },
     de: {
-      kid: 'Hallo! Ich bin Silber. Eine Hand, für das eine Elektron, das ich abgebe. Ich bin das glänzendste Metall und leite Strom am besten von allen, und seit Tausenden von Jahren machen Menschen Schätze aus mir!',
+      kid: 'Hallo! Ich bin das Silber. Eine Hand, für das eine Elektron, das ich abgebe. Ich bin das glänzendste Metall und leite Strom am besten von allen, und seit Tausenden von Jahren machen Menschen Schätze aus mir!',
       sci: 'Silber: [Kr] 4d10 5s1, fast immer Ag+. Die höchste elektrische und thermische Leitfähigkeit und das höchste Reflexionsvermögen im sichtbaren Licht von allen Metallen.',
     },
   },

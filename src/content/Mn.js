@@ -14,7 +14,7 @@ export default {
       sci: 'Mangan: [Ar] 3d5 4s2, w połowie zapełniona podpowłoka d; stopnie utlenienia od +2 (zwykły, i to on wyznacza tu ręce) do +7 w fioletowym nadmanganianie, MnO4-. Około 90% wydobywanego manganu trafia do stali.',
     },
     de: {
-      kid: 'Hallo! Ich bin Mangan. Zwei Hände für die zwei Elektronen, die ich meistens abgebe, aber ich kann bis zu sieben abgeben! Ich mache Stahl zäh, ich stecke in Batterien, und Pflanzen brauchen mich, um Wasser zu spalten und den Sauerstoff zu machen, den du atmest.',
+      kid: 'Hallo! Ich bin das Mangan. Zwei Hände für die zwei Elektronen, die ich meistens abgebe, aber ich kann bis zu sieben abgeben! Ich mache Stahl zäh, ich stecke in Batterien, und Pflanzen brauchen mich, um Wasser zu spalten und den Sauerstoff zu machen, den du atmest.',
       sci: 'Mangan: [Ar] 3d5 4s2, eine halb gefüllte d-Schale; Oxidationsstufen von +2 (die übliche, und die der Hände hier) bis +7 im violetten Permanganat, MnO4-. Etwa 90% des abgebauten Mangans gehen in den Stahl.',
     },
   },

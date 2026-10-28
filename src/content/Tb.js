@@ -10,7 +10,7 @@ export default {
       sci: 'Térbio: [Xe] 4f9 6s2, como Tb3+ (4f8, emissão verde a 545 nm) e Tb(IV) em sólidos (TbO2, Tb4O7). Com o disprósio faço o Terfenol-D, a liga que mais muda de comprimento num campo magnético.',
     },
     pl: {
-      kid: 'Cześć! Jestem terbem, jednym z czterech pierwiastków nazwanych od tej samej małej wioski w Szwecji, Ytterby! Trzy ręce na moje trzy elektrony. W świetle ultrafioletowym świecę jasną zielenią: robiłem zieleń w ekranach starych telewizorów i w lampach.',
+      kid: 'Cześć! Jestem Terb, jeden z czterech pierwiastków nazwanych od tej samej małej wioski w Szwecji, Ytterby! Trzy ręce na moje trzy elektrony. W świetle ultrafioletowym świecę jasną zielenią: robiłem zieleń w ekranach starych telewizorów i w lampach.',
       sci: 'Terb: [Xe] 4f9 6s2, jako Tb3+ (4f8, zielona emisja przy 545 nm) i Tb(IV) w ciałach stałych (TbO2, Tb4O7). Z dysprozem tworzę Terfenol-D, stop, który najbardziej zmienia długość w polu magnetycznym.',
     },
     de: {

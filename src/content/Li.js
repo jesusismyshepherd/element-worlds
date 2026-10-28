@@ -10,7 +10,7 @@ export default {
       sci: 'Lítio: um eletrão 2s que cedo com facilidade (5,39 eV), o metal mais leve e o elemento sólido menos denso (0,534 g/cm³). Os meus iões Li+ viajam entre os elétrodos das baterias recarregáveis.',
     },
     pl: {
-      kid: 'Cześć, jestem litem, najlżejszym metalem ze wszystkich! Widzisz elektron w mojej ręce? Zawsze mam ochotę komuś go oddać. Jestem tak lekki, że unosiłbym się na wodzie, ale proszę, nie wrzucaj mnie do niej: zaraz zacząłbym musować!',
+      kid: 'Cześć, jestem Lit, najlżejszy metal ze wszystkich! Widzisz elektron w mojej ręce? Zawsze mam ochotę komuś go oddać. Jestem tak lekki, że unosiłbym się na wodzie, ale proszę, nie wrzucaj mnie do niej: zaraz zacząłbym musować!',
       sci: 'Lit: jeden elektron 2s, który łatwo oddaję (5,39 eV), najlżejszy metal i pierwiastek stały o najmniejszej gęstości (0,534 g/cm³). Moje jony Li+ wędrują tam i z powrotem między elektrodami akumulatorów.',
     },
     de: {

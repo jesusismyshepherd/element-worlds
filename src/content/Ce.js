@@ -10,11 +10,11 @@ export default {
       sci: 'Cério: [Xe] 4f1 5d1 6s2, como Ce3+ e, caso único entre os lantanídeos em solução aquosa, como Ce4+ (4f vazia, como o [Xe]): os sais céricos são oxidantes fortes. A terra rara mais abundante, 66,5 mg/kg da crosta, um pouco mais do que o cobre.',
     },
     pl: {
-      kid: 'Cześć! Jestem cer, najpospolitszy z lantanowców: w skorupie ziemskiej jest mnie mniej więcej tyle co miedzi! Trzy ręce na trzy elektrony, a mogę oddać nawet czwarty. Potrzyj mnie, a sypnę iskrami: to ja jestem iskrą w zapalniczce!',
+      kid: 'Cześć! Jestem Cer, najpospolitszy z lantanowców: w skorupie ziemskiej jest mnie mniej więcej tyle co miedzi! Trzy ręce na trzy elektrony, a mogę oddać nawet czwarty. Potrzyj mnie, a sypnę iskrami: to ja jestem iskrą w zapalniczce!',
       sci: 'Cer: [Xe] 4f1 5d1 6s2, jako Ce3+ oraz, jako jedyny lantanowiec w roztworze wodnym, jako Ce4+ (pusta 4f, jak [Xe]): sole ceru(IV) są silnymi utleniaczami. Najobficiej występujący pierwiastek ziem rzadkich, 66,5 mg/kg skorupy ziemskiej, nieco więcej niż miedzi.',
     },
     de: {
-      kid: 'Hallo! Ich bin Cer, das häufigste der Lanthanoide: In der Erdkruste gibt es ungefähr so viel von mir wie von Kupfer! Drei Hände für drei Elektronen, und ich kann sogar ein viertes abgeben. Kratz an mir, und ich sprühe Funken: Ich bin der Funke im Feuerzeug!',
+      kid: 'Hallo! Ich bin das Cer, das häufigste der Lanthanoide: In der Erdkruste gibt es ungefähr so viel von mir wie von Kupfer! Drei Hände für drei Elektronen, und ich kann sogar ein viertes abgeben. Kratz an mir, und ich sprühe Funken: Ich bin der Funke im Feuerzeug!',
       sci: 'Cer: [Xe] 4f1 5d1 6s2, als Ce3+ und, als einziges Lanthanoid in Wasser, als Ce4+ (leere 4f, wie [Xe]): Cer(IV)-Salze sind starke Oxidationsmittel. Die häufigste Seltene Erde, 66,5 mg/kg der Erdkruste, etwas mehr als Kupfer.',
     },
   },

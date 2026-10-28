@@ -10,7 +10,7 @@ export default {
       sci: 'Gadolínio: [Xe] 4f7 5d1 6s2, Gd3+ (4f7): sete eletrões desemparelhados, o máximo de uma camada f, daí o meu uso nos contrastes de ressonância magnética. Sou ferromagnético abaixo de cerca de 20 °C, e o Gd-157 tem a maior secção eficaz de captura de neutrões térmicos de todos os nuclídeos estáveis.',
     },
     pl: {
-      kid: 'Cześć! Jestem gadolinem. Trzy ręce na moje trzy elektrony, a w środku mam siedem elektronów, które kręcą się w tę samą stronę, i dlatego jestem bardzo magnetyczny. Szpitale używają mnie, żeby obrazy z rezonansu magnetycznego były wyraźniejsze, a magnes przyczepia się do mnie tylko wtedy, gdy jestem chłodny!',
+      kid: 'Cześć! Jestem Gadolin. Trzy ręce na moje trzy elektrony, a w środku mam siedem elektronów, które kręcą się w tę samą stronę, i dlatego jestem bardzo magnetyczny. Szpitale używają mnie, żeby obrazy z rezonansu magnetycznego były wyraźniejsze, a magnes przyczepia się do mnie tylko wtedy, gdy jestem chłodny!',
       sci: 'Gadolin: [Xe] 4f7 5d1 6s2, Gd3+ (4f7): siedem niesparowanych elektronów, najwięcej, ile może pomieścić powłoka f, stąd moje zastosowanie w środkach kontrastowych do MRI. Poniżej około 20 °C jestem ferromagnetykiem, a Gd-157 ma największy przekrój czynny na wychwyt neutronów termicznych spośród wszystkich trwałych nuklidów.',
     },
     de: {

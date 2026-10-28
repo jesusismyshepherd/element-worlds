@@ -10,7 +10,7 @@ export default {
       sci: 'Moscóvio: previsto [Rn] 5f14 6d10 7s2 7p3, grupo 15, por baixo do azoto, do fósforo, do arsénio, do antimónio e do bismuto. A relatividade divide a sua camada 7p, por isso espera-se que o Mc(I), como o Tl(I), seja importante. O isótopo que vive mais, o Mc-290, dura menos de um segundo.',
     },
     pl: {
-      kid: 'Hej! Jestem moskowem, nazwanym od regionu wokół Moskwy w Rosji. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów, a każdy żyje krócej niż sekundę. Mam jedną rękę i wyciągam w niej jeden elektron, który podobno oddaję.',
+      kid: 'Cześć! Jestem Moskow, nazwany od regionu wokół Moskwy w Rosji. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów, a każdy żyje krócej niż sekundę. Mam jedną rękę i wyciągam w niej jeden elektron, który podobno oddaję.',
       sci: 'Moskow: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p3, grupa 15 pod azotem, fosforem, arsenem, antymonem i bizmutem. Efekty relatywistyczne rozszczepiają jego powłokę 7p, więc oczekuje się, że Mc(I), jak Tl(I), będzie ważny. Jego najdłużej żyjący izotop, Mc-290, żyje krócej niż sekundę.',
     },
     de: {

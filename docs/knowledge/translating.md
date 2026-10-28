@@ -50,6 +50,11 @@ units, names and dates).
 - German nouns keep their capital: code that lowercases an element's name inside a sentence skips
   German (`nameCase` in the noble words, the stations, the quiz's answer line).
 - Polish avoids gendered past forms of "you" (zrobiłeś / zrobiłaś): impersonal or present forms.
+- Greetings open with "Cześć!" / "Hallo!" (or the comma form after the English "Hi, I'm X"); the content
+  test checks every Polish and German greeting introduces the Atomling by its name.
+- The way back from a wing: "Powrót do sali: Węgiel" / "Zurück zur Halle: Kohlenstoff"; the hall's exit:
+  "Do układu okresowego" / "Zum Periodensystem". Other shared words: German Cousin (not Vetter),
+  Exponat; Polish fluorowiec for a halogen.
 - Discoverers and places (English in elements.json) are translated in `src/data/discovery.js`.
 - Numbers: no separator in four digits (3550 °C) in any language (`useGrouping: 'min2'`), a real minus.
 

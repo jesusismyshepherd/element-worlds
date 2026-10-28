@@ -14,7 +14,7 @@ export default {
       sci: 'Wanad: [Ar] 3d3 4s2, ze stopniami utlenienia od +2 do +5, każdy w innym kolorze (fioletowy, zielony, niebieski, żółty); Atomek pokazuje najwyżej cztery ręce. Większość wydobywanego wanadu trafia do stali.',
     },
     de: {
-      kid: 'Hallo! Ich bin Vanadium, benannt nach einer nordischen Göttin der Schönheit, weil meine Verbindungen so viele Farben haben. Ich zeige vier Hände, aber ich kann bis zu fünf Elektronen abgeben. Ich mache Stahl zäh: Viele Schraubenschlüssel und Werkzeuge werden mit mir gemacht!',
+      kid: 'Hallo! Ich bin das Vanadium, benannt nach einer nordischen Göttin der Schönheit, weil meine Verbindungen so viele Farben haben. Ich zeige vier Hände, aber ich kann bis zu fünf Elektronen abgeben. Ich mache Stahl zäh: Viele Schraubenschlüssel und Werkzeuge werden mit mir gemacht!',
       sci: 'Vanadium: [Ar] 3d3 4s2, mit Oxidationsstufen von +2 bis +5, jede mit eigener Farbe (violett, grün, blau, gelb); der Atomling zeigt höchstens vier Hände. Das meiste abgebaute Vanadium geht in den Stahl.',
     },
   },

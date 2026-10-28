@@ -10,7 +10,7 @@ export default {
       sci: 'Meitnério: previsto [Rn] 5f14 6d7 7s2, grupo 9, por baixo do cobalto, do ródio e do irídio; espera-se o Mt(III) como estado habitual, e prevê-se que seja um metal nobre. Ainda não se fez química com ele: os seus átomos duram uns segundos, no máximo.',
     },
     pl: {
-      kid: 'Hej! Jestem meitnerem, nazwanym na cześć Lise Meitner, która wyjaśniła, jak duże atomy mogą rozpaść się na dwie części. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam trzy ręce i wyciągam w nich trzy elektrony, które podobno oddaję.',
+      kid: 'Cześć! Jestem Meitner, nazwany na cześć Lise Meitner, która wyjaśniła, jak duże atomy mogą rozpaść się na dwie części. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam trzy ręce i wyciągam w nich trzy elektrony, które podobno oddaję.',
       sci: 'Meitner: przewidywana konfiguracja [Rn] 5f14 6d7 7s2, grupa 9 pod kobaltem, rodem i irydem; oczekuje się, że zwykłym stopniem utlenienia będzie Mt(III), i przewiduje się, że to metal szlachetny. Nie wykonano jeszcze żadnych badań chemicznych: jego atomy żyją najwyżej kilka sekund.',
     },
     de: {

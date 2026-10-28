@@ -14,7 +14,7 @@ export default {
       sci: 'Kobalt: [Ar] 3d7 4s2, zwykle Co2+ (w wielu kompleksach Co3+). Ferromagnetyk o najwyższej temperaturze Curie ze wszystkich pierwiastków i metal w samym sercu witaminy B12.',
     },
     de: {
-      kid: 'Hallo! Ich bin Cobalt. Zwei Hände für die zwei Elektronen, die ich gern abgebe. Ich bin das tiefe Blau alter Fliesen und alten Glases, ich bin magnetisch, und ein bisschen von mir steckt in deinem Vitamin B12!',
+      kid: 'Hallo! Ich bin das Cobalt. Zwei Hände für die zwei Elektronen, die ich gern abgebe. Ich bin das tiefe Blau alter Fliesen und alten Glases, ich bin magnetisch, und ein bisschen von mir steckt in deinem Vitamin B12!',
       sci: 'Cobalt: [Ar] 3d7 4s2, meist Co2+ (Co3+ in vielen Komplexen). Ferromagnetisch mit der höchsten Curie-Temperatur aller Elemente und das Metall im Herzen von Vitamin B12.',
     },
   },

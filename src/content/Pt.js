@@ -14,7 +14,7 @@ export default {
       sci: 'Platyna: [Xe] 4f14 5d9 6s1, głównie Pt(II) i Pt(IV). Gęstość 21,45 g/cm³, jedna z największych wśród pierwiastków; szlachetna, odporna na korozję i najważniejszy metal katalityczny.',
     },
     de: {
-      kid: 'Hallo! Ich bin Platin, ein schweres, glänzendes Metall, das nie rostet. Zwei Hände für die zwei Elektronen, die ich meistens abgebe. Ich helfe, Autoabgase zu reinigen, und das Kilogramm der Welt war einst aus mir gemacht!',
+      kid: 'Hallo! Ich bin das Platin, ein schweres, glänzendes Metall, das nie rostet. Zwei Hände für die zwei Elektronen, die ich meistens abgebe. Ich helfe, Autoabgase zu reinigen, und das Kilogramm der Welt war einst aus mir gemacht!',
       sci: 'Platin: [Xe] 4f14 5d9 6s1, meist Pt(II) und Pt(IV). Dichte 21,45 g/cm³, eines der dichtesten Elemente; edel, korrosionsfest und das wichtigste Katalysatormetall.',
     },
   },

@@ -10,11 +10,11 @@ export default {
       sci: 'Dúbnio: [Rn] 5f14 6d3 7s2, grupo 5, por baixo do vanádio, do nióbio e do tântalo, sobretudo Db(V); o Atomito mostra quatro mãos. O isótopo que vive mais, o Db-268, dura mais de meio dia e faz-se na cadeia de decaimento do moscóvio.',
     },
     pl: {
-      kid: 'Cześć! Jestem dubnem, nazwanym na cześć Dubnej, miasta w Rosji, gdzie wytworzono wiele pierwiastków superciężkich. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć zwykle oddaję pięć elektronów, jak moi kuzyni niob i tantal.',
+      kid: 'Cześć! Jestem Dubn, nazwany na cześć Dubnej, miasta w Rosji, gdzie wytworzono wiele pierwiastków superciężkich. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć zwykle oddaję pięć elektronów, jak moi kuzyni niob i tantal.',
       sci: 'Dubn: [Rn] 5f14 6d3 7s2, grupa 5 pod wanadem, niobem i tantalem, głównie Db(V); Atomek pokazuje cztery ręce. Jego najdłużej żyjący izotop, Db-268, trwa ponad pół doby i powstaje w łańcuchu rozpadu moskowu.',
     },
     de: {
-      kid: 'Hallo! Ich bin das Dubnium, benannt nach Dubna, einer Stadt in Russland, in der viele superschwere Elemente hergestellt wurden. Siehst du, wie ich flimmere? Es hat immer nur ein paar Atome von mir gegeben. Ich zeige vier Hände, obwohl ich meistens fünf Elektronen abgebe, wie meine Cousins Niob und Tantal.',
+      kid: 'Hallo! Ich bin das Dubnium, benannt nach Dubna, einer Stadt in Russland, in der viele superschwere Elemente hergestellt wurden. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Ich zeige vier Hände, obwohl ich meistens fünf Elektronen abgebe, wie meine Cousins Niob und Tantal.',
       sci: 'Dubnium: [Rn] 5f14 6d3 7s2, Gruppe 5 unter Vanadium, Niob und Tantal, meist Db(V); der Atomling zeigt vier Hände. Sein langlebigstes Isotop, Db-268, hält mehr als einen halben Tag und entsteht in der Zerfallskette des Moscoviums.',
     },
   },

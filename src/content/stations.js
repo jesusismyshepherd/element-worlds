@@ -452,13 +452,13 @@ export function stationsOf(el, { lang, level, familyName }) {
 const GREETING = {
   en: n => `Hi! I'm ${n}. Explore my hall: each panel tells part of my story.`,
   'pt-pt': n => `Olá! Chamo-me ${n}. Explora o meu salão: cada painel conta uma parte da minha história.`,
-  pl: n => `Cześć! Nazywam się ${n}. Zwiedź moją salę: każda tablica opowiada część mojej historii.`,
-  de: n => `Hallo! Ich bin ${n}. Erkunde meine Halle: Jede Tafel erzählt einen Teil meiner Geschichte.`,
+  pl: n => `Cześć! Jestem ${n}. Zwiedź moją salę: każda tablica opowiada część mojej historii.`,
+  de: (n, el) => `Hallo! Ich bin ${DE_MASCULINE.has(el.symbol) ? 'der' : 'das'} ${n}. Erkunde meine Halle: Jede Tafel erzählt einen Teil meiner Geschichte.`,
 }
 
 /** What the element's Atomling says when you talk to it. */
 export function greetingOf(el, lang, level) {
   const own = pick(contentOf(el)?.greeting, lang, level)
   if (own) return own
-  return (GREETING[lang] ?? GREETING.en)(nameOf(el, lang))
+  return (GREETING[lang] ?? GREETING.en)(nameOf(el, lang), el)
 }

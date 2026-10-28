@@ -10,7 +10,7 @@ export default {
       sci: 'Oxigénio: seis eletrões de valência, duas ligações, o segundo elemento mais eletronegativo. Sou 21% do ar, 89% da massa da água e 46% da crosta terrestre.',
     },
     pl: {
-      kid: 'Cześć! Jestem tlenem. Jestem w powietrzu, którym właśnie oddychasz, w wodzie, a nawet w skałach. Dwie ręce: uwielbiam trzymać za ręce dwa wodory, żeby zrobić wodę!',
+      kid: 'Cześć! Jestem Tlen. Jestem w powietrzu, którym właśnie oddychasz, w wodzie, a nawet w skałach. Dwie ręce: uwielbiam trzymać za ręce dwa wodory, żeby zrobić wodę!',
       sci: 'Tlen: sześć elektronów walencyjnych, dwa wiązania, drugi pod względem elektroujemności pierwiastek. Stanowię 21% powietrza, 89% masy wody i 46% skorupy ziemskiej.',
     },
     de: {

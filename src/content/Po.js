@@ -14,7 +14,7 @@ export default {
       sci: 'Polon: [Xe] 4f14 5d10 6s2 6p4, stopnie utlenienia +2 i +4 (oraz −2 w polonkach). Polon alfa to jedyny pierwiastek o sieci regularnej prostej. Po-210 (138 dni) wydziela około 140 W ciepła na gram.',
     },
     de: {
-      kid: 'Hallo! Ich bin Polonium. Marie und Pierre Curie haben mich 1898 entdeckt, und Marie hat mich nach Polen benannt, ihrer Heimat. Zwei Hände, ausgestreckt zum Teilen. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin: Ein Krümel von mir hält sich selbst warm.',
+      kid: 'Hallo! Ich bin das Polonium. Marie und Pierre Curie haben mich 1898 entdeckt, und Marie hat mich nach Polen benannt, ihrer Heimat. Zwei Hände, ausgestreckt zum Teilen. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin: Ein Krümel von mir hält sich selbst warm.',
       sci: 'Polonium: [Xe] 4f14 5d10 6s2 6p4, Oxidationsstufen +2 und +4 (und −2 in Poloniden). Alpha-Polonium ist das einzige Element mit einem einfach kubischen Gitter. Po-210 (138 Tage) gibt etwa 140 W Wärme pro Gramm ab.',
     },
   },

@@ -10,7 +10,7 @@ export default {
       sci: 'Azoto: cinco eletrões de valência, três ligações. Dois de mim formam o N2, com uma ligação tripla (945 kJ/mol), das mais fortes da química: é por isso que o azoto, 78% do ar, é tão pouco reativo.',
     },
     pl: {
-      kid: 'Cześć! Jestem azotem, najlepszym przyjacielem powietrza: prawie 4 na każde 5 cząsteczek, którymi oddychasz, to ja. Mam trzy ręce, a kiedy spotykam drugi azot, trzymamy się wszystkimi trzema naraz. Ten uścisk jest tak mocny, że prawie nigdy się nie puszczamy!',
+      kid: 'Cześć! Jestem Azot, najlepszy przyjaciel powietrza: prawie 4 na każde 5 cząsteczek, którymi oddychasz, to ja. Mam trzy ręce, a kiedy spotykam drugi azot, trzymamy się wszystkimi trzema naraz. Ten uścisk jest tak mocny, że prawie nigdy się nie puszczamy!',
       sci: 'Azot: pięć elektronów walencyjnych, trzy wiązania. Dwa moje atomy tworzą N2 z wiązaniem potrójnym (945 kJ/mol), jednym z najmocniejszych w chemii, i dlatego azot, który stanowi 78% powietrza, jest tak mało reaktywny.',
     },
     de: {

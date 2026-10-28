@@ -12,6 +12,16 @@ const FIELDS = ['greeting', 'nameOrigin', 'discovery', 'stateNote', 'found', 'us
 const LISTS = new Set(['uses', 'facts'])
 const files = readdirSync(new URL('.', import.meta.url)).filter(f => /^[A-Z][a-z]?\.js$/.test(f))
 
+// an Atomling introduces itself by its name, as a character (docs/knowledge/translating.md, Decisions)
+test('greetings introduce the Atomling by its name in Polish and German', async () => {
+  for (const f of files) {
+    const el = element(f.replace('.js', ''))
+    const g = (await import(`./${f}`)).default.greeting
+    assert.ok(g.pl.kid.startsWith(`Cześć! Jestem ${el.name.pl}`) || g.pl.kid.startsWith(`Cześć, jestem ${el.name.pl}`), `${f} pl: ${g.pl.kid.slice(0, 40)}`)
+    assert.match(g.de.kid, new RegExp(`^Hallo[!,] [Ii]ch bin (der|das|die) ${el.name.de}`), `${f} de`)
+  }
+})
+
 test('content files are named by element symbols', () => {
   for (const f of files) assert.ok(element(f.replace('.js', '')), f)
 })

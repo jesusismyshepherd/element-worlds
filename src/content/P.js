@@ -10,7 +10,7 @@ export default {
       sci: 'Fósforo: cinco eletrões de valência, normalmente três ligações (PH3, P4), mas também uso as cinco (PCl5, fosfato). O fosfato é o esqueleto do ADN e parte do ATP, a moeda de energia das células.',
     },
     pl: {
-      kid: 'Cześć! Jestem fosforem, a moja nazwa znaczy „niosący światło”. Mam trzy ręce, tak jak azot, który jest tuż nade mną. Nosisz mnie wszędzie ze sobą: jestem w twoich kościach, zębach i w każdej nici twojego DNA!',
+      kid: 'Cześć! Jestem Fosfor, a moja nazwa znaczy „niosący światło”. Mam trzy ręce, tak jak azot, który jest tuż nade mną. Nosisz mnie wszędzie ze sobą: jestem w twoich kościach, zębach i w każdej nici twojego DNA!',
       sci: 'Fosfor: pięć elektronów walencyjnych, zwykle trzy wiązania (PH3, P4), ale potrafię też użyć wszystkich pięciu (PCl5, fosforan). Fosforan tworzy szkielet DNA i jest częścią ATP, energetycznej waluty komórek.',
     },
     de: {

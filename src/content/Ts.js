@@ -10,7 +10,7 @@ export default {
       sci: 'Tenesso: previsto [Rn] 5f14 6d10 7s2 7p5, grupo 17, por baixo do flúor, do cloro, do bromo, do iodo e do ástato. A divisão relativista da camada 7p deverá torná-lo muito menos ávido de eletrões do que os outros halogéneos; pode ser um semimetal ou um metal. O Ts-294 dura umas centésimas de segundo.',
     },
     pl: {
-      kid: 'Hej! Jestem tenesem, najnowszym pierwiastkiem, odkrytym w 2010 roku. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam jedną rękę i sięgam nią po elektron jak moi kuzyni fluorowce, choć naukowcy uważają, że kiepski ze mnie fluorowiec.',
+      kid: 'Cześć! Jestem Tenes, najnowszy pierwiastek, odkryty w 2010 roku. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam jedną rękę i sięgam nią po elektron jak moi kuzyni fluorowce, choć naukowcy uważają, że kiepski ze mnie fluorowiec.',
       sci: 'Tenes: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p5, grupa 17 pod fluorem, chlorem, bromem, jodem i astatem. Relatywistyczne rozszczepienie 7p powinno sprawić, że będzie znacznie mniej chętnie przyjmował elektron niż inne fluorowce; może być półmetalem albo metalem. Ts-294 żyje kilka setnych sekundy.',
     },
     de: {

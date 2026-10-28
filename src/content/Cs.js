@@ -10,11 +10,11 @@ export default {
       sci: 'Césio: [Xe] 6s1, sempre Cs+. A minha primeira energia de ionização, 3,894 eV, é a mais baixa de todos os elementos, e os meus átomos são os maiores (raio covalente de 232 pm). Fundo a 28,4 °C, e uma transição hiperfina minha define o segundo do SI.',
     },
     pl: {
-      kid: 'Cześć! Jestem cez, miękki metal o bladozłotym kolorze. Widzisz elektron w mojej ręce? Żaden pierwiastek nie oddaje swojego elektronu łatwiej niż ja! Moje atomy są największe, więc jestem najwyższym Atomkiem, a cały świat mierzy ze mną czas.',
+      kid: 'Cześć! Jestem Cez, miękki metal o bladozłotym kolorze. Widzisz elektron w mojej ręce? Żaden pierwiastek nie oddaje swojego elektronu łatwiej niż ja! Moje atomy są największe, więc jestem najwyższym Atomkiem, a cały świat mierzy ze mną czas.',
       sci: 'Cez: [Xe] 6s1, zawsze Cs+. Moja pierwsza energia jonizacji, 3,894 eV, jest najniższa ze wszystkich pierwiastków, a moje atomy są największe (promień kowalencyjny 232 pm). Topię się w 28,4 °C, a jedno z moich przejść nadsubtelnych definiuje sekundę w układzie SI.',
     },
     de: {
-      kid: 'Hallo! Ich bin Caesium, ein weiches, blassgoldenes Metall. Siehst du das Elektron in meiner Hand? Kein Element gibt sein Elektron leichter ab als ich! Meine Atome sind die größten, deshalb bin ich der größte Atomling, und die ganze Welt misst die Zeit mit mir.',
+      kid: 'Hallo! Ich bin das Caesium, ein weiches, blassgoldenes Metall. Siehst du das Elektron in meiner Hand? Kein Element gibt sein Elektron leichter ab als ich! Meine Atome sind die größten, deshalb bin ich der größte Atomling, und die ganze Welt misst die Zeit mit mir.',
       sci: 'Caesium: [Xe] 6s1, immer Cs+. Meine erste Ionisierungsenergie, 3,894 eV, ist die niedrigste aller Elemente, und meine Atome sind die größten (Kovalenzradius 232 pm). Ich schmelze bei 28,4 °C, und einer meiner Hyperfeinübergänge definiert die SI-Sekunde.',
     },
   },

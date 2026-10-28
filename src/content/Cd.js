@@ -10,12 +10,12 @@ export default {
       sci: 'Cádmio: [Kr] 4d10 5s2, praticamente só Cd2+, como o meu primo mais leve, o zinco. Um forte absorvente de neutrões (113Cd) e um metal pesado tóxico que se acumula nos rins, por isso os seus usos estão hoje muito limitados.',
     },
     pl: {
-      kid: 'Cześć! Jestem kadm, miękki, niebieskawobiały metal. Dwie ręce, i zawsze oddaję dokładnie dwa elektrony. Daję najjaskrawsze żółcie i czerwienie w farbach malarzy, ale jestem trujący, więc dziś używa się mnie ostrożnie i coraz rzadziej.',
+      kid: 'Cześć! Jestem Kadm, miękki, niebieskawobiały metal. Dwie ręce, i zawsze oddaję dokładnie dwa elektrony. Daję najjaskrawsze żółcie i czerwienie w farbach malarzy, ale jestem trujący, więc dziś używa się mnie ostrożnie i coraz rzadziej.',
       sci: 'Kadm: [Kr] 4d10 5s2, praktycznie tylko Cd2+, jak mój lżejszy kuzyn cynk. Silny pochłaniacz neutronów (113Cd) i toksyczny metal ciężki, który gromadzi się w nerkach, dlatego jego zastosowania są dziś ściśle ograniczone.',
     },
     de: {
-      kid: 'Hallo! Ich bin Cadmium, ein weiches, bläulich-weißes Metall. Zwei Hände, und ich gebe immer genau zwei Elektronen ab. Ich mache die leuchtendsten Gelb- und Rottöne in den Farben der Maler, aber ich bin giftig, deshalb benutzt man mich heute vorsichtig, und immer weniger.',
-      sci: 'Cadmium: [Kr] 4d10 5s2, praktisch nur Cd2+, wie mein leichterer Vetter, das Zink. Ein starker Neutronenabsorber (113Cd) und ein giftiges Schwermetall, das sich in den Nieren anreichert, deshalb ist seine Verwendung heute streng begrenzt.',
+      kid: 'Hallo! Ich bin das Cadmium, ein weiches, bläulich-weißes Metall. Zwei Hände, und ich gebe immer genau zwei Elektronen ab. Ich mache die leuchtendsten Gelb- und Rottöne in den Farben der Maler, aber ich bin giftig, deshalb benutzt man mich heute vorsichtig, und immer weniger.',
+      sci: 'Cadmium: [Kr] 4d10 5s2, praktisch nur Cd2+, wie mein leichterer Cousin, das Zink. Ein starker Neutronenabsorber (113Cd) und ein giftiges Schwermetall, das sich in den Nieren anreichert, deshalb ist seine Verwendung heute streng begrenzt.',
     },
   },
   nameOrigin: {
@@ -201,7 +201,7 @@ export default {
       kid: [
         'Maler lieben Cadmiumgelb und Cadmiumrot seit dem 19. Jahrhundert, wegen ihrer leuchtenden Farben, die lange halten.',
         'In Japan verschmutzte im letzten Jahrhundert Cadmium aus einem Bergwerk Reisfelder, und viele Menschen erkrankten an einer schmerzhaften Knochenkrankheit.',
-        'Ich bin ein Vetter von Zink und Quecksilber: Wir drei teilen uns eine Spalte des Periodensystems.',
+        'Ich bin ein Cousin von Zink und Quecksilber: Wir drei teilen uns eine Spalte des Periodensystems.',
         'Tabakpflanzen saugen Cadmium aus dem Boden: ein Grund mehr, niemals zu rauchen.',
       ],
       sci: [

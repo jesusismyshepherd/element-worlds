@@ -14,7 +14,7 @@ export default {
       sci: 'Bizmut: [Xe] 4f14 5d10 6s2 6p3, głównie Bi(III); Bi(V), jak w bizmutanie sodu, to silny utleniacz. Mój jedyny naturalny izotop, Bi-209, ulega rozpadowi alfa z okresem półtrwania około 2 × 10¹⁹ lat, ponad miliard razy dłuższym niż wiek wszechświata.',
     },
     de: {
-      kid: 'Hallo! Ich bin Bismut, das Metall, das regenbogenfarbene Kristalle in Form kleiner Treppen wachsen lässt! Drei Hände für die drei Elektronen, die ich meistens abgebe. Ich bin schwer, aber sanft: Ich stecke sogar in Medikamenten gegen Bauchweh.',
+      kid: 'Hallo! Ich bin das Bismut, das Metall, das regenbogenfarbene Kristalle in Form kleiner Treppen wachsen lässt! Drei Hände für die drei Elektronen, die ich meistens abgebe. Ich bin schwer, aber sanft: Ich stecke sogar in Medikamenten gegen Bauchweh.',
       sci: 'Bismut: [Xe] 4f14 5d10 6s2 6p3, meist Bi(III); Bi(V), wie in Natriumbismutat, ist ein starkes Oxidationsmittel. Mein einziges natürliches Isotop, Bi-209, zerfällt durch Alphazerfall mit einer Halbwertszeit von etwa 2 × 10¹⁹ Jahren, mehr als eine Milliarde Mal das Alter des Universums.',
     },
   },

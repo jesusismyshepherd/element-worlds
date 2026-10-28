@@ -10,11 +10,11 @@ export default {
       sci: "Bário: [Xe] 6s2, sempre Ba2+. Apesar do nome ('pesado'), o metal é leve, 3,6 g/cm³: foram os meus minerais densos, sobretudo a barite, que me deram o nome. Os sais de bário solúveis são venenosos, mas o sulfato de bário, insolúvel, é seguro para beber antes de um exame de raios X.",
     },
     pl: {
-      kid: 'Cześć! Jestem bar, miękki, srebrzysty metal. Dwie ręce, a w każdej elektron do oddania. Sprawiam, że fajerwerki świecą na zielono, a kiedy lekarze robią prześwietlenie twojego brzucha, napój ze mną sprawia, że wszystko dobrze widać!',
+      kid: 'Cześć! Jestem Bar, miękki, srebrzysty metal. Dwie ręce, a w każdej elektron do oddania. Sprawiam, że fajerwerki świecą na zielono, a kiedy lekarze robią prześwietlenie twojego brzucha, napój ze mną sprawia, że wszystko dobrze widać!',
       sci: 'Bar: [Xe] 6s2, zawsze Ba2+. Mimo mojej nazwy („ciężki”) metal jest lekki, 3,6 g/cm³: nazwę dały mi moje gęste minerały, przede wszystkim baryt. Rozpuszczalne sole baru są trujące, ale nierozpuszczalny siarczan baru jest na tyle bezpieczny, że można go wypić przed prześwietleniem.',
     },
     de: {
-      kid: 'Hallo! Ich bin Barium, ein weiches, silbriges Metall. Zwei Hände, und jede hält ein Elektron zum Abgeben hin. Ich lasse Feuerwerk grün leuchten, und wenn Ärzte deinen Bauch röntgen, sorgt ein Schluck von mir dafür, dass er gut zu sehen ist!',
+      kid: 'Hallo! Ich bin das Barium, ein weiches, silbriges Metall. Zwei Hände, und jede hält ein Elektron zum Abgeben hin. Ich lasse Feuerwerk grün leuchten, und wenn Ärzte deinen Bauch röntgen, sorgt ein Schluck von mir dafür, dass er gut zu sehen ist!',
       sci: 'Barium: [Xe] 6s2, immer Ba2+. Trotz meines Namens („schwer“) ist das Metall leicht, 3,6 g/cm³: Meine dichten Minerale, vor allem Baryt, gaben mir den Namen. Lösliche Bariumsalze sind giftig, aber unlösliches Bariumsulfat ist sicher genug, um es vor einer Röntgenaufnahme zu trinken.',
     },
   },

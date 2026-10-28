@@ -10,11 +10,11 @@ export default {
       sci: 'Lantânio: [Xe] 5d1 6s2, sempre La3+. O primeiro dos quinze lantanídeos, sem nenhum eletrão 4f meu (o La3+ é [Xe]); a camada 4f enche-se do cério ao lutécio. O maior da família: do La3+ (103 pm) ao Lu3+ (86 pm), os iões encolhem sempre, a contração dos lantanídeos.',
     },
     pl: {
-      kid: 'Cześć! Jestem lantan, a lantanowce, cała moja rodzina, noszą moje imię! Trzy ręce, po jednej na każdy elektron, który oddaję. Widzisz klejnot na mojej tiarze? Wszyscy taki nosimy i jesteśmy tak podobni, że chemicy potrzebowali mniej więcej stu lat, żeby nas rozróżnić.',
+      kid: 'Cześć! Jestem Lantan, a lantanowce, cała moja rodzina, noszą moje imię! Trzy ręce, po jednej na każdy elektron, który oddaję. Widzisz klejnot na mojej tiarze? Wszyscy taki nosimy i jesteśmy tak podobni, że chemicy potrzebowali mniej więcej stu lat, żeby nas rozróżnić.',
       sci: 'Lantan: [Xe] 5d1 6s2, zawsze La3+. Pierwszy z piętnastu lantanowców, bez własnego elektronu 4f (La3+ to [Xe]); powłoka 4f zapełnia się od ceru do lutetu. Największy w rodzinie: od La3+ (103 pm) do Lu3+ (86 pm) jony stale się kurczą, to kontrakcja lantanowcowa.',
     },
     de: {
-      kid: 'Hallo! Ich bin Lanthan, und die Lanthanoide, meine ganze Familie, sind nach mir benannt! Drei Hände, eine für jedes Elektron, das ich abgebe. Siehst du den Edelstein auf meinem Diadem? Wir tragen alle einen, und wir sind uns so ähnlich, dass Chemiker etwa ein Jahrhundert brauchten, um uns auseinanderzuhalten.',
+      kid: 'Hallo! Ich bin das Lanthan, und die Lanthanoide, meine ganze Familie, sind nach mir benannt! Drei Hände, eine für jedes Elektron, das ich abgebe. Siehst du den Edelstein auf meinem Diadem? Wir tragen alle einen, und wir sind uns so ähnlich, dass Chemiker etwa ein Jahrhundert brauchten, um uns auseinanderzuhalten.',
       sci: 'Lanthan: [Xe] 5d1 6s2, immer La3+. Das erste der fünfzehn Lanthanoide, ohne eigenes 4f-Elektron (La3+ ist [Xe]); die 4f-Schale füllt sich von Cer bis Lutetium. Das größte der Familie: Von La3+ (103 pm) bis Lu3+ (86 pm) schrumpfen die Ionen stetig, die Lanthanoidenkontraktion.',
     },
   },

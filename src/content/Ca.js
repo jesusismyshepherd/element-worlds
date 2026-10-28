@@ -14,7 +14,7 @@ export default {
       sci: 'Wapń: dwa elektrony 4s, oddawane jako Ca2+. Najobficiej występujący metal w ludzkim ciele (około 1 kg, z czego 99% w kościach i zębach) i piąty co do rozpowszechnienia pierwiastek skorupy ziemskiej.',
     },
     de: {
-      kid: 'Hallo! Ich bin Calcium und baue Knochen. Ich strecke zwei Elektronen aus, eins in jeder Hand. Dein Skelett, deine Zähne, Muscheln, Kreide und Marmor sind alle mit mir gemacht!',
+      kid: 'Hallo! Ich bin das Calcium und baue Knochen. Ich strecke zwei Elektronen aus, eins in jeder Hand. Dein Skelett, deine Zähne, Muscheln, Kreide und Marmor sind alle mit mir gemacht!',
       sci: 'Calcium: zwei 4s-Elektronen, abgegeben als Ca2+. Das häufigste Metall im menschlichen Körper (etwa 1 kg, davon 99% in Knochen und Zähnen) und das fünfthäufigste Element der Erdkruste.',
     },
   },

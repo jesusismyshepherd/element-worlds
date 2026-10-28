@@ -343,7 +343,10 @@ export async function build(ctx, target) {
   })
 
   // ---- the arch back to the gas's hall, behind the spawn ----
-  const back = arch({ width: 3.6, height: 4.4, color: COLOR, label: fill(W.back, { gas: gasName(sym) }), portal: 'swirl' })
+  // (inside a sentence the name is lowercase where the language says so; after a colon it is a label and
+  // keeps its capital: "Powrót do sali: Neon")
+  const backName = /:\s*\{gas\}$/.test(W.back) ? GasName(sym) : gasName(sym)
+  const back = arch({ width: 3.6, height: 4.4, color: COLOR, label: fill(W.back, { gas: backName }), portal: 'swirl' })
   back.group.position.set(0, 0, z1 - 0.1)
   back.group.rotation.y = Math.PI
   root.add(back.group)

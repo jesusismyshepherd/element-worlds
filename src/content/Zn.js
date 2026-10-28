@@ -14,7 +14,7 @@ export default {
       sci: 'Cynk: [Ar] 3d10 4s2, praktycznie tylko Zn2+. Mam pełną podpowłokę d, więc moje związki są białe lub bezbarwne, a niektórzy chemicy nie zaliczają mnie do prawdziwych metali przejściowych. Cynkuję stal i siedzę w setkach enzymów.',
     },
     de: {
-      kid: 'Hallo! Ich bin Zink. Zwei Hände für meine zwei Elektronen, und ich gebe immer genau zwei ab. Ich schütze Stahl vor Rost, ich stecke in Batterien und Sonnencreme, und dein Körper braucht mich zum Wachsen und Heilen!',
+      kid: 'Hallo! Ich bin das Zink. Zwei Hände für meine zwei Elektronen, und ich gebe immer genau zwei ab. Ich schütze Stahl vor Rost, ich stecke in Batterien und Sonnencreme, und dein Körper braucht mich zum Wachsen und Heilen!',
       sci: 'Zink: [Ar] 3d10 4s2, praktisch nur Zn2+. Mit voller d-Schale sind meine Verbindungen weiß oder farblos, und manche Chemiker zählen mich nicht als echtes Übergangsmetall. Ich verzinke Stahl und sitze in Hunderten von Enzymen.',
     },
   },

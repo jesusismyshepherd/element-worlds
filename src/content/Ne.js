@@ -10,7 +10,7 @@ export default {
       sci: 'Néon: a segunda camada completa (2s2 2p6) e nenhuma ligação: não se conhece nenhum composto estável meu. A minha primeira energia de ionização, 21,56 eV, é a segunda mais alta de todas, depois da do hélio.',
     },
     pl: {
-      kid: 'Cześć, jestem neonem! Nie mam rąk: moja zewnętrzna powłoka jest całkiem pełna, więc nigdy nie muszę nikogo trzymać za rękę. Ale daj mi trochę prądu, a zaświecę jaskrawym czerwono-pomarańczowym światłem, jak szyldy w mieście nocą!',
+      kid: 'Cześć, jestem Neon! Nie mam rąk: moja zewnętrzna powłoka jest całkiem pełna, więc nigdy nie muszę nikogo trzymać za rękę. Ale daj mi trochę prądu, a zaświecę jaskrawym czerwono-pomarańczowym światłem, jak szyldy w mieście nocą!',
       sci: 'Neon: pełna druga powłoka (2s2 2p6) i żadnych wiązań: nie jest znany żaden mój trwały związek. Moja pierwsza energia jonizacji, 21,56 eV, jest druga co do wielkości ze wszystkich, po helu.',
     },
     de: {

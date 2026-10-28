@@ -10,7 +10,7 @@ export default {
       sci: 'Lutécio: [Xe] 4f14 5d1 6s2, Lu3+ (4f14). O fim da contração dos lantanídeos: o Lu3+ (86 pm) é o ião mais pequeno da série, e o metal é o lantanídeo mais denso (9,84 g/cm³) e com o ponto de fusão mais alto (1663 °C).',
     },
     pl: {
-      kid: 'Cześć! Jestem lutetem, ostatnim z lantanowców, nazwanym od Paryża. Trzy ręce na moje trzy elektrony. Jestem najmniejszy, najgęstszy i najtwardszy w rodzinie, a lekarze używają mojego promieniotwórczego rodzaju do walki z nowotworami.',
+      kid: 'Cześć! Jestem Lutet, ostatni z lantanowców, nazwany od Paryża. Trzy ręce na moje trzy elektrony. Jestem najmniejszy, najgęstszy i najtwardszy w rodzinie, a lekarze używają mojego promieniotwórczego rodzaju do walki z nowotworami.',
       sci: 'Lutet: [Xe] 4f14 5d1 6s2, Lu3+ (4f14). Koniec kontrakcji lantanowców: Lu3+ (86 pm) to najmniejszy jon szeregu, a metal jest najgęstszym (9,84 g/cm³) i najwyżej topniejącym (1663 °C) z lantanowców.',
     },
     de: {

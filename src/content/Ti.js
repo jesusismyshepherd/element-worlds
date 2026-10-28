@@ -14,7 +14,7 @@ export default {
       sci: 'Tytan: [Ar] 3d2 4s2, zwykle Ti(IV), oddaję cztery elektrony (TiO2, TiCl4). Gęstość 4,5 g/cm³, około 57% gęstości stali; moje stopy dorównują wytrzymałością wielu stalom, a samonaprawiająca się warstewka tlenku chroni mnie przed korozją.',
     },
     de: {
-      kid: 'Hallo! Ich bin Titan. Vier Hände, eine für jedes Elektron, das ich abgebe. Ich bin stark, aber leicht, ich roste nie, und Ärzte setzen mich sogar in Menschen ein: neue Hüften und Schrauben, die neue Zähne halten!',
+      kid: 'Hallo! Ich bin das Titan. Vier Hände, eine für jedes Elektron, das ich abgebe. Ich bin stark, aber leicht, ich roste nie, und Ärzte setzen mich sogar in Menschen ein: neue Hüften und Schrauben, die neue Zähne halten!',
       sci: 'Titan: [Ar] 3d2 4s2, meist Ti(IV), mit vier abgegebenen Elektronen (TiO2, TiCl4). Dichte 4,5 g/cm³, etwa 57% der von Stahl; meine Legierungen sind so fest wie viele Stähle, und ein selbstheilender Oxidfilm schützt mich vor Korrosion.',
     },
   },

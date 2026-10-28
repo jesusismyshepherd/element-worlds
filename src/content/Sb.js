@@ -10,11 +10,11 @@ export default {
       sci: 'Antimónio: [Kr] 4d10 5s2 5p3, três ligações (SbCl3, estibina SbH3) e estados de oxidação −3, +3 e +5. Um semimetal frágil e brilhante; o trióxido de antimónio é a chave de muitos retardadores de chama.',
     },
     pl: {
-      kid: 'Cześć! Jestem antymon, w połowie metal, a w połowie nie (widzisz moją antenkę?). Trzy ręce, jak u moich kuzynów: azotu, fosforu i arsenu. Starożytni Egipcjanie malowali oczy moim czarnym minerałem, a dziś pomagam chronić rzeczy przed zapaleniem się.',
+      kid: 'Cześć! Jestem Antymon, w połowie metal, a w połowie nie (widzisz moją antenkę?). Trzy ręce, jak u moich kuzynów: azotu, fosforu i arsenu. Starożytni Egipcjanie malowali oczy moim czarnym minerałem, a dziś pomagam chronić rzeczy przed zapaleniem się.',
       sci: 'Antymon: [Kr] 4d10 5s2 5p3, trzy wiązania (SbCl3, stybina SbH3) i stopnie utlenienia −3, +3 i +5. Kruchy, połyskliwy półmetal; tritlenek antymonu to kluczowy składnik wielu środków zmniejszających palność.',
     },
     de: {
-      kid: 'Hallo! Ich bin Antimon, halb Metall und halb nicht (siehst du meine Antenne?). Drei Hände, wie bei meinen Vettern Stickstoff, Phosphor und Arsen. Die alten Ägypter schminkten sich die Augen mit meinem schwarzen Mineral, und heute helfe ich zu verhindern, dass Dinge Feuer fangen.',
+      kid: 'Hallo! Ich bin das Antimon, halb Metall und halb nicht (siehst du meine Antenne?). Drei Hände, wie bei meinen Cousins Stickstoff, Phosphor und Arsen. Die alten Ägypter schminkten sich die Augen mit meinem schwarzen Mineral, und heute helfe ich zu verhindern, dass Dinge Feuer fangen.',
       sci: 'Antimon: [Kr] 4d10 5s2 5p3, drei Bindungen (SbCl3, Stiban SbH3) und Oxidationsstufen −3, +3 und +5. Ein sprödes, glänzendes Halbmetall; Antimontrioxid ist der Schlüsselbestandteil vieler Flammschutzmittel.',
     },
   },

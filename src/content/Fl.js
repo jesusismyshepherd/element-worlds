@@ -10,11 +10,11 @@ export default {
       sci: "Fleróvio: previsto [Rn] 5f14 6d10 7s2 7p2, grupo 14, por baixo do carbono, do silício, do germânio, do estanho e do chumbo. A relatividade estabiliza o par 7p1/2, por isso espera-se o Fl(II), e é muito volátil para um metal. Durante muito tempo previu-se que Z = 114 fosse um número 'mágico' de protões.",
     },
     pl: {
-      kid: 'Cześć! Jestem flerowem, nazwanym na cześć laboratorium w Dubnej i naukowca, który je założył; nazywał się Georgy Flerov. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam dwie ręce na dwa elektrony, które podobno oddaję, tak jak mój kuzyn ołów.',
+      kid: 'Cześć! Jestem Flerow, nazwany na cześć laboratorium w Dubnej i naukowca, który je założył; nazywał się Georgy Flerov. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam dwie ręce na dwa elektrony, które podobno oddaję, tak jak mój kuzyn ołów.',
       sci: 'Flerow: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p2, grupa 14 pod węglem, krzemem, germanem, cyną i ołowiem. Efekty relatywistyczne stabilizują parę 7p1/2, więc oczekuje się Fl(II), a jak na metal jest bardzo lotny. Długo przewidywano, że Z = 114 to „magiczna” liczba protonów.',
     },
     de: {
-      kid: 'Hi! Ich bin das Flerovium, benannt nach einem Labor in Dubna und dem Forscher, der es gegründet hat, Georgy Flerov. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Zwei Hände, für die zwei Elektronen, die ich vermutlich abgebe, wie mein Cousin Blei.',
+      kid: 'Hallo! Ich bin das Flerovium, benannt nach einem Labor in Dubna und dem Forscher, der es gegründet hat, Georgy Flerov. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Zwei Hände, für die zwei Elektronen, die ich vermutlich abgebe, wie mein Cousin Blei.',
       sci: 'Flerovium: vorhergesagt [Rn] 5f14 6d10 7s2 7p2, Gruppe 14 unter Kohlenstoff, Silicium, Germanium, Zinn und Blei. Relativistische Effekte stabilisieren das 7p1/2-Paar, daher wird Fl(II) erwartet, und für ein Metall ist es sehr flüchtig. Lange wurde vorhergesagt, dass Z = 114 eine „magische“ Protonenzahl sei.',
     },
   },

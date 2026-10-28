@@ -10,7 +10,7 @@ export default {
       sci: 'Einsténio: [Rn] 5f11 7s2, Es(III) em solução (Es(II) em alguns sólidos). O Es-253 (20,5 dias) liberta cerca de 1000 W por grama, o suficiente para as amostras brilharem. É o elemento de número mais alto alguma vez visto em quantidade visível.',
     },
     pl: {
-      kid: 'Cześć! Jestem einsteinem, nazwanym na cześć Alberta Einsteina. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy: widoczny kawałek mnie świeci w ciemności od własnego ciepła. Jestem najcięższym pierwiastkiem, jaki ktokolwiek widział na własne oczy.',
+      kid: 'Cześć! Jestem Einstein, nazwany na cześć Alberta Einsteina. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy: widoczny kawałek mnie świeci w ciemności od własnego ciepła. Jestem najcięższym pierwiastkiem, jaki ktokolwiek widział na własne oczy.',
       sci: 'Einstein: [Rn] 5f11 7s2, w roztworze Es(III) (w niektórych ciałach stałych Es(II)). Es-253 (20,5 dnia) wydziela około 1000 W na gram, dość, by próbki świeciły. To pierwiastek o najwyższej liczbie atomowej, jaki kiedykolwiek widziano w widocznych ilościach.',
     },
     de: {

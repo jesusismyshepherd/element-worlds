@@ -10,7 +10,7 @@ export default {
       sci: 'Sódio: um eletrão 3s, que cedo com apenas 5,14 eV, por isso estou quase sempre como Na+. Mole o suficiente para ser cortado com uma faca, menos denso do que a água (0,97 g/cm³) e com ponto de fusão de 98 °C.',
     },
     pl: {
-      kid: 'Cześć! Jestem sodem, miękkim, błyszczącym metalem. Widzisz elektron w mojej ręce? Nie mogę się doczekać, żeby go komuś oddać, komukolwiek! Kiedy oddam go chlorowi, stajemy się solą, tą samą, którą posypujesz frytki.',
+      kid: 'Cześć! Jestem Sód, miękki, błyszczący metal. Widzisz elektron w mojej ręce? Nie mogę się doczekać, żeby go komuś oddać, komukolwiek! Kiedy oddam go chlorowi, stajemy się solą, tą samą, którą posypujesz frytki.',
       sci: 'Sód: jeden elektron 3s, oddawany już przy 5,14 eV, więc prawie zawsze jestem jonem Na+. Na tyle miękki, że można mnie kroić nożem, o gęstości mniejszej niż woda (0,97 g/cm³), topię się w 98 °C.',
     },
     de: {

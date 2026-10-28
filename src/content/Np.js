@@ -10,11 +10,11 @@ export default {
       sci: 'Neptúnio: [Rn] 5f4 6d1 7s2, estados de oxidação de +3 a +7, sendo o Np(V), como NpO2+, o mais estável na água; o Atomito mostra quatro mãos. O Np-237 (2,14 milhões de anos) é o isótopo que dura mais e a matéria-prima do Pu-238.',
     },
     pl: {
-      kid: 'Cześć! Jestem neptunem, pierwszym pierwiastkiem za uranem, jaki kiedykolwiek wytworzono. Pokazuję cztery ręce, choć często oddaję pięć elektronów. Mój delikatny blask oznacza, że jestem promieniotwórczy. Uran nosi imię planety Uran, więc ja noszę imię następnej, dalszej planety: Neptuna!',
+      kid: 'Cześć! Jestem Neptun, pierwszy pierwiastek za uranem, jaki kiedykolwiek wytworzono. Pokazuję cztery ręce, choć często oddaję pięć elektronów. Mój delikatny blask oznacza, że jestem promieniotwórczy. Uran nosi imię planety Uran, więc ja noszę imię następnej, dalszej planety: Neptuna!',
       sci: 'Neptun: [Rn] 5f4 6d1 7s2, stopnie utlenienia od +3 do +7, przy czym Np(V), jako NpO2+, jest najtrwalszy w wodzie; Atomek pokazuje cztery ręce. Np-237 (2,14 miliona lat) to najdłużej żyjący izotop i materiał wyjściowy do produkcji Pu-238.',
     },
     de: {
-      kid: 'Hi! Ich bin das Neptunium, das erste Element jenseits des Urans, das je hergestellt wurde. Ich zeige vier Hände, obwohl ich oft fünf Elektronen abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin. Uran ist nach dem Planeten Uranus benannt, also bin ich nach dem nächsten weiter draußen benannt: Neptun!',
+      kid: 'Hallo! Ich bin das Neptunium, das erste Element jenseits des Urans, das je hergestellt wurde. Ich zeige vier Hände, obwohl ich oft fünf Elektronen abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin. Uran ist nach dem Planeten Uranus benannt, also bin ich nach dem nächsten weiter draußen benannt: Neptun!',
       sci: 'Neptunium: [Rn] 5f4 6d1 7s2, Oxidationsstufen +3 bis +7, wobei Np(V), als NpO2+, in Wasser die stabilste ist; der Atomling zeigt vier Hände. Np-237 (2,14 Millionen Jahre) ist das langlebigste Isotop und das Ausgangsmaterial für Pu-238.',
     },
   },

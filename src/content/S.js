@@ -14,7 +14,7 @@ export default {
       sci: 'Siarka: sześć elektronów walencyjnych, dwa wiązania w H2S i w moich koronowych pierścieniach S8, ale nawet sześć w kwasie siarkowym i w SF6. Mam więcej odmian alotropowych niż jakikolwiek inny pierwiastek i wchodzę w skład dwóch aminokwasów: cysteiny i metioniny.',
     },
     de: {
-      kid: 'Hallo! Ich bin Schwefel und leuchtend gelb. Ich habe zwei Hände, und acht von uns fassen sich gern an den Händen, in einem Ring, der wie eine Krone aussieht. Man gibt mir die Schuld am Geruch fauler Eier, aber das ist Schwefelwasserstoff: Reiner Schwefel riecht fast gar nicht!',
+      kid: 'Hallo! Ich bin der Schwefel und bin leuchtend gelb. Ich habe zwei Hände, und acht von uns fassen sich gern an den Händen, in einem Ring, der wie eine Krone aussieht. Man gibt mir die Schuld am Geruch fauler Eier, aber das ist Schwefelwasserstoff: Reiner Schwefel riecht fast gar nicht!',
       sci: 'Schwefel: sechs Valenzelektronen, zwei Bindungen in H2S und in meinen S8-Kronenringen, aber bis zu sechs in Schwefelsäure und SF6. Ich habe mehr Allotrope als jedes andere Element und bin Teil zweier Aminosäuren, Cystein und Methionin.',
     },
   },

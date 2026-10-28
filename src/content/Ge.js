@@ -10,11 +10,11 @@ export default {
       sci: 'Germânio: [Ar] 3d10 4s2 4p2, quatro ligações num cristal do tipo do diamante, sobretudo Ge(IV) nos compostos. Um semicondutor com uma banda proibida de 0,67 eV, transparente ao infravermelho de cerca de 2 a 14 µm.',
     },
     pl: {
-      kid: 'Cześć! Jestem germanem, w połowie metalem, a w połowie nie (widzisz moją antenkę?). Mam cztery ręce, jak moi kuzyni węgiel i krzem. Pierwszy tranzystor na świecie zrobiono ze mnie, a do tego jestem soczewką kamer, które widzą ciepło w ciemności!',
+      kid: 'Cześć! Jestem German, w połowie metal, a w połowie nie (widzisz moją antenkę?). Mam cztery ręce, jak moi kuzyni węgiel i krzem. Pierwszy tranzystor na świecie zrobiono ze mnie, a do tego jestem soczewką kamer, które widzą ciepło w ciemności!',
       sci: 'German: [Ar] 3d10 4s2 4p2, cztery wiązania w krysztale typu diamentu, w związkach głównie Ge(IV). Półprzewodnik o przerwie energetycznej 0,67 eV, przezroczysty dla podczerwieni od około 2 do 14 µm.',
     },
     de: {
-      kid: 'Hallo! Ich bin Germanium, halb Metall und halb nicht (siehst du meine Antenne?). Vier Hände, wie meine Cousins Kohlenstoff und Silicium. Der allererste Transistor war aus mir, und ich bin die Linse von Kameras, die Wärme im Dunkeln sehen!',
+      kid: 'Hallo! Ich bin das Germanium, halb Metall und halb nicht (siehst du meine Antenne?). Vier Hände, wie meine Cousins Kohlenstoff und Silicium. Der allererste Transistor war aus mir, und ich bin die Linse von Kameras, die Wärme im Dunkeln sehen!',
       sci: 'Germanium: [Ar] 3d10 4s2 4p2, vier Bindungen in einem Kristall vom Diamanttyp, in Verbindungen meist Ge(IV). Ein Halbleiter mit 0,67 eV Bandlücke, durchlässig für Infrarot von etwa 2 bis 14 µm.',
     },
   },

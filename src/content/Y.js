@@ -10,11 +10,11 @@ export default {
       sci: 'Ítrio: [Kr] 4d1 5s2, praticamente só Y3+. Uma terra rara pela definição da IUPAC: o Y3+ tem quase o tamanho do Ho3+, por isso ando com os lantanídeos pesados nos seus minerais. Os lasers YAG, os fósforos YAG:Ce dos LED e os supercondutores YBCO são meus.',
     },
     pl: {
-      kid: 'Cześć! Jestem itrem, a nazwę mam od maleńkiej wioski w Szwecji. Mam trzy ręce i zawsze oddaję trzy elektrony. Pomagam świecić białym lampom LED i jestem w laserach i nadprzewodnikach!',
+      kid: 'Cześć! Jestem Itr, a nazwę mam od maleńkiej wioski w Szwecji. Mam trzy ręce i zawsze oddaję trzy elektrony. Pomagam świecić białym lampom LED i jestem w laserach i nadprzewodnikach!',
       sci: 'Itr: [Kr] 4d1 5s2, praktycznie tylko Y3+. Według definicji IUPAC należę do metali ziem rzadkich: Y3+ ma prawie taki sam rozmiar jak Ho3+, więc wędruję z ciężkimi lantanowcami w ich minerałach. Lasery YAG, luminofory YAG:Ce do diod LED i nadprzewodniki YBCO należą do mnie.',
     },
     de: {
-      kid: 'Hallo! Ich bin Yttrium, benannt nach einem winzigen Dorf in Schweden. Drei Hände, und ich gebe immer drei Elektronen ab. Ich helfe weißen LED-Lampen zu leuchten und stecke in Lasern und Supraleitern!',
+      kid: 'Hallo! Ich bin das Yttrium, benannt nach einem winzigen Dorf in Schweden. Drei Hände, und ich gebe immer drei Elektronen ab. Ich helfe weißen LED-Lampen zu leuchten und stecke in Lasern und Supraleitern!',
       sci: 'Yttrium: [Kr] 4d1 5s2, praktisch nur Y3+. Nach der Definition der IUPAC ein Seltenerdelement: Y3+ ist fast genauso groß wie Ho3+, darum reise ich in ihren Mineralen mit den schweren Lanthanoiden. YAG-Laser, YAG:Ce-Leuchtstoffe für LEDs und YBCO-Supraleiter gehören zu mir.',
     },
   },

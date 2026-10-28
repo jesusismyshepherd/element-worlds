@@ -10,11 +10,11 @@ export default {
       sci: 'Amerício: [Rn] 5f7 7s2, sobretudo Am(III) em solução (o Am(IV) a Am(VI) precisa de oxidantes fortes), um gémeo químico do európio. O Am-241 (432 anos) forma-se pelo decaimento do Pu-241; o Am-243 (7370 anos) é o que vive mais.',
     },
     pl: {
-      kid: 'Cześć! Jestem amerykiem i pewnie masz w domu odrobinkę mnie: pracuję w czujnikach dymu! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, ale w czujniku dymu jestem bezpiecznie zamknięty.',
+      kid: 'Cześć! Jestem Ameryk i pewnie masz w domu odrobinkę mnie: pracuję w czujnikach dymu! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy, ale w czujniku dymu jestem bezpiecznie zamknięty.',
       sci: 'Ameryk: [Rn] 5f7 7s2, w roztworze głównie Am(III) (Am(IV) do Am(VI) wymagają silnych utleniaczy), chemiczny bliźniak europu. Am-241 (432 lata) powstaje z rozpadu Pu-241; najdłużej żyje Am-243 (7370 lat).',
     },
     de: {
-      kid: 'Hi! Ich bin das Americium, und wahrscheinlich gibt es bei dir zu Hause ein Stäubchen von mir: Ich arbeite in Rauchmeldern! Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, aber im Rauchmelder bin ich sicher eingeschlossen.',
+      kid: 'Hallo! Ich bin das Americium, und wahrscheinlich gibt es bei dir zu Hause ein Stäubchen von mir: Ich arbeite in Rauchmeldern! Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, aber im Rauchmelder bin ich sicher eingeschlossen.',
       sci: 'Americium: [Rn] 5f7 7s2, in Lösung meist Am(III) (Am(IV) bis Am(VI) brauchen starke Oxidationsmittel), ein chemischer Zwilling des Europiums. Am-241 (432 Jahre) entsteht beim Zerfall von Pu-241; Am-243 (7370 Jahre) lebt am längsten.',
     },
   },

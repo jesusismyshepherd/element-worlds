@@ -10,7 +10,7 @@ export default {
       sci: 'Bóhrio: [Rn] 5f14 6d5 7s2, grupo 7, por baixo do manganês, do tecnécio e do rénio; Bh(VII), como no BhO3Cl. O Atomito mostra quatro mãos. O isótopo que vive mais, o Bh-270, dura uns minutos.',
     },
     pl: {
-      kid: 'Hej! Jestem bohrem, nazwanym na cześć Nielsa Bohra, który pokazał, że elektrony śmigają wokół jądra po powłokach, jak pierścienie wokół atomu w tej sali. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć mogę oddać siedem elektronów.',
+      kid: 'Cześć! Jestem Bohr, nazwany na cześć Nielsa Bohra, który pokazał, że elektrony śmigają wokół jądra po powłokach, jak pierścienie wokół atomu w tej sali. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Pokazuję cztery ręce, choć mogę oddać siedem elektronów.',
       sci: 'Bohr: [Rn] 5f14 6d5 7s2, grupa 7 pod manganem, technetem i renem; Bh(VII), jak w BhO3Cl. Atomek pokazuje cztery ręce. Jego najdłużej żyjący izotop, Bh-270, przetrwa kilka minut.',
     },
     de: {

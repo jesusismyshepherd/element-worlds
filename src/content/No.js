@@ -10,11 +10,11 @@ export default {
       sci: 'Nobélio: [Rn] 5f14 7s2, camada 5f cheia, por isso o No(II) é o estado estável na água, ao contrário do +3 da maior parte dos actinídeos. O No-259 (58 min) é o que vive mais; o No-254 faz-se com Pb-208 + Ca-48.',
     },
     pl: {
-      kid: 'Cześć! Jestem nobelem, nazwanym na cześć Alfreda Nobla, który ufundował Nagrody Nobla. W przeciwieństwie do większości moich kuzynów aktynowców lubię oddawać tylko dwa elektrony, więc mam dwie ręce. Mój delikatny blask oznacza, że jestem promieniotwórczy.',
+      kid: 'Cześć! Jestem Nobel, nazwany na cześć Alfreda Nobla, który ufundował Nagrody Nobla. W przeciwieństwie do większości moich kuzynów aktynowców lubię oddawać tylko dwa elektrony, więc mam dwie ręce. Mój delikatny blask oznacza, że jestem promieniotwórczy.',
       sci: 'Nobel: [Rn] 5f14 7s2, zapełniona powłoka 5f, więc w wodzie trwałym stopniem jest No(II), inaczej niż +3 większości aktynowców. Najdłużej żyje No-259 (58 min); No-254 wytwarza się w reakcji Pb-208 + Ca-48.',
     },
     de: {
-      kid: 'Hi! Ich bin das Nobelium, benannt nach Alfred Nobel, der die Nobelpreise ins Leben rief. Anders als die meisten meiner Actinoid-Cousins gebe ich gern nur zwei Elektronen ab, deshalb habe ich zwei Hände. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin.',
+      kid: 'Hallo! Ich bin das Nobelium, benannt nach Alfred Nobel, der die Nobelpreise ins Leben rief. Anders als die meisten meiner Actinoid-Cousins gebe ich gern nur zwei Elektronen ab, deshalb habe ich zwei Hände. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin.',
       sci: 'Nobelium: [Rn] 5f14 7s2, eine volle 5f-Schale, daher ist No(II) in Wasser die stabile Stufe, anders als das +3 der meisten Actinoide. No-259 (58 min) lebt am längsten; No-254 entsteht aus Pb-208 + Ca-48.',
     },
   },

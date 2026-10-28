@@ -10,11 +10,11 @@ export default {
       sci: 'Xénon: [Kr] 4d10 5s2 5p6, camada fechada, mas com primeira energia de ionização de 12,13 eV, baixa o suficiente para Neil Bartlett fazer o primeiro composto de um gás nobre em 1962. 0,087 ppm do ar; cerca de 4,5 vezes mais denso do que o ar.',
     },
     pl: {
-      kid: 'Cześć! Jestem ksenon, rzadki gaz szlachetny. Nie mam rąk: moja zewnętrzna powłoka jest pełna. Jestem taki ciężki, że unoszę się bardzo nisko. W reflektorach samochodów i lampach błyskowych aparatów świecę jasnym, niebieskawobiałym światłem!',
+      kid: 'Cześć! Jestem Ksenon, rzadki gaz szlachetny. Nie mam rąk: moja zewnętrzna powłoka jest pełna. Jestem taki ciężki, że unoszę się bardzo nisko. W reflektorach samochodów i lampach błyskowych aparatów świecę jasnym, niebieskawobiałym światłem!',
       sci: 'Ksenon: [Kr] 4d10 5s2 5p6, zamknięta powłoka, ale z pierwszą energią jonizacji 12,13 eV, na tyle niską, że Neil Bartlett otrzymał w 1962 roku pierwszy związek gazu szlachetnego. 0,087 ppm powietrza; gęstość około 4,5 raza większa niż powietrza.',
     },
     de: {
-      kid: 'Hallo! Ich bin Xenon, ein seltenes Edelgas. Keine Hände: Meine äußere Schale ist voll. Ich bin so schwer, dass ich ganz tief schwebe. In Autoscheinwerfern und Kamerablitzen leuchte ich hell bläulich-weiß!',
+      kid: 'Hallo! Ich bin das Xenon, ein seltenes Edelgas. Keine Hände: Meine äußere Schale ist voll. Ich bin so schwer, dass ich ganz tief schwebe. In Autoscheinwerfern und Kamerablitzen leuchte ich hell bläulich-weiß!',
       sci: 'Xenon: [Kr] 4d10 5s2 5p6, eine abgeschlossene Schale, aber mit einer ersten Ionisierungsenergie von 12,13 eV, niedrig genug, dass Neil Bartlett 1962 die erste Edelgasverbindung herstellen konnte. 0,087 ppm der Luft; etwa 4,5-mal dichter als Luft.',
     },
   },

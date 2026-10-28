@@ -10,7 +10,7 @@ export default {
       sci: 'Mendelévio: [Rn] 5f13 7s2, Md(III), com um Md(II) bastante estável. O Md-256 foi o primeiro isótopo de qualquer elemento feito e identificado um átomo de cada vez (1955); o Md-258 (51,6 dias) é o que vive mais.',
     },
     pl: {
-      kid: 'Cześć! Jestem mendelewem, nazwanym na cześć Dmitrija Mendelejewa, który ułożył pierwiastki w układ okresowy, ten, przez który właśnie spacerujesz! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy. Kiedy mnie odkryto, istniało tylko 17 moich atomów.',
+      kid: 'Cześć! Jestem Mendelew, nazwany na cześć Dmitrija Mendelejewa, który ułożył pierwiastki w układ okresowy, ten, przez który właśnie spacerujesz! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy. Kiedy mnie odkryto, istniało tylko 17 moich atomów.',
       sci: 'Mendelew: [Rn] 5f13 7s2, Md(III), z dość trwałym Md(II). Md-256 był pierwszym izotopem jakiegokolwiek pierwiastka wytworzonym i zidentyfikowanym atom po atomie (1955); najdłużej żyje Md-258 (51,6 dnia).',
     },
     de: {

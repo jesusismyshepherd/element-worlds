@@ -11,10 +11,10 @@ export default {
     },
     pl: {
       kid: 'Cześć! Jestem Osm, najgęstszy ze wszystkich pierwiastków: litr mnie waży tyle, co 22 litry wody! Jestem niebieskoszarym metalem. Cztery ręce na elektrony, które zwykle oddaję, a mogę oddać nawet osiem.',
-      sci: 'Osm: [Xe] 4f14 5d6 6s2, od Os(II) do Os(VIII) (OsO4); Atomling pokazuje cztery ręce. Najgęstszy pierwiastek, około 22,6 g/cm³, tuż przed irydem: ich gęstości wyznaczone rentgenograficznie różnią się tylko o około 0,1%.',
+      sci: 'Osm: [Xe] 4f14 5d6 6s2, od Os(II) do Os(VIII) (OsO4); Atomek pokazuje cztery ręce. Najgęstszy pierwiastek, około 22,6 g/cm³, tuż przed irydem: ich gęstości wyznaczone rentgenograficznie różnią się tylko o około 0,1%.',
     },
     de: {
-      kid: 'Hallo! Ich bin Osmium, das dichteste Element von allen: Ein Liter von mir wiegt so viel wie 22 Liter Wasser! Ich bin ein bläulich-graues Metall. Vier Hände für die Elektronen, die ich meistens abgebe, und ich kann bis zu acht abgeben.',
+      kid: 'Hallo! Ich bin das Osmium, das dichteste Element von allen: Ein Liter von mir wiegt so viel wie 22 Liter Wasser! Ich bin ein bläulich-graues Metall. Vier Hände für die Elektronen, die ich meistens abgebe, und ich kann bis zu acht abgeben.',
       sci: 'Osmium: [Xe] 4f14 5d6 6s2, von Os(II) bis Os(VIII) (OsO4); der Atomling zeigt vier Hände. Das dichteste Element, etwa 22,6 g/cm³, knapp vor dem Iridium: Ihre Röntgendichten unterscheiden sich nur um etwa 0,1%.',
     },
   },

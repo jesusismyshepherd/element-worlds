@@ -10,11 +10,11 @@ export default {
       sci: 'Paládio: [Kr] 4d10, o único elemento sem nenhum eletrão na camada com o número do seu período: os 46 ficam todos nas quatro primeiras camadas. Normalmente Pd(II), o das mãos; à temperatura ambiente absorvo até cerca de 900 vezes o meu volume de hidrogénio.',
     },
     pl: {
-      kid: 'Cześć! Jestem pallad, szlachetny, srebrzysty metal nazwany na cześć asteroidy. Dwie ręce na dwa elektrony, które zwykle oddaję. Potrafię wchłaniać wodór jak gąbka, setki razy więcej, niż wynosi moja własna objętość, i oczyszczam spaliny samochodów.',
+      kid: 'Cześć! Jestem Pallad, szlachetny, srebrzysty metal nazwany na cześć asteroidy. Dwie ręce na dwa elektrony, które zwykle oddaję. Potrafię wchłaniać wodór jak gąbka, setki razy więcej, niż wynosi moja własna objętość, i oczyszczam spaliny samochodów.',
       sci: 'Pallad: [Kr] 4d10, jedyny pierwiastek bez żadnego elektronu na powłoce o numerze swojego okresu: wszystkie 46 elektronów mieści się na czterech pierwszych powłokach. Zwykle Pd(II), to pokazują tu ręce; w temperaturze pokojowej pochłaniam do około 900 razy więcej wodoru, niż wynosi moja objętość.',
     },
     de: {
-      kid: 'Hallo! Ich bin Palladium, ein wertvolles, silbriges Metall, benannt nach einem Asteroiden. Zwei Hände für die zwei Elektronen, die ich meistens abgebe. Ich kann Wasserstoff aufsaugen wie ein Schwamm, Hunderte Male mein eigenes Volumen, und ich reinige die Abgase von Autos.',
+      kid: 'Hallo! Ich bin das Palladium, ein wertvolles, silbriges Metall, benannt nach einem Asteroiden. Zwei Hände für die zwei Elektronen, die ich meistens abgebe. Ich kann Wasserstoff aufsaugen wie ein Schwamm, Hunderte Male mein eigenes Volumen, und ich reinige die Abgase von Autos.',
       sci: 'Palladium: [Kr] 4d10, das einzige Element ohne ein Elektron in der Schale mit der Nummer seiner Periode: Alle 46 sitzen in den ersten vier Schalen. Meist Pd(II), das zeigen hier die Hände; bei Raumtemperatur nehme ich bis etwa zum 900-Fachen meines Volumens an Wasserstoff auf.',
     },
   },

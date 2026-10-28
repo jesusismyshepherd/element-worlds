@@ -768,7 +768,7 @@ const PT = {
 }
 
 const PL = {
-  back: 'Powrót do atrium',
+  back: 'Powrót do sali: Węgiel',
   kicker: 'Diament, grafit i spółka',
   decimal: ',',
   talkTo: 'Porozmawiaj',
@@ -796,7 +796,7 @@ const PL = {
       { verb: 'Otwórz', label: 'prasę' },
       { verb: 'Zacznij od nowa', label: 'z nowym grafitem' },
     ],
-    wait: 'Czekaj',
+    wait: 'Zaczekaj',
     working: 'prasa pracuje…',
     say: [
       'Grafit jest w kapsule. Teraz ściskaj!',
@@ -1150,14 +1150,14 @@ const PL = {
 }
 
 const DE = {
-  back: 'Zurück zum Atrium',
+  back: 'Zurück zur Halle: Kohlenstoff',
   kicker: 'Diamant, Graphit und Co.',
   decimal: ',',
-  talkTo: 'Sprechen mit',
+  talkTo: 'Sprich mit',
   graphiteWord: 'GRAPHIT',
   wall: 'Ein Element, viele Formen',
   greeting: {
-    kid: 'Willkommen in meiner Galerie! Schau nach unten: Du läufst auf Graphen, einer einzigen Schicht meiner Atome. Hier drin bin ich ein Diamant, ein Bleistift, eine Röhre und ein Ball. Probier jedes Ausstellungsstück aus, um sie alle zu entdecken!',
+    kid: 'Willkommen in meiner Galerie! Schau nach unten: Du läufst auf Graphen, einer einzigen Schicht meiner Atome. Hier drin bin ich ein Diamant, ein Bleistift, eine Röhre und ein Ball. Probier jedes Exponat aus, um sie alle zu entdecken!',
     sci: 'Allotrope: ein Element, verschiedene Bindungen. sp³ im Diamanten; sp² in Graphit, Graphen, Nanoröhren und Fullerenen. Der Boden ist Graphen im Maßstab 0,5 m pro Ångström. Entlang der linken Wand: Graphen von vier Seiten und die verdrehte Doppelschicht.',
   },
   pentagons: 'Fünfecke',
@@ -1172,13 +1172,13 @@ const DE = {
   catLabel: 'Katze: 4 kg',
   press: {
     steps: [
-      { verb: 'Einlegen', label: 'Graphit in die Presse' },
-      { verb: 'Hochfahren', label: 'die Presse auf 6 GPa' },
-      { verb: 'Erhitzen', label: 'die Kapsel auf 1500 °C' },
-      { verb: 'Öffnen', label: 'die Presse' },
-      { verb: 'Neu beginnen', label: 'mit neuem Graphit' },
+      { verb: 'Füll', label: 'Graphit in die Presse' },
+      { verb: 'Bring', label: 'die Presse auf 6 GPa' },
+      { verb: 'Erhitze', label: 'die Kapsel auf 1500 °C' },
+      { verb: 'Öffne', label: 'die Presse' },
+      { verb: 'Fang von vorn an', label: 'mit neuem Graphit' },
     ],
-    wait: 'Warten',
+    wait: 'Warte',
     working: 'die Presse arbeitet…',
     say: [
       'Der Graphit ist in der Kapsel. Jetzt pressen!',
@@ -1224,7 +1224,7 @@ const DE = {
   },
   ex: {
     graphene: {
-      label: 'das Klebeband', verb: 'Benutzen', labelBack: 'die Graphenschicht', verbBack: 'Zurücklegen',
+      label: 'das Klebeband', verb: 'Benutze', labelBack: 'die Graphenschicht', verbBack: 'Leg zurück',
       sign: { title: 'Graphen', kid: 'Zieh mit Klebeband eine Schicht vom Graphit ab.', sci: 'Eine Schicht Graphit: 2004, Geim und Novoselov (Nobelpreis 2010).' },
       panel: {
         title: 'Graphen',
@@ -1242,7 +1242,7 @@ const DE = {
       },
     },
     physics: {
-      label: 'die Energiekegel des Graphens', verb: 'Ansehen',
+      label: 'die Energiekegel des Graphens', verb: 'Betrachte',
       sign: { title: 'Graphen · Physik', kid: 'Elektronen rasen hindurch, als wären sie gewichtslos.', sci: 'Dirac-Kegel an den sechs K-Punkten; Elektronen mit etwa 1 000 000 m/s.' },
       panel: {
         title: 'Graphen · Physik',
@@ -1266,7 +1266,7 @@ const DE = {
       },
     },
     chemistry: {
-      label: 'die Pi-Orbitale', verb: 'Ansehen',
+      label: 'die Pi-Orbitale', verb: 'Betrachte',
       sign: { title: 'Graphen · Chemie', kid: 'Drei Hände in der Ebene, ein Elektron, das allen gehört.', sci: 'sp²: drei Sigma-Bindungen im Winkel von 120°, ein Pi-Elektron pro Atom.' },
       panel: {
         title: 'Graphen · Chemie',
@@ -1288,7 +1288,7 @@ const DE = {
       },
     },
     electronics: {
-      label: 'den Graphen-Transistor', verb: 'Ausprobieren',
+      label: 'den Graphen-Transistor', verb: 'Probier',
       sign: { title: 'Graphen · Elektronik', kid: 'Ein sehr schneller Schalter, der nie ganz ausschaltet.', sci: 'Keine Bandlücke: ein Halbmetall. An/Aus-Verhältnis nur etwa 5 bis 10.' },
       panel: {
         title: 'Graphen · Elektronik',
@@ -1310,7 +1310,7 @@ const DE = {
       },
     },
     materials: {
-      label: 'die Graphen-Hängematte', verb: 'Ansehen',
+      label: 'die Graphen-Hängematte', verb: 'Betrachte',
       sign: { title: 'Graphen · Materialien', kid: 'Ein Quadratmeter würde eine Katze tragen und weniger wiegen als ein Schnurrhaar.', sci: 'Festigkeit etwa 130 GPa, E-Modul etwa 1 TPa, 0,77 mg pro Quadratmeter.' },
       panel: {
         title: 'Graphen · Materialien',
@@ -1333,7 +1333,7 @@ const DE = {
       },
     },
     moire: {
-      label: 'die zwei Schichten', verb: 'Verdrehen',
+      label: 'die zwei Schichten', verb: 'Verdreh',
       sign: { title: 'Neuland: verdrehtes Graphen', kid: 'Zwei Schichten, eine dreht sich: Sieh zu, wie von selbst ein Riesenmuster entsteht.', sci: 'Verdrehte Doppelschicht: beim magischen Winkel (1,1°) Supraleitung.' },
       panel: {
         title: 'Neuland: verdrehtes Graphen',
@@ -1359,7 +1359,7 @@ const DE = {
       },
     },
     graphite: {
-      label: 'die Graphitschichten', verb: 'Verschieben', verbBack: 'Aufstapeln',
+      label: 'die Graphitschichten', verb: 'Verschieb', verbBack: 'Staple',
       sign: { title: 'Graphit', kid: 'Schichten aus Sechsecken, die übereinander gleiten.', sci: 'AB-Stapelung, Schichtabstand 3,35 Å; C–C 1,42 Å in jeder Schicht.' },
       panel: {
         title: 'Graphit',
@@ -1383,7 +1383,7 @@ const DE = {
       },
     },
     pencil: {
-      label: 'dem Riesenbleistift', verb: 'Schreiben mit',
+      label: 'dem Riesenbleistift', verb: 'Schreib mit',
       sign: { title: 'Der Bleistift', kid: 'Beim Schreiben bleiben dünne Graphitschichten auf dem Papier.', sci: 'Graphit und Ton, gebrannt: überhaupt kein Blei.' },
       panel: {
         title: 'Der Bleistift',
@@ -1403,7 +1403,7 @@ const DE = {
       },
     },
     diamond: {
-      label: 'das Diamantgitter', verb: 'Ansehen',
+      label: 'das Diamantgitter', verb: 'Betrachte',
       sign: { title: 'Diamant', kid: 'Jedes Atom hält vier andere, in 3D. Das härteste natürliche Material.', sci: 'Kubisch, a = 3,567 Å; C–C 1,545 Å bei 109,5°; sp³.' },
       panel: {
         title: 'Diamant',
@@ -1428,7 +1428,7 @@ const DE = {
       },
     },
     brilliant: {
-      label: 'den Brillanten', verb: 'Ansehen',
+      label: 'den Brillanten', verb: 'Betrachte',
       sign: { title: 'Der Brillant', kid: 'Licht springt darin hin und her und zerfällt in Farben.', sci: 'n = 2,42, Grenzwinkel 24,4°, Dispersion 0,044; 57 Facetten.' },
       panel: {
         title: 'Der Brillant',
@@ -1471,7 +1471,7 @@ const DE = {
       },
     },
     nanotube: {
-      label: 'die Nanoröhre', verb: 'Leuchten lassen',
+      label: 'die Nanoröhre', verb: 'Bring zum Leuchten',
       sign: { title: 'Nanoröhre', kid: 'Eine Graphenschicht, zu einer Röhre gerollt. Geh hindurch!', sci: 'Armchair (6,6): 0,81 nm Durchmesser, Wände ein Atom dick (Iijima, 1991).' },
       panel: {
         title: 'Kohlenstoffnanoröhre',
@@ -1493,7 +1493,7 @@ const DE = {
       },
     },
     fullerene: {
-      label: 'die Flächen von C60', verb: 'Zählen',
+      label: 'die Flächen von C60', verb: 'Zähl',
       sign: { title: 'Buckminsterfulleren', kid: 'C60: ein hohler Ball aus 60 Atomen. Du bist in einem drin!', sci: '60 Atome, 90 Bindungen, 12 Fünfecke, 20 Sechsecke (1985).' },
       panel: {
         title: 'Buckminsterfulleren, C₆₀',
@@ -1515,7 +1515,7 @@ const DE = {
       },
     },
     football: {
-      label: 'den Fußball', verb: 'Schießen',
+      label: 'den Fußball', verb: 'Schieß',
       sign: { title: 'Dasselbe Muster', kid: '12 Fünfecke und 20 Sechsecke, wie C60.', sci: 'Ein Ikosaederstumpf: 32 Felder, 60 Ecken, 90 Nähte.' },
       panel: {
         title: 'Dasselbe Muster',

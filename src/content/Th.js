@@ -14,7 +14,7 @@ export default {
       sci: 'Tor: [Rn] 6d2 7s2, prawie zawsze Th(IV), jak w ThO2. Th-232 (14,0 miliarda lat, mniej więcej wiek wszechświata) stanowi prawie cały naturalny tor; jest paliworodny i w reaktorach wytwarza rozszczepialny U-233.',
     },
     de: {
-      kid: 'Hallo! Ich bin Thorium, benannt nach Thor, dem nordischen Gott des Donners. Vier Hände, die die vier Elektronen hinhalten, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, aber ganz sanft: Ich halte so lange, dass das meiste Thorium, mit dem die Erde geboren wurde, noch da ist.',
+      kid: 'Hallo! Ich bin das Thorium, benannt nach Thor, dem nordischen Gott des Donners. Vier Hände, die die vier Elektronen hinhalten, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, aber ganz sanft: Ich halte so lange, dass das meiste Thorium, mit dem die Erde geboren wurde, noch da ist.',
       sci: 'Thorium: [Rn] 6d2 7s2, fast immer Th(IV), wie in ThO2. Th-232 (14,0 Milliarden Jahre, etwa das Alter des Universums) ist fast das gesamte natürliche Thorium; es ist ein Brutstoff und erbrütet in Reaktoren spaltbares U-233.',
     },
   },

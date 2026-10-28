@@ -10,7 +10,7 @@ export default {
       sci: 'Tungsténio: [Xe] 4f14 5d4 6s2, mais estável como W(VI) (WO3, os tungstatos), também W(IV) (WS2); o Atomito mostra no máximo quatro mãos. Ponto de fusão de 3422 °C, o mais alto de todos os metais; densidade de 19,3 g/cm³, praticamente igual à do ouro.',
     },
     pl: {
-      kid: 'Cześć! Jestem wolframem, metalem o najwyższej temperaturze topnienia ze wszystkich. Wyciągam cztery ręce, ale potrafię oddać jeszcze więcej elektronów: aż sześć! Rozgrzany do białości świecę, jak w starych żarówkach.',
+      kid: 'Cześć! Jestem Wolfram, metal o najwyższej temperaturze topnienia ze wszystkich. Wyciągam cztery ręce, ale potrafię oddać jeszcze więcej elektronów: aż sześć! Rozgrzany do białości świecę, jak w starych żarówkach.',
       sci: 'Wolfram: [Xe] 4f14 5d4 6s2, najtrwalszy jako W(VI) (WO3, wolframiany), także W(IV) (WS2); Atomek pokazuje najwyżej cztery ręce. Temperatura topnienia 3422 °C, najwyższa ze wszystkich metali; gęstość 19,3 g/cm³, praktycznie taka sama jak złota.',
     },
     de: {

@@ -10,7 +10,7 @@ export default {
       sci: 'Cúrio: [Rn] 5f7 6d1 7s2, quase sempre Cm(III): a camada 5f7 semipreenchida do Cm3+, como a do Gd3+, é muito estável. O Cm-244 (18,1 anos) e o Cm-242 (163 dias) são fontes alfa intensas; o Cm-247 (15,6 milhões de anos) é o que vive mais.',
     },
     pl: {
-      kid: 'Cześć! Jestem kiurem, nazwanym na cześć Marii Skłodowskiej-Curie i Piotra Curie. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy: w ciemności kiur świeci na fioletowo! Drobinka mnie poleciała nawet na Marsa, żeby badać tamtejsze skały.',
+      kid: 'Cześć! Jestem Kiur, nazwany na cześć Marii Skłodowskiej-Curie i Piotra Curie. Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy: w ciemności kiur świeci na fioletowo! Drobinka mnie poleciała nawet na Marsa, żeby badać tamtejsze skały.',
       sci: 'Kiur: [Rn] 5f7 6d1 7s2, prawie zawsze Cm(III): do połowy zapełniona powłoka 5f7 jonu Cm3+, podobnie jak Gd3+, jest bardzo trwała. Cm-244 (18,1 roku) i Cm-242 (163 dni) to intensywne źródła alfa; najdłużej żyje Cm-247 (15,6 miliona lat).',
     },
     de: {

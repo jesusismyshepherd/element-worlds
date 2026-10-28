@@ -10,7 +10,7 @@ export default {
       sci: 'Silício: quatro eletrões de valência, quatro ligações, um cristal do tipo do diamante e um semicondutor com uma banda proibida de 1,12 eV. Ligado ao oxigénio, construo a maior parte da crosta terrestre, sob a forma de silicatos.',
     },
     pl: {
-      kid: 'Cześć, jestem krzemem, trochę metalem, a trochę nie (widzisz moją antenkę?). Tak jak mój kuzyn węgiel, mam cztery ręce. Piasek, szkło i układy scalone w każdym komputerze i telefonie powstają ze mną!',
+      kid: 'Cześć, jestem Krzem, trochę metal, a trochę nie (widzisz moją antenkę?). Tak jak mój kuzyn węgiel, mam cztery ręce. Piasek, szkło i układy scalone w każdym komputerze i telefonie powstają ze mną!',
       sci: 'Krzem: cztery elektrony walencyjne, cztery wiązania, kryształ typu diamentu i półprzewodnik o przerwie energetycznej 1,12 eV. Związany z tlenem buduję w postaci krzemianów większą część skorupy ziemskiej.',
     },
     de: {

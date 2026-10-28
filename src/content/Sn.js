@@ -10,11 +10,11 @@ export default {
       sci: 'Estanho: [Kr] 4d10 5s2 5p2, como Sn(IV) (SnO2, cassiterite) ou Sn(II). Z = 50 é um número mágico: tenho dez isótopos estáveis, mais do que qualquer outro elemento.',
     },
     pl: {
-      kid: 'Cześć! Jestem cyna. Cztery ręce, na cztery elektrony, które mogę oddać (czasem oddaję tylko dwa). Zmieszaj mnie z miedzią, a dostaniesz brąz, metal epoki brązu!',
+      kid: 'Cześć! Jestem Cyna. Cztery ręce, na cztery elektrony, które mogę oddać (czasem oddaję tylko dwa). Zmieszaj mnie z miedzią, a dostaniesz brąz, metal epoki brązu!',
       sci: 'Cyna: [Kr] 4d10 5s2 5p2, jako Sn(IV) (SnO2, kasyteryt) lub Sn(II). Z = 50 to liczba magiczna: mam dziesięć trwałych izotopów, więcej niż jakikolwiek inny pierwiastek.',
     },
     de: {
-      kid: 'Hallo! Ich bin Zinn. Vier Hände, für die vier Elektronen, die ich abgeben kann (manchmal gebe ich nur zwei ab). Misch mich mit Kupfer, und du bekommst Bronze, das Metall der Bronzezeit!',
+      kid: 'Hallo! Ich bin das Zinn. Vier Hände, für die vier Elektronen, die ich abgeben kann (manchmal gebe ich nur zwei ab). Misch mich mit Kupfer, und du bekommst Bronze, das Metall der Bronzezeit!',
       sci: 'Zinn: [Kr] 4d10 5s2 5p2, als Sn(IV) (SnO2, Kassiterit) oder Sn(II). Z = 50 ist eine magische Zahl: Ich habe zehn stabile Isotope, mehr als jedes andere Element.',
     },
   },

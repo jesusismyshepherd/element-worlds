@@ -14,7 +14,7 @@ export default {
       sci: 'Skand: [Ar] 3d1 4s2, praktycznie tylko Sc3+. Pierwszy z metali przejściowych i najmniej gęsty z nich (2,99 g/cm³), a jednak topię się dopiero w 1541 °C. IUPAC zalicza mnie do pierwiastków ziem rzadkich, razem z itrem i lantanowcami.',
     },
     de: {
-      kid: 'Hallo! Ich bin Scandium, ein leichtes, silbriges Metall. Drei Hände, und ich gebe immer genau drei Elektronen ab. Eine winzige Prise von mir macht Aluminium viel fester: Denk an Rennräder und Flugzeugteile!',
+      kid: 'Hallo! Ich bin das Scandium, ein leichtes, silbriges Metall. Drei Hände, und ich gebe immer genau drei Elektronen ab. Eine winzige Prise von mir macht Aluminium viel fester: Denk an Rennräder und Flugzeugteile!',
       sci: 'Scandium: [Ar] 3d1 4s2, praktisch nur Sc3+. Das erste der Übergangsmetalle und das mit der geringsten Dichte (2,99 g/cm³), und doch schmelze ich erst bei 1541 °C. Die IUPAC zählt mich zu den Seltenerdmetallen, mit Yttrium und den Lanthanoiden.',
     },
   },

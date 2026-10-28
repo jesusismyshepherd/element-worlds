@@ -10,7 +10,7 @@ export default {
       sci: 'Roentgénio: previsto [Rn] 5f14 6d9 7s2 (e não 6d10 7s1 como o ouro: a relatividade estabiliza o par 7s), grupo 11, por baixo do cobre, da prata e do ouro; espera-se o Rg(III) como estado habitual. Prevê-se que seja um metal nobre.',
     },
     pl: {
-      kid: 'Hej! Jestem roentgenem, nazwanym na cześć Wilhelma Röntgena, który odkrył promienie X. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam trzy ręce i wyciągam w nich trzy elektrony, które podobno oddaję. Siedzę tuż pod złotem!',
+      kid: 'Cześć! Jestem Roentgen, nazwany na cześć Wilhelma Röntgena, który odkrył promienie X. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam trzy ręce i wyciągam w nich trzy elektrony, które podobno oddaję. Siedzę tuż pod złotem!',
       sci: 'Roentgen: przewidywana konfiguracja [Rn] 5f14 6d9 7s2 (a nie 6d10 7s1 jak u złota: efekty relatywistyczne stabilizują parę 7s), grupa 11 pod miedzią, srebrem i złotem; oczekuje się, że zwykłym stopniem utlenienia będzie Rg(III). Według przewidywań metal szlachetny.',
     },
     de: {

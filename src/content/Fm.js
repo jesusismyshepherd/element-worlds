@@ -10,11 +10,11 @@ export default {
       sci: 'Férmio: [Rn] 5f12 7s2, Fm(III), com Fm(II) possível em condições muito redutoras. É o elemento mais pesado que se faz por captura de neutrões em reatores: a cadeia para no Fm-257 (100,5 dias), porque o Fm-258 sofre fissão em 0,37 ms.',
     },
     pl: {
-      kid: 'Cześć! Jestem fermem, pierwiastkiem 100, pierwszym pierwiastkiem z trzycyfrowym numerem! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy. Nikt nigdy nie wytworzył mnie tyle, żeby dało się mnie zobaczyć.',
+      kid: 'Cześć! Jestem Ferm, pierwiastek 100, pierwszy pierwiastek z trzycyfrowym numerem! Trzy ręce, w których trzymam trzy elektrony do oddania. Mój delikatny blask oznacza, że jestem promieniotwórczy. Nikt nigdy nie wytworzył mnie tyle, żeby dało się mnie zobaczyć.',
       sci: 'Ferm: [Rn] 5f12 7s2, Fm(III), a w silnie redukujących warunkach osiągalny jest Fm(II). To najcięższy pierwiastek wytwarzany przez wychwyt neutronów w reaktorach: łańcuch kończy się na Fm-257 (100,5 dnia), bo Fm-258 rozszczepia się w 0,37 ms.',
     },
     de: {
-      kid: 'Hi! Ich bin das Fermium, Element 100, das erste Element mit einer dreistelligen Nummer! Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin. Niemand hat je so viel von mir hergestellt, dass man mich sehen könnte.',
+      kid: 'Hallo! Ich bin das Fermium, Element 100, das erste Element mit einer dreistelligen Nummer! Drei Hände, in denen ich die drei Elektronen hinhalte, die ich abgebe. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin. Niemand hat je so viel von mir hergestellt, dass man mich sehen könnte.',
       sci: 'Fermium: [Rn] 5f12 7s2, Fm(III), wobei Fm(II) unter stark reduzierenden Bedingungen erreichbar ist. Es ist das schwerste Element, das durch Neutroneneinfang in Reaktoren entsteht: Die Kette endet bei Fm-257 (100,5 Tage), weil Fm-258 in 0,37 ms spaltet.',
     },
   },

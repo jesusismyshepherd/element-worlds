@@ -14,7 +14,7 @@ export default {
       sci: 'Rad: [Rn] 7s2, zawsze Ra(II), najcięższy metal ziem alkalicznych. Ra-226 (1600 lat) należy do szeregu U-238; jeden gram rozpada się około 37 miliardów razy na sekundę, co było pierwotną definicją kiura.',
     },
     de: {
-      kid: 'Hallo! Ich bin Radium. Marie und Pierre Curie haben mich 1898 entdeckt. Zwei Hände, die meine zwei äußeren Elektronen hinhalten, wie bei meinem Cousin Calcium. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und meine Salze leuchten wirklich schwach im Dunkeln.',
+      kid: 'Hallo! Ich bin das Radium. Marie und Pierre Curie haben mich 1898 entdeckt. Zwei Hände, die meine zwei äußeren Elektronen hinhalten, wie bei meinem Cousin Calcium. Mein sanftes Leuchten bedeutet, dass ich radioaktiv bin, und meine Salze leuchten wirklich schwach im Dunkeln.',
       sci: 'Radium: [Rn] 7s2, immer Ra(II), das schwerste Erdalkalimetall. Ra-226 (1600 Jahre) gehört zur U-238-Reihe; ein Gramm davon zerfällt etwa 37 Milliarden Mal pro Sekunde, die ursprüngliche Definition des Curie.',
     },
   },

@@ -14,7 +14,7 @@ export default {
       sci: 'Chrom: [Ar] 3d5 4s1, w połowie zapełniona podpowłoka d (jeden ze słynnych wyjątków). Zwykle Cr(III), w chromianach także Cr(VI); co najmniej 10,5% mnie zamienia stal w stal nierdzewną.',
     },
     de: {
-      kid: 'Hallo! Ich bin Chrom. Drei Hände, eine für jedes Elektron, das ich gern abgebe. Ich bringe Stahl zum Glänzen und halte ihn vom Rosten ab, und ich male Rubine rot und Smaragde grün!',
+      kid: 'Hallo! Ich bin das Chrom. Drei Hände, eine für jedes Elektron, das ich gern abgebe. Ich bringe Stahl zum Glänzen und halte ihn vom Rosten ab, und ich male Rubine rot und Smaragde grün!',
       sci: 'Chrom: [Ar] 3d5 4s1, eine halb gefüllte d-Schale (eine der berühmten Ausnahmen). Meist Cr(III), in Chromaten auch Cr(VI); mindestens 10,5% von mir machen Stahl zu rostfreiem Stahl.',
     },
   },

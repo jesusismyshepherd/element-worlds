@@ -10,7 +10,7 @@ export default {
       sci: 'Hélio: dois eletrões que enchem a camada 1s, nenhuma ligação e a primeira energia de ionização mais alta de todos os elementos (24,59 eV). Não formo compostos estáveis às pressões normais e sou o segundo elemento mais abundante do universo.',
     },
     pl: {
-      kid: 'Cześć! Jestem helem. Patrz, bez rąk! Moje dwa elektrony wypełniają moją jedyną powłokę, więc nigdy nie muszę nikogo trzymać za rękę. I jestem tak lekki, że odlatuję w górę jak balonik z urodzin.',
+      kid: 'Cześć! Jestem Hel. Patrz, bez rąk! Moje dwa elektrony wypełniają moją jedyną powłokę, więc nigdy nie muszę nikogo trzymać za rękę. I jestem tak lekki, że odlatuję w górę jak balonik z urodzin.',
       sci: 'Hel: dwa elektrony wypełniające powłokę 1s, żadnych wiązań i najwyższa pierwsza energia jonizacji spośród wszystkich pierwiastków (24,59 eV). Pod zwykłym ciśnieniem nie tworzę trwałych związków i jestem drugim najbardziej rozpowszechnionym pierwiastkiem we wszechświecie.',
     },
     de: {

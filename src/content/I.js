@@ -10,11 +10,11 @@ export default {
       sci: 'Iodo: [Kr] 4d10 5s2 5p5, uma ligação ou I−, mas também estados positivos até +7 (iodatos, periodatos). O elemento mais pesado de que os seres humanos precisam: as hormonas da tiroide têm três ou quatro átomos de iodo.',
     },
     pl: {
-      kid: 'Cześć! Jestem jod: ciemne, błyszczące kryształy, z których unosi się fioletowa para. Jedna ręka, żeby złapać jeden elektron. Twoja tarczyca potrzebuje mnie, żeby twój organizm pracował we właściwym tempie!',
+      kid: 'Cześć! Jestem Jod: ciemne, błyszczące kryształy, z których unosi się fioletowa para. Jedna ręka, żeby złapać jeden elektron. Twoja tarczyca potrzebuje mnie, żeby twój organizm pracował we właściwym tempie!',
       sci: 'Jod: [Kr] 4d10 5s2 5p5, jedno wiązanie lub I−, ale też dodatnie stopnie utlenienia aż do +7 (jodany, nadjodany). Najcięższy pierwiastek, którego potrzebuje człowiek: hormony tarczycy zawierają trzy lub cztery atomy jodu.',
     },
     de: {
-      kid: 'Hallo! Ich bin Iod: dunkle, glänzende Kristalle, die einen violetten Dampf abgeben. Eine Hand, um ein Elektron zu greifen. Deine Schilddrüse braucht mich, damit dein Körper im richtigen Tempo läuft!',
+      kid: 'Hallo! Ich bin das Iod: dunkle, glänzende Kristalle, die einen violetten Dampf abgeben. Eine Hand, um ein Elektron zu greifen. Deine Schilddrüse braucht mich, damit dein Körper im richtigen Tempo läuft!',
       sci: 'Iod: [Kr] 4d10 5s2 5p5, eine Bindung oder I−, aber auch positive Stufen bis +7 (Iodate, Periodate). Das schwerste Element, das der Mensch braucht: Die Schilddrüsenhormone tragen drei oder vier Iodatome.',
     },
   },

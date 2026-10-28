@@ -14,7 +14,7 @@ export default {
       sci: 'Argon: zamknięta powłoka 3s2 3p6, brak wiązań i trzeci pod względem ilości gaz w suchym powietrzu (0,93%), ponad 20 razy częstszy niż dwutlenek węgla. Prawie cały argon na Ziemi to argon-40, powstały z rozpadu potasu-40 w skałach.',
     },
     de: {
-      kid: 'Hallo, ich bin Argon! Mein Name bedeutet „faul“, und ich habe keine Hände: Meine äußere Schale ist voll, deshalb halte ich mich nie an jemandem fest. Aber ich bin überall um dich herum: Fast 1 von 100 Teilchen der Luft bin ich.',
+      kid: 'Hallo, ich bin das Argon! Mein Name bedeutet „faul“, und ich habe keine Hände: Meine äußere Schale ist voll, deshalb halte ich mich nie an jemandem fest. Aber ich bin überall um dich herum: Fast 1 von 100 Teilchen der Luft bin ich.',
       sci: 'Argon: eine abgeschlossene Schale 3s2 3p6, keine Bindungen und das dritthäufigste Gas in trockener Luft (0,93%), mehr als 20-mal so häufig wie Kohlenstoffdioxid. Fast alles Argon auf der Erde ist Argon-40, entstanden durch den Zerfall von Kalium-40 in Gesteinen.',
     },
   },
