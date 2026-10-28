@@ -9,10 +9,20 @@ export default {
       kid: 'Olá, chamo-me Lítio e sou o metal mais leve de todos! Vês o eletrão na minha mão? Estou sempre com vontade de o dar. Sou tão leve que até flutuaria na água, mas não me deites lá dentro: começava logo a borbulhar!',
       sci: 'Lítio: um eletrão 2s que cedo com facilidade (5,39 eV), o metal mais leve e o elemento sólido menos denso (0,534 g/cm³). Os meus iões Li+ viajam entre os elétrodos das baterias recarregáveis.',
     },
+    pl: {
+      kid: 'Cześć, jestem litem, najlżejszym metalem ze wszystkich! Widzisz elektron w mojej ręce? Zawsze mam ochotę komuś go oddać. Jestem tak lekki, że unosiłbym się na wodzie, ale proszę, nie wrzucaj mnie do niej: zaraz zacząłbym musować!',
+      sci: 'Lit: jeden elektron 2s, który łatwo oddaję (5,39 eV), najlżejszy metal i pierwiastek stały o najmniejszej gęstości (0,534 g/cm³). Moje jony Li+ wędrują tam i z powrotem między elektrodami akumulatorów.',
+    },
+    de: {
+      kid: 'Hallo, ich bin das Lithium, das leichteste Metall von allen! Siehst du das Elektron in meiner Hand? Ich will es immer verschenken. Ich bin so leicht, dass ich auf Wasser schwimmen würde, aber wirf mich bitte nicht hinein: Ich würde sofort anfangen zu sprudeln!',
+      sci: 'Lithium: ein 2s-Elektron, das ich leicht abgebe (5,39 eV), das leichteste Metall und das feste Element mit der geringsten Dichte (0,534 g/cm³). Meine Li+-Ionen pendeln zwischen den Elektroden wiederaufladbarer Batterien.',
+    },
   },
   nameOrigin: {
     en: { kid: 'From the Greek lithos, stone: it was discovered in a mineral (a stone), while potassium had been found in the ashes of plants.' },
     'pt-pt': { kid: 'Do grego lithos, pedra: foi descoberto num mineral (uma pedra), enquanto o potássio tinha sido encontrado nas cinzas das plantas.' },
+    pl: { kid: 'Od greckiego lithos, kamień: odkryto go w minerale (czyli w kamieniu), a potas znaleziono wcześniej w popiele roślin.' },
+    de: { kid: 'Vom griechischen lithos, Stein: Es wurde in einem Mineral (einem Stein) entdeckt, während man Kalium in der Asche von Pflanzen gefunden hatte.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'Em 1817, um jovem químico sueco, Johan August Arfwedson, analisava um mineral chamado petalite, da ilha de Utö, perto de Estocolmo, e descobriu nele um álcali novo escondido. Poucos anos depois, os cientistas fizeram os primeiros bocadinhos de lítio metálico com eletricidade.',
       sci: 'Johan August Arfwedson descobriu-o em 1817 no laboratório de Berzelius, em Estocolmo, ao analisar a petalite (LiAlSi4O10) de Utö; mostrou que o seu álcali não era sódio nem potássio, mas não conseguiu isolar o metal. Pouco depois obtiveram-se pequenas quantidades por eletrólise do óxido (William Thomas Brande); Bunsen e Matthiessen produziram-no em quantidade em 1855, por eletrólise do cloreto de lítio fundido.',
+    },
+    pl: {
+      kid: 'W 1817 roku młody szwedzki chemik Johan August Arfwedson badał minerał zwany petalitem, z wyspy Utö niedaleko Sztokholmu, i znalazł w nim ukrytą nową substancję alkaliczną. Kilka lat później naukowcy otrzymali za pomocą prądu pierwsze malutkie kawałeczki metalicznego litu.',
+      sci: 'Johan August Arfwedson odkrył go w 1817 roku w laboratorium Berzeliusa w Sztokholmie, analizując petalit (LiAlSi4O10) z Utö; wykazał, że zawarta w nim substancja alkaliczna nie pochodzi ani od sodu, ani od potasu, ale nie zdołał wyodrębnić metalu. Niewielkie ilości otrzymano wkrótce potem przez elektrolizę tlenku (William Thomas Brande); Bunsen i Matthiessen wytworzyli go w większych ilościach w 1855 roku przez elektrolizę stopionego chlorku litu.',
+    },
+    de: {
+      kid: '1817 untersuchte ein junger schwedischer Chemiker, Johan August Arfwedson, ein Mineral namens Petalit von der Insel Utö bei Stockholm und fand darin ein neues Alkali versteckt. Ein paar Jahre später stellten Forscher mit Strom die ersten winzigen Stückchen Lithiummetall her.',
+      sci: 'Johan August Arfwedson fand es 1817 im Labor von Berzelius in Stockholm, als er Petalit (LiAlSi4O10) aus Utö analysierte; er zeigte, dass dessen Alkali weder Natrium noch Kalium war, konnte das Metall aber nicht isolieren. Kleine Mengen gewann man bald danach durch Elektrolyse des Oxids (William Thomas Brande); Bunsen und Matthiessen stellten es 1855 in größerer Menge durch Elektrolyse von geschmolzenem Lithiumchlorid her.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O lítio é um metal prateado e mole que se corta com uma faca. O brilho de um corte fresco escurece depressa ao ar, porque reage até com o azoto do ar, e é tão leve que flutua no óleo onde os químicos o guardam.',
       sci: 'O metal mais leve e o elemento sólido menos denso (0,534 g/cm³), funde a 180,5 °C. É o único metal alcalino que reage com o azoto à temperatura ambiente, formando nitreto de lítio: 6 Li + N2 -> 2 Li3N.',
     },
+    pl: {
+      kid: 'Lit to miękki, srebrzysty metal, który można kroić nożem. Świeży połysk szybko ciemnieje na powietrzu, bo lit reaguje nawet z azotem z powietrza, a do tego jest tak lekki, że pływa po oleju, w którym przechowują go chemicy.',
+      sci: 'Najlżejszy metal i pierwiastek stały o najmniejszej gęstości (0,534 g/cm³), topi się w 180,5 °C. To jedyny metal alkaliczny, który reaguje z azotem w temperaturze pokojowej, tworząc azotek litu: 6 Li + N2 -> 2 Li3N.',
+    },
+    de: {
+      kid: 'Lithium ist ein weiches, silbriges Metall, das du mit einem Messer schneiden kannst. Sein frischer Glanz wird an der Luft schnell dunkel, weil es sogar mit dem Stickstoff der Luft reagiert, und es ist so leicht, dass es auf dem Öl schwimmt, in dem Chemiker es aufbewahren.',
+      sci: 'Das leichteste Metall und das feste Element mit der geringsten Dichte (0,534 g/cm³), schmilzt bei 180,5 °C. Es ist das einzige Alkalimetall, das bei Raumtemperatur mit Stickstoff reagiert, und bildet dabei Lithiumnitrid: 6 Li + N2 -> 2 Li3N.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O lítio não é raro nas rochas, mas está muito espalhado. Vamos buscá-lo a minerais duros escavados em minas e a água muito salgada, bombeada de debaixo de lagos de sal secos da América do Sul e deixada a secar ao sol. Um bocadinho dele foi feito no próprio Big Bang!',
       sci: 'Um dos três únicos elementos formados no Big Bang (com o hidrogénio e o hélio). Na crosta há cerca de 20 mg/kg; extrai-se da espodumena (LiAlSi2O6) em minas de rocha dura, sobretudo na Austrália, e das salmouras debaixo dos salares do Chile e da Argentina, concentradas em tanques de evaporação. Portugal também tem minas de minerais de lítio, usados sobretudo em cerâmica e vidro. A água do mar tem cerca de 0,18 mg/L.',
+    },
+    pl: {
+      kid: 'Lit nie jest rzadki w skałach, ale jest bardzo rozproszony. Pozyskujemy go z twardych minerałów wydobywanych w kopalniach oraz z bardzo słonej wody, którą pompuje się spod wyschniętych słonych jezior w Ameryce Południowej i zostawia do wyschnięcia na słońcu. Odrobina litu powstała w samym Wielkim Wybuchu!',
+      sci: 'Jeden z zaledwie trzech pierwiastków powstałych w Wielkim Wybuchu (obok wodoru i helu). W skorupie ziemskiej około 20 mg/kg; wydobywany ze spodumenu (LiAlSi2O6) w kopalniach skał twardych, głównie w Australii, oraz z solanek spod solnisk Chile i Argentyny, zatężanych w stawach odparowujących. Portugalia też wydobywa minerały litu, głównie na potrzeby ceramiki i szkła. Woda morska zawiera około 0,18 mg/L.',
+    },
+    de: {
+      kid: 'Lithium ist in Gesteinen nicht selten, aber sehr dünn verteilt. Wir gewinnen es aus harten Mineralen, die in Bergwerken abgebaut werden, und aus sehr salzigem Wasser, das unter ausgetrockneten Salzseen in Südamerika hochgepumpt wird und in der Sonne trocknet. Ein winziges bisschen davon entstand schon im Urknall selbst!',
+      sci: 'Eines von nur drei Elementen, die im Urknall entstanden (mit Wasserstoff und Helium). Erdkruste etwa 20 mg/kg; abgebaut aus Spodumen (LiAlSi2O6) in Hartgesteinsbergwerken, vor allem in Australien, und aus Solen unter den Salzpfannen Chiles und Argentiniens, die in Verdunstungsbecken eingeengt werden. Auch Portugal baut Lithiumminerale ab, vor allem für Keramik und Glas. Meerwasser enthält etwa 0,18 mg/L.',
     },
   },
   uses: {
@@ -77,6 +111,38 @@ export default {
         'Ligas de alumínio e lítio para aviões mais leves.',
       ],
     },
+    pl: {
+      kid: [
+        'Akumulatory: telefony, laptopy i samochody elektryczne działają na akumulatorach litowo-jonowych.',
+        'Specjalne szkło ceramiczne, na przykład płyty kuchenne, które nie pękają, gdy się nagrzeją.',
+        'Smar, dzięki któremu części samochodów i rowerów gładko się przesuwają.',
+        'Lek z litem pomaga ludziom, których nastrój za bardzo skacze w górę i w dół.',
+      ],
+      sci: [
+        'Akumulatory litowo-jonowe, zdecydowanie największe zastosowanie: przy rozładowaniu Li+ przechodzi z grafitowej anody do katody tlenkowej lub fosforanowej (LiCoO2, LiFePO4, NMC).',
+        'Szkło ceramiczne o niemal zerowej rozszerzalności cieplnej (płyty kuchenne, półfabrykaty luster teleskopów) i szkliwa ceramiczne.',
+        'Smary na bazie stearynianu litu.',
+        'Węglan litu jako stabilizator nastroju w chorobie afektywnej dwubiegunowej (John Cade, 1949).',
+        'Wodorotlenek litu usuwa CO2 z powietrza w statkach kosmicznych i okrętach podwodnych: 2 LiOH + CO2 -> Li2CO3 + H2O.',
+        'Stopy glinu z litem na lżejsze samoloty.',
+      ],
+    },
+    de: {
+      kid: [
+        'Akkus: Handys, Laptops und Elektroautos laufen mit Lithium-Ionen-Akkus.',
+        'Besondere Glaskeramik, wie Kochfelder, die nicht springen, wenn sie heiß werden.',
+        'Schmierfett, mit dem die Teile von Autos und Fahrrädern sanft gleiten.',
+        'Ein Medikament mit Lithium hilft Menschen, deren Stimmung zu stark auf und ab schwankt.',
+      ],
+      sci: [
+        'Lithium-Ionen-Akkus, mit Abstand die größte Anwendung: Beim Entladen wandert Li+ von der Graphitanode zu einer Oxid- oder Phosphatkathode (LiCoO2, LiFePO4, NMC).',
+        'Glaskeramik mit nahezu null Wärmeausdehnung (Kochfelder, Rohlinge für Teleskopspiegel) und keramische Glasuren.',
+        'Schmierfette auf Basis von Lithiumstearat.',
+        'Lithiumcarbonat als Stimmungsstabilisierer bei bipolarer Störung (John Cade, 1949).',
+        'Lithiumhydroxid wäscht CO2 aus der Luft von Raumschiffen und U-Booten: 2 LiOH + CO2 -> Li2CO3 + H2O.',
+        'Aluminium-Lithium-Legierungen für leichtere Flugzeuge.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -86,6 +152,14 @@ export default {
     'pt-pt': {
       kid: 'O lítio tem dois tipos de átomos na natureza: o lítio-7 e o lítio-6, mais raro. O lítio-6 é útil na ciência nuclear: quando um neutrão o atinge, parte-se em hélio e trítio, um hidrogénio radioativo.',
       sci: 'O 7Li (cerca de 95%) e o 6Li (cerca de 5%). A reação 6Li + n -> 4He + 3H produz trítio, o combustível previsto para os reatores de fusão. Muito lítio comercial tem menos 6Li do que o natural, um resto da separação isotópica feita para armas nucleares, o que altera um pouco a sua massa atómica.',
+    },
+    pl: {
+      kid: 'Lit ma w przyrodzie dwa rodzaje atomów: lit-7 i rzadszy lit-6. Lit-6 przydaje się w fizyce jądrowej: kiedy trafi w niego neutron, rozpada się na hel i tryt, promieniotwórczy wodór.',
+      sci: '7Li (około 95%) i 6Li (około 5%). Reakcja 6Li + n -> 4He + 3H wytwarza tryt, paliwo planowane dla reaktorów termojądrowych. Duża część litu handlowego jest zubożona w 6Li, co jest pozostałością separacji izotopów na potrzeby broni jądrowej i nieco zmienia jego masę atomową.',
+    },
+    de: {
+      kid: 'Lithium hat in der Natur zwei Sorten von Atomen: Lithium-7 und das seltenere Lithium-6. Lithium-6 ist in der Kernforschung nützlich: Wenn ein Neutron es trifft, spaltet es sich in Helium und Tritium, einen radioaktiven Wasserstoff.',
+      sci: '7Li (etwa 95%) und 6Li (etwa 5%). 6Li + n -> 4He + 3H erbrütet Tritium, den für Fusionsreaktoren vorgesehenen Brennstoff. Viel handelsübliches Lithium ist an 6Li abgereichert, ein Überbleibsel der Isotopentrennung für Kernwaffen, was sein Atomgewicht leicht verändert.',
     },
   },
   facts: {
@@ -117,6 +191,36 @@ export default {
         'A tripulação da Apollo 13 sobreviveu graças a filtros de hidróxido de lítio improvisados, que retiravam o CO2 que expiravam.',
         'O seu potencial padrão de elétrodo, −3,04 V, é o mais negativo de todos os elementos: por isso as pilhas de lítio dão tensões altas.',
         'John Goodenough, Stanley Whittingham e Akira Yoshino partilharam o Prémio Nobel da Química de 2019 pela bateria de iões de lítio.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Jestem tak lekki, że pływam nawet po oleju!',
+        'Włóż mnie do płomienia, a zrobi się pięknie karminowoczerwony.',
+        'Lit jest w akumulatorze prawie każdego telefonu na świecie.',
+        'Byłem jednym z pierwszych pierwiastków w ogóle: powstałem w Wielkim Wybuchu razem z wodorem i helem.',
+      ],
+      sci: [
+        'Kosmologiczny problem litu: stare gwiazdy halo zawierają około trzy razy mniej 7Li, niż przewiduje nukleosynteza Wielkiego Wybuchu, i nikt jeszcze nie wie dlaczego.',
+        'Lit ma najwyższe ciepło właściwe ze wszystkich pierwiastków stałych: 3,58 J/(g·K).',
+        'Załoga Apollo 13 przeżyła dzięki prowizorycznym pojemnikom z wodorotlenkiem litu, które usuwały wydychany przez nią CO2.',
+        'Jego potencjał standardowy, −3,04 V, jest najbardziej ujemny ze wszystkich pierwiastków, dlatego ogniwa litowe dają wysokie napięcia.',
+        'John Goodenough, Stanley Whittingham i Akira Yoshino podzielili się Nagrodą Nobla z chemii w 2019 roku za akumulator litowo-jonowy.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ich bin so leicht, dass ich sogar auf Öl schwimme!',
+        'Halte mich in eine Flamme, und sie leuchtet wunderschön karminrot.',
+        'In den Akkus fast aller Handys der Welt steckt Lithium.',
+        'Ich war eines der allerersten Elemente, entstanden im Urknall zusammen mit Wasserstoff und Helium.',
+      ],
+      sci: [
+        'Das kosmologische Lithiumproblem: Alte Halosterne enthalten etwa dreimal weniger 7Li, als die Nukleosynthese des Urknalls vorhersagt, und niemand weiß bisher, warum.',
+        'Lithium hat die höchste spezifische Wärmekapazität aller festen Elemente: 3,58 J/(g·K).',
+        'Die Besatzung von Apollo 13 überlebte dank improvisierter Lithiumhydroxid-Kartuschen, die das ausgeatmete CO2 entfernten.',
+        'Sein Standardelektrodenpotential, −3,04 V, ist das negativste aller Elemente, deshalb liefern Lithiumzellen hohe Spannungen.',
+        'John Goodenough, Stanley Whittingham und Akira Yoshino teilten sich 2019 den Nobelpreis für Chemie für den Lithium-Ionen-Akku.',
       ],
     },
   },
