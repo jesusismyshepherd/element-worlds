@@ -107,6 +107,11 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   (HEAD's version plus your replacements; then commit without a pathspec). Check that what is staged
   stands alone: `python -X utf8 tools/check_staged.py` (exports the index, tests and builds it) (2026-10-28: the noble-gas wing's titles and registry entries sat in the same
   files as the lab's keys; committing them early would have broken the live site).
+- Chrome on the user's phone translates Portuguese pages into English by itself: it reached the HTML (HUD,
+  speech) but not the words drawn in 3D, mixing the two. `index.html` says `translate="no"` and
+  `notranslate` (2026-10-28). The user's phone: a Galaxy S21 (Android 15, Chrome), paired with this
+  computer for `tools/phone.py` (later: turn Wireless debugging on, `phone.py connect`); in light mode it
+  holds 60 frames a second in the hall and the graphene gallery.
 - Agents editing files make the dev server reload the page under a probe (shots of an empty world, a
   frame count that restarts): check against a separate build instead,
   `npx vite build --outDir <scratch>` + `npx vite preview --outDir <scratch> --port 5317` and

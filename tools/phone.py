@@ -10,6 +10,7 @@ Wireless debugging on > Pair device with pairing code. Then:
 
     python tools/phone.py pair 192.168.1.23:41234 123456   the address and code the pairing screen shows
     python tools/phone.py connect 192.168.1.23:37755       the address on the Wireless debugging screen
+    python tools/phone.py connect                          (later visits: finds a paired phone on the Wi-Fi)
     python tools/phone.py status                           the phone, its screen, Chrome's socket
     python tools/phone.py shot /e/C --steps "wait:2; shot:hall; tap:200,600; wait:1; shot:after"
     python tools/phone.py frames /e/C/allotropes --seconds 10   frame times on the phone's own chip
@@ -57,7 +58,15 @@ def adb(*args, serial=None, check=True):
 
 def devices():
     lines = adb('devices').splitlines()[1:]
-    return [ln.split()[0] for ln in lines if ln.strip().endswith('device')]
+    found = [ln.split()[0] for ln in lines if ln.strip().endswith('device')]
+    # one phone shows twice once it is both connected by address and found on the network by name
+    # (adb-<serial>._adb-tls-connect._tcp): keep one entry per phone
+    seen = {}
+    for s in found:
+        key = adb('shell', 'getprop', 'ro.serialno', serial=s, check=False) or s
+        if key not in seen or '._adb-tls-connect.' in seen[key]:
+            seen[key] = s
+    return list(seen.values())
 
 
 def pick(serial):
@@ -177,9 +186,15 @@ def main():
         print(adb('pair', a.args[0], a.args[1]))
         return
     if a.command == 'connect':
-        if len(a.args) != 1:
-            sys.exit('connect <address:port>')
-        print(adb('connect', a.args[0]))
+        if a.args:
+            print(adb('connect', a.args[0]))
+            return
+        # the port changes each time Wireless debugging is turned on: find it on the network
+        found = [ln.split()[-1] for ln in adb('mdns', 'services').splitlines() if '_adb-tls-connect._tcp' in ln]
+        if not found:
+            sys.exit('No phone found on the Wi-Fi: turn Wireless debugging on (paired phones need no new code)')
+        for addr in found:
+            print(adb('connect', addr))
         return
     serial = pick(a.serial)
     if a.command == 'status':
