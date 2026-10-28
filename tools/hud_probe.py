@@ -11,6 +11,7 @@ tools/shots/hud/. Console errors fail the run. Start the dev server first (port 
     python tools/hud_probe.py                  every screen, every scene
     python tools/hud_probe.py --screen phone   the screens whose name has "phone"
     python tools/hud_probe.py --scene plaza    the scenes whose name has "plaza"
+    python tools/hud_probe.py --base https://element-worlds.vercel.app   the live site
 """
 import argparse
 import os
@@ -177,6 +178,7 @@ def main():
     sys.stdout.reconfigure(encoding='utf-8')
     ap = argparse.ArgumentParser()
     ap.add_argument('--port', type=int, default=5310)
+    ap.add_argument('--base', default='')
     ap.add_argument('--screen', default='')
     ap.add_argument('--scene', default='')
     ap.add_argument('--lang', default='pt-pt')
@@ -198,7 +200,7 @@ def main():
                 page.on('console', lambda m, where=where: m.type == 'error' and errors.append(f'{where}: {m.text[:240]}'))
                 page.on('pageerror', lambda e, where=where: errors.append(f'{where}: {str(e)[:240]}'))
                 sep = '&' if '?' in path else '?'
-                page.goto(f'http://localhost:{a.port}{path}{sep}lang={a.lang}')
+                page.goto(f'{a.base or f"http://localhost:{a.port}"}{path}{sep}lang={a.lang}')
                 try:
                     wait_ready(page)
                     act(page)
