@@ -252,7 +252,7 @@ export async function build(ctx) {
   }
   const panel = id => {
     const p = W.ex[id].panel
-    ctx.store.set({ panel: { title: p.title, kicker: W.kicker, color: GREEN, blocks: ctx.level() === 'scientist' ? p.sci : p.kid } })
+    ctx.showPanel(level => ({ title: p.title, kicker: W.kicker, color: GREEN, blocks: level === 'scientist' ? p.sci : p.kid }))
   }
   const say = text => ctx.store.set({ speech: { text, who: nameOf(el, lang), color: GREEN } })
   const interactables = []
@@ -333,26 +333,21 @@ export async function build(ctx) {
   const doors = [{ x: -15.2, z: 0, radius: 0.9, to: atriumPath('C') }]
   solids.push(box(-15.75, 0, 0.6, 4.2))
 
-  // ---- the third-person camera stays inside the round dome (the engine's bounds are a box)
-  const camTarget = new THREE.Vector3()
-  const camDir = new THREE.Vector3()
-  const keepCameraIn = () => {
-    const player = ctx.engine.player
-    if (player.mode !== 'third') return
-    const cam = ctx.camera
+  // ---- the third-person camera stays inside the round dome (the engine's bounds are a box): how much
+  // of the way from the player to where the camera wants to be lies inside. The player's camera eases
+  // to it (player.js, world.cameraClear), so it never jumps.
+  const cameraClear = (from, to) => {
     const max = dome.floorRadius - 0.7
-    if (Math.hypot(cam.position.x, cam.position.z) <= max) return
-    camTarget.set(player.pos.x, player.pos.y + avatar.body.height * 0.8, player.pos.z)
-    camDir.subVectors(cam.position, camTarget)
-    // the largest t in [0, 1] with |target + dir t| (on the ground plane) = max
-    const a = camDir.x * camDir.x + camDir.z * camDir.z
-    const b = 2 * (camTarget.x * camDir.x + camTarget.z * camDir.z)
-    const c = camTarget.x * camTarget.x + camTarget.z * camTarget.z - max * max
+    if (Math.hypot(to.x, to.z) <= max) return 1
+    const dx = to.x - from.x
+    const dz = to.z - from.z
+    // the largest t in [0, 1] with |from + (to - from) t| (on the ground plane) = max
+    const a = dx * dx + dz * dz
+    const b = 2 * (from.x * dx + from.z * dz)
+    const c = from.x * from.x + from.z * from.z - max * max
     const disc = b * b - 4 * a * c
-    if (a < 1e-6 || disc < 0) return
-    const t = Math.max(0, Math.min(1, (-b + Math.sqrt(disc)) / (2 * a)))
-    cam.position.copy(camTarget).addScaledVector(camDir, t)
-    cam.lookAt(camTarget)
+    if (a < 1e-6 || disc < 0) return 1
+    return Math.max(0, Math.min(1, (-b + Math.sqrt(disc)) / (2 * a)))
   }
 
   // ---- carbon's Atomling
@@ -367,6 +362,7 @@ export async function build(ctx) {
     title: ctx.t('wings.C.life.title'),
     env: { background: new THREE.Color('#bcd8f0'), fog, exposure: 0.92, envIntensity: 0.7, bloom: { strength: 0.32, radius: 0.5, threshold: 0.93 }, fov: 62, shadows: true },
     cameraPitchMax: 0.6,
+    cameraClear,
     spawn: { x: -11.9, z: 0, yaw: -Math.PI / 2 },
     hostSpot: { x: -10.6, z: 2.0, yaw: -Math.PI / 2 - 0.9 },
     avatar,
@@ -393,7 +389,6 @@ export async function build(ctx) {
         }
       }
       for (const u of updates) u(dt, t)
-      keepCameraIn()
       keepPlayerInView(ctx, avatar)
     },
     dispose() {

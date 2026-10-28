@@ -1,6 +1,7 @@
 // Keys, mouse and touch for the walking worlds. Keys are let go when the page loses focus (a held key
-// drove on forever after Alt+Tab in the arena). A drag on the canvas looks round; the touch stick
-// (ui/TouchStick.jsx) reports through `setStick`.
+// drove on forever after Alt+Tab in the arena). A drag on the canvas looks round, two fingers pinch
+// the third-person camera nearer or farther; the touch stick (ui/TouchStick.jsx) reports through
+// `setStick`.
 
 const MOVE_KEYS = new Set([
   'KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'ShiftLeft', 'ShiftRight',
@@ -19,6 +20,9 @@ export class Input {
     this.enabled = true
     this.pointerLook = true // off in the plaza, whose orbit controls take the pointer
     this._drag = null
+    this._fingers = new Map() // touches on the canvas: id -> { x, y }
+    this._pinch = null // the distance between two fingers
+    this.zoom = 1
 
     const typing = e => /INPUT|TEXTAREA|SELECT/.test(e.target?.tagName ?? '')
     this._down = e => {
@@ -30,13 +34,41 @@ export class Input {
     this._up = e => this.keys.delete(e.code)
     this._blur = () => this.release()
     this._hidden = () => document.hidden && this.release()
+    const spread = () => {
+      const [a, b] = [...this._fingers.values()]
+      return Math.hypot(a.x - b.x, a.y - b.y)
+    }
     this._pdown = e => {
-      if (!this.enabled || !this.pointerLook || this._drag) return
+      if (e.pointerType === 'touch' && this.enabled && this.pointerLook) {
+        this._fingers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+        // a second finger: a pinch, not a look
+        if (this._fingers.size === 2) {
+          canvas.setPointerCapture?.(e.pointerId)
+          this._drag = null
+          this.dragging = false
+          this._pinch = spread()
+          return
+        }
+      }
+      if (!this.enabled || !this.pointerLook || this._drag || this._pinch) return
       if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 2) return
       this._drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0 }
       canvas.setPointerCapture?.(e.pointerId)
     }
     this._pmove = e => {
+      const f = this._fingers.get(e.pointerId)
+      if (f) {
+        f.x = e.clientX
+        f.y = e.clientY
+      }
+      if (this._pinch && this._fingers.size >= 2) {
+        const s = spread()
+        // fingers apart bring the camera nearer
+        if (s > 0) this.zoom *= this._pinch / s
+        this._pinch = s
+        this.lastLook = performance.now()
+        return
+      }
       const d = this._drag
       if (!d || d.id !== e.pointerId) return
       const dx = e.clientX - d.x
@@ -54,6 +86,8 @@ export class Input {
       }
     }
     this._pup = e => {
+      this._fingers.delete(e.pointerId)
+      if (this._fingers.size < 2) this._pinch = null
       if (this._drag?.id !== e.pointerId) return
       this._drag = null
       this.dragging = false
@@ -83,6 +117,8 @@ export class Input {
     this.stick = null
     this._drag = null
     this.dragging = false
+    this._fingers.clear()
+    this._pinch = null
   }
 
   setStick(v) {
@@ -115,6 +151,13 @@ export class Input {
     const l = this.look
     this.look = { dx: 0, dy: 0 }
     return l
+  }
+
+  /** How much a pinch asks the camera's distance to change since the last frame (1: none). */
+  takeZoom() {
+    const z = this.zoom
+    this.zoom = 1
+    return z
   }
 
   takeWheel() {

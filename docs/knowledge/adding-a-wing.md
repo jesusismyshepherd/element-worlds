@@ -33,7 +33,8 @@ atrium draws its arch by itself, titled from `wings.<Symbol>.<id>.title` in both
   ten-year-old) and `sci` (Scientist: numbers with units, equations, names and dates). Keep a wing's
   words in its module: `const WORDS = { en: { ... }, 'pt-pt': { ... } }`, chosen with `ctx.lang()`;
   read `ctx.level()` when a panel opens, so a change of level shows at once.
-- Panels: `ctx.store.set({ panel: { title, kicker, color, blocks } })`, blocks `{ p }`, `{ big, small }`,
+- Panels: `ctx.showPanel(level => ({ title, kicker, color, blocks }))` (written again when the level
+  changes while it is open; never `store.set({ panel })` with a level baked in), blocks `{ p }`, `{ big, small }`,
   `{ rows: [[label, value]] }`, `{ list: [...] }`. The Atomling talks: `ctx.store.set({ speech: { text, who, color } })`.
   The HUD places both at the edges (`hud-layout.md`). A wing's own DOM window goes at an edge too (under
   the top bar: `top: calc(var(--bar) + 4px)`, the left side in landscape, across the top upright),
@@ -75,6 +76,10 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
   `__ew.teleport(x, z, yaw, pitch)` puts the walker anywhere; `__ew.setMode('first')` switches view;
   `__ew.world.interactables` lists the exhibits; `__ew.player.near?.onUse()` uses the one in reach.
   Look at every exhibit from where a player stands, in both views; console errors fail the run.
+- A camera rule of the wing's own (keep it inside a dome, on the player's side of bars): give the world
+  `cameraClear(from, to)` (the share of the way allowed) and let the player ease to it; never move the
+  camera in the world's update after the player placed it (it jumps: `walking.md`). Walk through it
+  with `tools/nav_probe.py`'s tube check as the model.
 - `npm test` and `npx vite build` pass. A wing with a window of its own: add a scene to
   `tools/hud_probe.py` (the neon name window is one) and run it.
 

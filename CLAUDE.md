@@ -33,7 +33,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `docs/design.md`: what it is, the decisions, the Atomling grammar, the extension path to molecules.
 - `docs/knowledge/`: `adding-a-wing.md` (the world contract, words, pieces, checking), `atomlings.md`
   (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `hud-layout.md` (the
-  HUD's layout rule, covers and the view offset, full screen). Read the one for the area you touch.
+  HUD's layout rule, covers and the view offset, full screen), `walking.md` (both views, the camera,
+  `cameraClear`, panels and exhibits). Read the one for the area you touch.
 - `.claude/skills/element-wing/`: the steps for building an element's wing.
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
@@ -80,7 +81,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `tools/halls_probe.py` (all 118 halls, every panel, both languages and depths: words gone wrong, errors;
   under 2 minutes). `shot.py --base https://element-worlds.vercel.app` looks at the live site.
   `tools/hud_probe.py` (the HUD keeps the middle free on six screens, ten scenes; screenshots in
-  `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons).
+  `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons),
+  `tools/nav_probe.py` (walking and looking: turning, looking up, helium framed, the nanotube's camera,
+  panels following the level and switching between exhibits, the pinch).
   Probes run with `py -3.11` (Playwright is installed there).
 - Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
 
@@ -142,7 +145,12 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   for stories and the quiz, the world's centre drawn in the part left free (covers and the camera's
   view offset), phones' pages, level and language in the ☰ menu, full screen (a button; a touch
   screen's first tap; the home-screen app). `tools/hud_probe.py` passes 60 of 60.
-- Open: the user's review (the Atomlings' look, the worlds, the forge, the new HUD). First visits: shaders are
+- Walking (2026-10-28, the user's second notes; `docs/knowledge/walking.md`): first person turns on A/D
+  like the character; the character's view looks up past the floor; floating Atomlings framed (helium
+  was left at the top of a phone's screen); a pinch zooms on phones; no jump button on phones; the
+  nanotube's camera eased (it jumped 2.2 m going in and out); an open panel follows a change of
+  level; a neighbour exhibit is offered beside an open panel and E switches to it.
+- Open: the user's review (the Atomlings' look, the worlds, the forge, the new HUD, walking). First visits: shaders are
   now warmed for the bloom's linear buffer (2026-10-28; they were warmed for the screen, a wasted half
   that recompiled on the first frames): cold first visits 1.2 to 3.9 s (carbon's gallery was 10 s);
   fewer material variants would cut more (the gallery still needs 53 programs); the third-person camera keeps clear of solids and looks up when the

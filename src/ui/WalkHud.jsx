@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import TouchStick from './TouchStick.jsx'
-import Panel from './Panel.jsx'
+import Panel, { sheetWidth } from './Panel.jsx'
 import { voice } from '../audio/sound.js'
 import { element } from '../data/elements.js'
 import { traitsOf } from '../characters/traits.js'
@@ -12,15 +12,18 @@ import { useViewport } from './layout.js'
 
 /** The HUD of the walking worlds, all of it at the edges so the middle stays free to look round and
  *  walk (docs/knowledge/hud-layout.md): what the Atomling says (top left), the prompt to use what is
- *  near (bottom; by the right thumb on a touch screen), the panel it opens (a side sheet, or a top
+ *  near (bottom; by the right thumb on a touch screen; still offered beside an open panel when it is
+ *  another exhibit, and using it switches the panel), the panel it opens (a side sheet, or a top
  *  sheet on an upright phone; the stick keeps working under it and walking away closes it), and on
- *  touch screens the stick and the jump button. The view switch and "talk" are in the top bar. */
+ *  touch screens the stick (no jump button: the user, 2026-10-28, a museum floor needs none, and it
+ *  crowded the screen; Space still jumps). The view switch and "talk" are in the top bar. */
 export default function WalkHud({ engine }) {
   const { t } = useTranslation()
   const prompt = useStore(store, s => s.prompt)
   const panel = useStore(store, s => s.panel)
   const speech = useStore(store, s => s.speech)
   const overlay = useStore(store, s => s.overlay)
+  const panelFrom = useStore(store, s => s.panelFrom)
   const { touch, portrait, short } = useViewport()
   const [hint, setHint] = useState(true)
 
@@ -41,10 +44,12 @@ export default function WalkHud({ engine }) {
   useEffect(() => {
     if (!panel) return undefined
     const close = e => {
-      if (e.code === 'Escape' || e.code === 'KeyE') {
-        e.stopPropagation()
-        store.set({ panel: null })
-      }
+      if (e.code !== 'Escape' && e.code !== 'KeyE') return
+      // another exhibit in reach: E uses it, and its panel takes this one's place
+      const s = store.get()
+      if (e.code === 'KeyE' && s.prompt && s.prompt.id !== s.panelFrom) return
+      e.stopPropagation()
+      store.set({ panel: null })
     }
     window.addEventListener('keydown', close, true)
     return () => window.removeEventListener('keydown', close, true)
@@ -52,6 +57,10 @@ export default function WalkHud({ engine }) {
 
   // with a panel open on a phone there is no room for both beside the middle: the bubble waits
   const bubble = speech && !(panel && (portrait || short))
+  // the prompt: hidden only for the exhibit whose panel is open (and under a world's own window)
+  const offer = prompt && !overlay && (!panel || prompt.id !== panelFrom)
+  // beside a side sheet, the touch prompt stands left of it
+  const besideSheet = panel && !portrait
   return (
     <>
       {bubble && (
@@ -68,9 +77,12 @@ export default function WalkHud({ engine }) {
         </div>
       )}
 
-      {prompt && !panel && !overlay && (touch ? (
-        // by the right thumb, above the jump button; on a phone on its side, between the thumbs
-        <div className={`absolute flex pointer-events-none ${short ? 'left-[7.5rem] right-[5.5rem] bottom-2 justify-center' : 'right-3 bottom-24 justify-end'}`} style={short ? undefined : { maxWidth: 'min(16rem, 46vw)' }}>
+      {offer && (touch ? (
+        // by the right thumb (left of a side sheet)
+        <div
+          className={`absolute flex justify-end pointer-events-none ${short ? 'bottom-2' : 'bottom-4'}`}
+          style={{ right: besideSheet ? `calc(${sheetWidth(short)} + 1.25rem)` : '0.75rem', maxWidth: besideSheet ? 'min(16rem, 30vw)' : 'min(16rem, 46vw)' }}
+        >
           <button
             type="button"
             onClick={() => engine?.use()}
@@ -98,20 +110,6 @@ export default function WalkHud({ engine }) {
       {touch && (
         <>
           <TouchStick onChange={v => engine?.input.setStick(v)} small={short} />
-          <button
-            type="button"
-            data-thumb
-            aria-label={t('hud.jump')}
-            onPointerDown={e => {
-              e.preventDefault()
-              engine?.input.pressed.push('Space')
-            }}
-            className={`absolute right-4 rounded-full bg-white/20 border border-white/50 text-white/90 pointer-events-auto touch-none flex items-center justify-center active:bg-white/40 ${short ? 'bottom-4 w-14 h-14' : 'bottom-6 w-16 h-16'}`}
-          >
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 19h14M12 15V5M7.5 9.5L12 5l4.5 4.5" />
-            </svg>
-          </button>
         </>
       )}
 

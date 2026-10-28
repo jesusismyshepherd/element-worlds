@@ -14,8 +14,11 @@ full screen.
   at the top).
 - What opens to be read (a story panel, the quiz, the neon name window) is a side sheet in landscape and
   a top sheet on an upright phone (at most about 40 % of its height), never a box in the middle; the
-  stick and the jump button keep working under it, and walking away from the exhibit closes the panel
-  (`player.keepReading`).
+  stick keeps working under it, and walking away from the exhibit closes the panel
+  (`player.keepReading`). Another exhibit in reach is still offered beside it (on a touch screen the
+  prompt stands left of the side sheet) and using it switches the panel (walking.md).
+- Touch screens have the stick (bottom left) and the prompt by the right thumb (bottom right); no jump
+  button since 2026-10-28 (the user: a museum floor needs none, and it crowded the screen).
 - At rest the HUD covers under a third of the screen; with something opened to read, about half at most.
 - Phones fold: the pages, the level and the language go into the ☰ menu; the plaza's tools become a
   dock of icons (one drawer open at a time, none at the start; the selected element's card wins the
@@ -61,8 +64,7 @@ full screen.
   laptop, an upright phone and a phone on its side, each phone also inside the browser's bars, 690 x 265
   being the user's screenshot) and ten scenes (the plaza at rest, with a card, a drawer, the quiz; a
   hall's panel and speech; a wing's panel; the lab with water made; the forge; the neon name window).
-  It fails when a HUD piece lies in the middle of the free part (the stick and the jump button in the
-  corners excepted) or the HUD covers more than the scene allows. Screenshots in `tools/shots/hud/`;
+  It fails when a HUD piece lies in the middle of the free part (the stick in its corner excepted) or the HUD covers more than the scene allows. Screenshots in `tools/shots/hud/`;
   look at them too. About 4 minutes.
 - `MSYS_NO_PATHCONV=1 py -3.11 tools/fullscreen_probe.py`: the first tap, the button off and on, a
   computer's click.

@@ -203,9 +203,8 @@ export async function build(ctx, target, previous) {
       label: st.title,
       verb: W.read,
       onUse: () => {
-        // panels are written when opened, so a change of level shows at once
-        const fresh = stationsOf(el, { lang, level: ctx.level(), familyName }).find(s => s.id === st.id)
-        ctx.store.set({ panel: fresh.panel() })
+        // written for the level now, and again if the level changes while it is open
+        ctx.showPanel(level => stationsOf(el, { lang, level, familyName }).find(s => s.id === st.id).panel())
         if (markFound(`${el.symbol}:${st.id}`)) p.setRead(true)
         report()
       },
@@ -221,8 +220,7 @@ export async function build(ctx, target, previous) {
     label: W.theAtom,
     verb: W.look,
     onUse: () => {
-      const fresh = stationsOf(el, { lang, level: ctx.level(), familyName }).find(s => s.id === 'atom')
-      ctx.store.set({ panel: fresh.panel() })
+      ctx.showPanel(level => stationsOf(el, { lang, level, familyName }).find(s => s.id === 'atom').panel())
       if (markFound(`${el.symbol}:atom`)) panels.atom.setRead(true)
       report()
     },
@@ -245,8 +243,10 @@ export async function build(ctx, target, previous) {
     label: W.sample,
     verb: W.look,
     onUse: () => {
-      const state = stationsOf(el, { lang, level: ctx.level(), familyName }).find(s => s.id === 'state').panel()
-      ctx.store.set({ panel: { title: W.real, kicker: `${el.symbol} · ${nameOf(el, lang)}`, color, blocks: [{ big: lookText.charAt(0).toUpperCase() + lookText.slice(1) }, state.blocks[1]] } })
+      ctx.showPanel(level => {
+        const state = stationsOf(el, { lang, level, familyName }).find(s => s.id === 'state').panel()
+        return { title: W.real, kicker: `${el.symbol} · ${nameOf(el, lang)}`, color, blocks: [{ big: lookText.charAt(0).toUpperCase() + lookText.slice(1) }, state.blocks[1]] }
+      })
       markFound(`${el.symbol}:look`)
       report()
     },

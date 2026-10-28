@@ -61,6 +61,13 @@ export class Engine {
     // x, y in CSS px from the screen's centre, w, h the free share of the width and the height
     this.view = { x: 0, y: 0, w: 1, h: 1 }
     this.viewSnap = true
+    // an open panel follows a change of level (Explorer, Scientist): written again by its maker
+    this.level = store.get().level
+    this.unLevel = store.subscribe(s => {
+      if (s.level === this.level) return
+      this.level = s.level
+      if (s.panel?.make) this.showPanel(s.panel.make)
+    })
     window.__ew = this // for the probes in tools/
   }
 
@@ -79,7 +86,15 @@ export class Engine {
       lang: () => this.i18n.resolvedLanguage || this.i18n.language,
       level: () => this.store.get().level,
       go: path => this.go(path),
+      showPanel: make => this.showPanel(make),
     }
+  }
+
+  /** Open a panel written by `make(level)` (a function of the level, so it can be written again when
+   *  the level changes while it is open). */
+  showPanel(make) {
+    const p = make(this.store.get().level)
+    this.store.set({ panel: p ? { ...p, make } : null })
   }
 
   /** Go to an address (a door, the plaza's Enter): the page's router changes the address, and the
@@ -358,6 +373,7 @@ export class Engine {
   dispose() {
     this.token++
     this.renderer.setAnimationLoop(null)
+    this.unLevel?.()
     this.leave()
     this.observer.disconnect()
     this.input.dispose()

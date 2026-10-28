@@ -17,6 +17,8 @@ description: Build or change a wing (a world designed for one element, reached f
    for every exhibit, both views (`__ew.setMode('first')`), `--lang en`, `--level scientist`, `--phone`.
    Nothing of the HUD in the middle of the screen (`docs/knowledge/hud-layout.md`): panels and speech
    go through the store; a window of the wing's own sits at an edge, reports its cover and sets
-   `store.overlay`; add it to `tools/hud_probe.py` and run that.
+   `store.overlay`; add it to `tools/hud_probe.py` and run that. Panels open with `ctx.showPanel(make)`;
+   a camera rule of the wing's own is `cameraClear` (`docs/knowledge/walking.md`), checked by walking
+   through it (`tools/nav_probe.py`).
 7. `npm test`, `npx vite build`; write what you learned into `docs/knowledge/` (traps and fixes) and
    the status in `CLAUDE.md`; commit and push.

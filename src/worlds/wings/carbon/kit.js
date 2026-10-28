@@ -379,7 +379,7 @@ export const FADE = { uFadeTarget: { value: new THREE.Vector3() }, uFadeRadius: 
 export function keepPlayerInView(ctx, avatar, r = 0.85) {
   const p = ctx.engine.player
   if (p.mode === 'third' && avatar) {
-    FADE.uFadeTarget.value.set(p.pos.x, p.pos.y + avatar.body.height * 0.6, p.pos.z)
+    FADE.uFadeTarget.value.set(p.pos.x, p.pos.y + (avatar.body.hover ?? 0) + avatar.body.height * 0.6, p.pos.z)
     FADE.uFadeRadius.value = r
   } else FADE.uFadeRadius.value = 0
 }

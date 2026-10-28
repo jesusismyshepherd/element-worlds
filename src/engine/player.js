@@ -2,8 +2,12 @@
 // - 'third': you play the element's Atomling, seen from behind. Driven like the arena's creatures
 //   (W forward, S back, A and D turn; the stick the same); a drag turns and tilts the view, which comes
 //   back behind the character when you walk on.
-// - 'first': you are the visitor (a ten-year-old's eye height); W and S walk, A and D step sideways, a
-//   drag looks round. The Atomling stays where it was, turns to you and waves when you come close.
+// - 'first': you are the visitor (a ten-year-old's eye height); driven the same way (W and S walk, A and
+//   D turn; the user found stepping sideways awkward), a drag looks round. The Atomling stays where it
+//   was, turns to you and waves when you come close.
+// Third person tilts the camera round the Atomling from above to a little below it; tilted further up,
+// the camera stays and looks up (the floor stopped it at 11 degrees before). A pinch (phones) or the
+// wheel brings it nearer or farther.
 // Facing: yaw 0 looks along -z; a model faces +z, so it is turned by yaw + PI.
 import * as THREE from 'three'
 import { pushOut, groundAt, segmentFree } from './collide.js'
@@ -11,6 +15,11 @@ import { pushOut, groundAt, segmentFree } from './collide.js'
 const GRAVITY = 20
 const STEP = 0.35
 export const VISITOR = { height: 1.45, eye: 1.32, radius: 0.28, walk: 1.7, run: 3.8, jump: 0.55, hover: 0 }
+// how far past the lowest swing the third-person view may look up
+const AIM_UP = 0.75
+// on a phone the character stands nearer (a small screen made it a speck)
+const touchScreen = () => typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches
+const camDistFor = height => clamp(height * 3.4, 2.6, 7) * (touchScreen() ? 0.9 : 1)
 
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
 const damp = (from, to, rate, dt) => to + (from - to) * Math.exp(-rate * dt)
@@ -57,7 +66,7 @@ export class Player {
     this.world = world
     this.npc = this.mode === 'first' ? this.hostSpot() : null
     if (this.avatar) this.avatar.root.position.copy(this.pos)
-    this.camDist = clamp(b.height * 3.4, 3, 7)
+    this.camDist = camDistFor(b.height)
   }
 
   /** Where the Atomling waits while you walk in first person: the world's spot for it, else in front
@@ -75,7 +84,7 @@ export class Player {
     if (avatar) {
       avatar.root.position.copy(this.pos)
       avatar.root.rotation.y = this.yaw + Math.PI
-      this.camDist = clamp(avatar.body.height * 3.4, 3, 7)
+      this.camDist = camDistFor(avatar.body.height)
     }
     this.applyMode()
   }
@@ -116,6 +125,7 @@ export class Player {
     const b = this.body()
     const look = input.takeLook()
     const wheel = input.takeWheel()
+    const zoom = input.takeZoom()
     const { forward: fw, side, run } = input.axes()
     this.doorWait = Math.max(0, this.doorWait - dt)
 
@@ -125,32 +135,30 @@ export class Player {
       this.pitch = clamp(this.pitch - look.dy * 0.0032, -1.25, 1.2)
     } else {
       this.camOffset -= look.dx * 0.0055
-      // a world with something overhead (oxygen's ozone layer) lets the view tilt further up
-      this.camPitch = clamp(this.camPitch - look.dy * 0.004, -1.15, world.cameraPitchMax ?? 0.2)
+      // the camera swings down to the world's cameraPitchMax (oxygen's ozone layer allows more); past
+      // that it stays and looks up
+      const swing = world.cameraPitchMax ?? 0.2
+      this.camPitch = clamp(this.camPitch - look.dy * 0.004, -1.15, swing + AIM_UP)
       if (wheel) this.camDist = clamp(this.camDist * (wheel > 0 ? 1.12 : 0.89), 1.8, 12)
+      if (zoom !== 1) this.camDist = clamp(this.camDist * zoom, 1.8, 12)
       const idle = performance.now() - input.lastLook > 1400
-      if (idle && !input.dragging && Math.abs(fw) > 0.1) this.camOffset = damp(this.camOffset, 0, 2.2, dt)
+      if (idle && !input.dragging && Math.abs(fw) > 0.1) {
+        this.camOffset = damp(this.camOffset, 0, 2.2, dt)
+        // walking on, a view tilted up comes back down
+        if (this.camPitch > swing) this.camPitch = damp(this.camPitch, swing, 2.2, dt)
+      }
     }
 
     // moving
     let vx = 0
     let vz = 0
     const top = run ? b.run : b.walk
-    if (this.mode === 'first') {
-      const [fx, fz] = forward(this.yaw)
-      const len = Math.min(1, Math.hypot(fw, side))
-      if (len > 0.05) {
-        const mx = fx * fw + fz * side
-        const mz = fz * fw - fx * side
-        const m = Math.hypot(mx, mz) || 1
-        this.speed = damp(this.speed, top * len, 10, dt)
-        vx = (mx / m) * this.speed
-        vz = (mz / m) * this.speed
-      } else this.speed = damp(this.speed, 0, 12, dt)
-    } else {
-      this.yaw += side * 2.6 * dt * (run ? 1.15 : 1)
-      const want = fw >= 0 ? top * fw : b.walk * 0.6 * fw
-      this.speed = damp(this.speed, want, 8, dt)
+    // both views drive alike: forward and back, A and D (the stick sideways) turn; the whole view turns
+    // in first person, so it turns a little slower there
+    this.yaw += side * (this.mode === 'first' ? 2.1 : 2.6) * dt * (run ? 1.15 : 1)
+    const want = fw >= 0 ? top * fw : b.walk * 0.6 * fw
+    this.speed = damp(this.speed, want, 8, dt)
+    {
       const [fx, fz] = forward(this.yaw)
       vx = fx * this.speed
       vz = fz * this.speed
@@ -217,19 +225,27 @@ export class Player {
       this.camSnap = false
       return
     }
-    const target = new THREE.Vector3(this.pos.x, this.pos.y + b.height * 0.8, this.pos.z)
+    // the upper body, where it floats (helium hovers 1.38 m up: aimed at its feet' height, the view
+    // looked at the floor under it and the Atomling sat at the top of the screen); a little above its
+    // middle, so it stands a little low and the way ahead shows
+    const target = new THREE.Vector3(this.pos.x, this.pos.y + (b.hover ?? 0) + b.height * 0.85, this.pos.z)
+    this.camTarget = target
     const yaw = this.yaw + this.camOffset
-    const cp = Math.cos(this.camPitch)
+    const swing = world.cameraPitchMax ?? 0.2
+    const pitch = Math.min(this.camPitch, swing)
+    const aim = Math.max(0, this.camPitch - swing)
+    const cp = Math.cos(pitch)
     const want = new THREE.Vector3(
       target.x + Math.sin(yaw) * cp * this.camDist,
-      target.y - Math.sin(this.camPitch) * this.camDist,
+      target.y - Math.sin(pitch) * this.camDist,
       target.z + Math.cos(yaw) * cp * this.camDist,
     )
     // where the player wants to look: from the camera's place through the Atomling
     const looking = target.clone().sub(want).normalize()
     // a wall or a pillar between the Atomling and the camera: the camera comes in front of it
-    if (world.solids?.length) {
-      const free = segmentFree(world.solids, target, want)
+    // (and a world's own rule: carbon's tube keeps the camera on the player's side of its bars)
+    if (world.solids?.length || world.cameraClear) {
+      const free = Math.min(world.solids?.length ? segmentFree(world.solids, target, want) : 1, world.cameraClear?.(target, want) ?? 1)
       if (free < 1) want.lerpVectors(target, want, Math.max(free, 0.7 / this.camDist))
     }
     const before = want.y
@@ -252,6 +268,8 @@ export class Player {
     this.lift = damp(this.lift ?? 0, clamp((want.y - before) / 1.2, 0, 1), 6, dt)
     if (this.lift > 0.01) cam.lookAt(target.clone().lerp(this.camPos.clone().addScaledVector(looking, this.camDist), this.lift))
     else cam.lookAt(target)
+    // tilted past the lowest swing: the camera stays and looks up
+    if (aim > 0.001) cam.rotateX(aim)
   }
 
   /** The nearest thing to use within its reach, for the prompt (E, or the button). */
@@ -285,8 +303,15 @@ export class Player {
       return
     }
     if (this.reading?.panel !== panel) {
-      const it = this.near
-      this.reading = { panel, x: it?.x ?? this.pos.x, z: it?.z ?? this.pos.z, reach: (it?.radius ?? 2) * 1.5 + 1 }
+      if (this.reading && panel.make && panel.make === this.reading.panel.make) {
+        // the same panel written again (a change of level): it stays where it was opened
+        this.reading.panel = panel
+      } else {
+        const it = this.near
+        this.reading = { panel, x: it?.x ?? this.pos.x, z: it?.z ?? this.pos.z, reach: (it?.radius ?? 2) * 1.5 + 1 }
+        // which exhibit it tells about: another one near is still offered (WalkHud)
+        store.set({ panelFrom: it?.id ?? null })
+      }
     }
     const r = this.reading
     if (Math.hypot(r.x - this.pos.x, r.z - this.pos.z) > r.reach) store.set({ panel: null })

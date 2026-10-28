@@ -3,7 +3,7 @@ on a computer, an upright phone and a phone on its side (also with the browser's
 the user's screenshots), shows what the HUD can show there (the selected element's card, a drawer, the
 quiz, a story panel, the Atomling speaking, a molecule made, the forge's atom, the neon name window)
 and checks that nothing of the HUD lies in the middle of the part of the screen it leaves free (where
-the engine draws the world's centre; the stick and the jump button in the corners excepted), and that
+the engine draws the world's centre; the stick in its corner excepted), and that
 the HUD covers little of the screen (at rest under a third, about half at most with something opened
 to read). Screenshots in
 tools/shots/hud/. Console errors fail the run. Start the dev server first (port 5310).
@@ -77,7 +77,7 @@ CHECK = r"""(zone) => {
     if (!(alpha > 0.05 || text || el.tagName === 'BUTTON' || el.tagName === 'INPUT')) continue
     const c = clip(el, r)
     if (c.r - c.l < 2 || c.b - c.t < 2 || !shown(el)) continue
-    // the stick and the jump button sit in the screen's corners under the thumbs, by design
+    // the stick sits in the screen's corner under the thumb, by design
     c.thumb = !!el.closest('[data-thumb]')
     c.what = `${el.tagName.toLowerCase()} "${(el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 40)}" at ${[c.l, c.t, c.r - c.l, c.b - c.t].map(Math.round)}`
     boxes.push(c)

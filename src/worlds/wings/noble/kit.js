@@ -168,7 +168,7 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
     const first = markFound(key)
     if (first) for (const s of marks[key] ?? []) s.setRead(true)
     report()
-    if (first && panel) later(delay, () => ctx.store.set({ panel: panel(ctx.level()) }))
+    if (first && panel) later(delay, () => ctx.showPanel(panel))
     return first
   }
   function add({ id, find = id, x, z, radius = 1.6, label, verb, act, panel, screens = [], panelDelay = 0, sayColor = null, manual = false }) {
@@ -226,7 +226,7 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
               shown[id] = null
               return
             }
-            ctx.store.set({ panel: panel(ctx.level()) })
+            ctx.showPanel(panel)
           }
           if (line) say(line, sayColor?.() ?? color)
           if (panelDelay > 0) later(panelDelay, open)

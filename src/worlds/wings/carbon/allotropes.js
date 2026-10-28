@@ -222,7 +222,7 @@ export async function build(ctx) {
   }
   const panel = id => {
     const p = W.ex[id].panel
-    ctx.store.set({ panel: { title: p.title, kicker: W.kicker, color: ACCENT, blocks: ctx.level() === 'scientist' ? p.sci : p.kid } })
+    ctx.showPanel(level => ({ title: p.title, kicker: W.kicker, color: ACCENT, blocks: level === 'scientist' ? p.sci : p.kid }))
   }
   const say = text => ctx.store.set({ speech: { text, who: nameOf(el, lang), color: ACCENT } })
   const interactables = []
@@ -391,31 +391,38 @@ export async function build(ctx) {
   const avatar = createAtomling(el, { light })
   root.add(avatar.root)
 
-  // ---- the third-person camera stays on the player's side of the tube's and the dome's walls
-  // (looking at a player outside through a wall of bars, or from outside at a player inside)
+  // ---- the third-person camera stays on the player's side of the tube's and the dome's walls (looking
+  // at a player inside through a wall of bars, or from outside at one inside), but the tube's two ends
+  // and the dome's door are open: the camera follows through them. The player's camera eases to where
+  // this allows (player.js, world.cameraClear); it used to be set here after the easing, every frame,
+  // and as the Atomling went in or out of the tube the camera jumped to its back and out again.
   const inTube = (x, z) => Math.abs(x) < 2.1 && z < tubeSouth && z > tubeNorth
   const inDome = (x, z) => Math.hypot(x - DOME.x, z - DOME.z) < dome.floorRadius - 0.15
-  const camTarget = new THREE.Vector3()
-  const camDir = new THREE.Vector3()
-  const keepCameraClear = () => {
-    const player = ctx.engine.player
-    if (player.mode !== 'third') return
-    const cam = ctx.camera
-    camTarget.set(player.pos.x, player.pos.y + avatar.body.height * 0.8, player.pos.z)
-    camDir.subVectors(cam.position, camTarget)
-    const tubeT = inTube(camTarget.x, camTarget.z)
-    const domeT = inDome(camTarget.x, camTarget.z)
+  const cameraClear = (from, to) => {
     const steps = 24
+    let px = from.x
+    let pz = from.z
+    let tube = inTube(px, pz)
+    let inside = inDome(px, pz)
     for (let i = 1; i <= steps; i++) {
       const u = i / steps
-      const x = camTarget.x + camDir.x * u
-      const z = camTarget.z + camDir.z * u
-      if (inTube(x, z) !== tubeT || inDome(x, z) !== domeT) {
-        cam.position.copy(camTarget).addScaledVector(camDir, Math.max(0.28, (i - 1) / steps))
-        cam.lookAt(camTarget)
-        return
-      }
+      const x = from.x + (to.x - from.x) * u
+      const z = from.z + (to.z - from.z) * u
+      const t = inTube(x, z)
+      const d = inDome(x, z)
+      // into or out of the tube through its side (an end is open: both points within its width)
+      const throughSide = t !== tube && !(Math.abs(px) < 2.1 && Math.abs(x) < 2.1)
+      // into or out of the dome other than through its door (south, |x| < 1.15)
+      const mx = (px + x) / 2
+      const mz = (pz + z) / 2
+      const throughWall = d !== inside && !(mz > DOME.z && Math.abs(mx - DOME.x) < 1.15)
+      if (throughSide || throughWall) return (i - 1) / steps
+      px = x
+      pz = z
+      tube = t
+      inside = d
     }
+    return 1
   }
 
   let unsubscribe = null
@@ -427,6 +434,7 @@ export async function build(ctx) {
     spawn: { x: 0, z: 0.9, yaw: 0 },
     hostSpot: { x: 2.0, z: -0.4, yaw: 2.4 },
     cameraPitchMax: 0.5,
+    cameraClear,
     avatar,
     solids,
     cameraBounds: { minX: ROOM.x0 + 0.4, maxX: ROOM.x1 - 0.4, minY: 0.3, maxY: ROOM.h - 0.4, minZ: ROOM.z0 + 0.4, maxZ: ROOM.z1 - 0.4 },
@@ -452,7 +460,6 @@ export async function build(ctx) {
         }
       }
       for (const u of updates) u(dt, t)
-      keepCameraClear()
       keepPlayerInView(ctx, avatar)
     },
     dispose() {

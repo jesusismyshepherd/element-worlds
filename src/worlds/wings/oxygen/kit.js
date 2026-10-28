@@ -647,8 +647,10 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
         if (first) for (const s of marks[key] ?? []) s.setRead(true)
         if (!act || first || shown[id] !== level) {
           shown[id] = level
-          const p = panel(level)
-          ctx.store.set({ panel: { ...p, blocks: chemBlocks(p.blocks), title: chem(p.title) } })
+          ctx.showPanel(lv => {
+            const p = panel(lv)
+            return { ...p, blocks: chemBlocks(p.blocks), title: chem(p.title) }
+          })
         } else {
           const line = typeof result === 'string' ? result : say?.(level)
           if (line) ctx.store.set({ speech: { text: chem(line), who, color } })

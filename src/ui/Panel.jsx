@@ -4,19 +4,22 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useCover, useViewport } from './layout.js'
 
+/** How wide the side sheet is (the prompt on a touch screen stands left of it). */
+export const sheetWidth = short => (short ? 'min(22rem, 38vw)' : 'min(26rem, 42vw)')
+
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
  *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
  *  { link: { to, label } }] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
- *  down the right side (left of the jump button on a touch screen), or across the top of an upright
- *  phone, and the world's centre moves into the part left free. */
+ *  down the right side, or across the top of an upright phone, and the world's centre moves into the
+ *  part left free. */
 export default function Panel({ panel, onClose }) {
   const { t } = useTranslation()
-  const { portrait, touch, short } = useViewport()
+  const { portrait, short } = useViewport()
   const box = useRef(null)
   useCover(box, portrait ? 'top' : 'right')
   const place = portrait
     ? { left: '0.5rem', right: '0.5rem', top: 'calc(var(--bar) + 0.25rem)', maxHeight: 'min(40vh, calc(100vh - var(--bar) - 11rem))' }
-    : { right: touch ? '5.75rem' : '0.75rem', top: 'calc(var(--bar) + 0.25rem)', maxHeight: 'calc(100vh - var(--bar) - 0.75rem)', width: short ? 'min(22rem, 38vw)' : 'min(26rem, 42vw)' }
+    : { right: '0.75rem', top: 'calc(var(--bar) + 0.25rem)', maxHeight: 'calc(100vh - var(--bar) - 0.75rem)', width: sheetWidth(short) }
   return (
     <div
       ref={box}
