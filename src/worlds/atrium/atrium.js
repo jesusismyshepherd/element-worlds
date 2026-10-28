@@ -45,6 +45,9 @@ const SIDES = {
 const WORDS = {
   en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing' },
   'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra' },
+  // the prompt reads "verb: label", so the label stays in the nominative (Porozmawiaj: Węgiel)
+  pl: { back: 'Wróć do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Obejrzyj', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwa próbka' },
+  de: { back: 'Zurück zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe' },
 }
 
 export async function build(ctx, target, previous) {

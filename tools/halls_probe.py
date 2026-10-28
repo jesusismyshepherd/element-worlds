@@ -1,4 +1,4 @@
-"""Every element's hall, every panel in it, both languages and both depths: opens all 118 halls one after
+"""Every element's hall, every panel in it, all four languages and both depths: opens all 118 halls one after
 the other (in one page, as a player walking from cube to cube), uses every station and the specimen case,
 talks to the Atomling, and checks what each says for words that went wrong ("undefined", "NaN", "null",
 an unfilled {{template}}, "[object"). Console errors fail the run. Start the dev server first (port 5310).
@@ -20,14 +20,16 @@ DATA = Path(__file__).resolve().parent.parent / 'src' / 'data' / 'elements.json'
 
 READY = 'window.__ew && window.__ew.world && !window.__ew.store.get().fading'
 BAD = re.compile(r'undefined|NaN|\bnull\b|\[object|\{\{|\}\}')
+# German "null" is zero ("nahezu null Wärmeausdehnung")
+BAD_DE = re.compile(r'undefined|NaN|\[object|\{\{|\}\}')
 
-# what the page does for one hall: every interactable used, at both depths and in both languages,
+# what the page does for one hall: every interactable used, at both depths and in every language,
 # each panel's text gathered; the Atomling's greeting and facts too
 COLLECT = """async () => {
   const ew = window.__ew
   const out = []
   const text = p => !p ? '' : [p.title, p.kicker, ...(p.blocks || []).map(b => [b.p, b.big, b.small, ...(b.rows || []).flat(), ...(b.list || []), b.link && b.link.label].filter(x => x != null).join(' | '))].join(' || ')
-  for (const lang of ['pt-pt', 'en']) {
+  for (const lang of ['pt-pt', 'en', 'pl', 'de']) {
     await ew.i18n.changeLanguage(lang)
     for (const level of ['explorer', 'scientist']) {
       ew.store.set({ level })
@@ -87,8 +89,8 @@ def main():
                 panels += 1
                 if 'error' in r:
                     problems.append(f"{sym} {r['lang']} {r['level']} {r['id']}: {r['error']}")
-                elif BAD.search(r['text']):
-                    m = BAD.search(r['text'])
+                elif (BAD_DE if r['lang'] == 'de' else BAD).search(r['text']):
+                    m = (BAD_DE if r['lang'] == 'de' else BAD).search(r['text'])
                     i = m.start()
                     problems.append(f"{sym} {r['lang']} {r['level']} {r['id']}: ...{r['text'][max(0, i - 80):i + 40]}...")
             print(f'{sym} ok ({time.time() - t0:.0f} s)', flush=True)

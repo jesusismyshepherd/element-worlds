@@ -1,4 +1,4 @@
-// The atrium's stations for any element: what the data says, in both languages and at both depths,
+// The atrium's stations for any element: what the data says, in every language and at both depths,
 // plus the element's own words where they exist (content/<Symbol>.js). Each station:
 // { id, title, teaser: [short lines for the wall], panel(): { title, kicker, color, blocks } }.
 import { tagOf } from '../i18n/langs.js'
@@ -21,9 +21,53 @@ const FEMININE = new Set(['Ag', 'Pt']) // a prata, a platina
 const art = el => (FEMININE.has(el.symbol) ? 'a' : 'o')
 const SHELL = 'KLMNOPQ'
 
+// Polish: a noun after a number takes one of three forms (1 proton, 2 protony, 5 protonów; 12 to 14
+// are "many", 22 to 24 "few"); a fraction takes a fourth (1,5 roku), the "few" one unless given.
+const PL_PLURAL = new Intl.PluralRules('pl')
+const plN = (n, one, few, many, other = few) => ({ one, few, many })[PL_PLURAL.select(n)] ?? other
+// Polish possessive by the name's gender: siarka, cyna, platyna, miedź, rtęć are feminine (jej)
+const PL_FEMININE = new Set(['S', 'Sn', 'Pt', 'Cu', 'Hg'])
+const plHis = el => (PL_FEMININE.has(el.symbol) ? 'jej' : 'jego')
+// German: one / other; der Wasserstoff, Kohlenstoff, Stickstoff, Sauerstoff, Phosphor, Schwefel (er),
+// every other element is neuter (es)
+const deN = (n, one, other) => (n === 1 ? one : other)
+const DE_MASCULINE = new Set(['H', 'C', 'N', 'O', 'P', 'S'])
+const deEr = el => (el && DE_MASCULINE.has(el.symbol) ? 'er' : 'es')
+
 const HALF_LIFE = {
   en: { ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's', minute: 'minutes', hour: 'hours', day: 'days', year: 'years', kyear: 'thousand years', Myear: 'million years', Gyear: 'billion years', Tyear: 'trillion years', Pyear: 'quadrillion years', Eyear: 'quintillion years', Zyear: 'sextillion years', Yyear: 'septillion years' },
   'pt-pt': { ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's', minute: 'minutos', hour: 'horas', day: 'dias', year: 'anos', kyear: 'mil anos', Myear: 'milhões de anos', Gyear: 'mil milhões de anos', Tyear: 'biliões de anos', Pyear: 'mil biliões de anos', Eyear: 'triliões de anos', Zyear: 'mil triliões de anos', Yyear: 'quatriliões de anos' },
+  // Polish and German words change with the number (functions of it)
+  pl: {
+    ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's',
+    minute: v => plN(v, 'minuta', 'minuty', 'minut', 'minuty'),
+    hour: v => plN(v, 'godzina', 'godziny', 'godzin', 'godziny'),
+    day: v => plN(v, 'dzień', 'dni', 'dni', 'dnia'),
+    year: v => plN(v, 'rok', 'lata', 'lat', 'roku'),
+    kyear: v => plN(v, 'tysiąc lat', 'tysiące lat', 'tysięcy lat', 'tysiąca lat'),
+    Myear: v => plN(v, 'milion lat', 'miliony lat', 'milionów lat', 'miliona lat'),
+    Gyear: v => plN(v, 'miliard lat', 'miliardy lat', 'miliardów lat', 'miliarda lat'),
+    Tyear: v => plN(v, 'bilion lat', 'biliony lat', 'bilionów lat', 'biliona lat'),
+    Pyear: v => plN(v, 'biliard lat', 'biliardy lat', 'biliardów lat', 'biliarda lat'),
+    Eyear: v => plN(v, 'trylion lat', 'tryliony lat', 'trylionów lat', 'tryliona lat'),
+    Zyear: v => plN(v, 'tryliard lat', 'tryliardy lat', 'tryliardów lat', 'tryliarda lat'),
+    Yyear: v => plN(v, 'kwadrylion lat', 'kwadryliony lat', 'kwadrylionów lat', 'kwadryliona lat'),
+  },
+  de: {
+    ysec: 'ys', zsec: 'zs', asec: 'as', fsec: 'fs', psec: 'ps', nsec: 'ns', usec: 'µs', msec: 'ms', sec: 's',
+    minute: v => deN(v, 'Minute', 'Minuten'),
+    hour: v => deN(v, 'Stunde', 'Stunden'),
+    day: v => deN(v, 'Tag', 'Tage'),
+    year: v => deN(v, 'Jahr', 'Jahre'),
+    kyear: () => 'Tausend Jahre',
+    Myear: v => deN(v, 'Million Jahre', 'Millionen Jahre'),
+    Gyear: v => deN(v, 'Milliarde Jahre', 'Milliarden Jahre'),
+    Tyear: v => deN(v, 'Billion Jahre', 'Billionen Jahre'),
+    Pyear: v => deN(v, 'Billiarde Jahre', 'Billiarden Jahre'),
+    Eyear: v => deN(v, 'Trillion Jahre', 'Trillionen Jahre'),
+    Zyear: v => deN(v, 'Trilliarde Jahre', 'Trilliarden Jahre'),
+    Yyear: v => deN(v, 'Quadrillion Jahre', 'Quadrillionen Jahre'),
+  },
 }
 
 const crustRank = (() => {
@@ -82,6 +126,7 @@ const T = {
     },
     teaser: { protons: p => `${p} protons`, discovered: y => `in ${y}` },
     forge: 'Build this atom in the Atom Forge',
+    ordinal: r => String(r),
   },
   'pt-pt': {
     titles: {
@@ -133,6 +178,120 @@ const T = {
     },
     teaser: { protons: p => `${p} protões`, discovered: y => `em ${y}` },
     forge: 'Constrói este átomo na Forja de Átomos',
+    ordinal: r => `${r}.º`,
+  },
+  // Polish: the element's name stays in the nominative (węgiel); where a case would be needed the
+  // sentence says "tego pierwiastka" (of this element) instead, so no declension table is needed
+  pl: {
+    titles: {
+      identity: 'Dowód osobisty', atom: 'Wnętrze atomu', state: 'W temperaturze pokojowej', discovery: 'Odkrycie',
+      found: 'Gdzie występuje', uses: 'Do czego służy', family: 'Rodzina', isotopes: 'Izotopy',
+    },
+    number: (el, n) => `${cap(n)} ma liczbę atomową ${el.z}: każdy atom tego pierwiastka ma dokładnie ${el.z} ${plN(el.z, 'proton', 'protony', 'protonów')} i właśnie dlatego jest to ${n}. Zmień liczbę protonów, a dostaniesz inny pierwiastek.`,
+    atom: (el, n, p, ne, shells, v, h) => {
+      const bonds = bondCount(el)
+      const list = shells.map((c, i) => `${c} na powłoce ${SHELL[i]}`).join(', ')
+      const end = el.family === 'noble-gas'
+        ? 'Zewnętrzna powłoka jest pełna, więc prawie nigdy nie podaje nikomu ręki: dlatego gazy szlachetne nie mają rąk.'
+        : h.giving
+          ? `${cap(n)} zwykle oddaje ${bonds} ${plN(bonds, 'elektron', 'elektrony', 'elektronów')}: ${plHis(el)} Atomek trzyma ${bonds > 1 ? 'je' : 'go'} w wyciągniętych rękach${bonds > 4 ? ' (ma miejsce tylko na cztery)' : ''}.`
+          : `To elektrony z zewnątrz (tutaj ${v}) podają ręce innym atomom: dlatego ${n} ma ${h.count} ${plN(h.count, 'rękę', 'ręce', 'rąk')}.`
+      return `W środku jest jądro: ${p} ${plN(p, 'proton', 'protony', 'protonów')} (na czerwono) i ${ne} ${plN(ne, 'neutron', 'neutrony', 'neutronów')} (na szaro). Wokół niego ${plN(el.z, 'krąży', 'krążą', 'krąży')} ${el.z} ${plN(el.z, 'elektron', 'elektrony', 'elektronów')} na ${shells.length} ${shells.length > 1 ? 'powłokach' : 'powłoce'}: ${list}. ${end}`
+    },
+    stateIs: (el, n, s) => `W temperaturze 20 °C ${n} jest ${s}.`,
+    stateWould: (el, n, s) => `Przewiduje się, że w temperaturze 20 °C ${n} jest ${s}: nikt nigdy nie miał tyle tego pierwiastka w jednym miejscu, żeby to sprawdzić.`,
+    meltsAbout: m => `Prawdopodobnie topi się w temperaturze około ${m}.`,
+    predicted: 'prognoza',
+    melts: (m, b) => `Topi się w temperaturze ${m}, a wrze w temperaturze ${b}.`,
+    boils: b => `Wrze w temperaturze ${b}.`,
+    sublimes: b => `Pod zwykłym ciśnieniem nie topi się: w temperaturze ${b} od razu zamienia się w gaz.`,
+    unknownState: 'Nikt tego nie zmierzył: wytworzono dotąd tylko kilka atomów.',
+    litre: (kg, heavier) => `Litr tego pierwiastka ważyłby ${kg} kg, ${heavier ? 'więcej' : 'mniej'} niż litr wody (1 kg): w wodzie ${heavier ? 'poszedłby na dno' : 'unosiłby się na powierzchni'}.`,
+    litreGas: g => `Litr tego gazu waży ${g} g (litr powietrza: około 1,2 g).`,
+    // in a sentence (jest ciałem stałym) and as a label
+    states: { solid: 'ciałem stałym', liquid: 'cieczą', gas: 'gazem' },
+    stateLabels: { solid: 'Ciało stałe', liquid: 'Ciecz', gas: 'Gaz' },
+    year: 'Rok', who: 'Kto odkrył', where: 'Gdzie', ancient: 'Starożytność', ancientText: 'Ten pierwiastek znano już w starożytności: nikt nie wie, kto odkrył go pierwszy.',
+    crust: (n, mg, rank) => `W każdym kilogramie skorupy ziemskiej jest około ${mg} mg tego pierwiastka: ${n} zajmuje ${rank}. miejsce wśród najczęstszych pierwiastków skorupy ziemskiej.`,
+    synthetic: 'Powstaje tylko w laboratoriach, po kilka atomów naraz.',
+    reactor: 'Nie występuje w przyrodzie: powstaje w reaktorach jądrowych, w małych ilościach.',
+    trace: 'W przyrodzie prawie nie występuje: to pierwiastek promieniotwórczy, który powoli się rozpada.',
+    crustTiny: () => 'W skorupie ziemskiej jest tak mało tego pierwiastka, że nigdy nie dałoby się go zobaczyć: dużo mniej niż tysięczna część miligrama w każdym kilogramie skały.',
+    crustLabel: 'W skorupie ziemskiej', seaLabel: 'W wodzie morskiej', rankLabel: 'Miejsce w skorupie', traces: 'Tylko ślady',
+    usesSoon: 'Historia zastosowań tego pierwiastka wciąż jest pisana.',
+    family: (n, f, g, list) => `${cap(n)} należy do rodziny, którą tworzą ${f}. Pierwiastki z tej samej kolumny mają tyle samo elektronów na zewnątrz, więc zachowują się podobnie. Kolumna tego pierwiastka (grupa ${g}): ${list}.`,
+    fBlock: (n, f, list, actinide) => `${cap(n)} należy do rodziny, którą tworzą ${f}: ${list}. ${actinide ? 'Wypełniają powłokę 5f. W przyrodzie występują tylko pierwsze z nich (od aktynu do uranu, ze śladami neptunu i plutonu); pozostałe po raz pierwszy wytworzono w laboratoriach, między 1940 a 1961 rokiem.' : 'Są tak do siebie podobne, że chemicy potrzebowali około stu lat, żeby je wszystkie rozdzielić.'}`,
+    isotopes: (n, A, ab) => `Atomy tego pierwiastka mogą mieć różną liczbę neutronów: to właśnie izotopy. Najczęstszy izotop to ${n}-${A} (${ab}% wszystkich atomów).`,
+    unstable: (n, A, hl) => `Nie ma żadnego trwałego izotopu: każdy atom tego pierwiastka w końcu się rozpada (to pierwiastek promieniotwórczy). Najdłużej żyje izotop ${n}-${A}: jego okres półtrwania to ${hl}.`,
+    naturalCount: c => `${c} ${plN(c, 'naturalny izotop', 'naturalne izotopy', 'naturalnych izotopów')}`,
+    radioactive: 'Promieniotwórczy',
+    rows: {
+      family: 'Rodzina', group: 'Grupa', period: 'Okres', block: 'Blok', mass: 'Masa atomowa', config: 'Konfiguracja',
+      protons: 'Protony', neutrons: 'Neutrony', electrons: 'Elektrony', shells: 'Powłoki', valence: 'Elektrony zewnętrzne',
+      en: 'Elektroujemność', ie: 'Pierwsza energia jonizacji', ea: 'Powinowactwo elektronowe', radius: 'Promień kowalencyjny',
+      melt: 'Temperatura topnienia', boil: 'Temperatura wrzenia', density: 'Gęstość', heat: 'Ciepło właściwe', isotope: 'Izotop',
+      abundance: 'Udział', halfLife: 'Okres półtrwania', stable: 'trwały', origin: 'Nazwa',
+    },
+    teaser: { protons: p => `${p} ${plN(p, 'proton', 'protony', 'protonów')}`, discovered: y => `w ${y} roku` },
+    // element names in running text are lower case in Polish, in a list too (węgiel, krzem, german)
+    inList: s => s.toLowerCase(),
+    forge: 'Zbuduj ten atom w Kuźni Atomów',
+    ordinal: r => `${r}.`,
+  },
+  // German: element names are nouns and keep their capital; most are neuter (es), six masculine (er)
+  de: {
+    nounCase: s => s,
+    titles: {
+      identity: 'Steckbrief', atom: 'Im Inneren des Atoms', state: 'Bei Raumtemperatur', discovery: 'Entdeckung',
+      found: 'Vorkommen', uses: 'Verwendung', family: 'Familie', isotopes: 'Isotope',
+    },
+    number: (el, n) => `Seine Ordnungszahl ist ${el.z}: Jedes ${n}atom hat genau ${el.z} ${deN(el.z, 'Proton', 'Protonen')}, und genau das macht es zu ${n}. Ändere die Zahl der Protonen, und du bekommst ein anderes Element.`,
+    atom: (el, n, p, ne, shells, v, h) => {
+      const bonds = bondCount(el)
+      const list = shells.map((c, i) => `${c} auf Schale ${SHELL[i]}`).join(', ')
+      const end = el.family === 'noble-gas'
+        ? `Seine äußere Schale ist voll, deshalb gibt ${deEr(el)} fast nie jemandem die Hand: Darum haben Edelgase keine Hände.`
+        : h.giving
+          ? `${n} gibt meist ${bonds} ${deN(bonds, 'Elektron', 'Elektronen')} ab: Sein Atomling hält ${bonds > 1 ? 'sie' : 'es'} in den ausgestreckten Händen${bonds > 4 ? ' (er hat nur Platz für vier)' : ''}.`
+          : `Die Elektronen außen (hier ${v}) geben anderen Atomen die Hand: Deshalb hat ${n} ${h.count} ${deN(h.count, 'Hand', 'Hände')}.`
+      return `In der Mitte ist der Kern mit ${p} ${deN(p, 'Proton', 'Protonen')} (rot) und ${ne} ${deN(ne, 'Neutron', 'Neutronen')} (grau). Um ihn herum ${deN(el.z, 'saust', 'sausen')} ${el.z} ${deN(el.z, 'Elektron', 'Elektronen')} auf ${shells.length} ${deN(shells.length, 'Schale', 'Schalen')}: ${list}. ${end}`
+    },
+    stateIs: (el, n, s) => `Bei 20 °C ist ${n} ${s}.`,
+    stateWould: (el, n, s) => `Bei 20 °C wäre ${n} vermutlich ${s}: Das ist eine Vorhersage, denn niemand hatte je genug davon an einem Ort, um nachzusehen.`,
+    meltsAbout: (m, el) => `${cap(deEr(el))} schmilzt vermutlich bei etwa ${m}.`,
+    predicted: 'vorhergesagt',
+    melts: (m, b, el) => `${cap(deEr(el))} schmilzt bei ${m} und siedet bei ${b}.`,
+    boils: (b, el) => `${cap(deEr(el))} siedet bei ${b}.`,
+    sublimes: (b, el) => `Bei normalem Druck schmilzt ${deEr(el)} nicht: Bei ${b} wird ${deEr(el)} direkt zu Gas.`,
+    unknownState: 'Niemand hat das gemessen: Es wurden immer nur ein paar Atome davon hergestellt.',
+    litre: (kg, heavier) => `Ein Liter davon würde ${kg} kg wiegen, ${heavier ? 'mehr' : 'weniger'} als ein Liter Wasser (1 kg): Er würde im Wasser ${heavier ? 'untergehen' : 'schwimmen'}.`,
+    litreGas: g => `Ein Liter davon wiegt ${g} g (ein Liter Luft: etwa 1,2 g).`,
+    states: { solid: 'ein Feststoff', liquid: 'eine Flüssigkeit', gas: 'ein Gas' },
+    stateLabels: { solid: 'Fest', liquid: 'Flüssig', gas: 'Gasförmig' },
+    year: 'Jahr', who: 'Von', where: 'Wo', ancient: 'Altertum', ancientText: 'Schon im Altertum bekannt: Niemand weiß, wer dieses Element zuerst gefunden hat.',
+    crust: (n, mg, rank) => `In jedem Kilogramm Erdkruste stecken etwa ${mg} Milligramm ${n}: Platz ${rank} unter den häufigsten Elementen der Erdkruste.`,
+    synthetic: 'Wird nur im Labor hergestellt, ein paar Atome auf einmal.',
+    reactor: 'Kommt in der Natur nicht vor: Es wird in Kernreaktoren hergestellt, in kleinen Mengen.',
+    trace: 'In der Natur gibt es fast nichts davon: Es ist radioaktiv und zerfällt langsam.',
+    crustTiny: n => `In der Erdkruste gibt es so wenig ${n}, dass du nie etwas davon sehen könntest: viel weniger als ein Tausendstel Milligramm in jedem Kilogramm Gestein.`,
+    crustLabel: 'In der Erdkruste', seaLabel: 'Im Meerwasser', rankLabel: 'Rang in der Erdkruste', traces: 'Nur Spuren',
+    usesSoon: 'Die Geschichte seiner Verwendung wird gerade noch geschrieben.',
+    family: (n, f, g, list) => `${n} gehört zur Familie der ${f}. Elemente in derselben Spalte haben gleich viele Außenelektronen, deshalb verhalten sie sich ähnlich. Seine Spalte (Gruppe ${g}): ${list}.`,
+    fBlock: (n, f, list, actinide) => `${n} gehört zur Familie der ${f}: ${list}. ${actinide ? 'Sie füllen die 5f-Schale. Nur die ersten (Actinium bis Uran, dazu Spuren von Neptunium und Plutonium) kommen in der Natur vor; die übrigen wurden zuerst in Laboren hergestellt, zwischen 1940 und 1961.' : 'Sie sind einander so ähnlich, dass Chemiker etwa ein Jahrhundert brauchten, um sie alle voneinander zu trennen.'}`,
+    isotopes: (n, A, ab) => `${n}atome können unterschiedlich viele Neutronen haben: Das sind seine Isotope. Das häufigste ist ${n}-${A} (${ab}% aller seiner Atome).`,
+    unstable: (n, A, hl) => `${n} hat kein stabiles Isotop: Jedes seiner Atome zerfällt irgendwann (das nennt man radioaktiv). Am längsten lebt ${n}-${A}: Seine Halbwertszeit beträgt ${hl}.`,
+    naturalCount: c => `${c} ${deN(c, 'natürliches Isotop', 'natürliche Isotope')}`,
+    radioactive: 'Radioaktiv',
+    rows: {
+      family: 'Familie', group: 'Gruppe', period: 'Periode', block: 'Block', mass: 'Atommasse', config: 'Konfiguration',
+      protons: 'Protonen', neutrons: 'Neutronen', electrons: 'Elektronen', shells: 'Schalen', valence: 'Außenelektronen',
+      en: 'Elektronegativität', ie: 'Erste Ionisierungsenergie', ea: 'Elektronenaffinität', radius: 'Kovalenzradius',
+      melt: 'Schmelzpunkt', boil: 'Siedepunkt', density: 'Dichte', heat: 'Spezifische Wärmekapazität', isotope: 'Isotop',
+      abundance: 'Häufigkeit', halfLife: 'Halbwertszeit', stable: 'stabil', origin: 'Name',
+    },
+    teaser: { protons: p => `${p} ${deN(p, 'Proton', 'Protonen')}`, discovered: y => `im Jahr ${y}` },
+    forge: 'Bau dieses Atom in der Atomschmiede',
+    ordinal: r => `${r}.`,
   },
 }
 
@@ -142,7 +301,9 @@ export function stationsOf(el, { lang, level, familyName }) {
   const L = T[lang] ?? T.en
   const tag = tagOf(lang)
   const sci = level === 'scientist'
-  const n = nameOf(el, lang).toLowerCase()
+  // names inside a sentence: lower case, except in German, where nouns keep their capital
+  const low = L.nounCase ?? (s => s.toLowerCase())
+  const n = low(nameOf(el, lang))
   const content = contentOf(el)
   const text = key => pick(content?.[key], lang, level)
   const color = FAMILY[el.family].color
@@ -159,8 +320,11 @@ export function stationsOf(el, { lang, level, familyName }) {
 
   const natural = el.isotopes.filter(i => i.abundance)
   const lasting = [...el.isotopes].filter(i => i.halfLifeSeconds).sort((a, b) => b.halfLifeSeconds - a.halfLifeSeconds)[0]
-  const halfLife = i => `${fmt(i.halfLife, 3)} ${HALF_LIFE[lang]?.[i.halfLifeUnit] ?? i.halfLifeUnit}`
-  const stateLabel = el.state ? cap(L.states[el.state].replace(/^um /, '')) + (el.statePredicted ? ` (${L.predicted})` : '') : '?'
+  const halfLife = i => {
+    const unit = HALF_LIFE[lang]?.[i.halfLifeUnit] ?? i.halfLifeUnit
+    return `${fmt(i.halfLife, 3)} ${typeof unit === 'function' ? unit(Number(i.halfLife.toPrecision(3))) : unit}`
+  }
+  const stateLabel = el.state ? (L.stateLabels?.[el.state] ?? cap(L.states[el.state].replace(/^um /, ''))) + (el.statePredicted ? ` (${L.predicted})` : '') : '?'
 
   return [
     make('identity', [`${el.symbol} · ${el.z}`, nameOf(el, lang)], () => [
@@ -199,13 +363,14 @@ export function stationsOf(el, { lang, level, familyName }) {
       const d = el.density
       const guess = el.statePredicted
       const said = el.state && (guess ? L.stateWould : L.stateIs)(el, n, L.states[el.state])
+      // (el last: German says er or es by the name's gender)
       const temps = el.sublimes
-        ? L.sublimes(temperature(el.sublimes, level, tag))
+        ? L.sublimes(temperature(el.sublimes, level, tag), el)
         : guess
-          ? (el.melt != null ? L.meltsAbout(temperature(el.melt, level, tag)) : L.unknownState)
+          ? (el.melt != null ? L.meltsAbout(temperature(el.melt, level, tag), el) : L.unknownState)
           : el.melt != null
-            ? L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag))
-            : el.boil != null ? L.boils(temperature(el.boil, level, tag)) : L.unknownState
+            ? L.melts(temperature(el.melt, level, tag), temperature(el.boil, level, tag), el)
+            : el.boil != null ? L.boils(temperature(el.boil, level, tag), el) : L.unknownState
       const mark = v => (guess && v != null ? `${temperature(v, 'scientist', tag)} (${L.predicted})` : temperature(v, 'scientist', tag))
       return [
         { big: stateLabel },
@@ -244,7 +409,7 @@ export function stationsOf(el, { lang, level, familyName }) {
         sci && {
           rows: [
             [L.crustLabel, mg != null ? `${fmt(mg, 3)} mg/kg` : '–'],
-            [L.rankLabel, rank ? `${rank}.º`.replace('.º', lang === 'en' ? '' : '.º') : '–'],
+            [L.rankLabel, rank ? L.ordinal(rank) : '–'],
             [L.seaLabel, el.abundance.sea != null ? `${fmt(el.abundance.sea, 3)} mg/L` : '–'],
           ],
         },
@@ -260,10 +425,10 @@ export function stationsOf(el, { lang, level, familyName }) {
       const members = fRow
         ? ELEMENTS.filter(e => e.family === el.family)
         : ELEMENTS.filter(e => e.group === el.group && e.family !== 'lanthanide' && e.family !== 'actinide')
-      const list = members.map(e => (sci ? `${e.symbol}` : `${nameOf(e, lang)}`)).join(', ')
+      const list = members.map(e => (sci ? `${e.symbol}` : (L.inList ?? String)(nameOf(e, lang)))).join(', ')
       return [
         { big: familyName },
-        { p: fRow ? L.fBlock(n, familyName.toLowerCase(), list, el.family === 'actinide') : L.family(n, familyName.toLowerCase(), el.group, list) },
+        { p: fRow ? L.fBlock(n, low(familyName), list, el.family === 'actinide') : L.family(n, low(familyName), el.group, list) },
       ]
     }),
     make('isotopes', [natural.length ? L.naturalCount(natural.length) : L.radioactive], () => {
@@ -283,12 +448,16 @@ export function stationsOf(el, { lang, level, familyName }) {
   ]
 }
 
+const GREETING = {
+  en: n => `Hi! I'm ${n}. Explore my hall: each panel tells part of my story.`,
+  'pt-pt': n => `Olá! Chamo-me ${n}. Explora o meu salão: cada painel conta uma parte da minha história.`,
+  pl: n => `Cześć! Nazywam się ${n}. Zwiedź moją salę: każda tablica opowiada część mojej historii.`,
+  de: n => `Hallo! Ich bin ${n}. Erkunde meine Halle: Jede Tafel erzählt einen Teil meiner Geschichte.`,
+}
+
 /** What the element's Atomling says when you talk to it. */
 export function greetingOf(el, lang, level) {
   const own = pick(contentOf(el)?.greeting, lang, level)
   if (own) return own
-  const n = nameOf(el, lang)
-  return lang === 'pt-pt'
-    ? `Olá! Chamo-me ${n}. Explora o meu salão: cada painel conta uma parte da minha história.`
-    : `Hi! I'm ${n}. Explore my hall: each panel tells part of my story.`
+  return (GREETING[lang] ?? GREETING.en)(nameOf(el, lang))
 }
