@@ -789,7 +789,7 @@ export function hammockCat({ light, words }) {
   cat.add(tail)
   cat.traverse(o => o.isMesh && (o.castShadow = true))
   // its label: the numbers of the example
-  const label = makeText('1 m²  ·  0,77 mg', { size: 0.1, color: '#cfe6ff' })
+  const label = makeText(`1 m²  ·  0${words().decimal ?? '.'}77 mg`, { size: 0.1, color: '#cfe6ff' })
   label.position.set(0, top + 0.006, 0.95)
   label.rotation.x = -Math.PI / 2
   const catLabel = makeText(words().catLabel, { size: 0.085, color: GOLD })
