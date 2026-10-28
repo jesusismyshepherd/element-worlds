@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Tenesso, o elemento mais recente, descoberto em 2010. Vês como tremeluzo? Só existiram uns poucos átomos de mim. Uma mão, pronta a agarrar um eletrão como os meus primos halogéneos, embora os cientistas achem que não sou grande halogéneo.',
       sci: 'Tenesso: previsto [Rn] 5f14 6d10 7s2 7p5, grupo 17, por baixo do flúor, do cloro, do bromo, do iodo e do ástato. A divisão relativista da camada 7p deverá torná-lo muito menos ávido de eletrões do que os outros halogéneos; pode ser um semimetal ou um metal. O Ts-294 dura umas centésimas de segundo.',
     },
+    pl: {
+      kid: 'Hej! Jestem tenesem, najnowszym pierwiastkiem, odkrytym w 2010 roku. Widzisz, jak migoczę? Istniało dotąd tylko kilka moich atomów. Mam jedną rękę i sięgam nią po elektron jak moi kuzyni fluorowce, choć naukowcy uważają, że kiepski ze mnie fluorowiec.',
+      sci: 'Tenes: przewidywana konfiguracja [Rn] 5f14 6d10 7s2 7p5, grupa 17 pod fluorem, chlorem, bromem, jodem i astatem. Relatywistyczne rozszczepienie 7p powinno sprawić, że będzie znacznie mniej chętnie przyjmował elektron niż inne fluorowce; może być półmetalem albo metalem. Ts-294 żyje kilka setnych sekundy.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin das Tenness, das neueste Element, entdeckt 2010. Siehst du, wie ich flackere? Es hat bisher nur ein paar Atome von mir gegeben. Eine Hand, die nach einem Elektron greift wie meine Halogen-Cousins, obwohl Forscher glauben, dass ich kein besonders gutes Halogen bin.',
+      sci: 'Tenness: vorhergesagt [Rn] 5f14 6d10 7s2 7p5, Gruppe 17 unter Fluor, Chlor, Brom, Iod und Astat. Die relativistische Aufspaltung von 7p sollte es viel weniger begierig machen, ein Elektron aufzunehmen, als die anderen Halogene; es könnte ein Halbmetall oder ein Metall sein. Ts-294 lebt einige Hundertstelsekunden.',
+    },
   },
   nameOrigin: {
     en: { kid: "Named after Tennessee, the US state that is home to Oak Ridge National Laboratory, Vanderbilt University and the University of Tennessee, which helped make it. The ending '-ine' is the one used for the halogens, as in chlorine and iodine." },
     'pt-pt': { kid: 'Tem o nome do Tennessee, o estado americano onde ficam o Laboratório Nacional de Oak Ridge, a Universidade Vanderbilt e a Universidade do Tennessee, que ajudaram a fazê-lo. Em português, tenesso termina em -o, como cloro, bromo e iodo, os seus primos halogéneos.' },
+    pl: { kid: 'Nazwany od Tennessee, stanu w USA, w którym działają Oak Ridge National Laboratory, Uniwersytet Vanderbilta i Uniwersytet Tennessee, które pomogły go wytworzyć. Końcówka -ine w angielskiej nazwie tennessine to ta, której angielski używa dla fluorowców, jak w chlorine (chlor) i iodine (jod); po polsku to po prostu tenes.' },
+    de: { kid: 'Benannt nach Tennessee, dem US-Bundesstaat, in dem das Oak Ridge National Laboratory, die Vanderbilt University und die University of Tennessee stehen, die geholfen haben, es herzustellen. Die Endung -ine im englischen Namen Tennessine ist die der Halogene, wie in chlorine (Chlor) und iodine (Iod); auf Deutsch heißt es einfach Tenness.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'Fazer o elemento 117 exigia um alvo raro: berquélio. O laboratório de Oak Ridge, no Tennessee, fez 22 miligramas no seu reator e enviou-os para Dubna, na Rússia, onde os cientistas lhes dispararam átomos de cálcio. Em 2010 anunciaram seis átomos de um elemento novo.',
       sci: 'JINR, Dubna, com o ORNL, o LLNL e a Universidade Vanderbilt (2009 a 2010): Bk-249 + Ca-48 → Ts-293 + 4n (cinco átomos) e Ts-294 + 3n (um átomo). O alvo de 22 mg de Bk-249 veio de 250 dias de irradiação no HFIR do ORNL. Confirmado no GSI em 2014; a IUPAC deu o mérito à colaboração em 2015 e aprovou o nome em 2016.',
+    },
+    pl: {
+      kid: 'Do zrobienia pierwiastka 117 potrzebna była rzadka tarcza: berkel. Laboratorium w Oak Ridge w Tennessee wytworzyło w swoim reaktorze 22 miligramy berkelu i wysłało je do Dubnej w Rosji, gdzie naukowcy ostrzeliwali go atomami wapnia. W 2010 roku ogłosili sześć atomów nowego pierwiastka.',
+      sci: 'JINR Dubna z ORNL, LLNL i Uniwersytetem Vanderbilta (od 2009 do 2010): Bk-249 + Ca-48 → Ts-293 + 4n (pięć atomów) i Ts-294 + 3n (jeden atom). Tarcza z 22 mg Bk-249 powstała w ciągu 250 dni napromieniania w reaktorze HFIR w ORNL. Potwierdzone w GSI w 2014 roku; IUPAC przyznała odkrycie tej współpracy w 2015 roku i zatwierdziła nazwę w 2016 roku.',
+    },
+    de: {
+      kid: 'Für das Element 117 brauchte man ein seltenes Ziel zum Beschießen: Berkelium. Das Labor in Oak Ridge in Tennessee stellte in seinem Reaktor 22 Milligramm davon her und schickte sie nach Dubna in Russland, wo Forscher Calciumatome darauf schossen. 2010 meldeten sie sechs Atome eines neuen Elements.',
+      sci: 'JINR Dubna mit ORNL, LLNL und Vanderbilt (2009 bis 2010): Bk-249 + Ca-48 → Ts-293 + 4n (fünf Atome) und Ts-294 + 3n (ein Atom). Das Target aus 22 mg Bk-249 stammte aus 250 Tagen Bestrahlung im Reaktor HFIR am ORNL. 2014 an der GSI bestätigt; die IUPAC sprach die Entdeckung 2015 der Zusammenarbeit zu und genehmigte den Namen 2016.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'Nunca ninguém viu tenesso. Os cientistas preveem um sólido, talvez mais parecido com um metal do que com os outros halogéneos, que fundiria algures entre 350 e 550 °C.',
       sci: 'As propriedades em massa são previsões: um sólido, talvez semimetálico, que funde entre cerca de 350 e 550 °C e ferve perto de 610 °C. Ao contrário dos halogéneos mais leves, o anião Ts− deverá ser difícil de formar, e o Ts(+1) poderá ser mais importante.',
     },
+    pl: {
+      kid: 'Nikt nigdy nie widział tenesu. Naukowcy przewidują ciało stałe, może bardziej podobne do metalu niż do innych fluorowców, topiące się gdzieś w okolicy 350 do 550 °C.',
+      sci: 'Właściwości makroskopowe to przewidywania: ciało stałe, może półmetaliczne, topiące się w około 350 do 550 °C i wrzące w pobliżu 610 °C. W odróżnieniu od lżejszych fluorowców anion Ts− powinien tworzyć się trudno, a Ts(+1) może mieć większe znaczenie.',
+    },
+    de: {
+      kid: 'Niemand hat je Tenness gesehen. Forscher sagen einen Feststoff voraus, vielleicht eher wie ein Metall als wie die anderen Halogene, der irgendwo bei 350 bis 550 °C schmilzt.',
+      sci: 'Die makroskopischen Eigenschaften sind Vorhersagen: ein Feststoff, vielleicht halbmetallisch, der bei etwa 350 bis 550 °C schmilzt und nahe 610 °C siedet. Anders als bei den leichteren Halogenen dürfte das Anion Ts− schwer zu bilden sein, und Ts(+1) könnte wichtiger sein.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O tenesso não existe na natureza. Faz-se em aceleradores de partículas, uns poucos átomos de cada vez, e só a partir do berquélio, um dos materiais mais raros da Terra.',
       sci: 'Só se faz em aceleradores, a partir de alvos de Bk-249 com feixes de Ca-48; as suas cadeias de decaimento passam pelo moscóvio, pelo nihónio e pelo roentgénio, até ao dúbnio e ao laurêncio.',
+    },
+    pl: {
+      kid: 'Tenesu nie ma w przyrodzie. Wytwarza się go w akceleratorach cząstek, po kilka atomów naraz, i tylko z berkelu, jednego z najrzadszych materiałów na Ziemi.',
+      sci: 'Wytwarzany tylko w akceleratorach, z tarcz Bk-249 i wiązek Ca-48; jego łańcuchy rozpadu przechodzą przez moskow, nihon i roentgen aż do dubnu i lorensu.',
+    },
+    de: {
+      kid: 'Tenness kommt in der Natur nicht vor. Man stellt es in Teilchenbeschleunigern her, immer nur ein paar Atome auf einmal, und nur aus Berkelium, einem der seltensten Stoffe der Erde.',
+      sci: 'Nur in Beschleunigern hergestellt, aus Bk-249-Targets mit Ca-48-Strahlen; seine Zerfallsketten führen über Moscovium, Nihonium und Roentgenium bis hinunter zu Dubnium und Lawrencium.',
     },
   },
   uses: {
@@ -53,6 +87,14 @@ export default {
       kid: ['Só investigação: o seu decaimento mostrou aos cientistas tipos novos, de vida mais longa, de átomos superpesados mais leves.'],
       sci: ['Investigação básica: a cadeia de decaimento do Ts-294 revelou o Db-270 e o Lr-266 (2014), o isótopo de laurêncio de vida mais longa que se conhece.'],
     },
+    pl: {
+      kid: ['Tylko badania: jego rozpad pokazał naukowcom nowe, dłużej żyjące rodzaje lżejszych superciężkich atomów.'],
+      sci: ['Badania podstawowe: łańcuch rozpadu Ts-294 ujawnił Db-270 i Lr-266 (2014), najdłużej żyjący znany izotop lorensu.'],
+    },
+    de: {
+      kid: ['Nur Forschung: Sein Zerfall zeigte den Forschern neue, langlebigere Sorten leichterer superschwerer Atome.'],
+      sci: ['Grundlagenforschung: Die Zerfallskette von Ts-294 brachte Db-270 und Lr-266 (2014) ans Licht, das langlebigste bekannte Isotop des Lawrenciums.'],
+    },
   },
   isotopes: {
     en: {
@@ -62,6 +104,14 @@ export default {
     'pt-pt': {
       kid: 'Todos os tipos de tenesso são radioativos. O que dura mais, o tenesso-294, dura só umas centésimas de segundo.',
       sci: 'Não tem isótopos estáveis; só se conhecem dois. O Ts-294 (cerca de 50 a 70 ms) e o Ts-293 (cerca de 22 ms) decaem por emissão alfa através do moscóvio e do nihónio.',
+    },
+    pl: {
+      kid: 'Każdy rodzaj tenesu jest promieniotwórczy. Najdłużej żyjący, tenes-294, żyje tylko kilka setnych sekundy.',
+      sci: 'Brak stabilnych izotopów; znane są tylko dwa. Ts-294 (około 50 do 70 ms) i Ts-293 (około 22 ms) rozpadają się przez emisję alfa, przechodząc przez moskow i nihon.',
+    },
+    de: {
+      kid: 'Jede Sorte Tenness ist radioaktiv. Die langlebigste, Tenness-294, hält nur ein paar Hundertstelsekunden.',
+      sci: 'Keine stabilen Isotope; nur zwei sind bekannt. Ts-294 (etwa 50 bis 70 ms) und Ts-293 (etwa 22 ms) zerfallen durch Alphaemission über Moscovium und Nihonium.',
     },
   },
   facts: {
@@ -89,6 +139,32 @@ export default {
         'Na descoberta viram-se só seis átomos: cinco de Ts-293 e um de Ts-294.',
         'A meia-vida de 330 dias do berquélio-249 deu um prazo à experiência.',
         'O tenesso é o segundo elemento mais pesado que se conhece e o membro mais pesado do grupo 17.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Jestem najnowszym pierwiastkiem, odkrytym w 2010 roku.',
+        'Moja nazwa pochodzi od Tennessee, stanu w USA.',
+        'Berkel potrzebny do zrobienia mnie przebył Atlantyk pięć razy, zanim rosyjscy celnicy go wpuścili!',
+        'Moje atomy żyją tylko kilka setnych sekundy.',
+      ],
+      sci: [
+        'W odkryciu zaobserwowano tylko sześć atomów: pięć Ts-293 i jeden Ts-294.',
+        'Okres półtrwania berkelu-249, wynoszący 330 dni, wyznaczył eksperymentowi termin.',
+        'Tenes to drugi najcięższy znany pierwiastek i najcięższy członek grupy 17.',
+      ],
+    },
+    de: {
+      kid: [
+        'Ich bin das neueste Element, entdeckt 2010.',
+        'Ich bin nach Tennessee benannt, einem Bundesstaat der USA.',
+        'Das Berkelium für mich überquerte fünfmal den Atlantik, bevor der russische Zoll es hereinließ!',
+        'Meine Atome halten nur ein paar Hundertstelsekunden.',
+      ],
+      sci: [
+        'Bei der Entdeckung wurden nur sechs Atome gesehen: fünf Ts-293 und eines Ts-294.',
+        'Die Halbwertszeit von 330 Tagen des Berkelium-249 setzte dem Experiment eine Frist.',
+        'Tenness ist das zweitschwerste bekannte Element und das schwerste Mitglied der Gruppe 17.',
       ],
     },
   },
