@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Crípton, um gás nobre. Não tenho mãos: a minha camada de fora está cheia, por isso quase nunca me junto a ninguém. Sou mais pesado do que o ar, por isso flutuo baixinho. Com eletricidade, brilho num branco suave!',
       sci: 'Crípton: [Ar] 3d10 4s2 4p6, camada fechada (primeira energia de ionização de 14,0 eV). Monoatómico, cerca de três vezes mais denso do que o ar, 1,14 ppm da atmosfera. Não é totalmente inerte: existe KrF2.',
     },
+    pl: {
+      kid: 'Witaj! Jestem kryptonem, gazem szlachetnym. Nie mam rąk: moja zewnętrzna powłoka jest pełna, więc prawie nigdy z nikim się nie łączę. Jestem cięższy od powietrza, więc unoszę się nisko. Daj mi prąd, a zaświecę łagodną bielą!',
+      sci: 'Krypton: [Ar] 3d10 4s2 4p6, zamknięta powłoka (pierwsza energia jonizacji 14,0 eV). Jednoatomowy, około trzech razy gęstszy od powietrza, 1,14 ppm atmosfery. Nie całkiem bierny: istnieje KrF2.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin Krypton, ein Edelgas. Keine Hände: Meine äußere Schale ist voll, darum verbinde ich mich fast nie mit jemandem. Ich bin schwerer als Luft, darum schwebe ich tief. Gib mir Strom, und ich leuchte sanft weiß!',
+      sci: 'Krypton: [Ar] 3d10 4s2 4p6, eine abgeschlossene Schale (erste Ionisierungsenergie 14,0 eV). Einatomig, etwa dreimal dichter als Luft, 1,14 ppm der Atmosphäre. Nicht völlig inert: KrF2 existiert.',
+    },
   },
   nameOrigin: {
     en: { kid: 'From the Greek kryptos, hidden: it had been hiding in the air all along.' },
     'pt-pt': { kid: 'Do grego kryptos, escondido: andava escondido no ar o tempo todo.' },
+    pl: { kid: 'Od greckiego kryptos, czyli ukryty: przez cały czas ukrywał się w powietrzu.' },
+    de: { kid: 'Vom griechischen kryptos, verborgen: Es hatte sich die ganze Zeit in der Luft versteckt.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: 'A 30 de maio de 1898, em Londres, William Ramsay e Morris Travers deixaram ferver quase todo um pouco de ar líquido e estudaram o pouco que sobrou. A sua luz tinha riscas brilhantes que ninguém tinha visto: um gás novo! Poucas semanas depois, descobriram também o néon e o xénon.',
       sci: 'Ramsay e Travers (University College London) evaporaram uma amostra de ar liquefeito quase até ao fim; a 30 de maio de 1898, o espetro do resíduo mostrou riscas novas, amarelas e verdes. O néon veio em junho e o xénon em julho de 1898, todos pela destilação fracionada do ar líquido.',
+    },
+    pl: {
+      kid: '30 maja 1898 roku w Londynie William Ramsay i Morris Travers pozwolili, by ciekłe powietrze prawie całkiem wyparowało, i zbadali to, co zostało. Jego światło miało jasne linie, których nikt wcześniej nie widział: nowy gaz! W ciągu kilku tygodni znaleźli też neon i ksenon.',
+      sci: 'Ramsay i Travers (University College London) odparowali próbkę skroplonego powietrza prawie do sucha; 30 maja 1898 roku widmo pozostałości pokazało nowe linie, żółte i zielone. Neon odkryto w czerwcu, a ksenon w lipcu 1898 roku, wszystkie trzy dzięki destylacji frakcyjnej ciekłego powietrza.',
+    },
+    de: {
+      kid: 'Am 30. Mai 1898 ließen William Ramsay und Morris Travers in London flüssige Luft fast vollständig verdampfen und untersuchten den kleinen Rest. Sein Licht zeigte helle Linien, die noch niemand gesehen hatte: ein neues Gas! Innerhalb weniger Wochen fanden sie auch Neon und Xenon.',
+      sci: 'Ramsay und Travers (University College London) dampften eine Probe verflüssigter Luft fast bis zur Trockne ein; am 30. Mai 1898 zeigte das Spektrum des Rückstands neue gelbe und grüne Linien. Neon folgte im Juni und Xenon im Juli 1898, alle drei aus der fraktionierten Destillation flüssiger Luft.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O crípton é invisível e não tem cheiro. Só fica líquido a −153 °C. Num tubo de vidro com eletricidade, brilha branco com um toque de violeta.',
       sci: 'O Kr liquefaz-se a −153,2 °C e solidifica a −157,4 °C: um intervalo líquido de apenas cerca de 4 °C. A sua descarga é branco-violeta; a risca laranja-avermelhada de 605,8 nm do Kr-86 já definiu o metro.',
     },
+    pl: {
+      kid: 'Krypton jest niewidoczny i nie ma zapachu. Skrapla się dopiero w −153 °C. W szklanej rurce, przez którą płynie prąd, świeci na biało z odcieniem fioletu.',
+      sci: 'Kr skrapla się w −153,2 °C i zamarza w −157,4 °C, więc zakres stanu ciekłego wynosi tylko około 4 °C. Jego wyładowanie jest białofioletowe; pomarańczowoczerwona linia 605,8 nm Kr-86 definiowała kiedyś metr.',
+    },
+    de: {
+      kid: 'Krypton ist unsichtbar und riecht nach nichts. Flüssig wird es erst bei −153 °C. In einer Glasröhre mit Strom leuchtet es weiß mit einem Hauch Violett.',
+      sci: 'Kr verflüssigt sich bei −153,2 °C und gefriert bei −157,4 °C, ein Flüssigkeitsbereich von nur etwa 4 °C. Seine Entladung ist weißlich violett; die orangerote 605,8-nm-Linie von Kr-86 definierte einst den Meter.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O crípton está no ar que respiras, mas só cerca de uma partícula em cada milhão. Recolhe-se arrefecendo o ar até ficar líquido e separando depois os seus gases.',
       sci: '1,14 ppm, em volume, do ar seco, o seu único reservatório importante; obtém-se como subproduto da separação do ar (destilação fracionada do ar líquido). A fissão também o produz: o Kr-85 é libertado no reprocessamento de combustível nuclear.',
+    },
+    pl: {
+      kid: 'Krypton jest w powietrzu, którym oddychasz, ale tylko około jednej cząstki na milion. Zbiera się go, ochładzając powietrze, aż stanie się cieczą, a potem rozdzielając jego gazy.',
+      sci: '1,14 ppm objętościowo suchego powietrza, jego jedyny znaczący rezerwuar; otrzymuje się go jako produkt uboczny rozdziału powietrza (destylacji frakcyjnej ciekłego powietrza). Powstaje też przy rozszczepieniu: Kr-85 uwalnia się podczas przerobu paliwa jądrowego.',
+    },
+    de: {
+      kid: 'Krypton ist in der Luft, die du atmest, aber nur etwa ein Teilchen von einer Million. Man gewinnt es, indem man Luft abkühlt, bis sie flüssig wird, und dann ihre Gase trennt.',
+      sci: '1,14 ppm (Volumen) der trockenen Luft, sein einziges nennenswertes Reservoir; gewonnen als Nebenprodukt der Luftzerlegung (fraktionierte Destillation flüssiger Luft). Auch Kernspaltung erzeugt es: Kr-85 wird bei der Wiederaufarbeitung von Kernbrennstoff freigesetzt.',
     },
   },
   uses: {
@@ -73,6 +107,34 @@ export default {
         'Kr-81 e Kr-85 para datar águas subterrâneas e gelo polar.',
       ],
     },
+    pl: {
+      kid: [
+        'Wypełnianie przestrzeni między szybami w niektórych oknach, żeby w domach było ciepło.',
+        'Jasne błyski do fotografii i niektóre lampy.',
+        'Niektóre satelity poruszają się w kosmosie dzięki silnikom na krypton.',
+      ],
+      sci: [
+        'Izolacyjne wypełnienie szyb trzyszybowych (mniejsze przewodnictwo cieplne niż argon).',
+        'Lampy błyskowe, lampy o dużej intensywności i niektóre żarówki (krypton spowalnia parowanie włókna).',
+        'Lasery ekscymerowe KrF (248 nm) do fotolitografii i badań naukowych.',
+        'Silniki z efektem Halla, na przykład w satelitach Starlink, jako paliwo tańsze od ksenonu.',
+        'Kr-81 i Kr-85 do datowania wód podziemnych i lodu polarnego.',
+      ],
+    },
+    de: {
+      kid: [
+        'Füllung zwischen den Scheiben mancher Fenster, damit Häuser warm bleiben.',
+        'Helle Blitze zum Fotografieren und manche Lampen.',
+        'Manche Satelliten bewegen sich mit Krypton-Triebwerken durchs All.',
+      ],
+      sci: [
+        'Isolierende Füllung von Dreifachverglasungen (geringere Wärmeleitfähigkeit als Argon).',
+        'Blitzlampen, Hochleistungslampen und manche Glühlampen (Krypton bremst das Verdampfen des Glühfadens).',
+        'KrF-Excimerlaser (248 nm) für Fotolithografie und Forschung.',
+        'Hall-Effekt-Triebwerke, zum Beispiel auf Starlink-Satelliten, als billigerer Treibstoff als Xenon.',
+        'Kr-81 und Kr-85 zur Datierung von Grundwasser und Polareis.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -82,6 +144,14 @@ export default {
     'pt-pt': {
       kid: 'De 1960 a 1983, o metro, a medida que usamos para tudo, foi definido pela luz laranja-avermelhada do crípton-86: um metro era um número fixo das suas ondas de luz.',
       sci: 'Seis isótopos naturais (Kr-84, 57,0%). De 1960 a 1983, o metro foi definido como 1 650 763,73 comprimentos de onda, no vazio, da risca laranja-avermelhada do Kr-86. O Kr-81 (229 000 anos), feito pelos raios cósmicos, data águas subterrâneas e gelo até cerca de um milhão de anos.',
+    },
+    pl: {
+      kid: 'Od 1960 do 1983 roku metr, długość, którą mierzymy wszystko, był określony przez pomarańczowoczerwone światło kryptonu-86: metr był ustaloną liczbą jego fal świetlnych.',
+      sci: 'Sześć naturalnych izotopów (Kr-84 57,0%). Od 1960 do 1983 roku metr wynosił 1 650 763,73 długości fali, w próżni, pomarańczowoczerwonej linii Kr-86. Kr-81 (229 000 lat), wytwarzany przez promieniowanie kosmiczne, pozwala datować wody podziemne i lód w wieku do około miliona lat.',
+    },
+    de: {
+      kid: 'Von 1960 bis 1983 war der Meter, die Länge, mit der wir alles messen, durch das orangerote Licht von Krypton-86 festgelegt: Ein Meter war eine feste Zahl seiner Lichtwellen.',
+      sci: 'Sechs natürliche Isotope (Kr-84 57,0%). Von 1960 bis 1983 war der Meter 1 650 763,73 Wellenlängen der orangeroten Linie von Kr-86 im Vakuum. Kr-81 (229 000 Jahre), von der kosmischen Strahlung erzeugt, datiert Grundwasser und Eis bis zu einem Alter von etwa einer Million Jahren.',
     },
   },
   facts: {
@@ -111,6 +181,34 @@ export default {
         'O Kr é 1,14 ppm do ar: um metro cúbico de ar tem cerca de 1 cm³ de crípton.',
         'O Kr-85 (10,7 anos) denuncia em todo o mundo as libertações do reprocessamento de combustível nuclear.',
         'O metro do Kr-86 (1960) foi substituído em 1983 pela distância que a luz percorre em 1/299 792 458 de segundo.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Rodzinna planeta Supermana nazywa się Krypton. Ja jestem prawdziwy, ale kryptonit nie istnieje!',
+        'Odkryto mnie w tym, co zostało po wyparowaniu ciekłego powietrza.',
+        'Jestem około trzech razy cięższy od powietrza.',
+        'Nawet gaz szlachetny można zmusić do podania ręki: z fluorem tworzę difluorek kryptonu.',
+      ],
+      sci: [
+        'KrF2 (1963) jest silniejszym czynnikiem fluorującym niż sam F2; w temperaturze pokojowej powoli się rozkłada.',
+        'Kr stanowi 1,14 ppm powietrza: metr sześcienny powietrza zawiera około 1 cm³ kryptonu.',
+        'Kr-85 (10,7 roku) pozwala śledzić na całym świecie emisje z przerobu paliwa jądrowego.',
+        'Metr oparty na Kr-86 (1960) zastąpiono w 1983 roku odległością, jaką światło pokonuje w 1/299 792 458 sekundy.',
+      ],
+    },
+    de: {
+      kid: [
+        'Supermans Heimatplanet heißt Krypton. Mich gibt es wirklich, aber Kryptonit gibt es nicht!',
+        'Man hat mich in dem entdeckt, was übrig blieb, nachdem flüssige Luft verdampft war.',
+        'Ich bin etwa dreimal schwerer als Luft.',
+        'Sogar ein Edelgas kann man dazu bringen, Hände zu halten: Mit Fluor bilde ich Kryptondifluorid.',
+      ],
+      sci: [
+        'KrF2 (1963) ist ein stärkeres Fluorierungsmittel als F2 selbst; bei Raumtemperatur zerfällt es langsam.',
+        'Kr macht 1,14 ppm der Luft aus: Ein Kubikmeter Luft enthält etwa 1 cm³ Krypton.',
+        'Kr-85 (10,7 Jahre) verrät weltweit die Freisetzungen aus der Wiederaufarbeitung von Kernbrennstoff.',
+        'Der Kr-86-Meter (1960) wurde 1983 durch die Strecke ersetzt, die Licht in 1/299 792 458 Sekunde zurücklegt.',
       ],
     },
   },

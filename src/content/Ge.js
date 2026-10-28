@@ -9,10 +9,20 @@ export default {
       kid: 'Olá! Chamo-me Germânio e sou meio metal, meio não metal (vês a minha antena?). Quatro mãos, como os meus primos carbono e silício. O primeiro transístor de todos foi feito de mim, e sou a lente das câmaras que veem o calor no escuro!',
       sci: 'Germânio: [Ar] 3d10 4s2 4p2, quatro ligações num cristal do tipo do diamante, sobretudo Ge(IV) nos compostos. Um semicondutor com uma banda proibida de 0,67 eV, transparente ao infravermelho de cerca de 2 a 14 µm.',
     },
+    pl: {
+      kid: 'Cześć! Jestem germanem, w połowie metalem, a w połowie nie (widzisz moją antenkę?). Mam cztery ręce, jak moi kuzyni węgiel i krzem. Pierwszy tranzystor na świecie zrobiono ze mnie, a do tego jestem soczewką kamer, które widzą ciepło w ciemności!',
+      sci: 'German: [Ar] 3d10 4s2 4p2, cztery wiązania w krysztale typu diamentu, w związkach głównie Ge(IV). Półprzewodnik o przerwie energetycznej 0,67 eV, przezroczysty dla podczerwieni od około 2 do 14 µm.',
+    },
+    de: {
+      kid: 'Hallo! Ich bin Germanium, halb Metall und halb nicht (siehst du meine Antenne?). Vier Hände, wie meine Cousins Kohlenstoff und Silicium. Der allererste Transistor war aus mir, und ich bin die Linse von Kameras, die Wärme im Dunkeln sehen!',
+      sci: 'Germanium: [Ar] 3d10 4s2 4p2, vier Bindungen in einem Kristall vom Diamanttyp, in Verbindungen meist Ge(IV). Ein Halbleiter mit 0,67 eV Bandlücke, durchlässig für Infrarot von etwa 2 bis 14 µm.',
+    },
   },
   nameOrigin: {
     en: { kid: 'From Germania, the Latin name for Germany, the homeland of Clemens Winkler, who discovered it.' },
     'pt-pt': { kid: 'De Germania, o nome latino da Alemanha, a pátria de Clemens Winkler, que o descobriu.' },
+    pl: { kid: 'Od Germanii, łacińskiej nazwy Niemiec, ojczyzny Clemensa Winklera, który go odkrył.' },
+    de: { kid: 'Von Germania, dem lateinischen Namen für Deutschland, der Heimat von Clemens Winkler, der es entdeckte.' },
   },
   discovery: {
     en: {
@@ -22,6 +32,14 @@ export default {
     'pt-pt': {
       kid: "Em 1886, Clemens Winkler analisou um mineral de prata de uma mina perto de Freiberg, na Alemanha, e viu que faltavam uns 7% nas suas contas: era um elemento novo! Era o 'eka-silício' que Mendeleev tinha previsto 15 anos antes.",
       sci: 'Winkler (Freiberg, 1886) viu que a sua análise da argirodite, Ag8GeS6, da mina Himmelsfürst, só somava cerca de 93%, e isolou o elemento em falta. O eka-silício de Mendeleev (1871): massa atómica 72, densidade 5,5 g/cm³, um cloreto volátil a ferver abaixo de 100 °C. O germânio: 72,6, 5,3 g/cm³, e o GeCl4 ferve a 86 °C.',
+    },
+    pl: {
+      kid: 'W 1886 roku Clemens Winkler badał minerał srebra z kopalni koło Freibergu w Niemczech i zauważył, że w jego wynikach brakuje około 7%: to był nowy pierwiastek! Był to „ekakrzem”, który Mendelejew przewidział 15 lat wcześniej.',
+      sci: 'Winkler (Freiberg, 1886) stwierdził, że jego analiza argyrodytu, Ag8GeS6, z kopalni Himmelsfürst sumuje się tylko do około 93%, i wyodrębnił brakujący pierwiastek. Ekakrzem Mendelejewa (1871): masa atomowa 72, gęstość 5,5 g/cm³, lotny chlorek wrzący poniżej 100 °C. German: 72,6, 5,3 g/cm³, a GeCl4 wrze w 86 °C.',
+    },
+    de: {
+      kid: 'Im Jahr 1886 untersuchte Clemens Winkler ein Silbermineral aus einem Bergwerk bei Freiberg in Deutschland und merkte, dass in seinen Ergebnissen etwa 7% fehlten: Es war ein neues Element! Es war das „Eka-Silicium“, das Mendelejew 15 Jahre zuvor vorhergesagt hatte.',
+      sci: 'Winkler (Freiberg, 1886) stellte fest, dass seine Analyse von Argyrodit, Ag8GeS6, aus der Grube Himmelsfürst nur etwa 93% ergab, und isolierte das fehlende Element. Mendelejews Eka-Silicium (1871): Atommasse 72, Dichte 5,5 g/cm³, ein flüchtiges Chlorid, das unter 100 °C siedet. Germanium: 72,6, 5,3 g/cm³, und GeCl4 siedet bei 86 °C.',
     },
   },
   stateNote: {
@@ -33,6 +51,14 @@ export default {
       kid: 'O germânio é um sólido brilhante, branco-acinzentado, que parece um metal mas parte-se como vidro. Tal como a água e o silício, aumenta de volume quando solidifica.',
       sci: 'Cúbico do tipo do diamante, frágil, com brilho metálico. Os eletrões e as lacunas movem-se nele mais depressa do que no silício, mas a banda proibida menor (0,67 contra 1,12 eV) deixa passar corrente de fuga quando aquece, uma das razões por que o silício o substituiu nos anos 60. O germânio líquido é mais denso do que o sólido.',
     },
+    pl: {
+      kid: 'German to błyszczące, szarobiałe ciało stałe, które wygląda jak metal, ale rozpryskuje się jak szkło. Tak jak woda i krzem, gdy zamarza, robi się większy.',
+      sci: 'Struktura regularna typu diamentu, kruchy, z metalicznym połyskiem. Elektrony i dziury poruszają się w nim szybciej niż w krzemie, ale mniejsza przerwa energetyczna (0,67 wobec 1,12 eV) sprawia, że po ogrzaniu przepuszcza prąd upływu: to jeden z powodów, dla których w latach 60. zastąpił go krzem. Ciekły german jest gęstszy od stałego.',
+    },
+    de: {
+      kid: 'Germanium ist ein glänzender, grauweißer Feststoff, der wie ein Metall aussieht, aber wie Glas zerspringt. Wie Wasser und Silicium wird es beim Erstarren größer.',
+      sci: 'Diamantkubisch, spröde, mit metallischem Glanz. Elektronen und Löcher bewegen sich darin schneller als in Silicium, doch die kleinere Bandlücke (0,67 gegenüber 1,12 eV) lässt im warmen Zustand Leckstrom durch, ein Grund, warum Silicium es in den 1960er-Jahren ablöste. Flüssiges Germanium ist dichter als festes.',
+    },
   },
   found: {
     en: {
@@ -42,6 +68,14 @@ export default {
     'pt-pt': {
       kid: 'O germânio é raro e anda espalhado: recolhe-se dos minérios de zinco e das cinzas de alguns tipos de carvão. A maior parte vem da China.',
       sci: 'Cerca de 1,5 mg/kg da crosta; os seus minerais próprios (argirodite, germanite, renierite) são raros. Recupera-se dos concentrados de esfalerite (zinco) e de certas cinzas volantes de carvão, sobretudo na China, que restringiu a sua exportação em 2023, juntamente com a do gálio.',
+    },
+    pl: {
+      kid: 'German jest rzadki i rozproszony: zbiera się go z rud cynku i z popiołu niektórych rodzajów węgla. Większość pochodzi z Chin.',
+      sci: 'Około 1,5 mg/kg skorupy ziemskiej; jego własne minerały (argyrodyt, germanit, renieryt) są rzadkie. Odzyskuje się go z koncentratów cynku ze sfalerytu i z niektórych popiołów lotnych ze spalania węgla, głównie w Chinach, które w 2023 roku ograniczyły jego eksport razem z eksportem galu.',
+    },
+    de: {
+      kid: 'Germanium ist selten und weit verstreut: Man gewinnt es aus Zinkerzen und aus der Asche mancher Kohlesorten. Das meiste kommt aus China.',
+      sci: 'Etwa 1,5 mg/kg der Erdkruste; seine eigenen Minerale (Argyrodit, Germanit, Renierit) sind selten. Gewonnen aus Zinkkonzentraten aus Sphalerit und aus bestimmten Kohleflugaschen, meist in China, das 2023 seinen Export zusammen mit dem von Gallium beschränkte.',
     },
   },
   uses: {
@@ -75,6 +109,36 @@ export default {
         'GeO2 como catalisador da polimerização do plástico PET.',
       ],
     },
+    pl: {
+      kid: [
+        'Soczewki kamer termowizyjnych, które widzą ciepłe ciała w ciemności.',
+        'Światłowody: szczypta germanu utrzymuje światło wewnątrz szkła.',
+        'Panele słoneczne do satelitów i sond kosmicznych.',
+        'Niektóre plastikowe butelki robi się z pomocą katalizatora z germanem.',
+      ],
+      sci: [
+        'Optyka podczerwieni (termowizja w zakresie 8 do 14 µm): soczewki i okna z monokrystalicznego germanu.',
+        'GeO2 podnosi współczynnik załamania rdzenia światłowodów krzemionkowych.',
+        'Podłoża dla wielozłączowych ogniw słonecznych III-V na satelitach; tranzystory SiGe do układów wielkiej częstotliwości.',
+        'Detektory z germanu o wysokiej czystości, chłodzone ciekłym azotem, dają najostrzejsze widma promieniowania gamma.',
+        'GeO2 jako katalizator polimeryzacji tworzywa PET.',
+      ],
+    },
+    de: {
+      kid: [
+        'Linsen für Wärmebildkameras, die warme Körper im Dunkeln sehen.',
+        'Glasfasern: Eine Prise Germanium hält das Licht im Glas.',
+        'Solarzellen für Satelliten und Raumsonden.',
+        'Manche Plastikflaschen werden mit einem Germanium-Katalysator hergestellt.',
+      ],
+      sci: [
+        'Infrarotoptik (Wärmebildtechnik bei 8 bis 14 µm): Linsen und Fenster aus einkristallinem Germanium.',
+        'GeO2 erhöht den Brechungsindex des Kerns von Glasfasern aus Quarzglas.',
+        'Substrate für III-V-Mehrfachsolarzellen auf Satelliten; SiGe-Transistoren für Hochfrequenzchips.',
+        'Detektoren aus hochreinem Germanium, mit flüssigem Stickstoff gekühlt, liefern die schärfsten Gammaspektren.',
+        'GeO2 als Polymerisationskatalysator für den Kunststoff PET.',
+      ],
+    },
   },
   isotopes: {
     en: {
@@ -84,6 +148,14 @@ export default {
     'pt-pt': {
       kid: 'O germânio tem cinco tipos de átomos naturais. Um deles, o germânio-76, é usado em experiências muito fundo debaixo da terra que procuram um tipo de radioatividade que ninguém viu até hoje.',
       sci: '70Ge, 72Ge, 73Ge, 74Ge (o mais comum) e 76Ge, que sofre decaimento beta duplo com dois neutrinos (meia-vida de cerca de 2 × 10²¹ anos). As experiências GERDA e LEGEND usam detetores de 76Ge enriquecido para procurar o decaimento beta duplo sem neutrinos; o 68Ge (271 dias) alimenta os geradores de 68Ga usados na PET.',
+    },
+    pl: {
+      kid: 'German ma pięć naturalnych rodzajów atomów. Jeden z nich, german-76, służy w doświadczeniach głęboko pod ziemią, które szukają rodzaju promieniotwórczości, jakiego nikt jeszcze nigdy nie widział.',
+      sci: '70Ge, 72Ge, 73Ge, 74Ge (najpowszechniejszy) i 76Ge, który ulega podwójnemu rozpadowi beta z emisją dwóch neutrin (czas połowicznego rozpadu około 2 × 10²¹ lat). GERDA i LEGEND używają detektorów ze wzbogaconego 76Ge do poszukiwania bezneutrinowego podwójnego rozpadu beta; 68Ge (271 dni) zasila generatory 68Ga używane w PET.',
+    },
+    de: {
+      kid: 'Germanium hat fünf natürliche Atomsorten. Eine davon, Germanium-76, wird in Experimenten tief unter der Erde benutzt, die nach einer Art Radioaktivität suchen, die noch nie jemand gesehen hat.',
+      sci: '70Ge, 72Ge, 73Ge, 74Ge (das häufigste) und 76Ge, das einen doppelten Betazerfall mit zwei Neutrinos erleidet (Halbwertszeit etwa 2 × 10²¹ Jahre). GERDA und LEGEND suchen mit Detektoren aus angereichertem 76Ge nach dem neutrinolosen doppelten Betazerfall; 68Ge (271 Tage) speist die 68Ga-Generatoren für die PET.',
     },
   },
   facts: {
@@ -111,6 +183,32 @@ export default {
         'O transístor de contacto pontual de Bardeen e Brattain (Bell Labs, dezembro de 1947) foi feito sobre germânio; os primeiros rádios de transístores também usavam germânio.',
         'O grupo 14 vai de não metal a metal: o diamante isolante, o silício e o germânio semicondutores, o estanho e o chumbo metálicos.',
         'O índice de refração do germânio no infravermelho é cerca de 4, dos mais altos de todos os materiais para lentes.',
+      ],
+    },
+    pl: {
+      kid: [
+        'Mendelejew przewidział mnie 15 lat, zanim mnie znaleziono, i prawie dokładnie odgadł moją wagę.',
+        'Pierwszy tranzystor, zbudowany w 1947 roku, był kryształem germanu: to pradziadek układów scalonych w każdym komputerze i telefonie.',
+        'Światło podczerwone przechodzi przeze mnie jak przez szkło, chociaż zwykłe światło nie może.',
+        'Tak jak woda, robię się większy, kiedy zamarzam.',
+      ],
+      sci: [
+        'Tranzystor ostrzowy Bardeena i Brattaina (Bell Labs, grudzień 1947) zbudowano na germanie; pierwsze radia tranzystorowe też używały germanu.',
+        'Grupa 14 przechodzi od niemetalu do metalu: izolujący diament, półprzewodzące krzem i german, metaliczne cyna i ołów.',
+        'Współczynnik załamania germanu w podczerwieni wynosi około 4, jeden z najwyższych spośród wszystkich materiałów na soczewki.',
+      ],
+    },
+    de: {
+      kid: [
+        'Mendelejew hat mich 15 Jahre vor meiner Entdeckung vorhergesagt und mein Gewicht fast genau getroffen.',
+        'Der erste Transistor, 1947 gebaut, war ein Germaniumkristall: der Urgroßvater der Chips in jedem Computer und Handy.',
+        'Infrarotlicht geht durch mich hindurch, als wäre ich Glas, obwohl gewöhnliches Licht das nicht kann.',
+        'Wie Wasser werde ich größer, wenn ich erstarre.',
+      ],
+      sci: [
+        'Der Spitzentransistor von Bardeen und Brattain (Bell Labs, Dezember 1947) war aus Germanium; auch frühe Transistorradios nutzten Germanium.',
+        'Die Gruppe 14 reicht vom Nichtmetall zum Metall: isolierender Diamant, halbleitendes Silicium und Germanium, metallisches Zinn und Blei.',
+        'Der Brechungsindex von Germanium im Infrarot beträgt etwa 4, einer der höchsten aller Linsenmaterialien.',
       ],
     },
   },
