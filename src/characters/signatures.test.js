@@ -63,11 +63,11 @@ function insideBody(a, p, margin = 0.03) {
   return Math.hypot(q.x, q.z) < r - margin
 }
 
-test('every signature has a builder and its words in both languages', () => {
+test('every signature has a builder and its words in every language', () => {
   for (const [sym, kind] of Object.entries(SIGNATURE)) {
     assert.ok(SIGNATURE_KINDS.includes(kind), `${sym}: no builder for ${kind}`)
-    assert.ok(SIG[kind]?.[0] && SIG[kind]?.[1], `${sym}: no words for ${kind}`)
-    for (const s of SIG[kind]) assert.ok(!s.includes('\u2014'), `${kind}: an em dash`)
+    for (const lang of ['en', 'pt-pt', 'pl', 'de']) assert.ok(SIG[kind]?.[lang], `${sym}: no ${lang} words for ${kind}`)
+    for (const s of Object.values(SIG[kind])) assert.ok(!s.includes('\u2014'), `${kind}: an em dash`)
   }
   assert.ok(Object.keys(SIGNATURE).length >= 60)
 })

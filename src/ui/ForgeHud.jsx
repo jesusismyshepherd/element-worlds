@@ -7,6 +7,7 @@ import { ELEMENTS, nameOf } from '../data/elements.js'
 import { nuclide, commonestN, nuclideSymbol } from '../chem/nucleus.js'
 import { MISSIONS, describe, decayText, reactionText, isotopeName, halfLifeText, noteText, BEAM_NAMES, BEAM_SYMBOLS } from '../worlds/forge/words.js'
 import { BEAMS } from '../chem/nucleus.js'
+import { CODES } from '../i18n/langs.js'
 import NuclideChart from './NuclideChart.jsx'
 import { useCover, useViewport } from './layout.js'
 
@@ -56,12 +57,18 @@ function Repeat({ onFire, children, className, label }) {
   )
 }
 
-/** Finds an element by symbol, number or name (either language), or the first whose name starts so. */
-function findElement(q) {
-  const s = q.trim().toLowerCase()
+// accents optional, as in Search.jsx: NFD splits them off; the Polish l with a stroke (\u0142) is a
+// letter of its own, so it folds to l by hand
+const fold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\u0142/g, 'l')
+
+/** Finds an element by symbol, number or name (in any of the site's languages, accents optional), or
+ *  the first whose name starts so (the page's language first). */
+function findElement(q, lang) {
+  const s = fold(q.trim())
   if (!s) return null
-  const exact = ELEMENTS.find(e => e.symbol.toLowerCase() === s || String(e.z) === s || nameOf(e, 'en').toLowerCase() === s || nameOf(e, 'pt-pt').toLowerCase() === s)
-  return exact ?? ELEMENTS.find(e => nameOf(e, 'en').toLowerCase().startsWith(s) || nameOf(e, 'pt-pt').toLowerCase().startsWith(s))
+  const names = e => [nameOf(e, lang), ...CODES.map(c => e.name[c])].filter(Boolean).map(fold)
+  const exact = ELEMENTS.find(e => e.symbol.toLowerCase() === s || String(e.z) === s || names(e).includes(s))
+  return exact ?? ELEMENTS.find(e => fold(nameOf(e, lang)).startsWith(s)) ?? ELEMENTS.find(e => names(e).some(n => n.startsWith(s)))
 }
 
 /** The Atom Forge's HUD, at the edges so the atom has the middle (docs/knowledge/hud-layout.md): the
@@ -114,7 +121,7 @@ export default function ForgeHud({ engine }) {
   const lonely = Z === 0 && f.note ? noteText(f.note, lang, level) : null
   const go = e => {
     e.preventDefault()
-    const el = findElement(query)
+    const el = findElement(query, lang)
     if (el) {
       world?.goTo?.(el.z)
       setQuery('')

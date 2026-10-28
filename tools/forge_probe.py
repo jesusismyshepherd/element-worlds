@@ -1,5 +1,5 @@
 """The Atom Forge with every element: builds each one's commonest isotope, decays it up to four times,
-makes an ion or two, and reads the HUD's text (both languages, both depths) for words gone wrong
+makes an ion or two, and reads the HUD's text (every language, both depths) for words gone wrong
 ("undefined", "NaN", "null", an unfilled {{template}}). Console errors fail the run. Also the odd
 cases: nothing, one neutron, two neutrons, an electron with no proton, too many electrons, a nucleus
 far past the drip lines; the beam's reactions. Start the dev server first (port 5310).
@@ -38,7 +38,7 @@ def main():
         page.evaluate('() => __ew.world.setHeld(true)')
 
         def look(label):
-            for lang in ('pt-pt', 'en'):
+            for lang in ('pt-pt', 'en', 'pl', 'de'):
                 page.evaluate(f"() => __ew.i18n.changeLanguage('{lang}')")
                 for level in ('explorer', 'scientist'):
                     page.evaluate(f"() => __ew.store.set({{ level: '{level}' }})")

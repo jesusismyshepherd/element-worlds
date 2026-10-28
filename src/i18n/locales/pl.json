@@ -264,7 +264,7 @@
     "neutronsAlone": "{{count}} samotnych neutronów",
     "neutronsAlone_few": "{{count}} samotne neutrony",
     "decay": "Rozpad",
-    "waitFor": "Poczekaj {{t}}",
+    "waitFor": "Poczekaj: {{t}}",
     "moreText": "więcej...",
     "missions": "Misje kuźni",
     "missionDone": "Misja wykonana!",

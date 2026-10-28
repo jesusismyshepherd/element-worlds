@@ -458,6 +458,13 @@ export async function build(ctx, target) {
   const fire = beam => {
     if (incoming || !BEAMS[beam]) return
     const [bz, bn] = BEAMS[beam]
+    // nothing beyond oganesson (118) has ever been made: the forge says so instead of naming an
+    // element that does not exist (zinc-70 at uranium would have made 122 and broken the names)
+    if (Z + bz > 118) {
+      note = 'beyond'
+      play('part')
+      return report()
+    }
     const c = collide(Z, N, beam)
     const from = { Z, N }
     const charge = Z - E

@@ -52,6 +52,24 @@ test('removing an atom keeps the other bonds right', () => {
   assert.deepEqual(unjoin(m, 0, 1).bonds, [])
 })
 
+test('every molecule the lab knows has its name and its facts in every language', async () => {
+  const { MOLECULE_FACTS } = await import('../content/molecules.js')
+  const { CODES } = await import('../i18n/langs.js')
+  for (const k of KNOWN) {
+    const facts = MOLECULE_FACTS[k.show]
+    assert.ok(facts, `${k.show}: no facts`)
+    for (const lang of CODES) {
+      assert.ok(k.name[lang]?.trim(), `${k.show}: no ${lang} name`)
+      for (const level of ['kid', 'sci']) {
+        const s = facts[lang]?.[level]
+        assert.ok(typeof s === 'string' && s.trim().length > 10, `${k.show}.${lang}.${level}`)
+        assert.ok(!s.includes('—') && !/[a-z] – [a-z]/i.test(s), `${k.show}.${lang}.${level}: a dash used as a pause`)
+      }
+    }
+  }
+  assert.equal(Object.keys(MOLECULE_FACTS).length, KNOWN.length)
+})
+
 test('every mission is a molecule the lab knows', () => {
   assert.equal(MISSIONS.length, 15)
   for (const m of MISSIONS) assert.ok(m && m.name, String(m))
