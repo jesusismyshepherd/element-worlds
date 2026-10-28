@@ -8,8 +8,13 @@ import {
 import { GLYPHS, sanitizeName, layoutText, tubeLength, NAME_MAX } from './tubeFont.js'
 import { element, nameOf } from '../../../data/elements.js'
 import { WINGS } from '../../registry.js'
+import { CODES } from '../../../i18n/langs.js'
 import en from '../../../i18n/locales/en.json' with { type: 'json' }
 import pt from '../../../i18n/locales/pt-pt.json' with { type: 'json' }
+import pl from '../../../i18n/locales/pl.json' with { type: 'json' }
+import de from '../../../i18n/locales/de.json' with { type: 'json' }
+
+const LOCALES = { en, 'pt-pt': pt, pl, de }
 
 /** Every leaf of an object as [path, value]. */
 function leaves(o, path = '') {
@@ -19,14 +24,31 @@ function leaves(o, path = '') {
 const shape = o => leaves(o).map(([p, v]) => `${p.replace(/\.\d+(\.|$)/g, '.#$1')}:${typeof v}`).sort()
 const holes = s => [...String(s).matchAll(/\{(\w+)\}/g)].map(m => m[1]).sort().join(',')
 
-test('words: English and Portuguese have the same shape and the same placeholders', () => {
-  assert.deepEqual(shape(SIGNS_WORDS.en), shape(SIGNS_WORDS['pt-pt']))
-  const pts = new Map(leaves(SIGNS_WORDS['pt-pt']))
-  for (const [p, v] of leaves(SIGNS_WORDS.en)) assert.equal(holes(pts.get(p)), holes(v), `placeholders differ at ${p}`)
+test('words: every language of the site is here', () => {
+  assert.deepEqual(Object.keys(SIGNS_WORDS).sort(), [...CODES].sort())
+})
+
+test('words: every language has the shape of English and the same placeholders', () => {
+  for (const lang of CODES) {
+    assert.deepEqual(shape(SIGNS_WORDS[lang]), shape(SIGNS_WORDS.en), `${lang}: keys and lists as in English`)
+    const other = new Map(leaves(SIGNS_WORDS[lang]))
+    for (const [p, v] of leaves(SIGNS_WORDS.en)) assert.equal(holes(other.get(p)), holes(v), `${lang}: placeholders differ at ${p}`)
+  }
+})
+
+test('words: lists as long as English\'s (panels, talk, rows)', () => {
+  const lengths = o => leaves(o).map(([p]) => p.replace(/\.\d+$/, '')).reduce((m, p) => m.set(p, (m.get(p) ?? 0) + 1), new Map())
+  const want = lengths(SIGNS_WORDS.en)
+  for (const lang of CODES) assert.deepEqual(lengths(SIGNS_WORDS[lang]), want, lang)
+})
+
+test('words: names inside sentences keep their capital only where the language says so', () => {
+  for (const lang of CODES) assert.ok(['lower', 'keep'].includes(SIGNS_WORDS[lang].nameCase), lang)
+  assert.equal(SIGNS_WORDS.de.nameCase, 'keep', 'German nouns keep their capital (das Helium)')
 })
 
 test('words: no em dash, nothing empty', () => {
-  for (const lang of ['en', 'pt-pt']) {
+  for (const lang of CODES) {
     for (const [p, v] of leaves(SIGNS_WORDS[lang])) {
       assert.equal(typeof v, 'string', `${lang}.${p}`)
       assert.ok(v.trim().length > 0, `${lang}.${p} is empty`)
@@ -35,8 +57,17 @@ test('words: no em dash, nothing empty', () => {
   }
 })
 
+test('words: decimal commas and no en dash as a pause outside English', () => {
+  for (const lang of CODES.filter(l => l !== 'en')) {
+    for (const [p, v] of leaves(SIGNS_WORDS[lang])) {
+      assert.ok(!/\d\.\d/.test(v), `${lang}.${p} has a decimal point: ${v}`)
+      assert.ok(!v.includes(' – '), `${lang}.${p} has an en dash`)
+    }
+  }
+})
+
 test('words: every panel exists at both depths', () => {
-  for (const lang of ['en', 'pt-pt']) {
+  for (const lang of CODES) {
     for (const [id, ex] of Object.entries(SIGNS_WORDS[lang])) {
       if (!ex?.panel) continue
       assert.ok(ex.panel.kid?.length > 0, `${lang}.${id}.panel.kid`)
@@ -46,7 +77,7 @@ test('words: every panel exists at both depths', () => {
 })
 
 test('words drawn in 3D keep to letters the 3D fonts have (no Greek, no superscripts but ² and ³)', () => {
-  for (const lang of ['en', 'pt-pt']) {
+  for (const lang of CODES) {
     const W = SIGNS_WORDS[lang]
     const in3d = [
       W.back, W.kicker, ...['bench', 'radon', 'name', 'spectrum', 'atom', 'history', 'balloons'].flatMap(k => [W[k].title, W[k].screen.kid, W[k].screen.sci]),
@@ -54,6 +85,8 @@ test('words drawn in 3D keep to letters the 3D fonts have (no Greek, no superscr
       W.history.today, ...Object.values(W.history.captions), ...Object.values(W.atom.ladder),
     ]
     for (const s of in3d) assert.ok(!/[Ͱ-Ͽ⁰-₟¹]/.test(s), `${lang}: "${s}"`)
+    // the neon signs by the door and on the history board are bent in the tube font: every letter drawn
+    for (const s of [W.open, W.history.today]) assert.equal(sanitizeName(s, 99), s, `${lang}: "${s}" in tubes`)
   }
 })
 
@@ -71,8 +104,7 @@ test('the six gases: the registry, the titles and the colours agree with the Ato
     assert.ok(wing, `${sym} has the workshop`)
     assert.equal(wing.side, 'n')
     assert.equal(wing.color.toLowerCase(), glowOf(sym).toLowerCase(), `${sym}'s arch is its discharge colour`)
-    assert.ok(en.wings?.[sym]?.signs?.title, `en title for ${sym}`)
-    assert.ok(pt.wings?.[sym]?.signs?.title, `pt title for ${sym}`)
+    for (const lang of CODES) assert.ok(LOCALES[lang].wings?.[sym]?.signs?.title, `${lang} title for ${sym}`)
   }
   assert.deepEqual(SIGN_GASES, GASES.filter(s => s !== 'Rn'))
 })
@@ -142,7 +174,7 @@ test('colours of light', () => {
 
 test('the tube font: every letter a name may use, the symbols, and the gases\' names', () => {
   for (const s of GASES) for (const ch of s) assert.ok(GLYPHS[ch], `glyph for ${ch}`)
-  for (const lang of ['en', 'pt-pt']) {
+  for (const lang of CODES) {
     for (const s of GASES) {
       const up = nameOf(element(s), lang).toLocaleUpperCase('pt-PT')
       assert.equal(sanitizeName(up), up, `${up} can be written`)
@@ -163,10 +195,38 @@ test('the tube font: every letter a name may use, the symbols, and the gases\' n
   assert.equal(sanitizeName('joão'), 'JOÃO')
   assert.equal(sanitizeName('maçã!'), 'MAÇÃ!')
   assert.equal(sanitizeName('Zoë 🎉 <3'), 'ZOË 3')
-  assert.equal(sanitizeName('Łukasz'), 'UKASZ')
+  assert.equal(sanitizeName('Åsa'), 'ASA', 'a letter with no glyph becomes its plain letter')
   assert.equal(sanitizeName('a'.repeat(30)).length, NAME_MAX)
   const lay = layoutText('NÉON')
   assert.equal(lay.glyphs.length, 4)
   assert.ok(lay.top > 7, 'the accent stands over the capitals')
   assert.ok(tubeLength('NEON') > tubeLength('NE'))
+})
+
+test('the tube font writes every Polish and German letter (none dropped, none flattened)', () => {
+  const MARKED = { Ą: 'A', Ć: 'C', Ę: 'E', Ł: 'L', Ń: 'N', Ó: 'O', Ś: 'S', Ź: 'Z', Ż: 'Z', Ä: 'A', Ö: 'O', Ü: 'U' }
+  for (const [ch, plain] of Object.entries(MARKED)) {
+    assert.ok(GLYPHS[ch], `glyph for ${ch}`)
+    assert.ok(GLYPHS[ch].s.length > GLYPHS[plain].s.length, `${ch} has its mark`)
+    assert.ok(tubeLength(ch) > tubeLength(plain), `${ch} takes more tube than ${plain}`)
+    assert.equal(sanitizeName(ch.toLocaleLowerCase('pl-PL')), ch, `${ch} typed in lower case`)
+  }
+  assert.ok(Math.abs(layoutText('Ą').bottom) > 1 && Math.abs(layoutText('Ę').bottom) > 1, 'the ogonek hangs below the line')
+  assert.ok(layoutText('Ż').top > 7 && layoutText('Ź').top > 7, 'dot and acute over Z')
+  // Polish and German names, as a visitor would type them
+  assert.equal(sanitizeName('Łukasz'), 'ŁUKASZ')
+  assert.equal(sanitizeName('Żaneta'), 'ŻANETA')
+  assert.equal(sanitizeName('mąka'), 'MĄKA')
+  assert.equal(sanitizeName('Ćma, łódź, gęś, źrebię, koń', 99), 'ĆMA ŁÓDŹ GĘŚ ŹREBIĘ KOŃ')
+  assert.equal(sanitizeName('Jürgen'), 'JÜRGEN')
+  assert.equal(sanitizeName('Mädchen Öl'), 'MÄDCHEN ÖL')
+  assert.equal(sanitizeName('groß'), 'GROSS')
+  assert.equal(sanitizeName('GROẞ'), 'GROSS', 'the capital sharp s too')
+  // every element's name, in every language, can be bent in tubes
+  for (const lang of CODES) {
+    for (let z = 1; z <= 118; z++) {
+      const up = nameOf(element(z), lang).toLocaleUpperCase('pt-PT')
+      assert.equal(sanitizeName(up, 99), up, `${lang}: ${up}`)
+    }
+  }
 })

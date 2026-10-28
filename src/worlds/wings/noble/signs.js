@@ -62,7 +62,8 @@ export async function build(ctx, target) {
   const light = ctx.light
   const level = () => ctx.level()
   const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
-  const gasName = s => nameOf(element(s), lang).toLocaleLowerCase(tagOf(lang))
+  // a gas's name inside a sentence: lowercase, or as written where the language capitalises nouns (German)
+  const gasName = s => (W.nameCase === 'keep' ? nameOf(element(s), lang) : nameOf(element(s), lang).toLocaleLowerCase(tagOf(lang)))
   const GasName = s => nameOf(element(s), lang)
   const who = GasName(sym)
   const COLOR = glowOf(sym)

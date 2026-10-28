@@ -1,7 +1,10 @@
-// Every word of the neon sign workshop, in English and European Portuguese (AO90), at the two depths
-// (kid: Explorer, sci: Scientist). {placeholders} are filled when used: {gas} a gas's name, {Gas} the
-// same with a capital, and numbers from src/data/elements.json or nobleData.js. Texts drawn in 3D (the
-// screens' lines) keep to Latin letters: no Greek, no superscripts (the HUD's panels may have them).
+// Every word of the neon sign workshop, in English, European Portuguese (AO90), Polish and German, at the
+// two depths (kid: Explorer, sci: Scientist). {placeholders} are filled when used: {gas} a gas's name as
+// it stands inside a sentence (lowercase, or as written where `nameCase` is 'keep': German nouns keep
+// their capital), {Gas} the same with a capital, and numbers from src/data/elements.json or nobleData.js.
+// Polish inflects the names: {gas}u is the genitive and {gas}em the instrumental of all six (helu, neonu,
+// argonu, kryptonu, ksenonu, radonu; helem, neonem, ...). Texts drawn in 3D (the screens' lines) keep to
+// Latin letters: no Greek, no superscripts (the HUD's panels may have them).
 // Facts: NIST Atomic Spectra Database (wavelengths, levels); Wikipedia "Neon sign" and "Neon lighting"
 // (Claude's two 12 m tubes at the Paris Motor Show, 3 to 18 December 1910; fill pressures 3 to 20 torr);
 // Rutherford and Royds, Phil. Mag. 17, 281 (1909) (after 2 days the helium yellow faintly visible, after 6
@@ -11,6 +14,7 @@
 
 export const SIGNS_WORDS = {
   en: {
+    nameCase: 'lower',
     back: "Back to {gas}'s hall",
     kicker: 'The neon sign workshop',
     talkTo: 'Talk to',
@@ -270,6 +274,7 @@ export const SIGNS_WORDS = {
   },
 
   'pt-pt': {
+    nameCase: 'lower',
     back: 'Voltar ao salão do {gas}',
     kicker: 'A oficina do néon',
     talkTo: 'Falar com',
@@ -523,6 +528,526 @@ export const SIGNS_WORDS = {
         sci: [
           { p: 'À mesma temperatura e pressão, um litro de qualquer gás tem o mesmo número de partículas (Avogadro), por isso a densidade acompanha a massa molar: He 4,0, Ne 20,2, ar cerca de 29,0, Ar 39,9, Kr 83,8, Xe 131,3 g/mol.' },
           { p: 'Cada balão tem 11,5 L em 2,5 g de borracha: o hélio levanta {liftHe} g e o néon {liftNe} g, por isso ambos sobem; o árgon, o crípton e o xénon pesam mais do que o ar que empurram, e o atrito do ar marca a sua velocidade.' },
+        ],
+      },
+    },
+  },
+
+  pl: {
+    nameCase: 'lower',
+    back: 'Wróć do sali {gas}u',
+    kicker: 'Pracownia neonów',
+    talkTo: 'Porozmawiaj z',
+    open: 'OTWARTE',
+    busy: { kid: 'Zaczekaj chwilę: to jeszcze działa!', sci: 'Chwileczkę: poprzednia próba jeszcze trwa.' },
+    greet: {
+      kid: 'Witaj w pracowni neonów! Napełniamy tu szklane rurki gazami takimi jak ja i sprawiamy, że świecą. Zapal rurki, napisz swoje imię w neonie i rozszczep światło pryzmatem.',
+      sci: 'Pracownia neonów: wyładowania jarzeniowe w gazach szlachetnych. Napełnij i zapal rurki, napisz swoje imię w dowolnym z nich i rozszczep ich światło w spektroskopie.',
+    },
+    greetGas: {
+      He: {
+        kid: 'Witaj w pracowni neonów, w moim pokoju! Jestem hel; moja nazwa pochodzi od greckiego słowa oznaczającego Słońce, bo odkryto mnie na Słońcu, zanim ktokolwiek znalazł mnie na Ziemi. W szklanej rurce świecę delikatnym brzoskwiniowym różem. Zapal rurki i napisz mną swoje imię na ścianie!',
+        sci: 'Pokój helu w pracowni neonów. Wyładowanie w helu świeci brzoskwiniowym różem; jego najlepiej widoczna linia to żółta linia 587,6 nm, ta sama, która w 1868 roku ujawniła hel w widmie Słońca. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
+      },
+      Ne: {
+        kid: 'Witaj w mojej pracowni: neony noszą moje imię! Moja nazwa pochodzi od greckiego słowa „nowy”. Kiedy się zapalę, świecę słynnym czerwonopomarańczowym blaskiem szyldów sklepowych. Zapal rurki i napisz mną swoje imię na ścianie!',
+        sci: 'Pokój neonu: gazu, od którego neony wzięły nazwę. Jego czerwonopomarańczowy blask to tłum linii od żółtopomarańczowej do ciemnoczerwonej; Georges Claude pokazał pierwsze lampy neonowe w Paryżu w 1910 roku. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
+      },
+      Ar: {
+        kid: 'Witaj w moim pokoju pracowni! Jestem argon; moja nazwa pochodzi od greckiego słowa „leniwy”, bo prawie nigdy nie reaguję. Dawniej napełniano mną żarówki. W rurce świecę bladą lawendą, a z kropelką rtęci robię niebieskie neony.',
+        sci: 'Pokój argonu. Argon to 0,93% powietrza, najczęstszy tu gaz szlachetny; wyładowanie w czystym argonie świeci od lawendowego do fioletowego, a argon z kropelką rtęci i powłoką na szkle tworzy większość „neonów”, które nie są czerwone. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
+      },
+      Kr: {
+        kid: 'Witaj w moim pokoju! Jestem krypton; moja nazwa pochodzi od greckiego słowa „ukryty”, bo w powietrzu jest mnie bardzo mało. Kiedy się zapalę, świecę prawie na biało, z odrobiną liliowego. Zapal rurki i napisz mną swoje imię na ścianie!',
+        sci: 'Pokój kryptonu. Około jednej milionowej części powietrza. Wyładowanie w kryptonie wygląda na białoliliowe, dzięki silnym liniom w całym widmie (zielona przy 557 nm, żółta przy 587 nm); od 1960 do 1983 roku metr definiowała pomarańczowa linia kryptonu-86 (605,8 nm). Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
+      },
+      Xe: {
+        kid: 'Witaj w moim pokoju! Jestem ksenon; moja nazwa pochodzi od greckiego słowa „obcy”. Świecę niebieskofioletowo, daję światło niektórym reflektorom samochodów, a niektóre statki kosmiczne latają dzięki silnikom, które wypychają moje atomy do tyłu!',
+        sci: 'Pokój ksenonu: najrzadszego stabilnego gazu szlachetnego w powietrzu, około 0,09 części na milion. Wyładowanie w ksenonie świeci od niebieskiego do fioletowego; ksenonowe lampy łukowe dają projektorom kinowym światło podobne do dziennego, a silniki jonowe, takie jak w sondzie Dawn należącej do NASA, działały na ksenonie. Napełnij i zapal rurki, napisz swoje imię w dowolnym gazie i rozszczep ich światło w spektroskopie.',
+      },
+    },
+    greetRadon: {
+      kid: 'Witaj w pracowni neonów! Inne gazy świecą w neonach, ale nie ja: jestem zamknięty w ołowianej skrzynce na końcu stołu. Chodź zobaczyć, dlaczego.',
+      sci: 'Pracownia neonów. Radon to jedyny gaz szlachetny, który nigdy nie trafia do neonu: jego skrzynka stoi na końcu stołu do napełniania, za szkłem ołowiowym.',
+    },
+    talk: {
+      kid: [
+        'Każdy gaz szlachetny świeci własnym kolorem: neon czerwonopomarańczowym, argon lawendowym, krypton białym, ksenon niebieskim, a hel brzoskwiniowym różem.',
+        'Wiele „neonów”, które nie są czerwone, w ogóle nie ma w sobie neonu: mają argon, kropelkę rtęci i powłokę na szkle.',
+        'Hel odkryto na Słońcu 27 lat wcześniej, niż ktokolwiek znalazł go na Ziemi!',
+        'Gazy szlachetne mają pełne zewnętrzne powłoki, więc nigdy nie trzymają się za ręce z innymi atomami. Spójrz na mnie: nie mam rąk!',
+        'Twórcy neonów wyginają każdą literę ręcznie, zmiękczając szklaną rurkę w płomieniu.',
+      ],
+      sci: [
+        'Wyładowanie jarzeniowe: swobodne elektrony, przyspieszane przez pole, zderzają się z atomami i je wzbudzają; każdy atom wraca niżej, wysyłając fotony o ściśle określonych energiach, czyli swoje linie.',
+        'Rurki neonów zawierają gaz pod ciśnieniem około 3 do 20 torów (0,4 do 3 kPa) i zapalają się przy kilku tysiącach woltów.',
+        'Pomarańczowa linia kryptonu-86 definiowała metr od 1960 do 1983 roku: 1 650 763,73 długości fali w próżni.',
+        'W 1962 roku Neil Bartlett otrzymał pierwszy związek gazu szlachetnego, heksafluoroplatynian ksenonu: szlachetne, ale nie całkiem obojętne.',
+        'Zanim rurkę neonu się napełni, odpompowuje się ją i „bombarduje”: rozgrzewa silnym prądem, żeby wypędzić zanieczyszczenia, które zepsułyby kolor.',
+      ],
+    },
+    colours: { violet: 'fioletowego', blue: 'niebieskiego', cyan: 'niebieskozielonego', green: 'zielonego', yellow: 'żółtego', orange: 'pomarańczowego', red: 'czerwonego' },
+
+    bench: {
+      title: 'Stół do napełniania',
+      screen: { kid: 'Wypompuj powietrze, wpuść gaz, włącz wysokie napięcie.', sci: 'Próżnia, potem kilka milibarów gazu, potem tysiące woltów: wyładowanie jarzeniowe.' },
+      verbs: { fill: 'Napełnij gazem', off: 'Wyłącz', wait: 'Zaczekaj' },
+      labels: { all: 'wszystkie rurki', working: 'rurka się napełnia' },
+      hv: 'WYSOKIE NAPIĘCIE',
+      air: 'atm',
+      says: {
+        He: { kid: 'Hel świeci delikatnym brzoskwiniowym różem.', sci: 'Hel: żółta linia 587,6 nm, czerwona 667,8 nm i fioletowa 447,1 nm razem dają brzoskwiniowy róż.' },
+        Ne: { kid: 'Neon: słynny czerwonopomarańczowy kolor neonów!', sci: 'Neon: dziesiątki czerwonych i pomarańczowych linii między 585 a 750 nm.' },
+        Ar: { kid: 'Argon świeci lawendowo, łagodnym fioletem.', sci: 'Argon: czerwone linie w pobliżu 700 nm i fioletowe w pobliżu 420 nm mieszają się w lawendę.' },
+        Kr: { kid: 'Krypton świeci srebrzystą bielą.', sci: 'Krypton: żółta linia 587,1 nm, zielona 557,0 nm i grupa fioletowych linii razem wyglądają prawie na białe.' },
+        Xe: { kid: 'Ksenon świeci na niebiesko.', sci: 'Ksenon: jego najsilniejsze widzialne linie są niebieskie, od 473 do 492 nm.' },
+        all: { kid: 'Pięć rurek świeci naraz: tęcza gazów szlachetnych!', sci: 'Pięć rurek zapalonych: ta sama rurka i to samo napięcie, pięć różnych zestawów poziomów energii, pięć kolorów.' },
+        off: { kid: 'Wszystko zgaszone. Zapalimy je jeszcze raz?', sci: 'Wyłączone: bez pola nic nie wzbudza atomów i świecenie od razu gaśnie.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Twórcy neonów robią to tak: najpierw pompa wysysa całe powietrze ze szklanej rurki. Potem wpuszcza się trochę gazu szlachetnego, dużo mniej, niż było tam powietrza. Na koniec włącza się bardzo wysokie napięcie.' },
+          { p: 'Prąd pędzi przez gaz, uderza w jego atomy i sprawia, że świecą. Każdy gaz szlachetny świeci własnym kolorem, zawsze tym samym.' },
+          { list: ['Hel: brzoskwiniowy róż', 'Neon: czerwonopomarańczowy', 'Argon: lawendowy', 'Krypton: srebrzysta biel', 'Ksenon: niebieski'] },
+          { p: 'Brakuje jednego gazu: radonu. Jest zamknięty w ołowianej skrzynce na końcu stołu. Idź zobaczyć, dlaczego!' },
+        ],
+        sci: [
+          { p: 'Rurkę odpompowuje się do próżni, bombarduje (rozgrzewa silnym prądem, żeby wypędzić zanieczyszczenia), napełnia gazem szlachetnym pod ciśnieniem około 3 do 20 torów (0,4 do 3 kPa, kilka setnych atmosfery) i zatapia.' },
+          { p: 'Tysiące woltów między elektrodami zapalają wyładowanie jarzeniowe. Przy niskim ciśnieniu elektron leci między zderzeniami dość daleko, by zebrać energię, która wzbudza atom; przy ciśnieniu atmosferycznym ta sama rurka potrzebowałaby dużo wyższego napięcia, żeby się zapalić (prawo Paschena).' },
+          { p: 'Każdy wzbudzony atom wraca niżej, emitując fotony o energiach równych odstępom między jego własnymi poziomami, więc każdy gaz ma swój kolor.' },
+          { rows: [['He', 'brzoskwiniowy róż: 587,6; 667,8; 447,1 nm'], ['Ne', 'czerwonopomarańczowy: wiele linii, od 585 do 750 nm'], ['Ar', 'lawendowy: 696,5; 706,7 nm oraz 415,9; 420,1 nm'], ['Kr', 'białawy: 587,1; 557,0 nm i fioletowe linie'], ['Xe', 'niebieski: od 473,4 do 492,3 nm']] },
+        ],
+      },
+    },
+
+    radon: {
+      title: 'Radon za szkłem ołowiowym',
+      label: 'skrzynka z radonem',
+      verb: 'Zmierz',
+      screen: { kid: 'Nigdy w neonie: jest promieniotwórczy.', sci: 'Radon-222, okres półtrwania {half} dnia. Jego linie zmierzono w zatopionych rurkach (NIST).' },
+      sign: 'RADIOAKTYWNE',
+      lines: 'Linie radonu',
+      says: {
+        kid: 'Tik, tik, tik! Radonu nie widać, ale licznik słyszy, jak jego atomy się rozpadają.',
+        sci: 'Każde tyknięcie to rozpad: radon-222 wysyła cząstki alfa; jego krótko żyjące produkty rozpadu dokładają promieniowanie beta i gamma.',
+      },
+      rows: { isotope: 'Izotop', half: 'Okres półtrwania', decay: 'Rozpad', density: 'Gęstość' },
+      values: { isotope: 'radon-222', half: '{half} dnia', decay: 'alfa, do polonu-218', density: '{density} g/L przy 0 °C, najgęstszy gaz' },
+      panel: {
+        kid: [
+          { p: 'Radon też jest gazem szlachetnym, ale nigdy nie trafia do neonu. Jest promieniotwórczy: jego atomy same się rozpadają i wystrzeliwują malutkie cząstki. Połowa każdej porcji radonu znika w niecałe cztery dni.' },
+          { p: 'Oddychanie nim jest niebezpieczne: po paleniu papierosów to jedna z głównych przyczyn raka płuc. Wydostaje się z granitu, a w niektórych częściach północnej i środkowej Portugalii może gromadzić się w piwnicach, dlatego ludzie wietrzą domy.' },
+          { p: 'Dlatego zostaje tutaj, za grubym szkłem ołowiowym, gdzie licznik wciąż go słyszy.' },
+        ],
+        sci: [
+          { p: 'Nigdy w neonie: połowa radonu zniknęłaby w {half} dnia, produkty rozpadu (polon, ołów, bizmut) pokryłyby szkło, a pęknięta rurka uwolniłaby zagrożenie dla płuc. WHO uznaje radon za drugą przyczynę raka płuc po paleniu tytoniu; w Portugalii jest go najwięcej nad granitami północy i centrum kraju, na przykład w Guardzie.' },
+          { p: 'Każda cząstka alfa to jądro helu. Rutherford i Royds udowodnili to w 1909 roku za pomocą spektroskopu: radon zatopiony w szklanej rurce o ściankach cieńszych niż 1/100 mm przepuszczał swoje cząstki alfa do zewnętrznej rurki; po 2 dniach słabo widać było żółtą linię helu, po 6 dniach wszystkie jego silniejsze linie.' },
+        ],
+      },
+    },
+
+    name: {
+      title: 'Twoje imię w neonie',
+      label: 'twoje imię w neonie',
+      verb: 'Napisz',
+      screen: { kid: 'Wpisz słowo i zapal je w dowolnym gazie.', sci: 'Twoje słowo wygięte z rurki i zapalone w dowolnym gazie.' },
+      overlay: {
+        title: 'Napisz swoje imię w neonie',
+        placeholder: 'Twoje imię',
+        gas: 'Gaz',
+        light: 'Zapal!',
+        close: 'Zamknij',
+        radon: 'Radonu tu nie ma: jest promieniotwórczy.',
+      },
+      says: { kid: '{word} w rurce z {gas}em: pięknie!', sci: '{word}: {metres} m rurki wypełnionej {gas}em.' },
+      panel: {
+        kid: [
+          { p: 'Prawdziwe neonowe litery to szklane rurki wyginane ręcznie. Twórca neonów zmiękcza rurkę nad płomieniem i wygina ją, litera po literze, według rysunku na stole, a przy tym delikatnie dmucha do środka, żeby rurka nie spłaszczyła się na zakrętach.' },
+          { p: 'Potem rurkę się opróżnia, napełnia gazem i zatapia, z metalową elektrodą na każdym końcu dla prądu. Zmień gaz, a zmieni się kolor: wypróbuj swoje imię we wszystkich pięciu!' },
+        ],
+        sci: [
+          { p: 'Rurkę wygina się nad szerokim płomieniem (palnikiem taśmowym) na rysunku w naturalnej wielkości, a rzemieślnik dmucha przez wężyk, żeby przekrój został okrągły; na obu końcach wtapia się elektrody, a odcinki rurki między literami maluje się na czarno.' },
+          { p: 'Transformator daje wysokie napięcie, które zapala wyładowanie, a potem ogranicza prąd; świecenie wypełnia rurkę od jednej elektrody do drugiej, więc każda litera świeci na całej długości.' },
+          { p: 'Kolor zależy tylko od gazu (i ewentualnej powłoki lub barwionego szkła), a nie od kształtu: te same atomy dają te same linie w każdej rurce.' },
+        ],
+      },
+    },
+
+    spectrum: {
+      title: 'Spektroskop',
+      lines: 'długości fal',
+      label: 'spektroskop',
+      verb: 'Wypróbuj {gas}',
+      screen: { kid: 'Pryzmat rozszczepia światło na kolory.', sci: 'Linie emisyjne w powietrzu, baza danych widm atomowych NIST.' },
+      sun: 'Słońce, 1868',
+      match: 'To hel!',
+      footer: { kid: 'Każdy gaz ma swoje linie: odcisk palca ze światła.', sci: 'Obserwowane długości fal w powietrzu (nm), baza danych widm atomowych NIST.' },
+      says: {
+        He: { kid: 'Żółta linia helu jest dokładnie pod tajemniczą linią Słońca: tak w 1868 roku odkryto hel na Słońcu!', sci: 'He I 587,6 nm leży dokładnie pod linią D3 protuberancji z 1868 roku; linie D sodu leżą przy 589,0 i 589,6 nm.' },
+        Ne: { kid: 'Neon: tłum czerwonych i pomarańczowych linii. Nic pod żółtą linią Słońca.', sci: 'Ne I: dziesiątki linii od 585 do 750 nm; najsilniejsze według NIST przy 692,9 i 703,2 nm.' },
+        Ar: { kid: 'Argon: czerwone linie z jednej strony, fioletowe z drugiej. Razem wyglądają lawendowo.', sci: 'Ar I: 696,5; 706,7 i 738,4 nm w czerwieni, 415,9 i 420,1 nm w fiolecie.' },
+        Kr: { kid: 'Krypton: jasna żółta linia, jasna zielona i grupa fioletowych.', sci: 'Kr I: 587,1 i 557,0 nm oraz fioletowa grupa od 427 do 450 nm. Blisko D3, ale nie na niej.' },
+        Xe: { kid: 'Ksenon: rodzina niebieskich linii.', sci: 'Xe I: 473,4; 480,7; 491,7 i 492,3 nm w błękicie oraz czerwone linie w pobliżu 700 nm.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Pryzmat rozszczepia światło rurki na kolory. Światło słoneczne dałoby gładką tęczę; gaz szlachetny daje tylko kilka jasnych linii, zawsze w tych samych miejscach. Każdy pierwiastek ma swój własny wzór linii, jak odcisk palca.' },
+          { p: 'W 1868 roku, podczas zaćmienia, astronomowie spojrzeli tak na brzeg Słońca i zobaczyli żółtą linię, która nie pasowała do niczego na Ziemi. Nowy pierwiastek nazwali helem, od Heliosa, czyli Słońca. Na Ziemi hel znaleziono dopiero w 1895 roku.' },
+          { p: 'Wypróbuj rurki po kolei: który gaz daje żółtą linię Słońca?' },
+        ],
+        sci: [
+          { p: 'W wyładowaniu elektrony przenoszą atomy na poziomy wzbudzone; atom spadający na niższy poziom emituje foton o energii dokładnie równej różnicy poziomów, E = hc/λ. Każdy pierwiastek ma własne poziomy, więc i własne długości fal.' },
+          { p: '18 sierpnia 1868 roku Pierre Janssen w Guntur w Indiach zobaczył podczas zaćmienia jasną żółtą linię w widmie protuberancji słonecznych; Norman Lockyer zobaczył ją w Anglii w październiku tego roku, bez zaćmienia. Leżała przy 587,6 nm, obok linii D sodu (589,0 i 589,6 nm), i nazwano ją D3; Lockyer i Edward Frankland nadali pierwiastkowi nazwę. William Ramsay znalazł hel na Ziemi w 1895 roku, w minerale uranu, kleweicie.' },
+          { p: 'Pomarańczowa linia kryptonu-86 (605,78 nm w próżni) definiowała metr od 1960 do 1983 roku.' },
+          { p: 'Linie: obserwowane długości fal w powietrzu z bazy danych widm atomowych NIST.' },
+        ],
+      },
+    },
+
+    atom: {
+      title: 'Dlaczego świecą',
+      label: 'atom {gas}u',
+      verb: 'Wystrzel elektron',
+      screen: { kid: 'Pełna zewnętrzna powłoka: nie ma się czego trzymać. Uderzenie daje światło.', sci: 'Zamknięta powłoka. Zderzenia ją wzbudzają, a ona oddaje energię jako światło: E = hc / długość fali.' },
+      ladder: { title: 'Stopnie energii', ground: 'stan podstawowy', ion: 'jonizacja', photon: 'foton' },
+      says: {
+        kid: 'Bum! Elektron wskoczył stopień wyżej, spadł z powrotem i wysłał błysk {colour} światła.',
+        sci: '{Gas}: przejście z {hi} eV na {lo} eV daje foton o energii {photon} eV, λ = {nm} nm.',
+      },
+      ionTitle: 'Pierwsza energia jonizacji',
+      line: '{Gas}, linia {nm} nm: górny poziom {hi} eV, dolny poziom {lo} eV powyżej stanu podstawowego; foton niesie {photon} eV = hc/λ. Poziomy z bazy danych widm atomowych NIST.',
+      panel: {
+        kid: [
+          { p: 'Spójrz na zewnętrzny pierścień atomu: jest pełny. Dwa elektrony w helu, osiem w pozostałych. Pełny zewnętrzny pierścień jest bardzo stabilny, więc te atomy nie muszą z nikim dzielić się elektronami ani ich wymieniać. Dlatego ich Atomki nie mają rąk!' },
+          { p: 'Ponieważ prawie nigdy nie łączą się z innymi atomami, nazwano je „szlachetnymi”, jak złoto, które nie rdzewieje.' },
+          { p: 'Ale prąd może podbić elektron na wyższy stopień. Szybko zeskakuje z powrotem i oddaje nadmiar energii jako błysk światła. Każdy krok w dół ma swój kolor, a miliardy błysków na sekundę tworzą świecenie rurki.' },
+        ],
+        sci: [
+          { p: 'Zamknięte powłoki: 1s² w helu, ns² np⁶ w pozostałych. Mają najwyższe pierwsze energie jonizacji w swoich okresach i żadnych wolnych miejsc w oktecie, więc nie tworzą zwykłych wiązań. W 1962 roku Neil Bartlett otrzymał pierwszy związek gazu szlachetnego, heksafluoroplatynian ksenonu; potem przyszły fluorki ksenonu i kryptonu. Niemiecki chemik Hugo Erdmann nazwał je Edelgase, czyli gazami szlachetnymi, na wzór metali szlachetnych.' },
+        ],
+      },
+    },
+
+    history: {
+      title: 'Neony przez lata',
+      label: 'krótka historia',
+      verbs: { next: 'Zapal {year}', off: 'Wyłącz' },
+      today: 'DZIŚ',
+      screen: { kid: '1898, 1910, dziś: zapal je po kolei.', sci: 'Od ciekłego powietrza (1898) do świateł miasta.' },
+      captions: { 1898: 'Londyn: krypton, neon, ksenon', 1910: 'Paryż: pierwsze lampy neonowe', today: 'argon, rtęć i powłoka' },
+      steps: {
+        1898: {
+          kid: '1898, Londyn: Ramsay i Travers schłodzili powietrze, aż stało się ciekłe, pozwolili mu powoli wrzeć i w kilka tygodni znaleźli trzy nowe gazy: krypton, neon i ksenon.',
+          sci: 'Od maja do lipca 1898 roku: destylacja frakcyjna ciekłego powietrza daje Ramsayowi i Traversowi krypton (ukryty), neon (nowy) i ksenon (obcy).',
+        },
+        1910: {
+          kid: '1910, Paryż: Georges Claude zapalił na salonie samochodowym dwie rury z neonem, każdą długą na 12 metrów. Pierwsze lampy neonowe!',
+          sci: 'Od 3 do 18 grudnia 1910 roku: Georges Claude pokazuje dwie rury z neonem o długości 12 m na Salonie Samochodowym w Paryżu, w Grand Palais; jego pierwszy szyld sprzedano w 1912 roku golibrodzie.',
+        },
+        today: {
+          kid: 'Dziś wiele „neonów” w ogóle nie ma neonu! Mają argon i kropelkę rtęci, a proszek na wewnętrznej stronie szkła zamienia ich niewidzialne światło w niebieskie, zielone, białe albo różowe.',
+          sci: 'Dziś: argon z odrobiną rtęci. Ultrafiolet rtęci o długości 253,7 nm sprawia, że powłoka fluorescencyjna na szkle świeci własnym kolorem; wiele szyldów to dziś taśmy LED.',
+        },
+      },
+      all: { kid: 'Od ciekłego powietrza do świateł każdego miasta!', sci: 'Ciekłe powietrze, 1898; pierwsze lampy neonowe, 1910; dziś powłoki fluorescencyjne i diody LED.' },
+      off: { kid: 'Znowu ciemno. Zapalimy historię jeszcze raz?', sci: 'Wyłączone.' },
+      panel: {
+        kid: [
+          { p: '1898: w Londynie William Ramsay i Morris Travers schłodzili powietrze tak bardzo, że stało się ciekłe, a potem pozwolili mu się powoli ogrzewać. Każdy gaz odparowywał w swojej temperaturze i w kilka tygodni znaleźli trzy nowe: krypton, neon i ksenon.' },
+          { p: '1910: w Paryżu Georges Claude, który robił ciekłe powietrze, żeby sprzedawać z niego tlen, miał nadmiar neonu. Wpuścił go do długich szklanych rur i zapalił je na salonie samochodowym: pierwsze lampy neonowe.' },
+          { p: 'Dziś wiele „neonów” w ogóle nie ma neonu. Mają argon z kropelką rtęci, a powłoka na wewnętrznej stronie szkła nadaje im kolor. Czerwień wciąż pochodzi z prawdziwego neonu.' },
+          { p: 'Nazwy są greckie: neon znaczy nowy, krypton ukryty, ksenon obcy, argon leniwy, a hel pochodzi od Heliosa, czyli Słońca.' },
+        ],
+        sci: [
+          { rows: [['1868', 'hel dostrzeżony na Słońcu (Janssen, Lockyer)'], ['1894', 'argon, pierwszy wyodrębniony gaz szlachetny (Rayleigh i Ramsay)'], ['1895', 'hel na Ziemi (Ramsay, w kleweicie)'], ['1898', 'krypton, neon, ksenon (Ramsay i Travers)'], ['1900', 'radon (Friedrich Ernst Dorn)'], ['1910', 'rury neonowe Georges’a Claude’a, Paryż'], ['1962', 'pierwszy związek gazu szlachetnego (Bartlett)']] },
+          { p: 'Ciekłe powietrze rozdziela się według temperatur wrzenia: neon {Ne} K, argon {Ar} K, krypton {Kr} K, ksenon {Xe} K (azot wrze przy {N} K, tlen przy {O} K).' },
+          { p: 'Firma Claude’a, Air Liquide, wytwarzała tlen z ciekłego powietrza i miała neonu pod dostatkiem. Dziś wiele szyldów to argon z odrobiną rtęci: jej ultrafiolet o długości 253,7 nm wzbudza powłokę fluorescencyjną (luminofor, po angielsku „phosphor”, który nie ma nic wspólnego z pierwiastkiem fosforem), a ta świeci własnym kolorem; przezroczyste rury z neonem wciąż dają klasyczną czerwień. Wiele szyldów to dziś diody LED.' },
+        ],
+      },
+    },
+
+    balloons: {
+      title: 'Który balon się unosi?',
+      label: 'balony',
+      verbs: { go: 'Puść', back: 'Przywiąż je znowu' },
+      screen: { kid: 'Lżejsze od powietrza się unosi, cięższe opada.', sci: 'Siła nośna na litr: gęstość powietrza minus gęstość gazu. Powietrze: 1,293 g/L przy 0 °C.' },
+      says: {
+        kid: 'Hel wystrzeliwuje w górę, neon unosi się powoli, a argon, krypton i ksenon spadają: są cięższe od powietrza!',
+        sci: 'Siła nośna na litr przy 0 °C: hel {He} g, neon {Ne} g; argon, krypton i ksenon są gęstsze od powietrza i opadają.',
+      },
+      back: { kid: 'Znowu przywiązane. Puścimy je jeszcze raz?', sci: 'Od nowa: pięć balonów po 11,5 L.' },
+      air: 'powietrze',
+      at: 'przy 0 °C i 1 atm',
+      densities: 'Gęstości',
+      panel: {
+        kid: [
+          { p: 'Balon unosi się, kiedy gaz w środku jest lżejszy od tej samej ilości powietrza. Hel jest bardzo lekki, więc wznosi się szybko. Neon też jest lżejszy od powietrza, więc jego balon unosi się, ale powoli.' },
+          { p: 'Argon, krypton i ksenon są cięższe od powietrza: ich balony spadają na podłogę. Ksenon spada najszybciej: jest około cztery i pół raza cięższy od powietrza!' },
+          { p: 'Radon jest najcięższym gazem ze wszystkich, ponad siedem razy cięższym od powietrza. Dlatego gromadzi się w piwnicach.' },
+        ],
+        sci: [
+          { p: 'W tej samej temperaturze i pod tym samym ciśnieniem litr każdego gazu zawiera tyle samo cząstek (Avogadro), więc gęstość idzie w parze z masą molową: He 4,0; Ne 20,2; powietrze około 29,0; Ar 39,9; Kr 83,8; Xe 131,3 g/mol.' },
+          { p: 'Każdy balon ma tu 11,5 L w 2,5 g gumy: hel podnosi {liftHe} g, a neon {liftNe} g, więc oba się wznoszą; argon, krypton i ksenon ważą więcej niż powietrze, które wypierają, a opór powietrza wyznacza ich prędkość.' },
+        ],
+      },
+    },
+  },
+
+  de: {
+    nameCase: 'keep',
+    back: 'Zurück in {gas}s Halle',
+    kicker: 'Die Neonwerkstatt',
+    talkTo: 'Sprich mit',
+    open: 'OFFEN',
+    busy: { kid: 'Warte kurz: Es läuft noch!', sci: 'Einen Moment: Der letzte Durchgang läuft noch.' },
+    greet: {
+      kid: 'Willkommen in der Neonwerkstatt! Hier füllen wir Glasröhren mit Gasen wie mir und bringen sie zum Leuchten. Schalte die Röhren ein, schreib deinen Namen in Neon und zerleg das Licht mit dem Prisma.',
+      sci: 'Die Neonwerkstatt: Glimmentladungen in den Edelgasen. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen davon und zerleg ihr Licht im Spektroskop.',
+    },
+    greetGas: {
+      He: {
+        kid: 'Willkommen in der Neonwerkstatt, in meinem Raum! Ich bin Helium; mein Name kommt vom griechischen Wort für die Sonne, denn man hat mich auf der Sonne entdeckt, bevor mich irgendwer auf der Erde fand. In einer Glasröhre leuchte ich in einem zarten Pfirsichrosa. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
+        sci: 'Der Raum des Heliums in der Neonwerkstatt. Eine Heliumentladung leuchtet pfirsichrosa; ihre auffälligste Linie ist die gelbe bei 587,6 nm, die Linie, die 1868 das Helium im Spektrum der Sonne verriet. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
+      },
+      Ne: {
+        kid: 'Willkommen in meiner Werkstatt: Neonschilder sind nach mir benannt! Mein Name kommt vom griechischen Wort für „neu“. Wenn ich leuchte, dann im berühmten Rotorange der Ladenschilder. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
+        sci: 'Der Raum des Neons: das Gas, das den Leuchtschildern ihren Namen gab. Sein Leuchten in Rotorange ist eine Menge von Linien von Gelborange bis Tiefrot; Georges Claude zeigte 1910 in Paris die ersten Neonlichter. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
+      },
+      Ar: {
+        kid: 'Willkommen in meinem Raum der Werkstatt! Ich bin Argon; mein Name kommt vom griechischen Wort für „faul“, weil ich fast nie reagiere. Alte Glühbirnen waren mit mir gefüllt. In einer Röhre leuchte ich blass lavendelfarben, und mit einem Tropfen Quecksilber mache ich die blauen Schilder.',
+        sci: 'Der Raum des Argons. Argon macht 0,93% der Luft aus, das häufigste Edelgas hier; eine Entladung in reinem Argon leuchtet lavendelfarben bis violett, und Argon mit einem Tropfen Quecksilber und einer Beschichtung auf dem Glas ergibt die meisten „Neon“-Schilder, die nicht rot sind. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
+      },
+      Kr: {
+        kid: 'Willkommen in meinem Raum! Ich bin Krypton; mein Name kommt vom griechischen Wort für „verborgen“, weil es so wenig von mir in der Luft gibt. Wenn ich leuchte, bin ich fast weiß, mit einem Hauch Flieder. Schalte die Röhren ein und schreib deinen Namen mit mir an die Wand!',
+        sci: 'Der Raum des Kryptons. Etwa ein Millionstel der Luft. Eine Kryptonentladung wirkt weißlich fliederfarben, durch starke Linien quer durch das Spektrum (Grün bei 557 nm, Gelb bei 587 nm); von 1960 bis 1983 war der Meter über eine orange Linie von Krypton-86 definiert (605,8 nm). Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
+      },
+      Xe: {
+        kid: 'Willkommen in meinem Raum! Ich bin Xenon; mein Name kommt vom griechischen Wort für „Fremder“. Ich leuchte blauviolett, ich stecke in manchen Autoscheinwerfern, und manche Raumfahrzeuge fliegen mit Triebwerken, die meine Atome nach hinten hinausstoßen!',
+        sci: 'Der Raum des Xenons: das seltenste stabile Edelgas der Luft, etwa 0,09 Teile pro Million. Eine Xenonentladung leuchtet blau bis violett; Xenon-Bogenlampen geben Kinoprojektoren ihr tageslichtähnliches Licht, und Ionentriebwerke wie die der NASA-Sonde Dawn liefen mit Xenon. Füll die Röhren und zünde sie, schreib deinen Namen in einem beliebigen Gas und zerleg ihr Licht im Spektroskop.',
+      },
+    },
+    greetRadon: {
+      kid: 'Willkommen in der Neonwerkstatt! Die anderen Gase leuchten in den Schildern, ich aber nicht: Ich bin in der Bleikiste am Ende der Werkbank eingeschlossen. Komm und sieh nach, warum.',
+      sci: 'Die Neonwerkstatt. Radon ist das einzige Edelgas, das nie in ein Schild kommt: Seine Kiste steht am Ende der Füllbank, hinter Bleiglas.',
+    },
+    talk: {
+      kid: [
+        'Jedes Edelgas leuchtet in seiner eigenen Farbe: Neon rotorange, Argon lavendelfarben, Krypton weiß, Xenon blau, Helium pfirsichrosa.',
+        'Viele „Neon“-Schilder, die nicht rot sind, enthalten gar kein Neon: nur Argon, einen Tropfen Quecksilber und eine Beschichtung auf dem Glas.',
+        'Helium wurde 27 Jahre früher auf der Sonne entdeckt als auf der Erde!',
+        'Edelgase haben volle äußere Schalen, deshalb halten sie nie Händchen mit anderen Atomen. Schau mich an: keine Hände!',
+        'Schildermacher biegen jeden Buchstaben von Hand und machen die Glasröhre dafür in einer Flamme weich.',
+      ],
+      sci: [
+        'Eine Glimmentladung: Freie Elektronen, vom Feld beschleunigt, stoßen mit Atomen zusammen und regen sie an; jedes Atom fällt zurück und gibt dabei Photonen mit genau bestimmten Energien ab, seine eigenen Linien.',
+        'Leuchtröhren enthalten ihr Gas bei etwa 3 bis 20 Torr (0,4 bis 3 kPa) und zünden bei mehreren tausend Volt.',
+        'Die orange Linie von Krypton-86 definierte von 1960 bis 1983 den Meter: 1 650 763,73 Wellenlängen im Vakuum.',
+        '1962 stellte Neil Bartlett die erste Verbindung eines Edelgases her, ein Xenon-Hexafluoroplatinat: edel, aber nicht völlig träge.',
+        'Bevor eine Leuchtröhre gefüllt wird, wird sie leer gepumpt und „bombardiert“: mit starkem Strom erhitzt, um Verunreinigungen auszutreiben, die die Farbe verderben würden.',
+      ],
+    },
+    colours: { violet: 'violetten', blue: 'blauen', cyan: 'blaugrünen', green: 'grünen', yellow: 'gelben', orange: 'orangefarbenen', red: 'roten' },
+
+    bench: {
+      title: 'Die Füllbank',
+      screen: { kid: 'Pump die Luft ab, lass ein Gas hinein, schalte die Hochspannung ein.', sci: 'Vakuum, dann ein paar Millibar Gas, dann Tausende Volt: eine Glimmentladung.' },
+      verbs: { fill: 'Füll mit', off: 'Schalte aus', wait: 'Warte' },
+      labels: { all: 'alle Röhren', working: 'die Röhre wird gefüllt' },
+      hv: 'HOCHSPANNUNG',
+      air: 'Luft',
+      says: {
+        He: { kid: 'Helium leuchtet in einem zarten Pfirsichrosa.', sci: 'Helium: Die gelbe Linie bei 587,6 nm, die rote bei 667,8 nm und die violette bei 447,1 nm wirken zusammen pfirsichrosa.' },
+        Ne: { kid: 'Neon: das berühmte Rotorange der Leuchtschilder!', sci: 'Neon: Dutzende roter und orangefarbener Linien zwischen 585 und 750 nm.' },
+        Ar: { kid: 'Argon leuchtet lavendelfarben, ein sanftes Violett.', sci: 'Argon: Rote Linien um 700 nm und violette um 420 nm mischen sich zu Lavendel.' },
+        Kr: { kid: 'Krypton leuchtet silbrig weiß.', sci: 'Krypton: Die gelbe Linie bei 587,1 nm, die grüne bei 557,0 nm und eine Gruppe violetter Linien wirken fast weiß.' },
+        Xe: { kid: 'Xenon leuchtet blau.', sci: 'Xenon: Seine stärksten sichtbaren Linien sind blau, von 473 bis 492 nm.' },
+        all: { kid: 'Alle fünf leuchten: ein Regenbogen der Edelgase!', sci: 'Alle fünf an: dieselbe Röhre und dieselbe Spannung, fünf verschiedene Sätze von Energieniveaus, fünf Farben.' },
+        off: { kid: 'Alles aus. Sollen wir sie wieder einschalten?', sci: 'Aus: Ohne Feld regt nichts die Atome an, und das Leuchten erlischt sofort.' },
+      },
+      panel: {
+        kid: [
+          { p: 'So machen es Schildermacher: Zuerst saugt eine Pumpe die ganze Luft aus der Glasröhre. Dann kommt ein bisschen Edelgas hinein, viel weniger als die Luft, die vorher darin war. Dann schalten sie eine sehr hohe Spannung ein.' },
+          { p: 'Der Strom saust durch das Gas, stößt gegen seine Atome und bringt sie zum Leuchten. Jedes Edelgas leuchtet in seiner eigenen Farbe, immer in derselben.' },
+          { list: ['Helium: Pfirsichrosa', 'Neon: Rotorange', 'Argon: Lavendel', 'Krypton: Silberweiß', 'Xenon: Blau'] },
+          { p: 'Ein Gas fehlt: Radon. Es ist in der Bleikiste am Ende der Werkbank eingeschlossen. Geh hin und sieh nach, warum!' },
+        ],
+        sci: [
+          { p: 'Die Röhre wird leer gepumpt, bombardiert (mit starkem Strom erhitzt, um Verunreinigungen auszutreiben), mit einem Edelgas bei etwa 3 bis 20 Torr (0,4 bis 3 kPa, ein paar Hundertstel einer Atmosphäre) gefüllt und zugeschmolzen.' },
+          { p: 'Tausende Volt zwischen den Elektroden zünden eine Glimmentladung. Bei niedrigem Druck fliegt ein Elektron zwischen zwei Stößen weit genug, um die Energie zu sammeln, die ein Atom anregt; bei Atmosphärendruck bräuchte dieselbe Röhre eine viel höhere Spannung, um zu zünden (Paschen-Gesetz).' },
+          { p: 'Jedes angeregte Atom fällt zurück und sendet Photonen mit den Energien zwischen seinen eigenen Niveaus aus, deshalb hat jedes Gas seine eigene Farbe.' },
+          { rows: [['He', 'pfirsichrosa: 587,6; 667,8; 447,1 nm'], ['Ne', 'rotorange: viele Linien, 585 bis 750 nm'], ['Ar', 'lavendelfarben: 696,5; 706,7 nm und 415,9; 420,1 nm'], ['Kr', 'weißlich: 587,1; 557,0 nm und violette Linien'], ['Xe', 'blau: 473,4 bis 492,3 nm']] },
+        ],
+      },
+    },
+
+    radon: {
+      title: 'Radon, hinter Bleiglas',
+      label: 'die Radonkiste',
+      verb: 'Miss',
+      screen: { kid: 'Nie in einem Schild: Es ist radioaktiv.', sci: 'Radon-222, Halbwertszeit {half} Tage. Seine Linien wurden in zugeschmolzenen Röhren gemessen (NIST).' },
+      sign: 'RADIOAKTIV',
+      lines: 'Die Linien des Radons',
+      says: {
+        kid: 'Klick, klick, klick! Radon kann man nicht sehen, aber der Zähler hört, wie seine Atome zerfallen.',
+        sci: 'Jedes Klicken ist ein Zerfall: Radon-222 sendet Alphateilchen aus; seine kurzlebigen Tochterkerne fügen Beta- und Gammastrahlung hinzu.',
+      },
+      rows: { isotope: 'Isotop', half: 'Halbwertszeit', decay: 'Zerfall', density: 'Dichte' },
+      values: { isotope: 'Radon-222', half: '{half} Tage', decay: 'Alpha, zu Polonium-218', density: '{density} g/L bei 0 °C, das dichteste Gas' },
+      panel: {
+        kid: [
+          { p: 'Radon ist auch ein Edelgas, aber es kommt nie in ein Schild. Es ist radioaktiv: Seine Atome zerfallen von selbst und schießen winzige Teilchen heraus. Die Hälfte jeder Menge Radon ist in weniger als vier Tagen verschwunden.' },
+          { p: 'Es einzuatmen ist gefährlich: Nach dem Rauchen ist es eine der Hauptursachen für Lungenkrebs. Es sickert aus Granit, und in Teilen von Nord- und Mittelportugal kann es sich in Kellern sammeln, deshalb lüften die Leute ihre Häuser.' },
+          { p: 'Deshalb bleibt es hier, hinter dickem Bleiglas, wo der Zähler es trotzdem hören kann.' },
+        ],
+        sci: [
+          { p: 'Nie in einem Schild: Sein Radon wäre in {half} Tagen zur Hälfte verschwunden, die Zerfallsprodukte (Polonium, Blei, Bismut) würden das Glas überziehen, und eine zerbrochene Röhre würde eine Gefahr für die Lunge freisetzen. Die WHO stuft Radon als zweithäufigste Ursache von Lungenkrebs nach dem Rauchen ein; in Portugal ist es über den Graniten des Nordens und der Mitte am höchsten, etwa in Guarda.' },
+          { p: 'Jedes Alphateilchen ist ein Heliumkern. Rutherford und Royds bewiesen es 1909 mit einem Spektroskop: Radon, eingeschmolzen in eine Glasröhre mit Wänden unter 1/100 mm Dicke, ließ seine Alphateilchen in eine äußere Röhre durch; nach 2 Tagen war die gelbe Linie des Heliums schwach zu sehen, nach 6 Tagen alle seine stärkeren Linien.' },
+        ],
+      },
+    },
+
+    name: {
+      title: 'Dein Name in Neon',
+      label: 'dein Name in Neon',
+      verb: 'Schreib',
+      screen: { kid: 'Tipp ein Wort ein und lass es in einem beliebigen Gas leuchten.', sci: 'Dein Wort, aus Röhren gebogen und in einem beliebigen Gas gezündet.' },
+      overlay: {
+        title: 'Schreib deinen Namen in Neon',
+        placeholder: 'Dein Name',
+        gas: 'Gas',
+        light: 'Einschalten!',
+        close: 'Schließen',
+        radon: 'Radon bleibt draußen: Es ist radioaktiv.',
+      },
+      says: { kid: '{word} in {gas}: wunderschön!', sci: '{word}: {metres} m Röhre, mit {gas} gezündet.' },
+      panel: {
+        kid: [
+          { p: 'Echte Neonbuchstaben sind von Hand gebogene Glasröhren. Der Schildermacher macht die Röhre über einer Flamme weich und biegt sie Buchstabe für Buchstabe nach einer Zeichnung auf dem Tisch, während er sanft in die Röhre bläst, damit sie in den Kurven nicht zusammengedrückt wird.' },
+          { p: 'Dann wird die Röhre leer gepumpt, mit einem Gas gefüllt und verschlossen, mit einer Metallelektrode an jedem Ende für den Strom. Wechsle das Gas, und die Farbe wechselt: Probier deinen Namen in allen fünf!' },
+        ],
+        sci: [
+          { p: 'Leuchtröhren werden über einer breiten Flamme (einem Bandbrenner) auf einer Vorlage in Originalgröße gebogen, während der Glasbläser durch einen Schlauch bläst, damit der Querschnitt rund bleibt; an beiden Enden werden Elektroden angeschmolzen, und die Röhrenstücke zwischen den Buchstaben werden schwarz gestrichen.' },
+          { p: 'Der Transformator liefert die Hochspannung, die die Entladung zündet, und begrenzt dann den Strom; das Leuchten füllt die Röhre von einer Elektrode zur anderen, deshalb leuchtet jeder Buchstabe auf seiner ganzen Länge.' },
+          { p: 'Die Farbe hängt nur vom Gas ab (und von einer Beschichtung oder farbigem Glas), nicht von der Form: Dieselben Atome geben in jeder Röhre dieselben Linien.' },
+        ],
+      },
+    },
+
+    spectrum: {
+      title: 'Das Spektroskop',
+      lines: 'Linien',
+      label: 'das Spektroskop',
+      verb: 'Probier {gas}',
+      screen: { kid: 'Ein Prisma zerlegt das Licht in seine Farben.', sci: 'Emissionslinien in Luft, Atomspektren-Datenbank des NIST.' },
+      sun: 'Sonne, 1868',
+      match: 'Es ist Helium!',
+      footer: { kid: 'Jedes Gas hat seine eigenen Linien: ein Fingerabdruck aus Licht.', sci: 'Beobachtete Wellenlängen in Luft (nm), Atomspektren-Datenbank des NIST.' },
+      says: {
+        He: { kid: 'Die gelbe Linie des Heliums liegt genau unter der rätselhaften Linie der Sonne: So wurde Helium 1868 auf der Sonne entdeckt!', sci: 'He I 587,6 nm liegt genau unter der D3-Linie der Protuberanzen von 1868; die D-Linien des Natriums liegen bei 589,0 und 589,6 nm.' },
+        Ne: { kid: 'Neon: eine Menge roter und orangefarbener Linien. Nichts unter der gelben Linie der Sonne.', sci: 'Ne I: Dutzende Linien von 585 bis 750 nm; die stärksten laut NIST bei 692,9 und 703,2 nm.' },
+        Ar: { kid: 'Argon: rote Linien auf der einen Seite, violette auf der anderen. Zusammen wirken sie lavendelfarben.', sci: 'Ar I: 696,5; 706,7 und 738,4 nm im Roten, 415,9 und 420,1 nm im Violetten.' },
+        Kr: { kid: 'Krypton: eine helle gelbe Linie, eine helle grüne und eine Gruppe violetter.', sci: 'Kr I: 587,1 und 557,0 nm und eine violette Gruppe von 427 bis 450 nm. Nah an D3, aber nicht darauf.' },
+        Xe: { kid: 'Xenon: eine Familie blauer Linien.', sci: 'Xe I: 473,4; 480,7; 491,7 und 492,3 nm im Blauen und rote Linien um 700 nm.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Das Prisma zerlegt das Licht der Röhre in seine Farben. Sonnenlicht ergäbe einen lückenlosen Regenbogen; ein Edelgas gibt nur ein paar helle Linien, immer an denselben Stellen. Jedes Element hat sein eigenes Linienmuster, wie einen Fingerabdruck.' },
+          { p: '1868 schauten Astronomen während einer Sonnenfinsternis so auf den Rand der Sonne und sahen eine gelbe Linie, die zu nichts auf der Erde passte. Sie nannten das neue Element Helium, nach Helios, der Sonne. Auf der Erde wurde Helium erst 1895 gefunden.' },
+          { p: 'Probier die Röhren eine nach der anderen: Welches Gas macht die gelbe Linie der Sonne?' },
+        ],
+        sci: [
+          { p: 'In der Entladung heben Elektronen Atome auf angeregte Niveaus; ein Atom, das auf ein tieferes Niveau fällt, sendet ein Photon mit genau der Energiedifferenz aus, E = hc/λ. Jedes Element hat seine eigenen Niveaus, also seine eigenen Wellenlängen.' },
+          { p: '18. August 1868: Pierre Janssen sah in Guntur in Indien während der Sonnenfinsternis eine helle gelbe Linie im Spektrum der Sonnenprotuberanzen; Norman Lockyer sah sie im Oktober desselben Jahres in England, ohne Finsternis. Sie lag bei 587,6 nm, neben den D-Linien des Natriums (589,0 und 589,6 nm), und wurde D3 genannt; Lockyer und Edward Frankland benannten das Element. William Ramsay fand Helium 1895 auf der Erde, im Uranmineral Cleveit.' },
+          { p: 'Die orange Linie von Krypton-86 (605,78 nm im Vakuum) definierte von 1960 bis 1983 den Meter.' },
+          { p: 'Linien: beobachtete Wellenlängen in Luft aus der Atomspektren-Datenbank des NIST.' },
+        ],
+      },
+    },
+
+    atom: {
+      title: 'Warum sie leuchten',
+      label: 'das {gas}-Atom',
+      verb: 'Schieß ein Elektron',
+      screen: { kid: 'Eine volle äußere Schale: nichts zum Festhalten. Ein Stoß macht Licht.', sci: 'Eine abgeschlossene Schale. Stöße regen sie an, und sie gibt die Energie als Licht zurück: E = hc / Wellenlänge.' },
+      ladder: { title: 'Energiestufen', ground: 'Grundzustand', ion: 'Ionisierung', photon: 'Photon' },
+      says: {
+        kid: 'Bumm! Ein Elektron ist eine Stufe hochgesprungen, zurückgefallen und hat einen {colour} Lichtblitz ausgesandt.',
+        sci: '{Gas}: Der Fall von {hi} eV auf {lo} eV ergibt ein Photon von {photon} eV, λ = {nm} nm.',
+      },
+      ionTitle: 'Erste Ionisierungsenergie',
+      line: '{Gas}, Linie {nm} nm: oberes Niveau {hi} eV, unteres Niveau {lo} eV über dem Grundzustand; das Photon trägt {photon} eV = hc/λ. Niveaus aus der Atomspektren-Datenbank des NIST.',
+      panel: {
+        kid: [
+          { p: 'Schau dir den äußeren Ring des Atoms an: Er ist voll. Zwei Elektronen bei Helium, acht bei den anderen. Ein voller äußerer Ring ist sehr stabil, deshalb müssen diese Atome mit niemandem Elektronen teilen oder tauschen. Darum haben ihre Atomlinge keine Hände!' },
+          { p: 'Weil sie sich fast nie mit anderen Atomen verbinden, nannte man sie „edel“, wie Gold, das nicht rostet.' },
+          { p: 'Aber Strom kann ein Elektron eine Stufe höher stoßen. Bald springt es wieder hinunter und gibt die zusätzliche Energie als Lichtblitz ab. Jede Stufe nach unten hat ihre eigene Farbe, und Milliarden Blitze pro Sekunde ergeben das Leuchten der Röhre.' },
+        ],
+        sci: [
+          { p: 'Abgeschlossene Schalen: 1s² bei Helium, ns² np⁶ bei den übrigen. Sie haben die höchsten ersten Ionisierungsenergien ihrer Perioden und keine freien Plätze im Oktett, deshalb bilden sie keine gewöhnlichen Bindungen. 1962 stellte Neil Bartlett die erste Edelgasverbindung her, Xenon-Hexafluoroplatinat; Fluoride von Xenon und Krypton folgten. Der deutsche Chemiker Hugo Erdmann nannte sie Edelgase, nach den Edelmetallen.' },
+        ],
+      },
+    },
+
+    history: {
+      title: 'Neon im Lauf der Zeit',
+      label: 'eine kurze Geschichte',
+      verbs: { next: 'Schalte {year} ein', off: 'Schalte aus' },
+      today: 'HEUTE',
+      screen: { kid: '1898, 1910, heute: Schalte sie der Reihe nach ein.', sci: 'Von flüssiger Luft (1898) zu den Lichtern der Stadt.' },
+      captions: { 1898: 'London: Krypton, Neon, Xenon', 1910: 'Paris: die ersten Neonlichter', today: 'Argon, Quecksilber und eine Beschichtung' },
+      steps: {
+        1898: {
+          kid: '1898, London: Ramsay und Travers kühlten Luft ab, bis sie flüssig wurde, ließen sie langsam verdampfen und fanden in wenigen Wochen drei neue Gase: Krypton, Neon und Xenon.',
+          sci: 'Mai bis Juli 1898: Die fraktionierte Destillation flüssiger Luft liefert Ramsay und Travers Krypton (verborgen), Neon (neu) und Xenon (Fremder).',
+        },
+        1910: {
+          kid: '1910, Paris: Georges Claude ließ auf der Automobilausstellung zwei Neonröhren leuchten, jede 12 Meter lang. Die ersten Neonlichter!',
+          sci: '3. bis 18. Dezember 1910: Georges Claude zeigt auf dem Pariser Automobilsalon im Grand Palais zwei 12 m lange Neonröhren; sein erstes Schild wurde 1912 an einen Barbier verkauft.',
+        },
+        today: {
+          kid: 'Heute enthalten viele „Neon“-Schilder gar kein Neon! Sie enthalten Argon und einen Tropfen Quecksilber, und ein Pulver innen im Glas verwandelt ihr unsichtbares Licht in Blau, Grün, Weiß oder Rosa.',
+          sci: 'Heute: Argon mit etwas Quecksilber. Das Ultraviolett des Quecksilbers bei 253,7 nm bringt eine Leuchtstoffschicht auf dem Glas in ihrer eigenen Farbe zum Leuchten; viele Schilder sind heute LED-Streifen.',
+        },
+      },
+      all: { kid: 'Von flüssiger Luft zu den Lichtern jeder Stadt!', sci: 'Flüssige Luft, 1898; die ersten Neonlichter, 1910; heute Leuchtstoffe und LEDs.' },
+      off: { kid: 'Wieder dunkel. Sollen wir die Geschichte noch einmal einschalten?', sci: 'Aus.' },
+      panel: {
+        kid: [
+          { p: '1898: In London machten William Ramsay und Morris Travers Luft so kalt, dass sie flüssig wurde, und ließen sie dann langsam warm werden. Jedes Gas verdampfte bei seiner eigenen Temperatur, und in wenigen Wochen fanden sie drei neue: Krypton, Neon und Xenon.' },
+          { p: '1910: In Paris hatte Georges Claude, der flüssige Luft herstellte, um ihren Sauerstoff zu verkaufen, Neon übrig. Er füllte es in lange Glasröhren und ließ sie auf der Automobilausstellung leuchten: die ersten Neonlichter.' },
+          { p: 'Heute enthalten viele „Neon“-Schilder gar kein Neon. Sie enthalten Argon mit einem Tropfen Quecksilber, und eine Beschichtung innen im Glas gibt ihnen ihre Farbe. Rot kommt immer noch von echtem Neon.' },
+          { p: 'Die Namen sind griechisch: Neon heißt neu, Krypton verborgen, Xenon Fremder, Argon faul, und Helium kommt von Helios, der Sonne.' },
+        ],
+        sci: [
+          { rows: [['1868', 'Helium in der Sonne gesehen (Janssen, Lockyer)'], ['1894', 'Argon, das erste isolierte Edelgas (Rayleigh und Ramsay)'], ['1895', 'Helium auf der Erde (Ramsay, im Cleveit)'], ['1898', 'Krypton, Neon, Xenon (Ramsay und Travers)'], ['1900', 'Radon (Friedrich Ernst Dorn)'], ['1910', 'Georges Claudes Neonröhren, Paris'], ['1962', 'die erste Edelgasverbindung (Bartlett)']] },
+          { p: 'Flüssige Luft trennt sich nach Siedepunkten: Neon {Ne} K, Argon {Ar} K, Krypton {Kr} K, Xenon {Xe} K (Stickstoff siedet bei {N} K, Sauerstoff bei {O} K).' },
+          { p: 'Claudes Firma, Air Liquide, stellte Sauerstoff aus flüssiger Luft her und hatte Neon übrig. Heute sind viele Schilder Argon mit etwas Quecksilber: Dessen Ultraviolett bei 253,7 nm regt eine Leuchtstoffschicht an (der „Phosphor“ der Hersteller, der mit dem Element Phosphor nichts zu tun hat), die in ihrer eigenen Farbe leuchtet; klare Neonröhren geben immer noch das klassische Rot. Viele Schilder sind heute LEDs.' },
+        ],
+      },
+    },
+
+    balloons: {
+      title: 'Welcher Ballon schwebt?',
+      label: 'die Ballons',
+      verbs: { go: 'Lass los', back: 'Bind sie wieder fest' },
+      screen: { kid: 'Leichter als Luft steigt, schwerer sinkt.', sci: 'Auftrieb pro Liter: die Dichte der Luft minus die des Gases. Luft: 1,293 g/L bei 0 °C.' },
+      says: {
+        kid: 'Helium schießt nach oben, Neon steigt langsam, und Argon, Krypton und Xenon fallen: Sie sind schwerer als Luft!',
+        sci: 'Auftrieb pro Liter bei 0 °C: Helium {He} g, Neon {Ne} g; Argon, Krypton und Xenon sind dichter als Luft und sinken.',
+      },
+      back: { kid: 'Wieder festgebunden. Sollen wir sie noch einmal loslassen?', sci: 'Zurückgesetzt: fünf Ballons zu je 11,5 L.' },
+      air: 'Luft',
+      at: 'bei 0 °C und 1 atm',
+      densities: 'Dichten',
+      panel: {
+        kid: [
+          { p: 'Ein Ballon schwebt, wenn das Gas darin leichter ist als dieselbe Menge Luft. Helium ist sehr leicht, deshalb steigt es schnell. Neon ist auch leichter als Luft, also schwebt sein Ballon nach oben, langsam.' },
+          { p: 'Argon, Krypton und Xenon sind schwerer als Luft: Ihre Ballons fallen auf den Boden. Xenon fällt am schnellsten: Es ist etwa viereinhalbmal so schwer wie Luft!' },
+          { p: 'Radon ist das schwerste Gas von allen, mehr als siebenmal so schwer wie Luft. Deshalb sammelt es sich in Kellern.' },
+        ],
+        sci: [
+          { p: 'Bei gleicher Temperatur und gleichem Druck enthält ein Liter jedes Gases gleich viele Teilchen (Avogadro), also folgt die Dichte der molaren Masse: He 4,0; Ne 20,2; Luft etwa 29,0; Ar 39,9; Kr 83,8; Xe 131,3 g/mol.' },
+          { p: 'Jeder Ballon hier fasst 11,5 L in 2,5 g Gummi: Helium hebt {liftHe} g und Neon {liftNe} g, also steigen beide; Argon, Krypton und Xenon wiegen mehr als die Luft, die sie verdrängen, und der Luftwiderstand bestimmt ihr Tempo.' },
         ],
       },
     },

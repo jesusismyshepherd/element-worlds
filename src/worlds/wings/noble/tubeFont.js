@@ -1,6 +1,7 @@
 // A font of bent glass tubes: every glyph is the centre line of the tube, as strokes (polylines and
-// arcs) on a grid where capitals stand 6 units tall on the baseline. Capitals, the Portuguese accented
-// capitals, digits, a few marks, and the lowercase e, r, n for the symbols He, Ne, Ar, Kr, Xe, Rn.
+// arcs) on a grid where capitals stand 6 units tall on the baseline. Capitals, the Portuguese, Polish
+// (Ą Ć Ę Ł Ń Ó Ś Ź Ż) and German (Ä Ö Ü; ß is written SS) accented capitals, digits, a few marks, and the
+// lowercase e, r, n for the symbols He, Ne, Ar, Kr, Xe, Rn.
 // Pure (no three.js): neonTube.js sweeps a tube along the strokes, and the tests read it.
 
 /** Points along an ellipse arc from a0 to a1 (degrees, either direction). */
@@ -75,8 +76,8 @@ const BASE = {
   '+': { w: 3.4, s: [open([[0, 3], [3.4, 3]]), open([[1.7, 1.3], [1.7, 4.7]])] },
 }
 
-/** Marks over (or under) a capital, drawn about its middle `c`; `w` the capital's width (a narrow I
- *  gets narrower marks, so they stay inside the space between letters). */
+/** Marks over (or under, or through) a capital, drawn about its middle `c`; `w` the capital's width (a
+ *  narrow I gets narrower marks, so they stay inside the space between letters), `base` the capital. */
 const MARKS = {
   acute: c => [open([[c - 0.4, 6.75], [c + 0.55, 7.75]])],
   grave: c => [open([[c - 0.55, 7.75], [c + 0.4, 6.75]])],
@@ -90,6 +91,16 @@ const MARKS = {
     return [dot(c - k, 7.2, 0.24), dot(c + k, 7.2, 0.24)]
   },
   cedilla: c => [open([[c, 0], [c, -0.55], [c + 0.55, -0.75], [c + 0.4, -1.35], [c - 0.4, -1.45]])],
+  // Polish: the ogonek hangs from A's right foot (from E's bottom bar, near its end), bulges left and
+  // ends in a tail to the right
+  ogonek: (c, w, base) => {
+    const x = base === 'A' ? w : w - 0.6
+    return [open([[x, 0], ...arc(x + 0.55, -0.55, 0.85, 0.85, 165, 275)])]
+  },
+  // Ł: a slash rising through the stem, a little above the middle
+  stroke: () => [open([[-0.75, 2.45], [1.25, 3.85]])],
+  // Ż: one dot over the middle
+  dot: c => [dot(c, 7.25, 0.3)],
 }
 const ACCENTED = {
   Á: ['A', 'acute'], À: ['A', 'grave'], Â: ['A', 'circ'], Ã: ['A', 'tilde'], Ä: ['A', 'dots'],
@@ -98,13 +109,16 @@ const ACCENTED = {
   Ó: ['O', 'acute'], Ò: ['O', 'grave'], Ô: ['O', 'circ'], Õ: ['O', 'tilde'], Ö: ['O', 'dots'],
   Ú: ['U', 'acute'], Ù: ['U', 'grave'], Û: ['U', 'circ'], Ü: ['U', 'dots'],
   Ç: ['C', 'cedilla'], Ñ: ['N', 'tilde'],
+  // Polish (Ó above)
+  Ą: ['A', 'ogonek'], Ę: ['E', 'ogonek'], Ł: ['L', 'stroke'], Ż: ['Z', 'dot'],
+  Ć: ['C', 'acute'], Ń: ['N', 'acute'], Ś: ['S', 'acute'], Ź: ['Z', 'acute'],
 }
 
 /** Every glyph: { w (width in units), s: [{ pts, closed }] }. */
 export const GLYPHS = { ...BASE }
 for (const [ch, [base, mark]] of Object.entries(ACCENTED)) {
   const g = BASE[base]
-  GLYPHS[ch] = { w: g.w, s: [...g.s, ...MARKS[mark](g.w / 2, g.w)] }
+  GLYPHS[ch] = { w: g.w, s: [...g.s, ...MARKS[mark](g.w / 2, g.w, base)] }
 }
 
 /** The space between letters, in units. */
@@ -113,10 +127,11 @@ export const SPACING = 1.5
 export const NAME_MAX = 12
 
 /** A name as the wall can write it: capitals, letters with no glyph turned into their plain letter,
- *  anything else dropped, spaces squeezed, at most NAME_MAX characters. */
+ *  anything else dropped, spaces squeezed, at most NAME_MAX characters. German ß becomes SS (the
+ *  upper case does that), and so does the capital ẞ. */
 export function sanitizeName(text, max = NAME_MAX) {
   let out = ''
-  for (const ch of String(text ?? '').toLocaleUpperCase('pt-PT')) {
+  for (const ch of String(text ?? '').toLocaleUpperCase('pt-PT').replace(/ẞ/g, 'SS')) {
     if (GLYPHS[ch] && ch !== 'e' && ch !== 'r' && ch !== 'n') out += ch
     else {
       const plain = ch.normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -127,7 +142,8 @@ export function sanitizeName(text, max = NAME_MAX) {
 }
 
 /** Lays out a text: every glyph's strokes moved into place. Returns { glyphs: [{ ch, x, w, strokes }],
- *  width, top, bottom } in units (capitals 6 tall; marks reach about 7.8, the cedilla -1.5). */
+ *  width, top, bottom } in units (capitals 6 tall; marks reach about 7.8, the cedilla and the ogonek
+ *  about -1.5). */
 export function layoutText(text) {
   const glyphs = []
   let x = 0
