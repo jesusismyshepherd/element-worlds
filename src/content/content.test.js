@@ -1,10 +1,13 @@
-// Every element's own words (src/content/<Symbol>.js) in the right shape: both languages, the
-// explorer's text everywhere, lists where a station shows bullet points, no em dashes.
+// Every element's own words (src/content/<Symbol>.js) in the right shape: every language, the
+// explorer's text everywhere, lists where a station shows bullet points, no em dashes. Polish and German
+// are checked where present while they are being written (ALL_LANGUAGES false), then required.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readdirSync } from 'node:fs'
 import { element } from '../data/elements.js'
 
+const ALL_LANGUAGES = false
+const LANGUAGES = ['en', 'pt-pt', 'pl', 'de']
 const FIELDS = ['greeting', 'nameOrigin', 'discovery', 'stateNote', 'found', 'uses', 'isotopes', 'facts']
 const LISTS = new Set(['uses', 'facts'])
 const files = readdirSync(new URL('.', import.meta.url)).filter(f => /^[A-Z][a-z]?\.js$/.test(f))
@@ -20,8 +23,9 @@ for (const f of files) {
     for (const key of Object.keys(c)) assert.ok(FIELDS.includes(key), `unknown field ${key}`)
     assert.ok(c.greeting, 'a greeting')
     for (const [key, entry] of Object.entries(c)) {
-      for (const lang of ['en', 'pt-pt']) {
+      for (const lang of LANGUAGES) {
         const l = entry[lang]
+        if (!l && !ALL_LANGUAGES && (lang === 'pl' || lang === 'de')) continue
         assert.ok(l && (l.kid || l.sci), `${key}.${lang}`)
         for (const level of ['kid', 'sci']) {
           const v = l[level]
