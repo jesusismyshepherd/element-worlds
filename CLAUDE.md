@@ -131,7 +131,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed
   isotopes out).
 - Worlds: carbon (`/e/C/allotropes` with the graphene row and, since 2026-10-28, the twisted graphene as
-  two transparencies on a light table turning by themselves, with why twistronics matters; `/e/C/life`), oxygen (`/e/O/air`,
+  two hexagonal flakes on a light table, turned by hand or by themselves, beside a board of their bands
+  (Bistritzer-MacDonald, `scripts/data/tbg_bands.py`), with why twistronics matters; `/e/C/life`), oxygen (`/e/O/air`,
   `/e/O/fire`), the noble gases' neon sign workshop (`/e/He/signs` to `/e/Rn/signs`, 2026-10-28: filling
   bench, radon's lead box, your name in neon, spectroscope with NIST lines, the atom's energy ladder,
   history board, balloons). Ideas for the next ones: `docs/wing-ideas.md`.

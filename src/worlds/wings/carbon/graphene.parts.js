@@ -9,6 +9,7 @@ import { makeText } from '../../../engine/text.js'
 import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint, UP } from './kit.js'
 import { graphiteStack, inHexagon, GRAPHENE, rng, TAU } from './structures.js'
 import { HONEY_GLSL } from './honeycomb.js'
+import { TBG, bandsAt, widthAt, speedAt } from './tbgBands.js'
 
 const ACCENT = '#7fd4ff'
 const GOLD = '#ffd166'
@@ -821,46 +822,63 @@ export function hammockCat({ light, words }) {
 }
 
 // ---------------------------------------------------------------- frontier: the moiré
-/** Two graphene sheets, one over the other, drawn as two printed transparencies on a light table: the
- *  top one turns slowly by itself (0 to 12 degrees and back, lingering at the small angles) and the
- *  moiré is not drawn, it comes out of the overlap, as it does with two net curtains in front of a
- *  window (the user, 2026-10-28: the bright "AA spots" were insider knowledge; just show the two sheets
- *  at changing angles). Where the atoms of both sheets coincide (AA) more light gets through; where they
- *  interleave it is darker. The period is a / (2 sin(θ/2)) (a = 0.246 nm), 52 lattice constants at the
- *  magic angle of 1.1°. `magic()` glides to 1.1° and holds it a while. `label(deg)` writes the readout. */
-export function moireDisc({ light, radius = 1.7, label = deg => `${deg.toFixed(1)}°` }) {
+/** Two graphene flakes, one over the other, drawn as two printed transparencies on a light table: two
+ *  hexagons (zigzag edges), the top one turned by θ, so its corners show the twist (the user, 2026-10-28,
+ *  after bilayer.graphene.science). The moiré is not drawn: it comes out of the overlap (light where the
+ *  atoms of both sheets coincide, dark where they interleave). Left alone the top sheet turns by itself
+ *  (0 to 12 degrees and back, lingering at the small angles); `setAngle` hands it to the visitor (a
+ *  slider in the exhibit's panel), `magic()` glides to 1.1°, `hold(false)` lets it turn again a few
+ *  seconds after the panel closes. `setRings(k)` draws the lattice k times larger (bigger rings, a
+ *  bigger moiré). The period is a / (2 sin(θ/2)) (a = 0.246 nm), 52 lattice constants at 1.1°.
+ *  `label(deg)` writes the readout under the table. */
+export function moireDisc({ radius = 1.6, label = deg => `${deg.toFixed(1)}°` }) {
   const group = new THREE.Group()
-  const bond = 0.0155 // drawn: a = 2.7 cm, the 1.1° moiré about 1.4 m across
-  const a = bond * SQ3
-  const G = [[1, -1 / SQ3], [0, 2 / SQ3], [-1, -1 / SQ3]].map(([x, y]) => new THREE.Vector2(x, y).multiplyScalar((2 * Math.PI) / a))
+  const BOND = 0.0155 // drawn at ring size 1: a = 2.7 cm, the 1.1° moiré about 1.4 m across
+  const table = radius + 0.08
   const uniforms = {
     uTheta: { value: 0 },
-    uBond: { value: bond },
+    uBond: { value: BOND },
     uR: { value: radius },
-    uG0: { value: G[0] },
-    uG1: { value: G[1] },
-    uG2: { value: G[2] },
+    uT: { value: table },
+    uG0: { value: new THREE.Vector2() },
+    uG1: { value: new THREE.Vector2() },
+    uG2: { value: new THREE.Vector2() },
   }
+  // the reciprocal lattice of the drawn honeycomb (how the two sheets sit on each other, far away)
+  const setBond = bond => {
+    uniforms.uBond.value = bond
+    const a = bond * SQ3
+    ;[[1, -1 / SQ3], [0, 2 / SQ3], [-1, -1 / SQ3]].forEach(([x, y], i) => uniforms[`uG${i}`].value.set(x, y).multiplyScalar((2 * Math.PI) / a))
+  }
+  setBond(BOND)
   const mat = new THREE.ShaderMaterial({
     uniforms,
     vertexShader: /* glsl */ `
       varying vec2 vP;
       void main() { vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
     fragmentShader: /* glsl */ `
-      uniform float uTheta; uniform float uBond; uniform float uR;
+      uniform float uTheta; uniform float uBond; uniform float uR; uniform float uT;
       uniform vec2 uG0; uniform vec2 uG1; uniform vec2 uG2;
       varying vec2 vP;
       ${HONEY_GLSL}
+      // 1 inside a hexagon with corners on the x axis (edges along the zigzag rows), soft at its edge
+      float hexIn(vec2 p, float R) {
+        float d = max(abs(p.y), max(abs(dot(p, vec2(0.8660254, 0.5))), abs(dot(p, vec2(0.8660254, -0.5)))));
+        float w = fwidth(d);
+        return 1.0 - smoothstep(R * 0.8660254 - w, R * 0.8660254 + w, d);
+      }
       void main() {
         float r = length(vP);
         float c = cos(uTheta);
         float s = sin(uTheta);
         vec2 p2 = mat2(c, -s, s, c) * vP; // where this point falls in the top sheet's own frame
+        float inA = hexIn(vP, uR);
+        float inB = hexIn(p2, uR);
         // inks bold enough that the overlap shows from across the room (each covers about 45 %)
         vec2 A = honeyInk(vP, uBond, 0.17, 0.3);
         vec2 B = honeyInk(p2, uBond, 0.17, 0.3);
-        float ia = max(A.x, A.y);
-        float ib = max(B.x, B.y);
+        float ia = max(A.x, A.y) * inA;
+        float ib = max(B.x, B.y) * inB;
         // where both inks cover the same spot: exactly, near; far away, where a pixel spans several
         // bonds and each sheet is averaged, from how the two lattices sit on each other (1 where atoms
         // sit on atoms, -1/2 where they interleave), or the pattern would wash out with distance
@@ -879,42 +897,56 @@ export function moireDisc({ light, radius = 1.7, label = deg => `${deg.toFixed(1
         vec3 kA = vec3(0.95, 0.88, 0.72);
         vec3 kB = vec3(0.72, 0.88, 0.95);
         vec3 col = lamp * (1.0 - kA * ia - kB * ib + kA * kB * both);
-        float edge = smoothstep(uR, uR - 0.02, r);
+        // each flake a faint film of its own colour, so the bare table shows round them
+        col *= vec3(1.0) - vec3(0.02, 0.05, 0.1) * inA - vec3(0.1, 0.05, 0.02) * inB;
+        float edge = smoothstep(uT, uT - 0.02, r);
         gl_FragColor = vec4(col * edge, 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
   })
-  const disc = new THREE.Mesh(new THREE.CircleGeometry(radius, 128), mat)
+  const disc = new THREE.Mesh(new THREE.CircleGeometry(table, 128), mat)
   const tilt = new THREE.Group()
   tilt.position.y = 2.05
   tilt.rotation.x = -0.72
   tilt.add(disc)
   group.add(tilt)
-  // the two rims: the lower sheet's fixed (blue), the upper sheet's turning (gold, with a handle)
-  const rimLow = new THREE.Mesh(new THREE.TorusGeometry(radius + 0.04, 0.03, 10, 160), glowMat('#5fc6ff', 1.1))
+  // the flakes' edges: the lower one fixed (blue), the upper one turning with it (gold, a knob on a corner)
+  const hexEdge = (r, thick, m) => {
+    const g = new THREE.Group()
+    for (let k = 0; k < 6; k++) {
+      const a0 = (k * Math.PI) / 3
+      const a1 = ((k + 1) * Math.PI) / 3
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(r + thick, thick, thick * 0.6), m)
+      bar.position.set((Math.cos(a0) + Math.cos(a1)) * r * 0.5, (Math.sin(a0) + Math.sin(a1)) * r * 0.5, 0)
+      bar.rotation.z = (a0 + a1) / 2 + Math.PI / 2
+      g.add(bar)
+    }
+    return g
+  }
+  const rimLow = hexEdge(radius, 0.03, glowMat('#5fc6ff', 1.2))
+  rimLow.position.z = 0.01
   const rimTop = new THREE.Group()
-  const rimTopRing = new THREE.Mesh(new THREE.TorusGeometry(radius + 0.1, 0.028, 10, 160), glowMat(GOLD, 1.1))
-  rimTopRing.position.z = 0.03
-  rimTop.add(rimTopRing)
-  const handle = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 16), glowMat(GOLD, 2.6))
-  handle.position.set(0, radius + 0.1, 0.05)
+  const topEdge = hexEdge(radius, 0.03, glowMat(GOLD, 1.2))
+  topEdge.position.z = 0.04
+  rimTop.add(topEdge)
+  const handle = new THREE.Mesh(new THREE.SphereGeometry(0.07, 20, 16), glowMat(GOLD, 2.6))
+  handle.position.set(radius, 0, 0.06)
   rimTop.add(handle)
-  // a mark at the top of the fixed rim, so the handle's turn away from it shows
-  const zero = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.01), glowMat('#5fc6ff', 1.6))
-  zero.position.set(0, radius + 0.2, 0)
-  tilt.add(zero)
-  for (let i = 0; i < 36; i++) {
-    const tick = new THREE.Mesh(new THREE.BoxGeometry(0.012, i % 9 === 0 ? 0.1 : 0.05, 0.01), glowMat('#5fc6ff', 1.4))
-    const ang = (i / 36) * TAU
-    tick.position.set(Math.sin(ang) * (radius + 0.13), Math.cos(ang) * (radius + 0.13), 0)
-    tick.rotation.z = -ang
+  // a scale of degrees round the table, and a mark where the knob starts
+  for (let i = 0; i < 72; i++) {
+    const tick = new THREE.Mesh(new THREE.BoxGeometry(0.008, i % 6 === 0 ? 0.09 : 0.04, 0.01), glowMat('#5fc6ff', 1.3))
+    const ang = (i / 72) * TAU
+    tick.position.set(Math.cos(ang) * (table + 0.08), Math.sin(ang) * (table + 0.08), 0)
+    tick.rotation.z = ang - Math.PI / 2
     tilt.add(tick)
   }
-  tilt.add(rimLow, rimTop)
+  const zero = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.022, 0.012), glowMat('#5fc6ff', 1.8))
+  zero.position.set(table + 0.18, 0, 0)
+  tilt.add(zero, rimLow, rimTop)
   // its stand
   const metal = new THREE.MeshStandardMaterial({ color: '#2b3358', roughness: 0.35, metalness: 0.85 })
-  const back = new THREE.Mesh(new THREE.CylinderGeometry(radius + 0.16, radius + 0.16, 0.06, 96), new THREE.MeshPhysicalMaterial({ color: '#0e1430', roughness: 0.3, metalness: 0.4 }))
+  const back = new THREE.Mesh(new THREE.CylinderGeometry(table + 0.14, table + 0.14, 0.06, 96), new THREE.MeshPhysicalMaterial({ color: '#0e1430', roughness: 0.3, metalness: 0.4 }))
   back.rotation.x = Math.PI / 2
   back.position.z = -0.05
   tilt.add(back)
@@ -927,9 +959,9 @@ export function moireDisc({ light, radius = 1.7, label = deg => `${deg.toFixed(1
   const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.95, 0.08, 48), metal)
   foot.position.set(0, 0.04, -0.4)
   group.add(foot)
-  // the angle now, under the disc
+  // the angle now, under the table
   const readout = makeText(label(0), { size: 0.09, color: '#ffe3a8', anchorY: 'top', maxWidth: 2.6, outlineWidth: 0.006, outlineColor: '#05081a' })
-  readout.position.set(0, -radius - 0.3, 0.04)
+  readout.position.set(0, -table - 0.24, 0.04)
   tilt.add(readout)
 
   // the sweep: 0 to MAX and back in PERIOD seconds, as the square of a cosine wave so the small angles,
@@ -938,29 +970,60 @@ export function moireDisc({ light, radius = 1.7, label = deg => `${deg.toFixed(1
   const PERIOD = 46
   const MAGIC = 1.1
   const sweepAngle = ph => MAX * Math.pow(0.5 - 0.5 * Math.cos(ph), 2)
+  const phaseOf = deg => Math.acos(1 - 2 * Math.sqrt(Math.min(1, Math.max(0, deg / MAX))))
   let phase = 0.9
   let theta = sweepAngle(phase)
-  let mode = 'sweep' // or 'glide' (to the magic angle) and 'hold'
+  let mode = 'sweep' // 'glide' (to the magic angle), 'hand' (the visitor's), 'rest' (waits, then sweeps)
+  let held = false
   let from = 0
   let tt = 0
-  let hold = 0
+  let rest = 0
+  let rings = 1
   let shown = null
   let shownAt = -1
+  const settle = () => {
+    mode = held ? 'hand' : 'rest'
+    rest = 14
+  }
   return {
     group,
+    MAX,
     get angle() {
       return theta
     },
-    get busy() {
-      return mode === 'glide'
+    get rings() {
+      return rings
     },
-    /** Glide to the magic angle and stay there a while; false while already gliding. */
+    /** The visitor turns it (the slider). */
+    setAngle(deg) {
+      theta = Math.min(MAX, Math.max(0, deg))
+      mode = 'hand'
+    },
+    /** The lattice drawn k times larger (0.5 to 8). */
+    setRings(k) {
+      rings = Math.min(8, Math.max(0.5, k))
+      setBond(BOND * rings)
+    },
+    /** Glide to the magic angle and stay there (a while, or as long as the visitor holds it). */
     magic() {
-      if (mode === 'glide') return false
       mode = 'glide'
       from = theta
       tt = 0
-      return true
+    },
+    /** While the panel is open the visitor holds it; let go, it turns by itself again after a while. */
+    hold(on) {
+      if (on === held) return
+      held = on
+      if (on && mode === 'sweep') mode = 'hand'
+      if (!on && mode === 'hand') {
+        mode = 'rest'
+        rest = 6
+      }
+    },
+    /** Turn by itself again now. */
+    release() {
+      mode = 'sweep'
+      phase = phaseOf(theta)
     },
     update(dt, t) {
       if (mode === 'sweep') {
@@ -969,28 +1032,234 @@ export function moireDisc({ light, radius = 1.7, label = deg => `${deg.toFixed(1
       } else if (mode === 'glide') {
         tt = Math.min(1, tt + dt / 2.2)
         theta = from + (MAGIC - from) * easeInOut(tt)
-        if (tt >= 1) {
-          mode = 'hold'
-          hold = 14
-        }
-      } else {
-        hold -= dt
-        if (hold <= 0) {
-          // on with the sweep from where it stands, opening out
+        if (tt >= 1) settle()
+      } else if (mode === 'rest') {
+        rest -= dt
+        if (rest <= 0) {
+          // on with the sweep from where it stands
           mode = 'sweep'
-          phase = Math.acos(1 - 2 * Math.sqrt(MAGIC / MAX))
+          phase = phaseOf(theta)
         }
       }
       uniforms.uTheta.value = (theta * Math.PI) / 180
       rimTop.rotation.z = (theta * Math.PI) / 180 // the true turn: a tiny twist, a huge pattern
-      // the readout, a tenth of a degree at a time, at most eight times a second
-      const deg = Math.round(theta * 10) / 10
+      // the readout, a hundredth of a degree at a time, at most eight times a second
+      const deg = Math.round(theta * 100) / 100
       if (deg !== shown && t - shownAt > 0.12) {
         shown = deg
         shownAt = t
         readout.text = label(deg)
         readout.sync()
       }
+    },
+  }
+}
+
+/** The board beside the twisted sheets: the electrons' bands near the Fermi level at the angle now
+ *  (computed ahead with the Bistritzer-MacDonald model, tbgBands.js) along K' - K - Γ - M - K', the two
+ *  middle bands in gold; how fast the electrons can move; and how wide the middle bands are at every
+ *  angle, with the angle now marked, so the dip at 1.1° shows. `words(level)` gives its texts. */
+export function bandBoard({ words, decimal = '.' }) {
+  const W = 960
+  const H = 1080
+  const canvas = document.createElement('canvas')
+  canvas.width = W
+  canvas.height = H
+  const g = canvas.getContext('2d')
+  const tex = new THREE.CanvasTexture(canvas)
+  tex.colorSpace = THREE.SRGBColorSpace
+  tex.anisotropy = 4
+  const group = new THREE.Group()
+  const boardW = 2.2
+  const boardH = (boardW * H) / W
+  const face = new THREE.Mesh(new THREE.PlaneGeometry(boardW, boardH), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }))
+  face.position.y = 0.95 + boardH / 2
+  group.add(face)
+  const frame = new THREE.Mesh(new RoundedBoxGeometry(boardW + 0.1, boardH + 0.1, 0.06, 3, 0.03), new THREE.MeshStandardMaterial({ color: '#1a2350', roughness: 0.4, metalness: 0.6 }))
+  frame.position.set(0, face.position.y, -0.04)
+  group.add(frame)
+  const metal = new THREE.MeshStandardMaterial({ color: '#2b3358', roughness: 0.35, metalness: 0.85 })
+  for (const x of [-0.7, 0.7]) {
+    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 0.98, 12), metal)
+    leg.position.set(x, 0.49, -0.04)
+    group.add(leg)
+  }
+  const num = (v, d = 1) => v.toFixed(d).replace('.', decimal)
+  const FONT = '"Outfit", system-ui, sans-serif'
+  const GOLDC = '#ffc94d'
+  const draw = (deg, level) => {
+    const w = words(level)
+    const sci = level === 'scientist'
+    g.fillStyle = '#0b1030'
+    g.fillRect(0, 0, W, H)
+    g.fillStyle = '#ffffff'
+    g.font = `700 40px ${FONT}`
+    g.textAlign = 'center'
+    g.fillText(w.title, W / 2, 64)
+    g.font = `400 24px ${FONT}`
+    g.fillStyle = '#b9c4ee'
+    g.fillText(w.sub, W / 2, 102)
+    // the plot
+    const px0 = 110
+    const px1 = W - 40
+    const py0 = 140
+    const py1 = 620
+    const EMAX = 300
+    const X = x => px0 + x * (px1 - px0)
+    const Y = e => py0 + ((EMAX - e) / (2 * EMAX)) * (py1 - py0)
+    g.strokeStyle = '#2c3670'
+    g.lineWidth = 2
+    g.strokeRect(px0, py0, px1 - px0, py1 - py0)
+    g.font = `400 22px ${FONT}`
+    g.textAlign = 'right'
+    for (const e of [-200, -100, 0, 100, 200]) {
+      g.strokeStyle = e === 0 ? '#5b6aa8' : '#1f2858'
+      g.setLineDash(e === 0 ? [10, 8] : [])
+      g.beginPath()
+      g.moveTo(px0, Y(e))
+      g.lineTo(px1, Y(e))
+      g.stroke()
+      g.setLineDash([])
+      if (sci) {
+        g.fillStyle = '#93a0d8'
+        g.fillText(String(e), px0 - 12, Y(e) + 8)
+      }
+    }
+    g.save()
+    g.translate(sci ? 30 : 60, (py0 + py1) / 2)
+    g.rotate(-Math.PI / 2)
+    g.textAlign = 'center'
+    g.fillStyle = '#93a0d8'
+    g.fillText(w.energy, 0, 0)
+    g.restore()
+    g.textAlign = 'center'
+    for (const t of TBG.ticks) {
+      g.strokeStyle = '#1f2858'
+      g.beginPath()
+      g.moveTo(X(t.x), py0)
+      g.lineTo(X(t.x), py1)
+      g.stroke()
+      g.fillStyle = '#d6dcff'
+      g.font = `700 26px ${FONT}`
+      g.fillText(t.label, X(t.x), py1 + 34)
+    }
+    const e = bandsAt(deg)
+    if (!e) {
+      g.fillStyle = '#d6dcff'
+      g.font = `400 28px ${FONT}`
+      g.fillText(w.tooSmall, (px0 + px1) / 2, (py0 + py1) / 2)
+    } else {
+      const B = TBG.bands
+      g.save()
+      g.beginPath()
+      g.rect(px0, py0, px1 - px0, py1 - py0)
+      g.clip()
+      for (let b = 0; b < B; b++) {
+        const middle = b === B / 2 - 1 || b === B / 2
+        g.strokeStyle = middle ? GOLDC : '#6f9cff'
+        g.lineWidth = middle ? 6 : 3
+        g.beginPath()
+        TBG.x.forEach((x, i) => (i ? g.lineTo(X(x), Y(e[i * B + b])) : g.moveTo(X(x), Y(e[i * B + b]))))
+        g.stroke()
+      }
+      g.restore()
+    }
+    // how fast the electrons can move
+    const sp = deg >= TBG.min ? speedAt(deg) : 1
+    const gy = 690
+    g.textAlign = 'left'
+    g.font = `700 28px ${FONT}`
+    g.fillStyle = '#ffffff'
+    g.fillText(w.speed, 60, gy)
+    g.fillStyle = '#1b2350'
+    g.fillRect(60, gy + 18, W - 120, 30)
+    g.fillStyle = sp < 0.1 ? GOLDC : '#6f9cff'
+    g.fillRect(60, gy + 18, (W - 120) * Math.min(1, sp), 30)
+    g.font = `400 24px ${FONT}`
+    g.fillStyle = '#d6dcff'
+    g.fillText(sci ? w.speedSci(num(sp, 3), deg >= TBG.min ? num(widthAt(deg), 1) : '?') : w.speedKid(num(sp * 100, sp < 0.1 ? 1 : 0)), 60, gy + 84)
+    // how wide the middle bands are at every angle, the angle now marked
+    const sx0 = 110
+    const sx1 = W - 40
+    const sy0 = 840
+    const sy1 = 1020
+    const A0 = 0.5
+    const A1 = 3
+    const SX = a => sx0 + ((a - A0) / (A1 - A0)) * (sx1 - sx0)
+    const LMIN = Math.log10(3)
+    const LMAX = Math.log10(1000)
+    const SY = wd => sy1 - ((Math.log10(Math.max(3, wd)) - LMIN) / (LMAX - LMIN)) * (sy1 - sy0)
+    g.font = `700 26px ${FONT}`
+    g.fillStyle = '#ffffff'
+    g.fillText(w.strip, 60, sy0 - 22)
+    g.strokeStyle = '#2c3670'
+    g.lineWidth = 2
+    g.strokeRect(sx0, sy0, sx1 - sx0, sy1 - sy0)
+    g.strokeStyle = '#6f9cff'
+    g.lineWidth = 4
+    g.beginPath()
+    TBG.angles.filter(a => a <= A1).forEach((a, i) => (i ? g.lineTo(SX(a), SY(widthAt(a))) : g.moveTo(SX(a), SY(widthAt(a)))))
+    g.stroke()
+    // the magic angle
+    g.strokeStyle = GOLDC
+    g.setLineDash([8, 8])
+    g.beginPath()
+    g.moveTo(SX(1.1), sy0)
+    g.lineTo(SX(1.1), sy1)
+    g.stroke()
+    g.setLineDash([])
+    g.fillStyle = GOLDC
+    g.font = `700 22px ${FONT}`
+    g.textAlign = 'center'
+    g.fillText(w.magic, SX(1.1), sy0 + 26)
+    for (const a of [0.5, 1, 1.5, 2, 2.5, 3]) {
+      g.fillStyle = '#93a0d8'
+      g.font = `400 22px ${FONT}`
+      g.fillText(`${num(a, a % 1 ? 1 : 0)}°`, SX(a), sy1 + 30)
+    }
+    if (sci) {
+      g.textAlign = 'right'
+      for (const v of [10, 100, 1000]) g.fillText(String(v), sx0 - 10, SY(v) + 8)
+    }
+    // the angle now
+    if (deg >= A0) {
+      const a = Math.min(A1, deg)
+      g.fillStyle = '#ffffff'
+      g.beginPath()
+      g.arc(SX(a), SY(widthAt(a)), 11, 0, TAU)
+      g.fill()
+      if (deg > A1) {
+        g.textAlign = 'right'
+        g.font = `700 24px ${FONT}`
+        g.fillText(`${num(deg, 1)}° →`, sx1 - 8, sy0 + 28)
+      }
+    }
+    tex.needsUpdate = true
+  }
+  let drawnDeg = null
+  let drawnLevel = null
+  let drawnAt = -1
+  let fontsTried = false
+  return {
+    group,
+    width: boardW,
+    update(t, deg, level) {
+      const d = Math.round(deg * 100) / 100
+      if ((d === drawnDeg && level === drawnLevel) || t - drawnAt < 0.12) return
+      drawnDeg = d
+      drawnLevel = level
+      drawnAt = t
+      draw(d, level)
+      // the first drawing may use a fallback font: draw again once the faces are in
+      if (!fontsTried) {
+        fontsTried = true
+        Promise.all(['700 40px Outfit', '400 24px Outfit'].map(f => document.fonts?.load(f))).then(() => {
+          drawnDeg = null
+        }, () => {})
+      }
+    },
+    dispose() {
+      tex.dispose()
     },
   }
 }

@@ -20,7 +20,7 @@ import {
   ACCENT, grapheneFloor, hallShell, diamondModel, brilliantGem, graphiteModel, giantPencil, nanotubeTunnel, c60Dome,
   football as footballModel, diamondPress,
 } from './allotropes.parts.js'
-import { peelStack, diracBands, piOrbitals, grapheneTransistor, hammockCat, moireDisc } from './graphene.parts.js'
+import { peelStack, diracBands, piOrbitals, grapheneTransistor, hammockCat, moireDisc, bandBoard } from './graphene.parts.js'
 import { wordsFor } from './allotropes.words.js'
 import { plinth } from './kit.js'
 
@@ -132,9 +132,26 @@ export async function build(ctx) {
   // frontier: the moiré
   // the pattern's period at an angle, in nm (a = 0.246 nm)
   const moireNm = deg => (0.246 / (2 * Math.sin((deg * Math.PI) / 360))).toFixed(1).replace('.', W.decimal)
-  const moire = moireDisc({ light, label: deg => W.signLine.readout(deg, deg < 0.05 ? '' : moireNm(deg)) })
+  const moire = moireDisc({ label: deg => W.signLine.readout(deg, deg < 0.05 ? '' : moireNm(deg)) })
   at('moire', moire.group, 0.48)
-  updates.push((dt, t) => moire.update(dt, t))
+  // beside it, between it and the west wall, turned to where the visitor stands: the electrons' bands
+  const board = bandBoard({ words: lv => W.board[lv === 'scientist' ? 'sci' : 'kid'], decimal: W.decimal })
+  const BOARD = { x: -10.9, z: -34.4 }
+  board.group.position.set(BOARD.x, 0, BOARD.z)
+  board.group.rotation.y = Math.atan2(LAYOUT.moire.use[0] - BOARD.x, LAYOUT.moire.use[1] - BOARD.z)
+  root.add(board.group)
+  let magicSaid = -99
+  updates.push((dt, t) => {
+    // the visitor holds the sheet while its panel is open
+    moire.hold(ctx.store.get().panel?.exhibit === 'moire')
+    moire.update(dt, t)
+    board.update(t, moire.angle, ctx.level())
+    // reaching the magic angle by hand: the Atomling says what happens there
+    if (Math.abs(moire.angle - 1.1) < 0.015 && ctx.store.get().panel?.exhibit === 'moire' && t - magicSaid > 25) {
+      magicSaid = t
+      say(W.say.moire(moireNm(1.1)))
+    }
+  })
   // graphite
   const gr = graphiteModel({ light })
   const grBase = plinth({ radius: 1.6, height: 0.7, light })
@@ -270,17 +287,32 @@ export async function build(ctx) {
     found('materials')
     later(1.4, () => panel('materials'))
   })
-  // the top sheet turns by itself; E glides it to the magic angle and holds it there
+  // the top sheet turns by itself; E hands it to the visitor: a panel with a slider for the twist, the
+  // magic angle, the ring size, and what it all means (the sheet waits while the panel is open)
+  const twistOf = s => moire.MAX * s * s
+  const sliderOf = deg => Math.sqrt(deg / moire.MAX)
+  const ringsOf = s => 0.5 * Math.pow(16, s)
+  const moirePanel = level => {
+    const p = W.ex.moire.panel
+    const c = W.moireControls
+    return {
+      title: p.title,
+      kicker: W.kicker,
+      color: ACCENT,
+      exhibit: 'moire',
+      blocks: [
+        { p: pick(c.hint, level) },
+        { slider: { label: c.twist, min: 0, max: 1, step: 0.0005, value: sliderOf(moire.angle), live: () => sliderOf(moire.angle), format: s => `${twistOf(s).toFixed(2).replace('.', W.decimal)}°`, onInput: s => moire.setAngle(twistOf(s)) } },
+        { buttons: [{ label: c.magic, accent: true, onClick: () => moire.magic() }, { label: c.auto, onClick: () => moire.release() }] },
+        { slider: { label: c.rings, min: 0, max: 1, step: 0.005, value: Math.log(moire.rings / 0.5) / Math.log(16), format: s => `×${ringsOf(s).toFixed(1).replace('.', W.decimal)}`, onInput: s => moire.setRings(ringsOf(s)) } },
+        ...(level === 'scientist' ? p.sci : p.kid),
+      ],
+    }
+  }
   add('moire', () => {
-    if (!moire.magic()) return
     found('moire')
-    const nm = moireNm(1.1)
-    moireLine = W.signLine.moire(1.1, nm)
-    signs.moire.set({ line: moireLine })
-    later(2.2, () => {
-      say(W.say.moire(nm))
-      panel('moire')
-    })
+    moire.hold(true)
+    ctx.showPanel(moirePanel)
   })
   add('graphite', it => {
     const out = !gr.slid
@@ -368,6 +400,7 @@ export async function build(ctx) {
   solids.push(box(7.7, -25.4, 1.6, 2.7), box(6.35, -26.65, 0.5, 1.0))
   c('football', 0.66)
   for (const id of ORDER) solids.push(circle(LAYOUT[id].sign[0], LAYOUT[id].sign[1], 0.3))
+  solids.push(box(BOARD.x, BOARD.z, 2.3, 0.35, { rot: board.group.rotation.y }))
   const tubeNorth = tubeSouth - tubeLen
   for (const s of [-1, 1]) solids.push(box(s * 1.95, (tubeSouth + tubeNorth) / 2, 0.7, tubeLen))
   // the dome: a ring of short walls on its floor circle, open at the door (|x| < 1.15)

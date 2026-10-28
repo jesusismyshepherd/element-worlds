@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useCover, useViewport } from './layout.js'
@@ -7,9 +7,61 @@ import { useCover, useViewport } from './layout.js'
 /** How wide the side sheet is (the prompt on a touch screen stands left of it). */
 export const sheetWidth = short => (short ? 'min(22rem, 38vw)' : 'min(26rem, 42vw)')
 
+/** A slider an exhibit gives the visitor: { label, min, max, step, value, onInput(v), format(v),
+ *  live() }; live() is read each frame while it is not being dragged, so the slider follows the
+ *  exhibit when it moves by itself (gliding to the magic angle). */
+function Slider({ s, color }) {
+  const [v, setV] = useState(s.value)
+  const dragging = useRef(false)
+  useEffect(() => {
+    if (!s.live) return undefined
+    let id
+    const tick = () => {
+      if (!dragging.current) {
+        const now = s.live()
+        setV(old => (Math.abs(old - now) > 1e-6 ? now : old))
+      }
+      id = requestAnimationFrame(tick)
+    }
+    id = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(id)
+  }, [s])
+  const let_go = () => {
+    dragging.current = false
+  }
+  return (
+    <label className="block rounded-xl bg-white/5 px-3 py-2">
+      <div className="flex justify-between items-baseline gap-2 text-sm">
+        <span className="font-bold">{s.label}</span>
+        <span className="font-display font-bold text-base tabular-nums" style={{ color }}>{s.format ? s.format(v) : v}</span>
+      </div>
+      <input
+        type="range"
+        min={s.min}
+        max={s.max}
+        step={s.step ?? 'any'}
+        value={v}
+        onPointerDown={() => {
+          dragging.current = true
+        }}
+        onPointerUp={let_go}
+        onPointerCancel={let_go}
+        onBlur={let_go}
+        onChange={e => {
+          const x = Number(e.target.value)
+          setV(x)
+          s.onInput(x)
+        }}
+        className="w-full mt-1 h-8 accent-amber-300"
+        aria-label={s.label}
+      />
+    </label>
+  )
+}
+
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
  *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
- *  { link: { to, label } }] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
+ *  { link: { to, label } }, { slider }, { buttons: [{ label, onClick }] }] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
  *  down the right side, or across the top of an upright phone, and the world's centre moves into the
  *  part left free. */
 export default function Panel({ panel, onClose }) {
@@ -51,6 +103,16 @@ export default function Panel({ panel, onClose }) {
             <Link key={i} to={b.link.to} onClick={onClose} className="self-start rounded-xl px-3 py-1.5 text-sm font-bold bg-white/10 hover:bg-white/20" style={{ color: panel.color }}>
               {b.link.label} →
             </Link>
+          )
+          if (b.slider) return <Slider key={`${i}-${b.slider.label}`} s={b.slider} color={panel.color} />
+          if (b.buttons) return (
+            <div key={i} className="flex flex-wrap gap-2">
+              {b.buttons.map(x => (
+                <button key={x.label} type="button" onClick={x.onClick} className="rounded-xl px-3 py-1.5 text-sm font-bold bg-white/10 hover:bg-white/20 active:scale-95 transition" style={x.accent ? { color: panel.color } : undefined}>
+                  {x.label}
+                </button>
+              ))}
+            </div>
           )
           if (b.list) return (
             <ul key={i} className="list-disc pl-5 space-y-1">

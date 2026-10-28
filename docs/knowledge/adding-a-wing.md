@@ -35,6 +35,8 @@ atrium draws its arch by itself, titled from `wings.<Symbol>.<id>.title` in both
   read `ctx.level()` when a panel opens, so a change of level shows at once.
 - Panels: `ctx.showPanel(level => ({ title, kicker, color, blocks }))` (written again when the level
   changes while it is open; never `store.set({ panel })` with a level baked in), blocks `{ p }`, `{ big, small }`,
+  `{ slider: { label, min, max, step, value, onInput, format, live } }` (an exhibit the visitor works by
+  hand; `live()` lets the slider follow the exhibit when it moves by itself), `{ buttons: [{ label, onClick }] }`,
   `{ rows: [[label, value]] }`, `{ list: [...] }`. The Atomling talks: `ctx.store.set({ speech: { text, who, color } })`.
   The HUD places both at the edges (`hud-layout.md`). A wing's own DOM window goes at an edge too (under
   the top bar: `top: calc(var(--bar) + 4px)`, the left side in landscape, across the top upright),
@@ -118,6 +120,13 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
   they fall apart the other's colour gets through and the pattern nearly cancels (complementary inks
   gave 12 % contrast); far away, where a pixel spans several bonds, blend in the lattices' registry or
   the pattern washes out with distance.
+- The twisted sheets (2026-10-28, the user after bilayer.graphene.science): hexagonal flakes, so the top
+  one's corners show the twist; turned by hand in the panel (a slider, the magic angle, the ring size
+  ×0.5 to ×8); a board beside them with the bands near the Fermi level along K′-K-Γ-M-K′, the electrons'
+  speed and the middle-band width against the angle (the dip at 1.1°). The bands are computed ahead
+  with the Bistritzer-MacDonald model (`scripts/data/tbg_bands.py` -> `carbon/tbgBands.json`, read by
+  `tbgBands.js`; 4 shells are converged, flattest at 1.1°, electrons at 1 % of graphene's speed there).
+  Sample a band path through its corners exactly, or the Dirac crossing at K is missed.
 - A transmission (glass) material dims what is behind it by its base colour: keep the base light and
   put the colour in `attenuationColor` (see `characters/atomling.js`).
 

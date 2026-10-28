@@ -47,9 +47,31 @@ const EN = {
     ],
     moire: nm => `The magic angle, 1.1°! The big pattern is ${nm} nm across, 52 atoms. Cooled almost to absolute zero, these two sheets carry electricity with no resistance at all.`,
   },
+  moireControls: {
+    hint: {
+      kid: 'Turn the top sheet with the slider: watch its corners, the pattern and the board. At 1.1° the two gold lines go flat: the electrons almost stop.',
+      sci: 'Twist with the slider; the board shows the bands along K′-K-Γ-M-K′ and the middle-band width against the angle.',
+    },
+    twist: 'Twist',
+    rings: 'Ring size (the drawing only)',
+    magic: '✨ The magic angle, 1.1°',
+    auto: 'Let it turn by itself',
+  },
+  board: {
+    kid: {
+      title: 'What the electrons can do', sub: 'each line: a way the electrons can move', energy: 'energy',
+      speed: 'How fast the electrons can move', speedKid: p => `${p} % of their speed in ordinary graphene`, speedSci: (v, w) => `v*/v = ${v} · middle bands ${w} meV wide`,
+      strip: 'How flat the middle lines are (lower is flatter)', magic: 'magic 1.1°', tooSmall: 'Twist more than half a degree to see the lines',
+    },
+    sci: {
+      title: 'Bands near the Fermi level (meV)', sub: 'Bistritzer-MacDonald model, one valley', energy: 'E (meV)',
+      speed: 'Dirac velocity', speedKid: p => `${p} %`, speedSci: (v, w) => `v*/v = ${v} · middle bands ${w} meV wide`,
+      strip: 'Middle-band width against twist (meV, log scale)', magic: 'magic 1.1°', tooSmall: 'Below 0.5° the bands crowd together',
+    },
+  },
   signLine: {
     moire: (deg, nm) => (deg === 0 ? 'Aligned: no moiré. Twist the top sheet!' : `Twist ${deg}°: moiré ${nm} nm${deg === 1.1 ? ' (the magic angle)' : ''}`),
-    readout: (deg, nm) => (deg < 0.05 ? 'Aligned: no pattern' : `Turned ${deg.toFixed(1)}°\nthe pattern repeats every ${nm} nm`),
+    readout: (deg, nm) => (deg < 0.05 ? 'Aligned: no pattern' : `Turned ${deg.toFixed(deg < 2 ? 2 : 1)}°\nthe pattern repeats every ${nm} nm`),
   },
   ex: {
     graphene: {
@@ -162,7 +184,7 @@ const EN = {
       },
     },
     moire: {
-      label: 'the magic angle (1.1°)', verb: 'Turn to',
+      label: 'the two sheets', verb: 'Twist',
       sign: { title: 'Frontier: twisted graphene', kid: 'Two sheets, one turning: watch a giant pattern appear by itself.', sci: 'Twisted bilayer: at the magic angle (1.1°), superconductivity.' },
       panel: {
         title: 'Frontier: twisted graphene',
@@ -405,9 +427,31 @@ const PT = {
     ],
     moire: nm => `O ângulo mágico, 1,1°! O padrão grande tem ${nm} nm, 52 átomos. Arrefecidas quase até ao zero absoluto, estas duas folhas conduzem a eletricidade sem resistência nenhuma.`,
   },
+  moireControls: {
+    hint: {
+      kid: 'Roda a folha de cima com o cursor: vê os cantos, o padrão e o quadro. A 1,1° as duas linhas douradas ficam planas: os eletrões quase param.',
+      sci: 'Roda com o cursor; o quadro mostra as bandas ao longo de K′-K-Γ-M-K′ e a largura das bandas do meio consoante o ângulo.',
+    },
+    twist: 'Rotação',
+    rings: 'Tamanho dos anéis (só no desenho)',
+    magic: '✨ O ângulo mágico, 1,1°',
+    auto: 'Deixar rodar sozinha',
+  },
+  board: {
+    kid: {
+      title: 'O que os eletrões podem fazer', sub: 'cada linha: uma maneira de os eletrões se moverem', energy: 'energia',
+      speed: 'Quão depressa se podem mover os eletrões', speedKid: p => `${p} % da sua velocidade no grafeno normal`, speedSci: (v, w) => `v*/v = ${v} · bandas do meio com ${w} meV de largura`,
+      strip: 'Quão planas ficam as linhas do meio (mais abaixo, mais planas)', magic: 'mágico 1,1°', tooSmall: 'Roda mais de meio grau para veres as linhas',
+    },
+    sci: {
+      title: 'Bandas perto do nível de Fermi (meV)', sub: 'modelo de Bistritzer-MacDonald, um vale', energy: 'E (meV)',
+      speed: 'Velocidade de Dirac', speedKid: p => `${p} %`, speedSci: (v, w) => `v*/v = ${v} · bandas do meio com ${w} meV de largura`,
+      strip: 'Largura das bandas do meio consoante a rotação (meV, escala log.)', magic: 'mágico 1,1°', tooSmall: 'Abaixo de 0,5° as bandas amontoam-se',
+    },
+  },
   signLine: {
     moire: (deg, nm) => (deg === 0 ? 'Alinhadas: sem moiré. Roda a folha de cima!' : `Rotação ${String(deg).replace('.', ',')}°: moiré de ${nm} nm${deg === 1.1 ? ' (o ângulo mágico)' : ''}`),
-    readout: (deg, nm) => (deg < 0.05 ? 'Alinhadas: sem padrão' : `Rodada ${deg.toFixed(1).replace('.', ',')}°\no padrão repete-se a cada ${nm} nm`),
+    readout: (deg, nm) => (deg < 0.05 ? 'Alinhadas: sem padrão' : `Rodada ${deg.toFixed(deg < 2 ? 2 : 1).replace('.', ',')}°\no padrão repete-se a cada ${nm} nm`),
   },
   ex: {
     graphene: {
@@ -520,7 +564,7 @@ const PT = {
       },
     },
     moire: {
-      label: 'o ângulo mágico (1,1°)', verb: 'Rodar até',
+      label: 'as duas folhas', verb: 'Rodar',
       sign: { title: 'Fronteira: grafeno torcido', kid: 'Duas folhas, uma a rodar: vê um padrão gigante aparecer sozinho.', sci: 'Bicamada torcida: no ângulo mágico (1,1°), supercondutividade.' },
       panel: {
         title: 'Fronteira: grafeno torcido',
