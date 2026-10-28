@@ -102,7 +102,7 @@ export async function build(ctx) {
         if (!r) return false
         if (r === 'take') return at(W.triangle.says[id], level())
         if (tri.complete) return at(W.triangle.says.back, level())
-        return at(W.triangle.says.missing, level()) + tri.missing().map(m => W.triangle.sides[m].toLowerCase()).join(', ')
+        return at(W.triangle.says.missing, level()) + tri.missing().map(m => W.triangle.missingNames[m]).join(', ')
       },
       panel: triPanel,
     })

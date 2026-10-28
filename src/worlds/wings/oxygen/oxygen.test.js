@@ -13,16 +13,25 @@ function leaves(o, path = '') {
 }
 const shape = o => leaves(o).map(([p, v]) => `${p.replace(/\.\d+(\.|$)/g, '.#$1')}:${typeof v}`).sort()
 
+const LANGS = ['en', 'pt-pt', 'pl', 'de']
+const SAMPLES = [0, 1, 3, 7, 0.5, 2.4, 0.012, 0.022, 0.54]
+// what each function is called with: the rust's day counter whole days 0 to 7, the time travel 0 to 4.6 billion years
+const samplesOf = p => (p.endsWith('day') ? [0, 1, 2, 3, 5, 7] : SAMPLES)
+/** Every text of a language, the functions' answers included. */
+const texts = L => leaves(L).flatMap(([p, v]) => (typeof v === 'function' ? samplesOf(p).map(d => [`${p}(${d})`, String(v(d))]) : [[p, v]]))
+
 for (const [name, W] of [['air', AIR_WORDS], ['fire', FIRE_WORDS]]) {
-  test(`${name}: English and Portuguese have the same words`, () => {
-    assert.deepEqual(shape(W.en), shape(W['pt-pt']))
-  })
+  for (const lang of LANGS.slice(1)) {
+    test(`${name}: ${lang} has the same words as English`, () => {
+      assert.deepEqual(shape(W[lang]), shape(W.en))
+    })
+  }
 
   test(`${name}: no em dash, nothing empty`, () => {
-    for (const lang of ['en', 'pt-pt']) {
+    for (const lang of LANGS) {
       for (const [p, v] of leaves(W[lang])) {
         if (typeof v === 'function') {
-          for (const d of [0, 1, 3, 7, 0.5, 2.4]) assert.ok(!String(v(d)).includes('—'), `${lang}.${p}(${d})`)
+          for (const d of SAMPLES) assert.ok(!String(v(d)).includes('—'), `${lang}.${p}(${d})`)
           continue
         }
         assert.equal(typeof v, 'string', `${lang}.${p}`)
@@ -32,8 +41,17 @@ for (const [name, W] of [['air', AIR_WORDS], ['fire', FIRE_WORDS]]) {
     }
   })
 
+  test(`${name}: decimal commas and no en dash as a pause outside English`, () => {
+    for (const lang of LANGS.slice(1)) {
+      for (const [p, v] of texts(W[lang])) {
+        assert.ok(!/\d\.\d/.test(v), `${lang}.${p} has a decimal point: ${v}`)
+        assert.ok(!v.includes(' – '), `${lang}.${p} has an en dash`)
+      }
+    }
+  })
+
   test(`${name}: every panel exists at both depths`, () => {
-    for (const lang of ['en', 'pt-pt']) {
+    for (const lang of LANGS) {
       for (const [id, ex] of Object.entries(W[lang])) {
         if (!ex?.panel) continue
         assert.ok(ex.panel.kid?.length > 0, `${lang}.${id}.panel.kid`)
@@ -50,6 +68,21 @@ test('Portuguese is European Portuguese (AO90 spellings)', () => {
     assert.ok(!text.includes(bad), `found "${bad}"`)
   }
   for (const good of ['eletrões', 'ozono', 'fotossíntese', 'azoto', 'comburente', 'árgon']) assert.ok(text.includes(good), `missing "${good}"`)
+})
+
+test('counts in Polish and German take their real plural forms', () => {
+  const pl = AIR_WORDS.pl.goe.when
+  assert.equal(pl(2.4), '2,4 miliarda lat temu')
+  assert.equal(pl(0.022), '22 miliony lat temu')
+  assert.equal(pl(0.012), '12 milionów lat temu')
+  assert.equal(pl(0.54), '540 milionów lat temu')
+  assert.equal(AIR_WORDS.de.goe.when(2.4), 'vor 2,4 Milliarden Jahren')
+  assert.equal(AIR_WORDS.de.goe.when(0.54), 'vor 540 Millionen Jahren')
+  assert.deepEqual([1, 3].map(FIRE_WORDS.pl.rust.day), ['1 dzień', '3 dni'])
+  assert.deepEqual([1, 3].map(FIRE_WORDS.de.rust.day), ['1 Tag', '3 Tage'])
+  // the fire triangle's missing sides: Polish after "brakuje" in the genitive, German nouns capitalised
+  assert.equal(FIRE_WORDS.pl.triangle.missingNames.oxygen, 'tlenu')
+  assert.equal(FIRE_WORDS.de.triangle.missingNames.oxygen, 'Sauerstoff')
 })
 
 test('formulas get subscripts, numbers and words do not', () => {

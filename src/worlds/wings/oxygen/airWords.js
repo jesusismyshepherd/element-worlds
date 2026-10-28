@@ -1,8 +1,12 @@
-// Every word of the air wing, in English and European Portuguese, at the two depths (kid: Explorer,
-// sci: Scientist). Formulas are written plainly (O2); the panels get real subscripts (kit.chem).
+// Every word of the air wing, in English, European Portuguese, Polish and German, at the two depths
+// (kid: Explorer, sci: Scientist). Formulas are written plainly (O2); the panels get real subscripts (kit.chem).
 // Sources for the numbers: dry air by volume (NOAA, CRC Handbook); O2 data (src/data/elements.json:
 // boils at 90.2 K, melts at 54.36 K); ozone (WMO/UNEP Scientific Assessment of Ozone Depletion 2022);
 // UV reaching the ground (WHO); the Great Oxidation Event (Lyons et al. 2014, Luo et al. 2016).
+
+// Polish counts: 1 milion, 2 miliony, 5 milionów (Intl's plural rules: one, few, many).
+const PL_PLURAL = new Intl.PluralRules('pl')
+const plMillions = n => `${n} ${{ one: 'milion', few: 'miliony' }[PL_PLURAL.select(n)] ?? 'milionów'}`
 
 export const AIR_WORDS = {
   en: {
@@ -470,6 +474,476 @@ export const AIR_WORDS = {
           { rows: [['O2', '20,9% à entrada, cerca de 16% à saída'], ['CO2', '0,04% à entrada, cerca de 4% à saída'], ['N2', '78% à entrada e à saída (não é usado)'], ['Vapor de água', 'à saída: saturado, cerca de 6% a 37 °C']] },
           { p: 'Respiração celular: C6H12O6 + 6 O2 → 6 CO2 + 6 H2O + energia (guardada como ATP), a fotossíntese ao contrário. Em repouso, um adulto absorve cerca de 250 mL de O2 por minuto.' },
           { p: 'Nos pulmões o O2 passa para o sangue e liga-se à hemoglobina dos glóbulos vermelhos, quatro O2 por cada hemoglobina.' },
+        ],
+      },
+    },
+  },
+
+  pl: {
+    back: 'Wróć do sali tlenu',
+    kicker: 'Powietrze',
+    talkTo: 'Porozmawiaj z',
+    busy: { kid: 'Chwileczkę: to jeszcze trwa!', sci: 'Chwila: poprzednia próba jeszcze trwa.' },
+    talk: {
+      kid: [
+        'Psst! Spójrz w górę: świecący pas wysoko na niebie to warstwa ozonowa, pełna cząsteczek ozonu, O3.',
+        'Jeden oddech to około 10 tysięcy trylionów cząsteczek powietrza. Dwadzieścia jeden na każde sto to ja!',
+        'Na szczycie Mount Everestu powietrze wciąż ma 21% tlenu, ale jest tak rozrzedzone, że każdy oddech przynosi tylko jedną trzecią tlenu.',
+        'Jestem gazem, więc się unoszę, ale tylko trochę: tlen jest odrobinę cięższy od powietrza.',
+        'Poszukaj jedynej cząsteczki dwutlenku węgla: to najrzadsza rzecz na tym tarasie!',
+      ],
+      sci: [
+        'Warstwa ozonowa jest tu narysowana 150 m nad nami; prawdziwa leży na wysokości od 15 do 35 km, a cały ozon sprężony do ciśnienia na poziomie morza miałby tylko około 3 mm grubości.',
+        'Oddech o objętości 0,5 L w 20 °C zawiera około 1,25 × 10²² cząsteczek (n = PV/RT, razy stała Avogadra).',
+        'Ciśnienie cząstkowe O2: 21,2 kPa na poziomie morza, około 7 kPa na szczycie Everestu (całkowite około 34 kPa), choć udział wciąż wynosi 20,95%.',
+        'O2 ma 32,00 g/mol, a suche powietrze 28,96 g/mol: tlen jest o około 10% gęstszy, więc mój Atomling unosi się nisko.',
+        'Spalanie paliw kopalnych obniża zawartość O2 w powietrzu tylko o około 4 ppm rocznie; prawdziwym problemem jest dodawany przy tym CO2.',
+      ],
+    },
+    greet: {
+      kid: 'Witaj na podniebnym tarasie! Wszędzie wokół ciebie jest powietrze, a 21 na każde 100 jego cząsteczek to ja: tlen. Rozejrzyj się i naciśnij E przy wszystkim, co świeci.',
+      sci: 'Podniebny taras. Suche powietrze, objętościowo: 78,08% azotu, 20,95% tlenu, 0,93% argonu, około 0,04% dwutlenku węgla. Każdy eksponat opowiada o zawartym w nim O2.',
+    },
+    box: {
+      title: 'Skrzynia z powietrzem',
+      screenTitle: '100 cząsteczek powietrza',
+      label: 'Skrzynia z powietrzem',
+      verbs: { O2: 'Znajdź tlen', N2: 'Pokaż azot', Ar: 'Znajdź argon', all: 'Pokaż wszystkie' },
+      says: {
+        O2: { kid: '21 czerwonych par: to ja, tlen, mniej więcej jedna piąta powietrza.', sci: 'O2: 21 na 100 (20,95% objętościowo).' },
+        N2: { kid: '78 niebieskich par: azot, większość powietrza. Prawie z niczym nie reaguje.', sci: 'N2: 78 na 100 (78,08%). Wiązanie potrójne (945 kJ/mol) czyni go bardzo mało reaktywnym.' },
+        Ar: { kid: 'Tylko jeden atom argonu, całkiem sam: gaz szlachetny nikogo nie trzyma za rękę.', sci: 'Ar: około 1 na 100 (0,93%), powstaje z rozpadu potasu-40 w skałach.' },
+        all: { kid: 'Wszystkie 100 razem: to jest powietrze.', sci: 'Suche powietrze: 78 N2, 21 O2, 1 Ar na 100 cząsteczek.' },
+      },
+      panel: {
+        kid: [
+          { p: 'W tej skrzyni jest 100 cząsteczek powietrza, wymieszanych dokładnie tak jak prawdziwe powietrze wokół ciebie.' },
+          { big: '21 na 100', small: 'to tlen (czerwone pary)' },
+          { list: ['78 to azot (niebieskie pary)', '21 to tlen (czerwone pary): to ja!', '1 to argon (pojedynczy atom: nikogo nie trzyma za rękę)'] },
+          { p: 'W prawdziwym powietrzu cząsteczki są malutkie i daleko od siebie. Pędzą szybciej niż odrzutowiec i zderzają się ze sobą miliardy razy na sekundę.' },
+          { p: 'Naciśnij E jeszcze raz, żeby znaleźć inne gazy.' },
+        ],
+        sci: [
+          { p: 'Sto cząsteczek w proporcjach suchego powietrza (objętościowo). W gazie udział objętościowy jest udziałem cząsteczek (prawo Avogadra).' },
+          { rows: [['Azot, N2', '78,08%'], ['Tlen, O2', '20,95%'], ['Argon, Ar', '0,93%'], ['Dwutlenek węgla, CO2', 'około 0,04%'], ['Neon, hel, metan, krypton...', 'poniżej 0,003%']] },
+          { p: 'Para wodna nie należy do suchego powietrza: jej zawartość waha się od prawie 0 do około 4%.' },
+          { p: 'W 20 °C i pod ciśnieniem 1 atm metr sześcienny powietrza zawiera około 2,5 × 10²⁵ cząsteczek, średnio 3,4 nm od siebie, dziesięć razy więcej niż ich własny rozmiar. N2 porusza się średnio z prędkością 470 m/s, a O2 440 m/s (średnia prędkość zmienia się jak 1/√M). Każda cząsteczka zderza się około 7 miliardów razy na sekundę i pokonuje między zderzeniami około 68 nm.' },
+          { p: 'W skrzyni cząsteczki są narysowane ogromne i powolne, ale poruszają się według tych samych zasad: po liniach prostych, ze zderzeniami sprężystymi, cięższe wolniej.' },
+        ],
+      },
+    },
+    rare: {
+      title: 'Rzadki gość: dwutlenek węgla',
+      label: 'Rzadki gość: dwutlenek węgla',
+      verb: 'Zobacz',
+      tag: '1 na około 2400',
+      panel: {
+        kid: [
+          { p: 'Dwutlenek węgla jest w powietrzu tak rzadki, że nie mieści się w dużej skrzyni: musiałbyś przejrzeć około 2400 cząsteczek powietrza, żeby znaleźć jedną!' },
+          { big: '1 na 2400', small: 'cząsteczek powietrza to dwutlenek węgla' },
+          { p: 'Ale bardzo się liczy. Rośliny go pobierają, żeby wytwarzać pokarm (i oddają tlen), a on ogrzewa Ziemię jak koc. Spalanie węgla, ropy i gazu co roku dodaje go więcej.' },
+        ],
+        sci: [
+          { big: 'około 0,042%', small: 'ponad 420 ppm, jedna cząsteczka na około 2400' },
+          { p: 'Przed rewolucją przemysłową stężenie CO2 wynosiło około 280 ppm. Teraz rośnie o 2 do 3 ppm rocznie, głównie przez spalanie paliw kopalnych; od 1958 roku jest mierzone bez przerwy na Mauna Loa (krzywa Keelinga).' },
+          { p: 'Gaz cieplarniany: przepuszcza światło słoneczne, ale pochłania część podczerwieni wysyłanej przez Ziemię. Fotosynteza go pobiera: 6 CO2 + 6 H2O → C6H12O6 + 6 O2.' },
+        ],
+      },
+    },
+    o2: {
+      title: 'O2 z bliska',
+      label: 'Cząsteczka tlenu',
+      verbs: { show: 'Pokaż elektrony', hide: 'Ukryj elektrony' },
+      screen: { kid: 'wiązanie podwójne: po dwie ręce', sci: 'O=O · 121 pm · 498 kJ/mol' },
+      says: {
+        show: { kid: 'Dwanaście elektronów zewnętrznych: cztery wspólne w wiązaniu podwójnym, osiem w parach w domu.', sci: 'Lewis: jedno wiązanie σ i jedno π, dwie wolne pary na każdym atomie. Ale spójrz na te dwa podświetlone: niesparowane, na π*.' },
+        hide: { kid: 'Dwa atomy tlenu trzymają się za obie ręce: to jest O2.', sci: 'Rząd wiązania (8 − 4) / 2 = 2.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Atomy tlenu prawie nigdy nie podróżują same: w powietrzu chodzą parami, jako O2.' },
+          { p: 'Każdy atom tlenu ma dwie ręce, a tutaj oba atomy trzymają się za obie ręce naraz. To jest wiązanie podwójne: dwa patyczki między czerwonymi kulkami.' },
+          { p: 'Ekran pokazuje, jak rysują to chemicy (wzór Lewisa): dwie kreski to wiązanie podwójne, kropki to elektrony, które zostają w domu, w parach.' },
+        ],
+        sci: [
+          { rows: [['Wiązanie', 'O=O, wiązanie podwójne'], ['Długość wiązania', '121 pm'], ['Energia wiązania', '498 kJ/mol'], ['Elektrony walencyjne', '12 (6 + 6)']] },
+          { p: 'Wzór Lewisa łączy w pary wszystkie elektrony i w jednym szczególe się myli. Teoria orbitali molekularnych umieszcza dwa ostatnie elektrony po jednym na każdym z dwóch orbitali π*, ze spinami równoległymi: stan podstawowy O2 to tryplet. Rząd wiązania (8 − 4) / 2 = 2, nadal wiązanie podwójne.' },
+          { p: 'Niesparowane elektrony to malutkie magnesy, więc O2 jest paramagnetyczny: jest wciągany w pole magnetyczne. Magnes obok tego modelu pokazuje to na ciekłym tlenie.' },
+          { p: 'Stan trypletowy wyjaśnia też, dlaczego O2 w temperaturze pokojowej reaguje powoli z większością substancji, choć spalanie uwalnia tyle energii: najpierw spiny muszą się odwrócić.' },
+        ],
+      },
+    },
+    magnet: {
+      title: 'Ciekły tlen i magnes',
+      label: 'Magnes',
+      verbs: { lox: 'Wlej ciekły tlen', ln2: 'Wlej ciekły azot' },
+      screen: { kid: 'ciekły tlen przywiera do magnesu', sci: 'wrze w 90,2 K · paramagnetyczny' },
+      says: {
+        lox: { kid: 'Ciekły tlen: bladoniebieski, i wisi między biegunami magnesu!', sci: 'LOX, 90 K: dwa niesparowane elektrony wciągają go w najsilniejsze pole, między bieguny.' },
+        ln2: { kid: 'Ciekły azot nie jest magnetyczny: spada prosto w dół.', sci: 'N2 jest diamagnetyczny (wszystkie elektrony sparowane): przelatuje przez szczelinę i odparowuje w 77 K.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Ochłodzony do −183 °C tlen zamienia się w ciecz, a ta ciecz jest bladoniebieska.' },
+          { p: 'Wlej go na silny magnes, a przywrze! Wisi między biegunami jak mały mostek, aż wyparuje.' },
+          { p: 'Naciśnij E jeszcze raz, żeby wlać ciekły azot: nie jest magnetyczny, więc spada prosto w dół.' },
+        ],
+        sci: [
+          { rows: [['Temperatura wrzenia', '90,2 K (−183,0 °C)'], ['Temperatura topnienia', '54,36 K (−218,8 °C)'], ['Gęstość cieczy', '1,141 g/cm³'], ['Barwa', 'bladoniebieska']] },
+          { p: 'O2 jest paramagnetyczny: dwa niesparowane elektrony π* nadają każdej cząsteczce moment magnetyczny, więc ciecz jest wciągana w najsilniejszą część pola, szczelinę między biegunami.' },
+          { p: 'N2 ma wszystkie elektrony sparowane (diamagnetyczny): ciekły azot (77 K, −196 °C) przelatuje prosto przez szczelinę.' },
+          { p: 'Skąd ten błękit: pary zderzających się cząsteczek O2 pochłaniają razem światło czerwone, pomarańczowe i żółte, we wspólnych przejściach do stanów wzbudzonych, i zostaje niebieski.' },
+        ],
+      },
+    },
+    ozone: {
+      title: 'Warstwa ozonowa',
+      label: 'Warstwa ozonowa',
+      verb: 'Wyślij promienie UV Słońca',
+      screen: { kid: 'krem z filtrem dla Ziemi', sci: 'zatrzymuje całe UV-C i większość UV-B' },
+      big: '15 do 35 km w górze',
+      km: 'km',
+      layer: 'warstwa ozonowa',
+      everest: 'Everest 8,8 km',
+      jet: 'odrzutowiec 11 km',
+      kinds: { A: 'UV-A', B: 'UV-B', C: 'UV-C' },
+      passed: 'dociera do ziemi',
+      says: {
+        kid: 'Ozon łapie groźne UV-C i większość UV-B. UV-A przechodzi: dlatego wciąż potrzebujesz kremu z filtrem!',
+        sci: 'UV-C pochłonięte całkowicie, około 90% UV-B pochłonięte, UV-A w większości przepuszczone.',
+      },
+      panel: {
+        kid: [
+          { p: 'Wysoko nad chmurami, mniej więcej od 15 do 35 km nad ziemią, jest warstwa z dużą ilością ozonu: cząsteczek z trzech atomów tlenu, O3, wygiętych jak bumerang.' },
+          { p: 'Ozon to krem z filtrem dla Ziemi. Łapie najgroźniejsze promienie ultrafioletowe (UV) Słońca, zanim do nas dotrą. Spójrz w górę: świecący pas na niebie to warstwa ozonowa przy pracy.' },
+          { list: ['UV-C: zatrzymane całe', 'UV-B: zatrzymane w większości', 'UV-A: w większości przechodzi (dlatego wciąż potrzebujemy kremu z filtrem!)'] },
+          { p: 'Gdybyś ścisnął cały ozon przy ziemi, utworzyłby warstwę grubą tylko na 3 mm, jak dwie monety.' },
+        ],
+        sci: [
+          { rows: [['Cząsteczka', 'O3, kątowa, 116,8°'], ['Długość wiązania', '128 pm, pomiędzy pojedynczym a podwójnym (rezonans)'], ['Gdzie', 'stratosfera, 15 do 35 km, najgęściej około 20 do 25 km'], ['Ilość', 'około 300 jednostek Dobsona: 3 mm w 0 °C i 1 atm']] },
+          { p: 'Powstaje i rozpada się pod wpływem światła słonecznego (cykl Chapmana): UV poniżej 242 nm rozbija O2 na dwa atomy O, każdy atom O łączy się z O2 w O3; O3 pochłania UV (200 do 320 nm) i znów się rozpada, zamieniając światło w ciepło. Dlatego stratosfera ogrzewa się z wysokością.' },
+          { p: 'UV-C (100 do 280 nm) nigdy nie dociera do ziemi; około 90% UV-B (280 do 315 nm) zostaje pochłonięte; UV-A (315 do 400 nm) w większości przechodzi.' },
+          { p: 'Dziura ozonowa: chlor i brom z freonów (CFC) i halonów niszczyły ozon nad Antarktydą każdej wiosny. Protokół montrealski (1987), później ratyfikowany przez wszystkie państwa świata, wycofał je z użycia; warstwa się odbudowuje i nad Antarktydą powinna wrócić do stanu z 1980 roku około 2066 roku.' },
+        ],
+      },
+    },
+    sources: {
+      title: 'Skąd się bierze nasz tlen',
+      label: 'Skąd się bierze nasz tlen',
+      verbs: { land: 'Pokaż tlen z lądu', ocean: 'Pokaż tlen z oceanu' },
+      screen: { kid: 'około połowa z oceanu, połowa z lądu', sci: 'fotosynteza: tlen pochodzi z wody' },
+      land: 'Ląd',
+      ocean: 'Ocean',
+      says: {
+        land: { kid: 'Lasy i wszystkie zielone rośliny na lądzie: około połowa tlenu.', sci: 'Rośliny lądowe, przede wszystkim lasy tropikalne: mniej więcej połowa fotosyntezy na Ziemi.' },
+        ocean: { kid: 'Malutkie glony i bakterie w morzu, za małe, żeby je zobaczyć: druga połowa!', sci: 'Fitoplankton: okrzemki, kokolitofory, sinice (Prochlorococcus, Synechococcus): mniej więcej połowa.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Prawie cały tlen w powietrzu wytworzyły żywe istoty, które korzystają ze światła słonecznego: zielone rośliny na lądzie oraz malutkie glony i bakterie unoszące się w morzu, zwane fitoplanktonem.' },
+          { big: 'Około połowa', small: 'tlenu wytwarzanego co roku pochodzi z oceanu' },
+          { p: 'Pobierają dwutlenek węgla i wodę i dzięki energii światła robią z nich cukier na pokarm, a oddają tlen. To jest fotosynteza.' },
+          { p: 'Naciśnij E jeszcze raz, żeby przełączać między lądem a oceanem.' },
+        ],
+        sci: [
+          { p: 'Fotosynteza: 6 CO2 + 6 H2O + światło → C6H12O6 + 6 O2. Uwalniany tlen pochodzi z wody, a nie z CO2 (wykazano to w 1941 roku za pomocą wody znakowanej tlenem-18).' },
+          { p: 'Fitoplankton oceanów (okrzemki, kokolitofory i sinice, takie jak Prochlorococcus, najliczniejszy organizm fotosyntetyzujący na Ziemi) wytwarza mniej więcej połowę tlenu na świecie; rośliny lądowe, przede wszystkim lasy tropikalne, większość reszty.' },
+          { p: 'Prawie cały ten tlen zostaje zużyty w ciągu roku przez oddychanie i rozkład. 21% w powietrzu to zapas gromadzony przez setki milionów lat z materii organicznej, która została pogrzebana w skałach, zamiast zgnić.' },
+        ],
+      },
+    },
+    goe: {
+      title: 'Katastrofa tlenowa',
+      label: 'Katastrofa tlenowa',
+      verb: 'Podróżuj w czasie',
+      screen: { kid: '2,4 miliarda lat temu', sci: 'około 2,4 do 2,1 miliarda lat temu' },
+      axis: { now: 'dziś', ago: 'miliardy lat temu', o2: 'O2 w powietrzu' },
+      when: ga => (ga >= 0.995 ? `${ga.toFixed(1).replace('.', ',')} miliarda lat temu` : ga > 0.004 ? `${plMillions(Math.round(ga * 1000))} lat temu` : 'dziś'),
+      marks: {
+        earth: 'powstaje Ziemia',
+        stromatolites: 'pierwsze stromatolity',
+        goe: 'katastrofa tlenowa',
+        animals: 'pierwsze zwierzęta',
+        dinos: 'dinozaury',
+        today: 'dziś 21%',
+      },
+      says: {
+        kid: 'Przez połowę historii Ziemi prawie nie było tlenu. Sinice zmieniły całą planetę!',
+        sci: 'Katastrofa tlenowa (GOE) około 2,4 Ga; drugi wzrost, natlenienie neoproterozoiczne, około 0,8 do 0,54 Ga.',
+      },
+      panel: {
+        kid: [
+          { p: 'Przez pierwszą połowę historii Ziemi w powietrzu prawie nie było tlenu. Nie dałoby się nim oddychać.' },
+          { p: 'Potem malutkie bakterie, sinice, nauczyły się robić pokarm ze światła słonecznego i wody, oddając tlen. Żyły w śliskich matach, które warstwa po warstwie budowały skały: stromatolity, takie jak te w tym basenie. Żywe stromatolity wciąż rosną w Zatoce Rekina w Australii.' },
+          { p: 'Około 2,4 miliarda lat temu tlen zaczął gromadzić się w powietrzu: to katastrofa tlenowa. Najpierw zardzewiało od niego żelazo rozpuszczone w morzach (stare skały wciąż mają po tym czerwone pasy), a potem tlen wypełnił niebo.' },
+          { p: 'Dużo później tlen pozwolił wyewoluować dużym zwierzętom. Dziś stanowi 21% powietrza.' },
+        ],
+        sci: [
+          { rows: [['Powstaje Ziemia', '4,54 miliarda lat temu'], ['Najstarsze stromatolity', 'około 3,5 miliarda lat temu'], ['Katastrofa tlenowa (GOE)', 'około 2,4 do 2,1 miliarda lat temu'], ['Natlenienie neoproterozoiczne', 'około 800 do 540 milionów lat temu'], ['Szczyt w późnym paleozoiku', 'może 30%, około 300 milionów lat temu (modele)'], ['Dziś', '20,95%']] },
+          { p: 'Sinice wynalazły fotosyntezę wytwarzającą tlen, prawdopodobnie na długo przed 2,4 miliarda lat temu, ale na początku tlen był zużywany przez rozpuszczone żelazo, gazy wulkaniczne i siarczki. Wstęgowe formacje żelaziste zapisują, jak żelazo oceanów utleniało się i osiadało jako tlenki żelaza.' },
+          { p: 'Kluczowa wskazówka: izotopy siarki przestają wykazywać frakcjonowanie niezależne od masy około 2,33 miliarda lat temu. Ten sygnał wymaga atmosfery prawie bez O2, więc jego koniec wyznacza datę wzrostu.' },
+          { p: 'Tlen umożliwił też powstanie warstwy ozonowej, która później chroniła życie, gdy wychodziło na ląd.' },
+        ],
+      },
+    },
+    breath: {
+      title: 'Oddychanie',
+      label: 'Oddychanie',
+      verb: 'Weź oddech',
+      in: 'Wdech',
+      out: 'Wydech',
+      gas: { N2: 'azot', O2: 'tlen', CO2: 'dwutlenek węgla', Ar: 'argon' },
+      trace: 'prawie nic',
+      screen: { kid: 'zatrzymujesz około jednej czwartej tlenu', sci: 'wdech: 21% tlenu; wydech: około 16% i 4% dwutlenku węgla' },
+      says: {
+        kid: 'Wdech: tlen trafia do twojej krwi. Wydech: dwutlenek węgla wychodzi na zewnątrz.',
+        sci: 'Pobierana jest około jedna czwarta wdychanego O2; CO2 rośnie stukrotnie, z 0,04% do około 4%.',
+      },
+      panel: {
+        kid: [
+          { p: 'Twoje płuca biorą tlen z powietrza, a krew niesie go do każdej części ciała, gdzie powoli spala pokarm, żeby dać ci energię.' },
+          { rows: [['Wdech', '21% tlenu, prawie zero dwutlenku węgla'], ['Wydech', 'około 16% tlenu i 4% dwutlenku węgla']] },
+          { p: 'Zużywasz tylko około jednej czwartej tlenu, który wdychasz. Dlatego powietrze, które wydychasz, wciąż może uratować życie przy sztucznym oddychaniu!' },
+        ],
+        sci: [
+          { rows: [['O2', '20,9% przy wdechu, około 16% przy wydechu'], ['CO2', '0,04% przy wdechu, około 4% przy wydechu'], ['N2', '78% przy wdechu i wydechu (niewykorzystany)'], ['Para wodna', 'przy wydechu: nasycenie, około 6% w 37 °C']] },
+          { p: 'Oddychanie komórkowe: C6H12O6 + 6 O2 → 6 CO2 + 6 H2O + energia (magazynowana jako ATP), czyli fotosynteza na odwrót. W spoczynku dorosły pobiera około 250 mL O2 na minutę.' },
+          { p: 'W płucach O2 przechodzi do krwi i wiąże się z hemoglobiną w czerwonych krwinkach, cztery O2 na każdą cząsteczkę hemoglobiny.' },
+        ],
+      },
+    },
+  },
+
+  de: {
+    back: 'Zurück zur Sauerstoffhalle',
+    kicker: 'Die Luft',
+    talkTo: 'Sprich mit',
+    busy: { kid: 'Warte kurz: es passiert noch!', sci: 'Einen Moment: der letzte Durchlauf läuft noch.' },
+    talk: {
+      kid: [
+        'Psst! Schau nach oben: das leuchtende Band hoch am Himmel ist die Ozonschicht, voller Ozonmoleküle, O3.',
+        'Ein Atemzug Luft enthält etwa zehntausend Trillionen Moleküle. Einundzwanzig von hundert davon bin ich!',
+        'Auf dem Gipfel des Mount Everest besteht die Luft immer noch zu 21% aus Sauerstoff, aber sie ist so dünn, dass jeder Atemzug nur ein Drittel so viel bringt.',
+        'Ich bin ein Gas, also schwebe ich, aber nur ein bisschen: Sauerstoff ist etwas schwerer als Luft.',
+        'Such das eine Kohlenstoffdioxid-Molekül: es ist das Seltenste auf dieser Terrasse!',
+      ],
+      sci: [
+        'Die Ozonschicht ist hier 150 m hoch gezeichnet; die echte liegt in 15 bis 35 km Höhe, und alles Ozon, auf den Druck auf Meereshöhe zusammengepresst, wäre nur etwa 3 mm dick.',
+        'Ein Atemzug von 0,5 L bei 20 °C enthält etwa 1,25 × 10²² Moleküle (n = PV/RT, mal die Avogadro-Konstante).',
+        'O2-Partialdruck: 21,2 kPa auf Meereshöhe, etwa 7 kPa auf dem Gipfel des Everest (insgesamt etwa 34 kPa), obwohl der Anteil bei 20,95% bleibt.',
+        'O2 hat 32,00 g/mol, trockene Luft 28,96 g/mol: etwa 10% dichter, deshalb schwebt mein Atomling tief.',
+        'Das Verbrennen fossiler Brennstoffe senkt den O2-Gehalt der Luft nur um etwa 4 ppm pro Jahr; das eigentliche Problem ist das CO2, das dabei hinzukommt.',
+      ],
+    },
+    greet: {
+      kid: 'Willkommen auf der Himmelsterrasse! Überall um dich herum ist Luft, und 21 von 100 ihrer Moleküle bin ich: Sauerstoff. Schau dich um und drück E bei allem, was leuchtet.',
+      sci: 'Die Himmelsterrasse. Trockene Luft, Volumenanteile: 78,08% Stickstoff, 20,95% Sauerstoff, 0,93% Argon, etwa 0,04% Kohlenstoffdioxid. Jedes Exponat handelt vom O2 darin.',
+    },
+    box: {
+      title: 'Die Luftkiste',
+      screenTitle: '100 Luftmoleküle',
+      label: 'Die Luftkiste',
+      verbs: { O2: 'Finde den Sauerstoff', N2: 'Zeig den Stickstoff', Ar: 'Finde das Argon', all: 'Zeig alle' },
+      says: {
+        O2: { kid: '21 rote Paare: das bin ich, Sauerstoff, etwa ein Fünftel der Luft.', sci: 'O2: 21 von 100 (Volumenanteil 20,95%).' },
+        N2: { kid: '78 blaue Paare: Stickstoff, der größte Teil der Luft. Er reagiert mit fast nichts.', sci: 'N2: 78 von 100 (78,08%). Seine Dreifachbindung (945 kJ/mol) macht ihn sehr reaktionsträge.' },
+        Ar: { kid: 'Nur ein Argonatom, ganz allein: ein Edelgas hält niemandem die Hand.', sci: 'Ar: etwa 1 von 100 (0,93%), entstanden beim Zerfall von Kalium-40 in Gesteinen.' },
+        all: { kid: 'Alle 100 zusammen: das ist Luft.', sci: 'Trockene Luft: 78 N2, 21 O2, 1 Ar pro 100 Moleküle.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Diese Kiste enthält 100 Luftmoleküle, genau so gemischt wie die echte Luft um dich herum.' },
+          { big: '21 von 100', small: 'sind Sauerstoff (die roten Paare)' },
+          { list: ['78 sind Stickstoff (die blauen Paare)', '21 sind Sauerstoff (die roten Paare): das bin ich!', '1 ist Argon (ein einzelnes Atom: es hält keine Hände)'] },
+          { p: 'In echter Luft sind die Moleküle winzig und weit voneinander entfernt. Sie flitzen schneller als ein Düsenflugzeug herum und stoßen jede Sekunde Milliarden Mal zusammen.' },
+          { p: 'Drück noch einmal E, um die anderen Gase zu finden.' },
+        ],
+        sci: [
+          { p: 'Hundert Moleküle in den Volumenanteilen trockener Luft. Bei einem Gas ist der Volumenanteil gleich dem Anteil der Moleküle (Satz von Avogadro).' },
+          { rows: [['Stickstoff, N2', '78,08%'], ['Sauerstoff, O2', '20,95%'], ['Argon, Ar', '0,93%'], ['Kohlenstoffdioxid, CO2', 'etwa 0,04%'], ['Neon, Helium, Methan, Krypton...', 'unter 0,003%']] },
+          { p: 'Wasserdampf gehört nicht zur trockenen Luft: sein Anteil schwankt zwischen fast 0 und etwa 4%.' },
+          { p: 'Bei 20 °C und 1 atm enthält ein Kubikmeter Luft etwa 2,5 × 10²⁵ Moleküle, im Mittel 3,4 nm voneinander entfernt, das Zehnfache ihrer eigenen Größe. N2 ist im Mittel 470 m/s schnell, O2 440 m/s (die mittlere Geschwindigkeit geht mit 1/√M). Jedes Molekül stößt etwa 7 Milliarden Mal pro Sekunde zusammen und fliegt zwischen zwei Stößen rund 68 nm weit.' },
+          { p: 'In der Kiste sind die Moleküle riesig und langsam gezeichnet, aber sie bewegen sich nach denselben Regeln: geradlinig, mit elastischen Stößen, die schwereren langsamer.' },
+        ],
+      },
+    },
+    rare: {
+      title: 'Der Seltene: Kohlenstoffdioxid',
+      label: 'Der Seltene: Kohlenstoffdioxid',
+      verb: 'Schau es dir an',
+      tag: '1 von etwa 2400',
+      panel: {
+        kid: [
+          { p: 'Kohlenstoffdioxid ist in der Luft so selten, dass es nicht in die große Kiste passt: du bräuchtest etwa 2400 Luftmoleküle, um eines zu finden!' },
+          { big: '1 von 2400', small: 'Luftmolekülen ist Kohlenstoffdioxid' },
+          { p: 'Aber es ist sehr wichtig. Pflanzen nehmen es auf, um ihre Nahrung herzustellen (und geben Sauerstoff ab), und es hält die Erde warm wie eine Decke. Das Verbrennen von Kohle, Öl und Gas bringt jedes Jahr mehr davon in die Luft.' },
+        ],
+        sci: [
+          { big: 'etwa 0,042%', small: 'über 420 ppm, ein Molekül von etwa 2400' },
+          { p: 'Vor der Industriellen Revolution lag CO2 bei etwa 280 ppm. Heute steigt es um 2 bis 3 ppm pro Jahr, vor allem durch das Verbrennen fossiler Brennstoffe; seit 1958 wird es auf dem Mauna Loa ständig gemessen (die Keeling-Kurve).' },
+          { p: 'Ein Treibhausgas: es lässt Sonnenlicht durch, absorbiert aber einen Teil der Infrarotstrahlung, die die Erde abgibt. Die Fotosynthese nimmt es auf: 6 CO2 + 6 H2O → C6H12O6 + 6 O2.' },
+        ],
+      },
+    },
+    o2: {
+      title: 'O2 aus der Nähe',
+      label: 'Das Sauerstoffmolekül',
+      verbs: { show: 'Zeig seine Elektronen', hide: 'Versteck seine Elektronen' },
+      screen: { kid: 'eine Doppelbindung: je zwei Hände', sci: 'O=O · 121 pm · 498 kJ/mol' },
+      says: {
+        show: { kid: 'Zwölf Außenelektronen: vier geteilt in der Doppelbindung, acht paarweise zu Hause.', sci: 'Lewis: eine σ- und eine π-Bindung, zwei freie Elektronenpaare an jedem Atom. Aber sieh dir die zwei leuchtenden an: ungepaart, in π*.' },
+        hide: { kid: 'Zwei Sauerstoffatome halten sich an beiden Händen: das ist O2.', sci: 'Bindungsordnung (8 − 4) / 2 = 2.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Sauerstoffatome reisen fast nie allein: in der Luft sind sie zu zweit unterwegs, als O2.' },
+          { p: 'Jedes Sauerstoffatom hat zwei Hände, und hier halten sich die beiden Atome an beiden Händen gleichzeitig. Das ist eine Doppelbindung: die zwei Stäbchen zwischen den roten Kugeln.' },
+          { p: 'Der Bildschirm zeigt, wie Chemiker es zeichnen (eine Lewis-Formel): die zwei Striche sind die Doppelbindung, die Punkte sind die Elektronen, die paarweise zu Hause bleiben.' },
+        ],
+        sci: [
+          { rows: [['Bindung', 'O=O, eine Doppelbindung'], ['Bindungslänge', '121 pm'], ['Bindungsenergie', '498 kJ/mol'], ['Außenelektronen', '12 (6 + 6)']] },
+          { p: 'Die Lewis-Formel paart jedes Elektron, und in einem Detail liegt sie falsch. Die Molekülorbitaltheorie setzt die letzten beiden Elektronen einzeln in zwei π*-Orbitale, mit parallelen Spins: der Grundzustand von O2 ist ein Triplett. Bindungsordnung (8 − 4) / 2 = 2, immer noch eine Doppelbindung.' },
+          { p: 'Ungepaarte Elektronen sind winzige Magnete, deshalb ist O2 paramagnetisch: es wird in ein Magnetfeld hineingezogen. Der Magnet neben diesem Modell zeigt das mit flüssigem Sauerstoff.' },
+          { p: 'Der Triplettzustand erklärt auch, warum O2 bei Raumtemperatur mit den meisten Stoffen nur langsam reagiert, obwohl Verbrennung so viel Energie freisetzt: zuerst müssen sich die Spins umkehren.' },
+        ],
+      },
+    },
+    magnet: {
+      title: 'Flüssiger Sauerstoff und Magnet',
+      label: 'Der Magnet',
+      verbs: { lox: 'Gieß flüssigen Sauerstoff ein', ln2: 'Gieß flüssigen Stickstoff ein' },
+      screen: { kid: 'flüssiger Sauerstoff haftet am Magneten', sci: 'siedet bei 90,2 K · paramagnetisch' },
+      says: {
+        lox: { kid: 'Flüssiger Sauerstoff: hellblau, und er hängt zwischen den Polen des Magneten!', sci: 'LOX, 90 K: von seinen zwei ungepaarten Elektronen ins stärkste Feld gezogen, zwischen die Pole.' },
+        ln2: { kid: 'Flüssiger Stickstoff ist nicht magnetisch: er fällt direkt hindurch.', sci: 'N2 ist diamagnetisch (alle Elektronen gepaart): er fließt durch den Spalt und verdampft bei 77 K.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Auf −183 °C abgekühlt wird Sauerstoff flüssig, und die Flüssigkeit ist hellblau.' },
+          { p: 'Gieß ihn auf einen starken Magneten, und er bleibt hängen! Er hängt zwischen den Polen wie eine kleine Brücke, bis er verdampft ist.' },
+          { p: 'Drück noch einmal E, um flüssigen Stickstoff einzugießen: er ist nicht magnetisch und fällt direkt hindurch.' },
+        ],
+        sci: [
+          { rows: [['Siedepunkt', '90,2 K (−183,0 °C)'], ['Schmelzpunkt', '54,36 K (−218,8 °C)'], ['Dichte der Flüssigkeit', '1,141 g/cm³'], ['Farbe', 'hellblau']] },
+          { p: 'O2 ist paramagnetisch: seine zwei ungepaarten π*-Elektronen geben jedem Molekül ein magnetisches Moment, deshalb wird die Flüssigkeit in den stärksten Teil des Feldes gezogen, den Spalt zwischen den Polen.' },
+          { p: 'N2 hat alle Elektronen gepaart (diamagnetisch): flüssiger Stickstoff (77 K, −196 °C) fließt direkt hindurch.' },
+          { p: 'Das Blau: Paare zusammenstoßender O2-Moleküle absorbieren gemeinsam rotes, oranges und gelbes Licht, in geteilten Übergängen zu angeregten Zuständen, und übrig bleibt Blau.' },
+        ],
+      },
+    },
+    ozone: {
+      title: 'Die Ozonschicht',
+      label: 'Die Ozonschicht',
+      verb: 'Schick das UV-Licht der Sonne',
+      screen: { kid: 'die Sonnencreme der Erde', sci: 'stoppt alles UV-C und das meiste UV-B' },
+      big: '15 bis 35 km hoch',
+      km: 'km',
+      layer: 'Ozonschicht',
+      everest: 'Everest 8,8 km',
+      jet: 'Düsenjet 11 km',
+      kinds: { A: 'UV-A', B: 'UV-B', C: 'UV-C' },
+      passed: 'erreichen den Boden',
+      says: {
+        kid: 'Ozon fängt das gefährliche UV-C und das meiste UV-B ab. UV-A kommt durch: deshalb brauchst du trotzdem Sonnencreme!',
+        sci: 'UV-C vollständig absorbiert, etwa 90% des UV-B absorbiert, UV-A größtenteils durchgelassen.',
+      },
+      panel: {
+        kid: [
+          { p: 'Hoch über den Wolken, in etwa 15 bis 35 km Höhe, liegt eine Schicht mit viel Ozon: Moleküle aus drei Sauerstoffatomen, O3, geknickt wie ein Bumerang.' },
+          { p: 'Ozon ist die Sonnencreme der Erde. Es fängt die gefährlichsten ultravioletten Strahlen (UV) der Sonne ab, bevor sie uns erreichen. Schau nach oben: das leuchtende Band am Himmel ist die Ozonschicht bei der Arbeit.' },
+          { list: ['UV-C: ganz gestoppt', 'UV-B: größtenteils gestoppt', 'UV-A: kommt größtenteils durch (deshalb brauchen wir trotzdem Sonnencreme!)'] },
+          { p: 'Wenn du alles Ozon am Boden zusammenpressen würdest, ergäbe es eine Schicht von nur 3 mm, so dick wie zwei Münzen.' },
+        ],
+        sci: [
+          { rows: [['Molekül', 'O3, gewinkelt, 116,8°'], ['Bindungslänge', '128 pm, zwischen Einfach- und Doppelbindung (Mesomerie)'], ['Wo', 'Stratosphäre, 15 bis 35 km, am dichtesten bei 20 bis 25 km'], ['Menge', 'etwa 300 Dobson-Einheiten: 3 mm bei 0 °C und 1 atm']] },
+          { p: 'Von Sonnenlicht gebildet und zerstört (der Chapman-Zyklus): UV unter 242 nm spaltet O2 in zwei O-Atome, jedes O verbindet sich mit einem O2 zu O3; O3 absorbiert UV (200 bis 320 nm) und zerfällt wieder, wobei das Licht zu Wärme wird. Deshalb wird die Stratosphäre mit der Höhe wärmer.' },
+          { p: 'UV-C (100 bis 280 nm) erreicht nie den Boden; etwa 90% des UV-B (280 bis 315 nm) werden absorbiert; UV-A (315 bis 400 nm) kommt größtenteils durch.' },
+          { p: 'Das Ozonloch: Chlor und Brom aus FCKW und Halonen zerstörten jedes Frühjahr Ozon über der Antarktis. Das Montreal-Protokoll (1987), später von allen Ländern der Welt ratifiziert, hat sie schrittweise verboten; die Schicht erholt sich und sollte über der Antarktis um 2066 wieder den Zustand von 1980 erreichen.' },
+        ],
+      },
+    },
+    sources: {
+      title: 'Woher unser Sauerstoff kommt',
+      label: 'Woher unser Sauerstoff kommt',
+      verbs: { land: 'Zeig den Sauerstoff vom Land', ocean: 'Zeig den Sauerstoff aus dem Meer' },
+      screen: { kid: 'etwa die Hälfte aus dem Meer, die Hälfte vom Land', sci: 'Fotosynthese: der Sauerstoff stammt aus dem Wasser' },
+      land: 'Land',
+      ocean: 'Ozean',
+      says: {
+        land: { kid: 'Wälder und alle grünen Pflanzen an Land: etwa die Hälfte des Sauerstoffs.', sci: 'Landpflanzen, vor allem tropische Wälder: grob die Hälfte der weltweiten Fotosynthese.' },
+        ocean: { kid: 'Winzige Algen und Bakterien im Meer, zu klein zum Sehen: die andere Hälfte!', sci: 'Phytoplankton: Kieselalgen, Coccolithophoriden, Cyanobakterien (Prochlorococcus, Synechococcus): grob die Hälfte.' },
+      },
+      panel: {
+        kid: [
+          { p: 'Fast der ganze Sauerstoff in der Luft wurde von Lebewesen gemacht, die Sonnenlicht nutzen: von grünen Pflanzen an Land und von winzigen Algen und Bakterien, die im Meer treiben, dem Phytoplankton.' },
+          { big: 'Etwa die Hälfte', small: 'des Sauerstoffs, der jedes Jahr entsteht, kommt aus dem Ozean' },
+          { p: 'Sie nehmen Kohlenstoffdioxid und Wasser auf, machen mit der Energie des Lichts Zucker als Nahrung und geben Sauerstoff ab. Das ist Fotosynthese.' },
+          { p: 'Drück noch einmal E, um zwischen Land und Ozean zu wechseln.' },
+        ],
+        sci: [
+          { p: 'Fotosynthese: 6 CO2 + 6 H2O + Licht → C6H12O6 + 6 O2. Der abgegebene Sauerstoff stammt aus dem Wasser, nicht aus dem CO2 (1941 gezeigt mit Wasser, das mit Sauerstoff-18 markiert war).' },
+          { p: 'Das Phytoplankton der Ozeane (Kieselalgen, Coccolithophoriden und Cyanobakterien wie Prochlorococcus, der häufigste Fotosynthese betreibende Organismus der Erde) erzeugt grob die Hälfte des Sauerstoffs der Welt; Landpflanzen, vor allem tropische Wälder, den größten Teil des Rests.' },
+          { p: 'Fast alles davon wird innerhalb eines Jahres durch Atmung und Zersetzung wieder verbraucht. Die 21% in der Luft sind ein Vorrat, der sich über Hunderte Millionen Jahre aufgebaut hat, aus organischem Material, das in Gestein begraben wurde, statt zu verrotten.' },
+        ],
+      },
+    },
+    goe: {
+      title: 'Große Sauerstoffkatastrophe',
+      label: 'Große Sauerstoffkatastrophe',
+      verb: 'Reise durch die Zeit',
+      screen: { kid: 'vor 2,4 Milliarden Jahren', sci: 'vor etwa 2,4 bis 2,1 Milliarden Jahren' },
+      axis: { now: 'heute', ago: 'Milliarden Jahre vor heute', o2: 'O2 in der Luft' },
+      when: ga => (ga >= 0.995 ? `vor ${ga.toFixed(1).replace('.', ',')} Milliarden Jahren` : ga > 0.004 ? `vor ${Math.round(ga * 1000)} Millionen Jahren` : 'heute'),
+      marks: {
+        earth: 'die Erde entsteht',
+        stromatolites: 'erste Stromatolithen',
+        goe: 'Große Sauerstoffkatastrophe',
+        animals: 'erste Tiere',
+        dinos: 'Dinosaurier',
+        today: 'heute 21%',
+      },
+      says: {
+        kid: 'Die Hälfte der Erdgeschichte lang gab es fast keinen Sauerstoff. Cyanobakterien haben den ganzen Planeten verändert!',
+        sci: 'Große Sauerstoffkatastrophe (GOE) vor etwa 2,4 Ga; ein zweiter Anstieg, das Neoproterozoische Sauerstoffereignis, vor etwa 0,8 bis 0,54 Ga.',
+      },
+      panel: {
+        kid: [
+          { p: 'In der ersten Hälfte der Erdgeschichte hatte die Luft fast keinen Sauerstoff. Du hättest sie nicht atmen können.' },
+          { p: 'Dann lernten winzige Bakterien, die Cyanobakterien, aus Sonnenlicht und Wasser Nahrung zu machen, und gaben dabei Sauerstoff ab. Sie lebten in schleimigen Matten, die Schicht für Schicht Gestein aufbauten: Stromatolithen, wie die in diesem Becken. Lebende wachsen noch heute in der Shark Bay in Australien.' },
+          { p: 'Vor etwa 2,4 Milliarden Jahren begann sich Sauerstoff in der Luft anzusammeln: die Große Sauerstoffkatastrophe. Zuerst ließ er das im Meer gelöste Eisen rosten (alte Gesteine zeigen noch rote Streifen davon), und dann füllte er den Himmel.' },
+          { p: 'Viel später machte der Sauerstoff große Tiere möglich. Heute macht er 21% der Luft aus.' },
+        ],
+        sci: [
+          { rows: [['Die Erde entsteht', 'vor 4,54 Milliarden Jahren'], ['Älteste Stromatolithen', 'vor etwa 3,5 Milliarden Jahren'], ['Große Sauerstoffkatastrophe', 'vor etwa 2,4 bis 2,1 Milliarden Jahren'], ['Neoproterozoisches Sauerstoffereignis', 'vor etwa 800 bis 540 Millionen Jahren'], ['Höchststand im späten Paläozoikum', 'vielleicht 30%, vor etwa 300 Millionen Jahren (Modelle)'], ['Heute', '20,95%']] },
+          { p: 'Cyanobakterien erfanden die sauerstoffbildende Fotosynthese, wahrscheinlich lange vor 2,4 Milliarden Jahren, aber zuerst wurde der Sauerstoff von gelöstem Eisen, vulkanischen Gasen und Sulfiden verbraucht. Bändereisenerze zeichnen auf, wie das Eisen der Ozeane oxidierte und sich als Eisenoxide absetzte.' },
+          { p: 'Ein wichtiger Hinweis: vor etwa 2,33 Milliarden Jahren hören Schwefelisotope auf, massenunabhängige Fraktionierung zu zeigen. Dieses Signal braucht eine Atmosphäre fast ohne O2, also datiert sein Ende den Anstieg.' },
+          { p: 'Der Sauerstoff machte auch die Ozonschicht möglich, die später das Leben schützte, als es an Land ging.' },
+        ],
+      },
+    },
+    breath: {
+      title: 'Atmen',
+      label: 'Atmen',
+      verb: 'Hol tief Luft',
+      in: 'Einatemluft',
+      out: 'Ausatemluft',
+      gas: { N2: 'Stickstoff', O2: 'Sauerstoff', CO2: 'Kohlenstoffdioxid', Ar: 'Argon' },
+      trace: 'fast nichts',
+      screen: { kid: 'du behältst etwa ein Viertel des Sauerstoffs', sci: 'ein: 21% Sauerstoff; aus: etwa 16% und 4% Kohlenstoffdioxid' },
+      says: {
+        kid: 'Einatmen: Sauerstoff geht in dein Blut. Ausatmen: Kohlenstoffdioxid kommt wieder heraus.',
+        sci: 'Etwa ein Viertel des eingeatmeten O2 wird aufgenommen; CO2 steigt auf das Hundertfache, von 0,04% auf etwa 4%.',
+      },
+      panel: {
+        kid: [
+          { p: 'Deine Lunge holt Sauerstoff aus der Luft, und dein Blut bringt ihn in jeden Teil deines Körpers, wo er Nahrung langsam verbrennt, um dir Energie zu geben.' },
+          { rows: [['Einatemluft', '21% Sauerstoff, fast kein Kohlenstoffdioxid'], ['Ausatemluft', 'etwa 16% Sauerstoff und 4% Kohlenstoffdioxid']] },
+          { p: 'Du nutzt nur etwa ein Viertel des Sauerstoffs, den du einatmest. Deshalb kann die Luft, die du ausatmest, bei der Atemspende noch ein Leben retten!' },
+        ],
+        sci: [
+          { rows: [['O2', '20,9% beim Einatmen, etwa 16% beim Ausatmen'], ['CO2', '0,04% beim Einatmen, etwa 4% beim Ausatmen'], ['N2', '78% beim Ein- und Ausatmen (nicht genutzt)'], ['Wasserdampf', 'beim Ausatmen: gesättigt, etwa 6% bei 37 °C']] },
+          { p: 'Zellatmung: C6H12O6 + 6 O2 → 6 CO2 + 6 H2O + Energie (gespeichert als ATP), die Fotosynthese rückwärts. In Ruhe nimmt ein Erwachsener etwa 250 mL O2 pro Minute auf.' },
+          { p: 'In der Lunge tritt O2 ins Blut über und bindet an das Hämoglobin der roten Blutkörperchen, vier O2 pro Hämoglobin.' },
         ],
       },
     },
