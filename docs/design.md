@@ -190,30 +190,11 @@ A wing is a module (see Architecture); adding one never touches the engine.
   a selection, each atrium and wing, the Atomlings page, on a computer and a phone screen; console errors;
   frame times.
 
-## Built so far (2026-10-27)
+## What is built, and what comes next
 
-- The plaza: all 118 cubes, hover and selection (the element's card, its Atomling popping up on the
-  cube), entering, the families, the trends as bars, the time machine (1600 to today).
-- Every element's atrium: the atom, eight stations from the data (with carbon's and oxygen's own words),
-  the specimen case (what it looks like for real), the floor table, the Atomling as player or host,
-  discoveries.
-- The Atomlings: all 118 from the grammar, the `/atomlings` page (sets, click a character to read it).
-- Molecules as graphs with the hands rule (`chem/molecules.js`), drawn as ball-and-stick models.
-- Carbon's and oxygen's first wings: the allotropes gallery (with graphene from physics, chemistry,
-  electronics, materials science and the frontier: twisted bilayers at the magic angle), the garden of
-  life, the sky deck, the fire chamber.
-- The Molecule Lab: Atomlings hold hands, shapes by VSEPR, 27 molecules and 23 ionic compounds
-  recognised (metals hand their electrons over and the ions hold on by attraction), 15 missions.
-- The Atom Forge: an atom from protons, neutrons and electrons (element, isotope, ion), the chart of
-  nuclides (3552, NUBASE) for what holds together, decays and decay chains shown, 14 missions; the
-  nuclear side of the table, as the lab is its chemical side (docs/knowledge/atom-forge.md); a beam to
-  fire at it, with the reactions that made nuclear history and the superheavies' fusion.
-- "Who am I?": a quiz in the plaza, clues from each element's data and own words, the table flying
-  to each answer.
-- Sound, the passport (discoveries and badges), the stories of every element.
-
-## Open for the user (iterate)
-
-- The Atomling look (first version from the grammar; the Atomlings page shows all 118).
-- The site's name (working title: Element Worlds, Mundos dos Elementos).
-- Which elements and wings come next.
+What was built and when: `docs/history.md`. What comes next, every idea and what waits on the user:
+the studio (`docs/studio/backlog.json`, shown to the user at
+https://claude.ai/artifact/UnVCX3MBSmNViL4Vu6XJAG; `docs/knowledge/update-dashboard.md`). Since
+2026-10-29 Claude picks what to build from the top of its queue and says why; the user steers there
+with Sooner, Later and Not now, notes and ideas of their own (and Artur's). Still open for the user:
+the Atomlings' look, and the site's name (working title: Element Worlds, Mundos dos Elementos).

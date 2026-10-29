@@ -10,3 +10,5 @@ scripts/data/.venv/
 .vercel
 .env*
 __pycache__/
+# files the user sends through the studio (docs/knowledge/update-dashboard.md); the repository is public
+.studio-inbox/

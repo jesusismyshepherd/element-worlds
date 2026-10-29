@@ -1,8 +1,9 @@
 # Ideas for the next worlds (wings)
 
-Carbon and oxygen have their first wings; every other element has its hall. These are candidates for
-the next ones, each built around something to do, not only to read. For the user (and Artur) to pick
-from; the process is `.claude/skills/element-wing/` and `docs/knowledge/adding-a-wing.md`.
+**Moved to the studio on 2026-10-29.** Every idea below is now an item in `docs/studio/backlog.json`,
+which the user sees and steers in the studio; add and change ideas there, not here. This file keeps the
+first brainstorm (2026-10-27) as it was. How to build a wing: `.claude/skills/element-wing/` and
+`docs/knowledge/adding-a-wing.md`.
 
 ## Shared worlds (one wing serves a whole family)
 

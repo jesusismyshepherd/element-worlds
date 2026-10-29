@@ -11,6 +11,10 @@ built when, and the user's requests behind it: `docs/history.md`.
 
 ## Rules
 
+- Start every session with `/update-dashboard`: the studio, the user's dashboard for this project
+  (https://claude.ai/artifact/UnVCX3MBSmNViL4Vu6XJAG): their ideas, verdicts, ticks and notes come in, each
+  gets an answer there (`docs/knowledge/update-dashboard.md`). What to build next is its queue, in
+  `docs/studio/backlog.json`; Claude picks from the top unless the user switched the studio to "I pick".
 - Commit and push when a unit of work is done (the user's standing rule), on `main`. Identity:
   jesusismyshepherd <christskingdomwork@gmail.com> (set in this repo's git config). Vercel deploys `main`.
 - Text for people in European Portuguese (pt-PT), English, Polish and German, all four always
@@ -40,8 +44,10 @@ built when, and the user's requests behind it: `docs/history.md`.
   boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
   reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps), `accounts.md` (the
   Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
-  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload). Read the one for
-  the area you touch.
+  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio). Read the
+  one for the area you touch.
+- `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
+  decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
 - `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
   the signed-in session, the client loaded on demand), `account.js` (sign in, new account, the progress
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`
@@ -150,17 +156,7 @@ built: `docs/history.md`):
 - The HUD keeps the middle free (`hud-layout.md`); walking in both views (`walking.md`); four languages
   (`translating.md`); new versions and Reload (`deploying.md`).
 
-Open (the one list of what is left; add to it, and take out what gets done):
-- Next: the fact file, picture boards and showpiece for the other 116 halls. The user loved Carbon's and
-  Oxygen's (2026-10-29: "the others can now follow"); `hall-boards.md`.
-- To build: a shared forge in rooms (`multiplayer.md`); oxygen's red blood cell ride (`docs/design.md`);
-  the wings in `docs/wing-ideas.md`.
-- Not reviewed by the user yet: the Atomlings' look, the other worlds, the forge, the HUD, walking, the
-  breathing.
-- First visits: cold first visits take 1.2 to 3.9 s (carbon's gallery was 10 s before the shaders were
-  warmed for the bloom's buffer); fewer material variants would cut more (the gallery still needs 53
-  programs).
-- The third-person camera keeps clear of solids, but meshes that are not solids (lattices, crowns) still
-  need each world's own fade (carbon's wings).
-- The real phone (`tools/phone.py`) has measured only the hall and the graphene gallery (60 frames a
-  second in light mode); the other worlds not yet.
+Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
+each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
+the phone), and what waits on the user. Next: the other 116 halls' picture boards with a Periodic
+Videos screen in each, one pass per element (the user loved Carbon's and Oxygen's, 2026-10-29).

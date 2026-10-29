@@ -20,5 +20,7 @@ description: Build or change a wing (a world designed for one element, reached f
    `store.overlay`; add it to `tools/hud_probe.py` and run that. Panels open with `ctx.showPanel(make)`;
    a camera rule of the wing's own is `cameraClear` (`docs/knowledge/walking.md`), checked by walking
    through it (`tools/nav_probe.py`).
-7. `npm test`, `npx vite build`; write what you learned into `docs/knowledge/` (traps and fixes) and
-   the status in `CLAUDE.md`; commit and push.
+7. `npm test`, `npx vite build`; write what you learned into `docs/knowledge/` (traps and fixes), a
+   `README.md` in the wing's folder (its files), a line in `docs/history.md`, and in the studio's
+   `docs/studio/backlog.json` the item `built`, out of `next`, a line in `built` with a link into the
+   game; republish the studio (`docs/knowledge/update-dashboard.md`, step 7); commit and push.

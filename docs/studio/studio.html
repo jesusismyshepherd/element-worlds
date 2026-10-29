@@ -1,0 +1,705 @@
+<title>Element Worlds Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Nunito:wght@400;600;700;800;900&display=swap">
+<style>
+/* Layout: one column of sections under the plaza's night sky. Up next is a numbered list led by element
+   tiles; the ideas form a periodic grid, one block per kind; an idea opens in a side sheet (a bottom
+   sheet on a phone). The studio's data is backlog.json beside this page; what people do here is in db. */
+:root {
+  --bg: #0a0f1f;
+  --panel: #10172f;
+  --raised: #192246;
+  --ink: #edf0fb;
+  --muted: #9ba4c7;
+  --line: #29335c;
+  --gold: #f5c84c;
+  --gold-ink: #f5c84c;
+  --on-gold: #1d1604;
+  --tile-ink: #0c1124;
+  --ok: #7fd7a8;
+  --focus: #a8d8ff;
+  --scrim: rgb(4 7 18 / .6);
+  --glow: radial-gradient(110% 520px at 50% 0%, #1b2860 0%, transparent 70%);
+  --stars: .9;
+  --font-display: 'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f3f5fb; --panel: #ffffff; --raised: #e9edf8; --ink: #151b36; --muted: #56608a; --line: #d3d9ee;
+    --gold: #f2c443; --gold-ink: #8a6200; --on-gold: #1d1604; --ok: #23784f; --focus: #1d64c8;
+    --scrim: rgb(20 26 54 / .35); --glow: radial-gradient(110% 520px at 50% 0%, #dde5fb 0%, transparent 70%);
+    --stars: 0;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f3f5fb; --panel: #ffffff; --raised: #e9edf8; --ink: #151b36; --muted: #56608a; --line: #d3d9ee;
+  --gold: #f2c443; --gold-ink: #8a6200; --on-gold: #1d1604; --ok: #23784f; --focus: #1d64c8;
+  --scrim: rgb(20 26 54 / .35); --glow: radial-gradient(110% 520px at 50% 0%, #dde5fb 0%, transparent 70%);
+  --stars: 0;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0a0f1f; --panel: #10172f; --raised: #192246; --ink: #edf0fb; --muted: #9ba4c7; --line: #29335c;
+  --gold: #f5c84c; --gold-ink: #f5c84c; --on-gold: #1d1604; --ok: #7fd7a8; --focus: #a8d8ff;
+  --scrim: rgb(4 7 18 / .6); --glow: radial-gradient(110% 520px at 50% 0%, #1b2860 0%, transparent 70%);
+  --stars: .9;
+  color-scheme: dark;
+}
+
+[hidden] { display: none !important }
+body { background-color: var(--bg); background-image: var(--glow); background-repeat: no-repeat; color: var(--ink); font: 400 15px/1.55 var(--font-body) }
+.sky { position: fixed; inset: 0; pointer-events: none; opacity: var(--stars);
+  background-image:
+    radial-gradient(1.3px 1.3px at 8% 12%, #ffffff 50%, transparent 55%),
+    radial-gradient(1px 1px at 27% 31%, #dfe8ff 50%, transparent 55%),
+    radial-gradient(1.5px 1.5px at 53% 8%, #ffe7a6 50%, transparent 55%),
+    radial-gradient(1px 1px at 71% 24%, #ffffff 50%, transparent 55%),
+    radial-gradient(1.2px 1.2px at 88% 15%, #cfe0ff 50%, transparent 55%),
+    radial-gradient(1px 1px at 16% 58%, #ffffff 50%, transparent 55%),
+    radial-gradient(1.3px 1.3px at 42% 72%, #dfe8ff 50%, transparent 55%),
+    radial-gradient(1px 1px at 64% 49%, #ffe7a6 50%, transparent 55%),
+    radial-gradient(1px 1px at 93% 66%, #ffffff 50%, transparent 55%),
+    radial-gradient(1.2px 1.2px at 33% 92%, #cfe0ff 50%, transparent 55%),
+    radial-gradient(1px 1px at 79% 88%, #ffffff 50%, transparent 55%);
+  background-size: 460px 460px; mask-image: linear-gradient(#000 0, #000 40%, transparent 90%); -webkit-mask-image: linear-gradient(#000 0, #000 40%, transparent 90%) }
+.page { position: relative; max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 72px; display: grid; gap: 44px }
+
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0 }
+h1 { font-weight: 900; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.04; letter-spacing: -.015em }
+h2 { font-weight: 900; font-size: 1.4rem; line-height: 1.2 }
+h3 { font-weight: 800; font-size: 1.04rem; line-height: 1.3 }
+p { margin: 0 }
+a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); text-underline-offset: 3px }
+a:hover { text-decoration-color: currentColor }
+code { font: 500 .82em var(--font-mono); background: var(--raised); padding: 1px 5px; border-radius: 4px }
+button, input, select, textarea { font: inherit; color: inherit }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px }
+.eyebrow { font: 600 .72rem/1.2 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted) }
+.muted { color: var(--muted) }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+
+/* the header */
+.top { display: grid; gap: 14px; max-width: 760px }
+.tagline { color: var(--muted); font-size: 1.05rem }
+.top-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px }
+.live { font: 500 .8rem var(--font-mono); color: var(--muted) }
+.live.on::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); margin-right: 7px; vertical-align: 1px }
+.steer { display: grid; gap: 8px; margin-top: 6px }
+.steer .label { font-weight: 800 }
+.steer-note { color: var(--muted); max-width: 62ch }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; border-radius: 999px; padding: 9px 18px; border: 1px solid var(--line); background: var(--panel); text-decoration: none; cursor: pointer }
+.btn.primary { background: var(--gold); border-color: var(--gold); color: var(--on-gold) }
+.btn:disabled { opacity: .5; cursor: default }
+.seg { display: inline-flex; padding: 3px; gap: 3px; border-radius: 999px; background: var(--raised); border: 1px solid var(--line); width: max-content; max-width: 100% }
+.seg button { border: 0; background: transparent; padding: 7px 16px; border-radius: 999px; font-weight: 800; cursor: pointer; color: var(--muted) }
+.seg button[aria-checked="true"] { background: var(--gold); color: var(--on-gold) }
+.seg button:disabled { cursor: default }
+
+/* sections */
+.sec { display: grid; gap: 16px; align-content: start; min-width: 0 }
+.sec-head { display: grid; gap: 4px }
+.sec-head p { color: var(--muted); max-width: 66ch }
+.pair { display: grid; gap: 44px }
+@media (min-width: 900px) { .pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) } }
+.empty { color: var(--muted); list-style: none }
+
+/* element tiles */
+.tile { --c: #9ba4c7; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; min-height: 106px; min-width: 0; padding: 8px 9px 9px; border: 0; border-radius: 7px; background: var(--c); color: var(--tile-ink); text-align: left; cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / .09), 0 8px 22px -14px var(--c); transition: transform .15s ease, box-shadow .15s ease }
+button.tile:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .1), 0 12px 26px -12px var(--c) }
+.tile.static { cursor: default }
+.t-top { display: flex; justify-content: space-between; gap: 6px; font: 600 .68rem/1 var(--font-mono) }
+.t-st { text-transform: uppercase; letter-spacing: .06em; opacity: .72; text-align: right }
+.t-sym { font: 900 1.9rem/1 var(--font-display); letter-spacing: -.01em }
+.t-nm { font: 700 .74rem/1.22 var(--font-body); overflow-wrap: anywhere }
+.tile[data-v="first"] { outline: 2px solid var(--gold); outline-offset: 3px }
+.tile[data-v="later"] { opacity: .8 }
+.tile[data-v="no"] { opacity: .45; filter: saturate(.35) }
+.tile .t-mark { position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); font: 700 .6rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; background: var(--gold); color: var(--on-gold); padding: 3px 6px; border-radius: 99px; white-space: nowrap }
+
+/* up next */
+.queue { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px }
+.q { display: grid; grid-template-columns: 1.6rem 92px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px }
+.qn { font: 600 .95rem/1 var(--font-mono); color: var(--muted); padding-top: 6px; font-variant-numeric: tabular-nums }
+.q .tile { min-height: 96px }
+.q-body { display: grid; gap: 8px; min-width: 0 }
+.q-title { all: unset; cursor: pointer; font: 800 1.08rem/1.3 var(--font-display) }
+.q-title:hover { text-decoration: underline; text-underline-offset: 3px }
+.q-title:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px }
+.meta { font: 500 .76rem/1.4 var(--font-mono); color: var(--muted) }
+.building { color: var(--gold-ink); font-weight: 600 }
+@media (max-width: 560px) { .q { grid-template-columns: 1.1rem 70px minmax(0, 1fr); gap: 12px; padding: 14px 12px } .q .tile { min-height: 76px } .q .t-sym { font-size: 1.45rem } }
+
+.verdicts { display: flex; flex-wrap: wrap; gap: 6px }
+.vbtn { font: 700 .84rem var(--font-body); padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; cursor: pointer }
+.vbtn:hover:not(:disabled) { border-color: var(--muted) }
+.vbtn[aria-pressed="true"] { background: var(--raised); border-color: var(--muted) }
+.vbtn[data-verdict="first"][aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--on-gold) }
+.vbtn:disabled { opacity: .5; cursor: default }
+.claude-says { font-size: .92rem }
+.claude-says b, .reply b { font-family: var(--font-mono); font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ok); margin-right: 6px }
+.pending { font-size: .86rem; color: var(--muted) }
+
+/* waiting on you */
+.waiting { list-style: none; margin: 0; padding: 0; display: grid }
+.w { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-top: 1px solid var(--line) }
+.w:last-child { border-bottom: 1px solid var(--line) }
+.w input { width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--gold) }
+.w-body { display: grid; gap: 6px; min-width: 0 }
+.w-title { font-weight: 800; cursor: pointer }
+.w.done .w-title { text-decoration: line-through; text-decoration-color: var(--muted) }
+.opt { font: 600 .66rem var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 8px; vertical-align: 1px }
+.w-links { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .9rem }
+.textbtn { border: 0; background: none; padding: 0; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); text-underline-offset: 3px; cursor: pointer; font-size: .9rem }
+
+/* tell claude */
+.form { display: grid; gap: 12px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px }
+.form fieldset { all: unset; display: contents }
+textarea { width: 100%; box-sizing: border-box; min-height: 6.2rem; resize: vertical; background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; line-height: 1.5 }
+textarea::placeholder { color: var(--muted) }
+select { background: var(--raised); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font-weight: 700 }
+.form-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px }
+.form-row .grow { flex: 1 1 auto }
+.filebtn { position: relative; display: inline-flex; align-items: center; font-weight: 800; font-size: .9rem; border: 1px dashed var(--muted); border-radius: 999px; padding: 6px 14px; cursor: pointer }
+.filebtn:focus-within { outline: 3px solid var(--focus); outline-offset: 2px }
+.filebtn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100% }
+.picked { font-size: .84rem; color: var(--muted); overflow-wrap: anywhere }
+.status { font-size: .88rem; color: var(--muted); min-height: 1.3em }
+.about-chip { display: inline-flex; align-items: center; gap: 8px; width: max-content; max-width: 100%; font-size: .86rem; background: var(--raised); border-radius: 999px; padding: 4px 6px 4px 12px }
+.about-chip button { border: 0; background: var(--line); border-radius: 50%; width: 22px; height: 22px; cursor: pointer; line-height: 1 }
+
+.thread { list-style: none; margin: 0; padding: 0; display: grid }
+.msg { display: grid; gap: 6px; padding: 14px 0; border-top: 1px solid var(--line) }
+.msg-head { font: 500 .76rem/1.4 var(--font-mono); color: var(--muted) }
+.msg-head b { color: var(--ink); font-weight: 600 }
+.state { margin-left: 6px; padding: 1px 7px; border-radius: 99px; border: 1px solid var(--line) }
+.state.ok { color: var(--ok); border-color: currentColor }
+.about { font-size: .86rem; color: var(--muted) }
+.text { white-space: pre-wrap; overflow-wrap: anywhere }
+.files { display: flex; flex-wrap: wrap; gap: 8px }
+.files img { width: 88px; height: 88px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block }
+.files .file { font-size: .86rem }
+.reply { display: grid; gap: 2px; padding: 8px 12px; background: var(--raised); border-radius: 10px }
+.more { justify-self: start }
+
+/* all ideas */
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { font-weight: 800; font-size: .86rem; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; cursor: pointer; color: var(--muted) }
+.chip[aria-pressed="true"] { color: var(--ink); background: var(--raised); border-color: var(--muted) }
+.groups { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 28px 40px }
+.group { display: grid; gap: 10px; min-width: 0; max-width: 100% }
+.g-head { display: flex; align-items: baseline; gap: 10px }
+.sw { width: 11px; height: 11px; border-radius: 3px; background: var(--c); flex: none; transform: translateY(1px) }
+.count { font: 500 .78rem var(--font-mono); color: var(--muted) }
+.grid { display: flex; flex-wrap: wrap; gap: 9px }
+.grid .tile { width: 104px; flex: none }
+@media (max-width: 420px) { .grid { gap: 7px } .grid .tile { width: 96px } .grid .t-sym { font-size: 1.6rem } }
+
+/* built */
+.built { display: grid; gap: 18px }
+.b-day { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 6px 18px }
+.b-date { font: 600 .82rem/1.6 var(--font-mono); color: var(--gold-ink) }
+.b-day ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px }
+.b-day li { overflow-wrap: anywhere }
+.b-day li span { color: var(--muted) }
+.b-day li a { font-size: .88rem; white-space: nowrap }
+@media (max-width: 560px) { .b-day { grid-template-columns: minmax(0, 1fr) } }
+
+/* how we decided */
+.decided { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 28px }
+.d { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--line) }
+.d p { color: var(--muted) }
+
+footer { color: var(--muted); font-size: .88rem; max-width: 70ch; border-top: 1px solid var(--line); padding-top: 18px }
+
+/* the sheet */
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 20 }
+.sheet { position: fixed; top: 0; right: 0; bottom: 0; z-index: 21; box-sizing: border-box; width: min(470px, 100%); overflow-y: auto; overscroll-behavior: contain; background: var(--panel); border-left: 1px solid var(--line); box-shadow: -30px 0 60px -30px rgb(0 0 0 / .55);
+  padding: calc(18px + env(safe-area-inset-top, 0px)) max(22px, env(safe-area-inset-right, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) 22px; display: grid; gap: 16px; align-content: start }
+.sh-bar { display: flex; justify-content: space-between; align-items: center }
+.sh-head { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 14px; align-items: start }
+.sh-head .tile { min-height: 92px }
+.lede { font-size: 1.02rem }
+.why-box { background: var(--raised); border-radius: 12px; padding: 10px 14px; display: grid; gap: 2px }
+.why-box b { font: 600 .7rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--gold-ink) }
+.details { margin: 0; padding-left: 1.1rem; display: grid; gap: 8px }
+.sh-links { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .9rem }
+body.locked { overflow: hidden }
+@media (max-width: 640px) {
+  .sheet { top: auto; left: 0; width: 100%; max-height: 88vh; max-height: 88dvh; border-left: 0; border-top: 1px solid var(--line); border-radius: 18px 18px 0 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+}
+
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; max-width: calc(100% - 32px); background: var(--ink); color: var(--bg); font-weight: 700; padding: 9px 16px; border-radius: 999px; box-shadow: 0 10px 30px -10px rgb(0 0 0 / .5) }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important } }
+</style>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="page">
+  <header class="top">
+    <p class="eyebrow"><span id="p-name">Element Worlds</span> · Studio</p>
+    <h1>Where the game goes next</h1>
+    <p class="tagline" id="p-tagline">A 3D periodic table to walk into, for Artur and his father.</p>
+    <div class="top-row">
+      <a class="btn" id="p-play" href="https://element-worlds.vercel.app" target="_blank" rel="noopener">Play the game ↗</a>
+      <span class="live" id="live" role="status">Connecting…</span>
+    </div>
+    <div class="steer">
+      <p class="label" id="steer-label">Who picks what comes next?</p>
+      <div class="seg" role="radiogroup" aria-labelledby="steer-label">
+        <button type="button" role="radio" id="steer-claude" data-steer="claude" aria-checked="true">Claude picks</button>
+        <button type="button" role="radio" id="steer-me" data-steer="me" aria-checked="false">I pick</button>
+      </div>
+      <p class="steer-note" id="steer-note"></p>
+    </div>
+  </header>
+
+  <section class="sec" aria-labelledby="h-next">
+    <div class="sec-head">
+      <h2 id="h-next">Up next</h2>
+      <p>Claude's order, and why each piece is where it is. Sooner, Later and Not now change it; Claude reads them at the start of the next session.</p>
+    </div>
+    <ol class="queue" id="queue"><li class="empty">Loading the list…</li></ol>
+  </section>
+
+  <div class="pair">
+    <section class="sec" aria-labelledby="h-wait">
+      <div class="sec-head">
+        <h2 id="h-wait">Waiting on you</h2>
+        <p>Only you can do these. Tick one when it is done.</p>
+      </div>
+      <ul class="waiting" id="waiting"><li class="empty">Loading…</li></ul>
+    </section>
+
+    <section class="sec" aria-labelledby="h-tell" id="tell-sec">
+      <div class="sec-head">
+        <h2 id="h-tell">Tell Claude</h2>
+        <p>An idea for the game, or anything else Claude should know. Photos and Artur's drawings are welcome.</p>
+      </div>
+      <form class="form" id="tell" novalidate>
+        <fieldset id="tell-fields">
+          <div class="seg" role="radiogroup" aria-label="What is it?">
+            <button type="button" role="radio" id="tk-idea" data-tellkind="idea" aria-checked="true">An idea</button>
+            <button type="button" role="radio" id="tk-message" data-tellkind="message" aria-checked="false">A message</button>
+          </div>
+          <div class="about-chip" id="tell-about" hidden><span id="tell-about-text"></span><button type="button" id="tell-about-clear" aria-label="Not about this">×</button></div>
+          <label class="sr-only" for="tell-text">Your idea or message</label>
+          <textarea id="tell-text" rows="4" placeholder="For example: Artur wants a world for iron where you forge a sword"></textarea>
+          <div class="form-row">
+            <label for="tell-who">Whose idea</label>
+            <select id="tell-who"><option value="me">Mine</option><option value="artur">Artur's</option></select>
+            <label class="filebtn" id="tell-filebtn">Add photos or files<input type="file" id="tell-files" multiple></label>
+            <span class="picked grow" id="tell-picked"></span>
+            <button type="submit" class="btn primary" id="tell-send">Send to Claude</button>
+          </div>
+          <p class="status" id="tell-status" role="status"></p>
+        </fieldset>
+      </form>
+      <ol class="thread" id="thread"></ol>
+      <button type="button" class="textbtn more" id="thread-more" hidden>Show all</button>
+    </section>
+  </div>
+
+  <section class="sec" aria-labelledby="h-ideas">
+    <div class="sec-head">
+      <h2 id="h-ideas">All ideas</h2>
+      <p>Everything brainstormed so far, by kind. Open one to read it, give a verdict or add a note.</p>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Whose ideas"></div>
+    <div class="groups" id="groups"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-built">
+    <div class="sec-head">
+      <h2 id="h-built">Built</h2>
+      <p>What the game gained, newest first.</p>
+    </div>
+    <div class="built" id="built"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-decided">
+    <div class="sec-head">
+      <h2 id="h-decided">How we decided</h2>
+      <p>The choices behind the game, and the reason for each.</p>
+    </div>
+    <div class="decided" id="decided"></div>
+  </section>
+
+  <footer id="foot">Claude reads this page at the start of every session in the project, answers here, and keeps the list itself in the game's repository (<code>docs/studio/backlog.json</code>).</footer>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title" hidden>
+  <div class="sh-bar"><p class="eyebrow" id="sh-kind"></p><button type="button" class="btn" id="sh-close">Close</button></div>
+  <div class="sh-head"><div id="sh-tile"></div><div class="q-body"><h2 id="sh-title"></h2><p class="meta" id="sh-meta"></p></div></div>
+  <p class="lede" id="sh-summary"></p>
+  <div id="sh-why"></div>
+  <ul class="details" id="sh-details"></ul>
+  <div class="sh-links" id="sh-links"></div>
+  <div id="sh-verdict"></div>
+  <h3>Notes</h3>
+  <ol class="thread" id="sh-thread"></ol>
+  <form class="form" id="sh-form" novalidate>
+    <fieldset id="sh-fields">
+      <label class="sr-only" for="sh-text">A note about this</label>
+      <textarea id="sh-text" rows="3" placeholder="A note about this for Claude"></textarea>
+      <div class="form-row">
+        <label class="filebtn" id="sh-filebtn">Add photos or files<input type="file" id="sh-files" multiple></label>
+        <span class="picked grow" id="sh-picked"></span>
+        <button type="submit" class="btn primary" id="sh-send">Send note</button>
+      </div>
+      <p class="status" id="sh-status" role="status"></p>
+    </fieldset>
+  </form>
+</aside>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  const S = { data: null, verdicts: {}, notes: [], ticks: {}, steer: null, db: null, uid: null, assets: null,
+    canWrite: true, live: 'connecting', filter: 'all', openId: null, lastFocus: null, tellKind: 'idea',
+    tellAbout: null, showAll: false }
+  const $ = s => document.querySelector(s)
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+  const day = s => { const d = new Date(String(s).length === 10 ? s + 'T12:00:00' : s); return isNaN(d) ? String(s ?? '') : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) }
+  const stamp = s => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) }
+  const WHO = { you: 'Your idea', me: 'Your idea', artur: "Artur's idea", claude: "Claude's idea" }
+  const STATUS = { next: 'Up next', building: 'Building', idea: 'Idea', built: 'Built', parked: 'Parked' }
+  const VERDICTS = [['first', 'Sooner'], ['later', 'Later'], ['no', 'Not now']]
+  const STEER = {
+    claude: 'Claude builds from the top of Up next, one piece at a time, and adds each to Built. Sooner, Later and Not now change the order whenever you like.',
+    me: 'Claude finishes what it is building, then waits until you mark something Sooner.',
+  }
+  const writable = () => !!S.db && S.canWrite
+  const kind = id => S.data.kinds.find(k => k.id === id) || { id, label: id, color: '#9ba4c7' }
+  const item = id => S.data.items.find(i => i.id === id)
+  const waitItem = id => (S.data.waiting || []).find(w => w.id === id)
+  const notesOn = id => S.notes.filter(n => n.item === id)
+
+  let toastTimer = 0
+  function toast(text) {
+    const t = $('#toast'); t.textContent = text; t.hidden = false
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true }, 2600)
+  }
+  function errText(e) {
+    const code = e && e.code
+    if (code === 'quota_exceeded') return 'The studio is full. Ask Claude to tidy old notes, then send again.'
+    if (code === 'not_granted' || code === 'revoked' || code === 'capability_disabled') return 'Sending needs this page open on claude.ai.'
+    if (code === 'invalid_argument') return 'This view can read the studio but not write to it.'
+    return (e && e.message) || 'That did not go through. Try again in a moment.'
+  }
+
+  function tile(it, { compact = false, as = 'button', inQueue = false } = {}) {
+    const v = it.status === 'parked' ? 'no' : S.verdicts[it.id]?.v
+    const mark = v === 'first' ? '<span class="t-mark">Sooner</span>' : ''
+    const attrs = as === 'button' ? `type="button" data-open="${esc(it.id)}" aria-label="${esc(it.title)}"` : 'aria-hidden="true"'
+    const st = inQueue && it.status === 'next' ? '' : STATUS[it.status] || ''
+    return `<${as} class="tile${as === 'button' ? '' : ' static'}" ${attrs} style="--c:${esc(kind(it.kind).color)}"${v ? ` data-v="${esc(v)}"` : ''}>
+      <span class="t-top"><span class="t-z">${esc(it.z ?? '')}</span><span class="t-st">${esc(st)}</span></span>
+      <span class="t-sym">${esc(it.code)}</span>${compact ? '' : `<span class="t-nm">${esc(it.title)}</span>`}${mark}</${as}>`
+  }
+
+  function verdictHtml(id, { note = true } = {}) {
+    const doc = S.verdicts[id], v = doc?.v, dis = writable() ? '' : ' disabled'
+    const n = notesOn(id).length
+    const buttons = VERDICTS.map(([k, label]) => `<button type="button" class="vbtn" data-verdict="${k}" data-id="${esc(id)}" aria-pressed="${v === k}"${dis}>${label}</button>`).join('')
+    const noteBtn = note ? `<button type="button" class="vbtn" data-note="${esc(id)}">Note${n ? ` (${n})` : ''}</button>` : ''
+    let said = ''
+    if (doc?.reply) said = `<p class="claude-says"><b>Claude</b>${esc(doc.reply)}</p>`
+    else if (v) said = '<p class="pending">Claude sees this at the start of the next session.</p>'
+    return `<div class="verdicts" role="group" aria-label="Your verdict">${buttons}${noteBtn}</div>${said}`
+  }
+
+  function renderHeader() {
+    const d = S.data
+    document.title = d.studio || 'Element Worlds Studio'
+    $('#p-name').textContent = d.project
+    $('#p-tagline').textContent = d.tagline || ''
+    if (d.play) $('#p-play').href = d.play
+    $('#foot').innerHTML = `Claude reads this page at the start of every session in the project, answers here, and keeps the list itself in the game's repository (<code>docs/studio/backlog.json</code>). The list was last changed on ${esc(day(d.updated))}.`
+  }
+  function renderSteer() {
+    if (!S.data) return
+    const mode = S.steer?.mode || S.data.steerDefault || 'claude'
+    for (const b of document.querySelectorAll('[data-steer]')) { b.setAttribute('aria-checked', String(b.dataset.steer === mode)); b.disabled = !writable() }
+    $('#steer-note').textContent = STEER[mode] || ''
+  }
+  function renderLive() {
+    const el = $('#live'), waiting = S.notes.filter(n => !n.reply).length
+    el.classList.toggle('on', S.live === 'live')
+    el.textContent = S.live === 'connecting' ? 'Connecting…'
+      : S.live === 'offline' ? 'Read-only here: open this page on claude.ai to send notes and verdicts.'
+      : S.live === 'readonly' ? 'You can read this studio; its owner sends the notes.'
+      : waiting ? `Live · ${waiting} ${waiting === 1 ? 'note' : 'notes'} waiting for Claude` : 'Live · every note answered'
+    $('#tell-fields').disabled = !writable()
+    $('#sh-fields').disabled = !writable()
+    $('#tell-filebtn').hidden = !S.assets
+    $('#sh-filebtn').hidden = !S.assets
+  }
+  function renderQueue() {
+    const list = S.data.next.map(item).filter(i => i && (i.status === 'next' || i.status === 'building'))
+    $('#queue').innerHTML = list.map((it, n) => `
+      <li class="q">
+        <span class="qn">${n + 1}</span>
+        ${tile(it, { compact: true, inQueue: true })}
+        <div class="q-body">
+          <h3><button type="button" class="q-title" data-open="${esc(it.id)}">${esc(it.title)}</button></h3>
+          <p>${esc(it.why || it.summary)}</p>
+          <p class="meta">${esc(WHO[it.from] || '')} · ${esc(day(it.date))}${it.status === 'building' ? ' · <span class="building">Building now</span>' : ''}</p>
+          ${verdictHtml(it.id)}
+        </div>
+      </li>`).join('') || '<li class="empty">Nothing in the queue. Mark an idea Sooner to put it here.</li>'
+  }
+  function renderWaiting() {
+    const list = S.data.waiting || []
+    $('#waiting').innerHTML = list.map(w => {
+      const t = S.ticks[w.id], done = !!t?.done
+      const said = t?.reply ? `<p class="claude-says"><b>Claude</b>${esc(t.reply)}</p>` : done ? '<p class="pending">Ticked. Claude picks it up at the start of the next session.</p>' : ''
+      return `<li class="w${done ? ' done' : ''}">
+        <input type="checkbox" id="tick-${esc(w.id)}" data-tick="${esc(w.id)}"${done ? ' checked' : ''}${writable() ? '' : ' disabled'}>
+        <div class="w-body">
+          <p><label class="w-title" for="tick-${esc(w.id)}">${esc(w.title)}</label>${w.optional ? '<span class="opt">Optional</span>' : ''}</p>
+          <p class="muted">${esc(w.detail)}</p>
+          <p class="w-links">${w.link ? `<a href="${esc(w.link)}" target="_blank" rel="noopener">Open in the game ↗</a>` : ''}<button type="button" class="textbtn" data-note="${esc(w.id)}">Add a note</button></p>
+          ${said}
+        </div></li>`
+    }).join('') || '<li class="empty">Nothing waiting on you.</li>'
+  }
+  function msgHtml(m, showAbout) {
+    const about = m.item ? (item(m.item)?.title || waitItem(m.item)?.title || m.about || m.item) : ''
+    const kindLabel = m.kind === 'idea' ? 'An idea' : m.kind === 'note' ? 'A note' : 'A message'
+    const files = (m.files || []).map(f => /^image\//.test(f.type || '')
+      ? `<a href="${esc(f.url)}" target="_blank" rel="noopener"><img src="${esc(f.url)}" alt="${esc(f.name || 'Photo')}" loading="lazy"></a>`
+      : `<a class="file" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.name || 'File')}</a>`).join('')
+    return `<li class="msg">
+      <p class="msg-head"><b>${m.who === 'artur' ? 'Artur' : 'You'}</b> · ${kindLabel} · <time>${esc(stamp(m.at))}</time><span class="state${m.reply ? ' ok' : ''}">${m.reply ? 'Answered' : 'Waiting for Claude'}</span></p>
+      ${showAbout && about ? `<p class="about">About: ${esc(about)}</p>` : ''}
+      ${m.text ? `<p class="text">${esc(m.text)}</p>` : ''}
+      ${files ? `<div class="files">${files}</div>` : ''}
+      ${m.reply ? `<div class="reply"><b>Claude</b><p class="text">${esc(m.reply)}</p></div>` : ''}
+    </li>`
+  }
+  function renderThread() {
+    const all = S.notes, shown = S.showAll ? all : all.slice(0, 10)
+    $('#thread').innerHTML = shown.map(m => msgHtml(m, true)).join('')
+    const more = $('#thread-more'); more.hidden = all.length <= 10
+    more.textContent = S.showAll ? 'Show fewer' : `Show all ${all.length}`
+  }
+  function renderIdeas() {
+    const pass = it => S.filter === 'all' || (S.filter === 'you' ? it.from === 'you' || it.from === 'me' : it.from === S.filter)
+    const items = S.data.items.filter(it => it.status !== 'built' && pass(it))
+    const has = w => S.data.items.some(it => w === 'you' ? it.from === 'you' || it.from === 'me' : it.from === w)
+    const chips = [['all', 'All'], ['you', 'Yours'], ['artur', "Artur's"], ['claude', "Claude's"]].filter(([w]) => w === 'all' || has(w))
+    $('#chips').innerHTML = chips.map(([w, label]) => `<button type="button" class="chip" data-filter="${w}" aria-pressed="${S.filter === w}">${label}</button>`).join('')
+    $('#groups').innerHTML = S.data.kinds.map(k => {
+      const list = items.filter(i => i.kind === k.id)
+      if (!list.length) return ''
+      return `<div class="group">
+        <div class="g-head"><span class="sw" style="--c:${esc(k.color)}"></span><h3>${esc(k.label)}</h3><span class="count">${list.length}</span></div>
+        <div class="grid">${list.map(it => tile(it)).join('')}</div></div>`
+    }).join('') || '<p class="empty">No ideas here yet.</p>'
+  }
+  function renderBuilt() {
+    const by = {}
+    for (const b of S.data.built || []) (by[b.date] ||= []).push(b)
+    $('#built').innerHTML = Object.keys(by).sort().reverse().map(d => `
+      <div class="b-day"><p class="b-date"><time datetime="${esc(d)}">${esc(day(d))}</time></p>
+        <ul>${by[d].map(b => `<li><b>${esc(b.title)}</b> <span>${esc(b.what)}</span>${b.link ? ` <a href="${esc(b.link)}" target="_blank" rel="noopener">Open ↗</a>` : ''}</li>`).join('')}</ul></div>`).join('')
+  }
+  function renderDecided() {
+    $('#decided').innerHTML = (S.data.decisions || []).slice().reverse().map(d => `
+      <div class="d"><h3>${esc(d.title)}</h3><p>${esc(d.why)}</p><p class="meta">${esc(day(d.date))}</p></div>`).join('')
+  }
+  function renderSheet() {
+    if (!S.openId) return
+    const id = S.openId
+    $('#sh-verdict').innerHTML = verdictHtml(id, { note: false })
+    const list = notesOn(id)
+    $('#sh-thread').innerHTML = list.length ? list.map(m => msgHtml(m, false)).join('') : '<li class="empty">No notes yet.</li>'
+  }
+  function renderDynamic() {
+    if (!S.data) return
+    renderLive(); renderSteer(); renderQueue(); renderWaiting(); renderThread(); renderIdeas(); renderSheet()
+  }
+  function renderAll() {
+    if (!S.data) { renderLive(); return }
+    renderHeader(); renderBuilt(); renderDecided(); renderDynamic()
+  }
+
+  function openItem(id, focusNote = false) {
+    const it = item(id)
+    if (!it) return
+    if (S.openId !== id) { $('#sh-text').value = ''; $('#sh-files').value = ''; $('#sh-picked').textContent = ''; $('#sh-status').textContent = '' }
+    if (!S.openId) S.lastFocus = document.activeElement
+    S.openId = id
+    const k = kind(it.kind)
+    $('#sh-tile').innerHTML = tile(it, { compact: true, as: 'div' })
+    $('#sh-kind').textContent = k.label
+    $('#sh-title').textContent = it.title
+    $('#sh-meta').textContent = [WHO[it.from], day(it.date), STATUS[it.status]].filter(Boolean).join(' · ')
+    $('#sh-summary').textContent = it.summary || ''
+    $('#sh-why').innerHTML = it.why && (it.status === 'next' || it.status === 'building') ? `<p class="why-box"><b>Why it is in the queue</b><span>${esc(it.why)}</span></p>` : ''
+    $('#sh-details').innerHTML = (it.details || []).map(d => `<li>${esc(d)}</li>`).join('')
+    $('#sh-links').innerHTML = [
+      it.link ? `<a href="${esc(it.link)}" target="_blank" rel="noopener">Open ↗</a>` : '',
+      it.doc ? `<span class="muted">In the repository: <code>${esc(it.doc)}</code></span>` : '',
+    ].join('')
+    renderSheet()
+    $('#sheet').hidden = false; $('#scrim').hidden = false; document.body.classList.add('locked')
+    if (location.hash !== '#i-' + id) { try { history.replaceState(null, '', '#i-' + id) } catch { /* the frame keeps its hash */ } }
+    ;(focusNote && writable() ? $('#sh-text') : $('#sh-close')).focus()
+  }
+  function closeSheet() {
+    if (!S.openId) return
+    S.openId = null
+    $('#sheet').hidden = true; $('#scrim').hidden = true; document.body.classList.remove('locked')
+    try { history.replaceState(null, '', location.pathname + location.search) } catch { /* the frame keeps its hash */ }
+    S.lastFocus?.focus?.()
+  }
+  function noteFor(id) {
+    if (item(id)) return openItem(id, true)
+    const w = waitItem(id)
+    S.tellAbout = w ? { id, title: w.title } : null
+    $('#tell-about').hidden = !S.tellAbout
+    $('#tell-about-text').textContent = S.tellAbout ? 'About: ' + S.tellAbout.title : ''
+    setTellKind('message')
+    $('#tell-sec').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })
+    $('#tell-text').focus({ preventScroll: true })
+  }
+  function setTellKind(k) {
+    S.tellKind = k
+    for (const b of document.querySelectorAll('[data-tellkind]')) b.setAttribute('aria-checked', String(b.dataset.tellkind === k))
+    $('#tell-text').placeholder = k === 'idea' ? 'For example: Artur wants a world for iron where you forge a sword' : 'Anything Claude should know'
+  }
+
+  async function setVerdict(id, v) {
+    if (!writable()) return
+    const cur = S.verdicts[id]?.v, label = VERDICTS.find(x => x[0] === v)?.[1]
+    try {
+      const ref = S.db.collection('verdicts').doc(id)
+      if (cur === v) { await ref.delete(); toast('Verdict taken back') }
+      else { await ref.set({ v, title: item(id)?.title || id, at: new Date().toISOString(), by: S.uid || null }); toast('Saved: ' + label) }
+    } catch (e) { toast(errText(e)) }
+  }
+  async function setSteer(mode) {
+    if (!writable() || (S.steer?.mode || S.data.steerDefault) === mode && S.steer) return
+    try { await S.db.doc('settings/steer').set({ mode, at: new Date().toISOString(), by: S.uid || null }); toast(mode === 'claude' ? 'Claude picks what comes next' : 'Claude waits for your pick') }
+    catch (e) { toast(errText(e)) }
+  }
+  async function setTick(id, done) {
+    if (!writable()) return
+    try {
+      const ref = S.db.collection('ticks').doc(id)
+      if (done) await ref.set({ done: true, title: waitItem(id)?.title || id, at: new Date().toISOString(), by: S.uid || null })
+      else await ref.delete()
+      toast(done ? 'Ticked' : 'Unticked')
+    } catch (e) { toast(errText(e)); renderWaiting() }
+  }
+  async function send({ text, input, status, button, itemId, about, kindName, who }) {
+    if (!writable()) return false
+    const files = [...(input.files || [])]
+    text = text.trim()
+    if (!text && !files.length) { status.textContent = 'Write something or add a file first.'; return false }
+    button.disabled = true
+    status.textContent = files.length ? `Uploading ${files.length} ${files.length === 1 ? 'file' : 'files'}…` : 'Sending…'
+    try {
+      const up = []
+      for (const f of files) {
+        if (!S.assets) throw new Error('Files can only be added by the studio\'s owner.')
+        if (f.size > 20 * 1024 * 1024) throw new Error(`${f.name} is larger than 20 MB.`)
+        const a = await S.assets.upload(f)
+        up.push({ id: a.id, url: a.url, name: f.name, type: a.contentType || f.type || '', size: a.sizeBytes ?? f.size })
+      }
+      await S.db.collection('notes').add({ item: itemId || null, about: about || null, kind: kindName, who, text, files: up, at: new Date().toISOString(), by: S.uid || null })
+      status.textContent = 'Sent. Claude reads it at the start of the next session.'
+      return true
+    } catch (e) { status.textContent = errText(e); return false }
+    finally { button.disabled = false }
+  }
+
+  document.addEventListener('click', e => {
+    const t = e.target
+    const open = t.closest('[data-open]'); if (open) return openItem(open.dataset.open)
+    const v = t.closest('[data-verdict]'); if (v) return setVerdict(v.dataset.id, v.dataset.verdict)
+    const n = t.closest('[data-note]'); if (n) return noteFor(n.dataset.note)
+    const st = t.closest('[data-steer]'); if (st) return setSteer(st.dataset.steer)
+    const f = t.closest('[data-filter]'); if (f) { S.filter = f.dataset.filter; return renderIdeas() }
+    const tk = t.closest('[data-tellkind]'); if (tk) return setTellKind(tk.dataset.tellkind)
+    if (t.id === 'scrim' || t.closest('#sh-close')) return closeSheet()
+    if (t.closest('#tell-about-clear')) { S.tellAbout = null; $('#tell-about').hidden = true; return }
+    if (t.closest('#thread-more')) { S.showAll = !S.showAll; return renderThread() }
+  })
+  document.addEventListener('change', e => {
+    const tick = e.target.closest('[data-tick]'); if (tick) return setTick(tick.dataset.tick, tick.checked)
+    if (e.target.id === 'tell-files') $('#tell-picked').textContent = [...e.target.files].map(f => f.name).join(', ')
+    if (e.target.id === 'sh-files') $('#sh-picked').textContent = [...e.target.files].map(f => f.name).join(', ')
+  })
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && S.openId) { e.preventDefault(); closeSheet() }
+    if (e.key === 'Tab' && S.openId) {
+      const f = [...$('#sheet').querySelectorAll('button:not([disabled]), a[href], textarea:not([disabled]), input:not([disabled])')].filter(x => x.offsetParent !== null)
+      if (!f.length) return
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus() }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus() }
+    }
+  })
+  $('#tell').addEventListener('submit', async e => {
+    e.preventDefault()
+    const ok = await send({ text: $('#tell-text').value, input: $('#tell-files'), status: $('#tell-status'), button: $('#tell-send'),
+      itemId: S.tellAbout?.id, about: S.tellAbout?.title, kindName: S.tellKind, who: $('#tell-who').value })
+    if (ok) { $('#tell-text').value = ''; $('#tell-files').value = ''; $('#tell-picked').textContent = ''; S.tellAbout = null; $('#tell-about').hidden = true }
+  })
+  $('#sh-form').addEventListener('submit', async e => {
+    e.preventDefault()
+    const it = item(S.openId)
+    const ok = await send({ text: $('#sh-text').value, input: $('#sh-files'), status: $('#sh-status'), button: $('#sh-send'),
+      itemId: S.openId, about: it?.title, kindName: 'note', who: 'me' })
+    if (ok) { $('#sh-text').value = ''; $('#sh-files').value = ''; $('#sh-picked').textContent = '' }
+  })
+  addEventListener('hashchange', () => {
+    const m = /^#i-(.+)$/.exec(location.hash)
+    if (m && S.data && S.openId !== m[1]) openItem(m[1])
+  })
+
+  async function connect() {
+    const c = window.claude
+    if (!c || typeof c.use !== 'function') { S.live = 'offline'; return renderAll() }
+    let db = null, user = null, assets = null
+    try { [db, user, assets] = await Promise.all([c.use('db'), c.use('user'), c.use('assets')]) } catch { /* each stays null */ }
+    S.assets = assets
+    if (!db) { S.live = 'offline'; return renderAll() }
+    S.db = db
+    try { S.uid = user ? await user.id() : null } catch { S.uid = null }
+    try { if (user && typeof user.can === 'function' && (await user.can('data.write')) === false) S.canWrite = false } catch { /* not told: keep the inputs */ }
+    const lost = e => { if (e && (e.code === 'revoked' || e.code === 'unavailable')) { S.db = null; S.live = 'offline'; renderAll() } }
+    db.collection('verdicts').onSnapshot(s => { S.verdicts = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); renderDynamic() }, lost)
+    db.collection('notes').orderBy('at', 'desc').limit(400).onSnapshot(s => { S.notes = s.docs.map(d => ({ id: d.id, ...d.data() })); renderDynamic() }, lost)
+    db.collection('ticks').onSnapshot(s => { S.ticks = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); if (S.data) { renderWaiting(); renderLive() } }, lost)
+    db.doc('settings/steer').onSnapshot(d => { S.steer = d.exists ? d.data() : null; renderSteer() }, lost)
+    S.live = S.canWrite ? 'live' : 'readonly'
+    renderAll()
+  }
+  async function load() {
+    try {
+      const r = await fetch('backlog.json', { cache: 'no-store' })
+      if (!r.ok) throw new Error(r.status)
+      S.data = await r.json()
+    } catch {
+      $('#queue').innerHTML = '<li class="empty">The list did not load. Reload the page; if it stays empty, tell Claude the studio lost its backlog.json.</li>'
+      return
+    }
+    renderAll()
+    const m = /^#i-(.+)$/.exec(location.hash)
+    if (m) openItem(m[1])
+  }
+  setTellKind('idea')
+  load()
+  connect()
+})()
+</script>
