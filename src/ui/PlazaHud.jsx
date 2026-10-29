@@ -17,9 +17,10 @@ import { track } from '../net/telemetry.js'
 const DOCK = 'glass rounded-xl px-2.5 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10 whitespace-nowrap'
 
 /** The plaza's HUD, at the edges so the table stays in view (docs/knowledge/hud-layout.md): a dock
- *  of tools at the bottom left (the quiz, find, the families, the time machine, the scientist's
- *  trends), each opening its drawer above it, one at a time, none open at the start; the card of the cube under the pointer or selected at the bottom right
- *  (a strip across the bottom of an upright phone). */
+ *  of tools at the bottom left (the quiz, find, the families, the time machine, the trends), each
+ *  opening its drawer above it, one at a time, none open at the start; the card of the cube under the
+ *  pointer or selected at the bottom right (a strip across the bottom of an upright phone). On a phone
+ *  the card and a drawer take turns: the last one asked for is shown. */
 export default function PlazaHud({ engine }) {
   const { t, i18n } = useTranslation()
   const hover = useStore(store, s => s.hover)
@@ -48,9 +49,10 @@ export default function PlazaHud({ engine }) {
     }, 60)
     return () => clearInterval(timer.current)
   }, [playing, engine])
+  // on a phone a new pick brings its card back over an open drawer
   useEffect(() => {
-    if (level !== 'scientist' && open === 'trends') setOpen(null)
-  }, [level, open])
+    if (vp.compact && selected != null) setOpen(null)
+  }, [selected, vp.compact])
   const world = () => (engine?.world?.mode === 'orbit' ? engine.world : null)
   const shown = selected ?? hover
   const el = shown ? element(shown) : null
@@ -59,15 +61,15 @@ export default function PlazaHud({ engine }) {
     if (o !== id) track('drawer', { id })
     return o === id ? null : id
   })
-  // on a phone the card and a drawer would share the bottom: the card wins while it is up, and the
-  // quiz names its own answers
+  // on a phone the card and a drawer would share the bottom: an open drawer hides the card (the cube
+  // stays selected) until another pick, and the quiz names its own answers
   // the quiz as a duel in a room (src/net/duel.js): it takes the quiz's place
   const duelOn = useStore(store, s => s.duel)
   const duelLive = useStore(store, s => s.duelLive)
   const together = useStore(store, s => (s.room?.members?.length ?? 0) > 1)
   const inQuiz = quiz || !!duelOn
-  const cardUp = !!el && !(vp.compact && inQuiz)
-  const drawer = inQuiz || (vp.compact && cardUp) ? null : open
+  const drawer = inQuiz ? null : open
+  const cardUp = !!el && !(vp.compact && (inQuiz || drawer))
 
   // what the drawer and the card cover moves the table's centre into the part left free
   const drawerRef = useRef(null)
@@ -161,7 +163,7 @@ export default function PlazaHud({ engine }) {
     vp.compact && ['find', '🔎', t('hud.find')],
     ['families', '🎨', t('hud.families')],
     ['time', '⏳', year != null ? String(year) : t('time.title')],
-    level === 'scientist' && ['trends', '📊', t('trends.title')],
+    ['trends', '📊', t('trends.title')],
   ].filter(Boolean)
 
   return (

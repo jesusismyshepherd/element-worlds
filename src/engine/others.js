@@ -1,6 +1,7 @@
 // The others in my room, in the 3D (docs/knowledge/multiplayer.md): in a walking world, everyone who is
 // in the same world as me walks there as its Atomling, with a ring in their colour at its feet and their
-// name above; on the plaza, a name floats over the cube each of them has selected. I send where I stand
+// name above; on the plaza, the Atomling of the element each of them has selected stands on its cube
+// (beside mine when we picked the same one), with their ring and name. I send where I stand
 // (ten times a second while I move). A call puts a pillar of light where the caller stands; an emote
 // floats up over the one who sent it.
 import * as THREE from 'three'
@@ -14,6 +15,13 @@ import { makeText } from './text.js'
 const SEND_MS = 150
 const KEEP_MS = 2000
 const STALE_MS = 8000
+// the others' Atomlings on the plaza: the size mine has there, side by side on a shared cube, and lights
+// for the cubes they stand on (made with the world, so none is added while playing: a new light
+// recompiles every material)
+const SEAT_SCALE = 2.1
+const SEAT_WIDTH = 2.9 // an Atomling's width with its arms, in body radii
+const SEAT_ROW = 4.5 // how wide a row of them on one cube may be
+const SEAT_LIGHTS = 3
 
 /** A little picture of an emoji, as a sprite (the 3D fonts have no emoji). */
 function emojiSprite(emoji) {
@@ -35,7 +43,8 @@ export class Others {
   constructor(engine) {
     this.engine = engine
     this.avatars = new Map() // member id -> { av, ring, tag, holder, pose, at }
-    this.marks = new Map() // member id -> plaza label
+    this.marks = new Map() // member id -> { holder, av, tag, z, name } on the plaza
+    this.seatLights = []
     this.poses = new Map() // member id -> last pose received
     this.beacons = []
     this.emotes = []
@@ -60,6 +69,14 @@ export class Others {
   enter(w) {
     this.avatars.clear()
     this.marks.clear()
+    this.seatLights = []
+    if (w.cubeSeat) {
+      for (let i = 0; i < SEAT_LIGHTS; i++) {
+        const l = new THREE.PointLight('#fff1dc', 0, 12, 1.4)
+        w.root.add(l)
+        this.seatLights.push(l)
+      }
+    }
     this.beacons = []
     this.emotes = []
     this.sent = null
@@ -76,13 +93,19 @@ export class Others {
     for (const [id, a] of this.avatars) {
       if (!ids.has(id)) this.drop(id, a)
     }
-    for (const [id, l] of this.marks) {
-      if (!ids.has(id)) {
-        l.parent?.remove(l)
-        l.dispose?.()
-        this.marks.delete(id)
-      }
+    for (const [id, g] of this.marks) {
+      if (!ids.has(id)) this.unseat(id, g)
     }
+  }
+
+  unseat(id, g) {
+    g.holder.parent?.remove(g.holder)
+    g.holder.traverse(o => {
+      if (o.isMesh) o.geometry?.dispose()
+    })
+    g.tag.parent?.remove(g.tag)
+    g.tag.dispose?.()
+    this.marks.delete(id)
   }
 
   drop(id, a) {
@@ -169,7 +192,7 @@ export class Others {
       }
     }
     if (w.mode === 'walk') this.walkers(w, dt, t, now)
-    else if (w.cubeTop) this.plazaMarks(w)
+    else if (w.cubeSeat) this.plazaMarks(w, dt, t)
 
     // calls fade, emotes rise and fade
     this.beacons = this.beacons.filter(b => {
@@ -246,33 +269,73 @@ export class Others {
     }
   }
 
-  plazaMarks(w) {
+  plazaMarks(w, dt, t) {
     const cam = this.engine.camera
-    // names over the same cube stand one above the other (at a duel's answer everyone selects it)
-    const stack = new Map()
+    // who stands on which cube; mine stands in the middle of its own (the plaza puts it there)
+    const cubes = new Map()
     for (const m of room.others()) {
-      let l = this.marks.get(m.id)
-      const onPlaza = m.path === '/' && m.sel
-      if (!onPlaza) {
-        if (l) {
-          l.parent?.remove(l)
-          l.dispose?.()
-          this.marks.delete(m.id)
-        }
-        continue
+      let g = this.marks.get(m.id)
+      const z = m.path === '/' && m.sel ? m.sel : null
+      if (g && g.z !== z) {
+        this.unseat(m.id, g)
+        g = null
       }
-      const at = w.cubeTop(m.sel)
-      if (!at) continue
-      if (!l) {
-        l = makeText(m.name ?? '', { size: 0.7, color: m.color ?? '#ffffff', outlineWidth: 0.06, outlineColor: '#0b0f24' })
-        w.root.add(l)
-        this.marks.set(m.id, l)
+      if (!z) continue
+      if (!g) {
+        const av = createAtomling(element(z), { light: this.engine.light })
+        const holder = new THREE.Group()
+        holder.add(av.root)
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(Math.max(0.45, av.body.height * 0.45), 0.045, 8, 48), new THREE.MeshBasicMaterial({ color: new THREE.Color(m.color ?? '#ffffff') }))
+        ring.rotation.x = Math.PI / 2
+        ring.position.y = 0.04
+        holder.add(ring)
+        const tag = makeText(m.name ?? '', { size: 0.55, color: m.color ?? '#ffffff', outlineWidth: 0.05, outlineColor: '#0b0f24' })
+        w.root.add(holder, tag)
+        av.poof()
+        setTimeout(() => av.wave(), 500)
+        g = { holder, av, tag, z, name: m.name }
+        this.marks.set(m.id, g)
       }
-      const k = stack.get(m.sel) ?? 0
-      stack.set(m.sel, k + 1)
-      l.position.copy(at)
-      l.position.y += k * 0.9
-      l.quaternion.copy(cam.quaternion)
+      if (g.name !== m.name) {
+        g.tag.text = m.name ?? ''
+        g.tag.sync()
+        g.name = m.name
+      }
+      if (!cubes.has(z)) cubes.set(z, [])
+      cubes.get(z).push(g)
     }
+    const mine = w.hostZ?.() ?? null
+    let lit = 0
+    for (const [z, list] of cubes) {
+      const at = w.cubeSeat(z)
+      if (!at) continue
+      // beside mine, alternating left and right; alone on a cube, the others share its middle; a row
+      // too wide for the cube makes them all smaller, mine too
+      const n = list.length + (z === mine ? 1 : 0)
+      const width = SEAT_WIDTH * list[0].av.body.radius
+      const scale = Math.min(SEAT_SCALE, SEAT_ROW / (n * width))
+      const gap = width * scale
+      if (z === mine) w.hostScale?.(scale)
+      // across the screen: the camera's right, flat on the ground
+      const right = new THREE.Vector3(at.x - cam.position.x, 0, at.z - cam.position.z).normalize()
+      right.set(-right.z, 0, right.x)
+      list.forEach((g, k) => {
+        const slot = z === mine ? (k % 2 ? -1 : 1) * (Math.floor(k / 2) + 1) : k - (list.length - 1) / 2
+        g.holder.scale.setScalar(scale)
+        g.holder.position.copy(at).addScaledVector(right, slot * gap)
+        g.holder.rotation.y = Math.atan2(cam.position.x - g.holder.position.x, cam.position.z - g.holder.position.z) * 0.6
+        g.av.update(dt, t, { speed: 0 })
+        g.tag.position.copy(g.holder.position)
+        g.tag.position.y += ((g.av.body.height + (g.av.body.hover ?? 0)) * scale) + 0.55
+        g.tag.quaternion.copy(cam.quaternion)
+      })
+      if (z !== mine && lit < this.seatLights.length) {
+        const l = this.seatLights[lit++]
+        l.position.set(at.x + 1.5, at.y + 3.2, at.z + 3)
+        l.intensity = 40
+      }
+    }
+    for (let i = lit; i < this.seatLights.length; i++) this.seatLights[i].intensity = 0
+    if (mine && !cubes.has(mine)) w.hostScale?.(SEAT_SCALE)
   }
 }

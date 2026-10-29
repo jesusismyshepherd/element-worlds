@@ -62,7 +62,7 @@ mechanics, engineering and chemistry games. Everything below is shaped so that t
   to 5). Arrow keys
   move the selection, Enter goes in.
 - Family legend: hover or tap a family to light it and dim the rest.
-- Trends (Scientist): cubes stretch into bars by a property (atomic radius, electronegativity, first
+- Trends (both depths since 2026-10-29: the user looked for it in Explorer): cubes stretch into bars by a property (atomic radius, electronegativity, first
   ionisation energy, melting point, density, atomic mass, year of discovery) with a colour scale and a
   legend; unknown values stay flat and faded. The periodic trends become visible landscapes.
 - Entering: the camera flies to the front face, the door opens with light, a short white fade, the
@@ -188,7 +188,7 @@ A wing is a module (see Architecture); adding one never touches the engine.
 ## Built so far (2026-10-27)
 
 - The plaza: all 118 cubes, hover and selection (the element's card, its Atomling popping up on the
-  cube), entering, the families, the trends as bars (Scientist), the time machine (1600 to today).
+  cube), entering, the families, the trends as bars, the time machine (1600 to today).
 - Every element's atrium: the atom, eight stations from the data (with carbon's and oxygen's own words),
   the specimen case (what it looks like for real), the floor table, the Atomling as player or host,
   discoveries.

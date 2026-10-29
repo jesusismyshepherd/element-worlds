@@ -21,8 +21,10 @@ full screen.
   button since 2026-10-28 (the user: a museum floor needs none, and it crowded the screen).
 - At rest the HUD covers under a third of the screen; with something opened to read, about half at most.
 - Phones fold: the pages, the level and the language go into the ☰ menu; the plaza's tools become a
-  dock of icons (one drawer open at a time, none at the start; the selected element's card wins the
-  bottom while it is up); the walking worlds' view switch and "talk" move into the top bar; the
+  dock of icons (one drawer open at a time, none at the start; the card and a drawer take turns at the
+  bottom, the last one asked for is shown: a dock button opens its drawer over a selected element's
+  card, a new pick brings the card back; until 2026-10-29 the card won and the dock seemed dead, the
+  user's report); the walking worlds' view switch and "talk" move into the top bar; the
   Atomling's bubble waits while a panel is open.
 - The Atomling's bubble (top left) stays until the player switches it off (the user, 2026-10-29: it went
   away by itself after 9 s): "talk" in the top bar switches it on and off (lit while it is on), the

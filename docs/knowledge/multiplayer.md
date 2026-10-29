@@ -17,7 +17,10 @@ games for more players, or for two with "the others ... spectators with possibil
   (with "Go": it takes me there and stands me beside the caller).
 - In a hall or a wing, everyone in the same world walks there as that world's Atomling with a ring in
   their colour and their name over it; emotes float up over the one who sent them; a call puts a pillar
-  of light where the caller stands. On the plaza, a name floats over the cube each one has selected.
+  of light where the caller stands. On the plaza, each one's Atomling stands on the cube they have selected (the user, 2026-10-29), with
+  their ring and name; on a cube I picked too they stand beside mine, and a row too wide for the cube
+  makes them all smaller (`plazaMarks` in `src/engine/others.js`; three lights for their cubes are made
+  with the world, since adding a light later recompiles every material).
 - The Molecule Lab is shared by everyone in it: one molecule, built together. Each player picks atoms
   for themselves (a ring in their colour), the lab card says who is building ("Building together: ...").
 
@@ -87,6 +90,11 @@ games for more players, or for two with "the others ... spectators with possibil
 start, link, code, colours, follow into a hall, each other's Atomlings and moves, a call answered from
 another world, an emote, water built together atom for atom, the lab going on when its host leaves,
 leaving. 24 checks, about 3 minutes; it prints each player's trail and realtime log when a check fails.
+
+`py -3.11 tools/plaza_room_probe.py [--base ...]`: three players on the table (one a phone): each sees
+the others' Atomlings on the cubes they picked, side by side on a shared one, moving with a new pick,
+gone when one leaves; and the dock (Trends in Explorer, the phone's drawers over a selected card). 17
+checks, under a minute; screenshots in `tools/shots/plaza_room/`.
 
 ## Next
 
