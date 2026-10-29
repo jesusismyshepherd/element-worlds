@@ -389,8 +389,8 @@ export async function build(ctx, target, previous) {
   updates.push(t => sample.update(t))
   interactables.push({
     id: 'look',
-    x: caseSpot.x + 0.6,
-    z: caseSpot.z + 1.4,
+    x: caseSpot.x + 0.75,
+    z: caseSpot.z + 1.85,
     radius: 1.7,
     label: W.sample,
     verb: W.look,
@@ -429,7 +429,7 @@ export async function build(ctx, target, previous) {
     const [x, z, w, d] = SIDES[o.side].stop
     solids.push(box(x, z, w, d))
   }
-  solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 0.75))
+  solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 1.1))
 
   // where a player arrives: at the entrance, or in front of the arch of the wing it comes back from
   const back = previous?.kind === 'wing' && previous.symbol === el.symbol ? wings.find(w => w.id === previous.wing) : null

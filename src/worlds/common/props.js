@@ -124,6 +124,34 @@ export function arch({ width = 3.6, height = 4.4, color = '#7fd4ff', label = '',
   return { group, update: t => mat.uniforms && (mat.uniforms.uTime.value = t) }
 }
 
+/** Glass that shows only at its edges, as a display case does: clear where you look straight through it,
+ *  catching the light where you look along it (a transparent physical glass reflected the bright hall
+ *  over the whole case and fogged what was inside). */
+export function edgeGlass({ color = '#dbe6ff', edge = 0.5, base = 0.02 } = {}) {
+  return new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    uniforms: { uColor: { value: new THREE.Color(color) }, uEdge: { value: edge }, uBase: { value: base } },
+    vertexShader: /* glsl */ `
+      varying vec3 vN; varying vec3 vV;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vN = normalize(normalMatrix * normal);
+        vV = normalize(-mv.xyz);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform vec3 uColor; uniform float uEdge; uniform float uBase;
+      varying vec3 vN; varying vec3 vV;
+      void main() {
+        float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 3.0);
+        gl_FragColor = vec4(uColor, uBase + uEdge * f);
+        #include <colorspace_fragment>
+      }`,
+  })
+}
+
 /** A swirling portal (or a starry night, for the way back to the plaza). */
 export function portalMaterial(color, kind = 'swirl') {
   return new THREE.ShaderMaterial({

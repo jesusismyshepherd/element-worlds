@@ -33,6 +33,29 @@ the results."
 - Code: `pictureBoard` in `src/worlds/common/props.js`; `loadBoards`, `boardArt` in
   `src/content/boards/index.js`; the hall in `src/worlds/atrium/atrium.js` (`boards`).
 
+## The specimen case (2026-10-29)
+
+The user: the case "could be something more substantial or representative", its samples "often generic
+polyhedra". Every hall now has a museum showcase (`src/worlds/atrium/specimen.js`): a stepped plinth
+ringed in the family's colour, a brass name plate, a turning table, a lamp in the lid of a tall glass
+case. The generic samples: metals as three cast ingots (the top one stamped with the symbol) and a
+nugget; crystals as pointed six-sided crystals growing from a rock; liquids in a flask, gases in a jar,
+noble gases as a glowing tube, superheavies as a question mark, each at the size that fits the case.
+An element can have its own showpiece (`src/worlds/atrium/showpieces.js`, `SHOWPIECES`): Carbon shows its
+three faces (a cut diamond over a stack of graphite flakes whose top one slips, and a lump of coal), Oxygen
+liquid oxygen boiling in a flask with cold fog over the rim and a magnet holding a drop of it.
+
+Traps met:
+- Glass: a transmissive (`transmission`) glass does not show transparent things inside it (the liquid
+  vanished), and a transparent physical glass reflects the bright hall over all of it (a milky fog over
+  the sample). `edgeGlass` (`src/worlds/common/props.js`) is clear face-on and shows at its edges only:
+  use it for cases, flasks and jars.
+- A diamond with real refraction showed the bright hall behind it (a white funnel): it is a cut gem whose
+  facets each have their own shade of white and ice blue (vertex colours, flat shading), with glints.
+- Random bumps per corner make a crumpled polyhedron; a rounded rock is a sphere pushed by smooth waves
+  (`lump` in showpieces.js).
+- Look at a case from where a visitor stands (`teleport(-3.2, 3.15, 0.38, -0.2)` in first person).
+
 ## Adding an element's boards
 
 Write the seven stories in English first (each a context that makes you want to walk up: the element in

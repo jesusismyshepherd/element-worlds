@@ -136,7 +136,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   its arch; walking toward a wing's arch builds it ahead (`engine.prewarm`). The floor table: a click or
   tap on a tile goes to that element's hall (2026-10-29). Carbon and Oxygen (2026-10-29, the user: the
   text boards were boring) have a fact file and seven picture boards instead of the eight stations;
-  the rest of the elements once the user has seen these (`docs/knowledge/hall-boards.md`).
+  the rest of the elements once the user has seen these (`docs/knowledge/hall-boards.md`). The specimen
+  case is a museum showcase in every hall, with real-looking samples; Carbon and Oxygen have their own
+  showpieces (`showpieces.js`; the rest once the user has seen these).
 - Element stories in `src/content/`: all 118 (written 2026-10-27 by agents in batches, checked by
   `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`: discovery credit as
   IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed
