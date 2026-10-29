@@ -62,9 +62,10 @@ export function RoomButton({ engine, compact }) {
 
   const inRoom = !!info
   const n = info?.members?.length ?? 0
+  // a code typed in the field names the new room (ZOSIA is easier to pass on than TZVN); else a random one
   const start = () => {
     if (!name.trim()) return
-    room.join(newCode(), name)
+    room.join(cleanCode(code).length >= 4 ? code : newCode(), name)
   }
   const join = () => {
     if (!name.trim() || cleanCode(code).length < 4) return
