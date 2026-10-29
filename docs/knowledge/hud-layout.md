@@ -24,6 +24,10 @@ full screen.
   dock of icons (one drawer open at a time, none at the start; the selected element's card wins the
   bottom while it is up); the walking worlds' view switch and "talk" move into the top bar; the
   Atomling's bubble waits while a panel is open.
+- The Atomling's bubble (top left) stays until the player switches it off (the user, 2026-10-29: it went
+  away by itself after 9 s): "talk" in the top bar switches it on and off (lit while it is on), the
+  arrow inside the bubble (and T) tells the next thing. `tools/nav_probe.py --only talk` checks it.
+- The plaza's card tells the Atomling's facts the same way, one at a time with arrows (Explorer).
 - Three screen kinds (`useViewport` in `src/ui/layout.js`): a computer; an upright phone (`narrow`,
   under 640 px wide); a phone on its side (`short`, under 520 px tall). The lab and the forge have a
   layout for each (`side` in LabHud and ForgeHud is the phone on its side).

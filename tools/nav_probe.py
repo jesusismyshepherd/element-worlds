@@ -175,6 +175,32 @@ def main():
             after = page.evaluate('() => __ew.player.camDist')
             check('two fingers apart bring the camera nearer', after < before * 0.8, f'({before:.1f} -> {after:.1f} m)')
             page.close()
+
+        # the Atomling's bubble stays until switched off; "talk" in the top bar switches it on and off,
+        # the arrow in the bubble (and T) tells the next thing (the user, 2026-10-29)
+        if 'talk' in a.only or not a.only:
+            for ctx, name in ((desk, 'computer'), (phone, 'phone')):
+                page = open_page(ctx, '/e/C')
+                said = lambda: page.evaluate('() => __ew.store.get().speech?.text ?? null')
+                page.wait_for_timeout(11000)
+                first = said()
+                check(f'{name}: the greeting is still there after 11 s', bool(first))
+                page.click('[data-speech-next]')
+                page.wait_for_timeout(100)
+                second = said()
+                check(f'{name}: the arrow in the bubble tells the next thing', bool(second) and second != first)
+                page.click('[data-talk]')
+                page.wait_for_timeout(100)
+                check(f'{name}: talk switches the bubble off', said() is None and page.locator('[data-speech]').count() == 0)
+                page.click('[data-talk]')
+                page.wait_for_timeout(100)
+                third = said()
+                check(f'{name}: talk switches it on again, with the next thing', bool(third) and third != second)
+                if name == 'computer':
+                    page.keyboard.press('KeyT')
+                    page.wait_for_timeout(100)
+                    check('computer: T tells the next thing', bool(said()) and said() != third)
+                page.close()
         b.close()
     for e in errors:
         print('console error:', e)

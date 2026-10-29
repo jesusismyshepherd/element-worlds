@@ -69,6 +69,7 @@ export default function Hud({ engine }) {
   const level = useStore(store, s => s.level)
   const title = useStore(store, s => s.title)
   const mode = useStore(store, s => s.mode)
+  const speech = useStore(store, s => s.speech)
   const found = useStore(store, s => s.discoveries)
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
@@ -158,7 +159,15 @@ export default function Hud({ engine }) {
             </button>
           )}
           {canTalk && (
-            <button type="button" title={t('hud.talk')} onClick={() => engine.world.talk()} className={BTN}>
+            // switches the Atomling's bubble on and off (its own arrow tells the next thing)
+            <button
+              type="button"
+              data-talk
+              title={t('hud.talk')}
+              aria-pressed={!!speech}
+              onClick={() => (store.get().speech ? store.set({ speech: null }) : engine.world.talk())}
+              className={`${BTN} ${speech ? 'bg-white/20 ring-1 ring-white/50' : ''}`}
+            >
               💬{!vp.compact && <span> {t('hud.talk')}</span>}
             </button>
           )}
