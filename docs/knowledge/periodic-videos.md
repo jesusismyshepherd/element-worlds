@@ -11,8 +11,16 @@ captions alone do not say what the apparatus looks like or what happens).
 ## Seeing a video
 
 `py -3.11 tools/pv/pv.py list` (the playlist, once), `fetch <Symbol>` (the video at 480p and its English
-captions), `sheets <Symbol>` (a frame every 4 s with its time, in contact sheets of 30, and
-`transcript.txt` with times). Read the sheets and the transcript, then write the brief.
+captions), then three looks, because one is not enough (the user asked, 2026-10-30, whether a frame
+every 4 s misses things; it did):
+- `cuts <Symbol>`: every hard cut at its exact time, however short the shot: where a station's part
+  starts. It does not see fades (sodium's lab, title card and professor blend into each other).
+- `sheets <Symbol>` (a frame every 2 s, with `transcript.txt`, the captions with times): the fades, the
+  change within a shot, what is said when.
+- `zoom <Symbol> <from> <to> --fps 4`: the moments an exhibit copies, frame by frame. Sodium's bang is
+  0.3 s long (3:50.5): the 4 s grid showed only the smoke before and after it.
+"Watch this part" starts where the part starts: a cut or a fade, checked against the captions so it
+never starts mid-sentence.
 
 - Everything goes to `D:/Family/Artur/pv-cache` (`PV_CACHE`), outside the repository: the videos are
   Periodic Videos' own, kept on this computer only for designing the game's versions (the user asked for

@@ -3,8 +3,15 @@ so the experiments in it can be rebuilt as things to do in the game (docs/knowle
 
     py -3.11 tools/pv/pv.py list               the playlist (one video per element) -> cache/playlist.json
     py -3.11 tools/pv/pv.py fetch Na           the video (480p at most) and its English captions
-    py -3.11 tools/pv/pv.py sheets Na [--every 4]   frames every N seconds -> sheet_1.jpg, ... with the time
+    py -3.11 tools/pv/pv.py sheets Na [--every 2]   frames every N seconds -> sheet_1.jpg, ... with the time
                                                 on each frame, and transcript.txt (captions with times)
+    py -3.11 tools/pv/pv.py cuts Na             every cut (scene change), at its exact time, however short
+                                                the shot -> cuts_1.jpg, ... and cuts.txt
+    py -3.11 tools/pv/pv.py zoom Na 3:44 3:56 [--fps 6]   a moment frame by frame -> zoom_3m44.jpg
+
+A fixed grid alone misses short shots (the bang that lasts a second) and puts a station's start up to a
+grid step late: use the cuts for where each part starts (to the frame), the captions for where its words
+start, the grid for change within a shot, and zoom for what an exhibit must copy exactly.
 
 Everything goes to the cache OUTSIDE the repository (PV_CACHE, default D:/Family/Artur/pv-cache): the
 videos are Periodic Videos' own (Brady Haran, University of Nottingham), looked at here only to design the
@@ -89,32 +96,77 @@ def transcript(d):
     return '\n'.join(lines)
 
 
-def cmd_sheets(symbol, every=4):
+def clock(t, tenths=False):
+    return f'{int(t // 60)}:{t % 60:04.1f}' if tenths else f'{int(t // 60)}:{int(t % 60):02d}'
+
+
+def seconds(s):
+    m, _, sec = s.partition(':')
+    return int(m) * 60 + float(sec) if sec else float(m)
+
+
+def contact(d, name, frames, cols=5, rows=6):
+    """frames: [(path, label)] -> name_1.jpg, ... (30 to a sheet, the label on each)."""
     from PIL import Image, ImageDraw, ImageFont
-    d = CACHE / symbol
-    frames = d / 'frames'
-    frames.mkdir(exist_ok=True)
-    for f in frames.glob('*.jpg'):
+    font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 18)
+    outs = []
+    for s in range(0, len(frames), cols * rows):
+        chunk = frames[s:s + cols * rows]
+        w, h = Image.open(chunk[0][0]).size
+        sheet = Image.new('RGB', (cols * w, ((len(chunk) - 1) // cols + 1) * h), 'black')
+        for i, (f, label) in enumerate(chunk):
+            im = Image.open(f)
+            ImageDraw.Draw(im).text((6, 4), label, fill='yellow', font=font, stroke_width=2, stroke_fill='black')
+            sheet.paste(im, ((i % cols) * w, (i // cols) * h))
+        out = d / f'{name}_{s // (cols * rows) + 1}.jpg'
+        sheet.save(out, quality=85)
+        outs.append(out)
+        print(out)
+    return outs
+
+
+def fresh(folder):
+    folder.mkdir(exist_ok=True)
+    for f in folder.glob('*.jpg'):
         f.unlink()
+    return folder
+
+
+def cmd_sheets(symbol, every=2):
+    d = CACHE / symbol
+    frames = fresh(d / 'frames')
     subprocess.run(['ffmpeg', '-v', 'error', '-i', str(d / 'video.mp4'), '-vf', f'fps=1/{every},scale=384:-2',
                     '-q:v', '3', str(frames / 'f_%04d.jpg')], check=True)
     files = sorted(frames.glob('f_*.jpg'))
-    font = ImageFont.truetype('C:/Windows/Fonts/arialbd.ttf', 18)
-    cols, rows = 5, 6
-    for s in range(0, len(files), cols * rows):
-        chunk = files[s:s + cols * rows]
-        w, h = Image.open(chunk[0]).size
-        sheet = Image.new('RGB', (cols * w, ((len(chunk) - 1) // cols + 1) * h), 'black')
-        for i, f in enumerate(chunk):
-            im = Image.open(f)
-            t = (s + i) * every
-            ImageDraw.Draw(im).text((6, 4), f'{t // 60}:{t % 60:02d}', fill='yellow', font=font, stroke_width=2, stroke_fill='black')
-            sheet.paste(im, ((i % cols) * w, (i // cols) * h))
-        out = d / f'sheet_{s // (cols * rows) + 1}.jpg'
-        sheet.save(out, quality=85)
-        print(out)
+    contact(d, 'sheet', [(f, clock(i * every)) for i, f in enumerate(files)])
     (d / 'transcript.txt').write_text(transcript(d), encoding='utf8')
     print(d / 'transcript.txt')
+
+
+def cmd_cuts(symbol, threshold=0.25):
+    """Every shot change, with the frame just after it, at its exact time (showinfo's pts_time)."""
+    d = CACHE / symbol
+    frames = fresh(d / 'cuts')
+    out = subprocess.run(['ffmpeg', '-hide_banner', '-i', str(d / 'video.mp4'), '-vf',
+                          f"select='eq(n,0)+gt(scene,{threshold})',showinfo,scale=384:-2", '-vsync', 'vfr', '-q:v', '3',
+                          str(frames / 'c_%04d.jpg')], capture_output=True, text=True, encoding='utf8', errors='replace')
+    times = [float(m) for m in re.findall(r'pts_time:([\d.]+)', out.stderr)]
+    files = sorted(frames.glob('c_*.jpg'))
+    lines = [f'{clock(t, True)}  shot {i + 1}' + (f' ({clock(times[i + 1] - t, True)[2:]} s)' if i + 1 < len(times) else '')
+             for i, t in enumerate(times)]
+    (d / 'cuts.txt').write_text('\n'.join(lines), encoding='utf8')
+    contact(d, 'cuts', [(f, clock(t, True)) for f, t in zip(files, times)])
+    print(len(times), 'shots ->', d / 'cuts.txt')
+
+
+def cmd_zoom(symbol, start, end, fps=6):
+    d = CACHE / symbol
+    a, b = seconds(start), seconds(end)
+    frames = fresh(d / 'zoom')
+    subprocess.run(['ffmpeg', '-v', 'error', '-ss', str(a), '-to', str(b), '-i', str(d / 'video.mp4'), '-vf',
+                    f'fps={fps},scale=384:-2', '-q:v', '3', str(frames / 'z_%04d.jpg')], check=True)
+    files = sorted(frames.glob('z_*.jpg'))
+    contact(d, f'zoom_{int(a // 60)}m{int(a % 60):02d}', [(f, clock(a + i / fps, True)) for i, f in enumerate(files)])
 
 
 if __name__ == '__main__':
@@ -126,6 +178,10 @@ if __name__ == '__main__':
     elif a[0] == 'fetch':
         cmd_fetch(a[1])
     elif a[0] == 'sheets':
-        cmd_sheets(a[1], int(a[a.index('--every') + 1]) if '--every' in a else 4)
+        cmd_sheets(a[1], int(a[a.index('--every') + 1]) if '--every' in a else 2)
+    elif a[0] == 'cuts':
+        cmd_cuts(a[1])
+    elif a[0] == 'zoom':
+        cmd_zoom(a[1], a[2], a[3], int(a[a.index('--fps') + 1]) if '--fps' in a else 6)
     else:
         sys.exit(__doc__)
