@@ -530,6 +530,30 @@ export async function build(ctx, target) {
     if (target.at) retarget(target)
   }
 
+  // a reload comes back to the same view (the engine's keepSpot, the user, 2026-10-29): the camera, the
+  // element picked, the trend and the family lit
+  const r2 = v => Number(v.toFixed(2))
+  const spot = () => ({
+    cam: camera.position.toArray().map(r2),
+    look: controls.target.toArray().map(r2),
+    sel: selected >= 0 ? selected + 1 : null,
+    trend: trend?.id ?? null,
+    family: familyFocus,
+  })
+  const restoreSpot = s => {
+    const ok = a => Array.isArray(a) && a.length === 3 && a.every(Number.isFinite)
+    if (s.sel >= 1 && s.sel <= state.length) select(s.sel, { frame: false })
+    if (s.trend && TRENDS.some(t => t.id === s.trend)) setTrend(s.trend)
+    if (s.family) focusFamily(s.family)
+    if (ok(s.cam) && ok(s.look)) {
+      fly = null
+      controls.enabled = true
+      controls.target.fromArray(s.look)
+      camera.position.fromArray(s.cam)
+      camera.lookAt(controls.target)
+    }
+  }
+
   const detach = () => {
     canvas.removeEventListener('pointermove', onMove)
     canvas.removeEventListener('pointerdown', onDown)
@@ -549,6 +573,8 @@ export async function build(ctx, target) {
     detach,
     update,
     retarget,
+    spot,
+    restoreSpot,
     resize: () => {},
     select: z => select(z),
     focusFamily,

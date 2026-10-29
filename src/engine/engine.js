@@ -16,7 +16,7 @@ import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
 import { onRestore } from './progress.js'
 
-const SPOT = 'ew-spot' // sessionStorage: where the walker stood (keepSpot)
+const SPOT = 'ew-spot' // sessionStorage: where the walker stood, or the table's view (keepSpot)
 let spotUsed = false // only the first world of a page load goes back there
 const readSpot = () => {
   try {
@@ -257,6 +257,8 @@ export class Engine {
       this.player.setAvatar(w.avatar ?? null)
     } else this.player.setAvatar(null)
     w.attach?.(this)
+    // the table and the other worlds without a walker keep their own view (camera, pick)
+    if (w.mode !== 'walk' && back?.key === key) w.restoreSpot?.(back)
     this.others?.enter(w)
     room.arrived(location.pathname)
     ambience(target.kind)
@@ -331,14 +333,18 @@ export class Engine {
   }
 
   /** Remember where the walker stands (each second when it changed, and as the page goes), so a reload
-   *  puts them back there instead of at the world's door (the user, 2026-10-29). Per tab. */
+   *  puts them back there instead of at the world's door (the user, 2026-10-29); a world without a
+   *  walker gives its own view (`spot`, the table's camera and pick; `restoreSpot` puts it back). Per tab. */
   keepSpot(now = false) {
-    if (this.world?.mode !== 'walk' || !this.key) return
+    const w = this.world
+    if (!this.key || !(w?.mode === 'walk' || w?.spot)) return
     if (!now && this.time - (this.spotAt ?? -9) < 1) return
     this.spotAt = this.time
     const p = this.player
     const r = (v, d = 2) => Number(v.toFixed(d))
-    const s = JSON.stringify({ key: this.key, x: r(p.pos.x), y: r(p.pos.y), z: r(p.pos.z), yaw: r(p.yaw, 3), pitch: r(p.pitch, 3) })
+    const s = JSON.stringify(w.mode === 'walk'
+      ? { key: this.key, x: r(p.pos.x), y: r(p.pos.y), z: r(p.pos.z), yaw: r(p.yaw, 3), pitch: r(p.pitch, 3) }
+      : { key: this.key, ...w.spot() })
     if (s === this.spotSaved) return
     this.spotSaved = s
     try {
@@ -359,8 +365,8 @@ export class Engine {
         if (this.input.took('KeyT')) this.talk()
         this.pointing(w)
         this.player.update(dt, w, this.input, this.time)
-        this.keepSpot()
       }
+      this.keepSpot()
       w.update?.(dt, this.time, this)
       this.others?.update(dt, this.time)
     }

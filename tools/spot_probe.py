@@ -2,6 +2,8 @@
 a refresh threw him back to the start of the room). In Carbon's hall and in Oxygen's air wing: walk
 somewhere, reload, and the walker stands there, facing the same way; then leave and come back through
 the door, and the walker arrives at the door as usual (only the first world after a load goes back).
+On the table: turn and zoom the view, pick an element, light a trend, reload: the same view, pick and
+trend come back.
 Dev server on 5310, or --base.
 
     python tools/spot_probe.py [--base http://localhost:5310]
@@ -56,9 +58,20 @@ def main():
             check(f'{path}: coming back later arrives at the door again', d < 0.3, f'{d:.2f} m from the door')
         page.goto(f'{base}/?lang=en')
         at('/')
+        page.evaluate('() => { __ew.world.select(26); __ew.world.setTrend("radius") }')
+        page.wait_for_timeout(1500)
+        # the player's own view: turned and nearer, away from where a pick flies to
+        page.evaluate('() => __ew.camera.position.set(-30, 22, 40)')
+        page.wait_for_timeout(1500)
+        view = lambda: page.evaluate('() => ({ cam: __ew.camera.position.toArray(), sel: __ew.store.get().selected, trend: __ew.store.get().trend })')
+        before = view()
         page.reload()
         at('/')
-        check('a reload on the plaza is untouched, and nothing throws', not errs, str(errs))
+        after = view()
+        d = math.dist(before['cam'], after['cam'])
+        check('the table: a reload keeps the view', d < 0.1, f'{d:.3f} off, {after["cam"]}')
+        check('the table: and the element picked and the trend', after['sel'] == 26 and after['trend'] == 'radius', f'{after["sel"]} {after["trend"]}')
+        check('nothing throws', not errs, str(errs))
         b.close()
     sys.exit(1 if fails else 0)
 

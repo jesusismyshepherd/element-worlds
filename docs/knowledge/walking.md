@@ -50,6 +50,9 @@ A reload puts the walker back where they stood, facing the same way, instead of 
 sessionStorage `ew-spot` once a second when they changed, and again on `pagehide`. Only the first world
 of a page load goes back there, and only when its key matches; every world reached afterwards starts at
 its door as before. Per tab; blocked storage starts at the door. `tools/spot_probe.py` checks it.
+The table keeps its view the same way (the user, the same day: "it doesn't remember my current position
+on the table"): a world without a walker gives `spot()` (the plaza: camera, the point it looks at, the
+element picked, the trend, the family lit) and gets it back through `restoreSpot` right after `attach`.
 
 ## Things to click in a walking world
 
