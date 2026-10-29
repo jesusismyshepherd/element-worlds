@@ -3,14 +3,17 @@
 Why (the user, 2026-10-29): to "see what is liked, revisited, spent time on, or speculate what is not
 due to either underdevelopment, obscurity, confusion or dislike". The game records what is visited and
 done (`src/net/telemetry.js`) into the family's database, and the parent reads it on a private page,
-`/stats` (`src/pages/Stats.jsx`), behind a password.
+`/stats` (`src/pages/Stats.jsx`), behind a password or an admin account. Since the accounts came
+(2026-10-29 evening, docs/knowledge/accounts.md) a signed-in player is recorded under their account; the
+`?who=` tags of the first version are gone.
 
 ## What is recorded
 
-The family's Supabase project (pokemon-site's, `kawvqpvntdgehigwvfao`), tables `ew_devices` and
-`ew_events`; every name there starts with `ew_`. Schema, functions and the reasons for them:
-`supabase/ew_001_usage.sql`. The site only writes, through `ew_log`, `ew_mark` and `ew_status`; the
-tables cannot be read with the public key (row-level security, no policies). Nothing is recorded on the
+The family's Supabase project (pokemon-site's, `kawvqpvntdgehigwvfao`), table `ew_events` (and
+`ew_profiles`, the accounts' side); every name there starts with `ew_`. Schema, functions and the reasons
+for them: `supabase/ew_001_usage.sql`, then `ew_002_accounts.sql`. The site only writes, through `ew_log`
+(signed in, with the account's session: the server takes the account from it); the tables cannot be read
+with the public key (row-level security, no policies). Nothing is recorded on the
 dev server, on a home network address or under a test browser (the probes), unless the address has
 `?track=1` (a probe that checks the recording itself).
 
@@ -34,43 +37,43 @@ Events are batched: sent every 15 s, at 60 waiting events, and when the page is 
 | `level`, `view`, `lang` | `v` | Explorer or Scientist, the view, the language |
 | `err` | `m` (message), `s` (file:line or 'promise') | uncaught errors |
 | `room` | `op` (join, leave) | the rooms (multiplayer, `src/net/room.js`) |
+| `lab` | `op` (add, join, part, remove, clear, demo, made), `el`, `show`, `together` | the Molecule Lab (`lab.js`) |
+| `duel` | `op` (start, pick), `ok`, `n` | the quiz duel (`src/net/duel.js`) |
+| `account` | `op` (in, out, new, moved), `found` | the account (`src/net/account.js`) |
 
 New kinds may come (lab actions, rooms): the dashboard shows a kind it does not know under "Other
 events" and in the timeline as it came, and never fails on one.
 
 ## Privacy
 
-- A family member's device is marked once (below): its events carry the device's id and are kept as its
-  history, under its tag. The device keeps its id and tag in its own storage (`ew-device`, `ew-who`) and,
-  until they are sent, its unsent events (`ew-queue`).
-- Everyone else is anonymous: one random id per page load (a "visit"), nothing kept in the browser,
-  and nothing recorded at all when the browser asks not to be tracked (Global Privacy Control, Do Not
-  Track).
+- A signed-in player: their events go under their account and are kept as its history, unless the
+  account's switch "Record what I play" (👤, on by default) is off: then nothing is sent, and the server
+  drops anything that comes.
+- Everyone else is anonymous: one random id per page load (a "visit"), nothing kept in the browser, and
+  nothing recorded at all when the device's own switch is off (`ew-track`) or the browser asks not to be
+  tracked (Global Privacy Control, Do Not Track).
 - No names and no addresses are recorded.
 - Events older than 180 days are deleted (`ew_log`, now and then).
 
-## Marking a device
+## People (accounts)
 
-- Open `https://element-worlds.vercel.app/?who=artur` on it: any tag of letters, digits, `-` and `_`
-  (at most 24, kept in lower case). The tag is taken out of the address at once, so a shared link does
-  not mark another device.
-- `?who=off` on the device itself unmarks it. Its history stays under its tag until it is forgotten.
-- On the dashboard: Retag, Unmark (the device forgets its tag on its next visit and is anonymous from
-  then on), Mark again, Forget (deletes the device and all its events; it asks first).
-- A `?who=` in any address marks the device it is opened on: that is why the dashboard keeps its own
-  filter out of the address (in `localStorage`, `ew-dash-filter`).
+- A family member signs in once on each device (👤; the Pokémon site's login works): their visits are
+  kept under their account from then on, on every device, and their progress follows them.
+- `?who=` in an address does nothing now (it is removed from the address).
 
 ## The dashboard (`/stats`)
 
 English only (an admin page, not part of the game), styled like the site, for a phone and a computer.
 
-- The gate: one password field. The password is checked by `ew_admin('check')`; a wrong one comes back
-  after 1.5 s. A password that worked is kept in that browser's `localStorage` (`ew-dash-pass`) until
-  Log out; if it is changed in the database, the next call is refused and the page logs out by itself.
-- Devices: every marked device (tag, kind, browser, first and last seen, events, marked or unmarked)
-  with its actions, and how to mark one. It is not filtered.
+- The gate: one password field, or none for a signed-in admin account (`profiles.is_admin`; sign in with
+  👤 on the game first). The password is checked by `ew_admin('check')`; a wrong one comes back after
+  1.5 s. A password that worked is kept in that browser's `localStorage` (`ew-dash-pass`) until Log out;
+  if it is changed in the database, the next call is refused and the page logs out by itself.
+- People: every account that played (name, recording on or off, the device of its last visit, first and
+  last seen, events, discoveries), with "Forget the history" (its events; the account stays). It is not
+  filtered.
 - Filters, scoping everything below them: the period (today, 7, 30 or 180 days, today included; times in
-  the viewer's time zone) and who (everyone, one tag, anonymous visitors).
+  the viewer's time zone) and who (everyone, one account, anonymous visitors).
 - Summary: visits, active time, active per visit, places entered, panels read, quiz answers right.
 - What it suggests: guesses from the numbers, each labelled (never colour alone): time spent, liked,
   revisited, not found? (main places never entered: a wing whose hall was entered but not it, so its arch
@@ -121,8 +124,8 @@ What the recording does that the analysis has to know (seen in a capture of the 
   leave and an enter of the same world within `JOIN_MS` are one stay.
 - A page closed or killed while put away (phones) sends no `leave`: the stay lasts until the last thing
   recorded there, without the time the page was hidden, and is marked estimated.
-- A marked device sends what an earlier page load could not with its next page load, under the new
-  visit's id: those events come before its `start` and the timeline sets them apart.
+- (Until the accounts, a marked device sent what an earlier page load could not with its next one;
+  the timeline still sets such events apart.)
 - telemetry.js starts on every page, `/stats` too: events whose address is `/stats` are left out.
 - `ew_admin('events')` returns the newest events of the period, at most 50000; the page says so when it
   reaches that, and a shorter period reads them all.
@@ -141,17 +144,18 @@ cannot be reached with the public key):
 ```sql
 -- what was done, by kind, in the last week
 select kind, count(*) from public.ew_events where at > now() - interval '7 days' group by kind order by 2 desc;
--- the marked devices
-select id, label, kind, browser, first_seen, last_seen, removed from public.ew_devices order by last_seen desc;
+-- the accounts that played, with their switch and how much they discovered
+select p.username, ep.tracking, jsonb_array_length(ep.progress->'found') as discoveries, ep.migrated_at
+from public.ew_profiles ep join public.profiles p on p.id = ep.id order by ep.updated_at desc;
 -- one person's last visits, with their events in order
-select e.visit, e.at, e.kind, e.path, e.data from public.ew_events e join public.ew_devices d on d.id = e.device
-where d.label = 'artur' and e.at > now() - interval '2 days' order by e.at;
+select e.visit, e.at, e.kind, e.path, e.data from public.ew_events e join public.profiles p on p.id = e.account
+where p.username = 'artur' and e.at > now() - interval '2 days' order by e.at;
 ```
 
 `ew_events`: `at` (when it happened, the device's clock kept within the last 14 days), `received`,
-`device` (null for anonymous visits), `visit`, `kind`, `path`, `data`. `ew_devices`: `id`, `label` (the
-tag), `kind`, `browser`, `first_seen`, `last_seen`, `removed` (unmarked). Or through `ew_admin` with the
-password, as the probes do.
+`account` (null for anonymous visits), `visit`, `kind`, `path`, `data`. `ew_profiles`: `id` (the
+account), `tracking`, `progress` (`found`, `quiz`, `neon`), `migrated_at` (when a device's progress first
+came over). Or through `ew_admin` with the password, as the probes do.
 
 ## The password
 
@@ -168,14 +172,15 @@ environment variable `EW_DASH_PASS`.
 
 ## Probes
 
-- `tools/usage_probe.py`: the recording from end to end (a throwaway marked device on the dev server,
-  the events read back, retag and unmark seen by the device, an anonymous visit), then forgets it all.
-- `tools/stats_probe.py`: the dashboard from end to end with synthetic data: a throwaway device marked
-  through `ew_mark`, two visits logged through `ew_log` covering every kind (and one unknown), the gate
-  (a wrong password refused and not kept), every section with that data, a tooltip, a table view, the
-  timeline in plain words, a visit forgotten, retag (the filter follows), unmark, mark again, forget,
-  log out, no console errors; screenshots on a computer and a phone in `tools/shots/stats/`; it always
-  forgets the device and its visits at the end.
+- `tools/usage_probe.py`: the anonymous recording from end to end (the events read back, nothing kept in
+  the browser), then forgets the visit.
+- `tools/account_probe.py`: accounts and their recording (docs/knowledge/accounts.md).
+- `tools/stats_probe.py`: the dashboard from end to end with synthetic data: a throwaway account
+  (`probe_dash_xxxx`), two visits logged as it covering every kind (and one unknown), the gate (a wrong
+  password refused and not kept), every section with that data, a tooltip, a table view, the timeline in
+  plain words, a visit forgotten, the account's history forgotten, log out, no console errors;
+  screenshots on a computer and a phone in `tools/shots/stats/`; it always deletes the account and its
+  visits at the end.
 
 ```
 EW_DASH_PASS=... py -3.11 tools/stats_probe.py

@@ -205,8 +205,8 @@
     "dataTitle": "Where the numbers come from",
     "data": "Element data from the PubChem periodic table (US National Library of Medicine, public domain) and the mendeleev Python package (MIT licence): masses, configurations, radii, isotopes, abundances. Discovery years follow one rule (when the element was first recognised or isolated). Values for the superheavy elements are partly predictions and are marked as such.",
     "privacyTitle": "What we note",
-    "privacy": "To make the game better we note what is visited and done here (which halls, for how long, what was tried in the lab), with no names and no addresses. Family devices marked by a grown-up keep a history; every other visit is anonymous, and nothing is noted when your browser asks not to be tracked.",
-    "recording": "This device keeps a history as “{{who}}”."
+    "privacy": "To make the game better we note what is visited and done here (which halls, for how long, what was tried in the lab), never names or addresses. When you are signed in it is kept with your account; otherwise each visit is anonymous, and nothing is noted when your browser asks not to be tracked. You can switch it off under 👤.",
+    "recording": "You are signed in as “{{who}}”: what you play is kept with your account."
   },
   "search": {
     "placeholder": "Find an element…"
@@ -412,5 +412,38 @@
     "locked": "Wrong: wait for the next one.",
     "started": "{{name}} started a quiz duel",
     "end": "End the duel"
+  },
+  "account": {
+    "title": "Account",
+    "signedOut": "Not signed in",
+    "intro": "An account keeps your discoveries, badges and records on every device.",
+    "pokemon": "Playing on the Pokémon site already? Sign in with the same name and password.",
+    "signIn": "Sign in",
+    "signUp": "New account",
+    "username": "Name",
+    "password": "Password",
+    "show": "Show",
+    "hide": "Hide",
+    "doSignIn": "Sign in",
+    "doSignUp": "Create my account",
+    "working": "One moment…",
+    "signedInAs": "Signed in as {{name}}",
+    "saved": "Your discoveries are saved to your account.",
+    "moved_one": "{{count}} discovery from this device is now in your account.",
+    "moved_other": "{{count}} discoveries from this device are now in your account.",
+    "track": "Record what I play",
+    "trackHelp": "It helps make the game better; only the people who make it see it.",
+    "signOut": "Sign out",
+    "admin": "Family dashboard",
+    "errors": {
+      "wrong": "Wrong name or password.",
+      "taken": "That name is taken: try another.",
+      "length": "A name has 3 to 20 letters or digits.",
+      "chars": "Only letters, digits and _ in a name.",
+      "reserved": "That name is not allowed.",
+      "weak": "A password needs at least 6 characters.",
+      "busy": "Too many tries: wait a minute.",
+      "failed": "Something went wrong: try again."
+    }
   }
 }

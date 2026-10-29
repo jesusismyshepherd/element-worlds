@@ -11,13 +11,17 @@ import App from './App'
 import { watchReleases } from './engine/release.js'
 import { autoFullscreen } from './ui/fullscreen.js'
 import { startTelemetry, watchStore } from './net/telemetry.js'
+import { account } from './net/account.js'
 import { store } from './state.js'
 
 watchReleases()
 // phones and tablets go full screen at the first touch (src/ui/fullscreen.js)
 autoFullscreen()
 // what is visited and done, for the family dashboard (src/net/telemetry.js, docs/knowledge/usage-data.md)
-startTelemetry().then(() => watchStore(store, i18n))
+startTelemetry()
+watchStore(store, i18n)
+// a device signed in before comes back signed in (src/net/account.js, docs/knowledge/accounts.md)
+account.start(store)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

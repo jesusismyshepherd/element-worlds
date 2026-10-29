@@ -1,16 +1,16 @@
 // What happens in the game, sent to the family's database so we can see what is liked, revisited, never
-// found or confusing (the user, 2026-10-29; docs/knowledge/usage-data.md). Two kinds of visitor:
-// - a family member's device, marked once with ?who=artur (?who=off unmarks it): its events carry the
-//   device's id and are kept as its history; a device can be retagged or unmarked on the dashboard;
-// - everyone else: anonymous, nothing stored in the browser, one random id per page load, and nothing at
-//   all when the browser asks not to be tracked (Global Privacy Control, Do Not Track).
+// found or confusing (the user, 2026-10-29; docs/knowledge/usage-data.md). Two kinds of player:
+// - signed in (src/net/account.js): the events go under the account and are kept as its history;
+//   the account's switch ("Record what I play", on by default) turns it off on every device;
+// - everyone else: anonymous, nothing stored in the browser, one random id per page load; the same
+//   switch, kept on the device, turns it off, and nothing is recorded when the browser asks not to be
+//   tracked (Global Privacy Control, Do Not Track).
 // No names, no addresses. Nothing is recorded on the dev server or under a test browser (the probes).
 // track(kind, data) anywhere; the store's changes (world, selection, panels, level, view) are watched here.
-import { rpc } from './config.js'
+// (Until 2026-10-29 a family device was marked with ?who=<tag>; accounts replaced the tags.)
+import { rpc, signedIn } from './config.js'
 
-const DEVICE = 'ew-device'
-const WHO = 'ew-who'
-const QUEUE = 'ew-queue'
+const SWITCH = 'ew-track' // 'off': this device records nothing while signed out
 const FLUSH_MS = 15000
 const IDLE_MS = 60000
 
@@ -23,12 +23,12 @@ const safe = f => {
 }
 const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)))
 
-let device = null // the marked device's id, or null (anonymous)
-let who = null
 let visit = null
 let queue = []
 let on = false
-let timer = null
+let started = false
+let account = null // { username, tracking } while signed in
+let ready = Promise.resolve() // the sign-in check: nothing is sent before it (else a returning player's first events go out anonymous)
 
 /** Is anything recorded at all on this page? */
 const allowed = () => {
@@ -40,6 +40,9 @@ const allowed = () => {
   return true
 }
 const declined = () => navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1'
+
+/** The device's own switch (signed out). */
+export const deviceSwitch = () => safe(() => localStorage.getItem(SWITCH)) !== 'off'
 
 export function deviceKind() {
   const touch = matchMedia('(pointer: coarse)').matches
@@ -54,78 +57,74 @@ export function browserName() {
   return `${b} on ${os}`
 }
 
-/** Who this device records as (null when it is anonymous). */
-export const recordingAs = () => who
+/** Who is recorded on this page (the signed-in username, while recording), or null. */
+export const recordingAs = () => (on && account?.tracking ? account.username : null)
+
+/** Is this page recording? */
+export const recording = () => on
 
 /** Note something that happened: a short kind and a little data. */
 export function track(kind, data) {
   if (!on) return
   queue.push({ at: new Date().toISOString(), k: kind, p: location.pathname, d: data ?? undefined })
-  if (device) safe(() => localStorage.setItem(QUEUE, JSON.stringify(queue.slice(-500))))
   if (queue.length >= 60) flush()
 }
 
 async function flush(keepalive = false) {
-  if (!queue.length) return
+  await ready
+  if (!queue.length || !on) return
   const batch = queue.splice(0, 250)
-  if (device) safe(() => localStorage.setItem(QUEUE, JSON.stringify(queue)))
   try {
-    await rpc('ew_log', { p_device: device, p_visit: visit, p_events: batch }, { keepalive })
+    await rpc('ew_log', { p_visit: visit, p_events: batch }, { keepalive })
   } catch {
-    // offline or the database away: put them back for the next try (a marked device keeps them)
+    // offline or the database away: put them back for the next try
     queue = [...batch, ...queue].slice(-500)
-    if (device) safe(() => localStorage.setItem(QUEUE, JSON.stringify(queue)))
   }
 }
 
-/** Start: read ?who=, decide what is recorded, watch the page. Call once, before the app. */
-export async function startTelemetry() {
-  if (on || !allowed()) return
+/** What to record now: called when the account is known, and when a switch is turned. */
+function decide() {
+  const want = allowed() && (account ? account.tracking : deviceSwitch() && !declined())
+  if (want === on) return
+  on = want
+  if (!on) queue = []
+  else if (!visit) begin()
+}
+
+/** The sign-in state (from src/net/account.js): null when signed out. */
+export function setAccount(a) {
+  account = a
+  decide()
+}
+
+/** Hold sending until the sign-in check is done (account.js passes its promise). */
+export function waitFor(p) {
+  ready = Promise.race([p.catch(() => {}), new Promise(r => setTimeout(r, 8000))])
+}
+
+/** The switch while signed out (kept on this device). */
+export function setDeviceSwitch(v) {
+  safe(() => (v ? localStorage.removeItem(SWITCH) : localStorage.setItem(SWITCH, 'off')))
+  decide()
+}
+
+/** Start: decide what is recorded, watch the page. Call once, before the app. */
+export function startTelemetry() {
+  if (started) return
+  started = true
+  // the tags of before: out of the address and the device
   const params = new URLSearchParams(location.search)
-  const tag = params.get('who')
-  if (tag != null) {
-    // take the tag out of the address, so a shared link does not mark another device
+  if (params.has('who')) {
     params.delete('who')
     const rest = params.toString()
     history.replaceState(history.state, '', `${location.pathname}${rest ? `?${rest}` : ''}${location.hash}`)
   }
-  device = safe(() => localStorage.getItem(DEVICE))
-  who = safe(() => localStorage.getItem(WHO))
-  if (tag != null) {
-    if (tag.toLowerCase() === 'off') {
-      if (device) rpc('ew_mark', { p_device: device, p_label: 'off' }).catch(() => {})
-      safe(() => [DEVICE, WHO, QUEUE].forEach(k => localStorage.removeItem(k)))
-      device = who = null
-    } else {
-      device = device || uuid()
-      const r = await rpc('ew_mark', { p_device: device, p_label: tag, p_kind: deviceKind(), p_browser: browserName() }).catch(() => null)
-      if (r?.marked) {
-        who = r.label
-        safe(() => {
-          localStorage.setItem(DEVICE, device)
-          localStorage.setItem(WHO, who)
-        })
-      }
-    }
-  } else if (device) {
-    // still marked? (the dashboard can unmark a device that was marked by mistake)
-    rpc('ew_status', { p_device: device })
-      .then(r => {
-        if (r && !r.marked) {
-          safe(() => [DEVICE, WHO, QUEUE].forEach(k => localStorage.removeItem(k)))
-          device = who = null
-        } else if (r?.label && r.label !== who) {
-          who = r.label
-          safe(() => localStorage.setItem(WHO, who))
-        }
-      })
-      .catch(() => {})
-  }
-  if (!device && declined()) return
-  on = true
+  safe(() => ['ew-device', 'ew-who', 'ew-queue'].forEach(k => localStorage.removeItem(k)))
+  decide()
+}
+
+function begin() {
   visit = uuid()
-  // a marked device sends what was left from its last visit
-  if (device) queue = safe(() => JSON.parse(localStorage.getItem(QUEUE) ?? '[]')) ?? []
   track('start', {
     kind: deviceKind(),
     browser: browserName(),
@@ -133,8 +132,7 @@ export async function startTelemetry() {
     h: innerHeight,
     app: matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches || undefined,
   })
-  timer = setInterval(() => flush(), FLUSH_MS)
-  window.__ewTelemetry = { flush: () => flush(), device: () => device, visit: () => visit } // for tools/usage_probe.py
+  setInterval(() => flush(), FLUSH_MS)
   addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') {
       track('hide')
@@ -146,6 +144,8 @@ export async function startTelemetry() {
   addEventListener('error', e => track('err', { m: String(e.message ?? '').slice(0, 200), s: `${String(e.filename ?? '').split('/').pop()}:${e.lineno ?? ''}` }))
   addEventListener('unhandledrejection', e => track('err', { m: String(e.reason?.message ?? e.reason ?? '').slice(0, 200), s: 'promise' }))
   watchActivity()
+  window.__ewTelemetry = { flush: () => flush(), visit: () => visit, on: () => on, signedIn } // for the probes
+  if (pendingWatch) pendingWatch()
 }
 
 // ---- time spent: only while the page is on show and someone touched it in the last minute ----
@@ -174,9 +174,17 @@ function activeNow() {
 }
 
 /** Watch the store: worlds entered and left (with the time spent), the plaza's selection, panels opened
- *  (and how long they stayed open), level, view and language changes. */
+ *  (and how long they stayed open), level, view and language changes. Waits for the recording to
+ *  start when it is off at first (it may be turned on later). */
+let pendingWatch = null
 export function watchStore(store, i18n) {
-  if (!on) return
+  if (!visit) {
+    pendingWatch = () => {
+      pendingWatch = null
+      watchStore(store, i18n)
+    }
+    return
+  }
   let where = null
   let since = 0
   let activeAt = 0
@@ -187,9 +195,7 @@ export function watchStore(store, i18n) {
     track('leave', { w: where, ms: Math.round(ms), act: Math.round(Math.min(ms, activeNow() - activeAt)) })
   }
   let prev = store.get()
-  store.subscribe(s => {
-    const was = prev
-    prev = s
+  const enter = s => {
     // a world is the same world while its key is (the store gets a new object for it on every set)
     const key = s.world ? [s.world.kind, s.world.symbol, s.world.wing].filter(Boolean).join(':') : null
     if (key && key !== where) {
@@ -199,6 +205,12 @@ export function watchStore(store, i18n) {
       activeAt = activeNow()
       track('enter', { w: where })
     }
+  }
+  enter(prev)
+  store.subscribe(s => {
+    const was = prev
+    prev = s
+    enter(s)
     if (s.selected !== was.selected && s.selected != null) track('sel', { z: s.selected })
     const id = s.panel ? s.panelFrom ?? s.panel.title : null
     if (id !== (panel?.id ?? null)) {

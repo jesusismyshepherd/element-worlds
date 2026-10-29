@@ -205,8 +205,8 @@
     "dataTitle": "De onde vêm os números",
     "data": "Dados dos elementos da tabela periódica do PubChem (Biblioteca Nacional de Medicina dos EUA, domínio público) e do pacote Python mendeleev (licença MIT): massas, configurações, raios, isótopos, abundâncias. Os anos de descoberta seguem uma só regra (quando o elemento foi reconhecido ou isolado pela primeira vez). Os valores dos elementos super-pesados são em parte previsões e estão assinalados como tal.",
     "privacyTitle": "O que registamos",
-    "privacy": "Para melhorar o jogo, registamos o que aqui se visita e faz (que salões, durante quanto tempo, o que se experimentou no laboratório), sem nomes nem endereços. Os dispositivos da família marcados por um adulto guardam um histórico; todas as outras visitas são anónimas, e nada é registado quando o teu navegador pede para não ser seguido.",
-    "recording": "Este dispositivo guarda um histórico como «{{who}}»."
+    "privacy": "Para melhorar o jogo, registamos o que aqui se visita e faz (que salões, durante quanto tempo, o que se experimentou no laboratório), nunca nomes nem endereços. Com sessão iniciada, fica guardado na tua conta; sem ela, cada visita é anónima, e nada é registado quando o teu navegador pede para não ser seguido. Podes desligar isto em 👤.",
+    "recording": "Tens sessão iniciada como «{{who}}»: o que jogas fica guardado na tua conta."
   },
   "search": {
     "placeholder": "Procurar elemento…"
@@ -412,5 +412,38 @@
     "locked": "Errado: espera pela próxima.",
     "started": "{{name}} começou um duelo de perguntas",
     "end": "Terminar o duelo"
+  },
+  "account": {
+    "title": "Conta",
+    "signedOut": "Sem sessão iniciada",
+    "intro": "Uma conta guarda as tuas descobertas, medalhas e recordes em todos os dispositivos.",
+    "pokemon": "Já jogas no site dos Pokémon? Entra com o mesmo nome e palavra-passe.",
+    "signIn": "Entrar",
+    "signUp": "Conta nova",
+    "username": "Nome",
+    "password": "Palavra-passe",
+    "show": "Mostrar",
+    "hide": "Esconder",
+    "doSignIn": "Entrar",
+    "doSignUp": "Criar a minha conta",
+    "working": "Um momento…",
+    "signedInAs": "Sessão iniciada como {{name}}",
+    "saved": "As tuas descobertas ficam guardadas na tua conta.",
+    "moved_one": "{{count}} descoberta deste dispositivo está agora na tua conta.",
+    "moved_other": "{{count}} descobertas deste dispositivo estão agora na tua conta.",
+    "track": "Registar o que jogo",
+    "trackHelp": "Ajuda a melhorar o jogo; só quem o faz o vê.",
+    "signOut": "Sair",
+    "admin": "Painel da família",
+    "errors": {
+      "wrong": "Nome ou palavra-passe errados.",
+      "taken": "Esse nome já existe: experimenta outro.",
+      "length": "Um nome tem de 3 a 20 letras ou algarismos.",
+      "chars": "Num nome, só letras, algarismos e _.",
+      "reserved": "Esse nome não é permitido.",
+      "weak": "A palavra-passe precisa de pelo menos 6 caracteres.",
+      "busy": "Demasiadas tentativas: espera um minuto.",
+      "failed": "Algo correu mal: tenta outra vez."
+    }
   }
 }

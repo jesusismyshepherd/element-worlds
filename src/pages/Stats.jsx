@@ -1,12 +1,13 @@
 // The family dashboard (/stats): what is visited and done in Element Worlds, for the parent; in English
 // only (an admin page, not part of the game). docs/knowledge/usage-data.md says what is recorded, why,
-// and how to read it. Behind a password: every call goes through ew_admin (src/stats/api.js). The
+// and how to read it. Behind a password, or open to a signed-in admin account (profiles.is_admin; the
+// account's session goes with every call): every call goes through ew_admin (src/stats/api.js). The
 // numbers come from src/stats/analyze.js, the words from readings.js and timeline.js, the charts from
 // ui.jsx. Nothing on this page is recorded by the game's telemetry (the Explore page is not mounted
 // here, and analyze.js drops any event whose address is /stats).
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { admin, refused, savedPass, keepPass, dropPass, savedFilter, keepFilter, tagOf } from '../stats/api.js'
+import { admin, refused, savedPass, keepPass, dropPass, savedFilter, keepFilter } from '../stats/api.js'
 import { analyze, periodStart, PERIODS, LIMIT, visitSummary, SKIM_MS, QUICK_MS } from '../stats/analyze.js'
 import * as R from '../stats/readings.js'
 import { timelineOf, compact } from '../stats/timeline.js'
@@ -14,6 +15,8 @@ import { dur, durShort, when, whenFrom, clock, day, shortDay, plural, times, nic
 import { PlaceName, placeName, panelName, whereName, elementName, setBoardTitles, personName, deviceName, featureName, missionName, beamName, drawerTitle, levelName, viewName, langName } from '../stats/names.js'
 import { loadBoards } from '../content/boards/index.js'
 import { Card, Kpi, Table, Columns, BarRows, StackRows, Legend, Chip, INK, SERIES, STATUS, BUTTON } from '../stats/ui.jsx'
+import { useStore } from '../engine/store.js'
+import { store } from '../state.js'
 
 // the halls with picture boards (src/content/boards/<Symbol>.js), known without loading them
 const BOARD_HALLS = Object.keys(import.meta.glob('../content/boards/[A-Z]*.js')).map(k => k.match(/([A-Za-z]+)\.js$/)[1])
@@ -86,10 +89,18 @@ export default function Stats() {
     setState('gate')
     setNote(typeof msg === 'string' ? msg : null)
   }, [])
+  // signed in as an admin on this device: no password needed
+  const me = useStore(store, s => s.account)
+  useEffect(() => {
+    if (me?.admin && state === 'gate') {
+      setPass('')
+      setState('in')
+    }
+  }, [me?.admin, state])
 
   return (
     <div className="min-h-full text-[#eef2ff]" style={{ background: '#0b0f24', colorScheme: 'dark' }}>
-      {state === 'in' && pass ? (
+      {state === 'in' && pass != null ? (
         <Dashboard pass={pass} logout={logout} />
       ) : (
         <Gate
@@ -163,7 +174,7 @@ function Gate({ checking, note, onIn }) {
 }
 
 const NAV = [
-  ['devices', 'Devices'],
+  ['devices', 'People'],
   ['summary', 'Summary'],
   ['days', 'Days'],
   ['places', 'Places'],
@@ -368,19 +379,18 @@ function Dashboard({ pass, logout }) {
       )}
 
       <footer className="text-xs mt-6 mb-2 leading-relaxed" style={{ color: INK.muted }}>
-        What is recorded: places entered and for how long, panels opened, talks, picks, quiz answers, forge actions and errors. Marked devices keep a history under their tag; other
-        visitors are anonymous, one visit at a time, with nothing stored in their browser, and nothing at all when their browser asks not to be tracked. No names or addresses. Kept
-        for 180 days. Times are in this device's time zone.
+        What is recorded: places entered and for how long, panels opened, talks, picks, quiz answers, forge actions and errors. Signed-in players keep a history under their account
+        (unless they switch it off); other visitors are anonymous, one visit at a time, with nothing stored in their browser, and nothing at all when their browser asks not to be tracked
+        or they switch it off. No names or addresses. Kept for 180 days. Times are in this device's time zone.
       </footer>
     </div>
   )
 }
 
-// ---- devices ----
+// ---- people (the signed-in accounts that played) ----
 
-function Devices({ devices, call, reload, onChanged, onRetag }) {
-  const [edit, setEdit] = useState(null) // { id, label }
-  const [ask, setAsk] = useState(null) // the device waiting for "forget it for good?"
+function Devices({ devices, call, reload, onChanged }) {
+  const [ask, setAsk] = useState(null) // the account waiting for "forget their history?"
   const [busy, setBusy] = useState(null)
   const [msg, setMsg] = useState(null)
   const act = async (id, action, args = {}) => {
@@ -388,11 +398,8 @@ function Devices({ devices, call, reload, onChanged, onRetag }) {
     setMsg(null)
     try {
       const r = await call(action, { device: id, ...args })
-      if (r?.error === 'label') setMsg('A tag is letters, digits, - or _ (at most 24), and not "off".')
-      else if (r?.error) setMsg(`That did not work (${r.error}).`)
+      if (r?.error) setMsg(`That did not work (${r.error}).`)
       else {
-        if (action === 'retag') onRetag(id, devices.find(d => d.id === id)?.label, tagOf(args.label))
-        setEdit(null)
         setAsk(null)
         await reload()
         onChanged()
@@ -403,11 +410,10 @@ function Devices({ devices, call, reload, onChanged, onRetag }) {
     setBusy(null)
   }
   return (
-    <Card id="devices" title="Devices">
+    <Card id="devices" title="People">
       <p className="text-sm -mt-0.5 mb-3" style={{ color: INK.secondary }}>
-        To mark a device as a family member&apos;s, open <span className="font-bold break-all">{SITE}/?who=artur</span> on it (any tag of letters, digits, - and _); its visits are then
-        kept under that tag. To unmark it on the device itself, open <span className="font-bold whitespace-nowrap">?who=off</span> there; Unmark here does it from afar (the device forgets its tag on its
-        next visit).
+        Everyone who signs in on the game (the 👤 button; the same accounts as the Pokémon site) is recorded under their account, unless they switched &quot;Record what I play&quot; off. Their discoveries
+        follow them to every device.
       </p>
       {msg && (
         <p role="alert" className="text-sm mb-2">
@@ -420,7 +426,7 @@ function Devices({ devices, call, reload, onChanged, onRetag }) {
         </p>
       ) : !devices.length ? (
         <p className="text-sm" style={{ color: INK.muted }}>
-          No device is marked yet.
+          Nobody has signed in on the game yet.
         </p>
       ) : (
         <ul className="divide-y divide-white/10" data-devices>
@@ -428,44 +434,26 @@ function Devices({ devices, call, reload, onChanged, onRetag }) {
             <li key={d.id} className="py-2 flex flex-wrap items-center gap-x-3 gap-y-1.5" data-device={d.id}>
               <div className="min-w-0 flex-1 basis-64">
                 <div className="flex flex-wrap items-center gap-2">
-                  {edit?.id === d.id ? (
-                    <form
-                      className="flex items-center gap-1.5"
-                      onSubmit={e => {
-                        e.preventDefault()
-                        act(d.id, 'retag', { label: edit.label })
-                      }}
-                    >
-                      <label className="sr-only" htmlFor={`tag-${d.id}`}>
-                        New tag
-                      </label>
-                      <input id={`tag-${d.id}`} value={edit.label} onChange={e => setEdit({ id: d.id, label: e.target.value })} className={`${INPUT} w-36`} maxLength={24} autoFocus data-retag-input />
-                      <button type="submit" className={BUTTON} disabled={busy === d.id || !edit.label.trim()} data-retag-save>
-                        Save
-                      </button>
-                      <button type="button" className={BUTTON} onClick={() => setEdit(null)}>
-                        Cancel
-                      </button>
-                    </form>
-                  ) : (
-                    <span className="font-bold" data-tag>
-                      {d.label}
+                  <span className="font-bold" data-tag>
+                    {d.label}
+                  </span>
+                  {d.removed ? <Chip mark="○">recording off</Chip> : <Chip mark="●" color={INK.primary}>recording</Chip>}
+                  {d.kind && (
+                    <span className="text-sm" style={{ color: INK.secondary }}>
+                      {deviceName(d.kind, d.browser)}
                     </span>
                   )}
-                  {d.removed ? <Chip mark="○">unmarked</Chip> : <Chip mark="●" color={INK.primary}>marked</Chip>}
-                  <span className="text-sm" style={{ color: INK.secondary }}>
-                    {deviceName(d.kind, d.browser)}
-                  </span>
                 </div>
                 <div className="text-xs mt-0.5" style={{ color: INK.muted }}>
-                  first seen {when(Date.parse(d.first_seen))} · last seen {when(Date.parse(d.last_seen))} · <span data-events>{plural(Number(d.events) || 0, 'event')}</span>
+                  first seen {when(Date.parse(d.first_seen))}
+                  {d.last_seen ? <> · last seen {when(Date.parse(d.last_seen))}</> : null} · <span data-events>{plural(Number(d.events) || 0, 'event')}</span> · {plural(Number(d.discoveries) || 0, 'discovery', 'discoveries')}
                 </div>
               </div>
               {ask === d.id ? (
                 <div className="flex flex-wrap items-center gap-1.5 text-sm" data-confirm>
-                  <span>Forget this device and its {plural(Number(d.events) || 0, 'event')}? This cannot be undone.</span>
+                  <span>Forget their {plural(Number(d.events) || 0, 'event')}? The account and its discoveries stay. This cannot be undone.</span>
                   <button type="button" className={`${BUTTON} border-[#d03b3b]`} disabled={busy === d.id} onClick={() => act(d.id, 'forget')} data-forget-yes>
-                    Forget for good
+                    Forget the history
                   </button>
                   <button type="button" className={BUTTON} onClick={() => setAsk(null)}>
                     Keep
@@ -473,20 +461,8 @@ function Devices({ devices, call, reload, onChanged, onRetag }) {
                 </div>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
-                  <button type="button" className={BUTTON} disabled={busy === d.id} onClick={() => setEdit({ id: d.id, label: d.label })} data-retag>
-                    Retag
-                  </button>
-                  {d.removed ? (
-                    <button type="button" className={BUTTON} disabled={busy === d.id} onClick={() => act(d.id, 'restore')} data-restore>
-                      Mark again
-                    </button>
-                  ) : (
-                    <button type="button" className={BUTTON} disabled={busy === d.id} onClick={() => act(d.id, 'remove')} data-unmark>
-                      Unmark
-                    </button>
-                  )}
-                  <button type="button" className={BUTTON} disabled={busy === d.id} onClick={() => setAsk(d.id)} data-forget>
-                    Forget
+                  <button type="button" className={BUTTON} disabled={busy === d.id || !(Number(d.events) > 0)} onClick={() => setAsk(d.id)} data-forget>
+                    Forget the history
                   </button>
                 </div>
               )}

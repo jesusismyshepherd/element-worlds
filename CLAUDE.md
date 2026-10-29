@@ -38,12 +38,15 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `cameraClear`, panels and exhibits, things to click), `hall-boards.md` (the halls' fact file and picture
   boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
   reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps). Read the one for the
-  area you touch.
-- `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc`,
-  the client loaded on demand), `telemetry.js` (usage recording: `track(kind, data)`, marked devices
-  with `?who=`), `room.js` (rooms). `supabase/ew_001_usage.sql`: the `ew_` tables and functions (applied
-  to project kawvqpvntdgehigwvfao; nothing readable with the public key). `src/pages/Stats.jsx` +
-  `src/stats/`: the family dashboard at `/stats` (password; English only).
+  area you touch. `accounts.md`: the accounts (the Pokémon site's logins), the progress kept in them, the
+  recording switch.
+- `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
+  the signed-in session, the client loaded on demand), `account.js` (sign in, new account, the progress
+  saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`
+  (rooms), `duel.js` (the quiz duel). `supabase/ew_001_usage.sql`, `ew_002_accounts.sql`: the `ew_`
+  tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
+  `src/pages/Stats.jsx` + `src/stats/`: the family dashboard at `/stats` (password or an admin account;
+  English only).
 - `.claude/skills/element-wing/`: the steps for building an element's wing.
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
@@ -140,7 +143,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 
 ## Status (2026-10-27, end of the first day)
 
-- 2026-10-29: usage data (every visit recorded: marked family devices with a history, everyone else
+- 2026-10-29 (evening): accounts (the Pokémon site's logins; 👤): progress kept in the account and moved
+  there from a device at its first sign-in (Artur's phone), recording under the account with a switch
+  (on by default), the `?who=` tags removed, the dashboard's People; `accounts.md`, `account_probe.py`.
+- 2026-10-29: usage data (every visit recorded: signed-in players under their account, everyone else
   anonymous per visit; the dashboard at /stats, password with the user; `usage-data.md`) and rooms
   (playing together: up to any number of players, follow, call, emotes, the others' Atomlings, the shared
   Molecule Lab; the quiz as a duel: two seats, everyone else watching, seats swapped by asking, by a line

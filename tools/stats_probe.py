@@ -1,12 +1,13 @@
 """The family dashboard (/stats: src/pages/Stats.jsx, src/stats/, docs/knowledge/usage-data.md) from end
-to end with synthetic data. Marks a throwaway device (tag probe-dash-xxxx) through the public functions
-(ew_mark, ew_log), logs two visits that use every kind of event the game sends (and one the dashboard
-does not know), opens the dashboard on the dev server, checks that a wrong password is refused and keeps
-nothing, logs in, filters to the probe's tag and checks every section with that data (devices, days,
-places, halls, panels, quick exits, never entered, plaza, quiz, forge, settings, errors, other events,
-the timeline in plain words, a tooltip, a table view), the device's actions (retag, unmark, mark again,
-forget) and a forgotten visit, with no console errors; screenshots on a computer (1280x800) and a phone
-(412x800) in tools/shots/stats/. Whatever happens, it forgets the device and its visits at the end.
+to end with synthetic data. Makes a throwaway account (probe_dash_xxxx, the pokemon-site's kind:
+docs/knowledge/accounts.md) and logs, as that account, two visits that use every kind of event the game
+sends (and one the dashboard does not know); opens the dashboard on the dev server, checks that a wrong
+password is refused and keeps nothing, logs in, filters to the probe and checks every section with that
+data (people, days, places, halls, panels, quick exits, never entered, plaza, quiz, forge, settings,
+errors, other events, the timeline in plain words, a tooltip, a table view), forgetting a visit and the
+account's history, with no console errors; screenshots on a computer (1280x800) and a phone (412x800)
+in tools/shots/stats/. Whatever happens, it deletes the account and its visits at the end.
+(Until 2026-10-29 it marked a device with a ?who= tag; accounts replaced the tags.)
 Needs the dashboard password in EW_DASH_PASS (never printed). Dev server on 5310.
 
     EW_DASH_PASS=... py -3.11 tools/stats_probe.py [--port 5310]
@@ -18,7 +19,7 @@ import secrets
 import sys
 import time
 import urllib.request
-import uuid
+import uuid  # noqa: F401 (the visits)
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -29,11 +30,22 @@ KEY = 'sb_publishable_XjLWqFaE6h9ENP_Glh5gnQ_jDzbnMs9'
 SHOTS = Path(__file__).resolve().parent / 'shots' / 'stats'
 
 
-def rpc(fn, args):
-    req = urllib.request.Request(f'{URL}/rest/v1/rpc/{fn}', data=json.dumps(args).encode(), method='POST',
-                                 headers={'apikey': KEY, 'Content-Type': 'application/json'})
+def rpc(fn, args, token=None):
+    headers = {'apikey': KEY, 'Content-Type': 'application/json'}
+    if token:
+        headers['Authorization'] = f'Bearer {token}'
+    req = urllib.request.Request(f'{URL}/rest/v1/rpc/{fn}', data=json.dumps(args).encode(), method='POST', headers=headers)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
+
+
+def sign_up(name, password):
+    """A new account (the pokemon-site's kind): its id and access token."""
+    req = urllib.request.Request(f'{URL}/auth/v1/signup', data=json.dumps({'email': f'{name}@pokemon-app.internal', 'password': password}).encode(),
+                                 method='POST', headers={'apikey': KEY, 'Content-Type': 'application/json'})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        out = json.loads(r.read())
+    return out['user']['id'], out['access_token']
 
 
 def visit_events(base, first):
@@ -108,8 +120,8 @@ def main():
     if not pw:
         sys.exit('set EW_DASH_PASS to the dashboard password')
     base = f'http://localhost:{args.port}'
-    tag = 'probe-dash-' + secrets.token_hex(2)
-    device = str(uuid.uuid4())
+    tag = 'probe_dash_' + secrets.token_hex(2)
+    device = None
     visits = [str(uuid.uuid4()), str(uuid.uuid4())]
     fails = []
     SHOTS.mkdir(parents=True, exist_ok=True)
@@ -123,14 +135,15 @@ def main():
         return rpc('ew_admin', {'p_pass': pw, 'p_action': action, 'p_args': a or {}})
 
     try:
-        # ---- the synthetic device and its two visits ----
-        r = rpc('ew_mark', {'p_device': device, 'p_label': tag, 'p_kind': 'phone', 'p_browser': 'Chrome on Android'})
-        check('the probe device is marked', bool(r.get('marked')) and r.get('label') == tag, tag)
+        # ---- the throwaway account and its two visits ----
+        device, token = sign_up(tag, 'pw-' + secrets.token_hex(6))
+        me = rpc('ew_me', {}, token)
+        check('the probe account is made', bool(me) and me.get('username') == tag, tag)
         now = datetime.now(timezone.utc)
         sent = 0
         for visit, (hours, first) in zip(visits, [(2, True), (26, False)]):
             evs = visit_events(now - timedelta(hours=hours), first)
-            n = rpc('ew_log', {'p_device': device, 'p_visit': visit, 'p_events': evs})
+            n = rpc('ew_log', {'p_visit': visit, 'p_events': evs}, token)
             sent += len(evs)
             check(f'ew_log took the {"first" if first else "second"} visit', n == len(evs), f'{n} of {len(evs)}')
         got = admin('events', {'who': tag, 'since': (now - timedelta(days=3)).isoformat()})
@@ -163,8 +176,8 @@ def main():
             row = f'[data-device="{device}"]'
             page.wait_for_selector(row, timeout=20000)
             text = page.inner_text(row)
-            check('the devices list shows the probe device', tag in text and 'phone' in text and 'Chrome on Android' in text and f'{sent} events' in text, ' / '.join(text.split('\n')[:3]))
-            check('the device is shown as marked', 'marked' in text and 'unmarked' not in text)
+            check('the people list shows the probe account', tag in text and 'phone' in text and 'Chrome on Android' in text and f'{sent} events' in text, ' / '.join(text.split('\n')[:3]))
+            check('the account is shown as recording', 'recording' in text and 'recording off' not in text)
 
             # ---- filter to the probe ----
             page.click('[data-period="7"]')
@@ -278,29 +291,14 @@ def main():
             left = admin('events', {'who': tag, 'since': (now - timedelta(days=3)).isoformat()})
             check('"Forget this visit" removes its events', isinstance(left, list) and left and all(x['visit'] == visits[0] for x in left), f'{len(left)} events left')
 
-            # ---- the device's actions ----
-            new = tag + 'b'
-            page.click(f'{row} [data-retag]')
-            page.fill(f'{row} [data-retag-input]', new)
-            page.click(f'{row} [data-retag-save]')
-            page.wait_for_function(f"() => document.querySelector('{row} [data-tag]')?.textContent === '{new}'", timeout=30000)
-            mine = next((d for d in admin('devices') if d['id'] == device), None)
-            check('Retag renames the device', bool(mine) and mine['label'] == new)
-            check('the filter follows the renamed tag', page.eval_on_selector('#dash-who', 'e => e.value') == new)
-            page.click(f'{row} [data-unmark]')
-            page.wait_for_selector(f'{row} [data-restore]', timeout=30000)
-            mine = next((d for d in admin('devices') if d['id'] == device), None)
-            check('Unmark unmarks it', bool(mine) and mine['removed'] is True and 'unmarked' in page.inner_text(row))
-            page.click(f'{row} [data-restore]')
-            page.wait_for_selector(f'{row} [data-unmark]', timeout=30000)
-            mine = next((d for d in admin('devices') if d['id'] == device), None)
-            check('Mark again marks it again', bool(mine) and mine['removed'] is False)
+            # ---- forgetting the account's history (the account stays) ----
             page.click(f'{row} [data-forget]')
             page.wait_for_selector(f'{row} [data-confirm]', timeout=5000)
             check('Forget asks first', 'cannot be undone' in page.inner_text(f'{row} [data-confirm]'))
             page.click(f'{row} [data-forget-yes]')
-            page.wait_for_selector(row, state='detached', timeout=30000)
-            check('Forget removes the device', not any(d['id'] == device for d in admin('devices')))
+            page.wait_for_function(f"() => /\\b0 events\\b/.test(document.querySelector('{row}')?.textContent || '')", timeout=30000)
+            mine = next((d for d in admin('devices') if d['id'] == device), None)
+            check('Forget the history removes its events and keeps the account', bool(mine) and int(mine['events']) == 0)
 
             # ---- out ----
             page.click('[data-logout]')
@@ -309,15 +307,15 @@ def main():
             check('no console errors', not errors, ' | '.join(errors[:5]))
             b.close()
     finally:
-        # leave nothing behind: the device (its events go with it) and both visits
+        # leave nothing behind: the account (its events go with it) and both visits
         try:
-            admin('forget', {'device': device})
+            admin('forget_probe', {'username': tag})
             for v in visits:
                 admin('forget_visit', {'visit': v})
             since = (datetime.now(timezone.utc) - timedelta(days=15)).isoformat()
             rest = [x for x in admin('events', {'since': since, 'limit': 50000}) if x['visit'] in visits]
             gone = not any(d['id'] == device for d in admin('devices'))
-            print(f'cleanup: the probe device {"forgotten" if gone else "STILL THERE"}, {len(rest)} of its events left')
+            print(f'cleanup: the probe account {"deleted" if gone else "STILL THERE"}, {len(rest)} of its events left')
             if rest or not gone:
                 fails.append('cleanup')
         except Exception as e:  # the cleanup must be reported, never hide the result

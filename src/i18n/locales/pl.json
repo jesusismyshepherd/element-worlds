@@ -215,8 +215,8 @@
     "dataTitle": "Skąd pochodzą liczby",
     "data": "Dane o pierwiastkach pochodzą z układu okresowego PubChem (Narodowa Biblioteka Medyczna USA, domena publiczna) i z pakietu Pythona mendeleev (licencja MIT): masy, konfiguracje, promienie, izotopy, rozpowszechnienie. Lata odkrycia wynikają z jednej zasady (kiedy pierwiastek po raz pierwszy rozpoznano lub wyodrębniono). Wartości dla pierwiastków superciężkich są częściowo przewidywaniami i są tak oznaczone.",
     "privacyTitle": "Co zapisujemy",
-    "privacy": "Żeby ulepszać grę, zapisujemy, co się tu odwiedza i robi (które sale, jak długo, czego próbowano w laboratorium), bez imion i bez adresów. Urządzenia rodziny oznaczone przez dorosłego zachowują historię; wszystkie inne wizyty są anonimowe, a gdy przeglądarka prosi o brak śledzenia, nic nie jest zapisywane.",
-    "recording": "To urządzenie zapisuje historię jako „{{who}}”."
+    "privacy": "Żeby ulepszać grę, zapisujemy, co się tu odwiedza i robi (które sale, jak długo, czego próbowano w laboratorium), nigdy imion ani adresów. Po zalogowaniu zapisuje się to na twoim koncie; bez logowania każda wizyta jest anonimowa, a gdy przeglądarka prosi o brak śledzenia, nic nie jest zapisywane. Możesz to wyłączyć pod 👤.",
+    "recording": "Zalogowano jako „{{who}}”: to, w co grasz, zapisuje się na twoim koncie."
   },
   "search": {
     "placeholder": "Znajdź pierwiastek…"
@@ -439,5 +439,40 @@
     "locked": "Źle: poczekaj na następne pytanie.",
     "started": "{{name}} zaczyna pojedynek na zagadki",
     "end": "Zakończ pojedynek"
+  },
+  "account": {
+    "title": "Konto",
+    "signedOut": "Nie zalogowano",
+    "intro": "Konto przechowuje twoje odkrycia, odznaki i rekordy na każdym urządzeniu.",
+    "pokemon": "Grasz już na stronie o Pokémonach? Zaloguj się tą samą nazwą i hasłem.",
+    "signIn": "Zaloguj się",
+    "signUp": "Nowe konto",
+    "username": "Nazwa",
+    "password": "Hasło",
+    "show": "Pokaż",
+    "hide": "Ukryj",
+    "doSignIn": "Zaloguj się",
+    "doSignUp": "Załóż konto",
+    "working": "Chwileczkę…",
+    "signedInAs": "Zalogowano jako {{name}}",
+    "saved": "Twoje odkrycia są zapisywane na twoim koncie.",
+    "moved_one": "{{count}} odkrycie z tego urządzenia jest teraz na twoim koncie.",
+    "moved_few": "{{count}} odkrycia z tego urządzenia są teraz na twoim koncie.",
+    "moved_many": "{{count}} odkryć z tego urządzenia jest teraz na twoim koncie.",
+    "moved_other": "{{count}} odkrycia z tego urządzenia jest teraz na twoim koncie.",
+    "track": "Zapisuj, w co gram",
+    "trackHelp": "Pomaga ulepszać grę; widzą to tylko jej twórcy.",
+    "signOut": "Wyloguj się",
+    "admin": "Panel rodziny",
+    "errors": {
+      "wrong": "Zła nazwa lub hasło.",
+      "taken": "Ta nazwa jest zajęta: spróbuj innej.",
+      "length": "Nazwa ma od 3 do 20 liter lub cyfr.",
+      "chars": "W nazwie tylko litery, cyfry i _.",
+      "reserved": "Ta nazwa jest niedozwolona.",
+      "weak": "Hasło musi mieć co najmniej 6 znaków.",
+      "busy": "Za dużo prób: poczekaj minutę.",
+      "failed": "Coś poszło nie tak: spróbuj ponownie."
+    }
   }
 }

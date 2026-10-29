@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import { room, newCode, cleanCode, savedName, roomLink } from '../net/room.js'
-import { recordingAs } from '../net/telemetry.js'
 import { element, nameOf } from '../data/elements.js'
 import { targetFrom } from '../worlds/registry.js'
 import { duel } from '../net/duel.js'
@@ -38,7 +37,11 @@ export function RoomButton({ engine, compact }) {
   const lang = i18n.resolvedLanguage
   const info = useStore(store, s => s.room)
   const [open, setOpen] = useState(false)
-  const [name, setName] = useState(() => savedName() || capital(recordingAs() ?? ''))
+  const me = useStore(store, s => s.account)
+  const [name, setName] = useState(() => savedName() || capital(me?.username ?? ''))
+  useEffect(() => {
+    if (me?.username && !name) setName(capital(me.username))
+  }, [me?.username]) // eslint-disable-line react-hooks/exhaustive-deps
   const [code, setCode] = useState('')
   const [copied, setCopied] = useState(false)
   // a link with ?room= opens the sheet to ask for a name, unless one is known (then it joins at once)
@@ -91,7 +94,7 @@ export function RoomButton({ engine, compact }) {
         title={t('room.title')}
         aria-expanded={open}
       >
-        👥{inRoom ? <span className="ml-1">{n}</span> : !compact && <span className="ml-1">{t('room.together')}</span>}
+        👥{inRoom ? <span className="ml-1">{n}</span> : !compact && <span className="hidden 2xl:inline ml-1">{t('room.together')}</span>}
       </button>
       {open && (
         <div data-room-sheet className="absolute right-0 top-full mt-1.5 glass rounded-xl p-3 w-[min(20rem,calc(100vw-1rem))] z-20 max-h-[calc(100vh-5rem)] overflow-y-auto text-sm">

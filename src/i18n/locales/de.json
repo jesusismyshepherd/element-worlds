@@ -208,8 +208,8 @@
     "dataTitle": "Woher die Zahlen kommen",
     "data": "Elementdaten aus dem Periodensystem von PubChem (US National Library of Medicine, gemeinfrei) und dem Python-Paket mendeleev (MIT-Lizenz): Massen, Konfigurationen, Radien, Isotope, Häufigkeiten. Die Entdeckungsjahre folgen einer einzigen Regel (wann das Element zuerst erkannt oder isoliert wurde). Werte für die superschweren Elemente sind teilweise Vorhersagen und als solche gekennzeichnet.",
     "privacyTitle": "Was wir notieren",
-    "privacy": "Um das Spiel zu verbessern, notieren wir, was hier besucht und gemacht wird (welche Hallen, wie lange, was im Labor ausprobiert wurde), ohne Namen und ohne Adressen. Von einem Erwachsenen markierte Geräte der Familie behalten einen Verlauf; alle anderen Besuche sind anonym, und es wird nichts notiert, wenn dein Browser darum bittet, nicht verfolgt zu werden.",
-    "recording": "Dieses Gerät speichert einen Verlauf als „{{who}}“."
+    "privacy": "Um das Spiel zu verbessern, notieren wir, was hier besucht und gemacht wird (welche Hallen, wie lange, was im Labor ausprobiert wurde), nie Namen oder Adressen. Bist du angemeldet, wird es in deinem Konto gespeichert; sonst ist jeder Besuch anonym, und es wird nichts notiert, wenn dein Browser darum bittet, nicht verfolgt zu werden. Du kannst es unter 👤 ausschalten.",
+    "recording": "Du bist als „{{who}}“ angemeldet: Was du spielst, wird in deinem Konto gespeichert."
   },
   "search": {
     "placeholder": "Element suchen…"
@@ -415,5 +415,38 @@
     "locked": "Falsch: Warte auf die nächste Frage.",
     "started": "{{name}} startet ein Rätselduell",
     "end": "Duell beenden"
+  },
+  "account": {
+    "title": "Konto",
+    "signedOut": "Nicht angemeldet",
+    "intro": "Ein Konto bewahrt deine Entdeckungen, Abzeichen und Rekorde auf jedem Gerät auf.",
+    "pokemon": "Spielst du schon auf der Pokémon-Seite? Melde dich mit demselben Namen und Passwort an.",
+    "signIn": "Anmelden",
+    "signUp": "Neues Konto",
+    "username": "Name",
+    "password": "Passwort",
+    "show": "Zeigen",
+    "hide": "Verbergen",
+    "doSignIn": "Anmelden",
+    "doSignUp": "Konto anlegen",
+    "working": "Einen Moment…",
+    "signedInAs": "Angemeldet als {{name}}",
+    "saved": "Deine Entdeckungen werden in deinem Konto gespeichert.",
+    "moved_one": "{{count}} Entdeckung von diesem Gerät ist jetzt in deinem Konto.",
+    "moved_other": "{{count}} Entdeckungen von diesem Gerät sind jetzt in deinem Konto.",
+    "track": "Aufzeichnen, was ich spiele",
+    "trackHelp": "Das hilft, das Spiel besser zu machen; nur seine Macher sehen es.",
+    "signOut": "Abmelden",
+    "admin": "Familien-Dashboard",
+    "errors": {
+      "wrong": "Falscher Name oder falsches Passwort.",
+      "taken": "Der Name ist vergeben: Probier einen anderen.",
+      "length": "Ein Name hat 3 bis 20 Buchstaben oder Ziffern.",
+      "chars": "Im Namen nur Buchstaben, Ziffern und _.",
+      "reserved": "Dieser Name ist nicht erlaubt.",
+      "weak": "Ein Passwort braucht mindestens 6 Zeichen.",
+      "busy": "Zu viele Versuche: Warte eine Minute.",
+      "failed": "Etwas ist schiefgelaufen: Versuch es noch einmal."
+    }
   }
 }
