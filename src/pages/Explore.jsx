@@ -5,6 +5,7 @@ import { Engine } from '../engine/engine.js'
 import { store } from '../state.js'
 import { targetFrom } from '../worlds/registry.js'
 import Hud from '../ui/Hud.jsx'
+import { room } from '../net/room.js'
 
 /** The 3D experience: one engine for the plaza, the atriums and the wings; the address picks the world. */
 export default function Explore() {
@@ -24,6 +25,11 @@ export default function Explore() {
   useEffect(() => {
     if (engine) engine.navigate = navigate
   }, [engine, navigate])
+
+  // the room (playing together) reports into the store and goes where the followed one goes
+  useEffect(() => {
+    if (engine) room.bind({ store, go: path => engine.go(path) })
+  }, [engine])
 
   useEffect(() => {
     engine?.show(targetFrom(location.pathname, location.search))

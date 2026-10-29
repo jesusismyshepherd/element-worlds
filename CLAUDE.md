@@ -36,7 +36,14 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `hud-layout.md` (the
   HUD's layout rule, covers and the view offset, full screen), `walking.md` (both views, the camera,
   `cameraClear`, panels and exhibits, things to click), `hall-boards.md` (the halls' fact file and picture
-  boards, Carbon and Oxygen first). Read the one for the area you touch.
+  boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
+  reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps). Read the one for the
+  area you touch.
+- `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc`,
+  the client loaded on demand), `telemetry.js` (usage recording: `track(kind, data)`, marked devices
+  with `?who=`), `room.js` (rooms). `supabase/ew_001_usage.sql`: the `ew_` tables and functions (applied
+  to project kawvqpvntdgehigwvfao; nothing readable with the public key). `src/pages/Stats.jsx` +
+  `src/stats/`: the family dashboard at `/stats` (password; English only).
 - `.claude/skills/element-wing/`: the steps for building an element's wing.
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
@@ -118,12 +125,27 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `notranslate` (2026-10-28). The user's phone: a Galaxy S21 (Android 15, Chrome), paired with this
   computer for `tools/phone.py` (later: turn Wireless debugging on, `phone.py connect`); in light mode it
   holds 60 frames a second in the hall and the graphene gallery.
+- Never give a git worktree a junction to the main `node_modules`: `git worktree remove` followed it and
+  deleted 68 packages of the real one before failing (2026-10-29; restored with `npm install`). Remove
+  the junction first (`cmd /c rmdir <junction>`), or copy what you need.
+- Stopping a background `npx vite` task ends its shell, not Vite: the old server kept the port and its
+  stale bundles. Find it (`Get-CimInstance Win32_Process` with `vite` in the command line) and stop it.
+- The realtime service closes the channel of a client that updates its presence often ("Client
+  presence rate limit exceeded"): presence for who is in a room only, the rest by broadcast
+  (docs/knowledge/multiplayer.md).
 - Agents editing files make the dev server reload the page under a probe (shots of an empty world, a
   frame count that restarts): check against a separate build instead,
   `npx vite build --outDir <scratch>` + `npx vite preview --outDir <scratch> --port 5317` and
   `tools/shot.py --port 5317`.
 
 ## Status (2026-10-27, end of the first day)
+
+- 2026-10-29: usage data (every visit recorded: marked family devices with a history, everyone else
+  anonymous per visit; the dashboard at /stats, password with the user; `usage-data.md`) and rooms
+  (playing together: up to any number of players, follow, call, emotes, the others' Atomlings, the shared
+  Molecule Lab; `multiplayer.md`). Next for rooms: two-seat games with spectators and seat swapping (the
+  quiz as a duel), a shared forge. Probes: `usage_probe.py`, `stats_probe.py` (both want EW_DASH_PASS),
+  `room_probe.py`.
 
 - Live at https://element-worlds.vercel.app (Vercel deploys `main` on every push).
 - The plaza: the table, hover and select (the card, the element's Atomling on its cube; in Explorer the

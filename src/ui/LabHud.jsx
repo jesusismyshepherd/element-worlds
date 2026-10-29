@@ -83,6 +83,15 @@ export default function LabHud({ engine }) {
           {party && (
             <div className="font-display font-bold text-amber-300 leading-tight mb-1">🎉 {t('lab.made', { name: party.name })}</div>
           )}
+          {lab.together?.length > 0 && (
+            // building with others in my room: their names in their colours (src/net/room.js)
+            <div data-lab-together className="text-xs font-bold mb-1">
+              👥 {t('room.labTogether', { names: '' })}
+              {lab.together.map((m, i) => (
+                <span key={i} style={{ color: m.color }}>{i ? ', ' : ''}{m.name}</span>
+              ))}
+            </div>
+          )}
           {lab.count === 0 ? (
             <div className="text-sm">{t('lab.start')}</div>
           ) : (

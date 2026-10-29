@@ -21,7 +21,18 @@ let client = null
 export async function supabase() {
   if (!client) {
     const { createClient } = await import('@supabase/supabase-js')
-    client = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } })
+    client = createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false },
+      // the realtime service's own words when it closes or refuses something, kept for the probes
+      realtime: {
+        logger: (kind, msg, data) => {
+          if (!/phx_close|phx_error|system|error|close/i.test(`${kind} ${msg} ${JSON.stringify(data ?? '').slice(0, 300)}`)) return
+          const log = (window.__ewRealtimeLog ??= [])
+          log.push(`${Math.round(performance.now())} ${kind} ${msg} ${JSON.stringify(data ?? '').slice(0, 300)}`)
+          if (log.length > 40) log.shift()
+        },
+      },
+    })
   }
   return client
 }

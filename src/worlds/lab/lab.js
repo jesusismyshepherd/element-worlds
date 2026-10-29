@@ -5,6 +5,14 @@
 // in the player's collection. The seed of the molecule games (docs/design.md).
 // A metal joined to a non-metal hands its electrons over (one flies across): the two become ions, held by
 // a glowing thread of attraction instead of hands, their charges floating above them (salt, NaCl).
+// Together (docs/knowledge/multiplayer.md): everyone in my room who is in the lab builds the same
+// molecule. Its atoms have ids that stay put while it changes; each player picks atoms for themselves
+// (a ring in their colour shows what each has picked), and every change is an operation (add, join,
+// part, remove, clear, demo) applied by one of them, the host (the one in the lab longest), who sends
+// the molecule to the others. Each molecule sent carries a version that counts up across the room;
+// everyone takes any newer one, whoever sent it, so a change of host (someone arriving or leaving at
+// the same moment) cannot leave anyone behind: a new host first asks for the latest molecule, and an
+// old one's late copy is simply older. Alone, I am my own host.
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { element, nameOf } from '../../data/elements.js'
@@ -17,6 +25,8 @@ import { markFound, isFound } from '../../engine/progress.js'
 import { MOLECULE_FACTS } from '../../content/molecules.js'
 import { pick } from '../../content/stations.js'
 import { play, ambience } from '../../audio/sound.js'
+import { room } from '../../net/room.js'
+import { track } from '../../net/telemetry.js'
 
 const BOND = 2.3 // metres between bonded Atomlings' centres
 const LIFT = 1.9 // the molecule floats this high over the table
@@ -55,10 +65,17 @@ export async function build(ctx) {
   root.add(molGroup)
 
   // ---- state ----
+  // the molecule: atoms { el, id } and bonds [i, j, order]; an atom's id stays the same while the
+  // molecule changes, so the players of a shared lab can name the atoms they mean
   let mol = { atoms: [], bonds: [] }
   let lay = { pos: [], extra: [] }
-  let shown = [] // per atom: { a, holder, cur: Vector3 }
-  let selected = -1
+  let shown = [] // per atom: { atom, a, holder, cur: Vector3 }
+  let selId = null // the atom I have picked (each player picks their own)
+  const sel = () => (selId == null ? -1 : mol.atoms.findIndex(at => at.id === selId))
+  const idOf = i => mol.atoms[i]?.id ?? null
+  const me = () => room.me?.id ?? 'solo'
+  let seq = 0
+  const newId = () => `${me()}.${(++seq).toString(36)}`
   let bondMeshes = [] // { bond index, k, armA, armB, clasp }
   let freeMeshes = [] // per atom: [{ arm, hand, kind }]
   const handGeo = new THREE.SphereGeometry(0.13, 16, 12)
@@ -74,6 +91,7 @@ export async function build(ctx) {
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.035, 8, 48), new THREE.MeshBasicMaterial({ color: '#ffd166' }))
   ring.visible = false
   molGroup.add(ring)
+  const otherRings = []
 
   const relayout = steps => {
     lay = relax(mol, lay, { steps, bond: BOND })
@@ -82,8 +100,11 @@ export async function build(ctx) {
   // the Atomlings: one per atom, kept across changes (a new atom pops in)
   const syncAtoms = () => {
     const next = mol.atoms.map((at, i) => {
-      const old = shown.find(s => s.atom === at)
-      if (old) return old
+      const old = shown.find(s => s.atom.id === at.id)
+      if (old) {
+        old.atom = at
+        return old
+      }
       const a = createAtomling(element(at.el), { light, arms: false, hoop: false })
       const holder = new THREE.Group()
       holder.scale.setScalar(SCALE)
@@ -193,12 +214,14 @@ export async function build(ctx) {
         note,
         free,
         pieces: mol.atoms.length > 1 && !mol.bonds.length ? 'apart' : null,
-        selected: selected >= 0 ? mol.atoms[selected].el : null,
+        selected: sel() >= 0 ? mol.atoms[sel()].el : null,
+        together: peers().filter(m => m.id !== room.me?.id).map(m => ({ name: m.name, color: m.color })),
         fact: facts ? pick(facts, lang, ctx.level()) : null,
         missions,
       },
     })
     if (known && (done || known.charged) && markFound(`lab:${known.show}`)) {
+      track('lab', { op: 'made', show: known.show, together: peers().length > 1 || undefined })
       play('celebrate')
       store.set({ labCelebrate: { show: known.show, name: known.name[lang] ?? known.name.en, at: performance.now() } })
       report()
@@ -220,82 +243,203 @@ export async function build(ctx) {
     for (const bond of after.bonds) {
       if (!ionicBond(after, bond)) continue
       const [a, b, o] = bond
-      const old = before.bonds.find(([x, y]) => (x === a && y === b) || (x === b && y === a))
+      const idA = after.atoms[a].id
+      const idB = after.atoms[b].id
+      const old = before.bonds.find(([x, y]) => {
+        const ix = before.atoms[x]?.id
+        const iy = before.atoms[y]?.id
+        return (ix === idA && iy === idB) || (ix === idB && iy === idA)
+      })
       if (old && old[2] >= o) continue
       const [m, x] = isMetal(after.atoms[a].el) ? [a, b] : [b, a]
       const mesh = new THREE.Mesh(handGeo, flyMat)
       molGroup.add(mesh)
-      transfers.push({ from: after.atoms[m], to: after.atoms[x], start: clock, mesh })
+      transfers.push({ from: after.atoms[m].id, to: after.atoms[x].id, start: clock, mesh })
       play('electron')
     }
   }
-  const add = sym => {
-    note = null
-    const atoms = [...mol.atoms, { el: sym }]
-    let next = { atoms, bonds: mol.bonds }
-    const i = atoms.length - 1
-    // joined at once to the selected atom when both have a free hand
-    if (selected >= 0) {
-      const joined = join(next, selected, i)
-      if (joined) next = joined
-      else if (isMetal(sym) && isMetal(mol.atoms[selected].el)) note = 'metals'
-    }
-    play(next.bonds.length > mol.bonds.length ? 'join' : 'tap')
-    watch(mol, next)
-    mol = next
-    if (selected < 0 || freeHands(mol, selected) === 0) selected = i
-    changed()
-  }
-  const tapAtom = i => {
-    note = null
-    if (selected < 0 || selected === i) {
-      selected = selected === i ? -1 : i
-    } else {
-      const next = join(mol, selected, i)
-      if (!next && isMetal(mol.atoms[i].el) && isMetal(mol.atoms[selected].el)) note = 'metals'
-      if (next) {
-        const k = next.bonds.find(([a, b]) => (a === selected && b === i) || (a === i && b === selected))
-        play('join', { order: k?.[2] ?? 1 })
-        watch(mol, next)
-        mol = next
-        selected = freeHands(mol, i) > 0 ? i : freeHands(mol, selected) > 0 ? selected : -1
-        changed(120)
-        return
+
+  /** An operation on the molecule, by player `by` (the host applies everyone's): the next molecule,
+   *  what to tell the one who did it (note), the atom they now have picked (pick), the sound. */
+  const apply = (op, by) => {
+    const at = id => mol.atoms.findIndex(a => a.id === id)
+    if (op.t === 'add') {
+      const atoms = [...mol.atoms, { el: op.el, id: op.id }]
+      let next = { atoms, bonds: mol.bonds }
+      const i = atoms.length - 1
+      const to = op.to != null ? at(op.to) : -1
+      let note = null
+      // joined at once to the picked atom when both have a free hand
+      if (to >= 0) {
+        const joined = join(next, to, i)
+        if (joined) next = joined
+        else if (isMetal(op.el) && isMetal(mol.atoms[to].el)) note = 'metals'
       }
-      selected = i
+      const pick = to < 0 || freeHands(next, to) === 0 ? op.id : op.to
+      return { next, note, pick, fx: { sound: next.bonds.length > mol.bonds.length ? 'join' : 'tap' } }
     }
+    if (op.t === 'join') {
+      const a = at(op.a)
+      const b = at(op.b)
+      if (a < 0 || b < 0) return null
+      const next = join(mol, a, b)
+      if (!next) return { next: mol, note: isMetal(mol.atoms[a].el) && isMetal(mol.atoms[b].el) ? 'metals' : null, pick: op.b }
+      const k = next.bonds.find(([x, y]) => (x === a && y === b) || (x === b && y === a))
+      const pick = freeHands(next, b) > 0 ? op.b : freeHands(next, a) > 0 ? op.a : null
+      return { next, note: null, pick, fx: { sound: 'join', order: k?.[2] ?? 1, steps: 120 } }
+    }
+    if (op.t === 'part') {
+      const a = at(op.a)
+      const b = at(op.b)
+      const bi = mol.bonds.findIndex(([x, y]) => (x === a && y === b) || (x === b && y === a))
+      if (bi < 0) return null
+      const [i, j, order] = mol.bonds[bi]
+      const next = order > 1 ? { atoms: mol.atoms, bonds: mol.bonds.map((bd, k) => (k === bi ? [i, j, order - 1] : bd)) } : unjoin(mol, i, j)
+      return { next, fx: { sound: 'part', steps: 120 } }
+    }
+    if (op.t === 'remove') {
+      const a = at(op.a)
+      if (a < 0) return null
+      return { next: removeAtom(mol, a), pick: null, fx: { steps: 120 } }
+    }
+    if (op.t === 'clear') return { next: { atoms: [], bonds: [] }, pick: null, fx: { steps: 1 } }
+    if (op.t === 'demo') {
+      const plan = DEMOS[op.show]
+      if (!plan) return null
+      let next = { atoms: plan.atoms.map((el, k) => ({ el, id: `${op.id}.${k}` })), bonds: [] }
+      for (const [i, j] of plan.pairs) next = join(next, i, j) ?? next
+      return { next, pick: null, fresh: true, fx: { steps: 500 } }
+    }
+    return null
+  }
+
+  /** Take a new molecule: keep each atom where it was (atoms matched by id), fly the electrons over,
+   *  play the change's sound. */
+  const commit = (next, fx = {}, fresh = false) => {
+    const before = fresh ? { atoms: [], bonds: [] } : mol
+    if (fresh) {
+      for (const s of shown) molGroup.remove(s.holder)
+      shown = []
+      lay = { pos: [], extra: [] }
+    } else {
+      const was = new Map(mol.atoms.map((a, k) => [a.id, k]))
+      lay = {
+        pos: next.atoms.map(a => (was.has(a.id) ? lay.pos[was.get(a.id)] : undefined)),
+        extra: next.atoms.map(a => (was.has(a.id) ? lay.extra[was.get(a.id)] : undefined)),
+      }
+    }
+    watch(before, next)
+    mol = next
+    if (sel() < 0) selId = null
+    if (fx.sound) play(fx.sound, fx.order ? { order: fx.order } : undefined)
+    changed(fx.steps ?? 160)
+  }
+
+  // ---- together: the room's lab ----
+  let version = 0 // the newest molecule's version seen in this room
+  let from = null // who sent it
+  let wasHost = null
+  const here = '/lab'
+  const peers = () => (room.active ? room.members.filter(m => m.path === here) : [])
+  const host = () => {
+    const list = peers()
+    if (!room.active || !list.some(m => m.id === room.me?.id)) return room.me?.id ?? 'solo'
+    return [...list].sort((a, b) => (a.since ?? 0) - (b.since ?? 0) || (a.id < b.id ? -1 : 1))[0].id
+  }
+  const hosting = () => !room.active || peers().length < 2 || host() === room.me?.id
+  const publish = extra => {
+    if (!room.active || peers().length < 2) return
+    version += 1
+    from = room.me?.id
+    room.send('lab-state', { v: version, mol, ...extra })
+  }
+  const offs = []
+  const listen = () => {
+    offs.push(
+      room.on('lab-op', p => {
+        room.note(`lab-op ${p.op?.t} from ${p.from}${hosting() ? '' : ' (not host)'}`)
+        if (!hosting()) return
+        const r = apply(p.op, p.from)
+        if (!r) return
+        commit(r.next, r.fx, r.fresh)
+        publish({ by: p.from, pick: r.pick, note: r.note ?? null, fx: r.fx, fresh: r.fresh })
+      }),
+      room.on('lab-state', p => {
+        room.note(`lab-state v${p.v} from ${p.from} (have v${version})`)
+        // a newer molecule, from whoever sent it (two at the same version: the host's)
+        if (p.v < version || (p.v === version && (p.from === from || p.from !== host()))) return
+        version = p.v
+        from = p.from
+        commit(p.mol, p.fx ?? {}, !!p.fresh)
+        if (p.by === room.me?.id) {
+          note = p.note ?? null
+          if (p.pick !== undefined) selId = p.pick
+          room.update({ labSel: selId })
+        }
+        report()
+      }),
+      // someone asks for the molecule: everyone who has one answers (the newest wins)
+      room.on('lab-hello', () => {
+        if (version > 0 || mol.atoms.length) room.send('lab-state', { v: version, mol })
+      }),
+      room.on('members', () => {
+        const count = peers().length
+        // someone came in: the host shows them the molecule
+        if (count > lastCount && hosting()) publish({})
+        lastCount = count
+        // I have just become the host (the last one left): ask for the newest molecule first
+        const h = host()
+        if (h !== wasHost && h === room.me?.id && count > 1) room.send('lab-hello')
+        wasHost = h
+        report()
+      }),
+    )
+  }
+  let lastCount = 0
+
+  /** Do an operation: alone or hosting, at once (and send the result); else ask the host. */
+  const act = op => {
+    track('lab', { op: op.t, el: op.el, show: op.show, together: peers().length > 1 || undefined })
+    note = null
+    if (!hosting()) {
+      room.note(`send lab-op ${op.t} to ${host()}`)
+      room.send('lab-op', { op })
+      return
+    }
+    const r = apply(op, me())
+    if (!r) return
+    commit(r.next, r.fx, r.fresh)
+    note = r.note ?? null
+    if (r.pick !== undefined) selId = r.pick
+    room.update({ labSel: selId })
+    publish({ by: me(), pick: r.pick, note: r.note ?? null, fx: r.fx, fresh: r.fresh })
     report()
   }
+
+  const pickAtom = id => {
+    selId = id
+    room.update({ labSel: selId })
+    report()
+  }
+
+  const add = sym => act({ t: 'add', el: sym, id: newId(), to: selId })
+  const tapAtom = i => {
+    note = null
+    const s = sel()
+    if (s < 0 || s === i) return pickAtom(s === i ? null : idOf(i))
+    act({ t: 'join', a: idOf(s), b: idOf(i) })
+  }
   const tapBond = bi => {
-    const [i, j, order] = mol.bonds[bi]
-    play('part')
-    if (order > 1) mol = { atoms: mol.atoms, bonds: mol.bonds.map((b, k) => (k === bi ? [i, j, order - 1] : b)) }
-    else mol = unjoin(mol, i, j)
-    changed(120)
+    const [i, j] = mol.bonds[bi]
+    act({ t: 'part', a: idOf(i), b: idOf(j) })
   }
   const removeSelected = () => {
-    if (selected < 0) return
-    mol = removeAtom(mol, selected)
-    lay = { pos: lay.pos.filter((_, k) => k !== selected), extra: lay.extra.filter((_, k) => k !== selected) }
-    selected = -1
-    changed(120)
+    if (sel() < 0) return
+    act({ t: 'remove', a: selId })
   }
-  const clear = () => {
-    mol = { atoms: [], bonds: [] }
-    lay = { pos: [], extra: [] }
-    selected = -1
-    changed(1)
-  }
+  const clear = () => act({ t: 'clear' })
   /** Build a known molecule at once (a mission's "show me"), for the curious and for the probes. */
-  const demo = show => {
-    const plan = DEMOS[show]
-    if (!plan) return
-    clear()
-    mol = { atoms: plan.atoms.map(el => ({ el })), bonds: [] }
-    for (const [i, j] of plan.pairs) mol = join(mol, i, j) ?? mol
-    watch({ atoms: mol.atoms, bonds: [] }, mol)
-    changed(500)
-  }
+  const demo = show => act({ t: 'demo', show, id: newId() })
 
   // ---- picking and the camera ----
   const controls = new OrbitControls(camera, canvas)
@@ -320,8 +464,7 @@ export async function build(ctx) {
     const targets = [...shown.map(s => s.holder), ...bondMeshes.flatMap(b => [b.armA, b.armB, b.clasp, b.link].filter(Boolean))]
     const hit = ray.intersectObjects(targets, true)[0]
     if (!hit) {
-      selected = -1
-      report()
+      pickAtom(null)
       return
     }
     if (hit.object.userData.bond != null) {
@@ -362,8 +505,8 @@ export async function build(ctx) {
     // electrons on their way from a metal to its partner
     transfers = transfers.filter(tr => {
       const f = (t - tr.start) / 0.7
-      const a = shown.find(s => s.atom === tr.from)?.cur
-      const b = shown.find(s => s.atom === tr.to)?.cur
+      const a = shown.find(s => s.atom.id === tr.from)?.cur
+      const b = shown.find(s => s.atom.id === tr.to)?.cur
       if (f >= 1 || !a || !b) {
         molGroup.remove(tr.mesh)
         return false
@@ -422,12 +565,31 @@ export async function build(ctx) {
         f.hand.scale.setScalar(1 + Math.sin(t * 5 + k) * 0.12)
       })
     })
-    if (selected >= 0 && shown[selected]) {
+    const s = sel()
+    if (s >= 0 && shown[s]) {
       ring.visible = true
-      ring.position.copy(shown[selected].cur)
+      ring.material.color.set(room.active && peers().length > 1 ? room.member(room.me?.id)?.color ?? '#ffd166' : '#ffd166')
+      ring.position.copy(shown[s].cur)
       ring.lookAt(camera.position)
-      ring.scale.setScalar((bodyR(selected) / 0.6) * (1 + Math.sin(t * 5) * 0.06))
+      ring.scale.setScalar((bodyR(s) / 0.6) * (1 + Math.sin(t * 5) * 0.06))
     } else ring.visible = false
+    // what each of the others has picked: a ring in their colour, a little wider than mine
+    const picks = room.active ? peers().filter(m => m.id !== room.me?.id && m.labSel) : []
+    while (otherRings.length < picks.length) {
+      const r = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.03, 8, 48), new THREE.MeshBasicMaterial({ color: '#ffffff' }))
+      molGroup.add(r)
+      otherRings.push(r)
+    }
+    otherRings.forEach((r, k) => {
+      const m = picks[k]
+      const i = m ? mol.atoms.findIndex(a => a.id === m.labSel) : -1
+      r.visible = i >= 0 && !!shown[i]
+      if (!r.visible) return
+      r.material.color.set(m.color ?? '#ffffff')
+      r.position.copy(shown[i].cur)
+      r.lookAt(camera.position)
+      r.scale.setScalar((bodyR(i) / 0.6) * (1.18 + k * 0.1))
+    })
     // keep the whole molecule in view in the part of the screen the HUD leaves free (the view offset
     // centres it there), across too: an upright phone sees little from side to side, so the distance
     // also comes from the horizontal field of view
@@ -443,12 +605,17 @@ export async function build(ctx) {
     controls.target.set(0, LIFT, 0)
     canvas.addEventListener('pointerdown', onDown)
     canvas.addEventListener('pointerup', onUp)
+    listen()
+    // in a room where others may be building already: ask for their molecule
+    if (room.active) room.send('lab-hello')
     report()
   }
   const detach = () => {
     canvas.removeEventListener('pointerdown', onDown)
     canvas.removeEventListener('pointerup', onUp)
     controls.dispose()
+    offs.forEach(off => off())
+    room.update({ labSel: null })
     store.set({ lab: null, labCelebrate: null })
   }
 
@@ -465,6 +632,10 @@ export async function build(ctx) {
     clear,
     demo,
     lonePairsAt: i => lonePairs(mol, i),
+    // for the probes (tools/room_probe.py): tap atom i, read the molecule
+    tap: i => tapAtom(i),
+    molecule: () => mol,
+    together: () => ({ hosting: hosting(), host: host(), peers: peers().map(m => m.name), version }),
     dispose() {},
   }
 }

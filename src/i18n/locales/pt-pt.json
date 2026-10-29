@@ -356,5 +356,34 @@
         "how": "Faz 40 pontos numa ronda do Quem sou eu?"
       }
     }
+  },
+  "room": {
+    "together": "Juntos",
+    "title": "Jogar juntos",
+    "intro": "Explora com a família ou com amigos: abre uma sala e partilha o código, ou entra numa.",
+    "name": "O teu nome",
+    "start": "Abrir uma sala",
+    "code": "Código da sala",
+    "join": "Entrar",
+    "share": "Partilhar a ligação",
+    "copied": "Ligação copiada",
+    "shareText": "Vem explorar o Element Worlds comigo! Sala {{code}}",
+    "leave": "Sair da sala",
+    "alone": "Ainda não está mais ninguém: partilha o código.",
+    "connecting": "A ligar…",
+    "trouble": "Sem ligação: a tentar outra vez.",
+    "you": "tu",
+    "goThere": "Ir lá",
+    "follow": "Seguir",
+    "following": "A seguir",
+    "call": "Chamar todos para aqui",
+    "joined": "{{name}} entrou",
+    "left": "{{name}} saiu",
+    "go": "Ir",
+    "labTogether": "A construir em conjunto: {{names}}",
+    "where": {
+      "plaza": "a tabela",
+      "elsewhere": "noutro sítio"
+    }
   }
 }

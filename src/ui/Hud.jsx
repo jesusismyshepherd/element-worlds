@@ -15,6 +15,7 @@ import SoundButton from './SoundButton.jsx'
 import { useCover, useViewport } from './layout.js'
 import { useFullscreen } from './fullscreen.js'
 import { LANGS } from '../i18n/langs.js'
+import { RoomButton, RoomToasts } from './RoomHud.jsx'
 
 // the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
 const PAGES = [
@@ -171,7 +172,10 @@ export default function Hud({ engine }) {
               💬{!vp.compact && <span> {t('hud.talk')}</span>}
             </button>
           )}
-          <SoundButton />
+          <RoomButton engine={engine} compact={vp.compact} />
+          {/* on a phone the sound switch is in the ☰ menu: the room button took its place (the bar
+              may not grow: hud_probe's forge on a phone on its side was at its limit) */}
+          {!vp.compact && <SoundButton />}
           <FullscreenButton />
           {world?.kind === 'plaza' && !vp.compact && (
             <>
@@ -196,6 +200,7 @@ export default function Hud({ engine }) {
                 <div className="absolute right-0 top-full mt-1.5 glass rounded-xl p-1.5 flex flex-col gap-1 min-w-[12rem] z-10 max-h-[calc(100vh-4rem)] overflow-y-auto">
                   <Toggle wide label={t('level.label')} value={level} onPick={setLevel} options={levels.map(([l, icon]) => [l, `${icon} ${t(`level.${l}`)}`])} />
                   <Toggle wide label={t('hud.language')} value={lang} onPick={code => i18n.changeLanguage(code)} options={langs} />
+                  <SoundButton wide />
                   {PAGES.map(([to, icon, key]) => (
                     <Link key={to} to={to} onClick={() => setMenu(false)} className="rounded-lg px-2.5 py-1.5 text-sm font-bold hover:bg-white/10">
                       {icon} {t(key)}
@@ -216,6 +221,7 @@ export default function Hud({ engine }) {
       {world?.kind === 'forge' && <ForgeHud engine={engine} />}
       {walking && <WalkHud engine={engine} />}
 
+      <RoomToasts engine={engine} />
       {about && <About onClose={() => setAbout(false)} />}
 
       {error && (

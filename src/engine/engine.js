@@ -16,6 +16,7 @@ import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
 import { insets, freeArea } from './covers.js'
 import { track } from '../net/telemetry.js'
+import { room } from '../net/room.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -38,6 +39,10 @@ export class Engine {
     pmrem.dispose()
     this.input = new Input(canvas)
     this.player = new Player(this)
+    // the others in my room (src/net/room.js): their Atomlings, calls, emotes; the code (with the 3D
+    // text and the Atomlings) loads when a room is joined, so a visit alone does not wait for it
+    this.others = null
+    room.on('members', () => this.meetOthers())
     if (!this.light) {
       this.composer = new EffectComposer(r)
       this.composer.addPass(new RenderPass(this.scene, this.camera))
@@ -234,6 +239,8 @@ export class Engine {
       this.player.setAvatar(w.avatar ?? null)
     } else this.player.setAvatar(null)
     w.attach?.(this)
+    this.others?.enter(w)
+    room.arrived(location.pathname)
     ambience(target.kind)
     this.store.set({
       world: { kind: target.kind, symbol: target.symbol ?? null, wing: target.wing ?? null },
@@ -318,12 +325,21 @@ export class Engine {
         this.player.update(dt, w, this.input, this.time)
       }
       w.update?.(dt, this.time, this)
+      this.others?.update(dt, this.time)
     }
     this.input.endFrame()
     this.updateView(dt)
     if (this.composer) this.composer.render(dt)
     else this.renderer.render(this.scene, this.camera)
     this.frames++
+  }
+
+  meetOthers() {
+    if (this.others || this.othersLoading || !room.active) return
+    this.othersLoading = import('./others.js').then(({ Others }) => {
+      this.others = new Others(this)
+      if (this.world) this.others.enter(this.world)
+    })
   }
 
   /** "Tell me something": the world's Atomling says its next line. */

@@ -383,5 +383,34 @@
         "how": "Zdobądź 40 punktów w jednej rundzie „Kim jestem?”"
       }
     }
+  },
+  "room": {
+    "together": "Razem",
+    "title": "Wspólna gra",
+    "intro": "Odkrywaj z rodziną albo z przyjaciółmi: załóż pokój i podaj jego kod albo dołącz do istniejącego.",
+    "name": "Twoje imię",
+    "start": "Załóż pokój",
+    "code": "Kod pokoju",
+    "join": "Dołącz",
+    "share": "Udostępnij link",
+    "copied": "Link skopiowany",
+    "shareText": "Chodź odkrywać ze mną Element Worlds! Pokój {{code}}",
+    "leave": "Opuść pokój",
+    "alone": "Nikogo jeszcze nie ma: podaj kod.",
+    "connecting": "Łączenie…",
+    "trouble": "Brak połączenia: próbuję ponownie.",
+    "you": "ty",
+    "goThere": "Idź tam",
+    "follow": "Podążaj",
+    "following": "Podążasz",
+    "call": "Zawołaj wszystkich tutaj",
+    "joined": "{{name}} dołącza",
+    "left": "{{name}} wychodzi",
+    "go": "Idź",
+    "labTogether": "Budujecie razem: {{names}}",
+    "where": {
+      "plaza": "układ okresowy",
+      "elsewhere": "gdzie indziej"
+    }
   }
 }

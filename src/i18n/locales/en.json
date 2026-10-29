@@ -356,5 +356,34 @@
         "how": "Score 40 points in a round of Who am I?"
       }
     }
+  },
+  "room": {
+    "together": "Together",
+    "title": "Play together",
+    "intro": "Explore with family or friends: start a room and share its code, or join one.",
+    "name": "Your name",
+    "start": "Start a room",
+    "code": "Room code",
+    "join": "Join",
+    "share": "Share the link",
+    "copied": "Link copied",
+    "shareText": "Come and explore Element Worlds with me! Room {{code}}",
+    "leave": "Leave the room",
+    "alone": "Nobody else is here yet: share the code.",
+    "connecting": "Connecting…",
+    "trouble": "No connection: trying again.",
+    "you": "you",
+    "goThere": "Go there",
+    "follow": "Follow",
+    "following": "Following",
+    "call": "Call everyone here",
+    "joined": "{{name}} joined",
+    "left": "{{name}} left",
+    "go": "Go",
+    "labTogether": "Building together: {{names}}",
+    "where": {
+      "plaza": "the table",
+      "elsewhere": "somewhere else"
+    }
   }
 }

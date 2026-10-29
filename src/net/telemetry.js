@@ -36,6 +36,7 @@ const allowed = () => {
   if (/[?&]track=1/.test(location.search)) return true // a probe that checks the recording itself
   if (navigator.webdriver) return false // the probes (Playwright)
   if (/^(localhost|127\.|192\.168\.|10\.)/.test(location.hostname)) return false
+  if (location.pathname.startsWith('/stats')) return false // the family dashboard itself
   return true
 }
 const declined = () => navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1'
@@ -189,9 +190,11 @@ export function watchStore(store, i18n) {
   store.subscribe(s => {
     const was = prev
     prev = s
-    if (s.world !== was.world && s.world) {
+    // a world is the same world while its key is (the store gets a new object for it on every set)
+    const key = s.world ? [s.world.kind, s.world.symbol, s.world.wing].filter(Boolean).join(':') : null
+    if (key && key !== where) {
       leaveWorld()
-      where = [s.world.kind, s.world.symbol, s.world.wing].filter(Boolean).join(':')
+      where = key
       since = performance.now()
       activeAt = activeNow()
       track('enter', { w: where })

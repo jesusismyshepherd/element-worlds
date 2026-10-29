@@ -556,6 +556,11 @@ export async function build(ctx, target) {
     setYear,
     enterSelected,
     overview: () => flyTo(overview()),
+    // over a cube, above the Atomling that stands on a selected one (others.js puts names there)
+    cubeTop: z => {
+      const s = state[z - 1]
+      return s ? new THREE.Vector3(s.x, s.lift + s.h + 3.4, s.z) : null
+    },
     dispose() {
       disc.dispose()
     },
