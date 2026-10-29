@@ -6,7 +6,8 @@ in first person or as the element's own character (an Atomling). For Artur (10) 
 screen has two depths, Explorer and Scientist. Started 2026-10-27 from the pokemon project's 3D
 experience (`D:\Family\Artur\pokemon images`, `D:\Family\Artur\pokemon-site`).
 
-The design and the reasons behind it: `docs/design.md`. Change it when a decision changes.
+The design and the reasons behind it: `docs/design.md`. Change it when a decision changes. What was
+built when, and the user's requests behind it: `docs/history.md`.
 
 ## Rules
 
@@ -37,9 +38,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   HUD's layout rule, covers and the view offset, full screen), `walking.md` (both views, the camera,
   `cameraClear`, panels and exhibits, things to click), `hall-boards.md` (the halls' fact file and picture
   boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
-  reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps). Read the one for the
-  area you touch. `accounts.md`: the accounts (the Pokémon site's logins), the progress kept in them, the
-  recording switch.
+  reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps), `accounts.md` (the
+  Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
+  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload). Read the one for
+  the area you touch.
 - `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
   the signed-in session, the client loaded on demand), `account.js` (sign in, new account, the progress
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`
@@ -68,11 +70,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode, `teleport` for probes),
   `player.js` (walking, both views), `collide.js` (solids on the ground plane), `input.js`, `text.js`
   (troika SDF text, `formulaText`), `quality.js` (light mode, from the arena), `store.js` (engine <-> HUD),
-  `progress.js` (discoveries kept on the device), `release.js` (a page that a new deployment left behind
-  reloads itself once when a world's code is gone; `watchUpdates`: every build writes `/version.json`
-  (vite.config.js), an open page asks for it when it comes back on screen and offers "Reload"; the phone's
-  ☰ menu always has Reload: the installed app (manifest `fullscreen`) has no reload button or pull to
-  refresh, the user, 2026-10-29; checked by `tools/update_probe.py`, two builds).
+  `progress.js` (discoveries kept on the device), `release.js` (new versions: Reload offered, a page
+  left behind reloads once; `docs/knowledge/deploying.md`).
 - `src/worlds/registry.js`: addresses (`/`, `/e/C`, `/e/C/allotropes`) and which module builds each world.
   `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
   `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).
@@ -89,32 +88,14 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
-- `src/worlds/wings/carbon/`, `src/worlds/wings/oxygen/`: the four worlds (each folder has its own
-  words, parts and tests). `src/worlds/wings/noble/`: the neon sign workshop, one wing shared by the six
-  noble gases (`/e/<Symbol>/signs`; adding-a-wing.md, "A wing shared by several elements").
-- `tools/shot.py` (screenshots of the dev server, `npm run dev` on port 5310, with steps),
-  `tools/lineup.py` (the Atomlings page), `tools/journey.py` (a whole visit through every wing and back),
-  `tools/halls_probe.py` (all 118 halls, every panel, all four languages (each hall rebuilt in it) and
-  both depths: words gone wrong, errors;
-  under 2 minutes). `shot.py --base https://element-worlds.vercel.app` looks at the live site.
-  `tools/hud_probe.py` (the HUD keeps the middle free on six screens, ten scenes; screenshots in
-  `tools/shots/hud/`), `tools/fullscreen_probe.py`, `tools/make_icons.py` (the home-screen icons),
-  `tools/card_probe.py` (the plaza card's facts on every element, four languages, a computer and a phone:
-  the arrows, a click on the text and T go through them, the arrows stay put),
-  `tools/nav_probe.py` (walking and looking: turning, looking up, helium framed, the nanotube's camera,
-  panels following the level and switching between exhibits, the pinch). `tools/sound_probe.py` (the
-  sound opens with the first tap, click or key and the music bed plays; a finger's pointerdown alone does
-  not give leave to play on a real phone, headless Edge is lenient there). `tools/breath_probe.py` (the
-  air wing's breathing: on and held with E, every gas streaming in and out, two breaths filmed as a
-  contact sheet), `tools/spot_probe.py` (a reload puts the walker back where they stood, and the table's view, pick
-  and trend: the engine's `keepSpot` and a world's `spot`/`restoreSpot`, per tab in sessionStorage
-  `ew-spot`, only for the first world of a page load).
-  `tools/plaza_room_probe.py` (three players on the table: the others' Atomlings on their picked cubes,
-  the dock's drawers over a phone's card). `tools/phone.py`: the site on
-  a real Android phone over Wi-Fi (adb, installed 2026-10-28 with winget; Chrome's DevTools socket):
-  screenshots, taps, drags and frame times on the phone's own chip; pairing steps in its header.
-  Probes run with `py -3.11` (Playwright is installed there).
-- Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions, grammar).
+- `src/worlds/wings/carbon/`, `oxygen/` (two worlds each), `noble/` (the neon sign workshop, one wing
+  shared by the six noble gases, `/e/<Symbol>/signs`): each folder's `README.md` maps its files.
+- `tools/`: probes and helpers (`docs/knowledge/tools.md` says what each checks). The everyday ones:
+  `shot.py <path>` (screenshots and console errors; `--base https://element-worlds.vercel.app` for the
+  live site), `halls_probe.py` (all 118 halls, four languages, both depths), `hud_probe.py` (after any HUD
+  change), `phone.py` (the user's real phone). Probes run with `py -3.11`.
+- Tests: `npm test` (node --test: data, atom, Lewis places, discovery years, molecules, collisions,
+  grammar, every wing's words, the content).
 
 ## Working traps
 
@@ -136,9 +117,7 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   files as the lab's keys; committing them early would have broken the live site).
 - Chrome on the user's phone translates Portuguese pages into English by itself: it reached the HTML (HUD,
   speech) but not the words drawn in 3D, mixing the two. `index.html` says `translate="no"` and
-  `notranslate` (2026-10-28). The user's phone: a Galaxy S21 (Android 15, Chrome), paired with this
-  computer for `tools/phone.py` (later: turn Wireless debugging on, `phone.py connect`); in light mode it
-  holds 60 frames a second in the hall and the graphene gallery.
+  `notranslate` (2026-10-28). The user's phone (a Galaxy S21) and how to reach it: `tools.md`, `phone.py`.
 - Never give a git worktree a junction to the main `node_modules`: `git worktree remove` followed it and
   deleted 68 packages of the real one before failing (2026-10-29; restored with `npm install`). Remove
   the junction first (`cmd /c rmdir <junction>`), or copy what you need.
@@ -154,77 +133,34 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 
 ## Status (last updated 2026-10-29)
 
-- 2026-10-29 (evening): accounts (the Pokémon site's logins; 👤): progress kept in the account and moved
-  there from a device at its first sign-in (Artur's phone), recording under the account with a switch
-  (on by default), the `?who=` tags removed, the dashboard's People; `accounts.md`, `account_probe.py`.
-- 2026-10-29: usage data (every visit recorded: signed-in players under their account, everyone else
-  anonymous per visit; the dashboard at /stats, password with the user; `usage-data.md`) and rooms
-  (playing together: up to any number of players, follow, call, emotes, the others' Atomlings, the shared
-  Molecule Lab; the quiz as a duel: two seats, everyone else watching, seats swapped by asking, by a line
-  or by "winner stays"; `multiplayer.md`). Next for rooms: a shared forge. Probes: `usage_probe.py`,
-  `stats_probe.py` (both want EW_DASH_PASS), `room_probe.py`, `duel_probe.py`.
+Live at https://element-worlds.vercel.app. What there is, each with its doc (when and why each piece was
+built: `docs/history.md`):
 
-- Live at https://element-worlds.vercel.app (Vercel deploys `main` on every push).
-- The plaza: the table, hover and select (the card, the element's Atomling on its cube; in Explorer the
-  card tells the Atomling's facts, "Tell me something", one at a time to click through, since the user's
-  request of 2026-10-28: it said only how many protons and electrons), enter, families,
-  trends (both depths since 2026-10-29), the time machine, search, golden stars over elements with worlds of their own,
-  About, links to the Atomlings, the lab and the passport.
-- Every element's hall: the atom, eight stations and the specimen case (what it looks like), talking
-  to the Atomling (its greeting, then its fun facts), discoveries; coming back from a wing you arrive at
-  its arch; walking toward a wing's arch builds it ahead (`engine.prewarm`). The floor table: a click or
-  tap on a tile goes to that element's hall (2026-10-29). Carbon and Oxygen (2026-10-29, the user: the
-  text boards were boring) have a fact file and seven picture boards instead of the eight stations;
-  the rest of the elements once the user has seen these (`docs/knowledge/hall-boards.md`). The specimen
-  case is a museum showcase in every hall, with real-looking samples; Carbon and Oxygen have their own
-  showpieces (`showpieces.js`; the rest once the user has seen these).
-- Element stories in `src/content/`: all 118 (written 2026-10-27 by agents in batches, checked by
-  `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`: discovery credit as
-  IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed
-  isotopes out).
-- Worlds: carbon (`/e/C/allotropes` with the graphene row and, since 2026-10-28, the twisted graphene as
-  two hexagonal flakes on a light table, turned by hand or by themselves, beside a board of their bands
-  (Bistritzer-MacDonald, `scripts/data/tbg_bands.py`), with why twistronics matters; `/e/C/life`), oxygen (`/e/O/air`,
-  `/e/O/fire`; since 2026-10-29 the air wing's breathing exhibit, `oxygen/airBreath.js`: glass lungs
-  between the air breathed in and the air breathed out, breathing on until held with E), the noble gases' neon sign workshop (`/e/He/signs` to `/e/Rn/signs`, 2026-10-28: filling
-  bench, radon's lead box, your name in neon, spectroscope with NIST lines, the atom's energy ladder,
-  history board, balloons). Ideas for the next ones: `docs/wing-ideas.md`.
-- Atomlings: the grammar and the second layer of looks (`characters/look.js`); `/atomlings` with cards.
-- The Molecule Lab (`/lab`, `docs/knowledge/molecule-lab.md`): covalent molecules and, since 2026-10-28,
-  ionic compounds (metals hand their electrons over: NaCl, MgO, CaCl2, Al2O3...); molecules keep their
-  shape and lie level. Sound (`src/audio/sound.js`), the passport (`/passport`: halls, molecules, forge
-  missions, the quiz's record, badges).
-- The Atom Forge (`/forge`, 2026-10-27 evening; `docs/knowledge/atom-forge.md`): protons, neutrons,
-  electrons; the element's Atomling pops up; 3552 nuclides from NUBASE say what holds together; decays
-  shown (alpha, beta, capture, fission), whole chains; 14 missions; the chart of nuclides to tap; a
-  bottom bar on phones. Linked from every hall's "Inside the atom" panel. The beam (2026-10-28): fire
-  particles and nuclei at it; famous reactions as history saw them, superheavies by fusion-evaporation.
-- "Who am I?" (2026-10-28 night): a quiz in the plaza, Explorer from 40 well-known elements, Scientist
-  from all 118; fewer clues, more points; the best score kept on the device.
-- The HUD around the middle (2026-10-28, the user's first feedback from a phone: no full screen, the
-  pop-ups covered the table, something always in the middle inside the halls): one rule for every
-  screen (`docs/knowledge/hud-layout.md`): edges only, a dock of tools on the plaza, side or top sheets
-  for stories and the quiz, the world's centre drawn in the part left free (covers and the camera's
-  view offset), phones' pages, level and language in the ☰ menu, full screen (a button; a touch
-  screen's first tap; the home-screen app). `tools/hud_probe.py` passes 60 of 60.
-- Walking (2026-10-28, the user's second notes; `docs/knowledge/walking.md`): first person turns on A/D
-  like the character; the character's view looks up past the floor; floating Atomlings framed (helium
-  was left at the top of a phone's screen); a pinch zooms on phones; no jump button on phones; the
-  nanotube's camera eased (it jumped 2.2 m going in and out); an open panel follows a change of
-  level; a neighbour exhibit is offered beside an open panel and E switches to it.
-- The neon workshop's rooms (2026-10-28): each starts with its own gas's name on the wall in its own
-  light (the name is kept per room), its lamplight, OPEN sign and greeting are the gas's own.
-- Open (the one list of what is left; add to it, and take out what gets done):
-  - The user's review: the Atomlings' look, the worlds, the forge, the HUD, walking, the breathing.
-  - Waiting on that review: the picture boards, fact file and showpiece for the other 116 halls
-    (`docs/knowledge/hall-boards.md`).
-  - Next to build: a shared forge in rooms (`multiplayer.md`); oxygen's next exhibits (`docs/design.md`);
-    the wings in `docs/wing-ideas.md`.
-  - First visits: shaders are now warmed for the bloom's linear buffer (2026-10-28; they were warmed for
-    the screen, a wasted half that recompiled on the first frames): cold first visits 1.2 to 3.9 s
-    (carbon's gallery was 10 s); fewer material variants would cut more (the gallery still needs 53
-    programs).
-  - The third-person camera keeps clear of solids and looks up when the floor holds it (2026-10-27), but
-    meshes that are not solids (lattices, crowns) still need each world's own fade (carbon's wings).
-  - The real phone (`tools/phone.py`) has measured only the hall and the graphene gallery (60 frames a
-    second in light mode); the other worlds not yet.
+- The plaza (`/`): the table, the card with the Atomling's facts, families, trends (both depths), the
+  time machine, search, "Who am I?", golden stars over elements with worlds of their own.
+- Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
+  floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
+  showpieces; the other 116 still have the eight text stations (`hall-boards.md`).
+- Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop (a README in
+  each folder).
+- The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the
+  Atomlings (`/atomlings`, `atomlings.md`), the passport (`/passport`).
+- Rooms: playing together, the shared lab, the quiz duel (`multiplayer.md`). Accounts (`accounts.md`).
+  Usage data and the family dashboard at `/stats` (`usage-data.md`).
+- The HUD keeps the middle free (`hud-layout.md`); walking in both views (`walking.md`); four languages
+  (`translating.md`); new versions and Reload (`deploying.md`).
+
+Open (the one list of what is left; add to it, and take out what gets done):
+- Next: the fact file, picture boards and showpiece for the other 116 halls. The user loved Carbon's and
+  Oxygen's (2026-10-29: "the others can now follow"); `hall-boards.md`.
+- To build: a shared forge in rooms (`multiplayer.md`); oxygen's red blood cell ride (`docs/design.md`);
+  the wings in `docs/wing-ideas.md`.
+- Not reviewed by the user yet: the Atomlings' look, the other worlds, the forge, the HUD, walking, the
+  breathing.
+- First visits: cold first visits take 1.2 to 3.9 s (carbon's gallery was 10 s before the shaders were
+  warmed for the bloom's buffer); fewer material variants would cut more (the gallery still needs 53
+  programs).
+- The third-person camera keeps clear of solids, but meshes that are not solids (lattices, crowns) still
+  need each world's own fade (carbon's wings).
+- The real phone (`tools/phone.py`) has measured only the hall and the graphene gallery (60 frames a
+  second in light mode); the other worlds not yet.

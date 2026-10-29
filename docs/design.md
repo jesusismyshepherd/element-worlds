@@ -106,12 +106,12 @@ A 16 m cube of a hall, pale surfaces tinted by the family colour.
    Breathing (2026-10-29, `wings/oxygen/airBreath.js`): glass lungs between a column of the air breathed
    in and one of the air breathed out, each stacked by gas (21% oxygen in, about 16% out; 0.04% carbon
    dioxide in, about 4% out); E starts the breathing and E again holds the breath (the user: one breath
-   was over before the breath out was seen). `tools/breath_probe.py` films two breaths.
+   was over before the breath out was seen). `tools/breath_probe.py` films two breaths. Liquid oxygen
+   (pale blue) poured between a magnet's poles hangs there; liquid nitrogen falls through (`airO2.js`).
 2. *Fire*: a stone chamber with a campfire; the fire triangle (take away a side and the fire dies); the
    candle under a jar (the oxygen gauge falls, the flame dies); the glowing splint that bursts into flame
-   in pure oxygen (the school test for oxygen); rust as slow burning.
-Next for oxygen: a ride with a red blood cell (where the breathed oxygen goes), liquid oxygen (pale
-blue, held by a magnet).
+   in pure oxygen (the school test for oxygen); methane burning atom by atom; rust as slow burning.
+Next for oxygen: a ride with a red blood cell (where the breathed oxygen goes).
 
 A wing is a module (see Architecture); adding one never touches the engine.
 

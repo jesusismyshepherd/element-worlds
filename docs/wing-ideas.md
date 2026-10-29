@@ -46,6 +46,9 @@ from; the process is `.claude/skills/element-wing/` and `docs/knowledge/adding-a
 ## Lab extensions (the molecule games)
 
 - **Ionic compounds**: a metal hands its electrons over (NaCl, MgO, CaCl2), crystals grow from the ions.
+  **Built 2026-10-28** in the Molecule Lab (`molecule-lab.md`); the growing crystals not yet.
 - **Alloys**: the forge where metals mix (bronze, brass, steel: iron with a little carbon).
 - **Reactions**: burning methane with oxygen (atoms counted on both sides), rusting, photosynthesis.
+  Methane and rust are benches in oxygen's fire wing, photosynthesis is carbon's tree; as a game in the
+  lab, not yet.
 - **Rings and life**: benzene, glucose, the four DNA bases; build a short strand of DNA.
