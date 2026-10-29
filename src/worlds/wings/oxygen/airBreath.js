@@ -124,12 +124,12 @@ export function breathExhibit({ color, light, words, level }) {
     lungs.add(br)
   }
   // the air on the move, every gas of it (the user, 2026-10-29: not only the carbon dioxide going out),
-  // in proportion but with the nitrogen thinned so it does not crowd the rest: a breath in brings 8
-  // nitrogen and 4 oxygen (and an argon every other breath); a breath out takes back the 8 nitrogen, 3
-  // oxygen (the body kept about a quarter) and 1 carbon dioxide in its place
+  // in proportion but with the nitrogen thinned so it does not crowd the rest: a breath in brings 16
+  // nitrogen and 8 oxygen (and an argon every other breath); a breath out takes back the 16 nitrogen, 6
+  // oxygen (the body kept about a quarter) and 2 carbon dioxide in their place
   const BREATH = {
-    in: { N2: 8, O2: 4, CO2: 0, Ar: 1 },
-    out: { N2: 8, O2: 3, CO2: 1, Ar: 1 },
+    in: { N2: 16, O2: 8, CO2: 0, Ar: 1 },
+    out: { N2: 16, O2: 6, CO2: 2, Ar: 1 },
   }
   const rnd = random(5)
   const atomMat = c => new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.35, roughness: 0.3 })
@@ -184,11 +184,11 @@ export function breathExhibit({ color, light, words, level }) {
   scr.set({ small: smallLine() })
 
   // one breath: in (IN s), a moment full, out (OUT s), a moment empty
-  const IN = 2.6
-  const OUT_AT = 3.1
-  const OUT = 2.6
-  const CYCLE = 6.4
-  const FLY = 1.5 // a molecule's flight, all within its half of the breath
+  const IN = 3.5
+  const OUT_AT = 4.0
+  const OUT = 3.5
+  const CYCLE = 8.2
+  const FLY = 1.6 // a molecule's flight, all within its half of the breath
   const ease = x => x * x * (3 - 2 * x)
   const fullness = p => (p < IN ? ease(p / IN) : p < OUT_AT ? 1 : p < OUT_AT + OUT ? 1 - ease((p - OUT_AT) / OUT) : 0)
   let breaths = 0
