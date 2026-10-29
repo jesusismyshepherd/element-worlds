@@ -10,6 +10,7 @@ import ElementCard from './ElementCard.jsx'
 import Search from './Search.jsx'
 import QuizHud from './QuizHud.jsx'
 import { useCover, useViewport } from './layout.js'
+import { track } from '../net/telemetry.js'
 
 const DOCK = 'glass rounded-xl px-2.5 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10 whitespace-nowrap'
 
@@ -52,7 +53,10 @@ export default function PlazaHud({ engine }) {
   const shown = selected ?? hover
   const el = shown ? element(shown) : null
   const tag = LANG_TAG[i18n.resolvedLanguage] ?? 'en'
-  const toggle = id => setOpen(o => (o === id ? null : id))
+  const toggle = id => setOpen(o => {
+    if (o !== id) track('drawer', { id })
+    return o === id ? null : id
+  })
   // on a phone the card and a drawer would share the bottom: the card wins while it is up, and the
   // quiz names its own answers
   const cardUp = !!el && !(vp.compact && quiz)
@@ -141,7 +145,7 @@ export default function PlazaHud({ engine }) {
     </>
   )
   const DRAWERS = {
-    find: [t('hud.find'), <Search key="s" wide onPick={z => { world()?.select(z); setOpen(null) }} />],
+    find: [t('hud.find'), <Search key="s" wide onPick={z => { track('find', { z }); world()?.select(z); setOpen(null) }} />],
     families: [t('hud.families'), families],
     time: [t('time.title'), time],
     trends: [t('trends.title'), trends],
@@ -177,7 +181,7 @@ export default function PlazaHud({ engine }) {
             <div className="glass rounded-xl px-2 py-1.5 w-56 pointer-events-auto">{scale}</div>
           )}
           <div ref={dockRef} className="flex gap-1.5 flex-wrap">
-            <button type="button" onClick={() => setQuiz(true)} className={DOCK}>
+            <button type="button" onClick={() => { track('quizopen'); setQuiz(true) }} className={DOCK}>
               ❓ {t('quiz.start')}
             </button>
             {tools.map(([id, icon, label]) => (

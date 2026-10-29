@@ -6,6 +6,7 @@ import { temperature, density, num, config, LANG_TAG } from './format.js'
 import { WINGS } from '../worlds/registry.js'
 import { loadContent, contentCached } from '../content/index.js'
 import { pick } from '../content/stations.js'
+import { track } from '../net/telemetry.js'
 
 // which fact each element's card was on, so coming back to an element goes on from there
 const AT = new Map()
@@ -26,6 +27,7 @@ function Facts({ el, lang, level, color, touch }) {
   const i = (AT.get(el.symbol) ?? 0) % Math.max(n, 1)
   const go = step => {
     AT.set(el.symbol, (i + step + n) % n)
+    track('fact', { s: el.symbol, i: (i + step + n) % n, n })
     redraw(k => k + 1)
   }
   useEffect(() => {

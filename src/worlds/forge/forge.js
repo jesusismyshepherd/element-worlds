@@ -11,6 +11,7 @@ import { nightSky } from '../common/sky.js'
 import { packBall } from '../common/pack.js'
 import { loadChart, nuclide, decay, commonestN, ionShells, modeFamily, collide, BEAMS } from '../../chem/nucleus.js'
 import { markFound, isFound } from '../../engine/progress.js'
+import { track } from '../../net/telemetry.js'
 import { play, ambience } from '../../audio/sound.js'
 import { MISSIONS } from './words.js'
 
@@ -249,6 +250,7 @@ export async function build(ctx, target) {
     const s = state()
     for (const m of MISSIONS) {
       if (!isFound(`forge:${m.id}`) && m.check(s, ev ?? null) && markFound(`forge:${m.id}`)) {
+        track('mission', { id: `forge:${m.id}` })
         play('celebrate')
         store.set({ forgeCelebrate: { id: m.id, name: m.name[lang()] ?? m.name.en, at: performance.now() } })
       }
@@ -272,6 +274,7 @@ export async function build(ctx, target) {
   // ---- what the HUD (and the probes) do ----
   const add = kind => {
     note = null
+    track('forge', { op: 'add', k: kind, z: Z, n: N, e: E })
     if (kind === 'p') {
       if (Z >= CAP.p) return
       Z++
@@ -305,6 +308,7 @@ export async function build(ctx, target) {
   }
   const remove = kind => {
     note = null
+    track('forge', { op: 'remove', k: kind, z: Z, n: N, e: E })
     const out = new THREE.Vector3(-1, 0.3, 0.4).normalize()
     if (kind === 'p' || kind === 'n') {
       if ((kind === 'p' ? Z : N) === 0) return
@@ -457,6 +461,7 @@ export async function build(ctx, target) {
   let incoming = null // { c: collide's answer, from, beam, at }
   const fire = beam => {
     if (incoming || !BEAMS[beam]) return
+    track('forge', { op: 'fire', beam, z: Z, n: N })
     const [bz, bn] = BEAMS[beam]
     // nothing beyond oganesson (118) has ever been made: the forge says so instead of naming an
     // element that does not exist (zinc-70 at uranium would have made 122 and broken the names)

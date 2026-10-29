@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useTranslation } from 'react-i18next'
+import { recordingAs } from '../net/telemetry.js'
 
 /** What this is, how to play, and where the numbers come from. */
 export default function About({ onClose }) {
@@ -18,6 +19,9 @@ export default function About({ onClose }) {
         </ul>
         <h3 className="font-display font-bold mt-4">{t('about.dataTitle')}</h3>
         <p className="text-[13px] leading-relaxed opacity-90 mt-1">{t('about.data')}</p>
+        <h3 className="font-display font-bold mt-4">{t('about.privacyTitle')}</h3>
+        <p className="text-[13px] leading-relaxed opacity-90 mt-1">{t('about.privacy')}</p>
+        {recordingAs() && <p className="text-[13px] leading-relaxed mt-1 text-amber-200">{t('about.recording', { who: recordingAs() })}</p>}
       </div>
     </div>
   )

@@ -80,7 +80,7 @@ export default function WalkHud({ engine }) {
                 <button
                   type="button"
                   data-speech-next
-                  onClick={() => engine.world.talk()}
+                  onClick={() => engine.talk()}
                   aria-label={t('card.nextFact')}
                   title={touch ? t('card.nextFact') : `${t('card.nextFact')} (T)`}
                   className="shrink-0 self-end w-9 h-9 -mr-1 -mb-0.5 rounded-xl text-xl leading-none hover:bg-white/10 active:scale-95 transition"

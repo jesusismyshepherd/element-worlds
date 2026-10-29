@@ -213,7 +213,10 @@
       "time": "Wehikuł czasu pokazuje, jak układ okresowy rósł w historii, od pierwiastków znanych od starożytności do ostatnich wytworzonych w laboratoriach."
     },
     "dataTitle": "Skąd pochodzą liczby",
-    "data": "Dane o pierwiastkach pochodzą z układu okresowego PubChem (Narodowa Biblioteka Medyczna USA, domena publiczna) i z pakietu Pythona mendeleev (licencja MIT): masy, konfiguracje, promienie, izotopy, rozpowszechnienie. Lata odkrycia wynikają z jednej zasady (kiedy pierwiastek po raz pierwszy rozpoznano lub wyodrębniono). Wartości dla pierwiastków superciężkich są częściowo przewidywaniami i są tak oznaczone."
+    "data": "Dane o pierwiastkach pochodzą z układu okresowego PubChem (Narodowa Biblioteka Medyczna USA, domena publiczna) i z pakietu Pythona mendeleev (licencja MIT): masy, konfiguracje, promienie, izotopy, rozpowszechnienie. Lata odkrycia wynikają z jednej zasady (kiedy pierwiastek po raz pierwszy rozpoznano lub wyodrębniono). Wartości dla pierwiastków superciężkich są częściowo przewidywaniami i są tak oznaczone.",
+    "privacyTitle": "Co zapisujemy",
+    "privacy": "Żeby ulepszać grę, zapisujemy, co się tu odwiedza i robi (które sale, jak długo, czego próbowano w laboratorium), bez imion i bez adresów. Urządzenia rodziny oznaczone przez dorosłego zachowują historię; wszystkie inne wizyty są anonimowe, a gdy przeglądarka prosi o brak śledzenia, nic nie jest zapisywane.",
+    "recording": "To urządzenie zapisuje historię jako „{{who}}”."
   },
   "search": {
     "placeholder": "Znajdź pierwiastek…"

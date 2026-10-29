@@ -15,6 +15,7 @@ import { loadContent } from '../../content/index.js'
 import { wallPanel, pictureBoard, arch, canvasTexture, portalMaterial } from '../common/props.js'
 import { loadBoards, boardArt } from '../../content/boards/index.js'
 import { factFileTexture } from './factFile.js'
+import { track } from '../../net/telemetry.js'
 import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
@@ -486,6 +487,7 @@ export async function build(ctx, target, previous) {
       const i = tileAt(ray)
       if (i < 0) return
       lightTile(i)
+      track('tile', { from: el.symbol, to: cells[i].e.symbol })
       ctx.go(atriumPath(cells[i].e.symbol))
     },
     attach() {

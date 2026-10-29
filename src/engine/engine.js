@@ -15,6 +15,7 @@ import { loadWorld, worldKey } from '../worlds/registry.js'
 import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
 import { insets, freeArea } from './covers.js'
+import { track } from '../net/telemetry.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -312,7 +313,7 @@ export class Engine {
       if (w.mode === 'walk') {
         if (this.input.took('KeyV')) this.setMode(this.store.get().mode === 'first' ? 'third' : 'first')
         if (this.input.took('KeyE')) this.player.use()
-        if (this.input.took('KeyT')) w.talk?.()
+        if (this.input.took('KeyT')) this.talk()
         this.pointing(w)
         this.player.update(dt, w, this.input, this.time)
       }
@@ -323,6 +324,13 @@ export class Engine {
     if (this.composer) this.composer.render(dt)
     else this.renderer.render(this.scene, this.camera)
     this.frames++
+  }
+
+  /** "Tell me something": the world's Atomling says its next line. */
+  talk() {
+    if (!this.world?.talk) return
+    track('talk', { w: this.store.get().world?.symbol ?? null })
+    this.world.talk()
   }
 
   /** A walking world's things to click (the hall's floor table): a tap goes to `w.onTap(ray)`, and the

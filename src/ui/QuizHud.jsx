@@ -7,6 +7,7 @@ import { ELEMENTS, FAMILY, nameOf } from '../data/elements.js'
 import { loadContent } from '../content/index.js'
 import { makeQuestion, cluesFor, points } from '../game/quiz.js'
 import { play } from '../audio/sound.js'
+import { track } from '../net/telemetry.js'
 import { useCover, useViewport } from './layout.js'
 
 const ROUND = 10
@@ -73,6 +74,7 @@ export default function QuizHud({ select, overview, onClose }) {
     if (done) return
     setPicked(z)
     const ok = z === q.answer
+    track('quiz', { z: q.answer, pick: z, ok, clues: shown, of: clues.length, n: round.n + 1 })
     const gained = ok ? worth : 0
     const r = { n: round.n + 1, score: round.score + gained, right: round.right + (ok ? 1 : 0), asked: [...round.asked, q.answer] }
     setRound(r)

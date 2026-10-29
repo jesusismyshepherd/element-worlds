@@ -165,7 +165,7 @@ export default function Hud({ engine }) {
               data-talk
               title={t('hud.talk')}
               aria-pressed={!!speech}
-              onClick={() => (store.get().speech ? store.set({ speech: null }) : engine.world.talk())}
+              onClick={() => (store.get().speech ? store.set({ speech: null }) : engine.talk())}
               className={`${BTN} ${speech ? 'bg-white/20 ring-1 ring-white/50' : ''}`}
             >
               💬{!vp.compact && <span> {t('hud.talk')}</span>}

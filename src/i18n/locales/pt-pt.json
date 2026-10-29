@@ -203,7 +203,10 @@
       "time": "A máquina do tempo mostra a tabela a crescer ao longo da história, dos elementos conhecidos desde a Antiguidade aos últimos feitos em laboratório."
     },
     "dataTitle": "De onde vêm os números",
-    "data": "Dados dos elementos da tabela periódica do PubChem (Biblioteca Nacional de Medicina dos EUA, domínio público) e do pacote Python mendeleev (licença MIT): massas, configurações, raios, isótopos, abundâncias. Os anos de descoberta seguem uma só regra (quando o elemento foi reconhecido ou isolado pela primeira vez). Os valores dos elementos super-pesados são em parte previsões e estão assinalados como tal."
+    "data": "Dados dos elementos da tabela periódica do PubChem (Biblioteca Nacional de Medicina dos EUA, domínio público) e do pacote Python mendeleev (licença MIT): massas, configurações, raios, isótopos, abundâncias. Os anos de descoberta seguem uma só regra (quando o elemento foi reconhecido ou isolado pela primeira vez). Os valores dos elementos super-pesados são em parte previsões e estão assinalados como tal.",
+    "privacyTitle": "O que registamos",
+    "privacy": "Para melhorar o jogo, registamos o que aqui se visita e faz (que salões, durante quanto tempo, o que se experimentou no laboratório), sem nomes nem endereços. Os dispositivos da família marcados por um adulto guardam um histórico; todas as outras visitas são anónimas, e nada é registado quando o teu navegador pede para não ser seguido.",
+    "recording": "Este dispositivo guarda um histórico como «{{who}}»."
   },
   "search": {
     "placeholder": "Procurar elemento…"

@@ -203,7 +203,10 @@
       "time": "The time machine shows the table growing through history, from the elements known since ancient times to the last ones made in laboratories."
     },
     "dataTitle": "Where the numbers come from",
-    "data": "Element data from the PubChem periodic table (US National Library of Medicine, public domain) and the mendeleev Python package (MIT licence): masses, configurations, radii, isotopes, abundances. Discovery years follow one rule (when the element was first recognised or isolated). Values for the superheavy elements are partly predictions and are marked as such."
+    "data": "Element data from the PubChem periodic table (US National Library of Medicine, public domain) and the mendeleev Python package (MIT licence): masses, configurations, radii, isotopes, abundances. Discovery years follow one rule (when the element was first recognised or isolated). Values for the superheavy elements are partly predictions and are marked as such.",
+    "privacyTitle": "What we note",
+    "privacy": "To make the game better we note what is visited and done here (which halls, for how long, what was tried in the lab), with no names and no addresses. Family devices marked by a grown-up keep a history; every other visit is anonymous, and nothing is noted when your browser asks not to be tracked.",
+    "recording": "This device keeps a history as “{{who}}”."
   },
   "search": {
     "placeholder": "Find an element…"
