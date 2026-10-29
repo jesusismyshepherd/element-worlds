@@ -187,7 +187,8 @@
     "Ar": { "signs": { "title": "A oficina do néon" } },
     "Kr": { "signs": { "title": "A oficina do néon" } },
     "Xe": { "signs": { "title": "A oficina do néon" } },
-    "Rn": { "signs": { "title": "A oficina do néon" } }
+    "Rn": { "signs": { "title": "A oficina do néon" } },
+    "Na": { "videos": { "title": "Periodic Videos" } }
   },
   "time": {
     "title": "Máquina do tempo",

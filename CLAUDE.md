@@ -96,7 +96,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
 - `src/worlds/wings/carbon/`, `oxygen/` (two worlds each), `noble/` (the neon sign workshop, one wing
-  shared by the six noble gases, `/e/<Symbol>/signs`): each folder's `README.md` maps its files.
+  shared by the six noble gases, `/e/<Symbol>/signs`), `pv/` (the Periodic Videos rooms, `/e/<Symbol>/videos`,
+  sodium's first): each folder's `README.md` maps its files.
 - `tools/`: probes and helpers (`docs/knowledge/tools.md` says what each checks). The everyday ones:
   `shot.py <path>` (screenshots and console errors; `--base https://element-worlds.vercel.app` for the
   live site), `halls_probe.py` (all 118 halls, four languages, both depths), `hud_probe.py` (after any HUD
@@ -148,8 +149,8 @@ built: `docs/history.md`):
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
   showpieces; the other 116 still have the eight text stations (`hall-boards.md`).
-- Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop (a README in
-  each folder).
+- Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
+  Periodic Videos room (since 2026-10-30, the pilot; a README in each folder).
 - The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the
   Atomlings (`/atomlings`, `atomlings.md`), the passport (`/passport`).
 - Rooms: playing together, the shared lab, the quiz duel (`multiplayer.md`). Accounts (`accounts.md`).
@@ -159,7 +160,6 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next: the sodium Periodic Videos room as the pilot
-(its experiments rebuilt as things to do, the video beside them: `periodic-videos.md`, `docs/pv/Na.md`),
-then element by element each hall's picture boards and its room, the best-known elements first
-(`hall-boards.md`, "The other 116 halls").
+the phone), and what waits on the user. Next: the user's verdict on sodium's Periodic Videos room
+(the pilot, 2026-10-30: `periodic-videos.md`), then element by element each hall's picture boards and
+its room, the best-known elements first (`hall-boards.md`, "The other 116 halls").

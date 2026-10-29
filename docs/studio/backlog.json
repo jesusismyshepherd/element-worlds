@@ -53,6 +53,12 @@
   ],
   "waiting": [
     {
+      "id": "w-na-room",
+      "title": "Try sodium's Periodic Videos room with Artur",
+      "detail": "The pilot for every element's room: is this how you imagined it? Note what to keep and what to change (the look, the experiments, the video beside them) before the other elements get theirs. In the sodium hall, walk through the new arch.",
+      "link": "https://element-worlds.vercel.app/e/Na/videos"
+    },
+    {
       "id": "w-review",
       "title": "Play the newest things with Artur",
       "detail": "The breathing exhibit in the air wing, the neon sign workshop, the Atom Forge, a room played together, and how the Atomlings look. One line in a note is enough: what he liked, what bored him.",
@@ -98,6 +104,7 @@
       "summary": "Each element gets a room where the experiments from its Periodic Videos video (Brady Haran with Professor Sir Martyn Poliakoff, University of Nottingham) are rebuilt as things you do, with the video beside them: watch to understand, do it yourself, go back to the video for the why.",
       "why": "The videos are full of experiments a child can't do at home but can do here. Sodium first, as a pilot room to look at; then element by element with the hall boards, since one look at a video serves both.",
       "details": [
+        "Sodium's room is built (2026-10-30), the pilot to try: the oil tin, the courtyard bowl with three lumps and the indicator, the salt window, the salt lamp, the professor's card, and the film on the screen with a chapter per experiment.",
         "Claude watches each video (a frame every 4 seconds with the captions, in a cache on this computer that never goes online) and writes a brief: what the video shows, with times, and the room's stations.",
         "Sodium's video, watched 2026-10-30: cutting a two-kilo rod from its oil tin (soft, shiny, white within seconds), a gram in a bowl of water in a courtyard (skating, fizzing, the orange flame), a salt window that cracks at right angles, a rock-salt lamp, and a bigger lump with a bang. All five become stations (docs/pv/Na.md).",
         "Each station has 'Watch this part': the video plays from that experiment's moment, in YouTube's own player, credited and linked to periodicvideos.com.",
@@ -105,7 +112,7 @@
         "One shared room dressed per element (a lab bench, a fume cupboard, a door to a brick courtyard, the professor's desk), and a kit used again and again: the water bowl for every alkali metal, flame colours, fizz, smoke, liquid nitrogen, a Geiger counter. Apparatus modelled in Blender where it looks better than code.",
         "The door to it: a doorway board in each hall lists the element's extra places (its wings, this room, the hunts that start there) and makes room as more arrive, your blackboard idea."
       ],
-      "link": "http://www.periodicvideos.com/"
+      "link": "https://element-worlds.vercel.app/e/Na/videos"
     },
     {
       "id": "treasure-hunts",
@@ -569,6 +576,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Sodium's Periodic Videos room",
+      "what": "The experiments from sodium's film to do yourself: cut it, drop it in water (three sizes, one bangs), crack a salt window, light a salt lamp; each with 'Watch this part'.",
+      "link": "https://element-worlds.vercel.app/e/Na/videos"
+    },
     {
       "date": "2026-10-29",
       "title": "This studio",

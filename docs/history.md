@@ -4,6 +4,14 @@ The project's log, newest first; moved out of `CLAUDE.md` on 2026-10-29 so every
 it. How each piece works is in its area's doc (`docs/knowledge/`); this file keeps the order of events
 and the user's requests behind them. Add a line here when a piece of work changes what the game has.
 
+## 2026-10-30
+
+- Periodic Videos rooms (the user: each video's experiments become things to do, the video beside
+  them): `tools/pv/pv.py` lets Claude watch a film (every cut at its exact time, a frame every 2 s, zooms;
+  the user asked whether a frame every 4 s was enough: it missed sodium's 0.3 s bang), and sodium's room
+  is the pilot (`/e/Na/videos`: the oil tin, the courtyard bowl, the salt window, the salt lamp, the
+  professor's card, the film with "Watch this part"; `periodic-videos.md`).
+
 ## 2026-10-29
 
 - Evening: accounts (the Pokémon site's logins; 👤): progress kept in the account and moved there from a

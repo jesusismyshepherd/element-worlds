@@ -189,7 +189,8 @@
     "Ar": { "signs": { "title": "Die Neonwerkstatt" } },
     "Kr": { "signs": { "title": "Die Neonwerkstatt" } },
     "Xe": { "signs": { "title": "Die Neonwerkstatt" } },
-    "Rn": { "signs": { "title": "Die Neonwerkstatt" } }
+    "Rn": { "signs": { "title": "Die Neonwerkstatt" } },
+    "Na": { "videos": { "title": "Periodic Videos" } }
   },
   "time": {
     "title": "Zeitmaschine",

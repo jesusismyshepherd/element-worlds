@@ -187,7 +187,8 @@
     "Ar": { "signs": { "title": "The neon sign workshop" } },
     "Kr": { "signs": { "title": "The neon sign workshop" } },
     "Xe": { "signs": { "title": "The neon sign workshop" } },
-    "Rn": { "signs": { "title": "The neon sign workshop" } }
+    "Rn": { "signs": { "title": "The neon sign workshop" } },
+    "Na": { "videos": { "title": "Periodic Videos" } }
   },
   "time": {
     "title": "Time machine",

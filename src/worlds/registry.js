@@ -22,6 +22,8 @@ export const WINGS = {
   Kr: [{ id: 'signs', side: 'n', color: '#e8ddff', load: () => import('./wings/noble/signs.js') }],
   Xe: [{ id: 'signs', side: 'n', color: '#7ea8ff', load: () => import('./wings/noble/signs.js') }],
   Rn: [{ id: 'signs', side: 'n', color: '#ff6f86', load: () => import('./wings/noble/signs.js') }],
+  // the Periodic Videos rooms: an element's film rebuilt as experiments to do (docs/knowledge/periodic-videos.md)
+  Na: [{ id: 'videos', side: 'n', color: '#ffb21e', load: () => import('./wings/pv/room.js') }],
 }
 
 export const wingsOf = symbol => WINGS[symbol] ?? []

@@ -195,7 +195,8 @@
     "Ar": { "signs": { "title": "Pracownia neonów" } },
     "Kr": { "signs": { "title": "Pracownia neonów" } },
     "Xe": { "signs": { "title": "Pracownia neonów" } },
-    "Rn": { "signs": { "title": "Pracownia neonów" } }
+    "Rn": { "signs": { "title": "Pracownia neonów" } },
+    "Na": { "videos": { "title": "Periodic Videos" } }
   },
   "time": {
     "title": "Wehikuł czasu",

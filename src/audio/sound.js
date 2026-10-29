@@ -160,6 +160,17 @@ export function play(kind, { order = 1 } = {}) {
     // a particle accelerator's rising whine
     whoosh(300, 3600, 0.75, 0.2)
     tone(NOTE(55), 0.7, { type: 'sawtooth', gain: 0.05, to: NOTE(79) })
+  } else if (kind === 'fizz') {
+    // a lump of metal hissing on water (order: how hard)
+    whoosh(5600, 3000, 0.7, 0.045 * order)
+  } else if (kind === 'pop') {
+    tone(NOTE(50), 0.14, { gain: 0.3, to: NOTE(36) })
+    whoosh(2800, 500, 0.2, 0.16)
+  } else if (kind === 'bang') {
+    tone(NOTE(31), 0.8, { gain: 0.65, to: NOTE(22) })
+    whoosh(3200, 160, 1.1, 0.55)
+  } else if (kind === 'crack') {
+    for (let i = 0; i < 5; i++) tone(2300 + Math.random() * 1800, 0.012, { type: 'square', gain: 0.1, when: i * 0.06 + Math.random() * 0.03 })
   } else if (kind === 'decay') {
     // a Geiger counter's clicks and a whoosh; heavier for alpha, fission and clusters (order 2)
     for (let i = 0; i < 6; i++) tone(1900 + Math.random() * 600, 0.012, { type: 'square', gain: 0.12, when: i * 0.035 + Math.random() * 0.02, out: 'effects' })

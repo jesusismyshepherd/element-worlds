@@ -62,7 +62,10 @@ function Slider({ s, color }) {
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
  *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
  *  { link: { to, label } }, { slider }, { buttons: [{ label, onClick }] }, { h } (a section's heading),
- *  { img, alt, crop } (a picture; crop: the share of its height shown, from the top)] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
+ *  { img, alt, crop } (a picture; crop: the share of its height shown, from the top),
+ *  { video: { src, title, credit } } (a player, YouTube's own: the Periodic Videos rooms; kept playing while
+ *  the panel is written again, since its key is its src), { href: { url, label } } (a page outside, in a new
+ *  tab)] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
  *  down the right side, or across the top of an upright phone, and the world's centre moves into the
  *  part left free. */
 export default function Panel({ panel, onClose }) {
@@ -106,6 +109,25 @@ export default function Panel({ panel, onClose }) {
             <Link key={i} to={b.link.to} onClick={onClose} className="self-start rounded-xl px-3 py-1.5 text-sm font-bold bg-white/10 hover:bg-white/20" style={{ color: panel.color }}>
               {b.link.label} →
             </Link>
+          )
+          if (b.video) return (
+            <figure key={b.video.src} className="m-0 flex flex-col gap-1">
+              <iframe
+                src={b.video.src}
+                title={b.video.title}
+                className="w-full rounded-xl bg-black"
+                style={{ aspectRatio: '16 / 9', border: 0 }}
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+              {b.video.credit && <figcaption className="text-xs opacity-70 leading-snug">{b.video.credit}</figcaption>}
+            </figure>
+          )
+          if (b.href) return (
+            <a key={i} href={b.href.url} target="_blank" rel="noopener noreferrer" className="self-start rounded-xl px-3 py-1.5 text-sm font-bold bg-white/10 hover:bg-white/20" style={{ color: panel.color }}>
+              {b.href.label} ↗
+            </a>
           )
           if (b.slider) return <Slider key={`${i}-${b.slider.label}`} s={b.slider} color={panel.color} />
           if (b.buttons) return (

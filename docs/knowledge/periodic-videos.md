@@ -50,6 +50,31 @@ spoken numbers are often rounded). Dangerous experiments carry the video's own w
   counter, a magnet, a balance. Apparatus modelled in Blender where it beats code (the pokemon project's
   pipeline), effects in code because they answer the player.
 
+## Built: sodium's room (2026-10-30)
+
+`/e/Na/videos` (`src/worlds/wings/pv/`, its README): the oil tin (lift the rod, cut, the fresh face shines
+and dulls in seconds), the courtyard bowl (small, medium, large lumps; the bead skates on its fizz, the
+hydrogen lights after a wait, the large one bangs and throws a molten bead onto the bench; the indicator
+turns the alkaline water pink), the salt window (cracks at right angles, the cubic lattice rising out of
+it), the salt lamp, the professor's card, the screen with the whole film and a chapter per experiment.
+Each station's panel has "Watch this part" (the bowl also "the big one", 3:26). A new panel block,
+`{ video }` (`Panel.jsx`), holds YouTube's player and keeps playing while the panel is written again;
+`{ href }` opens a page outside. Sounds `fizz`, `pop`, `bang`, `crack` (`audio/sound.js`).
+
+Traps met building it:
+- Light: a pale lab under a hemisphere light, the environment and point lights washed out to white; the
+  room needs coloured walls and floor and modest light (hemisphere 0.7, points 3.5, `envIntensity` 0.4).
+- A flame's own point light and an HDR sprite turn a cream bowl into a white blur: keep the flame's light
+  under 1 and the sprite's colour at about 1.3; a flash for a bang at 10, not 40 (all white).
+- Timing in a probe: the headless browser draws slowly and the engine caps a frame's step, so the game's
+  clock runs behind the wall clock and fixed waits miss a 0.3 s event. Wait for the state instead:
+  `js:new Promise(r => { const i = setInterval(() => { if (!__ew.world.parts.bowl.busy) { clearInterval(i), r() } }, 10) })`
+  then `shot:` (no semicolons inside a step).
+- Headless Edge shows YouTube's player black: check the embed with `yt-dlp -J` (`playable_in_embed`)
+  and look at the real thing on a phone or a computer.
+- The apparatus face +x; a spot's `face` is the turn that points +x at the visitor (rotation.y takes +x
+  to (cos, 0, -sin)).
+
 ## Order
 
 The sodium room first, as the pilot the user looks at; then element by element together with the hall's
