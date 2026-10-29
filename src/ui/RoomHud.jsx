@@ -239,7 +239,7 @@ export function RoomToasts({ engine }) {
   }, [t, lang, engine])
   if (!notes.length) return null
   return (
-    <div className="absolute right-2 sm:right-3 flex flex-col items-end gap-1 pointer-events-none" style={{ top: 'calc(var(--bar) + 0.25rem)' }}>
+    <div className="absolute right-2 sm:right-3 z-30 flex flex-col items-end gap-1 pointer-events-none" style={{ top: 'calc(var(--bar) + 0.25rem)' }}>
       {notes.map(n => (
         <div key={n.id} data-room-note className="glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto flex items-center gap-2 max-w-[18rem]" style={{ borderColor: n.color ? `${n.color}aa` : undefined }}>
           <span className="truncate">{n.text}</span>
