@@ -35,7 +35,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - `docs/knowledge/`: `adding-a-wing.md` (the world contract, words, pieces, checking), `atomlings.md`
   (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `hud-layout.md` (the
   HUD's layout rule, covers and the view offset, full screen), `walking.md` (both views, the camera,
-  `cameraClear`, panels and exhibits). Read the one for the area you touch.
+  `cameraClear`, panels and exhibits, things to click), `hall-boards.md` (the halls' fact file and picture
+  boards, Carbon and Oxygen first). Read the one for the area you touch.
 - `.claude/skills/element-wing/`: the steps for building an element's wing.
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
@@ -52,7 +53,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `lineup.js` (the stage of the Atomlings page). `tools/atomsheet.py`: contact sheets of Atomlings
   (each alone from several angles, or the page's rows) for judging them.
 - `src/content/`: `stations.js` (the atrium's stations for any element, from the data, all four languages,
-  both depths), `C.js`, `O.js` (an element's own words).
+  both depths), `C.js`, `O.js` (an element's own words), `boards/<Symbol>.js` (a hall's picture boards;
+  pictures in `public/boards/<Symbol>/`, drawn by `tools/boards/<Symbol>/`).
 - `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode, `teleport` for probes),
   `player.js` (walking, both views), `collide.js` (solids on the ground plane), `input.js`, `text.js`
   (troika SDF text, `formulaText`), `quality.js` (light mode, from the arena), `store.js` (engine <-> HUD),
@@ -131,7 +133,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   About, links to the Atomlings, the lab and the passport.
 - Every element's hall: the atom, eight stations and the specimen case (what it looks like), talking
   to the Atomling (its greeting, then its fun facts), discoveries; coming back from a wing you arrive at
-  its arch; walking toward a wing's arch builds it ahead (`engine.prewarm`).
+  its arch; walking toward a wing's arch builds it ahead (`engine.prewarm`). The floor table: a click or
+  tap on a tile goes to that element's hall (2026-10-29). Carbon and Oxygen (2026-10-29, the user: the
+  text boards were boring) have a fact file and seven picture boards instead of the eight stations;
+  the rest of the elements once the user has seen these (`docs/knowledge/hall-boards.md`).
 - Element stories in `src/content/`: all 118 (written 2026-10-27 by agents in batches, checked by
   `content.test.js`; their data findings fixed in `scripts/build-elements.mjs`: discovery credit as
   IUPAC/IUPAP gave it, measured ionisation energies, predicted states said as predictions, unconfirmed

@@ -34,6 +34,53 @@ export function wallPanel({ title, big = '', small = '', color = '#7fd4ff', widt
   }
 }
 
+/** A picture on the wall (a hall's picture board): the picture `url` (an SVG or image, 3:2) in a frame
+ *  glowing in `color`, its `title` on a dark band over the bottom. Faces +z. Returns { group, setRead,
+ *  update(t), dispose } (unread, the frame breathes, to draw you over; read, it turns gold). */
+export function pictureBoard({ url, title, color = '#7fd4ff', width = 3.4, height = 2.3 }) {
+  const group = new THREE.Group()
+  const edgeMat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 1.1, roughness: 0.4 })
+  const edge = new THREE.Mesh(new RoundedBoxGeometry(width + 0.16, height + 0.16, 0.1, 3, 0.06), edgeMat)
+  const tex = new THREE.TextureLoader().load(url)
+  tex.colorSpace = THREE.SRGBColorSpace
+  tex.anisotropy = 4
+  // the picture fills the frame (3:2 cut to the frame's shape from the middle)
+  const aspect = width / height
+  if (aspect < 1.5) {
+    tex.repeat.set(aspect / 1.5, 1)
+    tex.offset.set((1 - aspect / 1.5) / 2, 0)
+  }
+  const picture = new THREE.Mesh(new THREE.PlaneGeometry(width, height), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }))
+  picture.position.z = 0.056
+  const bandH = 0.5
+  const band = new THREE.Mesh(
+    new THREE.PlaneGeometry(width, bandH),
+    new THREE.MeshBasicMaterial({ color: '#0b0f24', transparent: true, opacity: 0.8, depthWrite: false }),
+  )
+  band.position.set(0, -height / 2 + bandH / 2, 0.06)
+  const label = makeText(title, { size: title.length > 30 ? 0.19 : 0.23, color: '#ffffff', maxWidth: width - 0.3 })
+  label.position.set(0, -height / 2 + bandH / 2, 0.07)
+  group.add(edge, picture, band, label)
+  const gold = new THREE.Color('#ffd166')
+  const base = new THREE.Color(color)
+  let read = false
+  return {
+    group,
+    setRead(r) {
+      read = r
+      edgeMat.color.copy(r ? gold : base)
+      edgeMat.emissive.copy(r ? gold : base)
+      edgeMat.emissiveIntensity = 1.1
+    },
+    update(t) {
+      if (!read) edgeMat.emissiveIntensity = 1.1 + Math.sin(t * 2.2) * 0.45
+    },
+    dispose() {
+      tex.dispose()
+    },
+  }
+}
+
 /** An arch (a door to another world) `width` wide and `height` tall, its opening facing +z, with a
  *  glowing portal surface and a sign above. `closed` shows a dim barrier instead of a portal. */
 export function arch({ width = 3.6, height = 4.4, color = '#7fd4ff', label = '', sub = '', closed = false, portal = 'swirl' }) {

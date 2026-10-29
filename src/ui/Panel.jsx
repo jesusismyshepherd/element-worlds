@@ -61,7 +61,8 @@ function Slider({ s, color }) {
 
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
  *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
- *  { link: { to, label } }, { slider }, { buttons: [{ label, onClick }] }] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
+ *  { link: { to, label } }, { slider }, { buttons: [{ label, onClick }] }, { h } (a section's heading),
+ *  { img, alt, crop } (a picture; crop: the share of its height shown, from the top)] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
  *  down the right side, or across the top of an upright phone, and the world's centre moves into the
  *  part left free. */
 export default function Panel({ panel, onClose }) {
@@ -88,6 +89,8 @@ export default function Panel({ panel, onClose }) {
       <div className="px-4 pb-4 flex flex-col gap-3 text-[15px] leading-relaxed">
         {panel.blocks.map((b, i) => {
           if (b.p) return <p key={i}>{b.p}</p>
+          if (b.h) return <h3 key={i} className="font-display text-lg font-bold leading-tight mt-2 -mb-1" style={{ color: panel.color }}>{b.h}</h3>
+          if (b.img) return <img key={i} src={b.img} alt={b.alt ?? ''} className="w-full rounded-xl object-cover object-top" style={b.crop ? { aspectRatio: `3 / ${2 * b.crop}` } : undefined} />
           if (b.big) return (
             <div key={i} className="rounded-xl bg-white/5 p-3 text-center">
               <div className="font-display text-3xl font-bold" style={{ color: panel.color }}>{b.big}</div>

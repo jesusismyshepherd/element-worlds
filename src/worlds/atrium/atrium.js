@@ -12,7 +12,9 @@ import { specimen } from './specimen.js'
 import { appearanceOf } from '../../data/appearance.js'
 import { stationsOf, greetingOf, pick, contentOf } from '../../content/stations.js'
 import { loadContent } from '../../content/index.js'
-import { wallPanel, arch, canvasTexture, portalMaterial } from '../common/props.js'
+import { wallPanel, pictureBoard, arch, canvasTexture, portalMaterial } from '../common/props.js'
+import { loadBoards, boardArt } from '../../content/boards/index.js'
+import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
 import { makeText } from '../../engine/text.js'
@@ -33,6 +35,11 @@ const SPOTS = {
   family: { x: -4.8, z: HALF, rot: Math.PI },
   isotopes: { x: 4.8, z: HALF, rot: Math.PI },
 }
+// with picture boards the fact file takes the first spot and the pictures these, in their order: the
+// first beside the north arch, then the east wall, the west, the way out
+const BOARD_SPOTS = ['atom', 'found', 'uses', 'discovery', 'state', 'family', 'isotopes']
+// as big as the wall allows between the arch's light strip and the corner's (3:2, the pictures' shape)
+const BOARD = { width: 4, height: 2.67 }
 
 // where each wall's door is, which way its arch faces, and where its trigger sits
 const SIDES = {
@@ -43,12 +50,12 @@ const SIDES = {
 }
 
 const WORDS = {
-  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing' },
-  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra' },
+  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing', facts: 'Fact file', explore: 'Explore' },
+  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra', facts: 'Ficha técnica', explore: 'Explorar' },
   // the prompt reads "verb: label": a label in the case its verb takes (Zobacz: prawdziwą próbkę), the
   // Atomling's name in the nominative (Porozmawiaj: Węgiel)
-  pl: { back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę' },
-  de: { back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe' },
+  pl: { back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę', facts: 'Metryczka', explore: 'Odkryj' },
+  de: { back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe', facts: 'Steckbrief', explore: 'Entdecke' },
 }
 
 /** Every floor tile's number and symbol, faint, on one see-through sheet just over the tiles (this
@@ -109,6 +116,7 @@ export async function build(ctx, target, previous) {
   const root = new THREE.Group()
   root.name = `atrium-${el.symbol}`
   const updates = []
+  const disposers = []
 
   // ---- the hall ----
   const floorTex = canvasTexture(1024, (g, s) => {
@@ -255,11 +263,78 @@ export async function build(ctx, target, previous) {
   const level = ctx.level()
   const familyName = ctx.t(`families.${el.family}`)
   const stations = stationsOf(el, { lang, level, familyName })
-  const keys = [...stations.map(s => `${el.symbol}:${s.id}`), `${el.symbol}:look`]
   const interactables = []
   const panels = {}
+  // an element with picture boards: one fact file with what the eight stations tell, and seven
+  // pictures (the user, 2026-10-29: the eight text boards were boring; Carbon and Oxygen first)
+  const boards = await loadBoards(el.symbol)
+  const keys = boards
+    ? [`${el.symbol}:facts`, ...boards.map(b => `${el.symbol}:board:${b.id}`), `${el.symbol}:look`]
+    : [...stations.map(s => `${el.symbol}:${s.id}`), `${el.symbol}:look`]
   const report = () => ctx.store.set({ discoveries: { found: countFound(keys), total: keys.length } })
-  for (const st of stations) {
+  if (boards) {
+    const spots = [SPOTS.identity, ...BOARD_SPOTS.map(id => SPOTS[id])]
+    const factFile = level => {
+      const all = stationsOf(el, { lang, level, familyName }).map(st => st.panel())
+      return { title: W.facts, kicker: `${el.symbol} · ${nameOf(el, lang)}`, color, blocks: all.flatMap(p => [{ h: p.title }, ...p.blocks]) }
+    }
+    const items = [
+      {
+        id: 'facts',
+        board: wallPanel({ title: W.facts, big: `${el.symbol} · ${el.z}`, small: `${nameOf(el, lang)} · ${familyName}`, color, ...BOARD }),
+        label: W.facts,
+        verb: W.read,
+        open: factFile,
+      },
+      ...boards.map(b => {
+        const title = inLang(b.title, lang)
+        const wing = b.wing && wings.find(w => w.id === b.wing)
+        return {
+          id: `board:${b.id}`,
+          board: pictureBoard({ url: boardArt(el.symbol, b.id), title, color: b.color, ...BOARD }),
+          label: title,
+          verb: W.explore,
+          open: level => ({
+            title,
+            kicker: `${el.symbol} · ${nameOf(el, lang)}`,
+            color: b.color,
+            blocks: [
+              // the picture without its bottom strip, which is kept calm for the caption on the wall
+              { img: boardArt(el.symbol, b.id), alt: title, crop: 0.8 },
+              ...pick(b.story, lang, level).map(p => ({ p })),
+              wing && { link: { to: wingPath(el.symbol, wing.id), label: ctx.t(`wings.${el.symbol}.${wing.id}.title`) } },
+            ].filter(Boolean),
+          }),
+        }
+      }),
+    ]
+    items.forEach((it, i) => {
+      const spot = spots[i]
+      it.board.group.position.set(spot.x, 2.2, spot.z)
+      it.board.group.rotation.y = spot.rot
+      it.board.group.translateZ(wallT / 2 + 0.06)
+      root.add(it.board.group)
+      if (it.board.update) updates.push(t => it.board.update(t))
+      const key = `${el.symbol}:${it.id}`
+      it.board.setRead(isFound(key))
+      const front = new THREE.Vector3(0, 0, 1.9).applyAxisAngle(new THREE.Vector3(0, 1, 0), spot.rot)
+      interactables.push({
+        id: it.id,
+        x: spot.x + front.x,
+        z: spot.z + front.z,
+        radius: 2.1,
+        label: it.label,
+        verb: it.verb,
+        onUse: () => {
+          ctx.showPanel(it.open)
+          if (markFound(key)) it.board.setRead(true)
+          report()
+        },
+      })
+      if (it.board.dispose) disposers.push(it.board.dispose)
+    })
+  }
+  for (const st of boards ? [] : stations) {
     const spot = SPOTS[st.id]
     const p = wallPanel({ title: st.title, big: st.teaser[0] ?? '', small: st.teaser[1] ?? '', color })
     p.group.position.set(spot.x, 2.05, spot.z)
@@ -295,7 +370,7 @@ export async function build(ctx, target, previous) {
     verb: W.look,
     onUse: () => {
       ctx.showPanel(level => stationsOf(el, { lang, level, familyName }).find(s => s.id === 'atom').panel())
-      if (markFound(`${el.symbol}:atom`)) panels.atom.setRead(true)
+      if (markFound(`${el.symbol}:atom`)) panels.atom?.setRead(true)
       report()
     },
   })
@@ -430,6 +505,7 @@ export async function build(ctx, target, previous) {
     dispose() {
       floorTex.dispose()
       tableLabels.dispose()
+      for (const d of disposers) d()
     },
   }
 }
