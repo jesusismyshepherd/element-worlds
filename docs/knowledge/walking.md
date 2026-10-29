@@ -43,9 +43,22 @@ frames ("the camera jumps and throttles"). Now the tube's two ends and the dome'
   still offered beside the open panel; E or the button uses it and its panel takes the place; E with no
   other exhibit offered closes the panel. Walking away closes it (`player.keepReading`).
 
+## Things to click in a walking world
+
+- A short press that does not drag (under 4 px, under half a second) is a tap (`input.takeTap`); the
+  engine sends it to the world as a ray, `w.onTap(ray)`, and asks `w.pointAt(ray)` every frame where
+  the mouse is (true shows the hand; `ray` is null when the mouse is off the canvas or dragging).
+- The hall's floor table uses it (the user, 2026-10-29): every tile has its number and symbol (one
+  see-through canvas over the tiles, `floorTableLabels`), the mouse over a tile lights it, a click or a
+  tap goes to that element's hall. The labels read upright from the entrance. The hall lists its tiles
+  as `world.tiles` (probes find them on the screen).
+- The Atomling's bubble stays until "talk" switches it off; its arrow (or T) tells the next thing
+  (docs/knowledge/hud-layout.md).
+
 ## Checking it
 
-`MSYS_NO_PATHCONV=1 py -3.11 tools/nav_probe.py` (dev server on 5310; `--only first|look|tube|panel|touch`,
+`MSYS_NO_PATHCONV=1 py -3.11 tools/nav_probe.py` (dev server on 5310; `--only first|look|tube|panel|touch|talk|floor`,
 `--base` for the live site): first person turns, the view looks up, helium framed on a computer and a
 phone, the nanotube walked in and out frame by frame, a panel following the level, a neighbour exhibit
-offered and switched to, the pinch, no jump button. About a minute.
+offered and switched to, the pinch, no jump button, the bubble switched on and off, the floor table
+clicked and tapped. About two minutes.

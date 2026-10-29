@@ -1,7 +1,8 @@
 // Keys, mouse and touch for the walking worlds. Keys are let go when the page loses focus (a held key
 // drove on forever after Alt+Tab in the arena). A drag on the canvas looks round, two fingers pinch
 // the third-person camera nearer or farther; the touch stick (ui/TouchStick.jsx) reports through
-// `setStick`.
+// `setStick`. A short press that does not drag is a tap (`takeTap`): a world may answer it (the hall's
+// floor table, 2026-10-29); `point` is where the mouse is, for a world to show what a click would do.
 
 const MOVE_KEYS = new Set([
   'KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'ShiftLeft', 'ShiftRight',
@@ -23,6 +24,8 @@ export class Input {
     this._fingers = new Map() // touches on the canvas: id -> { x, y }
     this._pinch = null // the distance between two fingers
     this.zoom = 1
+    this.taps = [] // short presses that did not drag: { x, y } in the page
+    this.point = null // the mouse over the canvas: { x, y } in the page
 
     const typing = e => /INPUT|TEXTAREA|SELECT/.test(e.target?.tagName ?? '')
     this._down = e => {
@@ -52,10 +55,11 @@ export class Input {
       }
       if (!this.enabled || !this.pointerLook || this._drag || this._pinch) return
       if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 2) return
-      this._drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0 }
+      this._drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: 0, at: performance.now() }
       canvas.setPointerCapture?.(e.pointerId)
     }
     this._pmove = e => {
+      if (e.pointerType === 'mouse') this.point = { x: e.clientX, y: e.clientY }
       const f = this._fingers.get(e.pointerId)
       if (f) {
         f.x = e.clientX
@@ -88,10 +92,13 @@ export class Input {
     this._pup = e => {
       this._fingers.delete(e.pointerId)
       if (this._fingers.size < 2) this._pinch = null
-      if (this._drag?.id !== e.pointerId) return
+      const d = this._drag
+      if (d?.id !== e.pointerId) return
+      if (e.type === 'pointerup' && d.moved <= 4 && performance.now() - d.at < 500) this.taps.push({ x: e.clientX, y: e.clientY })
       this._drag = null
       this.dragging = false
     }
+    this._leave = () => (this.point = null)
     this._wheel = e => {
       if (!this.enabled) return
       this.wheel += Math.sign(e.deltaY)
@@ -108,6 +115,7 @@ export class Input {
     canvas.addEventListener('pointerup', this._pup)
     canvas.addEventListener('pointercancel', this._pup)
     canvas.addEventListener('lostpointercapture', this._pup)
+    canvas.addEventListener('pointerleave', this._leave)
     canvas.addEventListener('wheel', this._wheel, { passive: false })
     canvas.addEventListener('contextmenu', this._menu)
   }
@@ -119,6 +127,7 @@ export class Input {
     this.dragging = false
     this._fingers.clear()
     this._pinch = null
+    this.taps.length = 0
   }
 
   setStick(v) {
@@ -160,6 +169,11 @@ export class Input {
     return z
   }
 
+  /** The oldest tap not yet answered (null when none). */
+  takeTap() {
+    return this.taps.shift() ?? null
+  }
+
   takeWheel() {
     const w = this.wheel
     this.wheel = 0
@@ -181,6 +195,7 @@ export class Input {
     c.removeEventListener('pointerup', this._pup)
     c.removeEventListener('pointercancel', this._pup)
     c.removeEventListener('lostpointercapture', this._pup)
+    c.removeEventListener('pointerleave', this._leave)
     c.removeEventListener('wheel', this._wheel)
     c.removeEventListener('contextmenu', this._menu)
   }

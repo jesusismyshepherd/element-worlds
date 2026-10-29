@@ -201,6 +201,32 @@ def main():
                     page.wait_for_timeout(100)
                     check('computer: T tells the next thing', bool(said()) and said() != third)
                 page.close()
+
+        # the hall's floor table: a click or a tap on a tile goes to that element's hall, the mouse over a
+        # tile shows the hand (the user, 2026-10-29)
+        if 'floor' in a.only or not a.only:
+            for ctx, name, target in ((desk, 'computer', 'Gd'), (phone, 'phone', 'Eu')):
+                page = open_page(ctx, '/e/C')
+                page.evaluate("() => { __ew.setMode('first'); __ew.teleport(0, 7.4, 0, -0.85) }")
+                page.wait_for_timeout(1200)
+                xy = page.evaluate("""s => { const t = __ew.world.tiles.find(t => t.symbol === s)
+                  const v = new __ew.camera.position.constructor(t.x, 0.03, t.z).project(__ew.camera)
+                  const r = __ew.canvas.getBoundingClientRect()
+                  return [r.left + (v.x + 1) / 2 * r.width, r.top + (1 - v.y) / 2 * r.height] }""", target)
+                if name == 'computer':
+                    page.mouse.move(*xy)
+                    page.wait_for_timeout(200)
+                    check('computer: the mouse over a floor tile shows the hand', page.evaluate('() => __ew.canvas.style.cursor') == 'pointer')
+                    page.mouse.click(*xy)
+                else:
+                    page.touchscreen.tap(*xy)
+                try:
+                    page.wait_for_function(f"() => __ew.store.get().world?.symbol === '{target}' && !__ew.store.get().fading", timeout=20000)
+                    went = True
+                except Exception:
+                    went = False
+                check(f'{name}: a {"click" if name == "computer" else "tap"} on the floor tile {target} goes to its hall', went)
+                page.close()
         b.close()
     for e in errors:
         print('console error:', e)

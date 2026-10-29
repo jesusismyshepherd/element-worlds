@@ -16,7 +16,7 @@ import { wallPanel, arch, canvasTexture, portalMaterial } from '../common/props.
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
 import { makeText } from '../../engine/text.js'
-import { wingsOf, plazaPath, wingPath } from '../registry.js'
+import { wingsOf, plazaPath, wingPath, atriumPath } from '../registry.js'
 
 const HALF = 8
 const HEIGHT = 12
@@ -49,6 +49,54 @@ const WORDS = {
   // Atomling's name in the nominative (Porozmawiaj: Węgiel)
   pl: { back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę' },
   de: { back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe' },
+}
+
+/** Every floor tile's number and symbol, faint, on one see-through sheet just over the tiles (this
+ *  element's tile, lit white, in dark ink). */
+function floorTableLabels(cells, el, tile) {
+  const pad = tile / 2 + 0.03
+  const x0 = Math.min(...cells.map(c => c.x)) - pad
+  const x1 = Math.max(...cells.map(c => c.x)) + pad
+  const z0 = Math.min(...cells.map(c => c.z)) - pad
+  const z1 = Math.max(...cells.map(c => c.z)) + pad
+  const perM = 340
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.ceil((x1 - x0) * perM)
+  canvas.height = Math.ceil((z1 - z0) * perM)
+  const tex = new THREE.CanvasTexture(canvas)
+  tex.colorSpace = THREE.SRGBColorSpace
+  tex.anisotropy = 8
+  const font = 'Outfit, system-ui, sans-serif'
+  const draw = () => {
+    const g = canvas.getContext('2d')
+    g.clearRect(0, 0, canvas.width, canvas.height)
+    const s = tile * perM
+    for (const { e, x, z } of cells) {
+      const cx = (x - x0) * perM
+      const cy = (z - z0) * perM
+      const ink = e.z === el.z ? 'rgba(11,15,36,0.85)' : 'rgba(255,255,255,0.5)'
+      g.fillStyle = ink
+      g.textAlign = 'left'
+      g.textBaseline = 'top'
+      g.font = `500 ${Math.round(s * 0.2)}px ${font}`
+      g.fillText(String(e.z), cx - s * 0.4, cy - s * 0.42)
+      g.textAlign = 'center'
+      g.textBaseline = 'middle'
+      g.font = `700 ${Math.round(s * 0.42)}px ${font}`
+      g.fillText(e.symbol, cx, cy + s * 0.08)
+    }
+    tex.needsUpdate = true
+  }
+  draw()
+  document.fonts?.load(`700 40px ${font}`).then(draw, () => {})
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(x1 - x0, z1 - z0),
+    new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, toneMapped: false, polygonOffset: true, polygonOffsetFactor: -2 }),
+  )
+  mesh.rotation.x = -Math.PI / 2
+  mesh.position.set((x0 + x1) / 2, 0.032, (z0 + z1) / 2)
+  mesh.renderOrder = 1
+  return { mesh, dispose: () => { tex.dispose(); mesh.geometry.dispose(); mesh.material.dispose() } }
 }
 
 export async function build(ctx, target, previous) {
@@ -133,25 +181,47 @@ export async function build(ctx, target, previous) {
   }
 
   // ---- the periodic table in the floor, this element's tile glowing ----
+  // each tile has its symbol and number, and a click (or a tap) on one goes to that element's hall
+  // without the way back to the big table (the user, 2026-10-29); the mouse over a tile lights it
   const tile = 0.3
   const pitch = 0.34
   const inlay = new THREE.InstancedMesh(new RoundedBoxGeometry(tile, 0.03, tile, 1, 0.04), new THREE.MeshStandardMaterial({ roughness: 0.4, emissive: '#ffffff', emissiveIntensity: 0.03 }), ELEMENTS.length)
   const m4 = new THREE.Matrix4()
   const mine = new THREE.Color('#ffffff')
-  ELEMENTS.forEach((e, i) => {
+  const cells = ELEMENTS.map(e => {
     const { col, row } = cellOf(e)
-    const x = (col - 9.5) * pitch
-    const z = 5.2 + (row - 5.5) * pitch - (row >= 9 ? 0.6 * pitch : 0)
-    inlay.setMatrixAt(i, m4.makeTranslation(x, 0.015, z))
-    inlay.setColorAt(i, e.z === el.z ? mine : new THREE.Color(FAMILY[e.family].color).multiplyScalar(0.4))
+    return { e, x: (col - 9.5) * pitch, z: 5.2 + (row - 5.5) * pitch - (row >= 9 ? 0.6 * pitch : 0) }
+  })
+  const dim = cells.map(({ e }) => (e.z === el.z ? mine : new THREE.Color(FAMILY[e.family].color).multiplyScalar(0.4)))
+  cells.forEach((c, i) => {
+    inlay.setMatrixAt(i, m4.makeTranslation(c.x, 0.015, c.z))
+    inlay.setColorAt(i, dim[i])
   })
   root.add(inlay)
-  const here = cellOf(el)
+  const tableLabels = floorTableLabels(cells, el, tile)
+  root.add(tableLabels.mesh)
+  const here = cells.find(c => c.e.z === el.z)
   const marker = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.03, 8, 32), new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 2 }))
   marker.rotation.x = -Math.PI / 2
-  marker.position.set((here.col - 9.5) * pitch, 0.05, 5.2 + (here.row - 5.5) * pitch - (here.row >= 9 ? 0.6 * pitch : 0))
+  marker.position.set(here.x, 0.05, here.z)
   root.add(marker)
   updates.push(t => marker.scale.setScalar(1 + Math.sin(t * 3) * 0.12))
+  // the tile a ray from the camera meets (null for none, and for this element's own)
+  const tableFloor = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.03)
+  const hit = new THREE.Vector3()
+  const tileAt = ray => {
+    if (!ray || !ray.intersectPlane(tableFloor, hit)) return -1
+    const i = cells.findIndex(c => Math.abs(hit.x - c.x) <= pitch / 2 && Math.abs(hit.z - c.z) <= pitch / 2)
+    return i >= 0 && cells[i].e.z !== el.z ? i : -1
+  }
+  let lit = -1
+  const lightTile = i => {
+    if (i === lit) return
+    if (lit >= 0) inlay.setColorAt(lit, dim[lit])
+    if (i >= 0) inlay.setColorAt(i, new THREE.Color(FAMILY[cells[i].e.family].color).multiplyScalar(1.6))
+    inlay.instanceColor.needsUpdate = true
+    lit = i
+  }
 
   // ---- the atom over its projector ----
   const pedestal = new THREE.Mesh(
@@ -328,6 +398,18 @@ export async function build(ctx, target, previous) {
     interactables,
     doors,
     talk,
+    // the floor table's tiles (probes find them on the screen)
+    tiles: cells.map(c => ({ symbol: c.e.symbol, x: c.x, z: c.z })),
+    pointAt(ray) {
+      lightTile(tileAt(ray))
+      return lit >= 0
+    },
+    onTap(ray) {
+      const i = tileAt(ray)
+      if (i < 0) return
+      lightTile(i)
+      ctx.go(atriumPath(cells[i].e.symbol))
+    },
     attach() {
       report()
       if (!back) setTimeout(() => ctx.store.set({ speech: { text: greeting, who: nameOf(el, lang), color } }), 900)
@@ -347,6 +429,7 @@ export async function build(ctx, target, previous) {
     },
     dispose() {
       floorTex.dispose()
+      tableLabels.dispose()
     },
   }
 }

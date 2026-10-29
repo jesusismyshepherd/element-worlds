@@ -313,6 +313,7 @@ export class Engine {
         if (this.input.took('KeyV')) this.setMode(this.store.get().mode === 'first' ? 'third' : 'first')
         if (this.input.took('KeyE')) this.player.use()
         if (this.input.took('KeyT')) w.talk?.()
+        this.pointing(w)
         this.player.update(dt, w, this.input, this.time)
       }
       w.update?.(dt, this.time, this)
@@ -322,6 +323,25 @@ export class Engine {
     if (this.composer) this.composer.render(dt)
     else this.renderer.render(this.scene, this.camera)
     this.frames++
+  }
+
+  /** A walking world's things to click (the hall's floor table): a tap goes to `w.onTap(ray)`, and the
+   *  mouse over something `w.pointAt(ray)` says can be clicked shows the hand. */
+  pointing(w) {
+    const tap = this.input.takeTap()
+    if (tap && w.onTap) w.onTap(this.rayAt(tap))
+    const p = this.input.point
+    const can = !!(w.pointAt && w.pointAt(p && !this.input.dragging ? this.rayAt(p) : null))
+    const cursor = can ? 'pointer' : ''
+    if (this.canvas.style.cursor !== cursor) this.canvas.style.cursor = cursor
+  }
+
+  /** The ray from the camera through a point of the page. */
+  rayAt({ x, y }) {
+    const r = this.canvas.getBoundingClientRect()
+    this._ray ??= new THREE.Raycaster()
+    this._ray.setFromCamera(new THREE.Vector2(((x - r.left) / r.width) * 2 - 1, -((y - r.top) / r.height) * 2 + 1), this.camera)
+    return this._ray.ray
   }
 
   /** Ease the camera's view offset so the world's centre is drawn at the centre of the part of the
