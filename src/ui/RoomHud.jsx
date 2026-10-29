@@ -85,7 +85,7 @@ export function RoomButton({ engine, compact }) {
   }
 
   return (
-    <div className="relative">
+    <div className="relative flex">
       <button
         type="button"
         data-room-button

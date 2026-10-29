@@ -197,7 +197,7 @@ export default function Hud({ engine }) {
             </>
           )}
           {vp.compact && (
-            <div className="relative">
+            <div className="relative flex">
               <button type="button" onClick={() => setMenu(m => !m)} className={`${BTN} ${menu ? 'bg-white/15' : ''}`} aria-label={t('hud.menu')} aria-expanded={menu}>☰</button>
               {menu && (
                 <div className="absolute right-0 top-full mt-1.5 glass rounded-xl p-1.5 flex flex-col gap-1 min-w-[12rem] z-10 max-h-[calc(100vh-4rem)] overflow-y-auto">
