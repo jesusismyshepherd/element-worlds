@@ -21,6 +21,25 @@ games for more players, or for two with "the others ... spectators with possibil
 - The Molecule Lab is shared by everyone in it: one molecule, built together. Each player picks atoms
   for themselves (a ring in their colour), the lab card says who is building ("Building together: ...").
 
+## The quiz duel: two seats, the others watch (and swap in)
+
+- In a room, the plaza's dock has "⚔️ Duel" beside "Who am I?". Whoever starts it takes the first seat; the
+  others see the duel's window (and a note with "Go" if they are elsewhere). The second seat: "Sit here".
+- The two seated race on the same mystery element: a new clue every 7 s (each one reads them in their own
+  language), the first right answer scores (more for fewer clues, as the solo quiz), a wrong one locks
+  that player out of the question; both wrong, or 9 s after the last clue, the answer is shown (the plaza
+  flies to it). Five elements a game, then the winner.
+- Everyone else watches the same clues, answers and scores. Swapping seats: a watcher taps "Swap with
+  Ana" and Ana answers "Let them play" or "Keep playing"; or "I want to play" puts them in line; a seated
+  player can "Give my seat" to the first in line; "Play again" keeps the winner and gives the other seat
+  to the first in line. Someone who leaves the room gives their seat to the first in line.
+- The rules: `src/game/duel.js` (pure functions of the state; `duel.test.js`). The referee (who started
+  it, then the next seated one if they leave) runs them four times a second and sends the state
+  (`duel-state`, versioned); the others send what they do (`duel-act`); a newcomer asks (`duel-hello`).
+  The referee's clue count sets the points. `src/net/duel.js`, `src/ui/DuelHud.jsx`.
+- `tools/duel_probe.py`: three players (one a phone), 15 checks: start, seat, the race, lock-out, who got
+  it, a swap asked and allowed, a whole game, the rematch with the winner staying, the referee leaving.
+
 ## How it works
 
 - `src/net/room.js` (the room), `src/engine/others.js` (the others in the 3D, loaded only once a room is
@@ -71,5 +90,5 @@ leaving. 24 checks, about 3 minutes; it prints each player's trail and realtime 
 
 ## Next
 
-- Two-seat games with spectators and seat swapping (the user's request): the quiz as a duel.
-- A shared forge (everyone firing at one nucleus).
+- A shared forge (everyone firing at one nucleus); other two-seat games can reuse the duel's seats,
+  line and swap (`src/game/duel.js`).

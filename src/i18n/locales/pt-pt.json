@@ -385,5 +385,32 @@
       "plaza": "a tabela",
       "elsewhere": "noutro sítio"
     }
+  },
+  "duel": {
+    "start": "Duelo",
+    "title": "Duelo: Quem sou eu?",
+    "round": "Ronda {{n}} de {{of}}",
+    "waiting": "À espera de um segundo jogador: ocupa o lugar livre.",
+    "starting": "Prepara-te…",
+    "freeSeat": "Lugar livre",
+    "sit": "Sentar aqui",
+    "watching": "A assistir",
+    "line": "À espera de jogar",
+    "wantToPlay": "Quero jogar",
+    "leaveLine": "Sair da fila",
+    "swapWith": "Trocar com {{name}}",
+    "give": "Dar o meu lugar",
+    "asks": "{{name}} quer jogar",
+    "letThem": "Deixar jogar",
+    "keep": "Continuar a jogar",
+    "asked": "Pediste a {{name}} para trocar…",
+    "gotIt": "{{name}} acertou! +{{count}}",
+    "nobody": "Ninguém acertou: {{name}}.",
+    "wins": "{{name}} ganha!",
+    "draw": "Empate!",
+    "again": "Jogar outra vez (o vencedor fica)",
+    "locked": "Errado: espera pela próxima.",
+    "started": "{{name}} começou um duelo de perguntas",
+    "end": "Terminar o duelo"
   }
 }

@@ -9,6 +9,8 @@ import { num, LANG_TAG } from './format.js'
 import ElementCard from './ElementCard.jsx'
 import Search from './Search.jsx'
 import QuizHud from './QuizHud.jsx'
+import DuelHud from './DuelHud.jsx'
+import { duel } from '../net/duel.js'
 import { useCover, useViewport } from './layout.js'
 import { track } from '../net/telemetry.js'
 
@@ -59,8 +61,13 @@ export default function PlazaHud({ engine }) {
   })
   // on a phone the card and a drawer would share the bottom: the card wins while it is up, and the
   // quiz names its own answers
-  const cardUp = !!el && !(vp.compact && quiz)
-  const drawer = quiz || (vp.compact && cardUp) ? null : open
+  // the quiz as a duel in a room (src/net/duel.js): it takes the quiz's place
+  const duelOn = useStore(store, s => s.duel)
+  const duelLive = useStore(store, s => s.duelLive)
+  const together = useStore(store, s => (s.room?.members?.length ?? 0) > 1)
+  const inQuiz = quiz || !!duelOn
+  const cardUp = !!el && !(vp.compact && inQuiz)
+  const drawer = inQuiz || (vp.compact && cardUp) ? null : open
 
   // what the drawer and the card cover moves the table's centre into the part left free
   const drawerRef = useRef(null)
@@ -181,9 +188,14 @@ export default function PlazaHud({ engine }) {
             <div className="glass rounded-xl px-2 py-1.5 w-56 pointer-events-auto">{scale}</div>
           )}
           <div ref={dockRef} className="flex gap-1.5 flex-wrap">
-            <button type="button" onClick={() => { track('quizopen'); setQuiz(true) }} className={DOCK}>
+            <button type="button" onClick={() => { track('quizopen'); duel.hide(); setQuiz(true) }} className={DOCK}>
               ❓ {t('quiz.start')}
             </button>
+            {(together || duelLive) && (
+              <button type="button" data-duel-start onClick={() => { setQuiz(false); if (duelLive) duel.hide(false); else duel.start(level) }} className={DOCK}>
+                ⚔️ {t('duel.start')}
+              </button>
+            )}
             {tools.map(([id, icon, label]) => (
               <button
                 key={id}
@@ -201,7 +213,8 @@ export default function PlazaHud({ engine }) {
         </div>
       )}
 
-      {quiz && (
+      {duelOn && <DuelHud select={z => world()?.select(z)} overview={() => world()?.overview?.()} />}
+      {quiz && !duelOn && (
         <QuizHud
           select={z => world()?.select(z)}
           overview={() => world()?.overview?.()}

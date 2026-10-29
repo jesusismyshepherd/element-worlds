@@ -248,6 +248,8 @@ export class Others {
 
   plazaMarks(w) {
     const cam = this.engine.camera
+    // names over the same cube stand one above the other (at a duel's answer everyone selects it)
+    const stack = new Map()
     for (const m of room.others()) {
       let l = this.marks.get(m.id)
       const onPlaza = m.path === '/' && m.sel
@@ -266,7 +268,10 @@ export class Others {
         w.root.add(l)
         this.marks.set(m.id, l)
       }
+      const k = stack.get(m.sel) ?? 0
+      stack.set(m.sel, k + 1)
       l.position.copy(at)
+      l.position.y += k * 0.9
       l.quaternion.copy(cam.quaternion)
     }
   }

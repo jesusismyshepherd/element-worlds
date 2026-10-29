@@ -388,5 +388,32 @@
       "plaza": "das Periodensystem",
       "elsewhere": "woanders"
     }
+  },
+  "duel": {
+    "start": "Duell",
+    "title": "Duell: Wer bin ich?",
+    "round": "Runde {{n}} von {{of}}",
+    "waiting": "Warte auf einen zweiten Spieler: Nimm den freien Platz.",
+    "starting": "Mach dich bereit…",
+    "freeSeat": "Freier Platz",
+    "sit": "Hier setzen",
+    "watching": "Schauen zu",
+    "line": "Warten aufs Spielen",
+    "wantToPlay": "Ich will spielen",
+    "leaveLine": "Aus der Reihe gehen",
+    "swapWith": "Tauschen mit {{name}}",
+    "give": "Platz abgeben",
+    "asks": "{{name}} will spielen",
+    "letThem": "Spielen lassen",
+    "keep": "Weiterspielen",
+    "asked": "{{name}} wurde um einen Tausch gebeten…",
+    "gotIt": "{{name}} hat es! +{{count}}",
+    "nobody": "Keiner hatte es: {{name}}.",
+    "wins": "{{name}} gewinnt!",
+    "draw": "Unentschieden!",
+    "again": "Noch einmal (der Gewinner bleibt)",
+    "locked": "Falsch: Warte auf die nächste Frage.",
+    "started": "{{name}} startet ein Rätselduell",
+    "end": "Duell beenden"
   }
 }

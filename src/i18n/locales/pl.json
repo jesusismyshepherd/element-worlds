@@ -412,5 +412,32 @@
       "plaza": "układ okresowy",
       "elsewhere": "gdzie indziej"
     }
+  },
+  "duel": {
+    "start": "Pojedynek",
+    "title": "Pojedynek: Kim jestem?",
+    "round": "Runda {{n}} z {{of}}",
+    "waiting": "Czekamy na drugiego gracza: zajmij wolne miejsce.",
+    "starting": "Przygotuj się…",
+    "freeSeat": "Wolne miejsce",
+    "sit": "Usiądź tutaj",
+    "watching": "Oglądają",
+    "line": "Czekają na grę",
+    "wantToPlay": "Chcę zagrać",
+    "leaveLine": "Wyjdź z kolejki",
+    "swapWith": "Zamień się: {{name}}",
+    "give": "Oddaj miejsce",
+    "asks": "{{name}} chce zagrać",
+    "letThem": "Niech gra",
+    "keep": "Gram dalej",
+    "asked": "Prośba o zamianę wysłana: {{name}}…",
+    "gotIt": "{{name}} zgaduje! +{{count}}",
+    "nobody": "Nikt nie zgadł: {{name}}.",
+    "wins": "{{name}} wygrywa!",
+    "draw": "Remis!",
+    "again": "Zagraj jeszcze raz (zwycięzca zostaje)",
+    "locked": "Źle: poczekaj na następne pytanie.",
+    "started": "{{name}} zaczyna pojedynek na zagadki",
+    "end": "Zakończ pojedynek"
   }
 }

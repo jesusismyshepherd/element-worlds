@@ -385,5 +385,32 @@
       "plaza": "the table",
       "elsewhere": "somewhere else"
     }
+  },
+  "duel": {
+    "start": "Duel",
+    "title": "Duel: Who am I?",
+    "round": "Round {{n}} of {{of}}",
+    "waiting": "Waiting for a second player: take the free seat.",
+    "starting": "Get ready…",
+    "freeSeat": "Free seat",
+    "sit": "Sit here",
+    "watching": "Watching",
+    "line": "Waiting to play",
+    "wantToPlay": "I want to play",
+    "leaveLine": "Leave the line",
+    "swapWith": "Swap with {{name}}",
+    "give": "Give my seat",
+    "asks": "{{name}} wants to play",
+    "letThem": "Let them play",
+    "keep": "Keep playing",
+    "asked": "Asked {{name}} to swap…",
+    "gotIt": "{{name}} got it! +{{count}}",
+    "nobody": "Nobody got it: {{name}}.",
+    "wins": "{{name}} wins!",
+    "draw": "A draw!",
+    "again": "Play again (the winner stays)",
+    "locked": "Wrong: wait for the next one.",
+    "started": "{{name}} started a quiz duel",
+    "end": "End the duel"
   }
 }

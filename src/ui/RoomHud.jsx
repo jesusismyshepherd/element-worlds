@@ -11,6 +11,7 @@ import { room, newCode, cleanCode, savedName, roomLink } from '../net/room.js'
 import { recordingAs } from '../net/telemetry.js'
 import { element, nameOf } from '../data/elements.js'
 import { targetFrom } from '../worlds/registry.js'
+import { duel } from '../net/duel.js'
 
 const BTN = 'glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10'
 const EMOTES = ['👋', '👍', '😮', '😂', '❓', '🎉']
@@ -207,6 +208,11 @@ export function RoomToasts({ engine }) {
         if (!m) return
         add(`📣 ${m.name}: ${whereOf(p.path, t, lang)}`, { color: m.color, call: p.path !== location.pathname ? p : null })
       }),
+      room.on('duel-new', p => {
+        const m = room.member(p.from)
+        if (!m || p.from === room.me?.id) return
+        add(`⚔️ ${t('duel.started', { name: m.name })}`, { color: m.color, call: location.pathname !== '/' ? { path: '/', duel: true } : null })
+      }),
       room.on('emote', p => {
         const m = room.member(p.from)
         // in a walking world the emote floats over the Atomling; elsewhere it shows here
@@ -232,7 +238,7 @@ export function RoomToasts({ engine }) {
         <div key={n.id} data-room-note className="glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto flex items-center gap-2 max-w-[18rem]" style={{ borderColor: n.color ? `${n.color}aa` : undefined }}>
           <span className="truncate">{n.text}</span>
           {n.call && (
-            <button type="button" onClick={() => engine?.others?.answer(n.call)} className="rounded-lg px-2 py-0.5 bg-white/20 hover:bg-white/30">
+            <button type="button" onClick={() => (n.call.duel ? (duel.hide(false), room.go?.('/')) : engine?.others?.answer(n.call))} className="rounded-lg px-2 py-0.5 bg-white/20 hover:bg-white/30">
               {t('room.go')}
             </button>
           )}

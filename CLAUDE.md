@@ -143,9 +143,9 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - 2026-10-29: usage data (every visit recorded: marked family devices with a history, everyone else
   anonymous per visit; the dashboard at /stats, password with the user; `usage-data.md`) and rooms
   (playing together: up to any number of players, follow, call, emotes, the others' Atomlings, the shared
-  Molecule Lab; `multiplayer.md`). Next for rooms: two-seat games with spectators and seat swapping (the
-  quiz as a duel), a shared forge. Probes: `usage_probe.py`, `stats_probe.py` (both want EW_DASH_PASS),
-  `room_probe.py`.
+  Molecule Lab; the quiz as a duel: two seats, everyone else watching, seats swapped by asking, by a line
+  or by "winner stays"; `multiplayer.md`). Next for rooms: a shared forge. Probes: `usage_probe.py`,
+  `stats_probe.py` (both want EW_DASH_PASS), `room_probe.py`, `duel_probe.py`.
 
 - Live at https://element-worlds.vercel.app (Vercel deploys `main` on every push).
 - The plaza: the table, hover and select (the card, the element's Atomling on its cube; in Explorer the
