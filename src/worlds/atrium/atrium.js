@@ -14,6 +14,7 @@ import { stationsOf, greetingOf, pick, contentOf } from '../../content/stations.
 import { loadContent } from '../../content/index.js'
 import { wallPanel, pictureBoard, arch, canvasTexture, portalMaterial } from '../common/props.js'
 import { loadBoards, boardArt } from '../../content/boards/index.js'
+import { factFileTexture } from './factFile.js'
 import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
@@ -35,9 +36,11 @@ const SPOTS = {
   family: { x: -4.8, z: HALF, rot: Math.PI },
   isotopes: { x: 4.8, z: HALF, rot: Math.PI },
 }
-// with picture boards the fact file takes the first spot and the pictures these, in their order: the
-// first beside the north arch, then the east wall, the west, the way out
-const BOARD_SPOTS = ['atom', 'found', 'uses', 'discovery', 'state', 'family', 'isotopes']
+// with picture boards the fact file hangs beside the way out (on the right as you face the door; the
+// user, 2026-10-29) and the pictures on these, in their order: beside the north arch, the east wall,
+// the west wall, north left, the way out's other side
+const FACT_SPOT = 'family'
+const BOARD_SPOTS = ['atom', 'found', 'uses', 'discovery', 'state', 'identity', 'isotopes']
 // as big as the wall allows between the arch's light strip and the corner's (3:2, the pictures' shape)
 const BOARD = { width: 4, height: 2.67 }
 
@@ -273,7 +276,7 @@ export async function build(ctx, target, previous) {
     : [...stations.map(s => `${el.symbol}:${s.id}`), `${el.symbol}:look`]
   const report = () => ctx.store.set({ discoveries: { found: countFound(keys), total: keys.length } })
   if (boards) {
-    const spots = [SPOTS.identity, ...BOARD_SPOTS.map(id => SPOTS[id])]
+    const spots = [SPOTS[FACT_SPOT], ...BOARD_SPOTS.map(id => SPOTS[id])]
     const factFile = level => {
       const all = stationsOf(el, { lang, level, familyName }).map(st => st.panel())
       return { title: W.facts, kicker: `${el.symbol} · ${nameOf(el, lang)}`, color, blocks: all.flatMap(p => [{ h: p.title }, ...p.blocks]) }
@@ -281,7 +284,7 @@ export async function build(ctx, target, previous) {
     const items = [
       {
         id: 'facts',
-        board: wallPanel({ title: W.facts, big: `${el.symbol} · ${el.z}`, small: `${nameOf(el, lang)} · ${familyName}`, color, ...BOARD }),
+        board: pictureBoard({ texture: factFileTexture(el, { lang, t: ctx.t }), title: W.facts, color, ...BOARD }),
         label: W.facts,
         verb: W.read,
         open: factFile,

@@ -7,11 +7,15 @@ the results."
 
 ## What a hall with boards has
 
-- The fact file (the first board you face on entering, `SPOTS.identity`): a text board ("Fact file",
-  "Ficha técnica", "Metryczka", "Steckbrief") whose panel holds everything the eight stations told, one
-  section each (`{ h }` headings in the panel), at the visitor's depth.
+- The fact file ("Fact file", "Ficha técnica", "Metryczka", "Steckbrief"), beside the way out, on the right
+  as you face the door (`FACT_SPOT`, the user's choice, 2026-10-29). Its face is drawn from the data
+  (`src/worlds/atrium/factFile.js`, so any element has one): the element's tile, its atom with every
+  shell and electron and a nucleus of protons and neutrons, "6 p⁺ · 6 n · 6 e⁻", the family and state
+  as chips, and four tiles with an icon each (melts, boils, density, discovered). Its panel holds
+  everything the eight stations told, one section each (`{ h }` headings), at the visitor's depth.
+  A colour emoji drawn on a canvas takes the fill's transparency: set an opaque fill before it.
 - Seven picture boards on the other spots (`BOARD_SPOTS` in `atrium.js`: the first beside the north arch,
-  then the east wall, the west wall, the way out). Each is a picture in a frame glowing in its own colour
+  then the east wall, the west wall, north left, the way out's other side). Each is a picture in a frame glowing in its own colour
   that breathes until the board is read (then gold), with a hook question on a dark band over its bottom.
   E ("Explore: ...") opens its story: the picture again, two short paragraphs (Explorer or Scientist), and
   a link to the wing it belongs to.

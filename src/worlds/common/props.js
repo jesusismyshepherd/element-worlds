@@ -34,14 +34,15 @@ export function wallPanel({ title, big = '', small = '', color = '#7fd4ff', widt
   }
 }
 
-/** A picture on the wall (a hall's picture board): the picture `url` (an SVG or image, 3:2) in a frame
+/** A picture on the wall (a hall's picture board): the picture `url` (an SVG or image, 3:2; or a ready
+ *  `texture`, the fact file's drawn face) in a frame
  *  glowing in `color`, its `title` on a dark band over the bottom. Faces +z. Returns { group, setRead,
  *  update(t), dispose } (unread, the frame breathes, to draw you over; read, it turns gold). */
-export function pictureBoard({ url, title, color = '#7fd4ff', width = 3.4, height = 2.3 }) {
+export function pictureBoard({ url, texture, title, color = '#7fd4ff', width = 3.4, height = 2.3 }) {
   const group = new THREE.Group()
   const edgeMat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 1.1, roughness: 0.4 })
   const edge = new THREE.Mesh(new RoundedBoxGeometry(width + 0.16, height + 0.16, 0.1, 3, 0.06), edgeMat)
-  const tex = new THREE.TextureLoader().load(url)
+  const tex = texture ?? new THREE.TextureLoader().load(url)
   tex.colorSpace = THREE.SRGBColorSpace
   tex.anisotropy = 4
   // the picture fills the frame (3:2 cut to the frame's shape from the middle)
