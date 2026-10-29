@@ -148,7 +148,7 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `npx vite build --outDir <scratch>` + `npx vite preview --outDir <scratch> --port 5317` and
   `tools/shot.py --port 5317`.
 
-## Status (2026-10-27, end of the first day)
+## Status (last updated 2026-10-29)
 
 - 2026-10-29 (evening): accounts (the Pokémon site's logins; 👤): progress kept in the account and moved
   there from a device at its first sign-in (Artur's phone), recording under the account with a switch
@@ -164,7 +164,7 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - The plaza: the table, hover and select (the card, the element's Atomling on its cube; in Explorer the
   card tells the Atomling's facts, "Tell me something", one at a time to click through, since the user's
   request of 2026-10-28: it said only how many protons and electrons), enter, families,
-  trends (Scientist), the time machine, search, golden stars over elements with worlds of their own,
+  trends (both depths since 2026-10-29), the time machine, search, golden stars over elements with worlds of their own,
   About, links to the Atomlings, the lab and the passport.
 - Every element's hall: the atom, eight stations and the specimen case (what it looks like), talking
   to the Atomling (its greeting, then its fun facts), discoveries; coming back from a wing you arrive at
@@ -181,7 +181,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
 - Worlds: carbon (`/e/C/allotropes` with the graphene row and, since 2026-10-28, the twisted graphene as
   two hexagonal flakes on a light table, turned by hand or by themselves, beside a board of their bands
   (Bistritzer-MacDonald, `scripts/data/tbg_bands.py`), with why twistronics matters; `/e/C/life`), oxygen (`/e/O/air`,
-  `/e/O/fire`), the noble gases' neon sign workshop (`/e/He/signs` to `/e/Rn/signs`, 2026-10-28: filling
+  `/e/O/fire`; since 2026-10-29 the air wing's breathing exhibit, `oxygen/airBreath.js`: glass lungs
+  between the air breathed in and the air breathed out, breathing on until held with E), the noble gases' neon sign workshop (`/e/He/signs` to `/e/Rn/signs`, 2026-10-28: filling
   bench, radon's lead box, your name in neon, spectroscope with NIST lines, the atom's energy ladder,
   history board, balloons). Ideas for the next ones: `docs/wing-ideas.md`.
 - Atomlings: the grammar and the second layer of looks (`characters/look.js`); `/atomlings` with cards.
@@ -209,9 +210,17 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   level; a neighbour exhibit is offered beside an open panel and E switches to it.
 - The neon workshop's rooms (2026-10-28): each starts with its own gas's name on the wall in its own
   light (the name is kept per room), its lamplight, OPEN sign and greeting are the gas's own.
-- Open: the user's review (the Atomlings' look, the worlds, the forge, the new HUD, walking). First visits: shaders are
-  now warmed for the bloom's linear buffer (2026-10-28; they were warmed for the screen, a wasted half
-  that recompiled on the first frames): cold first visits 1.2 to 3.9 s (carbon's gallery was 10 s);
-  fewer material variants would cut more (the gallery still needs 53 programs); the third-person camera keeps clear of solids and looks up when the
-  floor holds it (2026-10-27), but meshes that are not solids (lattices, crowns) still need each
-  world's own fade (carbon's wings); a test on a real phone.
+- Open (the one list of what is left; add to it, and take out what gets done):
+  - The user's review: the Atomlings' look, the worlds, the forge, the HUD, walking, the breathing.
+  - Waiting on that review: the picture boards, fact file and showpiece for the other 116 halls
+    (`docs/knowledge/hall-boards.md`).
+  - Next to build: a shared forge in rooms (`multiplayer.md`); oxygen's next exhibits (`docs/design.md`);
+    the wings in `docs/wing-ideas.md`.
+  - First visits: shaders are now warmed for the bloom's linear buffer (2026-10-28; they were warmed for
+    the screen, a wasted half that recompiled on the first frames): cold first visits 1.2 to 3.9 s
+    (carbon's gallery was 10 s); fewer material variants would cut more (the gallery still needs 53
+    programs).
+  - The third-person camera keeps clear of solids and looks up when the floor holds it (2026-10-27), but
+    meshes that are not solids (lattices, crowns) still need each world's own fade (carbon's wings).
+  - The real phone (`tools/phone.py`) has measured only the hall and the graphene gallery (60 frames a
+    second in light mode); the other worlds not yet.

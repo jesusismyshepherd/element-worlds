@@ -103,10 +103,15 @@ A 16 m cube of a hall, pale surfaces tinted by the family colour.
 1. *The air* (the sky deck): a platform above the clouds among floating molecules in the real
    proportions (78 N2, 21 O2, 1 Ar per 100, one CO2 per 2500); the ozone layer above catching the sun's
    UV; where the oxygen came from (plants, plankton, the Great Oxidation 2.4 billion years ago).
+   Breathing (2026-10-29, `wings/oxygen/airBreath.js`): glass lungs between a column of the air breathed
+   in and one of the air breathed out, each stacked by gas (21% oxygen in, about 16% out; 0.04% carbon
+   dioxide in, about 4% out); E starts the breathing and E again holds the breath (the user: one breath
+   was over before the breath out was seen). `tools/breath_probe.py` films two breaths.
 2. *Fire*: a stone chamber with a campfire; the fire triangle (take away a side and the fire dies); the
    candle under a jar (the oxygen gauge falls, the flame dies); the glowing splint that bursts into flame
    in pure oxygen (the school test for oxygen); rust as slow burning.
-Next for oxygen: breathing (a ride with a red blood cell), liquid oxygen (pale blue, held by a magnet).
+Next for oxygen: a ride with a red blood cell (where the breathed oxygen goes), liquid oxygen (pale
+blue, held by a magnet).
 
 A wing is a module (see Architecture); adding one never touches the engine.
 

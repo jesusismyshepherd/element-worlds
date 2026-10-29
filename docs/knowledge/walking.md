@@ -43,6 +43,14 @@ frames ("the camera jumps and throttles"). Now the tube's two ends and the dome'
   still offered beside the open panel; E or the button uses it and its panel takes the place; E with no
   other exhibit offered closes the panel. Walking away closes it (`player.keepReading`).
 
+## A reload keeps your place
+
+A reload puts the walker back where they stood, facing the same way, instead of at the world's door
+(the user, 2026-10-29). The engine's `keepSpot` writes the world's key, position, yaw and pitch to
+sessionStorage `ew-spot` once a second when they changed, and again on `pagehide`. Only the first world
+of a page load goes back there, and only when its key matches; every world reached afterwards starts at
+its door as before. Per tab; blocked storage starts at the door. `tools/spot_probe.py` checks it.
+
 ## Things to click in a walking world
 
 - A short press that does not drag (under 4 px, under half a second) is a tap (`input.takeTap`); the
