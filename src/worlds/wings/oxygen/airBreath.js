@@ -1,7 +1,9 @@
 // Breathing: two glass columns, the air you breathe in and the air you breathe out, each filled with its
 // gases stacked in proportion (nitrogen, oxygen, carbon dioxide, argon), and a pair of glass lungs
-// between them that breathe. Using it takes a breath: oxygen flows from the left column into the
-// lungs, carbon dioxide out to the right one. In: 21% O2 and 0.04% CO2; out: about 16% and 4%.
+// between them that breathe. Using it starts the breathing, using it again holds the breath (the user,
+// 2026-10-29: one breath was over before the breath out was seen; it should go on while it is on). Each
+// breath: in, the lungs swell and oxygen flows from the left column into them; out, they empty and carbon
+// dioxide flows to the right one. In: 21% O2 and 0.04% CO2; out: about 16% and 4%.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { standingScreen, glowMat, hdr, glass, label, damp, random, equation } from './kit.js'
@@ -170,39 +172,60 @@ export function breathExhibit({ color, light, words, level }) {
   const smallLine = () => (level() === 'scientist' ? words.screen.sci : words.screen.kid)
   scr.set({ small: smallLine() })
 
-  let breath = -1
+  // one breath: in (IN s), a moment full, out (OUT s), a moment empty
+  const IN = 2.2
+  const OUT_AT = 2.6
+  const OUT = 2.2
+  const CYCLE = 5.4
+  const FLY = 1.2 // a molecule's flight, all within its half of the breath
+  const ease = x => x * x * (3 - 2 * x)
+  const fullness = p => (p < IN ? ease(p / IN) : p < OUT_AT ? 1 : p < OUT_AT + OUT ? 1 - ease((p - OUT_AT) / OUT) : 0)
+  const launch = kind => {
+    const list = movers.filter(m => m.kind === kind)
+    list.forEach((m, i) => {
+      m.t = 0
+      m.delay = (i / list.length) * (IN - FLY) + rnd() * 0.15
+      m.path = pathFor(kind)
+    })
+  }
+  let on = false
+  let phase = -1 // seconds into the breath; -1: still
   return {
     group,
     screen: scr,
-    get busy() {
-      return breath >= 0
+    get on() {
+      return on
     },
-    start() {
-      if (breath >= 0) return false
-      breath = 0
-      movers.forEach((m, i) => {
-        m.t = 0
-        m.delay = (m.kind === 'o2' ? 0 : 1.6) + (i % 11) * 0.12
-        m.path = pathFor(m.kind)
-      })
-      return true
+    /** Start breathing, or hold the breath (the breath under way finishes first). Returns whether it is on. */
+    toggle() {
+      on = !on
+      if (on && phase < 0) {
+        phase = 0
+        launch('o2')
+      }
+      return on
     },
     refresh() {
       scr.set({ small: smallLine() })
     },
     update(dt, t) {
-      // a calm breath every 4 s; a deep one while the exhibit runs
-      const deep = breath >= 0 ? Math.sin(Math.min(1, breath / 3.6) * Math.PI) : 0
-      const s = 1 + Math.sin(t * 1.6) * 0.04 + deep * 0.18
+      // a calm swell while still; deep breaths while it is on
+      const deep = phase >= 0 ? fullness(phase) : 0
+      const s = 1 + (phase >= 0 ? 0 : Math.sin(t * 1.6) * 0.04) + deep * 0.2
       for (const l of lobes) l.scale.set(0.85 * s, 1.25 * s, 0.7 * s)
-      if (breath >= 0) {
-        breath += dt
-        if (breath > 4.6) breath = -1
+      if (phase >= 0) {
+        const before = phase
+        phase += dt
+        if (before < OUT_AT && phase >= OUT_AT) launch('co2')
+        if (phase >= CYCLE) {
+          phase = on ? phase - CYCLE : -1
+          if (on) launch('o2')
+        }
       }
       for (const m of movers) {
         if (m.t < 0) continue
         m.t += dt
-        const k = (m.t - m.delay) / 1.4
+        const k = (m.t - m.delay) / FLY
         m.g.visible = k > 0 && k < 1
         if (k > 0 && k < 1) {
           m.path.getPoint(k, m.g.position)

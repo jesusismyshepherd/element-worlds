@@ -421,8 +421,8 @@ export async function build(ctx) {
     radius: 1.6,
     screen: breath.screen,
     label: W.breath.label,
-    verb: W.breath.verb,
-    act: () => (breath.start() ? at(W.breath.says, level()) : false),
+    verb: () => (breath.on ? W.breath.hold : W.breath.verb),
+    act: () => (breath.toggle() ? at(W.breath.says, level()) : ''),
     panel: lv => ({ title: W.breath.title, kicker: W.kicker, color: '#ff8fa0', blocks: W.breath.panel[depth(lv)] }),
   })
 
