@@ -101,7 +101,8 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `tools/nav_probe.py` (walking and looking: turning, looking up, helium framed, the nanotube's camera,
   panels following the level and switching between exhibits, the pinch). `tools/sound_probe.py` (the
   sound opens with the first tap, click or key and the music bed plays; a finger's pointerdown alone does
-  not give leave to play on a real phone, headless Edge is lenient there). `tools/phone.py`: the site on
+  not give leave to play on a real phone, headless Edge is lenient there). `tools/breath_probe.py` (the
+  air wing's breathing: on and held with E, two breaths filmed as a contact sheet). `tools/phone.py`: the site on
   a real Android phone over Wi-Fi (adb, installed 2026-10-28 with winget; Chrome's DevTools socket):
   screenshots, taps, drags and frame times on the phone's own chip; pairing steps in its header.
   Probes run with `py -3.11` (Playwright is installed there).
