@@ -102,7 +102,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   panels following the level and switching between exhibits, the pinch). `tools/sound_probe.py` (the
   sound opens with the first tap, click or key and the music bed plays; a finger's pointerdown alone does
   not give leave to play on a real phone, headless Edge is lenient there). `tools/breath_probe.py` (the
-  air wing's breathing: on and held with E, two breaths filmed as a contact sheet). `tools/phone.py`: the site on
+  air wing's breathing: on and held with E, every gas streaming in and out, two breaths filmed as a
+  contact sheet), `tools/spot_probe.py` (a reload puts the walker back where they stood: the engine's
+  `keepSpot`, per tab in sessionStorage `ew-spot`, only for the first world of a page load).
+  `tools/phone.py`: the site on
   a real Android phone over Wi-Fi (adb, installed 2026-10-28 with winget; Chrome's DevTools socket):
   screenshots, taps, drags and frame times on the phone's own chip; pairing steps in its header.
   Probes run with `py -3.11` (Playwright is installed there).

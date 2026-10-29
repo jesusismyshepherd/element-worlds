@@ -2,8 +2,9 @@
 // gases stacked in proportion (nitrogen, oxygen, carbon dioxide, argon), and a pair of glass lungs
 // between them that breathe. Using it starts the breathing, using it again holds the breath (the user,
 // 2026-10-29: one breath was over before the breath out was seen; it should go on while it is on). Each
-// breath: in, the lungs swell and oxygen flows from the left column into them; out, they empty and carbon
-// dioxide flows to the right one. In: 21% O2 and 0.04% CO2; out: about 16% and 4%.
+// breath: in, the lungs swell and the air streams into them through the windpipe, every gas from its own
+// band of the left column; out, they empty and it streams back to the bands of the right one, with a
+// little less oxygen and a carbon dioxide in its place. In: 21% O2 and 0.04% CO2; out: about 16% and 4%.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { standingScreen, glowMat, hdr, glass, label, damp, random, equation } from './kit.js'
@@ -57,7 +58,7 @@ export function breathExhibit({ color, light, words, level }) {
     const title = label(side === 'in' ? words.in : words.out, { size: 0.11, color: '#ffffff' })
     title.position.set(0, H0 + CH + 0.28, 0)
     col.add(title)
-    columns[side] = { col, bands, values: Object.fromEntries(GAS.map(g => [g.id, g[side]])), labels: {} }
+    columns[side] = { col, bands, values: Object.fromEntries(GAS.map(g => [g.id, g[side]])), labels: {}, range: {} }
   }
   // labels beside each column: the gas and its share
   const pct = v => (v < 0.1 ? words.trace : `${Math.round(v)}%`)
@@ -80,6 +81,7 @@ export function breathExhibit({ color, light, words, level }) {
         const m = c.bands[g.id]
         m.scale.y = h
         m.position.y = y + h / 2
+        c.range[g.id] = [y, y + h]
         const lab = c.labels[g.id]
         if (lab) {
           lab.position.y = Math.min(H0 + CH - 0.05, y + Math.max(h, 0.07) / 2)
@@ -121,41 +123,50 @@ export function breathExhibit({ color, light, words, level }) {
     br.rotation.z = s * 0.7
     lungs.add(br)
   }
-  // molecules on the move: O2 in (red pairs), CO2 out (dark, red ends)
-  const n = light ? 10 : 22
-  const rnd = random(5)
-  const o2Mat = new THREE.MeshStandardMaterial({ color: '#f2302b', emissive: '#f2302b', emissiveIntensity: 0.4, roughness: 0.3 })
-  const cMat = new THREE.MeshStandardMaterial({ color: '#42464e', roughness: 0.3 })
-  const atomGeo = new THREE.SphereGeometry(0.03, 12, 8)
-  const movers = []
-  for (let i = 0; i < n; i++) {
-    const kind = i % 2 ? 'co2' : 'o2'
-    const g = new THREE.Group()
-    if (kind === 'o2') {
-      for (const s of [-1, 1]) {
-        const a = new THREE.Mesh(atomGeo, o2Mat)
-        a.position.x = s * 0.032
-        g.add(a)
-      }
-    } else {
-      const c = new THREE.Mesh(atomGeo, cMat)
-      g.add(c)
-      for (const s of [-1, 1]) {
-        const a = new THREE.Mesh(atomGeo, o2Mat)
-        a.position.x = s * 0.06
-        a.scale.setScalar(0.9)
-        g.add(a)
-      }
-    }
-    g.visible = false
-    group.add(g)
-    movers.push({ g, kind, t: -1, delay: 0, path: null, spin: new THREE.Vector3(rnd(), rnd(), rnd()) })
+  // the air on the move, every gas of it (the user, 2026-10-29: not only the carbon dioxide going out),
+  // in proportion but with the nitrogen thinned so it does not crowd the rest: a breath in brings 8
+  // nitrogen and 4 oxygen (and an argon every other breath); a breath out takes back the 8 nitrogen, 3
+  // oxygen (the body kept about a quarter) and 1 carbon dioxide in its place
+  const BREATH = {
+    in: { N2: 8, O2: 4, CO2: 0, Ar: 1 },
+    out: { N2: 8, O2: 3, CO2: 1, Ar: 1 },
   }
-  const pathFor = kind => {
-    const from = kind === 'o2' ? new THREE.Vector3(-1.0, H0 + 1.6 + rnd() * 0.12, 0) : new THREE.Vector3(0, H0 + 1.3, 0)
-    const to = kind === 'o2' ? new THREE.Vector3((rnd() - 0.5) * 0.3, H0 + 1.3, 0.05) : new THREE.Vector3(1.0, H0 + 1.62 + rnd() * 0.1, 0)
-    const mid = from.clone().lerp(to, 0.5).add(new THREE.Vector3(0, 0.35, 0.15))
-    return new THREE.QuadraticBezierCurve3(from, mid, to)
+  const rnd = random(5)
+  const atomMat = c => new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.35, roughness: 0.3 })
+  const MAT = { N: atomMat('#4d6bff'), O: atomMat('#f2302b'), C: new THREE.MeshStandardMaterial({ color: '#42464e', roughness: 0.3 }), Ar: atomMat('#80d1e3') }
+  const atomGeo = new THREE.SphereGeometry(0.03, 12, 8)
+  // each molecule's atoms: element and offset along its axis
+  const SHAPE = { N2: [['N', -0.028], ['N', 0.028]], O2: [['O', -0.032], ['O', 0.032]], CO2: [['C', 0], ['O', -0.06], ['O', 0.06]], Ar: [['Ar', 0]] }
+  const pool = {}
+  for (const g of GAS) {
+    pool[g.id] = []
+    const n = Math.max(BREATH.in[g.id], BREATH.out[g.id])
+    for (let i = 0; i < n; i++) {
+      const m = new THREE.Group()
+      for (const [e, x] of SHAPE[g.id]) {
+        const a = new THREE.Mesh(atomGeo, MAT[e])
+        a.position.x = x
+        if (e === 'Ar') a.scale.setScalar(1.35)
+        m.add(a)
+      }
+      m.visible = false
+      group.add(m)
+      pool[g.id].push({ g: m, t: -1, delay: 0, path: null, spin: new THREE.Vector3(rnd(), rnd(), rnd()) })
+    }
+  }
+  const movers = Object.values(pool).flat()
+  const PIPE = new THREE.Vector3(0, H0 + 1.3 + 0.56, 0) // the windpipe's mouth
+  /** A molecule's way between its gas's band in a column and a lobe, through the windpipe. */
+  const pathFor = (gas, dir) => {
+    const sx = dir === 'in' ? -1 : 1
+    const [y0, y1] = columns[dir].range[gas]
+    const y = y0 + (y1 - y0) * (0.2 + 0.6 * rnd())
+    const band = new THREE.Vector3(sx * (1.0 + (rnd() - 0.5) * 0.25), y, (rnd() - 0.5) * 0.25)
+    const side = new THREE.Vector3(sx * 0.66, y + 0.08, 0.1 + rnd() * 0.06)
+    const over = new THREE.Vector3(sx * 0.32, PIPE.y + 0.16 + rnd() * 0.06, 0.06)
+    const lobe = new THREE.Vector3((rnd() < 0.5 ? -1 : 1) * (0.14 + rnd() * 0.12), H0 + 1.22 + (rnd() - 0.5) * 0.22, (rnd() - 0.5) * 0.12)
+    const pts = [band, side, over, PIPE.clone(), lobe]
+    return new THREE.CatmullRomCurve3(dir === 'in' ? pts : pts.reverse(), false, 'centripetal')
   }
 
   // the screen in front
@@ -173,19 +184,26 @@ export function breathExhibit({ color, light, words, level }) {
   scr.set({ small: smallLine() })
 
   // one breath: in (IN s), a moment full, out (OUT s), a moment empty
-  const IN = 2.2
-  const OUT_AT = 2.6
-  const OUT = 2.2
-  const CYCLE = 5.4
-  const FLY = 1.2 // a molecule's flight, all within its half of the breath
+  const IN = 2.6
+  const OUT_AT = 3.1
+  const OUT = 2.6
+  const CYCLE = 6.4
+  const FLY = 1.5 // a molecule's flight, all within its half of the breath
   const ease = x => x * x * (3 - 2 * x)
   const fullness = p => (p < IN ? ease(p / IN) : p < OUT_AT ? 1 : p < OUT_AT + OUT ? 1 - ease((p - OUT_AT) / OUT) : 0)
-  const launch = kind => {
-    const list = movers.filter(m => m.kind === kind)
-    list.forEach((m, i) => {
+  let breaths = 0
+  /** Send one breath's molecules, in or out, mixed in one stream. */
+  const launch = dir => {
+    const list = []
+    for (const g of GAS) {
+      const n = g.id === 'Ar' && breaths % 2 ? 0 : BREATH[dir][g.id]
+      for (let i = 0; i < n; i++) list.push({ gas: g.id, m: pool[g.id][i], r: rnd() })
+    }
+    list.sort((a, b) => a.r - b.r)
+    list.forEach(({ gas, m }, i) => {
       m.t = 0
-      m.delay = (i / list.length) * (IN - FLY) + rnd() * 0.15
-      m.path = pathFor(kind)
+      m.delay = (i / list.length) * (IN - FLY - 0.1) + rnd() * 0.1
+      m.path = pathFor(gas, dir)
     })
   }
   let on = false
@@ -201,7 +219,7 @@ export function breathExhibit({ color, light, words, level }) {
       on = !on
       if (on && phase < 0) {
         phase = 0
-        launch('o2')
+        launch('in')
       }
       return on
     },
@@ -216,10 +234,11 @@ export function breathExhibit({ color, light, words, level }) {
       if (phase >= 0) {
         const before = phase
         phase += dt
-        if (before < OUT_AT && phase >= OUT_AT) launch('co2')
+        if (before < OUT_AT && phase >= OUT_AT) launch('out')
         if (phase >= CYCLE) {
+          breaths++
           phase = on ? phase - CYCLE : -1
-          if (on) launch('o2')
+          if (on) launch('in')
         }
       }
       for (const m of movers) {
@@ -228,9 +247,10 @@ export function breathExhibit({ color, light, words, level }) {
         const k = (m.t - m.delay) / FLY
         m.g.visible = k > 0 && k < 1
         if (k > 0 && k < 1) {
-          m.path.getPoint(k, m.g.position)
+          m.path.getPointAt(k, m.g.position)
           m.g.rotation.set(t * m.spin.x * 3, t * m.spin.y * 3, 0)
-          m.g.scale.setScalar(Math.sin(k * Math.PI) * 0.6 + 0.6)
+          // grows out of its band (or the lungs) and fades into the other end
+          m.g.scale.setScalar(Math.min(1, k / 0.12, (1 - k) / 0.12))
         }
         if (k >= 1) m.t = -1
       }

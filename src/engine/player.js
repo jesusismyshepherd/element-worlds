@@ -50,13 +50,15 @@ export class Player {
     return this.mode === 'third' && this.avatar ? this.avatar.body : VISITOR
   }
 
-  /** Put the walker at a spawn point { x, z, yaw }. */
+  /** Put the walker at a spawn point { x, z, yaw } (with `y` and `pitch`: back where they stood before
+   *  a reload, on the ground they stood on). */
   place(spawn, world) {
     const b = this.body()
     this.pos.set(spawn.x, 0, spawn.z)
-    this.pos.y = groundAt(spawn.x, spawn.z, 50, world.solids ?? [], world.floor, 100)
+    const had = Number.isFinite(spawn.y)
+    this.pos.y = groundAt(spawn.x, spawn.z, had ? spawn.y + 0.3 : 50, world.solids ?? [], world.floor, had ? 0.6 : 100)
     this.yaw = spawn.yaw ?? 0
-    this.pitch = -0.08
+    this.pitch = Number.isFinite(spawn.pitch) ? spawn.pitch : -0.08
     this.camOffset = 0
     this.camPitch = -0.17
     this.vy = 0

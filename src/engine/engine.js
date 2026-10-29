@@ -15,6 +15,16 @@ import { loadWorld, worldKey } from '../worlds/registry.js'
 import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
 import { onRestore } from './progress.js'
+
+const SPOT = 'ew-spot' // sessionStorage: where the walker stood (keepSpot)
+let spotUsed = false // only the first world of a page load goes back there
+const readSpot = () => {
+  try {
+    return JSON.parse(sessionStorage.getItem(SPOT) ?? 'null')
+  } catch {
+    return null
+  }
+}
 import { insets, freeArea } from './covers.js'
 import { track } from '../net/telemetry.js'
 import { room } from '../net/room.js'
@@ -46,6 +56,8 @@ export class Engine {
     room.on('members', () => this.meetOthers())
     // an account's progress came in (or a sign-out emptied it): the world on show redraws its marks
     onRestore(() => this.world?.refresh?.())
+    this.onPageHide = () => this.keepSpot(true)
+    addEventListener('pagehide', this.onPageHide)
     if (!this.light) {
       this.composer = new EffectComposer(r)
       this.composer.addPass(new RenderPass(this.scene, this.camera))
@@ -236,9 +248,12 @@ export class Engine {
     this.camera.updateProjectionMatrix()
     this.input.pointerLook = w.mode === 'walk'
     this.viewSnap = true
+    // the first world after a page load: back where the walker stood before the reload, if it was here
+    const back = spotUsed ? null : readSpot()
+    spotUsed = true
     if (w.mode === 'walk') {
       this.player.mode = this.store.get().mode ?? 'third'
-      this.player.place(w.spawn, w)
+      this.player.place(back?.key === key && Number.isFinite(back.x) && Number.isFinite(back.z) ? back : w.spawn, w)
       this.player.setAvatar(w.avatar ?? null)
     } else this.player.setAvatar(null)
     w.attach?.(this)
@@ -315,6 +330,24 @@ export class Engine {
     p.camSnap = true
   }
 
+  /** Remember where the walker stands (each second when it changed, and as the page goes), so a reload
+   *  puts them back there instead of at the world's door (the user, 2026-10-29). Per tab. */
+  keepSpot(now = false) {
+    if (this.world?.mode !== 'walk' || !this.key) return
+    if (!now && this.time - (this.spotAt ?? -9) < 1) return
+    this.spotAt = this.time
+    const p = this.player
+    const r = (v, d = 2) => Number(v.toFixed(d))
+    const s = JSON.stringify({ key: this.key, x: r(p.pos.x), y: r(p.pos.y), z: r(p.pos.z), yaw: r(p.yaw, 3), pitch: r(p.pitch, 3) })
+    if (s === this.spotSaved) return
+    this.spotSaved = s
+    try {
+      sessionStorage.setItem(SPOT, s)
+    } catch {
+      // storage blocked: a reload starts at the door
+    }
+  }
+
   frame() {
     const dt = Math.min(this.clock.getDelta(), 1 / 20)
     this.time += dt
@@ -326,6 +359,7 @@ export class Engine {
         if (this.input.took('KeyT')) this.talk()
         this.pointing(w)
         this.player.update(dt, w, this.input, this.time)
+        this.keepSpot()
       }
       w.update?.(dt, this.time, this)
       this.others?.update(dt, this.time)
@@ -420,6 +454,7 @@ export class Engine {
   dispose() {
     this.token++
     this.renderer.setAnimationLoop(null)
+    removeEventListener('pagehide', this.onPageHide)
     this.unLevel?.()
     this.leave()
     this.observer.disconnect()
