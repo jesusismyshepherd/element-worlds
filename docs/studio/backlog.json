@@ -3,7 +3,7 @@
   "studio": "Element Worlds Studio",
   "tagline": "A 3D periodic table to walk into, for Artur and his father.",
   "play": "https://element-worlds.vercel.app",
-  "updated": "2026-10-29",
+  "updated": "2026-10-30",
   "steerDefault": "claude",
   "kinds": [
     {
@@ -76,7 +76,7 @@
       "from": "you",
       "date": "2026-10-29",
       "summary": "The fact file, seven picture boards and a showpiece that Carbon and Oxygen have, for the other 116 halls.",
-      "why": "Every visit passes through a hall, so this changes the most. The 38 elements Artur meets first (the quiz's Explorer list) come before the rest, in the order the family dashboard shows they are visited.",
+      "why": "Every visit passes through a hall, so this changes the most. It goes element by element with the Periodic Videos rooms, the 38 elements Artur meets first (the quiz's Explorer list) before the rest.",
       "details": [
         "Carbon and Oxygen got them first because the eight text boards were boring. You loved them (2026-10-29), so the others follow.",
         "Each board is a picture with a hook question, read in Explorer or Scientist; the fact file has a face drawn from the element's data; the showpiece is a real-looking sample in the museum case.",
@@ -90,19 +90,20 @@
     {
       "id": "periodic-videos",
       "code": "Pv",
-      "title": "Periodic Videos in every hall",
+      "title": "Periodic Videos rooms",
       "kind": "media",
       "status": "next",
       "from": "you",
       "date": "2026-10-29",
-      "summary": "A screen in each hall plays that element's video from Periodic Videos (Brady Haran with Professor Sir Martyn Poliakoff, University of Nottingham), and their experiments inspire new exhibits.",
-      "why": "One shared screen and a list of 118 videos reach every hall in a single pass, before the long board rollout. After that, each element's video is also a source for its boards.",
+      "summary": "Each element gets a room where the experiments from its Periodic Videos video (Brady Haran with Professor Sir Martyn Poliakoff, University of Nottingham) are rebuilt as things you do, with the video beside them: watch to understand, do it yourself, go back to the video for the why.",
+      "why": "The videos are full of experiments a child can't do at home but can do here. Sodium first, as a pilot room to look at; then element by element with the hall boards, since one look at a video serves both.",
       "details": [
-        "The screen: an old television or a projector in each hall. Walk up and press E: the video plays on the screen itself (a web player placed in the 3D hall) or in the side sheet; both get tried and the better one stays. It is YouTube's own player, credited and linked to periodicvideos.com.",
-        "The list: each element's video from the Periodic Videos playlist, read once for its titles and links (several elements have a newer video too; the one to show is chosen per element).",
-        "The content: their transcripts and experiments serve as research notes. What the game shows is retold in its own words, checked against its data and credited; their text and frames are not copied into the game.",
-        "More rooms per element: a doorway board in each hall lists that element's extra places (its wings, a screening room, the hunts that start there) and makes room as more arrive, your blackboard idea. A screening room of its own only where a video has experiments worth rebuilding as things to do.",
-        "Nothing for you to download: the captions carry the content, and players watch the video itself on the screen. If one video needs a closer look for an exhibit, Claude asks for that one."
+        "Claude watches each video (a frame every 4 seconds with the captions, in a cache on this computer that never goes online) and writes a brief: what the video shows, with times, and the room's stations.",
+        "Sodium's video, watched 2026-10-30: cutting a two-kilo rod from its oil tin (soft, shiny, white within seconds), a gram in a bowl of water in a courtyard (skating, fizzing, the orange flame), a salt window that cracks at right angles, a rock-salt lamp, and a bigger lump with a bang. All five become stations (docs/pv/Na.md).",
+        "Each station has 'Watch this part': the video plays from that experiment's moment, in YouTube's own player, credited and linked to periodicvideos.com.",
+        "The game retells everything in its own words with its own numbers; the video's footage and words stay the video's. Dangerous experiments keep the video's warning: never at home.",
+        "One shared room dressed per element (a lab bench, a fume cupboard, a door to a brick courtyard, the professor's desk), and a kit used again and again: the water bowl for every alkali metal, flame colours, fizz, smoke, liquid nitrogen, a Geiger counter. Apparatus modelled in Blender where it looks better than code.",
+        "The door to it: a doorway board in each hall lists the element's extra places (its wings, this room, the hunts that start there) and makes room as more arrive, your blackboard idea."
       ],
       "link": "http://www.periodicvideos.com/"
     },

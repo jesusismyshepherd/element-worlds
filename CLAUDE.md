@@ -44,8 +44,9 @@ built when, and the user's requests behind it: `docs/history.md`.
   boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
   reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps), `accounts.md` (the
   Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
-  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio). Read the
-  one for the area you touch.
+  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `periodic-videos.md` (watching an element's
+  video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms). Read the one for the area
+  you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
 - `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
@@ -158,6 +159,7 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next: a Periodic Videos screen in all 118 halls (one pass),
-then the other 116 halls' picture boards in batches, the best-known elements first (the user loved
-Carbon's and Oxygen's, 2026-10-29; the plan: `hall-boards.md`, "The other 116 halls").
+the phone), and what waits on the user. Next: the sodium Periodic Videos room as the pilot
+(its experiments rebuilt as things to do, the video beside them: `periodic-videos.md`, `docs/pv/Na.md`),
+then element by element each hall's picture boards and its room, the best-known elements first
+(`hall-boards.md`, "The other 116 halls").

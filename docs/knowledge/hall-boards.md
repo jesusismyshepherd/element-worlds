@@ -71,7 +71,8 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
 - Order: the other 38 elements of the quiz's Explorer list (`KID_POOL` in `src/game/quiz.js`), in the
   order the family dashboard shows their halls are visited (`/stats`, `usage-data.md`), five or six to a
   batch; then the rest family by family.
-- Per element, as above. Research notes: the element's story in `src/content/`, its Periodic Videos
+- Per element, as above, together with its Periodic Videos room (`periodic-videos.md`). Research notes:
+  the element's story in `src/content/`, its Periodic Videos
   video (retold in the game's own words, never copied), every number from `elements.json`. The
   well-known ones get a showpiece of their own (`showpieces.js`); the rest keep the case's samples.
 - One style for every hall's pictures: start a shared module (`tools/boards/lib/`) from Carbon's

@@ -46,6 +46,10 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 ## Making things
 
+- `pv/pv.py`: an element's Periodic Videos video seen by Claude (`list`, `fetch <Symbol>`, `sheets
+  <Symbol>`: frames every 4 s in contact sheets, the captions with times), all in a cache outside the
+  repository (`periodic-videos.md`).
+
 - `make_icons.py`: the home-screen icons. `make_fonts.py`: the 3D fonts' letters (`translating.md`).
 - `tools/boards/<Symbol>/`: the drawings for a hall's picture boards (`hall-boards.md`).
 - `check_staged.py`: exports the index, tests and builds it, so a commit made while other sessions have
