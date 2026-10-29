@@ -63,3 +63,18 @@ Write the seven stories in English first (each a context that makes you want to 
 you, in nature, in space, in history, in things you use), translate them (`translating.md`), draw the seven
 pictures (look at each one rendered, and at a contact sheet of all seven), then `npm test`,
 `tools/halls_probe.py <Symbol>` and a look in the hall.
+
+## The other 116 halls (the user approved them on 2026-10-29)
+
+The user loved Carbon's and Oxygen's halls: "the others can now follow". The plan (the studio's item
+`halls-116`, right after the Periodic Videos screens, `periodic-videos`):
+- Order: the other 38 elements of the quiz's Explorer list (`KID_POOL` in `src/game/quiz.js`), in the
+  order the family dashboard shows their halls are visited (`/stats`, `usage-data.md`), five or six to a
+  batch; then the rest family by family.
+- Per element, as above. Research notes: the element's story in `src/content/`, its Periodic Videos
+  video (retold in the game's own words, never copied), every number from `elements.json`. The
+  well-known ones get a showpiece of their own (`showpieces.js`); the rest keep the case's samples.
+- One style for every hall's pictures: start a shared module (`tools/boards/lib/`) from Carbon's
+  `lib.py` and Oxygen's `kit.py` instead of a new one per element, so the halls read as one series.
+- After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
+  `docs/history.md`, commit and push, so each batch goes live when it is done.

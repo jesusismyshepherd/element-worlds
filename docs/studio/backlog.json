@@ -6,15 +6,51 @@
   "updated": "2026-10-29",
   "steerDefault": "claude",
   "kinds": [
-    { "id": "halls", "label": "Halls and content", "color": "#f7d154" },
-    { "id": "media", "label": "Videos", "color": "#ffa94d" },
-    { "id": "games", "label": "Games and hunts", "color": "#ff6b5e" },
-    { "id": "together", "label": "Playing together", "color": "#7fd7a8" },
-    { "id": "lab", "label": "Lab and forge", "color": "#b38cff" },
-    { "id": "tech", "label": "Under the hood", "color": "#4fd1c5" },
-    { "id": "worlds", "label": "Worlds", "color": "#5aa9ff" }
+    {
+      "id": "halls",
+      "label": "Halls and content",
+      "color": "#f7d154"
+    },
+    {
+      "id": "media",
+      "label": "Videos",
+      "color": "#ffa94d"
+    },
+    {
+      "id": "games",
+      "label": "Games and hunts",
+      "color": "#ff6b5e"
+    },
+    {
+      "id": "together",
+      "label": "Playing together",
+      "color": "#7fd7a8"
+    },
+    {
+      "id": "lab",
+      "label": "Lab and forge",
+      "color": "#b38cff"
+    },
+    {
+      "id": "tech",
+      "label": "Under the hood",
+      "color": "#4fd1c5"
+    },
+    {
+      "id": "worlds",
+      "label": "Worlds",
+      "color": "#5aa9ff"
+    }
   ],
-  "next": ["halls-116", "periodic-videos", "treasure-hunts", "scavenger-hunts", "star-forge", "shared-forge", "red-blood-cell"],
+  "next": [
+    "periodic-videos",
+    "halls-116",
+    "treasure-hunts",
+    "scavenger-hunts",
+    "star-forge",
+    "shared-forge",
+    "red-blood-cell"
+  ],
   "waiting": [
     {
       "id": "w-review",
@@ -40,11 +76,13 @@
       "from": "you",
       "date": "2026-10-29",
       "summary": "The fact file, seven picture boards and a showpiece that Carbon and Oxygen have, for the other 116 halls.",
-      "why": "Every visit passes through a hall, so this changes the most in one go. It also gives the hunts and the video screens their places to stand.",
+      "why": "Every visit passes through a hall, so this changes the most. The 38 elements Artur meets first (the quiz's Explorer list) come before the rest, in the order the family dashboard shows they are visited.",
       "details": [
         "Carbon and Oxygen got them first because the eight text boards were boring. You loved them (2026-10-29), so the others follow.",
         "Each board is a picture with a hook question, read in Explorer or Scientist; the fact file has a face drawn from the element's data; the showpiece is a real-looking sample in the museum case.",
-        "Built family by family (the alkali metals together, the noble gases together), so neighbours feel related, and each batch is checked in all four languages before it goes live."
+        "In batches of five or six: first the 38 well-known elements of the quiz's Explorer list (hydrogen to plutonium), then the rest family by family. Each batch is checked in all four languages and looked at in the game before it goes live, and goes live as soon as it is done.",
+        "Each element's Periodic Videos video and its own story in the game are the research notes; every number comes from the game's data.",
+        "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -58,9 +96,10 @@
       "from": "you",
       "date": "2026-10-29",
       "summary": "A screen in each hall plays that element's video from Periodic Videos (Brady Haran with Professor Sir Martyn Poliakoff, University of Nottingham), and their experiments inspire new exhibits.",
-      "why": "It goes with the hall boards: one pass per element does both, and every hall gains a real chemist doing real experiments.",
+      "why": "One shared screen and a list of 118 videos reach every hall in a single pass, before the long board rollout. After that, each element's video is also a source for its boards.",
       "details": [
-        "The screen: an old television or a projector in the hall. It plays the video in YouTube's own player, credited and linked to periodicvideos.com. As the HUD rule says, the video opens at the side or full screen, never over the middle.",
+        "The screen: an old television or a projector in each hall. Walk up and press E: the video plays on the screen itself (a web player placed in the 3D hall) or in the side sheet; both get tried and the better one stays. It is YouTube's own player, credited and linked to periodicvideos.com.",
+        "The list: each element's video from the Periodic Videos playlist, read once for its titles and links (several elements have a newer video too; the one to show is chosen per element).",
         "The content: their transcripts and experiments serve as research notes. What the game shows is retold in its own words, checked against its data and credited; their text and frames are not copied into the game.",
         "More rooms per element: a doorway board in each hall lists that element's extra places (its wings, a screening room, the hunts that start there) and makes room as more arrive, your blackboard idea. A screening room of its own only where a video has experiments worth rebuilding as things to do.",
         "Nothing for you to download: the captions carry the content, and players watch the video itself on the screen. If one video needs a closer look for an exhibit, Claude asks for that one."
@@ -125,7 +164,9 @@
       "date": "2026-10-29",
       "summary": "The Atom Forge in a room: build one nucleus together, or race each other to a mission.",
       "why": "Rooms already share the Molecule Lab; the forge is the other half of the table.",
-      "details": ["The next step for rooms (docs/knowledge/multiplayer.md)."],
+      "details": [
+        "The next step for rooms (docs/knowledge/multiplayer.md)."
+      ],
       "doc": "docs/knowledge/multiplayer.md"
     },
     {
@@ -139,7 +180,9 @@
       "date": "2026-10-27",
       "summary": "Follow the oxygen you just breathed: into the lungs, onto haemoglobin, through the heart to a working muscle.",
       "why": "The breathing exhibit ends where this begins, so the air wing gets its sequel.",
-      "details": ["Oxygen's third world, starting from the breathing exhibit in the air wing."]
+      "details": [
+        "Oxygen's third world, starting from the breathing exhibit in the air wing."
+      ]
     },
     {
       "id": "atomling-team",
@@ -150,7 +193,9 @@
       "from": "claude",
       "date": "2026-10-29",
       "summary": "Finishing a hall's exhibits wins its Atomling for your team; your team follows you around, and a whole family earns its badge.",
-      "details": ["A reason to visit every hall, kept in the account. The characters stay the game's own."]
+      "details": [
+        "A reason to visit every hall, kept in the account. The characters stay the game's own."
+      ]
     },
     {
       "id": "element-of-the-day",
@@ -161,7 +206,9 @@
       "from": "claude",
       "date": "2026-10-29",
       "summary": "One element a day with a three-minute challenge, the same for the whole family, and a streak to keep.",
-      "details": ["Short visits on busy days; the challenge comes from the element's hall."]
+      "details": [
+        "Short visits on busy days; the challenge comes from the element's hall."
+      ]
     },
     {
       "id": "molecule-race",
@@ -172,7 +219,9 @@
       "from": "claude",
       "date": "2026-10-29",
       "summary": "In a room, the same molecule for everyone: first to build it wins, then a harder one.",
-      "details": ["The competitive side of the shared Molecule Lab."]
+      "details": [
+        "The competitive side of the shared Molecule Lab."
+      ]
     },
     {
       "id": "magnet-workshop",
@@ -184,7 +233,9 @@
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Build an electric motor; compare iron, ferrite and neodymium magnets lifting weights; why wind turbines and electric cars need rare earths.",
-      "details": ["One wing shared by iron, cobalt, nickel, neodymium, samarium and dysprosium, like the neon sign workshop."]
+      "details": [
+        "One wing shared by iron, cobalt, nickel, neodymium, samarium and dysprosium, like the neon sign workshop."
+      ]
     },
     {
       "id": "accelerator",
@@ -196,7 +247,9 @@
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Fire a calcium beam at a target and, maybe once a week, make one atom of a new element that lasts a thousandth of a second; the island of stability.",
-      "details": ["Shared by the superheavy elements, 104 to 118. The Atom Forge's beam already does the reactions."]
+      "details": [
+        "Shared by the superheavy elements, 104 to 118. The Atom Forge's beam already does the reactions."
+      ]
     },
     {
       "id": "hydrogen-sun",
@@ -220,7 +273,9 @@
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Helium cooled near absolute zero creeps up the walls of its cup and out.",
-      "details": ["The 1868 eclipse, where helium was found in sunlight, is already on the neon workshop's spectroscope."]
+      "details": [
+        "The 1868 eclipse, where helium was found in sunlight, is already on the neon workshop's spectroscope."
+      ]
     },
     {
       "id": "lithium-battery",
@@ -446,7 +501,9 @@
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Burning methane, rusting and photosynthesis as a game, with the atoms counted on both sides.",
-      "details": ["Methane and rust are already benches in oxygen's fire wing, and photosynthesis is carbon's tree; the game in the lab is not built yet."]
+      "details": [
+        "Methane and rust are already benches in oxygen's fire wing, and photosynthesis is carbon's tree; the game in the lab is not built yet."
+      ]
     },
     {
       "id": "rings-dna",
@@ -468,7 +525,9 @@
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Ions stacking into a salt crystal you can watch grow.",
-      "details": ["The lab already makes ionic compounds (2026-10-28); the growing crystal is the missing part."]
+      "details": [
+        "The lab already makes ionic compounds (2026-10-28); the growing crystal is the missing part."
+      ]
     },
     {
       "id": "first-visits",
@@ -479,7 +538,9 @@
       "from": "claude",
       "date": "2026-10-28",
       "summary": "A world seen for the first time takes 1.2 to 3.9 s to appear; fewer kinds of material would cut that.",
-      "details": ["Carbon's gallery still needs 53 shader programs."]
+      "details": [
+        "Carbon's gallery still needs 53 shader programs."
+      ]
     },
     {
       "id": "camera-fade",
@@ -501,46 +562,202 @@
       "from": "claude",
       "date": "2026-10-28",
       "summary": "Frame times on the Galaxy S21 for every world, not only the hall and the graphene gallery.",
-      "details": ["Waits on Wireless debugging (Waiting on you)."]
+      "details": [
+        "Waits on Wireless debugging (Waiting on you)."
+      ]
     }
   ],
   "built": [
-    { "date": "2026-10-29", "title": "This studio", "what": "Claude's picks, your ideas and verdicts, and what was built, on one page." },
-    { "date": "2026-10-29", "title": "Picture halls for Carbon and Oxygen", "what": "A fact file, seven picture boards and a showpiece instead of eight text boards.", "link": "https://element-worlds.vercel.app/e/C" },
-    { "date": "2026-10-29", "title": "Breathing", "what": "Glass lungs between the air breathed in and the air breathed out, breathing until you hold your breath.", "link": "https://element-worlds.vercel.app/e/O/air" },
-    { "date": "2026-10-29", "title": "Playing together", "what": "Rooms with a code, the shared Molecule Lab, the quiz as a duel, the others' Atomlings standing on the cubes they picked.", "link": "https://element-worlds.vercel.app/" },
-    { "date": "2026-10-29", "title": "Accounts", "what": "The Pokémon site's logins; discoveries kept in the account." },
-    { "date": "2026-10-29", "title": "A reload keeps your place", "what": "Back where you stood, the table as you left it; a new version offers Reload." },
-    { "date": "2026-10-29", "title": "The floor table", "what": "Tap a tile in any hall to go to that element." },
-    { "date": "2026-10-29", "title": "The family dashboard", "what": "What is played and for how long, at /stats." },
-    { "date": "2026-10-28", "title": "The screen around the middle", "what": "Everything at the edges, full screen on phones, your first notes from the phone." },
-    { "date": "2026-10-28", "title": "Walking, second round", "what": "Turning, looking up, the pinch, a smooth camera in the nanotube." },
-    { "date": "2026-10-28", "title": "The neon sign workshop", "what": "Fill tubes with noble gases, your name in neon, the spectroscope.", "link": "https://element-worlds.vercel.app/e/Ne/signs" },
-    { "date": "2026-10-28", "title": "Twisted graphene", "what": "Two flakes on a light table and their bands at the magic angle.", "link": "https://element-worlds.vercel.app/e/C/allotropes" },
-    { "date": "2026-10-28", "title": "Ionic compounds in the lab", "what": "Metals hand their electrons over: NaCl, MgO, CaCl2.", "link": "https://element-worlds.vercel.app/lab" },
-    { "date": "2026-10-28", "title": "The forge's beam", "what": "Fire particles and nuclei; famous reactions as history saw them.", "link": "https://element-worlds.vercel.app/forge" },
-    { "date": "2026-10-28", "title": "Who am I?", "what": "The quiz on the plaza: clues, fewer for more points." },
-    { "date": "2026-10-28", "title": "Polish and German", "what": "Everything in four languages." },
-    { "date": "2026-10-28", "title": "Facts on the plaza card", "what": "Tell me something: the Atomling's facts one at a time." },
-    { "date": "2026-10-27", "title": "The plaza and 118 halls", "what": "The table under the stars, and a hall for every element built from its data.", "link": "https://element-worlds.vercel.app/" },
-    { "date": "2026-10-27", "title": "Stories for all 118", "what": "Each element's own words, at both depths." },
-    { "date": "2026-10-27", "title": "Carbon's two worlds", "what": "Diamond, graphite and company; the carbon of life.", "link": "https://element-worlds.vercel.app/e/C/life" },
-    { "date": "2026-10-27", "title": "Oxygen's two worlds", "what": "The sky deck above the clouds; the fire chamber.", "link": "https://element-worlds.vercel.app/e/O/fire" },
-    { "date": "2026-10-27", "title": "The Atomlings", "what": "All 118 characters, built from each element's real properties.", "link": "https://element-worlds.vercel.app/atomlings" },
-    { "date": "2026-10-27", "title": "The Molecule Lab", "what": "Atomlings hold hands to make molecules.", "link": "https://element-worlds.vercel.app/lab" },
-    { "date": "2026-10-27", "title": "The Atom Forge", "what": "Build atoms from protons, neutrons and electrons; watch nuclei decay.", "link": "https://element-worlds.vercel.app/forge" },
-    { "date": "2026-10-27", "title": "The passport", "what": "Discoveries and badges.", "link": "https://element-worlds.vercel.app/passport" }
+    {
+      "date": "2026-10-29",
+      "title": "This studio",
+      "what": "Claude's picks, your ideas and verdicts, and what was built, on one page."
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Picture halls for Carbon and Oxygen",
+      "what": "A fact file, seven picture boards and a showpiece instead of eight text boards.",
+      "link": "https://element-worlds.vercel.app/e/C"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Breathing",
+      "what": "Glass lungs between the air breathed in and the air breathed out, breathing until you hold your breath.",
+      "link": "https://element-worlds.vercel.app/e/O/air"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Playing together",
+      "what": "Rooms with a code, the shared Molecule Lab, the quiz as a duel, the others' Atomlings standing on the cubes they picked.",
+      "link": "https://element-worlds.vercel.app/"
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Accounts",
+      "what": "The Pokémon site's logins; discoveries kept in the account."
+    },
+    {
+      "date": "2026-10-29",
+      "title": "A reload keeps your place",
+      "what": "Back where you stood, the table as you left it; a new version offers Reload."
+    },
+    {
+      "date": "2026-10-29",
+      "title": "The floor table",
+      "what": "Tap a tile in any hall to go to that element."
+    },
+    {
+      "date": "2026-10-29",
+      "title": "The family dashboard",
+      "what": "What is played and for how long, at /stats."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "The screen around the middle",
+      "what": "Everything at the edges, full screen on phones, your first notes from the phone."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Walking, second round",
+      "what": "Turning, looking up, the pinch, a smooth camera in the nanotube."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "The neon sign workshop",
+      "what": "Fill tubes with noble gases, your name in neon, the spectroscope.",
+      "link": "https://element-worlds.vercel.app/e/Ne/signs"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Twisted graphene",
+      "what": "Two flakes on a light table and their bands at the magic angle.",
+      "link": "https://element-worlds.vercel.app/e/C/allotropes"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Ionic compounds in the lab",
+      "what": "Metals hand their electrons over: NaCl, MgO, CaCl2.",
+      "link": "https://element-worlds.vercel.app/lab"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "The forge's beam",
+      "what": "Fire particles and nuclei; famous reactions as history saw them.",
+      "link": "https://element-worlds.vercel.app/forge"
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Who am I?",
+      "what": "The quiz on the plaza: clues, fewer for more points."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Polish and German",
+      "what": "Everything in four languages."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Facts on the plaza card",
+      "what": "Tell me something: the Atomling's facts one at a time."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "The plaza and 118 halls",
+      "what": "The table under the stars, and a hall for every element built from its data.",
+      "link": "https://element-worlds.vercel.app/"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Stories for all 118",
+      "what": "Each element's own words, at both depths."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Carbon's two worlds",
+      "what": "Diamond, graphite and company; the carbon of life.",
+      "link": "https://element-worlds.vercel.app/e/C/life"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Oxygen's two worlds",
+      "what": "The sky deck above the clouds; the fire chamber.",
+      "link": "https://element-worlds.vercel.app/e/O/fire"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "The Atomlings",
+      "what": "All 118 characters, built from each element's real properties.",
+      "link": "https://element-worlds.vercel.app/atomlings"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "The Molecule Lab",
+      "what": "Atomlings hold hands to make molecules.",
+      "link": "https://element-worlds.vercel.app/lab"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "The Atom Forge",
+      "what": "Build atoms from protons, neutrons and electrons; watch nuclei decay.",
+      "link": "https://element-worlds.vercel.app/forge"
+    },
+    {
+      "date": "2026-10-27",
+      "title": "The passport",
+      "what": "Discoveries and badges.",
+      "link": "https://element-worlds.vercel.app/passport"
+    }
   ],
   "decisions": [
-    { "date": "2026-10-27", "title": "Bigger on the inside", "why": "Every cube opens into a hall built from the element's data, so all 118 could be entered from the first day; wings add worlds made for one element." },
-    { "date": "2026-10-27", "title": "Characters from real properties", "why": "An Atomling's size, colour and hands come from its element's data, so reading a character teaches the element." },
-    { "date": "2026-10-27", "title": "Hands are bonds", "why": "As many hands as bonds the element usually forms; a molecule is Atomlings holding hands." },
-    { "date": "2026-10-27", "title": "Two depths everywhere", "why": "Explorer for Artur, Scientist for his father, one switch on every screen." },
-    { "date": "2026-10-27", "title": "The science must be right", "why": "Numbers from PubChem and mendeleev, facts checked, predictions called predictions." },
-    { "date": "2026-10-27", "title": "Things to do, not only to read", "why": "Every exhibit is worked by hand: a press, a fire to put out, a breath to hold." },
-    { "date": "2026-10-28", "title": "Four languages, always", "why": "European Portuguese, English, Polish and German for every word." },
-    { "date": "2026-10-28", "title": "The middle stays free", "why": "Everything sits at the edges and the world moves into the free part (your notes from the phone)." },
-    { "date": "2026-10-29", "title": "Pictures over text in the halls", "why": "The text boards were boring; picture boards with a hook question instead." },
-    { "date": "2026-10-29", "title": "Claude picks, you steer", "why": "Claude chooses what comes next and says why; your Sooner, Later and notes change it at any time." }
+    {
+      "date": "2026-10-27",
+      "title": "Bigger on the inside",
+      "why": "Every cube opens into a hall built from the element's data, so all 118 could be entered from the first day; wings add worlds made for one element."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Characters from real properties",
+      "why": "An Atomling's size, colour and hands come from its element's data, so reading a character teaches the element."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Hands are bonds",
+      "why": "As many hands as bonds the element usually forms; a molecule is Atomlings holding hands."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Two depths everywhere",
+      "why": "Explorer for Artur, Scientist for his father, one switch on every screen."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "The science must be right",
+      "why": "Numbers from PubChem and mendeleev, facts checked, predictions called predictions."
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Things to do, not only to read",
+      "why": "Every exhibit is worked by hand: a press, a fire to put out, a breath to hold."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Four languages, always",
+      "why": "European Portuguese, English, Polish and German for every word."
+    },
+    {
+      "date": "2026-10-28",
+      "title": "The middle stays free",
+      "why": "Everything sits at the edges and the world moves into the free part (your notes from the phone)."
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Pictures over text in the halls",
+      "why": "The text boards were boring; picture boards with a hook question instead."
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Claude picks, you steer",
+      "why": "Claude chooses what comes next and says why; your Sooner, Later and notes change it at any time."
+    }
   ]
 }

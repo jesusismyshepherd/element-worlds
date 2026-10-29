@@ -158,5 +158,6 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next: the other 116 halls' picture boards with a Periodic
-Videos screen in each, one pass per element (the user loved Carbon's and Oxygen's, 2026-10-29).
+the phone), and what waits on the user. Next: a Periodic Videos screen in all 118 halls (one pass),
+then the other 116 halls' picture boards in batches, the best-known elements first (the user loved
+Carbon's and Oxygen's, 2026-10-29; the plan: `hall-boards.md`, "The other 116 halls").
