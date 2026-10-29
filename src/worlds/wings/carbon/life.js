@@ -246,10 +246,13 @@ export async function build(ctx) {
     }
     report()
   }
-  for (const [id, { s }] of Object.entries(signs)) {
-    if (id === 'mol') s.setRead(MOLS.every(m => isFound(`C:life:${m.id}`)))
-    else s.setRead(isFound(`C:life:${id}`))
+  const marks = () => {
+    for (const [id, { s }] of Object.entries(signs)) {
+      if (id === 'mol') s.setRead(MOLS.every(m => isFound(`C:life:${m.id}`)))
+      else s.setRead(isFound(`C:life:${id}`))
+    }
   }
+  marks()
   const panel = id => {
     const p = W.ex[id].panel
     ctx.showPanel(level => ({ title: p.title, kicker: W.kicker, color: GREEN, blocks: level === 'scientist' ? p.sci : p.kid }))
@@ -370,6 +373,10 @@ export async function build(ctx) {
     cameraBounds: { minX: -14.9, maxX: 16.2, minY: 0.65, maxY: 13.5, minZ: -16.2, maxZ: 16.2 },
     interactables,
     doors,
+    refresh() {
+      marks()
+      report()
+    },
     attach() {
       report()
       unsubscribe = onLevel(ctx, writeSigns)

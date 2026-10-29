@@ -65,19 +65,26 @@ function start() {
   if (wantAmbience) ambience(wantAmbience)
 }
 
-// the first tap or key anywhere opens the sound
+// the first tap or key anywhere opens the sound. A finger's pointerdown does not give a page leave to
+// play (only its lift does, or a mouse press, or a key): on an Android phone the sound stayed held after a
+// reload until something else woke it (the user, 2026-10-29). So every one of these tries again until the
+// sound really runs.
 if (typeof window !== 'undefined') {
-  const unlock = () => {
+  const EVENTS = ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown']
+  const done = () => EVENTS.forEach(e => window.removeEventListener(e, unlock, true))
+  function unlock() {
     start()
-    ctx?.resume()
-    window.removeEventListener('pointerdown', unlock)
-    window.removeEventListener('keydown', unlock)
+    if (!ctx) return done()
+    if (ctx.state === 'running') return done()
+    ctx.resume().then(() => ctx.state === 'running' && done(), () => {})
   }
-  window.addEventListener('pointerdown', unlock)
-  window.addEventListener('keydown', unlock)
+  EVENTS.forEach(e => window.addEventListener(e, unlock, { capture: true, passive: true }))
 }
 
 const ready = () => ctx && ctx.state === 'running' && !muted
+
+// for the probes (tools/sound_probe.py): is the sound running, which bed is wanted, is one playing
+if (typeof window !== 'undefined') window.__ewSound = { state: () => ({ ctx: ctx?.state ?? null, want: wantAmbience, playing: !!ambienceNodes }) }
 
 /** A tone with an envelope: freq (Hz), dur (s), type, gain, when (s from now), bus. */
 function tone(freq, dur, { type = 'sine', gain = 0.3, when = 0, to = null, attack = 0.005, out = 'effects', detune = 0 } = {}) {

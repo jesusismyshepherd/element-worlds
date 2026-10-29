@@ -14,6 +14,7 @@ import { Player } from './player.js'
 import { loadWorld, worldKey } from '../worlds/registry.js'
 import { isStaleChunk, reloadOnce } from './release.js'
 import { ambience } from '../audio/sound.js'
+import { onRestore } from './progress.js'
 import { insets, freeArea } from './covers.js'
 import { track } from '../net/telemetry.js'
 import { room } from '../net/room.js'
@@ -43,6 +44,8 @@ export class Engine {
     // text and the Atomlings) loads when a room is joined, so a visit alone does not wait for it
     this.others = null
     room.on('members', () => this.meetOthers())
+    // an account's progress came in (or a sign-out emptied it): the world on show redraws its marks
+    onRestore(() => this.world?.refresh?.())
     if (!this.light) {
       this.composer = new EffectComposer(r)
       this.composer.addPass(new RenderPass(this.scene, this.camera))

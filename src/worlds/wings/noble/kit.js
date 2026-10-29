@@ -156,6 +156,11 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
   const shown = {}
   const marks = {}
   const report = () => ctx.store.set({ discoveries: { found: countFound(keys), total: keys.length } })
+  /** The progress was replaced (a sign-in): every screen's mark and the count again. */
+  const refresh = () => {
+    for (const [key, ss] of Object.entries(marks)) for (const s of ss) s.setRead(isFound(key))
+    report()
+  }
   const refreshPrompt = it => {
     if (ctx.engine?.player?.near === it) ctx.store.set({ prompt: { id: it.id, label: it.label, verb: it.verb } })
   }
@@ -264,7 +269,7 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
       refreshPrompt(near)
     }
   }
-  return { add, list, keys, report, refreshPrompt, sync, say, discover }
+  return { add, list, keys, report, refresh, refreshPrompt, sync, say, discover }
 }
 
 /** Calls fn(level) whenever the reader switches between Explorer and Scientist. Returns the unsubscribe. */

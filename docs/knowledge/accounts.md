@@ -42,7 +42,11 @@ time, "not to lose what Artur has already gathered on the phone (he used one dev
 - Signing out saves, then empties the device's progress (the account keeps it): the next player on a
   shared computer starts with their own. Someone else's leftovers on a device (if a sign-out never
   happened) are dropped, not merged.
-- The world on show keeps the read marks it was built with until it is entered again.
+- When the progress is replaced (a sign-in brings the account's, a sign-out empties the device),
+  `progress.js` tells `onRestore` listeners: the engine calls the world on show's `refresh()` (its read
+  marks and its counter again; every world has one) and the passport reads again. Before this (2026-10-29)
+  a second phone showed the account's score only after a reload. `account_probe.py` checks it in Carbon's
+  hall.
 
 ## Recording
 

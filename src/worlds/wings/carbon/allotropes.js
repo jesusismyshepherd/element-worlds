@@ -222,11 +222,12 @@ export async function build(ctx) {
   updates.push((dt, t) => tube.update(dt, t))
 
   // ---- the stations: a lectern each, its words at the level of the moment
+  const marks = () => ORDER.forEach(id => signs[id].setRead(isFound(`C:allotropes:${id}`)))
   for (const id of ORDER) {
     const words = W.ex[id]
     sign(id, { title: words.sign.title, line: pick(words.sign, ctx.level()) })
-    signs[id].setRead(isFound(`C:allotropes:${id}`))
   }
+  marks()
   let moireLine = null
   const writeSigns = level => {
     for (const id of ORDER) signs[id].set({ title: W.ex[id].sign.title, line: id === 'moire' && moireLine ? moireLine : pick(W.ex[id].sign, level) })
@@ -477,6 +478,10 @@ export async function build(ctx) {
     cameraBounds: { minX: ROOM.x0 + 0.4, maxX: ROOM.x1 - 0.4, minY: 0.3, maxY: ROOM.h - 0.4, minZ: ROOM.z0 + 0.4, maxZ: ROOM.z1 - 0.4 },
     interactables,
     doors,
+    refresh() {
+      marks()
+      report()
+    },
     attach() {
       report()
       unsubscribe = onLevel(ctx, writeSigns)

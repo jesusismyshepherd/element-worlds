@@ -23,6 +23,19 @@ function load() {
 
 let found = load()
 const listeners = new Set()
+const restored = new Set()
+
+/** Called when the whole progress was replaced (an account's came in at a sign-in, or a sign-out
+ *  emptied the device): the world on show and the passport redraw their marks and counts (the user,
+ *  2026-10-29: signed in on a second phone, the score showed only after a reload). */
+export function onRestore(f) {
+  restored.add(f)
+  return () => restored.delete(f)
+}
+
+const announce = () => {
+  for (const f of restored) f()
+}
 
 export const isFound = key => found.has(key)
 
@@ -72,12 +85,14 @@ export const hasProgress = p => !!p && (p.found?.length > 0 || Object.keys(p.qui
 /** Take an account's progress as this device's (the account's is the device's and more, once merged). */
 export function adopt(p) {
   if (!p) return
+  const before = JSON.stringify(snapshot())
   found = new Set(Array.isArray(p.found) ? p.found : [])
   safe(() => localStorage.setItem(KEY, JSON.stringify([...found])))
   if (p.quiz && typeof p.quiz === 'object') safe(() => localStorage.setItem(QUIZ, JSON.stringify(p.quiz)))
   for (const [sym, name] of Object.entries(p.neon ?? {})) {
     if (typeof name === 'string') safe(() => localStorage.setItem(NEON + sym, name))
   }
+  if (JSON.stringify(snapshot()) !== before) announce()
 }
 
 /** Empty the device's progress (a sign-out: the account keeps it, the next player starts fresh). */
@@ -91,4 +106,5 @@ export function clearProgress() {
     }
     keys.forEach(k => localStorage.removeItem(k))
   })
+  announce()
 }

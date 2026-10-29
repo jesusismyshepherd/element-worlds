@@ -625,6 +625,7 @@ export async function build(ctx) {
     title: null,
     env: { background: new THREE.Color('#070b1c'), exposure: 1.05, envIntensity: 0.6, bloom: { strength: 0.55, radius: 0.45, threshold: 0.8 }, fov: 50 },
     attach,
+    refresh: () => report(),
     detach,
     update,
     add,

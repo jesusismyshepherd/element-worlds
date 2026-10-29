@@ -136,10 +136,13 @@ def main():
             check('signing out empties the device', wait(page, "() => !__ew.store.get().account && JSON.parse(localStorage.getItem('ew-found') || '[]').length === 0 && !localStorage.getItem('ew-neon-name:Ne')", 10000))
             ctx.close()
 
-            # another device: the progress comes back
+            # another device: the progress comes back, and the hall on show counts it at once (the user,
+            # 2026-10-29: on a second phone the score showed only after a reload)
             ctx, page = device()
-            page.goto(f'{a.base}/?track=1&lang=en')
-            page.wait_for_function(READY, timeout=90000)
+            page.goto(f'{a.base}/e/C?track=1&lang=en')
+            page.wait_for_function("() => __ew.store.get().world?.symbol === 'C' && !__ew.store.get().fading", timeout=90000)
+            page.wait_for_timeout(1200)
+            before = page.evaluate('() => __ew.store.get().discoveries?.found')
             page.click('[data-account-button]')
             page.fill('[data-account-name]', name)
             page.fill('[data-account-password]', password)
@@ -148,6 +151,7 @@ def main():
             back = page.evaluate("() => [JSON.parse(localStorage.getItem('ew-found') || '[]').length, JSON.parse(localStorage.getItem('ew-quiz-best') || '{}').explorer, localStorage.getItem('ew-neon-name:Ne')]")
             check('and gets the discoveries, the quiz record and the neon name back', back == [4, 7, 'ARTUR'], str(back))
             check('nothing "moved" from the empty device', not page.query_selector('[data-account-moved]'))
+            check("the hall on show counts the account's discoveries without a reload", before == 0 and wait(page, '() => __ew.store.get().discoveries?.found === 1', 5000), f'before {before}, now {page.evaluate("() => __ew.store.get().discoveries?.found")}')
             page.click('[data-account-out]')
             wait(page, '() => !__ew.store.get().account', 10000)
 

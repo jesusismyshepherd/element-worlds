@@ -276,6 +276,7 @@ export async function build(ctx, target, previous) {
     ? [`${el.symbol}:facts`, ...boards.map(b => `${el.symbol}:board:${b.id}`), `${el.symbol}:look`]
     : [...stations.map(s => `${el.symbol}:${s.id}`), `${el.symbol}:look`]
   const report = () => ctx.store.set({ discoveries: { found: countFound(keys), total: keys.length } })
+  const marks = [] // each redraws one read mark (the progress replaced at a sign-in)
   if (boards) {
     const spots = [SPOTS[FACT_SPOT], ...BOARD_SPOTS.map(id => SPOTS[id])]
     const factFile = level => {
@@ -320,7 +321,9 @@ export async function build(ctx, target, previous) {
       root.add(it.board.group)
       if (it.board.update) updates.push(t => it.board.update(t))
       const key = `${el.symbol}:${it.id}`
-      it.board.setRead(isFound(key))
+      const mark = () => it.board.setRead(isFound(key))
+      mark()
+      marks.push(mark)
       const front = new THREE.Vector3(0, 0, 1.9).applyAxisAngle(new THREE.Vector3(0, 1, 0), spot.rot)
       interactables.push({
         id: it.id,
@@ -345,7 +348,9 @@ export async function build(ctx, target, previous) {
     p.group.rotation.y = spot.rot
     p.group.translateZ(wallT / 2 + 0.06)
     root.add(p.group)
-    p.setRead(isFound(`${el.symbol}:${st.id}`))
+    const mark = () => p.setRead(isFound(`${el.symbol}:${st.id}`))
+    mark()
+    marks.push(mark)
     panels[st.id] = p
     const front = new THREE.Vector3(0, 0, 1.9).applyAxisAngle(new THREE.Vector3(0, 1, 0), spot.rot)
     interactables.push({
@@ -489,6 +494,10 @@ export async function build(ctx, target, previous) {
       lightTile(i)
       track('tile', { from: el.symbol, to: cells[i].e.symbol })
       ctx.go(atriumPath(cells[i].e.symbol))
+    },
+    refresh() {
+      marks.forEach(f => f())
+      report()
     },
     attach() {
       report()

@@ -407,6 +407,7 @@ export async function build(ctx, target) {
     talk,
     // for the probes in tools/ (__ew.world.parts.bench.lit and so on)
     parts: { bench, radon, wall, atom, history, spec, balloons },
+    refresh: () => ex.refresh(),
     attach() {
       ex.report()
       refreshers.forEach(f => f())

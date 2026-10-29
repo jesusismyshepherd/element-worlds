@@ -483,6 +483,7 @@ export async function build(ctx) {
     interactables: [...ex.list, host],
     doors,
     talk,
+    refresh: () => ex.refresh(),
     attach() {
       ex.report()
       unsub = onLevel(ctx.store, () => refreshers.forEach(f => f()))

@@ -1,10 +1,11 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ELEMENTS, FAMILY, cellOf, nameOf } from '../data/elements.js'
 import { MISSIONS } from '../chem/build.js'
 import { MISSIONS as FORGE } from '../worlds/forge/words.js'
 import { Formula } from '../ui/LabHud.jsx'
+import { onRestore } from '../engine/progress.js'
 
 const STATIONS = 9 // eight stations and the specimen case in every hall
 
@@ -31,7 +32,10 @@ export default function Passport() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const lang = i18n.resolvedLanguage
-  const keys = useMemo(found, [])
+  // read again when an account's progress comes in (a sign-in with the passport open)
+  const [version, setVersion] = useState(0)
+  useEffect(() => onRestore(() => setVersion(v => v + 1)), [])
+  const keys = useMemo(found, [version])
   const per = useMemo(() => {
     const m = {}
     for (const k of keys) {
@@ -46,7 +50,7 @@ export default function Passport() {
   const visited = Object.keys(per).length
   const molecules = MISSIONS.filter(k => keys.has(`lab:${k.show}`))
   const forged = FORGE.filter(m => keys.has(`forge:${m.id}`))
-  const best = useMemo(quizBest, [])
+  const best = useMemo(quizBest, [version])
   const total = keys.size
   const badges = [
     { id: 'first', got: total >= 1 },
