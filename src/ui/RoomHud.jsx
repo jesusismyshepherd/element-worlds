@@ -98,7 +98,7 @@ export function RoomButton({ engine, compact }) {
         👥{inRoom ? <span className="ml-1">{n}</span> : !compact && <span className="hidden 2xl:inline ml-1">{t('room.together')}</span>}
       </button>
       {open && (
-        <div data-room-sheet className="absolute right-0 top-full mt-1.5 glass rounded-xl p-3 w-[min(20rem,calc(100vw-1rem))] z-20 max-h-[calc(100vh-5rem)] overflow-y-auto text-sm">
+        <div data-room-sheet className="fixed right-2 sm:right-3 glass rounded-xl p-3 w-[min(20rem,calc(100vw-1rem))] z-20 max-h-[calc(100vh-5rem)] overflow-y-auto text-sm" style={{ top: 'calc(var(--bar) + 0.25rem)' }}>
           <div className="flex items-center justify-between gap-2">
             <div className="font-display font-bold text-base">👥 {t('room.title')}</div>
             <button type="button" onClick={() => setOpen(false)} className="rounded-lg px-2 py-0.5 hover:bg-white/10" aria-label={t('hud.close')}>✕</button>
@@ -110,16 +110,18 @@ export function RoomButton({ engine, compact }) {
                 {t('room.name')}
                 <input data-room-name value={name} maxLength={20} onChange={e => setName(e.target.value)} className="mt-0.5 w-full rounded-lg bg-white/10 px-2.5 py-1.5 text-sm outline-none focus:ring-1 ring-white/50" />
               </label>
-              <button type="button" data-room-start onClick={start} disabled={!name.trim()} className="rounded-xl px-3 py-2 font-bold bg-emerald-300 text-[#0b0f24] disabled:opacity-40">
-                {t('room.start')}
-              </button>
-              <div className="flex gap-1.5 items-end">
-                <label className="text-xs opacity-80 flex-1">
-                  {t('room.code')}
-                  <input data-room-code value={code} onChange={e => setCode(cleanCode(e.target.value))} onKeyDown={e => e.key === 'Enter' && join()} placeholder="ABCD" className="mt-0.5 w-full rounded-lg bg-white/10 px-2.5 py-1.5 text-sm font-display tracking-[0.3em] uppercase outline-none focus:ring-1 ring-white/50" />
-                </label>
-                <button type="button" data-room-join onClick={join} disabled={!name.trim() || cleanCode(code).length < 4} className="rounded-xl px-3 py-1.5 font-bold bg-white/15 hover:bg-white/25 disabled:opacity-40">
-                  {t('room.join')}
+              {/* the code, then what to do with it: start a room under it (or a random one when empty), or join it */}
+              <label className="text-xs opacity-80">
+                {t('room.code')}
+                <input data-room-code value={code} onChange={e => setCode(cleanCode(e.target.value))} onKeyDown={e => e.key === 'Enter' && join()} placeholder="ABCD" className="mt-0.5 w-full rounded-lg bg-white/10 px-2.5 py-1.5 text-sm font-display tracking-[0.3em] uppercase outline-none focus:ring-1 ring-white/50" />
+              </label>
+              <p className="text-[12px] opacity-70 leading-snug -mt-1">{t('room.codeHint')}</p>
+              <div className="flex gap-1.5">
+                <button type="button" data-room-start onClick={start} disabled={!name.trim()} className="flex-1 rounded-xl px-3 py-2 font-bold bg-emerald-300 text-[#0b0f24] disabled:opacity-40">
+                  {cleanCode(code).length >= 4 ? t('room.startCode', { code: cleanCode(code) }) : t('room.startRandom')}
+                </button>
+                <button type="button" data-room-join onClick={join} disabled={!name.trim() || cleanCode(code).length < 4} className="flex-1 rounded-xl px-3 py-2 font-bold bg-white/15 hover:bg-white/25 disabled:opacity-40">
+                  {cleanCode(code).length >= 4 ? t('room.joinCode', { code: cleanCode(code) }) : t('room.join')}
                 </button>
               </div>
             </div>

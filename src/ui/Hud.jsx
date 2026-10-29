@@ -20,10 +20,11 @@ import { AccountButton, AccountSheet } from './AccountHud.jsx'
 
 // the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
 const PAGES = [
-  ['/passport', '🏅', 'passport.title', 'lg:inline'],
-  ['/lab', '🧪', 'hud.lab', 'sm:inline'],
-  ['/forge', '⚛️', 'hud.forge', 'sm:inline'],
-  ['/atomlings', '🙂', 'atomlings.title', 'sm:inline'],
+// (words only from 1280 px: below that, in Polish, they crushed the title into one narrow column)
+  ['/passport', '🏅', 'passport.title', '2xl:inline'],
+  ['/lab', '🧪', 'hud.lab', 'xl:inline'],
+  ['/forge', '⚛️', 'hud.forge', 'xl:inline'],
+  ['/atomlings', '🙂', 'atomlings.title', 'xl:inline'],
 ]
 const BTN = 'glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10'
 
@@ -117,7 +118,7 @@ export default function Hud({ engine }) {
   return (
     <div className="absolute inset-0 pointer-events-none select-none">
       <div ref={bar} className={`absolute top-0 inset-x-0 flex items-start justify-between gap-2 ${vp.short ? 'p-1.5' : 'p-2 sm:p-3'}`}>
-        <nav className="glass rounded-xl px-3 py-1.5 pointer-events-auto flex items-center gap-2 min-w-0 text-sm">
+        <nav className="glass rounded-xl px-3 py-1.5 pointer-events-auto flex items-center gap-2 min-w-0 text-sm sm:min-w-[11rem]">
           {world?.kind === 'plaza' || !world ? (
             <div className="min-w-0">
               <div className="font-display font-bold text-base sm:text-lg leading-tight truncate">{t('app.title')}</div>
