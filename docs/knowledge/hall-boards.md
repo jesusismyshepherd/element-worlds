@@ -37,7 +37,8 @@ the results."
 
 The user: the case "could be something more substantial or representative", its samples "often generic
 polyhedra". Every hall now has a museum showcase (`src/worlds/atrium/specimen.js`): a stepped plinth
-ringed in the family's colour, a brass name plate, a turning table, a lamp in the lid of a tall glass
+ringed in the family's colour, a brass name plate wrapped round the column (as long as the name needs, the
+name curved with it: troika's curveRadius), a turning table, a lamp in the lid of a tall glass
 case. The generic samples: metals as three cast ingots (the top one stamped with the symbol) and a
 nugget; crystals as pointed six-sided crystals growing from a rock; liquids in a flask, gases in a jar,
 noble gases as a glowing tube, superheavies as a question mark, each at the size that fits the case.

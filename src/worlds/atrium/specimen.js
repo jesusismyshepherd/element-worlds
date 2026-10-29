@@ -103,12 +103,30 @@ export function specimen(el, look, { light = false, name = el.name.en } = {}) {
     spot.position.y = top + caseH - 0.15
     group.add(spot)
   }
-  // the name plate on the front of the column
-  const plateBack = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.22, 0.03), new THREE.MeshStandardMaterial({ color: '#c9a35a', metalness: 1, roughness: 0.3 }))
-  plateBack.position.set(0, 0.68, 0.895)
-  plateBack.rotation.x = -0.04
-  const plate = makeText(`${el.symbol} · ${name}`, { size: 0.12, color: '#2a1d05', maxWidth: 0.92 })
-  plate.position.set(0, 0.68, 0.915)
+  // the name plate wraps round the front of the column (the user, 2026-10-29: a flat plate stood off
+  // the round column): a strip of the column's own cone, 1 m along it, and the name curved the same way
+  // the name on one line, the strip as long as the name needs (a long one, Rutherfordium, broke onto two
+  // lines over a fixed plate)
+  const columnR = y => 0.92 - (0.06 * (y - 0.18)) / 0.8
+  const plateY = 0.68
+  const plateH = 0.22
+  const strip = length => {
+    const arc = length / columnR(plateY)
+    return new THREE.CylinderGeometry(columnR(plateY + plateH / 2) + 0.008, columnR(plateY - plateH / 2) + 0.008, plateH, 48, 1, true, -arc / 2, arc)
+  }
+  const plateBack = new THREE.Mesh(strip(1.0), new THREE.MeshStandardMaterial({ color: '#c9a35a', metalness: 1, roughness: 0.3 }))
+  plateBack.position.y = plateY
+  const plateR = columnR(plateY) + 0.016
+  const plate = makeText(`${el.symbol} · ${name}`, { size: 0.12, color: '#2a1d05' })
+  plate.curveRadius = -plateR
+  plate.position.set(0, plateY, plateR)
+  plate.rotation.x = -Math.atan(0.06 / 0.8)
+  plate.addEventListener('synccomplete', () => {
+    const b = plate.textRenderInfo?.blockBounds
+    if (!b) return
+    plateBack.geometry.dispose()
+    plateBack.geometry = strip(Math.max(0.6, b[2] - b[0] + 0.2))
+  })
   group.add(plateBack, plate)
 
   // the sample, on the turntable, at about twice the size it had in the small case
