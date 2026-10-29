@@ -4,7 +4,10 @@
     "tagline": "Wybierz pierwiastek i wejdź do środka",
     "loading": "Ładowanie…",
     "error": "Coś tu poszło nie tak.",
-    "firstTime": "Przygotowujemy ten świat na pierwsze odwiedziny. Następnym razem otworzy się dużo szybciej."
+    "firstTime": "Przygotowujemy ten świat na pierwsze odwiedziny. Następnym razem otworzy się dużo szybciej.",
+    "update": "Jest nowa wersja gry",
+    "updateShort": "nowa wersja",
+    "reload": "Odśwież"
   },
   "families": {
     "alkali-metal": "Metale alkaliczne",

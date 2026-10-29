@@ -25,6 +25,32 @@ export function reloadOnce() {
   return true
 }
 
+/** A newer version went live while this page stayed open (an installed app is rarely closed): asked
+ *  when the page comes back on screen and every ten minutes; sets `update` in the store, and the HUD
+ *  offers to reload (a reload keeps the walker's place and the room). */
+export function watchUpdates(store) {
+  // the dev server has no version.json (it answers with the page)
+  // eslint-disable-next-line no-undef
+  const mine = typeof __BUILD__ === 'string' ? __BUILD__ : null
+  if (!mine || import.meta.env.DEV) return
+  let asked = 0
+  const ask = async () => {
+    if (document.hidden || store.get().update || Date.now() - asked < 30000) return
+    asked = Date.now()
+    try {
+      const r = await fetch(`/version.json?t=${Date.now()}`, { cache: 'no-store' })
+      const { build } = await r.json()
+      if (build && build !== mine) store.set({ update: true })
+    } catch {
+      // offline, or not deployed yet: ask again later
+    }
+  }
+  document.addEventListener('visibilitychange', ask)
+  window.addEventListener('focus', ask)
+  window.addEventListener('online', ask)
+  setInterval(ask, 600000)
+}
+
 /** Vite's own signal that a preloaded chunk failed (the same cause). */
 export function watchReleases() {
   window.addEventListener('vite:preloadError', e => {

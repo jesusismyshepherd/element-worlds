@@ -4,7 +4,10 @@
     "tagline": "Wähle ein Element und tritt ein",
     "loading": "Wird geladen…",
     "error": "Hier ist etwas schiefgegangen.",
-    "firstTime": "Diese Welt wird für den ersten Besuch vorbereitet. Beim nächsten Mal öffnet sie sich viel schneller."
+    "firstTime": "Diese Welt wird für den ersten Besuch vorbereitet. Beim nächsten Mal öffnet sie sich viel schneller.",
+    "update": "Eine neue Version des Spiels ist da",
+    "updateShort": "neue Version",
+    "reload": "Neu laden"
   },
   "families": {
     "alkali-metal": "Alkalimetalle",

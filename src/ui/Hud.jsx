@@ -74,6 +74,8 @@ export default function Hud({ engine }) {
   const mode = useStore(store, s => s.mode)
   const speech = useStore(store, s => s.speech)
   const found = useStore(store, s => s.discoveries)
+  const update = useStore(store, s => s.update)
+  const [updateSeen, setUpdateSeen] = useState(false)
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
   const vp = useViewport()
@@ -214,6 +216,10 @@ export default function Hud({ engine }) {
                   <button type="button" onClick={() => { setMenu(false); setAbout(true) }} className="rounded-lg px-2.5 py-1.5 text-sm font-bold hover:bg-white/10 text-left">
                     ⓘ {t('about.title')}
                   </button>
+                  {/* the installed app has no reload button of its own */}
+                  <button type="button" data-reload onClick={() => window.location.reload()} className={`rounded-lg px-2.5 py-1.5 text-sm font-bold hover:bg-white/10 text-left ${update ? 'ring-1 ring-sky-300/70' : ''}`}>
+                    ⟳ {t('app.reload')}{update && <span className="font-normal opacity-80"> · {t('app.updateShort')}</span>}
+                  </button>
                 </div>
               )}
             </div>
@@ -227,6 +233,15 @@ export default function Hud({ engine }) {
       {walking && <WalkHud engine={engine} />}
 
       <RoomToasts engine={engine} />
+      {update && !updateSeen && (
+        // under the bar: in the middle on a computer (search on the left, the room's notes on the right),
+        // on the left on a phone
+        <div data-update className={`absolute ${vp.compact ? 'left-2 max-w-[70vw]' : 'left-1/2 -translate-x-1/2'} glass rounded-xl px-3 py-1.5 pointer-events-auto flex items-center gap-2 text-sm`} style={{ top: 'calc(var(--bar) + 0.25rem)' }}>
+          <span className="min-w-0">{t('app.update')}</span>
+          <button type="button" data-reload onClick={() => window.location.reload()} className="shrink-0 rounded-lg px-2.5 py-1 font-bold bg-sky-300 text-[#0b0f24]">⟳ {t('app.reload')}</button>
+          <button type="button" onClick={() => setUpdateSeen(true)} className="shrink-0 opacity-70 hover:opacity-100" aria-label={t('hud.close')}>✕</button>
+        </div>
+      )}
       {accountOpen && <AccountSheet onClose={() => setAccountOpen(false)} />}
       {about && <About onClose={() => setAbout(false)} />}
 

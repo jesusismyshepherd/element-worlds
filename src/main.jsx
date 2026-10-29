@@ -8,7 +8,7 @@ import '@fontsource/nunito/700.css'
 import i18n from './i18n'
 import './index.css'
 import App from './App'
-import { watchReleases } from './engine/release.js'
+import { watchReleases, watchUpdates } from './engine/release.js'
 import { autoFullscreen } from './ui/fullscreen.js'
 import { startTelemetry, watchStore } from './net/telemetry.js'
 import { account } from './net/account.js'
@@ -22,6 +22,8 @@ startTelemetry()
 watchStore(store, i18n)
 // a device signed in before comes back signed in (src/net/account.js, docs/knowledge/accounts.md)
 account.start(store)
+// a new version went live while the page (or the installed app) stayed open: offer to reload
+watchUpdates(store)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

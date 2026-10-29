@@ -69,7 +69,10 @@ The design and the reasons behind it: `docs/design.md`. Change it when a decisio
   `player.js` (walking, both views), `collide.js` (solids on the ground plane), `input.js`, `text.js`
   (troika SDF text, `formulaText`), `quality.js` (light mode, from the arena), `store.js` (engine <-> HUD),
   `progress.js` (discoveries kept on the device), `release.js` (a page that a new deployment left behind
-  reloads itself once when a world's code is gone).
+  reloads itself once when a world's code is gone; `watchUpdates`: every build writes `/version.json`
+  (vite.config.js), an open page asks for it when it comes back on screen and offers "Reload"; the phone's
+  ☰ menu always has Reload: the installed app (manifest `fullscreen`) has no reload button or pull to
+  refresh, the user, 2026-10-29; checked by `tools/update_probe.py`, two builds).
 - `src/worlds/registry.js`: addresses (`/`, `/e/C`, `/e/C/allotropes`) and which module builds each world.
   `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
   `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).

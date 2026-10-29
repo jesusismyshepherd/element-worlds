@@ -4,7 +4,10 @@
     "tagline": "Pick an element and step inside",
     "loading": "Loading…",
     "error": "Something went wrong here.",
-    "firstTime": "Getting this world ready for its first visit. Next time it opens much faster."
+    "firstTime": "Getting this world ready for its first visit. Next time it opens much faster.",
+    "update": "A new version of the game is ready",
+    "updateShort": "new version",
+    "reload": "Reload"
   },
   "families": {
     "alkali-metal": "Alkali metals",
