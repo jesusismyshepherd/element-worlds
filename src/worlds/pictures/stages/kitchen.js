@@ -7,6 +7,12 @@
 //
 // Walls: 'n' (z = z0, the far wall), 's' (z = z1, behind the spawn), 'w' (x = x0), 'e' (x = x1); `at` is
 // the place along the wall (x for n and s, z for w and e); `out` the distance from the wall into the room.
+//
+// Another kitchen from the same stage (sodium's baking kitchen, 2026-10-30): `time: 'morning'` (daylight
+// through the window, a sunbeam on the floor, the lamps off), `tiles: 'square'` (square tiles with a flower
+// in each, as azulejos), `floorStyle: 'tiles'` (a chequerboard of `floorTiles`), `ceilingColor`, `shade`
+// (the lamps' shades), `ovenLabel` (its display; `oven.label(text)` changes it). The defaults are
+// silicon's kitchen at night, exactly as it was.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { box, roomWalls } from '../../../engine/collide.js'
@@ -50,7 +56,15 @@ export function kitchenStage({
   oven = { wall: 'w', at: -2.27 },
   fridge = { wall: 'w', at: -4.95 },
   window: win = { wall: 'n', at: -2.6, width: 2.0 },
+  time = 'night',
+  tiles: tileStyle = 'long',
+  floorStyle = 'planks',
+  floorTiles = ['#9b5a3c', '#7a4a34'],
+  ceilingColor = '#6b5866',
+  shade = '#b14a73',
+  ovenLabel = '220 °C',
 } = {}) {
+  const morning = time === 'morning'
   const group = new THREE.Group()
   const disposers = []
   const solids = roomWalls(x0, x1, z0, z1, [], 1)
@@ -86,11 +100,16 @@ export function kitchenStage({
   // ---- materials ----
   const tex = []
   const keep = t => (tex.push(t), t)
-  // wall tiles: rows of long tiles, each a little different, in mauve with darker grout
+  // wall tiles: rows of long tiles, each a little different, in mauve with darker grout (or square ones,
+  // each with a flower, as azulejos)
   const tiles = keep(
     canvasTex(512, 512, (g, w, h) => {
       g.fillStyle = grout
       g.fillRect(0, 0, w, h)
+      if (tileStyle === 'square') {
+        squareTiles(g, w, h, tile, rnd)
+        return
+      }
       const rows = 8
       const th = h / rows
       const tw = w / 2
@@ -111,9 +130,13 @@ export function kitchenStage({
   )
   tiles.wrapS = tiles.wrapT = THREE.RepeatWrapping
   const TILE_M = 0.64 // one canvas of tiles covers 0.64 m square (tiles 0.32 by 0.08 m)
-  // the floor: warm planks
+  // the floor: warm planks (or a chequerboard of tiles)
   const planks = keep(
     canvasTex(512, 512, (g, w, h) => {
+      if (floorStyle === 'tiles') {
+        checkerTiles(g, w, h, floorTiles, rnd)
+        return
+      }
       const base = new THREE.Color(floorWood)
       const rows = 6
       const ph = h / rows
@@ -163,7 +186,7 @@ export function kitchenStage({
   const M = {
     wall: new THREE.MeshStandardMaterial({ map: tiles, roughness: 0.45, metalness: 0 }),
     floor: new THREE.MeshStandardMaterial({ map: planks, roughness: 0.75 }),
-    ceiling: new THREE.MeshStandardMaterial({ color: '#6b5866', roughness: 0.95 }),
+    ceiling: new THREE.MeshStandardMaterial({ color: ceilingColor, roughness: 0.95 }),
     beam: new THREE.MeshStandardMaterial({ color: '#5a3b28', roughness: 0.85 }),
     top: new THREE.MeshStandardMaterial({ map: grain, roughness: 0.6 }),
     cab: new THREE.MeshStandardMaterial({ color: cabinet, roughness: 0.6 }),
@@ -255,9 +278,13 @@ export function kitchenStage({
   // grain runs along every worktop
   grain.repeat.set(3, 1)
 
-  // ---- the window over the sink: the night sky, as in the picture ----
+  // ---- the window over the sink: the night sky, as in the picture (or a sunny morning) ----
   const sky = keep(
     canvasTex(1024, 640, (g, w, h) => {
+      if (morning) {
+        morningSky(g, w, h, rnd)
+        return
+      }
       const grd = g.createLinearGradient(0, 0, 0, h)
       grd.addColorStop(0, '#1a1340')
       grd.addColorStop(0.75, '#43285e')
@@ -404,7 +431,7 @@ export function kitchenStage({
     bezel(0.04, IH + 0.08, -IW / 2 - 0.02, Y0 + IH / 2)
     bezel(0.04, IH + 0.08, IW / 2 + 0.02, Y0 + IH / 2)
     bezel(OW - 0.08, 0.1, 0, Y0 + IH + 0.05 + 0.02)
-    const display = makeText('220 °C', { size: 0.045, color: '#ffae5c', anchorX: 'center', anchorY: 'middle' })
+    const display = makeText(ovenLabel, { size: 0.045, color: '#ffae5c', anchorX: 'center', anchorY: 'middle' })
     display.position.set(-0.16, Y0 + IH + 0.07, OD + 0.002)
     g.add(display)
     for (const x of [0.14, 0.28]) {
@@ -470,6 +497,16 @@ export function kitchenStage({
       flicker(t) {
         glowMat.emissiveIntensity = 1.5 + Math.sin(t * 7) * 0.12 + Math.sin(t * 13.3) * 0.08
       },
+      /** What the display says. */
+      label(text) {
+        if (display.text === text) return
+        display.text = text
+        display.sync()
+      },
+      // the door's window, for a scene that wants to see better what bakes
+      glass: winMat,
+      // where the door's window is, seen from the room (a scene's light inside, a probe's aim)
+      pane: local(0, Y0 + GY, OD + 0.03),
     }
   })()
 
@@ -546,9 +583,9 @@ export function kitchenStage({
     }
   })()
 
-  // ---- lamps: warm bulbs in pink shades, hanging from the beams ----
-  const shadeMat = new THREE.MeshStandardMaterial({ color: '#b14a73', roughness: 0.6, side: THREE.DoubleSide, emissive: '#5a1830', emissiveIntensity: 0.4 })
-  const bulbMat = new THREE.MeshStandardMaterial({ color: '#fff0d0', emissive: '#ffd08a', emissiveIntensity: 1.7 })
+  // ---- lamps: warm bulbs in pink shades, hanging from the beams (off in the morning) ----
+  const shadeMat = new THREE.MeshStandardMaterial({ color: shade, roughness: 0.6, side: THREE.DoubleSide, emissive: '#5a1830', emissiveIntensity: morning ? 0 : 0.4 })
+  const bulbMat = new THREE.MeshStandardMaterial({ color: '#fff0d0', emissive: '#ffd08a', emissiveIntensity: morning ? 0.05 : 1.7 })
   const shadeGeo = new THREE.CylinderGeometry(0.09, 0.3, 0.26, 28, 1, true)
   const lamp = (x, z, drop, withLight) => {
     const y = height - drop
@@ -570,18 +607,29 @@ export function kitchenStage({
     [3.2, -1.6, 1.05],
     [-2.7, 0.6, 1.0],
   ]
-  lamps.forEach(([x, z, drop], i) => lamp(x, z, drop, !light || i === 2))
+  lamps.forEach(([x, z, drop], i) => lamp(x, z, drop, !morning && (!light || i === 2)))
 
-  // the warm room light and a cool touch from the window
-  group.add(new THREE.HemisphereLight('#ffe2c6', '#3a2a40', light ? 1.35 : 0.9))
-  const sun = new THREE.DirectionalLight('#ffe4c0', light ? 1.0 : 0.8)
-  sun.position.set(2, 8, 4)
-  sun.target.position.set(0, 0, -1)
-  group.add(sun, sun.target)
-  const moon = new THREE.DirectionalLight('#9aa8ff', 0.25)
-  moon.position.set(win.at, 3, z0 + 6)
-  moon.target.position.set(win.at, 0, z0 + 1)
-  group.add(moon, moon.target)
+  if (morning) {
+    // daylight: the sky's light all round, the sun coming in through the window, a warm fill in the room
+    group.add(new THREE.HemisphereLight('#e6f0ff', '#8a6a52', light ? 1.55 : 1.25))
+    const fill = new THREE.DirectionalLight('#fff0dc', 0.55)
+    fill.position.set(2, 8, 4)
+    fill.target.position.set(0, 0, -1)
+    group.add(fill, fill.target)
+    const beam = sunbeam({ place, win, group })
+    disposers.push(beam.dispose)
+  } else {
+    // the warm room light and a cool touch from the window
+    group.add(new THREE.HemisphereLight('#ffe2c6', '#3a2a40', light ? 1.35 : 0.9))
+    const sun = new THREE.DirectionalLight('#ffe4c0', light ? 1.0 : 0.8)
+    sun.position.set(2, 8, 4)
+    sun.target.position.set(0, 0, -1)
+    group.add(sun, sun.target)
+    const moon = new THREE.DirectionalLight('#9aa8ff', 0.25)
+    moon.position.set(win.at, 3, z0 + 6)
+    moon.target.position.set(win.at, 0, z0 + 1)
+    group.add(moon, moon.target)
+  }
 
   return {
     group,
@@ -590,10 +638,10 @@ export function kitchenStage({
     oven: ovenParts,
     fridge: fridgeParts,
     env: {
-      background: new THREE.Color('#1a1420'),
+      background: new THREE.Color(morning ? '#9fc4e0' : '#1a1420'),
       exposure: 1.0,
-      envIntensity: 0.4,
-      bloom: { strength: 0.42, radius: 0.5, threshold: 0.92 },
+      envIntensity: morning ? 0.5 : 0.4,
+      bloom: morning ? { strength: 0.3, radius: 0.5, threshold: 0.94 } : { strength: 0.42, radius: 0.5, threshold: 0.92 },
       fov: 60,
     },
     cameraBounds: { minX: x0 + 0.3, maxX: x1 - 0.3, minY: 0.35, maxY: height - 0.3, minZ: z0 + 0.3, maxZ: z1 - 0.3 },
@@ -603,6 +651,225 @@ export function kitchenStage({
     dispose() {
       for (const t of tex) t.dispose()
       disposers.forEach(f => f())
+    },
+  }
+}
+
+// ---- another kitchen's pieces: square tiles, a tiled floor, a morning sky, the sun through the window ----
+
+// the window's sill height and its height (as the window above draws it)
+const WIN_Y = 1.2
+const WIN_H = 1.25
+
+/** Square tiles, four by four, each with a flower and quarter rings that join into circles at the corners. */
+function squareTiles(g, w, h, tile, rnd) {
+  const n = 4
+  const s = w / n
+  const base = new THREE.Color(tile)
+  const light = base.clone().lerp(new THREE.Color('#e9f0f4'), 0.32)
+  const dark = base.clone().multiplyScalar(0.72)
+  const hex = c => `#${c.getHexString()}`
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      const x = c * s
+      const y = r * s
+      g.save()
+      g.beginPath()
+      g.rect(x + 3, y + 3, s - 6, s - 6)
+      g.clip()
+      g.fillStyle = hex(base.clone().multiplyScalar(0.94 + rnd() * 0.12))
+      g.fillRect(x, y, s, s)
+      // a quarter ring in each corner: four tiles meet in a circle
+      g.strokeStyle = hex(dark)
+      g.lineWidth = 7
+      for (const [cx, cy] of [[x, y], [x + s, y], [x, y + s], [x + s, y + s]]) {
+        g.beginPath()
+        g.arc(cx, cy, s * 0.3, 0, TAU)
+        g.stroke()
+      }
+      // the flower: four petals and a dark heart
+      const mx = x + s / 2
+      const my = y + s / 2
+      g.fillStyle = hex(light)
+      for (let k = 0; k < 4; k++) {
+        const a = (k * Math.PI) / 2 + Math.PI / 4
+        g.beginPath()
+        g.ellipse(mx + Math.cos(a) * s * 0.14, my + Math.sin(a) * s * 0.14, s * 0.13, s * 0.065, a, 0, TAU)
+        g.fill()
+      }
+      g.fillStyle = hex(dark)
+      g.beginPath()
+      g.arc(mx, my, s * 0.06, 0, TAU)
+      g.fill()
+      // a soft sheen across the glaze
+      g.fillStyle = 'rgba(255,255,255,0.07)'
+      g.fillRect(x + 6, y + 6, s - 12, 6)
+      g.restore()
+    }
+  }
+}
+
+/** A chequerboard of floor tiles in two colours, each a little different, with dark joints. */
+function checkerTiles(g, w, h, [a, b], rnd) {
+  const n = 4
+  const s = w / n
+  g.fillStyle = '#3a2a22'
+  g.fillRect(0, 0, w, h)
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      const col = new THREE.Color((r + c) % 2 ? b : a).multiplyScalar(0.92 + rnd() * 0.14)
+      g.fillStyle = `#${col.getHexString()}`
+      g.fillRect(c * s + 2, r * s + 2, s - 4, s - 4)
+      // worn spots and speckles
+      for (let i = 0; i < 18; i++) {
+        g.fillStyle = `rgba(${rnd() < 0.5 ? '255,240,220' : '40,20,10'},${0.04 + rnd() * 0.06})`
+        g.beginPath()
+        g.arc(c * s + rnd() * s, r * s + rnd() * s, 2 + rnd() * 9, 0, TAU)
+        g.fill()
+      }
+    }
+  }
+}
+
+/** A sunny morning seen through the window: a soft blue sky, a low sun, clouds, red roofs and trees. */
+function morningSky(g, w, h, rnd) {
+  const grd = g.createLinearGradient(0, 0, 0, h)
+  grd.addColorStop(0, '#5d98cf')
+  grd.addColorStop(0.5, '#93c0e3')
+  grd.addColorStop(0.8, '#e9d6b4')
+  grd.addColorStop(1, '#efc792')
+  g.fillStyle = grd
+  g.fillRect(0, 0, w, h)
+  // the sun, low on the left, and its glow
+  const sun = g.createRadialGradient(170, 250, 0, 170, 250, 260)
+  sun.addColorStop(0, 'rgba(255,248,225,0.95)')
+  sun.addColorStop(0.12, 'rgba(255,236,190,0.75)')
+  sun.addColorStop(1, 'rgba(255,220,160,0)')
+  g.fillStyle = sun
+  g.fillRect(0, 0, w, h)
+  // soft clouds
+  for (const [cx, cy, k] of [[420, 110, 1], [800, 170, 0.8], [640, 70, 0.6], [930, 60, 0.5]]) {
+    for (let i = 0; i < 7; i++) {
+      g.fillStyle = `rgba(255,255,255,${0.35 + rnd() * 0.25})`
+      g.beginPath()
+      g.ellipse(cx + (rnd() - 0.5) * 150 * k, cy + (rnd() - 0.5) * 30 * k, (40 + rnd() * 45) * k, (16 + rnd() * 14) * k, 0, 0, TAU)
+      g.fill()
+    }
+  }
+  // two birds
+  g.strokeStyle = 'rgba(40,50,70,0.7)'
+  g.lineWidth = 3
+  for (const [bx, by] of [[560, 200], [600, 225]]) {
+    g.beginPath()
+    g.moveTo(bx - 12, by - 5)
+    g.quadraticCurveTo(bx - 5, by - 9, bx, by)
+    g.quadraticCurveTo(bx + 5, by - 9, bx + 12, by - 5)
+    g.stroke()
+  }
+  // trees behind the houses
+  for (let i = 0; i < 14; i++) {
+    const tx = rnd() * w
+    const tr = 40 + rnd() * 40
+    g.fillStyle = rnd() < 0.5 ? '#4f7f45' : '#5f9150'
+    g.beginPath()
+    g.arc(tx, h - 150 - rnd() * 40, tr, 0, TAU)
+    g.fill()
+  }
+  // houses across the street: light walls, red roofs, windows and shutters
+  let x = -20
+  while (x < w) {
+    const bw = 110 + rnd() * 110
+    const bh = 90 + rnd() * 80
+    const top = h - bh
+    g.fillStyle = rnd() < 0.5 ? '#e2cfae' : '#d9b994'
+    g.fillRect(x, top, bw, bh)
+    g.fillStyle = rnd() < 0.5 ? '#b5523a' : '#a8482f'
+    g.beginPath()
+    g.moveTo(x - 8, top)
+    g.lineTo(x + bw / 2, top - 40 - rnd() * 20)
+    g.lineTo(x + bw + 8, top)
+    g.fill()
+    for (let k = 0; k < Math.floor(bw / 55); k++) {
+      const wx = x + 18 + k * 55
+      const wy = top + 22 + rnd() * 10
+      g.fillStyle = '#4a6a86'
+      g.fillRect(wx, wy, 22, 30)
+      g.fillStyle = rnd() < 0.5 ? '#3f7a5a' : '#2f6a8a'
+      g.fillRect(wx - 8, wy, 7, 30)
+      g.fillRect(wx + 23, wy, 7, 30)
+    }
+    x += bw + 6
+  }
+}
+
+/** The morning sun coming in through the window: the light itself, a faint shaft of it in the air and the
+ *  window's bright shape on the floor, its bars crossing it. */
+function sunbeam({ place, win, group }) {
+  const p = place(win.wall, win.at, 0)
+  const nIn = new THREE.Vector3(Math.sin(p.rot), 0, Math.cos(p.rot))
+  const along = new THREE.Vector3(Math.cos(p.rot), 0, -Math.sin(p.rot))
+  const d = nIn.clone().addScaledVector(along, 0.3).add(new THREE.Vector3(0, -0.92, 0)).normalize()
+  const mid = new THREE.Vector3(p.x, WIN_Y + WIN_H / 2, p.z)
+  const sun = new THREE.DirectionalLight('#ffe6c2', 1.45)
+  sun.position.copy(mid).addScaledVector(d, -8)
+  sun.target.position.copy(mid).addScaledVector(d, 3)
+  group.add(sun, sun.target)
+  const ww = win.width
+  const corner = (u, v) => new THREE.Vector3(p.x, WIN_Y + v * WIN_H, p.z).addScaledVector(along, (u - 0.5) * ww).addScaledVector(nIn, 0.02)
+  const onFloor = c => c.clone().addScaledVector(d, (c.y - 0.006) / -d.y)
+  const top = [corner(0, 0), corner(1, 0), corner(1, 1), corner(0, 1)]
+  const bottom = top.map(onFloor)
+  // the shaft: four sides of light from the window to the floor, fading as it goes
+  const pos = []
+  const col = []
+  const warm = new THREE.Color('#ffd9a0')
+  for (let i = 0; i < 4; i++) {
+    const j = (i + 1) % 4
+    for (const [v, k] of [[top[i], 1], [top[j], 1], [bottom[j], 0.15], [top[i], 1], [bottom[j], 0.15], [bottom[i], 0.15]]) {
+      pos.push(v.x, v.y, v.z)
+      col.push(warm.r * k, warm.g * k, warm.b * k)
+    }
+  }
+  const shaftGeo = new THREE.BufferGeometry()
+  shaftGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
+  shaftGeo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3))
+  const shaftMat = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.09, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide })
+  const shaft = new THREE.Mesh(shaftGeo, shaftMat)
+  shaft.renderOrder = 5
+  // the window's shape on the floor: four panes of light, soft at the edges
+  const patchTex = canvasTex(256, 256, (g, w, h) => {
+    g.fillStyle = '#000000'
+    g.fillRect(0, 0, w, h)
+    g.filter = 'blur(5px)'
+    g.fillStyle = '#ffffff'
+    const bar = 8
+    const vy = h * (1 - 0.62)
+    for (const [ax, ay, bx, by] of [[10, 10, w / 2 - bar, vy - bar], [w / 2 + bar, 10, w - 10, vy - bar], [10, vy + bar, w / 2 - bar, h - 10], [w / 2 + bar, vy + bar, w - 10, h - 10]]) {
+      g.fillRect(ax, ay, bx - ax, by - ay)
+    }
+    g.filter = 'none'
+  })
+  const patchGeo = new THREE.BufferGeometry()
+  const pp = []
+  const uv = []
+  // the bottom of the window lands nearest the wall; uv v = 1 is the canvas's top (the window's top)
+  for (const [i, u, v] of [[0, 0, 0], [1, 1, 0], [2, 1, 1], [0, 0, 0], [2, 1, 1], [3, 0, 1]]) {
+    pp.push(bottom[i].x, bottom[i].y, bottom[i].z)
+    uv.push(u, v)
+  }
+  patchGeo.setAttribute('position', new THREE.Float32BufferAttribute(pp, 3))
+  patchGeo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2))
+  const patchMat = new THREE.MeshBasicMaterial({ map: patchTex, color: '#ffcf8a', transparent: true, opacity: 0.42, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide })
+  const patch = new THREE.Mesh(patchGeo, patchMat)
+  patch.renderOrder = 4
+  group.add(shaft, patch)
+  return {
+    dispose() {
+      shaftGeo.dispose()
+      shaftMat.dispose()
+      patchGeo.dispose()
+      patchMat.dispose()
+      patchTex.dispose()
     },
   }
 }
