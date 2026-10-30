@@ -44,8 +44,30 @@ export async function build(ctx, target) {
     if (here() && text) ctx.store.set({ speech: { text, who, color: c } })
   }
 
+  // things worked by hand: a click or a tap on the thing itself does the step it is for (the user,
+  // 2026-10-30: choosing the next step by touching the sand, the soda, the pot beats pressing E again
+  // and again). clickable(object, onTap, { when, reach }): `when()` says whether it can be used now
+  // (the hand shows only then), `reach` how near the visitor must stand (m).
+  const clicks = []
+  const caster = new THREE.Raycaster()
+  const clickable = (object, onTap, { when = () => true, reach = 4.5 } = {}) => clicks.push({ object, onTap, when, reach })
+  const clickAt = ray => {
+    if (!ray || !clicks.length) return null
+    caster.ray.copy(ray)
+    const p = ctx.engine.player.pos
+    let best = null
+    for (const c of clicks) {
+      if (!c.object.visible || !c.when()) continue
+      const hit = caster.intersectObject(c.object, true)[0]
+      if (!hit || (best && hit.distance >= best.hit.distance)) continue
+      if (Math.hypot(hit.point.x - p.x, hit.point.z - p.z) > c.reach) continue
+      best = { c, hit }
+    }
+    return best
+  }
+
   // the scene: its stage, light and things to do
-  const st = await scene.build({ ctx, root, el, sym, lang, E, W, ex, say, later, light: ctx.light, color, level, depth })
+  const st = await scene.build({ ctx, root, el, sym, lang, E, W, ex, say, later, light: ctx.light, color, level, depth, clickable })
   const solids = st.solids
 
   // the picture's frame behind the spawn: walking into it goes back to the hall, out in front of the picture
@@ -126,6 +148,11 @@ export async function build(ctx, target) {
     interactables: [...ex.list, host],
     doors,
     talk,
+    pointAt: ray => !!clickAt(ray),
+    onTap(ray) {
+      const best = clickAt(ray)
+      if (best) best.c.onTap(best.hit)
+    },
     // for the probes in tools/ (__ew.world.parts, __ew.world.panels)
     parts: st.parts,
     panels: { story, ...st.panels },

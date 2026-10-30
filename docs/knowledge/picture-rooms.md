@@ -27,7 +27,13 @@ in. The studio item is `picture-rooms`.
 - The scene's `build(api)` makes its stage and its things to do and returns `{ env, solids,
   cameraBounds, spawn, hostSpot, back: { x, z, rot } (the frame), stand: { x, z, rot } (the easel),
   parts, shared, update(dt, t), dispose }`. `api`: `ctx, root, el, sym, lang, E (its words), W (shared
-  words), ex (exhibitSet), say, later, light, color, level, depth`.
+  words), ex (exhibitSet), say, later, light, color, level, depth, clickable`.
+- Things worked by hand (the user's rule for every station, 2026-10-30; `adding-a-wing.md`, "Look and
+  feel"): `clickable(object, onTap, { when, reach })` makes a mesh or group a thing to click or tap;
+  the hand shows over it while `when()` is true and the visitor stands within `reach` (4.5 m); `onTap(hit)`
+  does the step (count its find with `ex.discover`, share it, say the line). Each step is chosen by
+  touching its thing; a smooth quantity is a slider in the station's panel; the panel's buttons do the
+  same steps for E and the probes.
 - Stages, one file each in `pictures/stages/`: `water.js` (sunlit shallow sea, from the sea floor). A
   room picks one or builds its own; a new kind of place becomes a new stage file so the next room can
   use it.
@@ -82,3 +88,6 @@ at the same address.
   `[1, 2, 3].forEach(...)` or an arrow function with commas.
 - Chloroplasts set out in neat rings read as a printed pattern, not a living cell: scatter them (a golden
   angle spiral).
+- The easel's legs first went straight through the picture (the user liked the picture on sticks, not
+  the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
+  ledge in front of them, and props them with a third leg.
