@@ -76,6 +76,19 @@ Traps met building it:
 - The apparatus face +x; a spot's `face` is the turn that points +x at the visitor (rotation.y takes +x
   to (cos, 0, -sin)).
 
+## Built: silicon's room (2026-10-30)
+
+The second element, chosen by the family dashboard (after Oxygen, Silicon's hall is the most visited).
+`/e/Si/videos` (`Si.js`, `docs/pv/Si.md`): the lump (out of its bottle onto a turntable, its grains glinting:
+a glint per facet, bright when the facet mirrors the lamp into the eye), the chip line (cut, test green or
+red, sort into the computer and the bin; a 20 or 30 cm wafer), the wafer and its rainbow (a grating shader:
+the colour leaving toward the eye depends on the light's and the eye's angles along the wafer; a tilt slider
+and "Turn it over" to its mirror back), the turbocharger (steel and silicon nitride wheels on one push: the
+lighter spins up first, dials show it), the minerals (quartz, mica, feldspar, garnet). The professor's seven
+lines are his, from the film. Traps: an instanced mesh first drawn with no instances keeps an empty bounding
+sphere and is culled for good (`frustumCulled = false`); things lying flat on a bench are seen edge-on from
+a visitor's eyes: tilt them toward the visitor like a display stand.
+
 ## The professor (2026-10-30)
 
 The user asked for the professor himself, to talk to. `pv/professor.js`: a friendly figure in the game's

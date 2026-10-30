@@ -152,7 +152,7 @@ built: `docs/history.md`):
   floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
   showpieces; the other 116 still have the eight text stations (`hall-boards.md`).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
-  Periodic Videos room (since 2026-10-30, the pilot, entered through a doorway board in the hall, the
+  and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
   professor in it; a README in each folder). Using a station in third person looks through the Atomling's
   eyes (`walking.md`).
 - The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the

@@ -25,6 +25,7 @@ export const WINGS = {
   // the Periodic Videos rooms: an element's film rebuilt as experiments to do (docs/knowledge/periodic-videos.md)
   // (board: entered through a doorway board in the hall, not an arch)
   Na: [{ id: 'videos', side: 'n', board: true, color: '#ffb21e', load: () => import('./wings/pv/room.js') }],
+  Si: [{ id: 'videos', side: 'n', board: true, color: '#7fb4ff', load: () => import('./wings/pv/room.js') }],
 }
 
 export const wingsOf = symbol => WINGS[symbol] ?? []

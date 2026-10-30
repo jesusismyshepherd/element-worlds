@@ -23,6 +23,10 @@ and the user's requests behind them. Add a line here when a piece of work change
   cake), and in the case lumps under oil in a jar beside a piece just cut, silver against its crust. The
   pictures are the first drawn with the shared kit `tools/boards/lib/` (`hall-boards.md`).
 
+- Silicon's Periodic Videos lab (the second element, the most visited hall after Oxygen): the
+  glittering lump and sand, the chip line, the wafer's rainbow, the turbocharger race, the minerals, and
+  the professor's lines from the film (`periodic-videos.md`).
+
 ## 2026-10-29
 
 - Evening: accounts (the Pokémon site's logins; 👤): progress kept in the account and moved there from a

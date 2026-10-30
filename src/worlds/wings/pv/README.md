@@ -3,7 +3,7 @@
 An element's Periodic Videos film rebuilt as experiments to do, with the film beside them, entered through a
 doorway board in the element's hall
 (`docs/knowledge/periodic-videos.md`; what each film shows: `docs/pv/<Symbol>.md`). One module serves every
-element that has a room; sodium's is the first (2026-10-30).
+element that has a room; sodium's is the first, silicon's the second (2026-10-30).
 
 - `room.js`: `build(ctx, target)`: the room for `target.symbol`, the screen and its chapters, the arch back,
   the Atomling, and `panel(...)`, a station's panel with "Watch this part" (YouTube's player opens on top of

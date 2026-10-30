@@ -2,10 +2,11 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { PV_WORDS } from './pv.words.js'
 import { NA_WORDS } from './Na.words.js'
+import { SI_WORDS } from './Si.words.js'
 import { VIDEOS, ROOMS } from './videos.js'
 
 const LANGS = ['en', 'pt-pt', 'pl', 'de']
-const ROOM_WORDS = { Na: NA_WORDS }
+const ROOM_WORDS = { Na: NA_WORDS, Si: SI_WORDS }
 const EM = String.fromCharCode(0x2014)
 
 /** Every key path of an object, arrays by their length (so each language has as many paragraphs). */

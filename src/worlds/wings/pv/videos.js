@@ -14,10 +14,17 @@ export const VIDEOS = {
     // where the professor says each of his lines (prof.lines in the words)
     prof: [26, 36, 58, 134, 178, 258],
   },
+  Si: {
+    id: 'a2aWO5cL410',
+    year: 2008,
+    length: 218,
+    parts: { sand: 10, lump: 50, grains: 90.6, wafer: 115.4, chips: 134, rainbow: 167.6, turbo: 177.7 },
+    prof: [10, 20.8, 65.6, 115.4, 138, 153, 177.7],
+  },
 }
 
 /** The rooms that exist: an element with a video and its stations. */
-export const ROOMS = ['Na']
+export const ROOMS = ['Na', 'Si']
 
 export const embedUrl = (id, start = 0) =>
   `https://www.youtube-nocookie.com/embed/${id}?start=${Math.floor(start)}&autoplay=1&rel=0&playsinline=1`

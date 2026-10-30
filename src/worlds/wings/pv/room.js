@@ -16,7 +16,7 @@ import { professor } from './professor.js'
 import { PV_WORDS } from './pv.words.js'
 import { VIDEOS, ROOMS, embedUrl, watchUrl, clock } from './videos.js'
 
-const STATIONS = { Na: () => import('./Na.js') }
+const STATIONS = { Na: () => import('./Na.js'), Si: () => import('./Si.js') }
 
 export async function build(ctx, target) {
   const sym = ROOMS.includes(target?.symbol) ? target.symbol : 'Na'
