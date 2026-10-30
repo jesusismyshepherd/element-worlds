@@ -1,7 +1,8 @@
 // The words of silicon's silicone room ("Is your cake mould made of silicon?"), in English, European
 // Portuguese, Polish and German, kid (Explorer) and sci (Scientist). The picture's own story stays in
-// src/content/boards/Si.js (the easel shows it). The verbs are also the panels' buttons; `signs` are the
-// two words on the cards standing on the worktop (plain text, drawn in 3D).
+// src/content/boards/Si.js (the easel shows it). Each step is done by tapping its thing: `hints` are what
+// the prompt shows as the next step, `verbs` the panels' buttons that do the same; `signs` are drawn in 3D
+// (plain text): the two words on the tiles over the tray and the silicon, the puller's two buttons.
 export const SILICONE_WORDS = {
   en: {
     title: 'The silicone kitchen',
@@ -25,6 +26,7 @@ export const SILICONE_WORDS = {
       label: 'Silicon or silicone?',
       verbs: { bend: 'Bend the tray', snap: 'Bend the silicon', oven: 'Into the hot oven', freeze: 'Into the freezer' },
       signs: { silicone: 'silicone', silicon: 'silicon' },
+      hints: { bend: 'Tap the tray to bend it', snap: 'Tap the silicon to bend it', oven: 'Tap the oven', freeze: 'Tap the freezer' },
       title: 'Silicon or silicone?',
       says: {
         bend: { kid: 'Boing! It bends and twists, the muffins pop out, and it springs straight back.', sci: 'Rubber elasticity: the cross-linked chains uncoil under the load and coil up again when let go.' },
@@ -46,6 +48,8 @@ export const SILICONE_WORDS = {
     putty: {
       label: 'The bouncing putty',
       verbs: { throw: 'Throw it', slow: 'Pull it slowly', fast: 'Pull it fast', leave: 'Leave it alone' },
+      hints: { throw: 'Tap the putty to throw it', slow: 'Press the green button', fast: 'Press the red button', leave: 'Tap the timer and wait' },
+      signs: { slow: 'pull slowly', fast: 'pull fast' },
       title: 'Solid or liquid?',
       says: {
         throw: { kid: 'Boing, boing, boing! It bounces like a rubber ball.', sci: 'A sudden impact: the cross-links have no time to let go, so the putty answers like an elastic solid.' },
@@ -56,7 +60,7 @@ export const SILICONE_WORDS = {
       panel: {
         kid: [
           'This blue putty is made from silicone too. It was found by accident in 1943 by James Wright, an engineer who was trying to make a new kind of rubber. It was no good as rubber, but it was great fun, and it became a famous toy.',
-          'Is it a solid or a liquid? Both! When things happen fast, it acts like a solid: it bounces, and it snaps if you pull it hard. Given time, it acts like a liquid: it stretches when you pull it slowly, and left alone it slowly spreads into a puddle. Try all four buttons.',
+          'Is it a solid or a liquid? Both! When things happen fast, it acts like a solid: it bounces, and it snaps if you pull it hard. Given time, it acts like a liquid: it stretches when you pull it slowly, and left alone it slowly spreads into a puddle. Try all four: tap the putty, press the green and the red button, and tap the timer.',
         ],
         sci: [
           'Bouncing putty is silicone oil (polydimethylsiloxane) heated with boric acid. It is credited to James Wright of General Electric in 1943, during the search for a synthetic rubber in the Second World War (Earl Warrick at Dow Corning made a similar putty at about the same time); it has been sold as a toy, Silly Putty, since 1950.',
@@ -66,7 +70,7 @@ export const SILICONE_WORDS = {
     },
     chain: {
       label: 'The silicone chain',
-      verbs: { freeze: 'Freeze it', heat: 'Heat it up', room: 'Back to room temperature' },
+      hint: 'Slide the temperature',
       temp: 'Temperature',
       title: 'A chain that wiggles',
       says: {
@@ -108,6 +112,7 @@ export const SILICONE_WORDS = {
       label: 'Silício ou silicone?',
       verbs: { bend: 'Dobrar a forma', snap: 'Dobrar o silício', oven: 'Para o forno quente', freeze: 'Para o congelador' },
       signs: { silicone: 'silicone', silicon: 'silício' },
+      hints: { bend: 'Toca na forma para a dobrar', snap: 'Toca no silício para o dobrar', oven: 'Toca no forno', freeze: 'Toca no congelador' },
       title: 'Silício ou silicone?',
       says: {
         bend: { kid: 'Boing! Dobra e torce, os queques saltam fora, e volta logo à forma.', sci: 'Elasticidade da borracha: as cadeias reticuladas desenrolam-se sob a força e voltam a enrolar-se quando as largas.' },
@@ -129,6 +134,8 @@ export const SILICONE_WORDS = {
     putty: {
       label: 'A massa saltitona',
       verbs: { throw: 'Atirá-la', slow: 'Puxá-la devagar', fast: 'Puxá-la depressa', leave: 'Deixá-la em paz' },
+      hints: { throw: 'Toca na massa para a atirar', slow: 'Carrega no botão verde', fast: 'Carrega no botão vermelho', leave: 'Toca no temporizador e espera' },
+      signs: { slow: 'puxar devagar', fast: 'puxar depressa' },
       title: 'Sólido ou líquido?',
       says: {
         throw: { kid: 'Boing, boing, boing! Salta como uma bola de borracha.', sci: 'Um choque súbito: as ligações cruzadas não têm tempo de se soltar, por isso a massa responde como um sólido elástico.' },
@@ -139,7 +146,7 @@ export const SILICONE_WORDS = {
       panel: {
         kid: [
           'Esta massa azul também é feita de silicone. Foi descoberta por acaso em 1943 por James Wright, um engenheiro que tentava fazer um novo tipo de borracha. Não servia como borracha, mas era muito divertida, e tornou-se um brinquedo famoso.',
-          'É sólida ou líquida? As duas coisas! Quando tudo acontece depressa, porta-se como um sólido: salta, e parte-se se a puxares com força. Com tempo, porta-se como um líquido: estica quando a puxas devagar e, se a deixares em paz, espalha-se devagarinho numa poça. Experimenta os quatro botões.',
+          'É sólida ou líquida? As duas coisas! Quando tudo acontece depressa, porta-se como um sólido: salta, e parte-se se a puxares com força. Com tempo, porta-se como um líquido: estica quando a puxas devagar e, se a deixares em paz, espalha-se devagarinho numa poça. Experimenta as quatro: toca na massa, carrega no botão verde e no vermelho, e toca no temporizador.',
         ],
         sci: [
           'A massa saltitona é óleo de silicone (polidimetilsiloxano) aquecido com ácido bórico. É atribuída a James Wright, da General Electric, em 1943, durante a procura de uma borracha sintética na Segunda Guerra Mundial (Earl Warrick, da Dow Corning, fez uma massa parecida mais ou menos na mesma altura); vende-se como brinquedo, Silly Putty, desde 1950.',
@@ -149,7 +156,7 @@ export const SILICONE_WORDS = {
     },
     chain: {
       label: 'A cadeia de silicone',
-      verbs: { freeze: 'Congelá-la', heat: 'Aquecê-la', room: 'Voltar à temperatura ambiente' },
+      hint: 'Mexe na temperatura',
       temp: 'Temperatura',
       title: 'Uma cadeia que se mexe',
       says: {
@@ -191,6 +198,7 @@ export const SILICONE_WORDS = {
       label: 'Krzem czy silikon?',
       verbs: { bend: 'Wygnij foremkę', snap: 'Wygnij krzem', oven: 'Do gorącego piekarnika', freeze: 'Do zamrażarki' },
       signs: { silicone: 'silikon', silicon: 'krzem' },
+      hints: { bend: 'Dotknij foremki, żeby ją wygiąć', snap: 'Dotknij krzemu, żeby go wygiąć', oven: 'Dotknij piekarnika', freeze: 'Dotknij zamrażarki' },
       title: 'Krzem czy silikon?',
       says: {
         bend: { kid: 'Boing! Wygina się i skręca, babeczki wyskakują, a ona od razu wraca do kształtu.', sci: 'Elastyczność gumy: usieciowane łańcuchy rozwijają się pod obciążeniem i zwijają z powrotem, gdy je puścić.' },
@@ -212,6 +220,8 @@ export const SILICONE_WORDS = {
     putty: {
       label: 'Skacząca masa',
       verbs: { throw: 'Rzuć ją', slow: 'Ciągnij powoli', fast: 'Szarpnij szybko', leave: 'Zostaw ją' },
+      hints: { throw: 'Dotknij masy, żeby ją rzucić', slow: 'Naciśnij zielony przycisk', fast: 'Naciśnij czerwony przycisk', leave: 'Dotknij minutnika i czekaj' },
+      signs: { slow: 'ciągnij powoli', fast: 'szarpnij szybko' },
       title: 'Ciało stałe czy ciecz?',
       says: {
         throw: { kid: 'Hop, hop, hop! Odbija się jak gumowa piłka.', sci: 'Nagłe uderzenie: wiązania poprzeczne nie mają czasu się puścić, więc masa zachowuje się jak sprężyste ciało stałe.' },
@@ -222,7 +232,7 @@ export const SILICONE_WORDS = {
       panel: {
         kid: [
           'Ta niebieska masa też jest z silikonu. Odkrył ją przypadkiem w 1943 roku James Wright, inżynier, który próbował zrobić nowy rodzaj gumy. Na gumę się nie nadawała, ale była świetną zabawą i stała się słynną zabawką.',
-          'Czy to ciało stałe, czy ciecz? Jedno i drugie! Kiedy wszystko dzieje się szybko, zachowuje się jak ciało stałe: odbija się i pęka, gdy mocno szarpniesz. Kiedy ma czas, zachowuje się jak ciecz: rozciąga się, gdy ciągniesz powoli, a zostawiona powoli rozpływa się w kałużę. Wypróbuj wszystkie cztery przyciski.',
+          'Czy to ciało stałe, czy ciecz? Jedno i drugie! Kiedy wszystko dzieje się szybko, zachowuje się jak ciało stałe: odbija się i pęka, gdy mocno szarpniesz. Kiedy ma czas, zachowuje się jak ciecz: rozciąga się, gdy ciągniesz powoli, a zostawiona powoli rozpływa się w kałużę. Wypróbuj wszystkie cztery: dotknij masy, naciśnij zielony i czerwony przycisk i dotknij minutnika.',
         ],
         sci: [
           'Skacząca masa to olej silikonowy (polidimetylosiloksan) ogrzany z kwasem borowym. Przypisuje się ją Jamesowi Wrightowi z General Electric (1943), w czasie poszukiwań syntetycznej gumy podczas II wojny światowej (Earl Warrick z Dow Corning zrobił podobną masę mniej więcej w tym samym czasie); jako zabawka, Silly Putty, jest sprzedawana od 1950 roku.',
@@ -232,7 +242,7 @@ export const SILICONE_WORDS = {
     },
     chain: {
       label: 'Silikonowy łańcuch',
-      verbs: { freeze: 'Zamroź go', heat: 'Podgrzej go', room: 'Wróć do temperatury pokojowej' },
+      hint: 'Przesuń temperaturę',
       temp: 'Temperatura',
       title: 'Łańcuch, który się wije',
       says: {
@@ -274,6 +284,7 @@ export const SILICONE_WORDS = {
       label: 'Silicium oder Silikon?',
       verbs: { bend: 'Biege die Form', snap: 'Biege das Silicium', oven: 'In den heißen Ofen', freeze: 'Ins Gefrierfach' },
       signs: { silicone: 'Silikon', silicon: 'Silicium' },
+      hints: { bend: 'Tipp die Form an, um sie zu biegen', snap: 'Tipp das Silicium an, um es zu biegen', oven: 'Tipp den Ofen an', freeze: 'Tipp das Gefrierfach an' },
       title: 'Silicium oder Silikon?',
       says: {
         bend: { kid: 'Boing! Sie biegt und verdreht sich, die Muffins hüpfen heraus, und sie federt sofort zurück.', sci: 'Gummielastizität: Die vernetzten Ketten entknäueln sich unter der Last und knäueln sich wieder, wenn man loslässt.' },
@@ -295,6 +306,8 @@ export const SILICONE_WORDS = {
     putty: {
       label: 'Die Hüpfknete',
       verbs: { throw: 'Wirf sie', slow: 'Zieh sie langsam', fast: 'Zieh sie schnell', leave: 'Lass sie liegen' },
+      hints: { throw: 'Tipp die Knete an, um sie zu werfen', slow: 'Drück den grünen Knopf', fast: 'Drück den roten Knopf', leave: 'Tipp den Küchenwecker an und warte' },
+      signs: { slow: 'langsam ziehen', fast: 'schnell ziehen' },
       title: 'Fest oder flüssig?',
       says: {
         throw: { kid: 'Boing, boing, boing! Sie springt wie ein Gummiball.', sci: 'Ein plötzlicher Stoß: Die Vernetzungen haben keine Zeit, sich zu lösen, deshalb antwortet die Knete wie ein elastischer Festkörper.' },
@@ -305,7 +318,7 @@ export const SILICONE_WORDS = {
       panel: {
         kid: [
           'Diese blaue Knete ist auch aus Silikon. Sie wurde 1943 durch Zufall von James Wright entdeckt, einem Ingenieur, der eine neue Art Gummi herstellen wollte. Als Gummi taugte sie nichts, aber sie machte großen Spaß und wurde ein berühmtes Spielzeug.',
-          'Ist sie fest oder flüssig? Beides! Wenn es schnell geht, verhält sie sich wie ein Festkörper: Sie springt, und sie reißt, wenn du kräftig ziehst. Mit Zeit verhält sie sich wie eine Flüssigkeit: Sie dehnt sich, wenn du langsam ziehst, und wenn du sie liegen lässt, zerfließt sie langsam zu einer Pfütze. Probier alle vier Knöpfe aus.',
+          'Ist sie fest oder flüssig? Beides! Wenn es schnell geht, verhält sie sich wie ein Festkörper: Sie springt, und sie reißt, wenn du kräftig ziehst. Mit Zeit verhält sie sich wie eine Flüssigkeit: Sie dehnt sich, wenn du langsam ziehst, und wenn du sie liegen lässt, zerfließt sie langsam zu einer Pfütze. Probier alle vier aus: Tipp die Knete an, drück den grünen und den roten Knopf und tipp den Küchenwecker an.',
         ],
         sci: [
           'Hüpfknete ist Silikonöl (Polydimethylsiloxan), mit Borsäure erhitzt. Sie wird James Wright von General Electric zugeschrieben (1943), bei der Suche nach synthetischem Gummi im Zweiten Weltkrieg (Earl Warrick von Dow Corning machte etwa zur selben Zeit eine ähnliche Knete); als Spielzeug, Silly Putty, wird sie seit 1950 verkauft.',
@@ -315,7 +328,7 @@ export const SILICONE_WORDS = {
     },
     chain: {
       label: 'Die Silikonkette',
-      verbs: { freeze: 'Friere sie ein', heat: 'Heize sie auf', room: 'Zurück auf Raumtemperatur' },
+      hint: 'Verschieb die Temperatur',
       temp: 'Temperatur',
       title: 'Eine Kette, die zappelt',
       says: {

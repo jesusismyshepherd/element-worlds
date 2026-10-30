@@ -8,6 +8,9 @@
 // - the picture's magnifier come to life: a giant silicone chain, -Si-O-Si-O- with two methyl groups on each
 //   silicon, that wiggles more the warmer it is, freezes stiff below its glass transition (about -125 °C)
 //   and still holds together at 250 °C.
+// Worked by hand (the user's rule for every station): each step is chosen by tapping its thing (the tray,
+// the silicon, the oven, the freezer; the putty, the puller's green and red buttons, the tomato timer), the
+// temperature is a slider; the prompt tells the next step and E opens the panel, whose buttons do the same.
 // All three are shared in a room (src/net/shared.js): the tray and the putty as the last thing done, its
 // count and how long ago (what unfolds runs on by `ago`); the chain as its temperature.
 import * as THREE from 'three'
@@ -471,6 +474,7 @@ function puttyBlob(M) {
   let blendFrom = -99
   return {
     group,
+    mesh,
     /** keep what is on screen now, to ease from it into the next shape */
     hold(now) {
       from.set(pos)
@@ -720,7 +724,7 @@ function siloxaneChain({ nSi = 5, light = false }) {
 
 // ---- the room ----
 
-export async function build({ ctx, root, E, W, ex, say, later, light, level, depth }) {
+export async function build({ ctx, root, E, W, ex, say, later, light, level, depth, clickable }) {
   const stage = kitchenStage({ light })
   root.add(stage.group)
   const solids = stage.solids
@@ -743,6 +747,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     mitt: new THREE.MeshStandardMaterial({ color: '#c8453b', roughness: 0.9 }),
     cuff: new THREE.MeshStandardMaterial({ color: '#b9a28f', roughness: 0.9 }),
     egg: new THREE.MeshStandardMaterial({ color: '#d6403a', roughness: 0.35, side: THREE.DoubleSide }),
+    leaf: new THREE.MeshStandardMaterial({ color: '#3f8f3a', roughness: 0.6 }),
     wood: new THREE.MeshStandardMaterial({ color: '#5b3a2a', roughness: 0.75 }),
     brass: new THREE.MeshStandardMaterial({ color: '#c9a24a', roughness: 0.35, metalness: 0.7 }),
     rim: new THREE.MeshStandardMaterial({ color: PINK, emissive: PINK, emissiveIntensity: 0.7, roughness: 0.4 }),
@@ -823,8 +828,10 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     tN++
     startTray(kind, 0, true)
     share('tray')
+    ex.discover('tray', trayPanel, 2.8)
     return at(E.tray.says[kind], level())
   }
+  const trayTap = kind => say(trayDo(kind) || at(W.busy, level()))
   const trayPanel = lv => ({
     title: E.tray.title,
     color: PINK,
@@ -833,18 +840,24 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
       { buttons: TRAY_ORDER.map(k => ({ label: E.tray.verbs[k], onClick: () => say(trayDo(k) || at(W.busy, level())) })) },
     ],
   })
+  // each step is chosen by touching its thing: the tray, the silicon, the oven, the freezer; the prompt
+  // tells the next one, E opens the panel (its buttons do the same steps)
   ex.add({
     id: 'tray',
     x: stage.place('w', (AT_TRAY + AT_BAR) / 2, 1.85).x,
     z: (AT_TRAY + AT_BAR) / 2,
     radius: 1.9,
     label: E.tray.label,
-    verb: () => E.tray.verbs[trayNext()],
-    panel: trayPanel,
-    panelDelay: 2.8,
+    verb: () => E.tray.hints[trayNext()],
+    manual: true,
     focus: { x: REST.x + 0.1, y: 1.3, z: (AT_TRAY + AT_BAR) / 2 - 0.3, size: 3.0 },
-    act: () => trayDo(trayNext()),
+    act: () => ctx.showPanel(trayPanel),
   })
+  const trayIdle = () => !trayBusy()
+  clickable(tray.group, () => trayTap('bend'), { when: trayIdle })
+  clickable(bar.group, () => trayTap('snap'), { when: trayIdle })
+  clickable(stage.oven.group, () => trayTap('oven'), { when: trayIdle })
+  clickable(stage.fridge.group, () => trayTap('freeze'), { when: trayIdle })
   const hops = [0, 0, 0]
   updates.push(() => {
     const kind = tLast
@@ -918,14 +931,60 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
   {
     const shell = new THREE.SphereGeometry(0.075, 24, 12, 0, TAU, Math.PI / 2, Math.PI / 2).scale(1, 1.25, 1)
     const low = new THREE.Mesh(shell, M.egg)
-    low.position.set(-0.74, 0.094, 0.02)
+    low.position.set(-1.16, 0.094, 0.02)
     const high = new THREE.Mesh(shell, M.egg)
     high.rotation.set(Math.PI - 0.5, 0, 0.3)
-    high.position.set(-0.87, 0.06, -0.06)
+    high.position.set(-1.29, 0.06, -0.06)
     putty.group.add(low, high)
   }
+  // the things to touch: the putty itself (throw it), a little puller with a green and a red button (pull
+  // slowly, pull fast), a tomato kitchen timer (leave it alone and wait)
+  const puller = new THREE.Group()
+  // (clear of the gloves at the strand's full length)
+  puller.position.set(1.0, 0, -0.12)
+  putty.group.add(puller)
+  const pullerBox = new THREE.Mesh(new RoundedBoxGeometry(0.5, 0.11, 0.2, 2, 0.02), M.wood)
+  pullerBox.position.y = 0.055
+  puller.add(pullerBox)
+  const buttons = {}
+  for (const [k, x, color] of [['slow', -0.125, '#3fbf6a'], ['fast', 0.125, '#e5483b']]) {
+    const g = new THREE.Group()
+    g.position.set(x, 0.11, 0)
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.066, 0.045, 24), new THREE.MeshStandardMaterial({ color, roughness: 0.35, emissive: color, emissiveIntensity: 0.22 }))
+    cap.position.y = 0.022
+    g.add(cap)
+    const label = makeText(E.putty.signs[k], { size: 0.03, color: '#fff3e0', anchorX: 'center', anchorY: 'middle', maxWidth: 0.22, lineHeight: 1.0 })
+    label.position.set(x, 0.055, 0.103)
+    puller.add(g, label)
+    buttons[k] = { g, cap }
+  }
+  const dialTex = canvasTex(256, 32, (g, w, h) => {
+    g.fillStyle = '#f4efe6'
+    g.fillRect(0, 0, w, h)
+    g.fillStyle = '#3a3340'
+    for (let i = 0; i < 60; i++) g.fillRect((i / 60) * w, 0, i % 5 ? 1.5 : 3, i % 5 ? h * 0.35 : h * 0.6)
+  })
+  textures.push(dialTex)
+  const timer = new THREE.Group()
+  timer.position.set(-0.86, 0, -0.06)
+  putty.group.add(timer)
+  const tomato = new THREE.Mesh(new THREE.SphereGeometry(0.08, 24, 16).scale(1, 0.8, 1), M.egg)
+  tomato.position.y = 0.064
+  const pointer = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.03, 0.012), M.card)
+  pointer.position.set(0, 0.07, 0.083)
+  const top = new THREE.Group()
+  top.position.y = 0.064
+  const dial = new THREE.Mesh(new THREE.CylinderGeometry(0.081, 0.081, 0.024, 40, 1, true), new THREE.MeshStandardMaterial({ map: dialTex, roughness: 0.5 }))
+  dial.position.y = 0.012
+  const stalk = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.012, 0.035, 8), M.leaf)
+  stalk.position.y = 0.07
+  const leaves = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.02, 5), M.leaf)
+  leaves.position.y = 0.06
+  top.add(dial, stalk, leaves)
+  timer.add(tomato, pointer, top)
+
   const PUTTY_ORDER = ['throw', 'slow', 'fast', 'leave']
-  const PUTTY_CUES = { slow: [[0.3, 'part']], fast: [[0.42, 'pop']] }
+  const PUTTY_CUES = { slow: [[0.3, 'part']], fast: [[0.42, 'pop']], leave: [[9, 'select']] }
   let pMode = 'ball'
   let pN = 0
   let pStart = 0
@@ -949,8 +1008,10 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     pN++
     startPutty(mode, 0, true, true)
     share('putty')
+    ex.discover('putty', puttyPanel, 2.6)
     return at(E.putty.says[mode], level())
   }
+  const puttyTap = mode => say(puttyDo(mode) || at(W.busy, level()))
   const puttyPanel = lv => ({
     title: E.putty.title,
     color: BLUE,
@@ -965,15 +1026,22 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     z: AT_PUTTY,
     radius: 1.9,
     label: E.putty.label,
-    verb: () => E.putty.verbs[puttyNext()],
-    panel: puttyPanel,
-    panelDelay: 2.6,
-    focus: { x: pp.x - 0.05, y: TOP + 0.42, z: AT_PUTTY, size: 1.7 },
-    act: () => puttyDo(puttyNext()),
+    verb: () => E.putty.hints[puttyNext()],
+    manual: true,
+    focus: { x: pp.x - 0.05, y: TOP + 0.42, z: AT_PUTTY, size: 1.9 },
+    act: () => ctx.showPanel(puttyPanel),
   })
+  const puttyIdle = () => !puttyBusy()
+  clickable(putty.mesh, () => puttyTap('throw'), { when: puttyIdle })
+  clickable(buttons.slow.g, () => puttyTap('slow'), { when: puttyIdle })
+  clickable(buttons.fast.g, () => puttyTap('fast'), { when: puttyIdle })
+  clickable(timer, () => puttyTap('leave'), { when: puttyIdle })
   updates.push(() => {
     const a = puttyAge()
     const s = putty.show(pMode, a, clock)
+    // the button pressed sinks for a moment; the timer, wound up, turns back to nought
+    for (const k of ['slow', 'fast']) buttons[k].cap.position.y = 0.022 - (pMode === k && a < 0.35 ? 0.018 * Math.sin((Math.PI * a) / 0.35) : 0)
+    top.rotation.y = pMode === 'leave' ? 2.6 * (1 - clamp(a / 9)) : 0
     if (!pSound) return
     if (pMode === 'throw' && s.hop !== pHop) {
       // a soft pop at every landing, quieter as it settles
@@ -1054,8 +1122,6 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
   let readingAt = 20
   let zone = 'room'
   const zoneOf = T => (T < TG ? 'freeze' : T >= 200 ? 'heat' : 'room')
-  const PRESET = { freeze: -140, heat: 250, room: 20 }
-  const chainNext = () => (target < TG ? 'heat' : target >= 200 ? 'room' : 'freeze')
   const setTemp = (v, live) => {
     target = clamp(Math.round(Number(v)), T_MIN, T_MAX)
     if (!Number.isFinite(target)) target = 20
@@ -1086,6 +1152,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
           onInput: v => {
             setTemp(v, true)
             slid()
+            ex.discover('chain')
             const z = zoneOf(target)
             if (z !== zone) {
               zone = z
@@ -1098,24 +1165,17 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
       },
     ],
   })
+  // the temperature changes smoothly: a slider in the panel, which E opens
   ex.add({
     id: 'chain',
     x: MX,
     z: MZ + 2.4,
     radius: 2.1,
     label: E.chain.label,
-    verb: () => E.chain.verbs[chainNext()],
-    panel: chainPanel,
-    panelDelay: 1.8,
+    verb: E.chain.hint,
+    manual: true,
     focus: { x: MX, y: MY, z: MZ, size: 2.9 },
-    act: () => {
-      const next = chainNext()
-      setTemp(PRESET[next], true)
-      zone = zoneOf(target)
-      play(next === 'freeze' ? 'part' : 'select')
-      share('chain')
-      return at(E.chain.says[next], level())
-    },
+    act: () => ctx.showPanel(chainPanel),
   })
   const lensCold = new THREE.Color('#2a5a86')
   const lensRoom = new THREE.Color('#1b1f48')
@@ -1159,6 +1219,11 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
       tray: { get last() { return tLast }, get n() { return tN }, get busy() { return trayBusy() } },
       putty: { get mode() { return pMode }, get n() { return pN }, get busy() { return puttyBusy() } },
       chain: { get target() { return target }, get shown() { return shown } },
+      // what each tap does, for probes (shot.py cannot move the mouse): __ew.world.parts.tap('oven')
+      tap(thing) {
+        const taps = { tray: () => trayTap('bend'), silicon: () => trayTap('snap'), oven: () => trayTap('oven'), freezer: () => trayTap('freeze'), putty: () => puttyTap('throw'), slow: () => puttyTap('slow'), fast: () => puttyTap('fast'), timer: () => puttyTap('leave') }
+        taps[thing]?.()
+      },
     },
     panels: { tray: trayPanel, putty: puttyPanel, chain: chainPanel },
     shared: {
