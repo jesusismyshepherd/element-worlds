@@ -119,5 +119,20 @@
     "() => __ew.world.parts.cakes.tap('mixer')",
     "() => { __ew.showPanel(__ew.world.panels.cakes); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[2].onClick() }",
     "() => __ew.world.parts.heat.tap('jar')"
+  ],
+  "/e/Na/salt": [
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.tap('cloud'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.tap('volcano'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.tap('sun'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.tap('cloud'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pans.tap('sea'); r() }, 1600))",
+    "() => { __ew.showPanel(__ew.world.panels.pans); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(0.9) }",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pans.tap('next'); r() }, 6500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pans.tap('next'); r() }, 4500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pans.tap('skim'); r() }, 3500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.rake.tap(); r() }, 1600))",
+    "() => { __ew.showPanel(__ew.world.panels.rake); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.sea); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick(); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.pans); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 1600))"
   ]
 }

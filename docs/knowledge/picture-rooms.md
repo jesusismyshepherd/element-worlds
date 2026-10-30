@@ -46,7 +46,10 @@ in. The studio item is `picture-rooms`.
   and `firebrick` materials, UVs in metres), `summit.js` (a dry desert summit at night like Paranal:
   gravel, red path lamps, far ranges, a sea of clouds, the Milky Way, airglow), `body.js` (the warm
   fluid between cells, seen very small; exports `ionCloud`, `ionTexture`, `softGlow`, `ION_LOOK`: labelled
-  ions that face the eye, one draw call per kind). A room picks one
+  ions that face the eye, one draw call per kind), `saltpan.js` (Aveiro's salt works on a bright, windy
+  afternoon: a clay platform cut by a canal, pans in low clay walls, heaps, the lagoon and the sea; one
+  water shader for every pond, `water({ tint, alpha, perVertex })`, and `setWeather(k)` for wind and
+  haze). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -133,6 +136,13 @@ at the same address.
   a burner (a temperature slider) breaks down from about 80 °C, water drops, milky limewater, and red
   cabbage juice turns blue with fresh soda, green with what is left (sodium carbonate).
 
+- Sodium, `salt` ("Why is the sea salty?", 2026-10-30): Aveiro's salt pans. A landscape model: tap the
+  cloud (rain washes sodium from the mountains down the river), the volcano (chloride), the sun (water
+  rises, the salt stays) and a meter climbs to today's 35 g/kg; three ponds: the sluice lets seawater in,
+  the gates move the brine on, a sun-and-wind slider dries it, a board shows calcium carbonate, gypsum,
+  then salt coming out at nine tenths gone, and on hot, windy days flor de sal to skim; the marnoto's
+  rake piles the salt into shining heaps. Aveiro's details from Maia Alcoforado's account of 1877.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -188,6 +198,10 @@ at the same address.
 - From Git Bash, `shared_probe.py --world /e/...` needs `MSYS_NO_PATHCONV=1`, as `shot.py` does.
 - three.js hides an object only when `visible === false`: `visible = a && b` can give `null` and show it.
   Use `!!(a && b)`.
+- Gates in a line one behind another: a tap on the far one is caught by the nearer one's hit box; lay
+  them across the view. A row of ponds receding from the visitor hides the far ones (the station view
+  rises 1.45 m at most): lay them side by side. A pond inside a walkable platform must stand on it.
+- Saving a file while `shared_probe.py` runs reloads the world under it ("reading 'shared'").
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

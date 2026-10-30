@@ -366,11 +366,14 @@
       "z": 11,
       "title": "Aveiro's salt pans (sodium and chlorine)",
       "kind": "worlds",
-      "status": "idea",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Table salt crystals growing in the salt pans; why sodium must never touch water, watched behind glass.",
-      "details": []
+      "details": [
+        "Built as sodium's picture room behind the hall's picture \"Why is the sea salty?\" (2026-10-30): the model of rain, rivers and a volcano salting the sea, three ponds you work by their gates with a sun-and-wind slider, flor de sal, the marnoto's rake."
+      ],
+      "link": "https://element-worlds.vercel.app/e/Na/salt"
     },
     {
       "id": "magnesium-fire",
