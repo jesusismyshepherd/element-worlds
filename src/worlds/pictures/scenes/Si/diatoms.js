@@ -270,7 +270,7 @@ function star(M, { n = 8, len = 0.7 }) {
 
 // ---- the room ----
 
-export async function build({ ctx, root, E, ex, say, later, light, level }) {
+export async function build({ ctx, root, E, ex, say, later, light, level, clickable }) {
   const stage = waterStage({ radius: 10, light })
   root.add(stage.group)
   const solids = stage.solids
@@ -319,7 +319,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level }) {
     if (!live) openK = v ? 1 : 0
     if (live) play('select')
   }
-  ex.add({
+  const houseIt = ex.add({
     id: 'house',
     x: 0,
     z: -0.8,
@@ -400,7 +400,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level }) {
   const setSun = v => {
     sunny = v
   }
-  ex.add({
+  const sunIt = ex.add({
     id: 'sun',
     x: -4.4,
     z: -0.4,
@@ -546,7 +546,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level }) {
     anim = { kind: 'regrow', from: gen, t: 0 }
     play('beam')
   }
-  ex.add({
+  const familyIt = ex.add({
     id: 'family',
     x: 5.8,
     z: -0.3,
@@ -583,6 +583,11 @@ export async function build({ ctx, root, E, ex, say, later, light, level }) {
     }
     pose(t)
   })
+  // worked by hand too: tap the round diatom, the boat diatoms or their sunbeam, the family
+  clickable(house.group, () => houseIt.onUse())
+  clickable(mound, () => sunIt.onUse())
+  clickable(beam, () => sunIt.onUse(), { reach: 3.5 })
+  for (const d of row) clickable(d.group, () => familyIt.onUse(), { when: () => !anim })
   // the state a share sends is where it ends: gen and cycle move at the start of an animation
   const familyState = () => (anim ? (anim.kind === 'divide' ? { gen: anim.from + 1, cycle } : { gen: 0, cycle: cycle + 1 }) : { gen, cycle })
 

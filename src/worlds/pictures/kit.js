@@ -55,14 +55,28 @@ export function storyStand({ url, color, width = 1.2, height = 0.8 }) {
   const group = new THREE.Group()
   const wood = new THREE.MeshStandardMaterial({ color: '#6b4a32', roughness: 0.8 })
   const edgeMat = new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 1.1, roughness: 0.4 })
+  // an easel as a real one stands: two front legs leaning back, the picture resting on a ledge in front of
+  // them (the legs stay behind it, never through it), a third leg propping them from behind
   const tilt = 0.22
-  const top = 1.55
-  for (const [x, z, rx] of [[-0.42, 0.1, 0.12], [0.42, 0.1, 0.12], [0, -0.32, -0.3]]) {
-    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.03, top + 0.1, 8), wood)
-    leg.position.set(x, (top + 0.1) / 2, z)
-    leg.rotation.x = rx
-    group.add(leg)
+  const ledgeAt = 0.8 // along the leaning legs
+  const legLen = ledgeAt + height + 0.2
+  const lean = new THREE.Group()
+  lean.rotation.x = -tilt
+  lean.position.z = 0.3 // the feet's middle under the stand's centre
+  group.add(lean)
+  const stick = (len, r = 0.026) => new THREE.Mesh(new THREE.CylinderGeometry(r * 0.85, r, len, 8), wood)
+  for (const x of [-0.42, 0.42]) {
+    const leg = stick(legLen)
+    leg.position.set(x, legLen / 2, -0.05)
+    lean.add(leg)
   }
+  const bar = stick(0.84, 0.018)
+  bar.rotation.z = Math.PI / 2
+  bar.position.set(0, 0.35, -0.05)
+  lean.add(bar)
+  const ledge = new THREE.Mesh(new THREE.BoxGeometry(width + 0.12, 0.04, 0.14), wood)
+  ledge.position.set(0, ledgeAt - 0.02, 0.02)
+  lean.add(ledge)
   const board = new THREE.Group()
   const edge = new THREE.Mesh(new RoundedBoxGeometry(width + 0.08, height + 0.08, 0.05, 2, 0.02), edgeMat)
   const tex = new THREE.TextureLoader().load(url)
@@ -71,11 +85,15 @@ export function storyStand({ url, color, width = 1.2, height = 0.8 }) {
   const picture = new THREE.Mesh(new THREE.PlaneGeometry(width, height), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }))
   picture.position.z = 0.03
   board.add(edge, picture)
-  board.position.set(0, top - height / 2, 0.16)
-  board.rotation.x = -tilt
-  const ledge = new THREE.Mesh(new THREE.BoxGeometry(width + 0.1, 0.04, 0.12), wood)
-  ledge.position.set(0, top - height - 0.03, 0.2)
-  group.add(board, ledge)
+  board.position.set(0, ledgeAt + (height + 0.08) / 2, 0.02)
+  lean.add(board)
+  // the back leg, from the front legs' top down to the floor behind
+  const top = new THREE.Vector3(0, legLen, -0.05).applyAxisAngle(new THREE.Vector3(1, 0, 0), -tilt).add(lean.position)
+  const foot = new THREE.Vector3(0, 0, top.z - 0.62)
+  const back = stick(top.distanceTo(foot))
+  back.position.copy(top).add(foot).multiplyScalar(0.5)
+  back.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), top.clone().sub(foot).normalize())
+  group.add(back)
   const base = new THREE.Color(color)
   let read = false
   return {
