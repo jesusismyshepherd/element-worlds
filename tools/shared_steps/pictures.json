@@ -85,5 +85,18 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.race.tap(); r() }, 3600))",
     "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.pump); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 1000))",
     "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.race); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 9500))"
+  ],
+  "/e/Na/davy": [
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.battery.tap(0); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.battery.set(10); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.soda.tap('wire'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.soda.tap('bead'); r() }, 2500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.soda.tap('lens'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.battery.tap(9); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.soda.tap('wire'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.desk.tap('page'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.desk.tap('downs'); r() }, 1600))",
+    "() => { __ew.showPanel(__ew.world.panels.battery); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(3) }",
+    "() => { __ew.showPanel(__ew.world.panels.notebook); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }"
   ]
 }

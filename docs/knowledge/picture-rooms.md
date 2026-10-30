@@ -116,6 +116,14 @@ at the same address.
   node to node; after three messages the nerve is tired until the golden Na+/K+ pump is worked (each tap
   one cycle: 3 Na+ out, 2 K+ in, one ATP); a race of a bare fibre and a myelinated one over 1 m.
 
+- Sodium, `davy` ("1807: a metal nobody had ever seen", 2026-10-30): the Royal Institution's basement
+  laboratory by candlelight (the workshop stage, `lamps: []`). Ten troughs of copper and zinc plates,
+  each filled with acid by a tap (a slider too), up to Davy's "power of 250 of 6 and 4" (his Bakerian
+  Lecture, 1807); the wire on the moist caustic soda: warmth, then at 250 pairs oxygen above and beads
+  like mercury below, some burning as they form (the beads from a number shared in the room); a lens on
+  a bead and on sodium's atoms; his desk: a notebook of three pages (potassium, sodium, 1808; no words in
+  his hand) and a Downs cell (1924) that runs when tapped.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -164,6 +172,11 @@ at the same address.
 - A station's first-discovery panel (`ex.discover` with a delay) opened over another station's panel
   the visitor had opened meanwhile: `discover` now opens it only when no panel is open.
 - Station views are close: keep floating things out of the strip between the visitor and the screens.
+- A `THREE.Points` cloud inside a clickable catches taps within 1 m (three's default threshold): the
+  lens's electrons stole the wire's taps. `points.raycast = () => {}` on clouds that are not for tapping.
+- A point light a few centimetres above a pale thing blooms the whole station view white: keep lights a
+  metre away and dim.
+- From Git Bash, `shared_probe.py --world /e/...` needs `MSYS_NO_PATHCONV=1`, as `shot.py` does.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
