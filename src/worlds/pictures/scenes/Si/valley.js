@@ -35,10 +35,10 @@ const GOLD = '#ffcf5a'
 const SPAWN = { x: 0, z: -2.4 }
 const BACK = { x: 0, z: 1.9 }
 const CHORD = 2.7
-const STAND = { x: -2.7, z: -3.9 }
+const STAND = { x: -3.4, z: -2.3 } // beside the spawn, not in front of the valley's labels
 const HOST = { x: 2.0, z: -3.4 }
 const LOOK = { x: 0, z: -8.6 } // the lookout, where the lever is used
-const LEVER = { x: -2.4, z: -8.2 } // beside the lookout, out of the view over the valley
+const LEVER = { x: 2.4, z: -8.2 } // beside the lookout, out of the view over the valley and its labels
 const T = { x: -7.4, z: -3.4 } // the transistor
 const C = { x: 7.4, z: -3.4 } // the 4004
 const VIAL = { x: 1.6, z: -6.1 }
@@ -237,7 +237,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
   }
 
   // ---- lanterns along the paths ----
-  for (const [x, z] of [[-1.9, 1.7], [1.9, 1.7], [-3.9, -1.2], [3.9, -1.2], [-3.7, -9.5], [3.7, -9.5]]) {
+  for (const [x, z] of [[-1.9, 1.7], [1.9, 1.7], [-3.9, -1.2], [3.9, -1.2], [-5.2, -8.0], [5.2, -8.0]]) {
     const post = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 1.35, 8), M.wood)
     post.position.set(x, 0.675, z)
     const cap = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.2, 0.16), M.lamp)
@@ -310,14 +310,18 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     { x: -6, z: 34, y0: 1972, r0: 2, v: 1.1 },
   ]
   const urbanYear = (x, z) => Math.min(...CENTRES.map(c => c.y0 + Math.max(0, Math.hypot(x - c.x, z - c.z) - c.r0) / c.v))
-  // the moments, each where it happened (Fairchild's chip of 1959 above its company of 1957)
-  // (spread so that, seen from the lookout, their labels stand apart: Mountain View and Palo Alto to the
-  // west, Santa Clara to the east)
+  // the moments, each where it happened (Fairchild's chip of 1959 above its company of 1957). Every label
+  // has its own slot seen from the lookout, so none runs into another in any language: the beams' labels
+  // low (within 3 degrees of the horizon) and at least 17 degrees off the middle, which is the 1971
+  // headline's, under the chip; the year readout high on the east side. `fromLook(deg, d)`: `deg` to the
+  // right of straight ahead (north) from the lookout, `d` metres away. Mountain View and Palo Alto to the
+  // west, Santa Clara to the east.
+  const fromLook = (deg, d) => ({ x: LOOK.x + Math.sin((deg * Math.PI) / 180) * d, z: LOOK.z - Math.cos((deg * Math.PI) / 180) * d })
   const MARKS = [
-    { key: 'y1956', year: 1956, x: -16, z: -32 },
-    { key: 'y1957', year: 1957, x: -17, z: -56 },
-    { key: 'y1959', year: 1959, x: -17, z: -56, up: 1 },
-    { key: 'y1968', year: 1968, x: 17, z: -49 },
+    { key: 'y1956', year: 1956, ...fromLook(-24, 30) },
+    { key: 'y1957', year: 1957, ...fromLook(-40, 46) },
+    { key: 'y1959', year: 1959, ...fromLook(-40, 46), up: 1 },
+    { key: 'y1968', year: 1968, ...fromLook(24, 44) },
   ]
 
   // the land in parcels: orchards in rows, until the town reaches them
@@ -491,34 +495,38 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     beam.position.set(m.x, g, m.z)
     root.add(beam)
     const label = new THREE.Group()
-    const yearText = makeText(String(m.year), { size: 1.3, color: hdr(GOLD, 1.4), anchorY: 'bottom' })
-    const name = makeText(E.valley.board[m.key], { size: 0.8, color: '#f4ecff', anchorY: 'top', maxWidth: 7.5 })
+    // (a dark rim keeps the words readable over their own beam of light)
+    const yearText = makeText(String(m.year), { size: 1.3, color: hdr(GOLD, 1.4), anchorY: 'bottom', outlineWidth: 0.09, outlineColor: '#120c2e' })
+    const name = makeText(E.valley.board[m.key], { size: 0.8, color: '#f4ecff', anchorY: 'top', maxWidth: 7.5, outlineWidth: 0.07, outlineColor: '#120c2e' })
     name.position.y = -0.1
     label.add(yearText, name)
-    label.position.set(m.x, g + 5.4 + (m.up ? 3.6 : 0), m.z)
+    label.position.set(m.x, g + 5.4 + (m.up ? 4.0 : 0), m.z)
     faceTo(label, LOOK.x, LOOK.z)
     label.visible = false
     root.add(label)
     return { ...m, beam, beamMat, label, texts: [yearText, name], shown: 0 }
   })
-  // 1971: the name, over the whole valley
+  // 1971: the name, over the middle of the valley, under the chip (no beam's label comes this near)
   const banner = new THREE.Group()
-  const bannerTitle = makeText('SILICON VALLEY U.S.A.', { size: 1.7, color: hdr(GOLD, 1.5), anchorY: 'bottom', maxWidth: 16 })
-  const bannerLine = makeText(E.valley.paper, { size: 0.8, color: '#f4ecff', anchorY: 'top' })
+  const bannerTitle = makeText('SILICON VALLEY U.S.A.', { size: 1.4, color: hdr(GOLD, 1.5), anchorY: 'bottom', maxWidth: 13, outlineWidth: 0.09, outlineColor: '#120c2e' })
+  const bannerLine = makeText(E.valley.paper, { size: 0.75, color: '#f4ecff', anchorY: 'top', outlineWidth: 0.06, outlineColor: '#120c2e' })
   bannerLine.position.y = -0.15
   banner.add(bannerTitle, bannerLine)
-  banner.position.set(0, -1.0, -40)
+  banner.position.set(0, -1.2, -40)
   faceTo(banner, LOOK.x, LOOK.z)
   banner.visible = false
   root.add(banner)
 
-  // the year, glowing in the sky over the valley's west side, above the moments' labels
+  // the year, glowing over the east hills, above every beam's label (the west side's top corner is the
+  // Atomling's speech bubble; the east one is covered only while the panel, with the year on its slider,
+  // is open)
   const sign = new THREE.Group()
-  const signYear = makeText('1950', { size: 2.6, color: hdr(GOLD, 1.5), anchorY: 'bottom' })
-  const signLine = makeText(E.valley.board.y1950, { size: 1.0, color: '#f4ecff', anchorY: 'top', maxWidth: 22 })
+  const signYear = makeText('1950', { size: 2.6, color: hdr(GOLD, 1.5), anchorY: 'bottom', outlineWidth: 0.12, outlineColor: '#120c2e' })
+  const signLine = makeText(E.valley.board.y1950, { size: 1.0, color: '#f4ecff', anchorY: 'top', maxWidth: 22, outlineWidth: 0.08, outlineColor: '#120c2e' })
   signLine.position.y = -0.15
   sign.add(signYear, signLine)
-  sign.position.set(-36, 7.6, -64)
+  const signAt = fromLook(34, 70)
+  sign.position.set(signAt.x, 6.8, signAt.z)
   faceTo(sign, LOOK.x, LOOK.z)
   root.add(sign)
   const setText = (t, s) => {
@@ -528,19 +536,20 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     }
   }
 
-  // the lever at the lookout
+  // the lever at the lookout, short and facing the way in, so it swings toward the valley and not
+  // across the moments' labels seen from the arrival
   const consoleG = new THREE.Group()
   consoleG.position.set(LEVER.x, 0, LEVER.z)
-  faceTo(consoleG, LOOK.x, LOOK.z)
+  faceTo(consoleG, SPAWN.x, SPAWN.z)
   const plinth = new THREE.Mesh(new RoundedBoxGeometry(0.9, 0.95, 0.6, 2, 0.06), M.stone)
   plinth.position.y = 0.475
   const slot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.04, 0.5), M.brass)
   slot.position.y = 0.97
   const arm = new THREE.Group()
   arm.position.y = 0.97
-  const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.75, 10).translate(0, 0.375, 0), M.brass)
+  const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.5, 10).translate(0, 0.25, 0), M.brass)
   const knob = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 12), new THREE.MeshStandardMaterial({ color: '#d8343a', roughness: 0.35, emissive: '#5a0a10', emissiveIntensity: 0.6 }))
-  knob.position.y = 0.78
+  knob.position.y = 0.53
   arm.add(stick, knob)
   // a brass plate on its front: 1950 at one end, today at the other
   const from = makeText('1950', { size: 0.08, color: '#ffe3a0' })
