@@ -44,6 +44,12 @@ share it as tiles and E asks which). E: "Step in": the view dives into the pictu
 the place opens; coming back you stand in front of the board, facing the hall. Doorway boards count as
 one of the seven boards and are no discovery of their own (the place behind has its own).
 
+Next (Artur, 2026-10-30, on first seeing the boards: "how can I get inside these pictures?"): every picture
+board a doorway into its own scene, a picture room. The plan is the studio's item `picture-rooms`: small
+rooms from a shared kit of stages and parts (few kinds of material, so the first visit compiles few
+shaders and rooms share them), the board's story told inside, no size limit in the code; a room that grows
+popular or rich becomes a full wing at the same address. Pilot: Na `lamps`, Na `space`, Si `diatoms`.
+
 ## The specimen case (2026-10-29)
 
 The user: the case "could be something more substantial or representative", its samples "often generic

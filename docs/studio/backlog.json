@@ -44,6 +44,7 @@
   ],
   "next": [
     "periodic-videos",
+    "picture-rooms",
     "halls-116",
     "treasure-hunts",
     "scavenger-hunts",
@@ -141,6 +142,23 @@
         "The door to it: a doorway board in each hall lists the element's extra places (its wings, this room, the hunts that start there) and makes room as more arrive, your blackboard idea."
       ],
       "link": "https://element-worlds.vercel.app/e/Na/videos"
+    },
+    {
+      "id": "picture-rooms",
+      "code": "Pi",
+      "title": "Step into the pictures",
+      "kind": "halls",
+      "status": "next",
+      "from": "artur",
+      "date": "2026-10-30",
+      "summary": "Artur's first question when he saw the new boards: how do I get inside these pictures? Every picture board becomes a doorway, like the Periodic Videos one: you dive into the picture and stand inside its scene, a small place made from the picture itself, with one to three things to do and the board's story told there.",
+      "why": "Artur asked for it himself the moment he saw the boards. A pilot of three rooms first (sodium's street lamps, sodium 90 km up, silicon's diatoms: a place, the sky, the very small) settles the shared kit before the other halls multiply the boards; then the rooms follow the boards element by element.",
+      "details": [
+        "A ladder of three steps. A picture room for every board, in time: a small scene around where you land, built from a shared kit of stages (a place indoors or outdoors, the sky and space, the very small, a moment in history) and parts, mostly written as data, with one to three things to do. A room that turns out loved (the family dashboard shows the visits) or whose subject keeps growing becomes a full wing like carbon's, at the same address, so nothing breaks. The big wings (carbon, oxygen, the neon signs) keep their arches.",
+        "No size limit in the code: a room can be any size or shape. The kit is there so that about seven hundred of them can be made at all, open quickly and run well on the phone.",
+        "Size is not what slows things down: each world's code is fetched only when you go in (carbon's gallery 310 KB, a hall 45 KB) and freed when you leave. What costs is the first visit's shader compiling (1.2 to 3.9 s now; carbon's gallery needs 53 programs; rooms made from one kit share theirs, so the second room opens almost at once) and, on the phone, how much is drawn at once (lights, glass, particles).",
+        "The board's story (four languages, both depths) is told inside, so a room adds only the words for its own things to do. Some existing ideas are rooms that grew: Aveiro's salt pans is sodium's salt board; Walk inside a chip could grow out of silicon's Silicon Valley board."
+      ]
     },
     {
       "id": "treasure-hunts",
