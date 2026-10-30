@@ -49,7 +49,9 @@ in. The studio item is `picture-rooms`.
   ions that face the eye, one draw call per kind), `saltpan.js` (Aveiro's salt works on a bright, windy
   afternoon: a clay platform cut by a canal, pans in low clay walls, heaps, the lagoon and the sea; one
   water shader for every pond, `water({ tint, alpha, perVertex })`, and `setWeather(k)` for wind and
-  haze). A room picks one
+  haze), `street.js` (a terraced street at night; its lamps light it colour by colour through `paint()`
+  and `lamps.set()`: each surface's reflectance near 589 and 640 nm from its colour, Smits' smooth
+  spectra). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -143,6 +145,12 @@ at the same address.
   then salt coming out at nine tenths gone, and on hot, windy days flor de sal to skim; the marnoto's
   rake piles the salt into shining heaps. Aveiro's details from Maia Alcoforado's account of 1877.
 
+- Sodium, `lamps` ("Why were old street lights yellow?", 2026-10-30): a terraced street at night. Tap
+  the lamp's switch: neon pink, then orange, then sodium yellow over ten lamp-minutes (a dial, sped up);
+  under it the red car, green tree and blue ball turn to yellows and greys, the white LED across the road
+  (or a slider) brings the colours back; the spectroscope shows one yellow line against a rainbow, at
+  Scientist level split into 589.0 and 589.6 nm. Beek to Geleen, 1932.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -202,6 +210,10 @@ at the same address.
   them across the view. A row of ponds receding from the visitor hides the far ones (the station view
   rises 1.45 m at most): lay them side by side. A pond inside a walkable platform must stand on it.
 - Saving a file while `shared_probe.py` runs reloads the world under it ("reading 'shared'").
+- Plain RGB lighting cannot show one-colour light (a red car stays red under yellow light): light by
+  reflectance at the lamp's wavelengths, in the shader. A night's own fill light brings the colours
+  back unless it is grey (rods see no colour anyway).
+- Near a wall the third-person camera closes in on the Atomling: keep station spots off the walls.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

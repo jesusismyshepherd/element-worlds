@@ -134,5 +134,18 @@
     "() => { __ew.showPanel(__ew.world.panels.rake); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
     "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.sea); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick(); r() }, 1600))",
     "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.pans); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 1600))"
+  ],
+  "/e/Na/lamps": [
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.lamp.tap(); r() }, 1200))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.lamp.skip(4); r() }, 1200))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.led.tap(); r() }, 1200))",
+    "() => { __ew.showPanel(__ew.world.panels.colours); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(40) }",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.thing('car'); r() }, 1200))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.scope.tap(); r() }, 1200))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.scope.look('led'); r() }, 1200))",
+    "() => { __ew.showPanel(__ew.world.panels.scope); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.lamp.tap(); r() }, 1200))",
+    "() => { __ew.showPanel(__ew.world.panels.lamp); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => { __ew.showPanel(__ew.world.panels.colours); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }"
   ]
 }

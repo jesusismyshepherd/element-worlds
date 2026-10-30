@@ -18,7 +18,9 @@ and the user's requests behind them. Add a line here when a piece of work change
   solar hilltop (the sun's slider, photons fired at a giant cell, Vanguard 1 launched) and silicone
   kitchen (the tray that bends, the bar that snaps, the putty, the chain frozen and shaken). Then the
   glassblower's workshop, the Earth and Moon from a deck in space, and Silicon Valley by night: all six
-  of silicon's pictures are doors.
+  of silicon's pictures are doors. Then all six of sodium's (the user: "ok, do next"): beside a nerve
+  fibre, Aveiro's salt pans, Davy's lab of 1807, a street under sodium lamps, a mountaintop observatory
+  with its laser guide star, a baking kitchen.
 
 - Doing things together in the worlds (the user: "I release the balloons in the neon chamber, all the
   players in the room see it too and share its state"; videos and popups stay each one's own): in a

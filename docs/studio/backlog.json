@@ -153,11 +153,12 @@
       "from": "artur",
       "date": "2026-10-30",
       "summary": "Artur's first question when he saw the new boards: how do I get inside these pictures? Every picture board becomes a doorway, like the Periodic Videos one: you dive into the picture and stand inside its scene, a small place made from the picture itself, with one to three things to do and the board's story told there.",
-      "why": "Artur asked for it the moment he saw the boards, and you marked it Sooner. Silicon's six are done; sodium's six come next (its hall was drawn the same day), then carbon's and oxygen's seven each, so every picture on a wall is a door. New halls get their pictures and rooms together.",
+      "why": "Artur asked for it the moment he saw the boards, and you marked it Sooner. Silicon's and sodium's are done; carbon's and oxygen's seven each come next, so every picture on a wall is a door. New halls get their pictures and rooms together.",
       "details": [
         "A ladder of three steps. A picture room for every board, in time: a small scene around where you land, built from a shared kit of stages (a place indoors or outdoors, the sky and space, the very small, a moment in history) and parts, mostly written as data, with one to three things to do. A room that turns out loved (the family dashboard shows the visits) or whose subject keeps growing becomes a full wing like carbon's, at the same address, so nothing breaks. The big wings (carbon, oxygen, the neon signs) keep their arches.",
         "Your rule (2026-10-30): no picture without its room. The pictures already on the walls (silicon, sodium, carbon, oxygen) get their rooms, silicon first; every new hall from now on is drawn and built picture and room together.",
         "Silicon is done (2026-10-30): all six of its pictures are doors. The diatoms (a sunlit sea floor), solar (a hilltop: the sun on a slider, light fired into a giant cell, Vanguard 1), glass (a glassblower's workshop: fill the pot, blow a bottle, light through sand, glass and fibre), the Earth and Moon (a deck in space: the Earth cut open, Moon rocks, a star that makes silicon), Silicon Valley (a hilltop at night: the valley from 1950 to today, a giant transistor, the 4004's 2300 lights) and silicone (a kitchen: the bendy tray, the snapping silicon, the putty, the chain). Next: sodium's six pictures, then carbon's and oxygen's.",
+        "Sodium is done (2026-10-30): beside a giant nerve fibre (fire the nerve, the sodium pump, the race), Aveiro's salt pans (the sea salted by rain and volcanoes, the ponds, the marnoto's rake), Davy's lab of 1807 (the battery, the soda split into beads of sodium, his desk), a street at night (the lamp warming from pink to yellow, colours that vanish, the spectroscope), a mountaintop observatory (the laser guide star, the twinkle taken out, shooting stars and Hale-Bopp) and a baking kitchen (the fizz test, two cakes, soda heated alone). Next: carbon's seven, then oxygen's seven.",
         "No size limit in the code: a room can be any size or shape. The kit is there so that about seven hundred of them can be made at all, open quickly and run well on the phone.",
         "Size is not what slows things down: each world's code is fetched only when you go in (carbon's gallery 310 KB, a hall 45 KB) and freed when you leave. What costs is the first visit's shader compiling (1.2 to 3.9 s now; carbon's gallery needs 53 programs; rooms made from one kit share theirs, so the second room opens almost at once) and, on the phone, how much is drawn at once (lights, glass, particles).",
         "The board's story (four languages, both depths) is told inside, so a room adds only the words for its own things to do. Some existing ideas are rooms that grew: Aveiro's salt pans is sodium's salt board; Walk inside a chip could grow out of silicon's Silicon Valley board."
@@ -646,6 +647,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "All six of sodium's pictures are doors",
+      "what": "Beside a nerve fibre, Aveiro's salt pans, Davy's lab of 1807, a street under sodium lamps, a mountaintop observatory with its laser star, a baking kitchen.",
+      "link": "https://element-worlds.vercel.app/e/Na"
+    },
     {
       "date": "2026-10-30",
       "title": "All six of silicon's pictures are doors",
