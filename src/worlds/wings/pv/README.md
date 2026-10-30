@@ -1,6 +1,7 @@
 # The Periodic Videos rooms (`/e/<Symbol>/videos`)
 
-An element's Periodic Videos film rebuilt as experiments to do, with the film beside them
+An element's Periodic Videos film rebuilt as experiments to do, with the film beside them, entered through a
+doorway board in the element's hall
 (`docs/knowledge/periodic-videos.md`; what each film shows: `docs/pv/<Symbol>.md`). One module serves every
 element that has a room; sodium's is the first (2026-10-30).
 
@@ -13,6 +14,8 @@ element that has a room; sodium's is the first (2026-10-30).
 - `apparatus.js`: the parts and what they do: `oilTin`, `courtyardBowl` (any alkali metal: three lumps,
   skating, the flame, the bang, the indicator), `saltWindow`, `saltLamp`, `noteCard`, `videoScreen`.
 - `fx.js`: `particles` (bubbles, sparks, smoke) and `flame`, shared by every room.
+- `professor.js`: the professor in his corner (his lines: `prof` in the element's words, their times in
+  `videos.js`); `room.js` gives him a panel with "Watch him say it" and "Next".
 - `videos.js`: each element's video id, year, length, and where each station's part starts (`parts`, s);
   `ROOMS` lists the elements with a room. `pv.words.js`: the words every room shares.
 - `<Symbol>.js` + `<Symbol>.words.js`: an element's stations (`stations(...)`, `chapters`, `COLOR`) and their

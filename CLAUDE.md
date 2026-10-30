@@ -81,7 +81,7 @@ built when, and the user's requests behind it: `docs/history.md`.
   left behind reloads once; `docs/knowledge/deploying.md`).
 - `src/worlds/registry.js`: addresses (`/`, `/e/C`, `/e/C/allotropes`) and which module builds each world.
   `plaza/` (the table, trends, time machine), `atrium/` (every element's hall: `atrium.js`, the big atom
-  `atom.js`, the specimen case `specimen.js`), `wings/<element>/`, `common/` (sky, panels, arches).
+  `atom.js`, the specimen case `specimen.js`, doorway boards `doors.js`), `wings/<element>/`, `common/` (sky, panels, arches).
 - `src/ui/`: the HUD (React). `layout.js` (`useViewport`: computer, upright phone, phone on its side;
   `useCover`), `fullscreen.js` (the button, full screen at a touch screen's first tap); the engine side
   of covers is `src/engine/covers.js`. `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`).
@@ -150,7 +150,9 @@ built: `docs/history.md`):
   floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
   showpieces; the other 116 still have the eight text stations (`hall-boards.md`).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
-  Periodic Videos room (since 2026-10-30, the pilot; a README in each folder).
+  Periodic Videos room (since 2026-10-30, the pilot, entered through a doorway board in the hall, the
+  professor in it; a README in each folder). Using a station in third person looks through the Atomling's
+  eyes (`walking.md`).
 - The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the
   Atomlings (`/atomlings`, `atomlings.md`), the passport (`/passport`).
 - Rooms: playing together, the shared lab, the quiz duel (`multiplayer.md`). Accounts (`accounts.md`).

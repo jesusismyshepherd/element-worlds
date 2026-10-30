@@ -48,6 +48,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     x: SPOTS.bench.at.x,
     z: SPOTS.bench.at.z,
     radius: 1.6,
+    focus: { x: SPOTS.bench.x + 0.1, y: SPOTS.bench.y + 0.12, z: SPOTS.bench.z + 0.35, size: 0.9 },
     label: E.tin.label,
     verb: () => (tin.busy ? E.tin.cutting : E.tin.cut),
     act: () => {
@@ -92,6 +93,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     x: SPOTS.yard.at.x,
     z: SPOTS.yard.at.z,
     radius: 1.8,
+    focus: { x: SPOTS.yard.x, y: SPOTS.yard.y + 0.08, z: SPOTS.yard.z, size: 0.9 },
     label: () => E.bowl.label[next],
     verb: E.bowl.drop,
     act: () => (drop(next) ? null : false),
@@ -127,6 +129,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     x: SPOTS.deskA.at.x,
     z: SPOTS.deskA.at.z,
     radius: 1.45,
+    focus: { x: SPOTS.deskA.x, y: SPOTS.deskA.y + 0.35, z: SPOTS.deskA.z, size: 0.9 },
     label: E.window.label,
     verb: () => (win.cracked ? E.window.again : E.window.crack),
     act: () => {
@@ -146,6 +149,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     x: SPOTS.side.at.x,
     z: SPOTS.side.at.z,
     radius: 1.45,
+    focus: { x: SPOTS.side.x, y: SPOTS.side.y + 0.2, z: SPOTS.side.z, size: 0.8 },
     label: E.lamp.label,
     verb: () => (lamp.on ? E.lamp.off : E.lamp.on),
     act: () => {
@@ -165,6 +169,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     x: SPOTS.deskB.at.x,
     z: SPOTS.deskB.at.z,
     radius: 1.35,
+    focus: { x: SPOTS.deskB.x, y: SPOTS.deskB.y + 0.06, z: SPOTS.deskB.z, size: 0.5 },
     label: E.note.label,
     verb: E.note.read,
     panel: panel({ id: 'note', title: E.note.title, parts: ['note'], blocks: lv => paras(E.note.panel[depth(lv)]) }),

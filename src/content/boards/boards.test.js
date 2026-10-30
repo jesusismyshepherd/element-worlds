@@ -13,10 +13,15 @@ for (const f of files) {
   const symbol = f.replace('.js', '')
   test(`${symbol}'s picture boards`, async () => {
     const boards = (await import(`./${f}`)).default
-    // the fact file takes one spot of the eight, the pictures the other seven
-    assert.equal(boards.length, 7, 'seven pictures')
+    // the fact file takes one spot of the eight, the pictures (and a doorway board, if any) the other seven
+    assert.equal(boards.length, 7, 'seven boards')
     assert.equal(new Set(boards.map(b => b.id)).size, boards.length, 'ids differ')
-    for (const b of boards) {
+    assert.ok(boards.filter(b => b.doors).length <= 1, 'one doorway board at most')
+    for (const b of boards.filter(b => b.doors)) {
+      assert.match(b.color, /^#[0-9a-f]{6}$/i, `${symbol} doorway board: colour`)
+      assert.ok(Array.isArray(b.doors) && b.doors.length > 0, `${symbol} doorway board: its doors`)
+    }
+    for (const b of boards.filter(b => !b.doors)) {
       const where = `${symbol} ${b.id}`
       assert.match(b.color, /^#[0-9a-f]{6}$/i, `${where}: colour`)
       assert.ok(existsSync(path.join(PUBLIC, symbol, `${b.id}.svg`)), `${where}: public/boards/${symbol}/${b.id}.svg`)

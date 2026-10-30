@@ -66,6 +66,22 @@ element picked, the trend, the family lit) and gets it back through `restoreSpot
 - The Atomling's bubble stays until "talk" switches it off; its arrow (or T) tells the next thing
   (docs/knowledge/hud-layout.md).
 
+## Through the Atomling's eyes (station view, 2026-10-30)
+
+The user, in sodium's Periodic Videos lab: from behind the Atomling the details of a bench could not be
+seen; first person showed them, so using a station in third person now looks through the Atomling's eyes.
+An interactable with `focus: { x, y, z, size }` (`size`: how much must fit, metres) does it: `player.use()`
+starts it (not the panel, which may open seconds later), the view eases from behind the Atomling into its
+eyes (raised a little above what it looks at, at most 1.45 m, and backed off along the line of sight only
+as far as `size` needs to fit), the Atomling turns to the station and is hidden while the view is in its
+head. Walking, turning, looking round by hand, or closing a panel that had opened eases it back. First
+person is unchanged. Focus is opt-in: the halls' boards, stations and specimen case, the Periodic Videos
+stations and professor have one (the exhibit kit, `noble/kit.js` `add({ focus })`, passes it through);
+carbon's, oxygen's and the neon workshop's exhibits do not yet.
+
+`player.dive(point, normal, then)`: the view flies into a picture (a hall's doorway board) in a second,
+slowly and then rushing, and calls `then` (the hall's `ctx.go` to the place behind it).
+
 ## Checking it
 
 `MSYS_NO_PATHCONV=1 py -3.11 tools/nav_probe.py` (dev server on 5310; `--only first|look|tube|panel|touch|talk|floor`,

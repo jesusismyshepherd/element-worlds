@@ -33,6 +33,17 @@ the results."
 - Code: `pictureBoard` in `src/worlds/common/props.js`; `loadBoards`, `boardArt` in
   `src/content/boards/index.js`; the hall in `src/worlds/atrium/atrium.js` (`boards`).
 
+## Doorways (2026-10-30)
+
+The user: the Periodic Videos lab is entered through one of the hall's boards, like stepping into a
+picture, and other such themes will join it there; the arches at the gates stay for the wings (carbon's
+and oxygen's kind). A board entry `{ id: 'doors', color, doors: ['videos'] }` in `boards/<Symbol>.js` is a
+doorway board (`src/worlds/atrium/doors.js`): each door is a wing in `WINGS` marked `board: true` (no arch,
+still its address `/e/<Symbol>/<id>`), drawn on the board (`ART` per kind of door; one door fills it, more
+share it as tiles and E asks which). E: "Step in": the view dives into the picture (`player.dive`), then
+the place opens; coming back you stand in front of the board, facing the hall. Doorway boards count as
+one of the seven boards and are no discovery of their own (the place behind has its own).
+
 ## The specimen case (2026-10-29)
 
 The user: the case "could be something more substantial or representative", its samples "often generic

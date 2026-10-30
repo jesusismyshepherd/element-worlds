@@ -21,6 +21,8 @@ export const SPOTS = {
   deskB: { x: 6.25, z: 0.35, y: 0.76, face: Math.PI, at: { x: 5.0, z: 0.35 } },
   side: { x: 6.3, z: 2.65, y: 0.7, face: Math.PI, at: { x: 5.1, z: 2.65 } },
   yard: { x: 0, z: -8.6, y: 0.85, face: -Math.PI / 2, at: { x: 0, z: -7.25 } }, // the red bench
+  // the professor, standing in his corner by the bookshelves, turned toward the room (+z faces the visitor)
+  prof: { x: 4.3, z: -2.85, y: 0, face: Math.atan2(-4.3, 3.6), at: { x: 3.45, z: -2.0 } },
 }
 
 function bricks(base = '#5a4a42', seed = 3) {

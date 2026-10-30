@@ -177,7 +177,7 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
     if (first && panel) later(delay, () => ctx.showPanel(panel))
     return first
   }
-  function add({ id, find = id, x, z, radius = 1.6, label, verb, act, panel, screens = [], panelDelay = 0, sayColor = null, manual = false }) {
+  function add({ id, find = id, x, z, radius = 1.6, label, verb, act, panel, screens = [], panelDelay = 0, sayColor = null, manual = false, focus = null }) {
     const key = `${prefix}:${find}`
     if (!keys.includes(key)) keys.push(key)
     for (const s of screens) {
@@ -191,6 +191,7 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
         x,
         z,
         radius,
+        focus,
         get label() {
           return typeof label === 'function' ? label() : label
         },
@@ -207,6 +208,7 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
       x,
       z,
       radius,
+      focus,
       get label() {
         return typeof label === 'function' ? label() : label
       },

@@ -4,6 +4,22 @@
 export const NA_WORDS = {
   en: {
     forms: { el: 'sodium', El: 'Sodium' },
+    // the professor: what he says in the film, retold (times: videos.js `prof`)
+    prof: {
+      name: 'Professor Poliakoff',
+      verb: 'Listen',
+      next: 'Next',
+      watch: 'Watch him say it ({t})',
+      note: 'What he says in the film, retold in the game\'s words. "Watch him say it" plays the moment.',
+      lines: [
+        'Sodium is a light metal, rather like lithium, and it melts at a low temperature, below the boiling point of water.',
+        'Freshly cut, sodium is a very shiny metal, really quite beautiful. But it reacts very quickly with the air and with water: the white crust on the outside is the hydroxide.',
+        'Many of you will know that if you drop sodium into water, it reacts almost explosively. So for the bigger reactions, we went outside.',
+        'Salt lets infrared light through, so it makes windows for infrared cells. This one is broken (my students broke it), but look: it cracks at right angles, because the atoms inside are arranged in cubes.',
+        'This table lamp is a lump of natural rock salt from under the ground, probably from Cheshire, where there are large underground salt mines.',
+        'I like sodium because Na was my mother\'s nickname when she was a child: her name was Ena. So whenever I see sodium in a formula, I get a warm, motherly feeling.',
+      ],
+    },
     greet: {
       kid: 'Hi! This is my lab. Watch my video on the screen, then do the experiments yourself. Start at the oil tin by the bench!',
       sci: "This lab rebuilds the experiments from sodium's Periodic Videos film: cutting it, dropping it in water, and its salt. Each station plays its own part of the film.",
@@ -98,6 +114,22 @@ export const NA_WORDS = {
   },
   'pt-pt': {
     forms: { el: 'sódio', El: 'Sódio', do_el: 'do sódio' },
+    // the professor: what he says in the film, retold (times: videos.js `prof`)
+    prof: {
+      name: 'Professor Poliakoff',
+      verb: 'Ouvir',
+      next: 'A seguir',
+      watch: 'Vê-lo a dizer isto ({t})',
+      note: 'O que ele diz no filme, recontado pelo jogo. "Vê-lo a dizer isto" põe o filme nesse momento.',
+      lines: [
+        'O sódio é um metal leve, um pouco como o lítio, e funde a uma temperatura baixa, abaixo da de ebulição da água.',
+        'Acabado de cortar, o sódio é um metal muito brilhante, mesmo bonito. Mas reage muito depressa com o ar e com a água: a crosta branca por fora é o hidróxido.',
+        'Muitos de vocês sabem que, se deitarem sódio na água, ele reage de forma quase explosiva. Por isso, para as reações maiores, fomos lá para fora.',
+        'O sal deixa passar a luz infravermelha, por isso serve para janelas de células de infravermelho. Esta está partida (foram os meus alunos), mas olhem: parte em ângulos retos, porque os átomos lá dentro estão arrumados em cubos.',
+        'Este candeeiro de mesa é um pedaço de sal-gema natural, de debaixo da terra, provavelmente de Cheshire, onde há grandes minas de sal subterrâneas.',
+        'Gosto do sódio porque Na era a alcunha da minha mãe quando era pequena: ela chamava-se Ena. Por isso, sempre que vejo sódio numa fórmula, sinto um carinho de mãe.',
+      ],
+    },
     greet: {
       kid: 'Olá! Este é o meu laboratório. Vê o meu vídeo no ecrã e depois faz tu as experiências. Começa pela lata de óleo, na bancada!',
       sci: 'Este laboratório reconstrói as experiências do filme dos Periodic Videos sobre o sódio: cortá-lo, deitá-lo na água e o seu sal. Cada posto põe a dar a sua parte do filme.',
@@ -192,6 +224,22 @@ export const NA_WORDS = {
   },
   pl: {
     forms: { el: 'sód', El: 'Sód' },
+    // the professor: what he says in the film, retold (times: videos.js `prof`)
+    prof: {
+      name: 'Profesor Poliakoff',
+      verb: 'Posłuchaj',
+      next: 'Dalej',
+      watch: 'Zobacz, jak to mówi ({t})',
+      note: 'To, co mówi w filmie, opowiedziane słowami gry. „Zobacz, jak to mówi” puszcza film w tej chwili.',
+      lines: [
+        'Sód to lekki metal, trochę jak lit, i topi się w niskiej temperaturze, niższej niż temperatura wrzenia wody.',
+        'Świeżo pokrojony sód to bardzo błyszczący metal, naprawdę piękny. Ale bardzo szybko reaguje z powietrzem i z wodą: biały nalot na zewnątrz to wodorotlenek.',
+        'Wielu z was wie, że sód wrzucony do wody reaguje niemal wybuchowo. Dlatego z większymi reakcjami wyszliśmy na dwór.',
+        'Sól przepuszcza podczerwień, więc robi się z niej okienka do kuwet na podczerwień. To jest pęknięte (to moi studenci), ale spójrzcie: pęka pod kątem prostym, bo atomy w środku są ułożone w sześciany.',
+        'Ta lampka to bryła naturalnej soli kamiennej spod ziemi, pewnie z Cheshire, gdzie są wielkie podziemne kopalnie soli.',
+        'Lubię sód, bo Na było przezwiskiem mojej mamy, kiedy była dzieckiem: miała na imię Ena. Więc kiedy widzę sód we wzorze, czuję takie ciepło jak od mamy.',
+      ],
+    },
     greet: {
       kid: 'Cześć! To jest moje laboratorium. Obejrzyj mój film na ekranie, a potem zrób doświadczenia sam. Zacznij od puszki z olejem przy stole!',
       sci: 'To laboratorium odtwarza doświadczenia z filmu Periodic Videos o sodzie: krojenie, wrzucanie do wody i jego sól. Każde stanowisko puszcza swój fragment filmu.',
@@ -286,6 +334,22 @@ export const NA_WORDS = {
   },
   de: {
     forms: { el: 'Natrium', El: 'Natrium' },
+    // the professor: what he says in the film, retold (times: videos.js `prof`)
+    prof: {
+      name: 'Professor Poliakoff',
+      verb: 'Zuhören',
+      next: 'Weiter',
+      watch: 'Ihn das sagen sehen ({t})',
+      note: 'Was er im Film sagt, in den Worten des Spiels nacherzählt. „Ihn das sagen sehen“ spielt die Stelle ab.',
+      lines: [
+        'Natrium ist ein leichtes Metall, ein bisschen wie Lithium, und es schmilzt schon bei niedriger Temperatur, unter dem Siedepunkt von Wasser.',
+        'Frisch geschnitten ist Natrium ein sehr glänzendes Metall, wirklich schön. Aber es reagiert sehr schnell mit Luft und Wasser: Die weiße Kruste außen ist das Hydroxid.',
+        'Viele von euch wissen: Wirft man Natrium ins Wasser, reagiert es fast explosiv. Für die größeren Reaktionen sind wir deshalb nach draußen gegangen.',
+        'Salz lässt Infrarotlicht durch, darum macht man daraus Fenster für Infrarotzellen. Dieses ist kaputt (das waren meine Studenten), aber seht: Es bricht im rechten Winkel, weil die Atome darin in Würfeln angeordnet sind.',
+        'Diese Tischlampe ist ein Brocken natürliches Steinsalz aus der Erde, wahrscheinlich aus Cheshire, wo es große unterirdische Salzbergwerke gibt.',
+        'Ich mag Natrium, weil Na der Spitzname meiner Mutter war, als sie ein Kind war: Sie hieß Ena. Wenn ich Natrium in einer Formel sehe, habe ich deshalb ein warmes, mütterliches Gefühl.',
+      ],
+    },
     greet: {
       kid: 'Hallo! Das ist mein Labor. Sieh dir mein Video auf dem Bildschirm an und mach dann die Versuche selbst. Fang bei der Öldose am Labortisch an!',
       sci: 'Dieses Labor baut die Versuche aus dem Film von Periodic Videos über Natrium nach: schneiden, ins Wasser werfen und sein Salz. Jede Station spielt ihren Teil des Films ab.',

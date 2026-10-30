@@ -15,6 +15,7 @@ import { loadContent } from '../../content/index.js'
 import { wallPanel, pictureBoard, arch, canvasTexture, portalMaterial } from '../common/props.js'
 import { loadBoards, boardArt } from '../../content/boards/index.js'
 import { factFileTexture } from './factFile.js'
+import { doorwayBoard } from './doors.js'
 import { track } from '../../net/telemetry.js'
 import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
@@ -54,12 +55,12 @@ const SIDES = {
 }
 
 const WORDS = {
-  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing', facts: 'Fact file', explore: 'Explore' },
-  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra', facts: 'Ficha técnica', explore: 'Explorar' },
+  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing', facts: 'Fact file', explore: 'Explore', stepIn: 'Step in', doorways: 'Doorways' },
+  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra', facts: 'Ficha técnica', explore: 'Explorar', stepIn: 'Entrar', doorways: 'Portas' },
   // the prompt reads "verb: label": a label in the case its verb takes (Zobacz: prawdziwą próbkę), the
   // Atomling's name in the nominative (Porozmawiaj: Węgiel)
-  pl: { back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę', facts: 'Metryczka', explore: 'Odkryj' },
-  de: { back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe', facts: 'Steckbrief', explore: 'Entdecke' },
+  pl: { back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę', facts: 'Metryczka', explore: 'Odkryj', stepIn: 'Wejdź', doorways: 'Przejścia' },
+  de: { back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe', facts: 'Steckbrief', explore: 'Entdecke', stepIn: 'Hineingehen', doorways: 'Durchgänge' },
 }
 
 /** Every floor tile's number and symbol, faint, on one see-through sheet just over the tiles (this
@@ -149,7 +150,9 @@ export async function build(ctx, target, previous) {
   root.add(floor)
 
   const wings = wingsOf(el.symbol)
-  const openings = [{ side: 's', at: 0, width: DOOR.width }, ...wings.map(w => ({ side: w.side, at: 0, width: DOOR.width }))]
+  // the wings have arches; places reached through a doorway board (the Periodic Videos room) do not
+  const arches = wings.filter(w => !w.board)
+  const openings = [{ side: 's', at: 0, width: DOOR.width }, ...arches.map(w => ({ side: w.side, at: 0, width: DOOR.width }))]
   const wallMat = new THREE.MeshStandardMaterial({ color: new THREE.Color('#353f78').lerp(tint, 0.12), roughness: 0.75, metalness: 0.05 })
   const wallT = 0.4
   // the walls, with a lintel over each doorway
@@ -273,10 +276,12 @@ export async function build(ctx, target, previous) {
   // pictures (the user, 2026-10-29: the eight text boards were boring; Carbon and Oxygen first)
   const boards = await loadBoards(el.symbol)
   const keys = boards
-    ? [`${el.symbol}:facts`, ...boards.map(b => `${el.symbol}:board:${b.id}`), `${el.symbol}:look`]
+    ? [`${el.symbol}:facts`, ...boards.filter(b => !b.doors).map(b => `${el.symbol}:board:${b.id}`), `${el.symbol}:look`]
     : [...stations.map(s => `${el.symbol}:${s.id}`), `${el.symbol}:look`]
   const report = () => ctx.store.set({ discoveries: { found: countFound(keys), total: keys.length } })
   const marks = [] // each redraws one read mark (the progress replaced at a sign-in)
+  const doorways = {} // where you arrive coming back through a doorway board, by wing id
+  const boardDoors = [] // doorway boards, for building their places ahead
   if (boards) {
     const spots = [SPOTS[FACT_SPOT], ...BOARD_SPOTS.map(id => SPOTS[id])]
     const factFile = level => {
@@ -292,6 +297,13 @@ export async function build(ctx, target, previous) {
         open: factFile,
       },
       ...boards.map(b => {
+        if (b.doors) {
+          // a doorway board: its doors lead into the element's places reached through a picture
+          const ds = b.doors.map(id => wings.find(w => w.id === id)).filter(Boolean)
+            .map(w => ({ id: w.id, title: ctx.t(`wings.${el.symbol}.${w.id}.title`), color: w.color, to: wingPath(el.symbol, w.id) }))
+          const title = ds.length === 1 ? ds[0].title : W.doorways
+          return { id: 'doors', doors: ds, board: doorwayBoard({ el, doors: ds, title, color: b.color, ...BOARD }), label: title, verb: W.stepIn }
+        }
         const title = inLang(b.title, lang)
         const wing = b.wing && wings.find(w => w.id === b.wing)
         return {
@@ -321,11 +333,43 @@ export async function build(ctx, target, previous) {
       root.add(it.board.group)
       if (it.board.update) updates.push(t => it.board.update(t))
       const key = `${el.symbol}:${it.id}`
+      const front = new THREE.Vector3(0, 0, 1.9).applyAxisAngle(new THREE.Vector3(0, 1, 0), spot.rot)
+      // where the station view looks: the board's middle (it frames the whole board)
+      const focus = { x: spot.x + front.x * 0.12, y: 2.3, z: spot.z + front.z * 0.12, size: BOARD.height + 0.5 }
+      if (it.doors) {
+        // stepping in: the view flies into the picture, then the place it opens on
+        const normal = front.clone().normalize()
+        const centre = new THREE.Vector3(spot.x, 2.2, spot.z).addScaledVector(normal, wallT / 2 + 0.06)
+        const go = d => ctx.engine.player.dive(centre, normal, () => ctx.go(d.to))
+        for (const d of it.doors) {
+          doorways[d.id] = { x: spot.x + front.x * 1.25, z: spot.z + front.z * 1.25, yaw: spot.rot + Math.PI }
+          boardDoors.push({ x: spot.x + front.x, z: spot.z + front.z, wing: d.id })
+        }
+        interactables.push({
+          id: it.id,
+          x: spot.x + front.x,
+          z: spot.z + front.z,
+          radius: 2.1,
+          label: it.label,
+          verb: it.verb,
+          focus,
+          onUse: () => {
+            if (it.doors.length === 1) return go(it.doors[0])
+            ctx.showPanel(() => ({
+              title: W.doorways,
+              kicker: `${el.symbol} · ${nameOf(el, lang)}`,
+              color: it.doors[0].color,
+              blocks: [{ buttons: it.doors.map(d => ({ label: d.title, accent: true, onClick: () => go(d) })) }],
+            }))
+          },
+        })
+        return
+      }
       const mark = () => it.board.setRead(isFound(key))
       mark()
       marks.push(mark)
-      const front = new THREE.Vector3(0, 0, 1.9).applyAxisAngle(new THREE.Vector3(0, 1, 0), spot.rot)
       interactables.push({
+        focus,
         id: it.id,
         x: spot.x + front.x,
         z: spot.z + front.z,
@@ -360,6 +404,7 @@ export async function build(ctx, target, previous) {
       radius: 2.1,
       label: st.title,
       verb: W.read,
+      focus: { x: spot.x + front.x * 0.12, y: 2.3, z: spot.z + front.z * 0.12, size: 3.0 },
       onUse: () => {
         // written for the level now, and again if the level changes while it is open
         ctx.showPanel(level => stationsOf(el, { lang, level, familyName }).find(s => s.id === st.id).panel())
@@ -400,6 +445,7 @@ export async function build(ctx, target, previous) {
     radius: 1.7,
     label: W.sample,
     verb: W.look,
+    focus: { x: caseSpot.x, y: 1.35, z: caseSpot.z, size: 1.7 },
     onUse: () => {
       ctx.showPanel(level => {
         const state = stationsOf(el, { lang, level, familyName }).find(s => s.id === 'state').panel()
@@ -421,7 +467,7 @@ export async function build(ctx, target, previous) {
   doors.push({ x: SIDES.s.trigger[0], z: SIDES.s.trigger[1], radius: 0.9, to: plazaPath(el.symbol) })
   for (const side of ['n', 'e', 'w']) {
     const sd = SIDES[side]
-    const wing = wings.find(w => w.side === side)
+    const wing = arches.find(w => w.side === side)
     const title = wing ? ctx.t(`wings.${el.symbol}.${wing.id}.title`) : W.soon
     const a = arch({ ...DOOR, color: wing?.color ?? '#59608a', label: title, closed: !wing })
     a.group.position.set(sd.x, 0, sd.z)
@@ -440,7 +486,8 @@ export async function build(ctx, target, previous) {
   // where a player arrives: at the entrance, or in front of the arch of the wing it comes back from
   const back = previous?.kind === 'wing' && previous.symbol === el.symbol ? wings.find(w => w.id === previous.wing) : null
   const ARRIVE = { n: { x: 0, z: -5.2, yaw: Math.PI }, e: { x: 5.2, z: 0, yaw: Math.PI / 2 }, w: { x: -5.4, z: -1, yaw: -Math.PI / 2 } }
-  const arrival = back ? ARRIVE[back.side] : { x: 0, z: 4.4, yaw: 0 }
+  // (or out of the doorway board it went in by, facing the hall)
+  const arrival = back?.board && doorways[back.id] ? doorways[back.id] : back && !back.board ? ARRIVE[back.side] : { x: 0, z: 4.4, yaw: 0 }
 
   // ---- light ----
   root.add(new THREE.HemisphereLight('#e4eaff', '#262c55', 1.25))
@@ -514,6 +561,9 @@ export async function build(ctx, target, previous) {
         if (d.to.startsWith(`/e/${el.symbol}/`) && Math.hypot(d.x - p.x, d.z - p.z) < 7.5) {
           ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: d.to.split('/').pop() })
         }
+      }
+      for (const d of boardDoors) {
+        if (Math.hypot(d.x - p.x, d.z - p.z) < 5) ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: d.wing })
       }
     },
     dispose() {

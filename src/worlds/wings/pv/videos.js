@@ -11,6 +11,8 @@ export const VIDEOS = {
     length: 282,
     // where each station's part of the video starts (s): a cut, a fade, or the first word of it
     parts: { tin: 0, bowl: 64.5, window: 134, lamp: 179.5, bang: 206.2, note: 258 },
+    // where the professor says each of his lines (prof.lines in the words)
+    prof: [26, 36, 58, 134, 178, 258],
   },
 }
 

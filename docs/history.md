@@ -12,6 +12,11 @@ and the user's requests behind them. Add a line here when a piece of work change
   is the pilot (`/e/Na/videos`: the oil tin, the courtyard bowl, the salt window, the salt lamp, the
   professor's card, the film with "Watch this part"; `periodic-videos.md`).
 
+- Sodium's lab is entered through a doorway board in its hall (stepping into the picture), no longer an
+  arch: the arches are for the wings (the user). Using a station in third person looks through the
+  Atomling's eyes (`walking.md`). The professor stands in his lab and retells his own remarks from the
+  film, each with the moment to watch him say it (`periodic-videos.md`).
+
 ## 2026-10-29
 
 - Evening: accounts (the Pokémon site's logins; 👤): progress kept in the account and moved there from a

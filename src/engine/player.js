@@ -8,6 +8,10 @@
 // Third person tilts the camera round the Atomling from above to a little below it; tilted further up,
 // the camera stays and looks up (the floor stopped it at 11 degrees before). A pinch (phones) or the
 // wheel brings it nearer or farther.
+// Using a station that has a `focus` ({ x, y, z, size }) in third person, the view eases into the
+// Atomling's eyes and looks at it (the user, 2026-10-30: from behind, the details of a bench could not be
+// seen); walking on, looking round by hand or closing the panel brings it back behind the Atomling.
+// `dive(point, normal, then)` flies the view into a picture (a hall's doorway board), then calls `then`.
 // Facing: yaw 0 looks along -z; a model faces +z, so it is turned by yaw + PI.
 import * as THREE from 'three'
 import { pushOut, groundAt, segmentFree } from './collide.js'
@@ -23,6 +27,8 @@ const camDistFor = height => clamp(height * 3.4, 2.6, 7) * (touchScreen() ? 0.9 
 
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
 const damp = (from, to, rate, dt) => to + (from - to) * Math.exp(-rate * dt)
+const wrap = a => Math.atan2(Math.sin(a), Math.cos(a))
+const ease = k => k * k * (3 - 2 * k)
 const forward = yaw => [-Math.sin(yaw), -Math.cos(yaw)]
 
 export class Player {
@@ -44,6 +50,8 @@ export class Player {
     this.camSnap = true
     this.near = null
     this.doorWait = 0
+    this.station = null // a station seen through the Atomling's eyes: { at, yaw, size, on, k }
+    this.diving = null // flying into a doorway board's picture
   }
 
   body() {
@@ -65,6 +73,8 @@ export class Player {
     this.speed = 0
     this.camSnap = true
     this.doorWait = 1.2
+    this.station = null
+    this.diving = null
     this.world = world
     this.npc = this.mode === 'first' ? this.hostSpot() : null
     if (this.avatar) this.avatar.root.position.copy(this.pos)
@@ -122,8 +132,38 @@ export class Player {
     if (this.avatar) this.avatar.root.visible = true
   }
 
+  /** Into a picture: the view flies through `point` (on a board facing `normal`) and `then()` is called. */
+  dive(point, normal, then) {
+    if (this.diving) return
+    const cam = this.engine.camera
+    this.diving = { t: 0, from: cam.position.clone(), q0: cam.quaternion.clone(), point: point.clone(), normal: normal.clone().normalize(), then, done: false }
+    this.station = null
+    this.engine.store.set({ panel: null })
+    this.avatar?.hop?.()
+  }
+
+  /** Look at a station through the Atomling's eyes (third person); the Atomling turns to it. */
+  lookAtStation(f) {
+    const yaw = Math.atan2(-(f.x - this.pos.x), -(f.z - this.pos.z))
+    this.station = { at: new THREE.Vector3(f.x, f.y, f.z), yaw, size: f.size ?? 1, on: true, k: this.station?.k ?? 0 }
+  }
+
   update(dt, world, input, time) {
     const cam = this.engine.camera
+    if (this.diving) {
+      // slowly, then rushing into the picture
+      const d = this.diving
+      d.t += dt
+      const k = Math.min(1, d.t / 0.95)
+      cam.position.lerpVectors(d.from, d.point.clone().addScaledVector(d.normal, -0.4), k * k * k)
+      const m = new THREE.Matrix4().lookAt(cam.position, d.point.clone().addScaledVector(d.normal, -3), cam.up)
+      cam.quaternion.slerpQuaternions(d.q0, new THREE.Quaternion().setFromRotationMatrix(m), Math.min(1, k * 2.5))
+      if (k >= 1 && !d.done) {
+        d.done = true
+        d.then?.()
+      }
+      return
+    }
     const b = this.body()
     const look = input.takeLook()
     const wheel = input.takeWheel()
@@ -149,6 +189,19 @@ export class Player {
         // walking on, a view tilted up comes back down
         if (this.camPitch > swing) this.camPitch = damp(this.camPitch, swing, 2.2, dt)
       }
+    }
+
+    // a station seen through the Atomling's eyes: walking on, looking round by hand or closing its panel
+    // gives the view back
+    const st = this.station
+    if (st) {
+      const moved = Math.abs(fw) > 0.15 || Math.abs(side) > 0.15 || Math.abs(look.dx) + Math.abs(look.dy) > 2
+      const panel = this.engine.store.get().panel
+      if (panel) st.seen = true
+      if (st.on && (moved || (st.seen && !panel) || this.mode !== 'third')) st.on = false
+      st.k = damp(st.k, st.on ? 1 : 0, st.on ? 4 : 6, dt)
+      if (st.on) this.yaw += wrap(st.yaw - this.yaw) * (1 - Math.exp(-6 * dt))
+      if (!st.on && st.k < 0.01) this.station = null
     }
 
     // moving
@@ -198,6 +251,8 @@ export class Player {
         av.root.position.copy(this.pos)
         av.root.rotation.y = this.yaw + Math.PI
         av.update(dt, time, { speed: Math.abs(this.speed), run, grounded: this.grounded, turning: side })
+        // looking through its eyes, the Atomling itself is not in the way
+        av.root.visible = !(this.station && this.station.k > 0.55)
       } else {
         const n = this.npc
         const dx = this.pos.x - n.x
@@ -272,6 +327,28 @@ export class Player {
     else cam.lookAt(target)
     // tilted past the lowest swing: the camera stays and looks up
     if (aim > 0.001) cam.rotateX(aim)
+    // a station: into the Atomling's eyes, backed off along the line of sight only as far as the
+    // station needs to fit in the view
+    const st = this.station
+    if (st && st.k > 0.001) {
+      const k = ease(st.k)
+      // its eyes, raised a little above what it looks at (a bench seen from the side shows nothing of
+      // its top), no higher than a child's eyes
+      const own = (b.hover ?? 0) + Math.max(b.height * 0.9, 0.95)
+      const eye = new THREE.Vector3(this.pos.x, this.pos.y + Math.max(own, Math.min(st.at.y - this.pos.y + 0.35, 1.45)), this.pos.z)
+      const fit = (st.size / 2 / Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2)) * 1.1
+      const dist = eye.distanceTo(st.at)
+      if (dist < fit) eye.addScaledVector(eye.clone().sub(st.at).normalize(), fit - dist)
+      if (bounds) {
+        eye.x = clamp(eye.x, bounds.minX, bounds.maxX)
+        eye.y = clamp(eye.y, bounds.minY, bounds.maxY)
+        eye.z = clamp(eye.z, bounds.minZ, bounds.maxZ)
+      }
+      const q0 = cam.quaternion.clone()
+      cam.position.lerpVectors(this.camPos, eye, k)
+      const m = new THREE.Matrix4().lookAt(cam.position, st.at, cam.up)
+      cam.quaternion.slerpQuaternions(q0, new THREE.Quaternion().setFromRotationMatrix(m), k)
+    }
   }
 
   /** The nearest thing to use within its reach, for the prompt (E, or the button). */
@@ -292,7 +369,10 @@ export class Player {
   }
 
   use() {
-    this.near?.onUse?.()
+    const it = this.near
+    // the view goes to the station as it is used (its panel may open later, after the experiment)
+    if (it?.focus && this.mode === 'third' && !this.station?.on) this.lookAtStation(it.focus)
+    it?.onUse?.()
   }
 
   /** A panel belongs to where it was opened: it stays open while the walker moves about there (the
@@ -311,6 +391,7 @@ export class Player {
       } else {
         const it = this.near
         this.reading = { panel, x: it?.x ?? this.pos.x, z: it?.z ?? this.pos.z, reach: (it?.radius ?? 2) * 1.5 + 1 }
+        if (it?.focus && this.mode === 'third') this.lookAtStation(it.focus)
         // which exhibit it tells about: another one near is still offered (WalkHud)
         store.set({ panelFrom: it?.id ?? null })
       }

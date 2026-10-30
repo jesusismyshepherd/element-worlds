@@ -34,6 +34,14 @@ test("each room's words exist in every language, in the same shape (forms aside)
   for (const sym of ROOMS) assert.ok(ROOM_WORDS[sym]['pt-pt'].forms.do_el, `${sym}: do_el`)
 })
 
+test("the professor has one line for each moment he says one, in every language", () => {
+  for (const sym of ROOMS) {
+    const times = VIDEOS[sym].prof ?? []
+    for (const l of LANGS) assert.equal(ROOM_WORDS[sym][l].prof?.lines.length ?? 0, times.length, `${sym} ${l}`)
+    for (const s of times) assert.ok(s >= 0 && s < VIDEOS[sym].length, `${sym}: ${s}`)
+  }
+})
+
 test("every room's video has its parts inside the film", () => {
   for (const sym of ROOMS) {
     const v = VIDEOS[sym]

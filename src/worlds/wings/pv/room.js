@@ -7,11 +7,12 @@ import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
 import { arch } from '../../common/props.js'
-import { box } from '../../../engine/collide.js'
+import { box, circle } from '../../../engine/collide.js'
 import { atriumPath } from '../../registry.js'
 import { at, fill, exhibitSet, onLevel, fontsReady } from '../noble/kit.js'
 import { labRoom, LAB, SPOTS, DOORS } from './lab.js'
 import { videoScreen } from './apparatus.js'
+import { professor } from './professor.js'
 import { PV_WORDS } from './pv.words.js'
 import { VIDEOS, ROOMS, embedUrl, watchUrl, clock } from './videos.js'
 
@@ -106,7 +107,65 @@ export async function build(ctx, target) {
       },
     ],
   })
-  ex.add({ id: 'screen', x: SPOTS.screen.at.x, z: SPOTS.screen.at.z, radius: 1.8, label: W.screen.label, verb: W.screen.verb, panel: screenPanel })
+  ex.add({ id: 'screen', x: SPOTS.screen.at.x, z: SPOTS.screen.at.z, radius: 1.8, label: W.screen.label, verb: W.screen.verb, panel: screenPanel, focus: { x: SPOTS.screen.x, y: SPOTS.screen.y, z: SPOTS.screen.z, size: 1.6 } })
+
+  // the professor in his corner: his own remarks from the film, one at a time, each with its moment
+  let prof = null
+  if (E.prof && video.prof) {
+    prof = professor({ light })
+    prof.group.position.set(SPOTS.prof.x, 0, SPOTS.prof.z)
+    prof.group.rotation.y = SPOTS.prof.face
+    root.add(prof.group)
+    solids.push(circle(SPOTS.prof.x, SPOTS.prof.z, 0.35))
+    let line = -1
+    let watchingProf = false
+    const profPanel = () => {
+      const t = video.prof[line]
+      return {
+        title: E.prof.name,
+        kicker: W.kicker,
+        color: COLOR,
+        blocks: [
+          ...(watchingProf ? film(t) : []),
+          { p: E.prof.lines[line] },
+          {
+            buttons: [
+              {
+                label: watchingProf ? W.hide : fill(E.prof.watch, { t: clock(t) }),
+                accent: true,
+                onClick: () => {
+                  watchingProf = !watchingProf
+                  ctx.showPanel(profPanel)
+                },
+              },
+              { label: E.prof.next, onClick: () => sayNext() },
+            ],
+          },
+          { p: E.prof.note },
+        ],
+      }
+    }
+    const sayNext = () => {
+      line = (line + 1) % E.prof.lines.length
+      watchingProf = false
+      prof.gesture()
+      ctx.showPanel(profPanel)
+    }
+    ex.add({
+      id: 'prof',
+      x: SPOTS.prof.at.x,
+      z: SPOTS.prof.at.z,
+      radius: 1.7,
+      label: E.prof.name,
+      verb: E.prof.verb,
+      manual: true,
+      focus: { x: SPOTS.prof.x, y: 1.5, z: SPOTS.prof.z, size: 1.9 },
+      act: () => {
+        sayNext()
+        ex.discover('prof')
+      },
+    })
+  }
 
   // the arch back to the element's hall, behind the spawn
   const back = arch({ width: 3.4, height: 3.1, color: COLOR, label: fill(W.back, forms), portal: 'swirl' })
@@ -184,6 +243,7 @@ export async function build(ctx, target) {
         }
       }
       back.update(t)
+      prof?.update(dt, t, ctx.engine.player.pos)
       ctx.renderer.getDrawingBufferSize(size)
       st.update(dt, t, ctx.camera, size.y)
       ex.sync()

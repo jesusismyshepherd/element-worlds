@@ -41,7 +41,8 @@ spoken numbers are often rounded). Dangerous experiments carry the video's own w
 
 - One shared module (like the neon sign workshop): a corner of a chemistry department (a lab bench, a
   fume cupboard, a door to a brick courtyard, the professor's desk) dressed per element, with the stations
-  from its brief. Reached from the hall (the doorway board, `periodic-videos` in the studio).
+  from its brief. Reached through the hall's doorway board (`atrium/doors.js`, `hall-boards.md` "Doorways"), not an arch:
+  the arches are for the wings (the user, 2026-10-30).
 - The screen by the door plays the element's video in YouTube's player (an iframe in the HUD's side
   sheet, or placed on the screen in 3D; both to be tried); each station's "Watch this part" starts it at
   the station's time. Credited and linked to periodicvideos.com.
@@ -74,6 +75,16 @@ Traps met building it:
   and look at the real thing on a phone or a computer.
 - The apparatus face +x; a spot's `face` is the turn that points +x at the visitor (rotation.y takes +x
   to (cos, 0, -sin)).
+
+## The professor (2026-10-30)
+
+The user asked for the professor himself, to talk to. `pv/professor.js`: a friendly figure in the game's
+rounded style (the white hair, glasses, striped shirt, a tie of little coloured squares) in his corner; he
+turns his head to the visitor and gestures as he talks. What he says comes from the element's film only:
+each line retold in the game's words, in his voice, with "Watch him say it" at the moment he says it
+(`prof` in `<Symbol>.words.js`, the times in `videos.js` `prof`). He is a real person: the game puts no
+words of its own in his mouth; facts the film does not have stay with the Atomling. Lines from his other
+films can join when they are watched.
 
 ## Order
 
