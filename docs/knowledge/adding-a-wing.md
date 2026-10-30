@@ -102,6 +102,13 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
 - Kin to the plaza and the atrium: glowing edges, dark navy screens, soft bloom; but each wing is its
   own place with its own light (a sky deck is daylight, a fire chamber dark and warm).
 - Exhibits are things to do, not only to read: a press to work, a fire to put out, a sheet to slide.
+- The visitor chooses each step (the user, 2026-10-30, a rule for every station): a step is done by
+  clicking or tapping the thing it is about (the sand pile, the soda, the pot, the switch), and anything
+  that varies smoothly (the sun's height, a temperature, a depth) is a slider. Pressing E again and again
+  to walk through fixed steps felt passive. The prompt tells the next step ("Tap the sand pile"); E still
+  opens the station's panel, whose buttons do the same steps (keyboards, probes). Picture rooms:
+  `clickable(object, onTap, { when, reach })` (`picture-rooms.md`); other worlds: `w.onTap(ray)` and
+  `w.pointAt(ray)` (`walking.md`, "Things to click").
 - `ctx.light` (phones, weak computers): fewer particles, no glass; keep frames short.
 - The arch back to the atrium stands behind the spawn; the spawn faces into the wing.
 
