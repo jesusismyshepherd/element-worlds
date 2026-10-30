@@ -7,7 +7,8 @@ no words). The scripts give the same files again.
 
 `lib/style.py` keeps the series' look, started from Carbon's `C/lib.py` and Oxygen's `O/kit.py`: the navy
 background tinted with the board's colour (`background`), the calm bottom band and vignette (`finish`),
-atoms as shaded balls in CPK colours (`ball`; sodium violet, chlorine green, potassium deeper violet),
+atoms as shaded balls in CPK colours (`ball`; sodium violet, chlorine green, potassium deeper violet,
+silicon beige, boron pink, since silicon's boards),
 ions with their sign on the ball (`ion`), small molecules (`co2`, `h2o`), glows, sparkles, arrows and a
 round close-up window (`magnifier`). Its header shows how a picture script starts.
 

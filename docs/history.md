@@ -27,6 +27,12 @@ and the user's requests behind them. Add a line here when a piece of work change
   glittering lump and sand, the chip line, the wafer's rainbow, the turbocharger race, the minerals, and
   the professor's lines from the film (`periodic-videos.md`).
 
+- Silicon's hall has its picture boards and its own showpiece: beside the doorway into its lab, six
+  pictures (diatoms in their glass houses, a solar panel and Vanguard 1, sand turned into glass, the Earth
+  cut open and the Moon, the valley named after it, the bendy silicone muffin tray), and in the case a
+  broken glittering lump of polycrystalline silicon beside a single-crystal boule lying in its cradle and
+  a polished wafer sliced from it (`hall-boards.md`).
+
 ## 2026-10-29
 
 - Evening: accounts (the Pokémon site's logins; 👤): progress kept in the account and moved there from a

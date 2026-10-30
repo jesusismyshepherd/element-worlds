@@ -58,7 +58,10 @@ three faces (a cut diamond over a stack of graphite flakes whose top one slips, 
 liquid oxygen boiling in a flask with cold fog over the rim and a magnet holding a drop of it, Sodium
 (2026-10-30) lumps kept under oil in a capped jar, and on a tile with filter paper a piece just cut, its
 silver face beside the dull grey crust, the slice that came off it and the knife (`cutLump`: a lump cut
-flat by a plane, the face its own material).
+flat by a plane, the face its own material), Silicon (2026-10-30) a broken lump of polycrystalline
+silicon whose grains flash as the table turns, a single-crystal boule lying in a cradle (shoulder, seed
+neck, four faint growth ridges, its sawn end polished) and a wafer sliced from it standing in a holder
+(`siliconChunk`, `siliconMatcap`).
 
 Traps met:
 - Glass: a transmissive (`transmission`) glass does not show transparent things inside it (the liquid
@@ -79,6 +82,16 @@ Traps met:
   the diamond's facets carry their shades.
 - A visitor looks at the table from the side: a face lying on top shows edge-on. Turn what must be seen
   outwards, two such things opposite ways, so one faces you whichever way the table has turned.
+- Polished metal over a whole shape (silicon's lump and boule): a drawn matcap (`MeshMatcapMaterial`, a
+  canvas of a blue-grey sphere with a few small bright windows) mirrors nothing, needs no light and is not
+  blown out by the case's lamp; with `flatShading` each facet shows the shade its angle gives it, so the
+  facets flash one by one as the table turns (glitter for free). Vertex colours per grain multiply it.
+- A rock from a sphere of even triangles (an icosphere of detail 3) read as a geodesic ball: detail 4,
+  finer waves on top of the broad ones, stretched unevenly and broken flat by a few planes, reads as a
+  broken chunk. Shape the bumps as functions of the direction, never per corner (a non-indexed sphere
+  has each corner several times; per-corner noise tears the faces apart).
+- A tall thing standing in the case (silicon's boule) read as a bottle and hid the rest from a visitor's
+  eye height: lay it down.
 
 ## Adding an element's boards
 
@@ -115,5 +128,14 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   light; `space` the sodium layer 90 km up, laser guide stars, Hale-Bopp's sodium tail; `kitchen` baking
   soda and a rising cake), none repeating the lab (cutting, water, the salt window, the salt lamp); its
   showpiece above.
+- Done: Silicon (2026-10-30): its doorway and six pictures (`diatoms` the glass houses of diatoms, a fifth
+  of Earth's oxygen, Nobel's kieselguhr, nettles' silica tips; `solar` the p-n junction, Bell Labs 1954,
+  Vanguard 1; `glass` sand to glass, why it is clear, optical fibres; `earth` the mantle's olivine and
+  bridgmanite, Hawaii's green sand, Apollo's 382 kg, silicon made in stars; `valley` Berzelius's brown
+  powder, the orchards that became Silicon Valley, Hoefler 1971, the Intel 4004; `silicone` the bendy
+  muffin tray, PDMS, Kipping's misnomer, bouncing putty), none repeating the lab (the lump and sand, the
+  chip line, the wafer's rainbow, the turbocharger, the minerals); its showpiece above. Trap: a title over
+  about 37 characters wraps on the band and can leave one word alone on the second line ("of?", "vidro?");
+  keep titles under that where the language allows (the test still allows 44).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.

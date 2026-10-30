@@ -454,4 +454,208 @@ function sodium() {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { C: carbon, O: oxygen, Na: sodium }
+/** How polished blue-grey silicon looks, drawn once as a matcap: a soft window high on the left, a smaller
+ *  one on the right, a dark floor below, a cool rim. A matcap needs no light and mirrors nothing (a metallic
+ *  face only mirrored the pink hall, and the case's lamp blew pale things out); on flat facets each one shows
+ *  the shade its angle gives it, so as the table turns the facets flash one by one, as the grains of a
+ *  lump of silicon glitter. */
+let siliconCap = null
+function siliconMatcap() {
+  if (siliconCap) return siliconCap
+  const c = document.createElement('canvas')
+  c.width = c.height = 256
+  const g = c.getContext('2d')
+  const base = g.createLinearGradient(0, 0, 0, 256)
+  for (const [o, col] of [[0, '#6a7488'], [0.35, '#465062'], [0.62, '#2a303c'], [1, '#14171e']]) base.addColorStop(o, col)
+  g.fillStyle = base
+  g.fillRect(0, 0, 256, 256)
+  // a cool rim round the edge (normals turned away from the viewer)
+  const rim = g.createRadialGradient(128, 128, 96, 128, 128, 128)
+  rim.addColorStop(0, 'rgba(150,170,205,0)')
+  rim.addColorStop(1, 'rgba(150,170,205,0.45)')
+  g.fillStyle = rim
+  g.fillRect(0, 0, 256, 256)
+  // the windows: bright, but small, so only a few facets catch them at a time
+  for (const [x, y, r, a] of [[84, 70, 28, 0.85], [182, 96, 16, 0.75], [150, 46, 10, 0.6], [60, 150, 9, 0.45]]) {
+    const w = g.createRadialGradient(x, y, 0, x, y, r)
+    w.addColorStop(0, `rgba(235,242,255,${a})`)
+    w.addColorStop(0.5, `rgba(190,205,230,${a * 0.6})`)
+    w.addColorStop(1, 'rgba(190,205,230,0)')
+    g.fillStyle = w
+    g.fillRect(x - r, y - r, 2 * r, 2 * r)
+  }
+  siliconCap = new THREE.CanvasTexture(c)
+  siliconCap.colorSpace = THREE.SRGBColorSpace
+  return siliconCap
+}
+
+/** A broken chunk of polycrystalline silicon, about r across: rounded by smooth waves, knobbly with finer
+ *  ones (functions of the direction, so faces that share a corner stay joined), broken flat by a few planes,
+ *  one of them underneath so it sits on the table. Flat facets, each coloured by the grain it lies in (the
+ *  nearest of a few random directions). */
+function siliconChunk(r, rand) {
+  // small facets (a coarse sphere's even triangles read as a geodesic ball, not a rock)
+  const g = new THREE.IcosahedronGeometry(r, 4)
+  const geo = g.index ? g.toNonIndexed() : g
+  const p = geo.attributes.position
+  const waves = Array.from({ length: 4 }, () => [rand() * 6, rand() * 6, rand() * 6, 2 + rand() * 3])
+  const fine = Array.from({ length: 4 }, () => [rand() * 6, rand() * 6, rand() * 6, 14 + rand() * 8])
+  // broken faces: one underneath, so it sits on the table, and five round its sides and top
+  const cuts = [[new THREE.Vector3(0, -1, 0), 0.5]]
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * Math.PI * 2 + rand() * 0.8
+    cuts.push([new THREE.Vector3(Math.cos(a), 0.2 + rand() * 0.7, Math.sin(a)).normalize(), 0.62 + rand() * 0.12])
+  }
+  const v = new THREE.Vector3()
+  for (let i = 0; i < p.count; i++) {
+    v.fromBufferAttribute(p, i)
+    const n = v.clone().normalize()
+    let k = 1
+    for (const [a, b, c, f] of waves) k += 0.13 * Math.sin(n.x * f + a) * Math.sin(n.y * f + b) * Math.sin(n.z * f + c)
+    for (const [a, b, c, f] of fine) k += 0.035 * Math.sin(n.x * f + a) * Math.sin(n.y * f + b) * Math.sin(n.z * f + c)
+    v.copy(n).multiplyScalar(r * k)
+    v.set(v.x * 1.2, v.y * 0.75, v.z * 0.95)
+    for (const [pn, d] of cuts) {
+      const s = v.dot(pn)
+      if (s > d * r) v.addScaledVector(pn, d * r - s)
+    }
+    p.setXYZ(i, v.x, v.y, v.z)
+  }
+  // grains: each face takes the shade of the grain its middle lies in (shades multiply the matcap)
+  const seeds = Array.from({ length: 9 }, () => new THREE.Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize())
+  const shades = ['#ffffff', '#d6def0', '#bcc4d4', '#e6e2ee', '#a9b2c6', '#cfd8ff', '#9aa2b4', '#f0f2ff', '#b8c0dc'].map(c => new THREE.Color(c))
+  const colors = []
+  const m = new THREE.Vector3()
+  for (let t = 0; t < p.count / 3; t++) {
+    m.set(0, 0, 0)
+    for (let k = 0; k < 3; k++) m.add(v.fromBufferAttribute(p, t * 3 + k))
+    m.normalize()
+    let best = 0
+    seeds.forEach((s, i) => { if (s.dot(m) > seeds[best].dot(m)) best = i })
+    const c = shades[best]
+    for (let k = 0; k < 3; k++) colors.push(c.r, c.g, c.b)
+  }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+  geo.computeVertexNormals()
+  return geo
+}
+
+// ---- Silicon: a lump of polycrystalline silicon, and a piece of a single-crystal boule with a polished
+// wafer sliced from it, standing in a holder (the lab shows a lump turned in the light and a wafer of chips;
+// here the two kinds side by side: many crystals, and one) ----
+function silicon() {
+  const group = new THREE.Group()
+  const updates = []
+  const rand = rnd(1824)
+  const cap = siliconMatcap()
+
+  // the lump: grey-blue, its grains flashing as the table turns
+  const R = 0.135
+  const lumpMesh = new THREE.Mesh(siliconChunk(R, rand), new THREE.MeshMatcapMaterial({ matcap: cap, vertexColors: true, flatShading: true }))
+  lumpMesh.position.set(-0.11, R * 0.5, 0.09) // its flat underside is at -0.5 R
+  lumpMesh.rotation.y = 0.6
+  group.add(lumpMesh)
+
+  // a polished face: a grey mirror drawn into it (a real one only showed the pink hall), lit a little from
+  // within, as sodium's cut face
+  const mirror = canvasTexture(128, (g, s) => {
+    const grad = g.createLinearGradient(0, 0, s, s * 0.8)
+    for (const [o, c] of [[0, '#2c313c'], [0.2, '#8f9aad'], [0.3, '#3d4452'], [0.47, '#b9c3d3'], [0.55, '#59616f'], [0.78, '#9aa5b8'], [1, '#30353f']]) grad.addColorStop(o, c)
+    g.fillStyle = grad
+    g.fillRect(0, 0, s, s)
+  })
+  const face = new THREE.MeshStandardMaterial({ map: mirror, emissiveMap: mirror, emissive: '#ffffff', emissiveIntensity: 0.14, roughness: 0.25, metalness: 0.3 })
+
+  // the boule: one crystal pulled from the melt, lying in a cradle at the back: the shoulder and the thin
+  // neck of the seed at one end, sawn flat and polished at the other; smooth, so the matcap's windows slide
+  // along it like a polished cylinder's (standing up it read as a bottle and hid the rest)
+  const B = 0.075
+  const profile = [[0, 0], [B - 0.004, 0], [B, 0.004], [B, 0.19], [B * 0.86, 0.222], [B * 0.5, 0.25], [0.015, 0.266], [0.01, 0.272], [0.01, 0.3], [0, 0.302]]
+  const bouleMat = new THREE.MeshMatcapMaterial({ matcap: cap, color: '#e4e8f2' })
+  const boule = new THREE.Group()
+  boule.add(new THREE.Mesh(new THREE.LatheGeometry(profile.map(([x, y]) => new THREE.Vector2(x, y)), 64), bouleMat))
+  // the faint ridges a crystal grown along <100> shows down its length, four of them
+  for (let k = 0; k < 4; k++) {
+    const a = k * Math.PI / 2 + Math.PI / 4
+    const ridge = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.18, 0.004), bouleMat)
+    ridge.position.set(Math.cos(a) * B, 0.097, Math.sin(a) * B)
+    ridge.rotation.y = -a + Math.PI / 2
+    boule.add(ridge)
+  }
+  const end = new THREE.Mesh(new THREE.CircleGeometry(B - 0.003, 48), face)
+  end.rotation.x = Math.PI / 2 // faces -y: the sawn end
+  end.position.y = -0.001
+  boule.add(end)
+  boule.rotation.z = -Math.PI / 2 // lying along x, the sawn end looking along -x
+  const CR = 0.02
+  boule.position.set(-0.13, CR + B * 0.92, -0.14)
+  boule.rotation.y = 0.25
+  group.add(boule)
+  // the cradle: two dark blocks under it
+  const cradleMat = new THREE.MeshStandardMaterial({ color: '#2a3160', roughness: 0.5 })
+  for (const t of [0.06, 0.22]) {
+    const blk = new THREE.Mesh(new THREE.BoxGeometry(0.04, CR + 0.03, 0.12), cradleMat)
+    blk.position.set(-0.13 + Math.cos(0.25) * t, (CR + 0.03) / 2, -0.14 - Math.sin(0.25) * t)
+    blk.rotation.y = 0.25
+    group.add(blk)
+  }
+
+  // the wafer: a slice of the same crystal, with the flat that marks how its atoms are lined up, polished
+  // to a grey mirror on both faces (the drawn mirror above), standing in a slotted holder at the front, so
+  // its face looks out one way while the boule's sawn end looks out another
+  const W = B
+  const T = 0.005
+  const flat = -0.93 * W
+  const a0 = -Math.PI / 2 + Math.acos(-flat / W)
+  const shape = new THREE.Shape()
+  for (let i = 0; i <= 96; i++) {
+    const a = a0 + (i / 96) * (Math.PI * 2 - 2 * (a0 + Math.PI / 2))
+    if (i === 0) shape.moveTo(Math.cos(a) * W, Math.sin(a) * W)
+    else shape.lineTo(Math.cos(a) * W, Math.sin(a) * W)
+  }
+  shape.closePath()
+  const wg = new THREE.ExtrudeGeometry(shape, { depth: T, bevelEnabled: false, curveSegments: 1 })
+  wg.translate(0, 0, -T / 2)
+  const wp = wg.attributes.position
+  const wuv = wg.attributes.uv
+  for (let i = 0; i < wp.count; i++) wuv.setXY(i, wp.getX(i) / (2 * W) + 0.5, wp.getY(i) / (2 * W) + 0.5)
+  const edge = new THREE.MeshMatcapMaterial({ matcap: cap, color: '#c8cede' })
+  const wafer = new THREE.Mesh(wg, [face, edge])
+  const holder = new THREE.Group()
+  const SLOT = 0.03
+  const block = new THREE.Mesh(new THREE.BoxGeometry(0.12, SLOT, 0.05), new THREE.MeshStandardMaterial({ color: '#2a3160', roughness: 0.5 }))
+  block.position.y = SLOT / 2
+  wafer.position.y = SLOT * 0.6 - flat
+  wafer.rotation.x = -0.08
+  holder.add(block, wafer)
+  holder.position.set(0.12, 0, 0.17)
+  holder.rotation.y = -0.35
+  group.add(holder)
+
+  // glints that come and go on the lump's facets
+  const glints = []
+  for (let i = 0; i < 5; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#eef3ff', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    s.scale.setScalar(0.06)
+    lumpMesh.add(s)
+    glints.push({ s, phase: rand() * 10, speed: 0.5 + rand() * 0.7 })
+  }
+  const spot = () => {
+    const n = new THREE.Vector3(rand() - 0.5, rand() * 0.8, rand() - 0.5).normalize()
+    return new THREE.Vector3(n.x * R, n.y * R * 0.8, n.z * R)
+  }
+  for (const g of glints) g.s.position.copy(spot())
+  updates.push(t => {
+    for (const g of glints) {
+      const k = Math.max(0, Math.sin(t * g.speed * 2 + g.phase))
+      g.s.material.opacity = k ** 8
+      if (k < 0.02) g.s.position.copy(spot())
+    }
+  })
+
+  // a little bigger than the others' 0.6 m: three things share the table
+  group.scale.setScalar(1.15)
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { C: carbon, O: oxygen, Na: sodium, Si: silicon }

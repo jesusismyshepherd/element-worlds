@@ -150,6 +150,8 @@ BALLS = {
     "S": ("#fff6c4", "#ffd84d", "#a88a12"),
     "P": ("#ffe1c2", "#ff8000", "#a04800"),
     "Fe": ("#ffd9c8", "#e06633", "#7a2a10"),
+    "Si": ("#fff1e0", "#e2b486", "#7a5230"),  # Jmol's #f0c8a0, deepened so it shades
+    "B": ("#ffe8e0", "#ffa8a0", "#a85a52"),
 }
 
 
