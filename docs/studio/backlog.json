@@ -54,9 +54,9 @@
   "waiting": [
     {
       "id": "w-na-room",
-      "title": "Try sodium's new hall and its Periodic Videos lab with Artur",
-      "detail": "The pilot of the full makeover: the six picture boards and the showpiece, the doorway board you step into, the lab's experiments with the film beside them, the professor, and the view through the Atomling's eyes at each station. Note what to keep and what to change before the others follow; silicon's comes next.",
-      "link": "https://element-worlds.vercel.app/e/Na"
+      "title": "Try the two made-over halls with Artur: sodium and silicon",
+      "detail": "Each has its picture boards, a showpiece, a doorway board you step into, and a Periodic Videos lab with the film beside the experiments, the professor's own lines, and the view through the Atomling's eyes at each station. Note what to keep and what to change before the next ones.",
+      "link": "https://element-worlds.vercel.app/e/Si"
     },
     {
       "id": "w-review",
@@ -84,7 +84,7 @@
       "summary": "The fact file, seven picture boards and a showpiece that Carbon and Oxygen have, for the other 116 halls.",
       "why": "Every visit passes through a hall, so this changes the most. It goes element by element with the Periodic Videos rooms, the 38 elements Artur meets first (the quiz's Explorer list) before the rest.",
       "details": [
-        "Sodium is done (2026-10-30): six picture boards (nerves, the sea and Aveiro's salt pans, Davy 1807, the yellow street lamps, sodium 90 km up, the cake that rises), its doorway board and a showpiece of sodium under oil. Silicon is next, the most visited hall after Oxygen.",
+        "Done (2026-10-30): sodium (nerves, the sea and Aveiro's salt pans, Davy 1807, the yellow street lamps, sodium 90 km up, the cake that rises) and silicon (diatoms' glass houses, solar cells, sand into glass, the rocky Earth and Moon, Silicon Valley, silicone bakeware), each with its doorway board and a showpiece. Next by the dashboard's visits, then the rest of the quiz's well-known elements.",
         "Carbon and Oxygen got them first because the eight text boards were boring. You loved them (2026-10-29), so the others follow.",
         "Each board is a picture with a hook question, read in Explorer or Scientist; the fact file has a face drawn from the element's data; the showpiece is a real-looking sample in the museum case.",
         "In batches of five or six: first the 38 well-known elements of the quiz's Explorer list (hydrogen to plutonium), then the rest family by family. Each batch is checked in all four languages and looked at in the game before it goes live, and goes live as soon as it is done.",
@@ -105,6 +105,7 @@
       "summary": "Each element gets a room where the experiments from its Periodic Videos video (Brady Haran with Professor Sir Martyn Poliakoff, University of Nottingham) are rebuilt as things you do, with the video beside them: watch to understand, do it yourself, go back to the video for the why.",
       "why": "The videos are full of experiments a child can't do at home but can do here. Sodium first, as a pilot room to look at; then element by element with the hall boards, since one look at a video serves both.",
       "details": [
+        "Two rooms are built (2026-10-30): sodium's and silicon's (the glittering lump and sand, the chip line, the wafer's rainbow, the turbocharger race, the minerals).",
         "Sodium's room is built (2026-10-30), the pilot to try: the oil tin, the courtyard bowl with three lumps and the indicator, the salt window, the salt lamp, the professor's card, and the film on the screen with a chapter per experiment.",
         "The lab is entered through a doorway board in the hall (step into the picture); the professor stands in it and retells his own remarks from the film, each with the moment to watch him say it. Using a station in third person now looks through the Atomling's eyes.",
         "Claude watches each video (a frame every 4 seconds with the captions, in a cache on this computer that never goes online) and writes a brief: what the video shows, with times, and the room's stations.",
@@ -578,6 +579,18 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Silicon's hall, made over",
+      "what": "Six picture boards (diatoms, solar cells, glass, the rocky Earth, Silicon Valley, silicone), a showpiece of a lump, a boule and a wafer, and its doorway board.",
+      "link": "https://element-worlds.vercel.app/e/Si"
+    },
+    {
+      "date": "2026-10-30",
+      "title": "Silicon's Periodic Videos lab",
+      "what": "A glittering lump, a chip line to cut, test and sort, a wafer's rainbow, a turbocharger race and four minerals.",
+      "link": "https://element-worlds.vercel.app/e/Si/videos"
+    },
     {
       "date": "2026-10-30",
       "title": "Sodium's hall, made over",
