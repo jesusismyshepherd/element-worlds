@@ -44,7 +44,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
   reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps), `accounts.md` (the
   Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
-  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `periodic-videos.md` (watching an element's
+  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `sound.md` (the
+  music beds as offline loops, the buffer, why a phone crackles), `periodic-videos.md` (watching an element's
   video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms). Read the one for the area
   you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the

@@ -31,7 +31,11 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 - `nav_probe.py`: walking and looking (`walking.md`, "Checking it").
 - `fullscreen_probe.py`: full screen on a computer and a touch screen (`hud-layout.md`).
 - `sound_probe.py`: the sound opens with the first tap, click or key and the music bed plays. A finger's
-  pointerdown alone does not give leave to play on a real phone; headless Edge is lenient there.
+  pointerdown alone does not give leave to play on a real phone; headless Edge is lenient there. Also
+  the 20 ms buffer and every bed's loop without a seam (`sound.md`).
+- `audio_load.py [path]`: the audio context's buffer and late buffers, and the audio thread's work per
+  quantum and per device buffer, from the browser's trace (`--nodes`: each node's share). Made when the
+  music crackled on the phone (`sound.md`).
 - `breath_probe.py`: the air wing's breathing, on and held with E, every gas streaming in and out, two
   breaths filmed as a contact sheet.
 - `spot_probe.py`: a reload puts the walker back where they stood, and the table's view, pick and trend

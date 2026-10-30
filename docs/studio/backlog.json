@@ -53,6 +53,12 @@
   ],
   "waiting": [
     {
+      "id": "w-crackle",
+      "title": "Listen on your phone: is the crackle gone?",
+      "detail": "Open the game on the phone (tap Reload if it offers a new version), walk through the plaza, a hall and a lab with the sound on, and tick this. If you still hear crackling, send a note saying where. The game now counts its own crackles, so the next session can check your phone's count too.",
+      "link": "https://element-worlds.vercel.app/"
+    },
+    {
       "id": "w-na-room",
       "title": "Try the two made-over halls with Artur: sodium and silicon",
       "detail": "Each has its picture boards, a showpiece, a doorway board you step into, and a Periodic Videos lab with the film beside the experiments, the professor's own lines, and the view through the Atomling's eyes at each station. Note what to keep and what to change before the next ones.",
@@ -579,6 +585,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Smooth music on the phone",
+      "what": "The background music crackled on your phone. Each world's music is now made once as a smooth 80 second loop and played with a bigger sound buffer: the phone's sound work is a quarter of what it was, with three times the room before a crackle. The game also counts its own crackles now, so the next session can see whether any are left.",
+      "link": "https://element-worlds.vercel.app/"
+    },
     {
       "date": "2026-10-30",
       "title": "Silicon's hall, made over",

@@ -6,6 +6,12 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-30
 
+- The music crackled on the user's phone, not on the computer: the beds were sixteen live oscillators
+  on 10 ms buffers. Now each bed is rendered once as a seamless 80 s loop and played from a buffer, with
+  20 ms buffers: the audio thread's work per quantum a quarter of what it was, three times the margin.
+  The game now records its own late buffers in the usage data (`sound` events), so the phone's crackles
+  can be counted (`sound.md`).
+
 - Periodic Videos rooms (the user: each video's experiments become things to do, the video beside
   them): `tools/pv/pv.py` lets Claude watch a film (every cut at its exact time, a frame every 2 s, zooms;
   the user asked whether a frame every 4 s was enough: it missed sodium's 0.3 s bang), and sodium's room

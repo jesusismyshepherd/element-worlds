@@ -40,6 +40,7 @@ Events are batched: sent every 15 s, at 60 waiting events, and when the page is 
 | `lab` | `op` (add, join, part, remove, clear, demo, made), `el`, `show`, `together` | the Molecule Lab (`lab.js`) |
 | `duel` | `op` (start, pick), `ok`, `n` | the quiz duel (`src/net/duel.js`) |
 | `account` | `op` (in, out, new, moved), `found` | the account (`src/net/account.js`) |
+| `sound` | `bed` (plaza, atrium, lab, wing, forge, or null), `n` late buffers (each a crackle), `ms` of silence in their place, `s` seconds played, `buf` the buffer (ms) | `src/audio/sound.js`, at each change of music bed and when the page is hidden, 5 s of sound or more; only where the browser counts late buffers (Chrome); `sound.md` |
 
 New kinds may come (lab actions, rooms): the dashboard shows a kind it does not know under "Other
 events" and in the timeline as it came, and never fails on one.
@@ -150,6 +151,11 @@ from public.ew_profiles ep join public.profiles p on p.id = ep.id order by ep.up
 -- one person's last visits, with their events in order
 select e.visit, e.at, e.kind, e.path, e.data from public.ew_events e join public.profiles p on p.id = e.account
 where p.username = 'artur' and e.at > now() - interval '2 days' order by e.at;
+-- does the music crackle: late buffers per minute of sound, by device and bed (one as the sound opens is normal)
+select s.data->>'kind' as device, e.data->>'bed' as bed, sum((e.data->>'n')::int) as late, sum((e.data->>'s')::int) as seconds,
+  round(60.0 * sum((e.data->>'n')::int) / nullif(sum((e.data->>'s')::int), 0), 2) as per_minute
+from public.ew_events e left join public.ew_events s on s.visit = e.visit and s.kind = 'start'
+where e.kind = 'sound' and e.at > now() - interval '7 days' group by 1, 2 order by 1, 2;
 ```
 
 `ew_events`: `at` (when it happened, the device's clock kept within the last 14 days), `received`,

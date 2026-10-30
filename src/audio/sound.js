@@ -5,6 +5,7 @@
 //   play('select' | 'enter' | 'discover' | 'celebrate' | 'join' | 'part' | 'tap')
 //   voice(text, { pitch })   an Atomling's babble, a blip per syllable, pitched by its size
 //   ambience('plaza' | 'atrium' | 'lab' | 'wing' | null)
+import { track } from '../net/telemetry.js'
 
 const KEY = 'ew-sound'
 let ctx = null
@@ -45,7 +46,10 @@ function start() {
   if (ctx) return
   const AC = window.AudioContext || window.webkitAudioContext
   if (!AC) return
-  ctx = new AC({ latencyHint: 'interactive' })
+  // 'playback': the larger buffer (20 ms here, not 10). A phone drawing a 3D world is late now and then,
+  // and every late buffer is a crackle (the user's phone, 2026-10-30; the arena found the same); a tap's
+  // sound 10 ms later is not heard
+  ctx = new AC({ latencyHint: 'playback' })
   const limiter = ctx.createDynamicsCompressor()
   limiter.threshold.value = -10
   limiter.ratio.value = 8
@@ -59,8 +63,10 @@ function start() {
   }
   document.addEventListener('visibilitychange', () => {
     if (!ctx) return
-    if (document.hidden) ctx.suspend()
-    else ctx.resume()
+    if (document.hidden) {
+      report()
+      ctx.suspend()
+    } else ctx.resume()
   })
   if (wantAmbience) ambience(wantAmbience)
 }
@@ -83,8 +89,36 @@ if (typeof window !== 'undefined') {
 
 const ready = () => ctx && ctx.state === 'running' && !muted
 
-// for the probes (tools/sound_probe.py): is the sound running, which bed is wanted, is one playing
-if (typeof window !== 'undefined') window.__ewSound = { state: () => ({ ctx: ctx?.state ?? null, want: wantAmbience, playing: !!ambienceNodes }) }
+/** The device's late buffers so far (each one a crackle), where the browser counts them (Chrome):
+ *  n of them, ms of silence put in their place, s of sound played. */
+function lateBuffers() {
+  const p = ctx?.playoutStats
+  if (p) return { n: p.fallbackFramesEvents, ms: Math.round(p.fallbackFramesDuration), s: Math.round(p.totalFramesDuration / 1000) }
+  const b = ctx?.playbackStats
+  if (b) return { n: b.underrunEvents, ms: Math.round(b.underrunDuration * 1000), s: Math.round(b.totalDuration) }
+  return null
+}
+
+// the usage data gets the late buffers of each stretch of music (event 'sound', docs/knowledge/usage-data.md):
+// how often the players' devices crackle, and in which kind of world
+let reported = null
+function report() {
+  const now = lateBuffers()
+  if (!now) return
+  const last = reported ?? { n: 0, ms: 0, s: 0 }
+  if (now.s - last.s < 5) return
+  reported = now
+  track('sound', { bed: wantAmbience, n: now.n - last.n, ms: now.ms - last.ms, s: now.s - last.s, buf: Math.round(ctx.baseLatency * 1000) })
+}
+
+// for the probes (tools/sound_probe.py, tools/audio_load.py): is the sound running, which bed is wanted, is
+// one playing, the buffer (s) and the late buffers so far; renderBed to check a bed's loop
+if (typeof window !== 'undefined') {
+  window.__ewSound = {
+    state: () => ({ ctx: ctx?.state ?? null, want: wantAmbience, playing: !!ambienceNodes, buffer: ctx?.baseLatency, late: lateBuffers() }),
+    renderBed: (kind, seconds) => renderBed(kind, seconds),
+  }
+}
 
 /** A tone with an envelope: freq (Hz), dur (s), type, gain, when (s from now), bus. */
 function tone(freq, dur, { type = 'sine', gain = 0.3, when = 0, to = null, attack = 0.005, out = 'effects', detune = 0 } = {}) {
@@ -199,44 +233,105 @@ const BEDS = {
   forge: [46, 53, 58, 65],
 }
 
+// Each bed is made once, offline, as an 80 s loop, and played from that buffer: the audio thread then
+// plays one stream instead of sixteen oscillators and their swells every 2.7 ms. Made live, the bed
+// crackled on the user's phone while it drew the 3D world (2026-10-30). Every tone and every swell turns
+// a whole number of times in the loop (its frequency rounded to 1/80 Hz, a tenth of a cent at most), so the loop
+// has no seam; the second before it lets the filter settle. The bed is under 900 Hz, so half the usual
+// sample rate is plenty (7.8 MB a bed; the last two are kept).
+const LOOP = 80
+const PRE = 1
+const RATE = 24000
+const beds = new Map()
+let bedTurn = 0
+const whole = f => Math.round(f * LOOP) / LOOP
+
+function renderBed(kind, seconds = PRE + LOOP) {
+  const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext
+  const off = new OAC(1, Math.round(seconds * RATE), RATE)
+  const filter = off.createBiquadFilter()
+  filter.type = 'lowpass'
+  filter.frequency.value = 900
+  filter.connect(off.destination)
+  for (const [i, n] of BEDS[kind].entries()) {
+    for (const [j, cents] of [-6, 6].entries()) {
+      const o = off.createOscillator()
+      o.type = i === 0 ? 'sine' : 'triangle'
+      o.frequency.value = whole(NOTE(n) * Math.pow(2, cents / 1200))
+      const og = off.createGain()
+      og.gain.value = (i === 0 ? 0.16 : 0.07) / 2
+      // each voice swells slowly on its own (once in 7 to 20 s)
+      const lfo = off.createOscillator()
+      lfo.frequency.value = (4 + 2 * i + j) / LOOP
+      const depth = off.createGain()
+      depth.gain.value = og.gain.value * 0.8
+      lfo.connect(depth).connect(og.gain)
+      o.connect(og).connect(filter)
+      o.start()
+      lfo.start()
+    }
+  }
+  return new Promise((done, fail) => {
+    off.oncomplete = e => done(e.renderedBuffer)
+    off.startRendering()?.catch?.(fail)
+  }).then(buffer => {
+    // what is left of a seam (the tones' 32-bit frequencies drift a thousandth of a turn in 80 s): the
+    // loop's last 50 ms fade into the 50 ms before its start, so its end runs on into its start
+    const d = buffer.getChannelData(0)
+    const n = RATE / 20
+    const start = PRE * RATE
+    const end = (PRE + LOOP) * RATE
+    for (let m = 0; m < n; m++) d[end - n + m] += (d[start - n + m] - d[end - n + m]) * (m / n)
+    return buffer
+  })
+}
+
+function bed(kind) {
+  let made = beds.get(kind)
+  if (made) beds.delete(kind)
+  else {
+    try {
+      made = renderBed(kind)
+    } catch (e) {
+      made = Promise.reject(e) // no offline audio here: no bed
+    }
+    made.catch(() => beds.get(kind) === made && beds.delete(kind))
+  }
+  beds.set(kind, made)
+  if (beds.size > 2) beds.delete(beds.keys().next().value)
+  return made
+}
+
 /** Start the ambience of a kind of world (null: none). Crossfades from the last one. */
 export function ambience(kind) {
+  if (ctx && kind !== wantAmbience) report()
   wantAmbience = kind
-  if (!ctx) return
+  // a bed is made without the player's leave to play: ready by the first tap
+  if (!ctx) return void (BEDS[kind] && bed(kind))
   const old = ambienceNodes
   if (old) {
     old.gain.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.6)
     setTimeout(() => old.stop(), 3000)
   }
   ambienceNodes = null
+  const turn = ++bedTurn
   if (!kind || !BEDS[kind]) return
-  const g = ctx.createGain()
-  g.gain.value = 0.0001
-  g.gain.setTargetAtTime(0.5, ctx.currentTime, 1.5)
-  const filter = ctx.createBiquadFilter()
-  filter.type = 'lowpass'
-  filter.frequency.value = 900
-  g.connect(filter).connect(bus.ambience)
-  const oscs = []
-  for (const [i, n] of BEDS[kind].entries()) {
-    for (const det of [-6, 6]) {
-      const o = ctx.createOscillator()
-      o.type = i === 0 ? 'sine' : 'triangle'
-      o.frequency.value = NOTE(n)
-      o.detune.value = det
-      const og = ctx.createGain()
-      og.gain.value = (i === 0 ? 0.16 : 0.07) / 2
-      // each voice swells slowly on its own
-      const lfo = ctx.createOscillator()
-      lfo.frequency.value = 0.05 + i * 0.023 + (det > 0 ? 0.011 : 0)
-      const depth = ctx.createGain()
-      depth.gain.value = og.gain.value * 0.8
-      lfo.connect(depth).connect(og.gain)
-      o.connect(og).connect(g)
-      o.start()
-      lfo.start()
-      oscs.push(o, lfo)
-    }
-  }
-  ambienceNodes = { gain: g, stop: () => oscs.forEach(o => o.stop()) }
+  bed(kind).then(
+    buffer => {
+      if (turn !== bedTurn) return
+      const src = ctx.createBufferSource()
+      src.buffer = buffer
+      src.loop = true
+      src.loopStart = PRE
+      src.loopEnd = PRE + LOOP
+      const g = ctx.createGain()
+      g.gain.value = 0.0001
+      g.gain.setTargetAtTime(0.5, ctx.currentTime, 1.5)
+      src.connect(g).connect(bus.ambience)
+      // each visit comes in somewhere else in the loop
+      src.start(ctx.currentTime, PRE + Math.random() * LOOP)
+      ambienceNodes = { gain: g, stop: () => src.stop() }
+    },
+    () => {},
+  )
 }
