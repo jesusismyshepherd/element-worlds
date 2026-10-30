@@ -623,6 +623,19 @@
       "details": [
         "Waits on Wireless debugging (Waiting on you)."
       ]
+    },
+    {
+      "id": "by-hand",
+      "code": "Hd",
+      "title": "Every station worked by hand",
+      "kind": "worlds",
+      "status": "idea",
+      "from": "you",
+      "date": "2026-10-30",
+      "summary": "Your rule for every station: you choose each step by clicking or tapping the thing it is about (the sand, the soda, the pot), and anything that changes smoothly is a slider; pressing E again and again felt passive.",
+      "details": [
+        "The picture rooms follow it from now on (the diatoms already: tap the round diatom, the boat diatoms in the sun, the family). The older worlds still step through some stations with E: carbon's and oxygen's wings, the neon workshop and the two video labs could get the same treatment, station by station."
+      ]
     }
   ],
   "built": [
