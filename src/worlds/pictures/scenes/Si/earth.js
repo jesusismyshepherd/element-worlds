@@ -44,7 +44,7 @@ const EARTH = new THREE.Vector3(0, 3.2, -15.2)
 const ER = 5.0
 const MOON = new THREE.Vector3(9.6, 6.4, -14.5)
 const MR = ER * (1737.4 / 6371) // the Moon at its true size beside the Earth
-const STAR = new THREE.Vector3(-14.5, 6.6, -10.8)
+const STAR = new THREE.Vector3(-14.5, 5.3, -10.8)
 const RS = 2.6
 const K = RS / 2 // the star's story is drawn at the star's size
 const LENS = new THREE.Vector3(-6.7, 1.5, -12.0)
@@ -468,7 +468,7 @@ const ONION = [
 ]
 const FUSIONS = 10
 
-export async function build({ ctx, root, E, ex, say, later, light, level, color }) {
+export async function build({ ctx, root, E, W, ex, say, later, light, level, color, clickable }) {
   const stage = spaceStage({ radius: DECK, light, pixelRatio: ctx.renderer?.getPixelRatio?.() ?? 1 })
   root.add(stage.group)
   const solids = stage.solids
@@ -511,13 +511,17 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   const faceGlow = cutTexture(light ? 256 : 512, true)
   textures.push(surfTex, faceTex, faceGlow)
   const surface = new THREE.Mesh(cutSphere(ER, 96, 48), new THREE.MeshStandardMaterial({ map: surfTex, roughness: 0.75, metalness: 0 }))
-  earth.add(surface)
+  const earthBody = new THREE.Group()
+  earth.add(earthBody)
+  earthBody.add(surface)
+  const faces = []
   const faceMat = new THREE.MeshStandardMaterial({ map: faceTex, emissive: '#ffffff', emissiveMap: faceGlow, emissiveIntensity: 1.0, roughness: 0.85, side: THREE.DoubleSide, alphaTest: 0.5 })
   const faceGeo = new THREE.PlaneGeometry(ER, ER).translate(ER / 2, ER / 2, 0)
   for (const [rx, ry] of [[0, 0], [0, -Math.PI / 2], [Math.PI / 2, 0]]) {
     const f = new THREE.Mesh(faceGeo, faceMat)
     f.rotation.set(rx, ry, 0)
-    earth.add(f)
+    earthBody.add(f)
+    faces.push(f)
   }
   // the air: a thin blue glow round the rim, brighter on the day side
   const air = new THREE.Mesh(
@@ -563,8 +567,11 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   const thread = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1, 8).translate(0, -0.5, 0), new THREE.MeshBasicMaterial({ color: hdr('#8ff6ff', 1.4), transparent: true, opacity: 0.8, toneMapped: false }))
   thread.position.set(OFF, ER + 0.05, OFF)
   earth.add(probe, thread)
-  const depthTag = label('0 km', 0.32, '#dff9ff', { anchorX: 'left', outlineWidth: 0.025, outlineColor: '#05101a', depthTest: false })
+  const depthTag = label('0 km', 0.32, '#dff9ff', { anchorX: 'left', outlineWidth: 0.06, outlineColor: '#03080e', depthTest: false })
   depthTag.renderOrder = 7
+  // an outlined text is drawn by two derived materials: the base material carries "never hidden" to both
+  // (makeText's depthTest reaches only one, and the tag's tail went behind the cut)
+  depthTag.material = new THREE.MeshBasicMaterial({ transparent: true, depthTest: false, depthWrite: false })
   root.add(depthTag)
   // toward the deck from the Earth (the open corner looks this way), and to its right
   const facing = new THREE.Vector3(0, 2.0, -2).sub(EARTH).normalize()
@@ -712,6 +719,12 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
         live: () => posOf(target),
       },
     },
+    {
+      buttons: [
+        { label: E.earth.down, onClick: () => goTo(target >= R_KM - 1 ? 0 : (STOPS.find(s => s > target + 1) ?? R_KM)) },
+        { label: E.earth.up, onClick: () => goTo(0) },
+      ],
+    },
     { rows: E.layers.names.map((n, i) => [n, E.earth.rows[lv === 'scientist' ? 'sci' : 'kid'][i]]) },
   ])
   ex.add({
@@ -720,21 +733,32 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     z: -6.4,
     radius: 2.1,
     label: E.earth.label,
-    verb: () => (target >= R_KM - 1 ? E.earth.up : E.earth.down),
+    verb: E.earth.tap,
     panel: earthPanel,
-    panelDelay: 0.8,
     screens: [readout],
     // the whole Earth and the lens in view: the eye backs off behind the visitor
     focus: { x: -1.2, y: 4.0, z: -15.2, size: 13.5 },
-    act: () => {
-      const next = target >= R_KM - 1 ? 0 : (STOPS.find(s => s > target + 1) ?? R_KM)
-      setTarget(next, true)
-      saidLayer = layerAt(next)
-      share('earth')
-      play(next === 0 ? 'tap' : 'select')
-      return lineFor(next)
-    },
   })
+  /** Send the light to a depth (km): a tap on the cut, a button, a probe. */
+  const goTo = d => {
+    setTarget(d, true)
+    saidLayer = layerAt(target)
+    share('earth')
+    play(target < 0.5 ? 'tap' : 'select')
+    say(lineFor(target))
+    ex.discover('earth', earthPanel, 1.0)
+  }
+  // worked by hand: a tap on a layer of the cut sends the light there, a tap on the surface brings it up
+  clickable(
+    earthBody,
+    hit => {
+      if (!faces.includes(hit.object)) return goTo(0)
+      const r = earth.worldToLocal(hit.point.clone()).length()
+      // a face is a square: past the quarter disc it is clear, nothing to tap
+      if (r <= ER) goTo(clamp((1 - r / ER) * R_KM, 0, R_KM))
+    },
+    { reach: 17 },
+  )
   const tmp = new THREE.Vector3()
   const ringPt = new THREE.Vector3()
   updates.push((dt, t) => {
@@ -854,11 +878,12 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   // "the same oxygen": a band of light over the three rocks once they are compared
   const matchMat = new THREE.MeshBasicMaterial({ color: hdr('#9ff0c0', 1.6), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })
   const match = new THREE.Group()
-  for (const x of SLOT_X) {
+  const matchLegs = SLOT_X.map(x => {
     const v = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.36, 0.025), matchMat)
     v.position.set(x, 1.37, 0)
     match.add(v)
-  }
+    return v
+  })
   const bar = new THREE.Mesh(new THREE.BoxGeometry(1.48, 0.03, 0.03), matchMat)
   bar.position.set(0, 1.56, 0)
   const matchText = label(E.moon.match, 0.12, '#bfffd8')
@@ -890,8 +915,10 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   trail.frustumCulled = false
   trail.count = 0
   root.add(trail)
-  let brought = 0 // rocks in the case: 0 none, 1 basalt, 2 and anorthosite, 3 and the Earth's (compared)
-  let flight = null // { dir: 'in' | 'out', i, t }
+  // in the case: [basalt, anorthosite, the Earth's rock]; each flies from where it was picked
+  const have = [false, false, false]
+  const picked = [null, null, null]
+  let flight = null // { dir: 'in', i, from, t } | { dir: 'out', which: [i...], t }
   const FLY = 2.4
   const curve = (a, b, k, lift) => {
     const mid = a.clone().add(b).multiplyScalar(0.5)
@@ -901,41 +928,96 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   }
   const place = () => {
     rocks.forEach((r, i) => {
-      r.visible = i < brought
+      r.visible = have[i]
+      r.scale.setScalar(0.15)
       if (r.visible) r.position.copy(slotWorld(i))
       r.rotation.set(0.3, i * 1.3, 0)
     })
   }
-  const startIn = i => {
-    flight = { dir: 'in', i, t: 0 }
+  const startIn = (i, from) => {
+    picked[i] = from ?? origin(i)
+    flight = { dir: 'in', i, from: picked[i], t: 0 }
     play('beam')
   }
   const startOut = () => {
-    flight = { dir: 'out', n: brought, t: 0 }
+    flight = { dir: 'out', which: [0, 1, 2].filter(i => have[i]), t: 0 }
     play('tap')
   }
-  const moonState = () => (flight ? (flight.dir === 'in' ? flight.i + 1 : 0) : brought)
-  const verbs = [E.moon.dark, E.moon.pale, E.moon.compare, E.moon.back]
-  const saysFor = n => [E.moon.says.back, E.moon.says.basalt, E.moon.says.anorthosite, E.moon.says.earth][n]
+  // what the case holds once the rock in flight lands (what a share sends)
+  const moonState = () => {
+    const s = have.slice()
+    if (flight?.dir === 'in') s[flight.i] = true
+    if (flight?.dir === 'out') s.fill(false)
+    return s
+  }
+  const moonPanel = panelOf(E.moon.title, E.moon.panel, [
+    {
+      buttons: [
+        { label: E.moon.dark, onClick: () => moonStep('sea') },
+        { label: E.moon.pale, onClick: () => moonStep('high') },
+        { label: E.moon.compare, onClick: () => moonStep('case') },
+        { label: E.moon.back, onClick: () => moonStep('back') },
+      ],
+    },
+  ])
+  const saysFor = [E.moon.says.basalt, E.moon.says.anorthosite, E.moon.says.earth]
+  /** A step with the Moon's rocks: 'sea' or 'high' brings that rock (from `from`, where the Moon was
+   *  tapped), 'case' compares with the Earth's rock or, all compared, puts them back, 'back' puts them back. */
+  const moonStep = (kind, from) => {
+    if (flight) {
+      say(at(W.busy, level()))
+      return false
+    }
+    const s = moonState()
+    let i = kind === 'sea' ? 0 : kind === 'high' ? 1 : null
+    if (kind === 'case') i = !s[2] && (s[0] || s[1]) ? 2 : s.some(Boolean) ? -1 : null
+    if (kind === 'back') i = s.some(Boolean) ? -1 : null
+    if (i === null) {
+      say(at(E.moon.hint, level()))
+      return false
+    }
+    if (i === -1) {
+      startOut()
+      say(at(E.moon.says.back, level()))
+    } else if (s[i]) {
+      // already in the case: what it is, again
+      say(at(saysFor[i], level()))
+      return true
+    } else {
+      startIn(i, from)
+      say(at(saysFor[i], level()))
+    }
+    share('moon')
+    ex.discover('moon', moonPanel, 2.8)
+    return true
+  }
+  const moonVerb = () => {
+    const s = moonState()
+    if (!s[0] && !s[1]) return E.moon.tapMoon
+    if (!s[0]) return E.moon.tapSea
+    if (!s[1]) return E.moon.tapHigh
+    return s[2] ? E.moon.tapBack : E.moon.tapCompare
+  }
   ex.add({
     id: 'moon',
     x: 4.8,
     z: -3.6,
     radius: 1.8,
     label: E.moon.label,
-    verb: () => verbs[moonState()],
-    panel: panelOf(E.moon.title, E.moon.panel),
-    panelDelay: 2.8,
+    verb: moonVerb,
+    panel: moonPanel,
     screens: [sign],
     focus: { x: 8.9, y: 3.0, z: -9.8, size: 3 },
-    act: () => {
-      if (flight) return false
-      if (brought >= 3) startOut()
-      else startIn(brought)
-      share('moon')
-      return at(saysFor(moonState()), level())
-    },
   })
+  // worked by hand: a dark sea of the Moon gives basalt, the bright highlands anorthosite; the case
+  // compares, then puts them back
+  const inSea = uv => {
+    const lon = uv.x * 360 - 180
+    const lat = uv.y * 180 - 90
+    return MARIA.some(([l, b, rx, ry]) => ((lon - l) / rx) ** 2 + ((lat - b) / ry) ** 2 <= 1)
+  }
+  clickable(moon, hit => moonStep(hit.uv && inSea(hit.uv) ? 'sea' : 'high', hit.point.clone()), { reach: 17 })
+  clickable(cabinet, () => moonStep('case'), { reach: 6 })
   const ot = new THREE.Object3D()
   updates.push((dt, t) => {
     let n = 0
@@ -952,36 +1034,36 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     if (flight) {
       flight.t += dt
       const k = ease(Math.min(1, flight.t / FLY))
+      const along = Math.min(1, flight.t / FLY)
       if (flight.dir === 'in') {
         const i = flight.i
-        const a = origin(i)
+        const a = flight.from
         const b = slotWorld(i)
         const lift = i === 2 ? 2.5 : 3.5
         rocks[i].visible = true
         rocks[i].position.copy(curve(a, b, k, lift))
         rocks[i].rotation.set(t * 2, t * 1.4, 0)
         rocks[i].scale.setScalar(0.15 * (0.4 + 0.6 * Math.min(1, flight.t * 2)))
-        trailAt(kk => curve(a, b, ease(kk), lift), Math.min(1, flight.t / FLY))
+        trailAt(kk => curve(a, b, ease(kk), lift), along)
         if (flight.t >= FLY) {
-          brought = i + 1
+          have[i] = true
           flight = null
-          rocks[i].scale.setScalar(0.15)
           place()
-          play(brought === 3 ? 'discover' : 'tap')
+          play(have[2] ? 'discover' : 'tap')
         }
       } else {
-        for (let i = 0; i < flight.n; i++) {
+        for (const i of flight.which) {
           const a = slotWorld(i)
-          const b = origin(i)
+          const b = picked[i] ?? origin(i)
+          const lift = i === 2 ? 2.5 : 3.5
           rocks[i].visible = true
-          rocks[i].position.copy(curve(a, b, k, i === 2 ? 2.5 : 3.5))
+          rocks[i].position.copy(curve(a, b, k, lift))
           rocks[i].scale.setScalar(0.15 * (1 - 0.7 * k))
-          trailAt(kk => curve(a, b, ease(kk), i === 2 ? 2.5 : 3.5), Math.min(1, flight.t / FLY))
+          trailAt(kk => curve(a, b, ease(kk), lift), along)
         }
         if (flight.t >= FLY) {
-          brought = 0
+          have.fill(false)
           flight = null
-          rocks.forEach(r => r.scale.setScalar(0.15))
           place()
         }
       }
@@ -992,9 +1074,11 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     rocks.forEach((r, i) => {
       if (!flight && r.visible) r.rotation.y = t * 0.4 + i * 1.3
     })
-    const want = !flight && brought === 3 ? 1 : 0
+    // the band of light over the rocks compared with the Earth's
+    const want = !flight && have[2] ? 1 : 0
     matchMat.opacity += (want * (0.75 + Math.sin(t * 3) * 0.15) - matchMat.opacity) * Math.min(1, dt * 4)
     match.visible = matchMat.opacity > 0.01
+    matchLegs.forEach((leg, i) => (leg.visible = have[i]))
     matchText.fillOpacity = matchMat.opacity / 0.9
   })
   place()
@@ -1163,26 +1247,36 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   starSign.group.rotation.y = Math.atan2(7.3, 1.9 + 1.0)
   root.add(starSign.group)
   solids.push(circle(-7.3, -2.0, 0.35))
+  /** Make silicon: the star's story from the start (a tap on the star, its panel's button, a probe). */
+  const makeSilicon = () => {
+    if (playing && T < T_FORMED) {
+      say(at(W.busy, level()))
+      return false
+    }
+    plays++
+    startStar(0, true)
+    play('beam')
+    share('star')
+    say(at(E.star.says.start, level()))
+    ex.discover('star', starPanel, T_FORMED + 0.5)
+    return true
+  }
+  const starPanel = panelOf(E.star.title, E.star.panel, [{ buttons: [{ label: E.star.make, onClick: makeSilicon }] }])
   ex.add({
     id: 'star',
     x: -4.8,
     z: -3.6,
     radius: 1.8,
     label: E.star.label,
-    verb: E.star.make,
-    panel: panelOf(E.star.title, E.star.panel),
-    panelDelay: T_FORMED + 0.5,
+    verb: E.star.tap,
+    panel: starPanel,
     screens: [starSign],
-    focus: { x: -13.4, y: 5.4, z: -10.4, size: 11 },
-    act: () => {
-      if (playing && T < T_FORMED) return false
-      plays++
-      startStar(0, true)
-      play('beam')
-      share('star')
-      return at(E.star.says.start, level())
-    },
+    focus: { x: -13.4, y: 4.4, z: -10.4, size: 11 },
   })
+  // worked by hand: tap the star (or, once the story is told, the place where it was)
+  const starHit = new THREE.Mesh(new THREE.SphereGeometry(RS * 1.15, 16, 10), new THREE.MeshBasicMaterial({ visible: false }))
+  starGroup.add(starHit)
+  clickable(starHit, makeSilicon, { when: () => !(playing && T < T_FORMED), reach: 20 })
 
   const os = new THREE.Object3D()
   const p = new THREE.Vector3()
@@ -1386,7 +1480,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
       },
       moon: {
         get rocks() {
-          return brought
+          return have.slice()
         },
         get busy() {
           return !!flight
@@ -1400,8 +1494,15 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
           return T
         },
       },
+      // what each tap does, for the probes (shot.py cannot move the mouse)
+      tap: {
+        earth: d => goTo(Number(d) || 0),
+        moon: region => moonStep(region === 'sea' ? 'sea' : 'high'),
+        case: () => moonStep('case'),
+        star: () => makeSilicon(),
+      },
     },
-    panels: { earth: earthPanel, moon: panelOf(E.moon.title, E.moon.panel), star: panelOf(E.star.title, E.star.panel) },
+    panels: { earth: earthPanel, moon: moonPanel, star: starPanel },
     shared: {
       earth: {
         get: () => ({ depth: Math.round(target) }),
@@ -1414,13 +1515,15 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
       moon: {
         get: () => ({ rocks: moonState() }),
         set: (s, live) => {
-          const n = clamp(Math.round(Number(s?.rocks) || 0), 0, 3)
-          if (live && !flight && n === brought + 1) startIn(brought)
-          else if (live && !flight && n === 0 && brought === 3) startOut()
+          const want = [0, 1, 2].map(i => !!(Array.isArray(s?.rocks) && s.rocks[i]))
+          const cur = moonState()
+          const added = [0, 1, 2].filter(i => want[i] && !cur[i])
+          const kept = [0, 1, 2].every(i => !cur[i] || want[i])
+          if (live && !flight && added.length === 1 && kept) startIn(added[0])
+          else if (live && !flight && !want.some(Boolean) && cur.some(Boolean)) startOut()
           else {
             flight = null
-            brought = n
-            rocks.forEach(r => r.scale.setScalar(0.15))
+            want.forEach((v, i) => (have[i] = v))
             place()
           }
         },

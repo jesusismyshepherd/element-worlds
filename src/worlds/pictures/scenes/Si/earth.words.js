@@ -28,6 +28,7 @@ export const EARTH_WORDS = {
     },
     earth: {
       label: 'The Earth cut open',
+      tap: 'Tap a layer',
       down: 'Go deeper',
       up: 'Back to the surface',
       depth: 'Depth',
@@ -75,11 +76,11 @@ export const EARTH_WORDS = {
       },
       panel: {
         kid: [
-          'This is the Earth cut open, with every layer drawn at its right size. Slide the bar, or press again, to send the light down to the centre, 6371 km below your feet. The magnifying glass shows the atoms wherever the light is.',
+          'This is the Earth cut open, with every layer drawn at its right size. Tap a layer of the cut, or slide the bar, to send the light down, as far as the centre, 6371 km below your feet. The magnifying glass shows the atoms wherever the light is.',
           'Almost everything between the thin crust and the core is rock made of silicates: silicon and oxygen joined with magnesium and iron. Near the top it is green olivine: Hawaii has a beach of green olivine sand, and the gem peridot is olivine too. Deeper down, the weight of the rock above squeezes the same atoms into tighter crystals. Of every 100 kg of Earth, about 15 kg is silicon, but none of its rock is in the core, which is iron and nickel.',
         ],
         sci: [
-          "The layers to scale (mean radius 6371 km). The mantle is about 84% of the Earth's volume and two thirds of its mass. Slide to move the probe; the lens shows the structure at its depth.",
+          "The layers to scale (mean radius 6371 km). The mantle is about 84% of the Earth's volume and two thirds of its mass. Tap a layer of the cut or slide to move the probe; the lens shows the structure at its depth.",
           "Silicon is about 15% of the Earth's mass (iron 32%, oxygen 30%, magnesium 14%), almost all of it in the mantle's silicates. At about 410 km olivine, (Mg,Fe)₂SiO₄, becomes wadsleyite, at about 520 km ringwoodite; at 660 km (about 23 GPa) ringwoodite breaks down into bridgmanite and ferropericlase, and silicon goes from four oxygen neighbours to six. Bridgmanite was named in 2014, after the high-pressure physicist Percy Bridgman (Nobel Prize 1946), when natural crystals were described from the Tenham meteorite. The core holds no silicates: it is iron-nickel, perhaps with some dissolved silicon.",
         ],
       },
@@ -90,6 +91,15 @@ export const EARTH_WORDS = {
       pale: 'Fetch a pale rock',
       compare: 'Compare with Earth',
       back: 'Put them back',
+      tapMoon: 'Tap the Moon',
+      tapSea: 'Tap a dark sea on the Moon',
+      tapHigh: 'Tap the bright highlands',
+      tapCompare: 'Tap the case to compare',
+      tapBack: 'Tap the case to put them back',
+      hint: {
+        kid: 'First tap the Moon: a dark sea gives you basalt, the bright highlands anorthosite.',
+        sci: 'First bring a lunar sample: tap a dark mare for basalt or the bright highlands for anorthosite.',
+      },
       title: 'Rocks from the Moon',
       sign: 'Apollo, 1969 to 1972: 382 kg',
       rocks: ['Basalt', 'Anorthosite', 'Earth rock'],
@@ -126,6 +136,7 @@ export const EARTH_WORDS = {
     star: {
       label: 'A giant star',
       make: 'Make silicon',
+      tap: 'Tap the star',
       title: 'Made in a star',
       sign: 'Where silicon is made',
       says: {
@@ -183,6 +194,7 @@ export const EARTH_WORDS = {
     },
     earth: {
       label: 'A Terra cortada',
+      tap: 'Toca numa camada',
       down: 'Descer mais',
       up: 'Voltar à superfície',
       depth: 'Profundidade',
@@ -230,11 +242,11 @@ export const EARTH_WORDS = {
       },
       panel: {
         kid: [
-          'Esta é a Terra cortada, com cada camada desenhada no tamanho certo. Desliza a barra, ou carrega outra vez, para mandar a luz até ao centro, 6371 km debaixo dos teus pés. A lupa mostra os átomos onde quer que a luz esteja.',
+          'Esta é a Terra cortada, com cada camada desenhada no tamanho certo. Toca numa camada do corte, ou desliza a barra, para mandar a luz lá para baixo, até ao centro, 6371 km debaixo dos teus pés. A lupa mostra os átomos onde quer que a luz esteja.',
           'Quase tudo entre a crosta fina e o núcleo é rocha feita de silicatos: silício e oxigénio unidos ao magnésio e ao ferro. Perto de cima é olivina verde: no Havai há uma praia de areia verde de olivina, e a pedra preciosa peridoto também é olivina. Mais abaixo, o peso da rocha por cima aperta os mesmos átomos em cristais mais compactos. Em cada 100 kg de Terra, cerca de 15 kg são silício, mas nenhuma das suas rochas está no núcleo, que é de ferro e níquel.',
         ],
         sci: [
-          'As camadas à escala (raio médio de 6371 km). O manto é cerca de 84% do volume da Terra e dois terços da sua massa. Desliza para mover a sonda; a lupa mostra a estrutura à profundidade onde ela está.',
+          'As camadas à escala (raio médio de 6371 km). O manto é cerca de 84% do volume da Terra e dois terços da sua massa. Toca numa camada do corte ou desliza para mover a sonda; a lupa mostra a estrutura à profundidade onde ela está.',
           'O silício é cerca de 15% da massa da Terra (ferro 32%, oxigénio 30%, magnésio 14%), quase todo nos silicatos do manto. A cerca de 410 km a olivina, (Mg,Fe)₂SiO₄, passa a wadsleyite e a cerca de 520 km a ringwoodite; aos 660 km (cerca de 23 GPa) a ringwoodite decompõe-se em bridgmanite e ferropericlase, e o silício passa de quatro oxigénios vizinhos para seis. A bridgmanite recebeu nome em 2014, em honra do físico das altas pressões Percy Bridgman (Prémio Nobel de 1946), quando se descreveram cristais naturais no meteorito de Tenham. O núcleo não tem silicatos: é de ferro e níquel, talvez com algum silício dissolvido.',
         ],
       },
@@ -245,6 +257,15 @@ export const EARTH_WORDS = {
       pale: 'Trazer uma rocha clara',
       compare: 'Comparar com a Terra',
       back: 'Devolvê-las',
+      tapMoon: 'Toca na Lua',
+      tapSea: 'Toca num mar escuro da Lua',
+      tapHigh: 'Toca nas terras altas claras',
+      tapCompare: 'Toca na vitrina para comparar',
+      tapBack: 'Toca na vitrina para as devolver',
+      hint: {
+        kid: 'Primeiro toca na Lua: um mar escuro dá-te basalto, as terras altas claras dão anortosito.',
+        sci: 'Primeiro traz uma amostra lunar: toca num mar escuro para basalto ou nas terras altas claras para anortosito.',
+      },
       title: 'Rochas da Lua',
       sign: 'Apollo, 1969 a 1972: 382 kg',
       rocks: ['Basalto', 'Anortosito', 'Rocha da Terra'],
@@ -281,6 +302,7 @@ export const EARTH_WORDS = {
     star: {
       label: 'Uma estrela gigante',
       make: 'Fazer silício',
+      tap: 'Toca na estrela',
       title: 'Feito numa estrela',
       sign: 'Onde nasce o silício',
       says: {
@@ -338,6 +360,7 @@ export const EARTH_WORDS = {
     },
     earth: {
       label: 'Ziemia w przekroju',
+      tap: 'Dotknij warstwy',
       down: 'Zjedź głębiej',
       up: 'Wróć na powierzchnię',
       depth: 'Głębokość',
@@ -385,11 +408,11 @@ export const EARTH_WORDS = {
       },
       panel: {
         kid: [
-          'To jest Ziemia w przekroju, a każda warstwa ma tu właściwą grubość. Przesuń suwak albo naciśnij jeszcze raz, żeby wysłać światełko aż do środka, 6371 km pod twoimi stopami. Lupa pokazuje atomy tam, gdzie jest światełko.',
+          'To jest Ziemia w przekroju, a każda warstwa ma tu właściwą grubość. Dotknij warstwy na przekroju albo przesuń suwak, żeby wysłać światełko w głąb, aż do środka, 6371 km pod twoimi stopami. Lupa pokazuje atomy tam, gdzie jest światełko.',
           'Prawie wszystko między cienką skorupą a jądrem to skały z krzemianów: krzemu i tlenu połączonych z magnezem i żelazem. Blisko powierzchni to zielony oliwin: na Hawajach jest plaża z zielonego piasku oliwinowego, a kamień szlachetny perydot to też oliwin. Głębiej ciężar skał powyżej ściska te same atomy w ciaśniejsze kryształy. Na każde 100 kg Ziemi około 15 kg to krzem, ale w jądrze nie ma jego skał: jądro jest z żelaza i niklu.',
         ],
         sci: [
-          'Warstwy w skali (średni promień 6371 km). Płaszcz to około 84% objętości Ziemi i dwie trzecie jej masy. Przesuń suwak, żeby przesunąć sondę; lupa pokazuje strukturę na jej głębokości.',
+          'Warstwy w skali (średni promień 6371 km). Płaszcz to około 84% objętości Ziemi i dwie trzecie jej masy. Dotknij warstwy na przekroju albo przesuń suwak, żeby przesunąć sondę; lupa pokazuje strukturę na jej głębokości.',
           'Krzem stanowi około 15% masy Ziemi (żelazo 32%, tlen 30%, magnez 14%), prawie w całości w krzemianach płaszcza. Na około 410 km oliwin, (Mg,Fe)₂SiO₄, przechodzi w wadsleyit, na około 520 km w ringwoodyt; na 660 km (około 23 GPa) ringwoodyt rozpada się na bridgmanit i ferroperyklaz, a krzem zamiast czterech sąsiadów tlenowych ma sześciu. Bridgmanit nazwano w 2014 roku na cześć fizyka wysokich ciśnień Percy’ego Bridgmana (Nagroda Nobla w 1946 roku), gdy opisano naturalne kryształy z meteorytu Tenham. W jądrze nie ma krzemianów: to żelazo i nikiel, może z odrobiną rozpuszczonego krzemu.',
         ],
       },
@@ -400,6 +423,15 @@ export const EARTH_WORDS = {
       pale: 'Przynieś jasną skałę',
       compare: 'Porównaj z Ziemią',
       back: 'Odłóż je z powrotem',
+      tapMoon: 'Dotknij Księżyca',
+      tapSea: 'Dotknij ciemnego morza na Księżycu',
+      tapHigh: 'Dotknij jasnych wyżyn',
+      tapCompare: 'Dotknij gabloty, żeby porównać',
+      tapBack: 'Dotknij gabloty, żeby je odłożyć',
+      hint: {
+        kid: 'Najpierw dotknij Księżyca: ciemne morze da ci bazalt, a jasne wyżyny anortozyt.',
+        sci: 'Najpierw przynieś próbkę z Księżyca: dotknij ciemnego morza, żeby dostać bazalt, albo jasnych wyżyn, żeby dostać anortozyt.',
+      },
       title: 'Skały z Księżyca',
       sign: 'Apollo, 1969 do 1972: 382 kg',
       rocks: ['Bazalt', 'Anortozyt', 'Skała z Ziemi'],
@@ -436,6 +468,7 @@ export const EARTH_WORDS = {
     star: {
       label: 'Olbrzymia gwiazda',
       make: 'Zrób krzem',
+      tap: 'Dotknij gwiazdy',
       title: 'Zrodzony w gwieździe',
       sign: 'Tu powstaje krzem',
       says: {
@@ -493,6 +526,7 @@ export const EARTH_WORDS = {
     },
     earth: {
       label: 'Die aufgeschnittene Erde',
+      tap: 'Tippe auf eine Schicht',
       down: 'Tiefer hinab',
       up: 'Zurück an die Oberfläche',
       depth: 'Tiefe',
@@ -540,11 +574,11 @@ export const EARTH_WORDS = {
       },
       panel: {
         kid: [
-          'Das ist die aufgeschnittene Erde, jede Schicht in der richtigen Dicke gezeichnet. Schieb den Regler oder drück noch einmal, um das Licht bis zum Mittelpunkt zu schicken, 6371 km unter deinen Füßen. Die Lupe zeigt die Atome dort, wo das Licht gerade ist.',
+          'Das ist die aufgeschnittene Erde, jede Schicht in der richtigen Dicke gezeichnet. Tippe auf eine Schicht im Schnitt oder schieb den Regler, um das Licht hinabzuschicken, bis zum Mittelpunkt, 6371 km unter deinen Füßen. Die Lupe zeigt die Atome dort, wo das Licht gerade ist.',
           'Fast alles zwischen der dünnen Kruste und dem Kern ist Gestein aus Silikaten: Silicium und Sauerstoff, verbunden mit Magnesium und Eisen. Weit oben ist es grüner Olivin: Auf Hawaii gibt es einen Strand aus grünem Olivinsand, und der Edelstein Peridot ist auch Olivin. Weiter unten drückt das Gewicht des Gesteins darüber dieselben Atome zu dichteren Kristallen zusammen. Von 100 kg Erde sind etwa 15 kg Silicium, aber im Kern gibt es kein Silikatgestein: Er besteht aus Eisen und Nickel.',
         ],
         sci: [
-          'Die Schichten maßstabsgetreu (mittlerer Radius 6371 km). Der Mantel macht etwa 84% des Erdvolumens und zwei Drittel der Erdmasse aus. Schieb den Regler, um die Sonde zu bewegen; die Lupe zeigt die Struktur in ihrer Tiefe.',
+          'Die Schichten maßstabsgetreu (mittlerer Radius 6371 km). Der Mantel macht etwa 84% des Erdvolumens und zwei Drittel der Erdmasse aus. Tippe auf eine Schicht im Schnitt oder schieb den Regler, um die Sonde zu bewegen; die Lupe zeigt die Struktur in ihrer Tiefe.',
           'Silicium macht etwa 15% der Erdmasse aus (Eisen 32%, Sauerstoff 30%, Magnesium 14%), fast alles in den Silikaten des Mantels. Bei etwa 410 km wird Olivin, (Mg,Fe)₂SiO₄, zu Wadsleyit, bei etwa 520 km zu Ringwoodit; bei 660 km (etwa 23 GPa) zerfällt Ringwoodit in Bridgmanit und Ferroperiklas, und Silicium hat statt vier Sauerstoffnachbarn nun sechs. Bridgmanit wurde 2014 nach dem Hochdruckphysiker Percy Bridgman benannt (Nobelpreis 1946), als natürliche Kristalle aus dem Meteoriten Tenham beschrieben wurden. Der Kern enthält keine Silikate: Er ist Eisen-Nickel, vielleicht mit etwas gelöstem Silicium.',
         ],
       },
@@ -555,6 +589,15 @@ export const EARTH_WORDS = {
       pale: 'Hol einen hellen Stein',
       compare: 'Vergleiche mit der Erde',
       back: 'Bring sie zurück',
+      tapMoon: 'Tippe auf den Mond',
+      tapSea: 'Tippe auf ein dunkles Meer des Mondes',
+      tapHigh: 'Tippe auf das helle Hochland',
+      tapCompare: 'Tippe auf die Vitrine zum Vergleichen',
+      tapBack: 'Tippe auf die Vitrine, um sie zurückzubringen',
+      hint: {
+        kid: 'Tippe zuerst auf den Mond: Ein dunkles Meer gibt dir Basalt, das helle Hochland Anorthosit.',
+        sci: 'Hol zuerst eine Mondprobe: Tippe auf ein dunkles Mare für Basalt oder auf das helle Hochland für Anorthosit.',
+      },
       title: 'Gestein vom Mond',
       sign: 'Apollo, 1969 bis 1972: 382 kg',
       rocks: ['Basalt', 'Anorthosit', 'Erdgestein'],
@@ -591,6 +634,7 @@ export const EARTH_WORDS = {
     star: {
       label: 'Ein Riesenstern',
       make: 'Mach Silicium',
+      tap: 'Tippe auf den Stern',
       title: 'In einem Stern gemacht',
       sign: 'Wo Silicium entsteht',
       says: {
