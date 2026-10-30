@@ -82,3 +82,6 @@ at the same address.
   `[1, 2, 3].forEach(...)` or an arrow function with commas.
 - Chloroplasts set out in neat rings read as a printed pattern, not a living cell: scatter them (a golden
   angle spiral).
+- The easel's legs first went straight through the picture (the user liked the picture on sticks, not
+  the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
+  ledge in front of them, and props them with a third leg.
