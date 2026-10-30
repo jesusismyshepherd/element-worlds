@@ -145,7 +145,7 @@ export class Player {
   /** Look at a station through the Atomling's eyes (third person); the Atomling turns to it. */
   lookAtStation(f) {
     const yaw = Math.atan2(-(f.x - this.pos.x), -(f.z - this.pos.z))
-    this.station = { at: new THREE.Vector3(f.x, f.y, f.z), yaw, size: f.size ?? 1, on: true, k: this.station?.k ?? 0 }
+    this.station = { at: new THREE.Vector3(f.x, f.y, f.z), yaw, size: f.size ?? 1, width: f.width ?? f.size ?? 1, on: true, k: this.station?.k ?? 0 }
   }
 
   update(dt, world, input, time) {
@@ -336,7 +336,8 @@ export class Player {
       // its top), no higher than a child's eyes
       const own = (b.hover ?? 0) + Math.max(b.height * 0.9, 0.95)
       const eye = new THREE.Vector3(this.pos.x, this.pos.y + Math.max(own, Math.min(st.at.y - this.pos.y + 0.35, 1.45)), this.pos.z)
-      const fit = (st.size / 2 / Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2)) * 1.1
+      // a focus with a `width` also fits across a narrow screen (an upright phone)
+      const fit = (Math.max(st.size, st.width / cam.aspect) / 2 / Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2)) * 1.1
       const dist = eye.distanceTo(st.at)
       if (dist < fit) eye.addScaledVector(eye.clone().sub(st.at).normalize(), fit - dist)
       if (bounds) {

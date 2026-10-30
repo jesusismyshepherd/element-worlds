@@ -51,7 +51,9 @@ in. The studio item is `picture-rooms`.
   water shader for every pond, `water({ tint, alpha, perVertex })`, and `setWeather(k)` for wind and
   haze), `street.js` (a terraced street at night; its lamps light it colour by colour through `paint()`
   and `lamps.set()`: each surface's reflectance near 589 and 640 nm from its colour, Smits' smooth
-  spectra). A room picks one
+  spectra), `leaf.js` (inside a leaf among its cells: palisade cells overhead, spongy cells round about,
+  the lower skin's jigsaw floor with `holes` for stomata, a vein; `setSun(k)`; exports `lumpyGeometry`,
+  `chloroTexture`). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -160,6 +162,14 @@ at the same address.
   hours on a board. The pencil workshop: tap the graphite and clay hoppers (or a slider), a grade from
   9H to 8B, the kiln, then the paper draws a line as dark as the mix; Borrowdale graphite in a case.
 
+- Carbon, `leaf` ("Plants eat air!", 2026-10-30): inside a leaf, smaller than its cells (`leaf.js`).
+  Van Helmont's willow on a deck: tap the can for each year (or a slider), the willow grows; after five
+  years tap it onto the scale (169 lb 3 oz, the soil about 2 oz lighter), tap the scale and it becomes a
+  column of where each part came from (air, water, a sliver of soil). The stoma: tap it, the guard cells
+  swell apart, CO2 drifts in and water vapour out; a dryness slider, and a thirsty leaf shuts it by
+  itself. The carbon catcher: tap a CO2 or RuBisCO, its carbon joins a sugar, six make one that goes to
+  the starch grain; dim the sunbeam and it stalls; new CO2 comes only while the stoma is open.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -223,9 +233,13 @@ at the same address.
   reflectance at the lamp's wavelengths, in the shader. A night's own fill light brings the colours
   back unless it is grey (rods see no colour anyway).
 - Near a wall the third-person camera closes in on the Atomling: keep station spots off the walls.
-- The station view backs off for height only: a wide station spills over an upright phone's sides. Give
-  its focus a `size` getter, `max(high, wide / camera.aspect)` (`twins.js`, `focusOf`), and keep the
-  easel and ceiling lamps off the line of that backed-off eye.
+- The station view backed off for height only: a wide station spilled over an upright phone's sides
+  (twins, leaf and football each worked round it). The engine now fits `size` across the screen too, or
+  the focus's `width` when the station is wider than tall (`walking.md`). Keep the easel and ceiling
+  lamps off the line of that backed-off eye.
+- Round guard cells touching still leave a gap at the floor: lips close over the hole. Two mirrored
+  copies of a home-made tube need the same winding, or one renders inside out. Bright streaks far off
+  in haze read as lines across the screen.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

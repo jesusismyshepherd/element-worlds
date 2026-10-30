@@ -73,7 +73,9 @@ seen; first person showed them, so using a station in third person now looks thr
 An interactable with `focus: { x, y, z, size }` (`size`: how much must fit, metres) does it: `player.use()`
 starts it (not the panel, which may open seconds later), the view eases from behind the Atomling into its
 eyes (raised a little above what it looks at, at most 1.45 m, and backed off along the line of sight only
-as far as `size` needs to fit), the Atomling turns to the station and is hidden while the view is in its
+as far as `size` needs to fit, up the screen and across it: on an upright phone the view backs off until
+`width` fits too, `size` unless the focus gives a wider one; 2026-10-30, three picture rooms found wide
+stations cropped on a phone), the Atomling turns to the station and is hidden while the view is in its
 head. Walking, turning, looking round by hand, or closing a panel that had opened eases it back. First
 person is unchanged. Focus is opt-in: the halls' boards, stations and specimen case, the Periodic Videos
 stations and professor have one (the exhibit kit, `noble/kit.js` `add({ focus })`, passes it through);

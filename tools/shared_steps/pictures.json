@@ -162,5 +162,24 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.pencil.tap('clay'); r() }, 2500))",
     "() => { __ew.showPanel(__ew.world.panels.pencil); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[4].onClick() }",
     "() => { __ew.store.set({ panel: null }); __ew.world.parts.deep.go(0) }"
+  ],
+  "/e/C/leaf": [
+    "() => __ew.world.parts.willow.tap('can')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.willow.tap('can'); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.willow.years(5); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.willow.tap('tree'); r() }, 600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.willow.tap('scale'); r() }, 2800))",
+    "() => __ew.world.parts.stoma.tap('stoma')",
+    "() => __ew.world.parts.stoma.tap('stoma')",
+    "() => __ew.world.parts.stoma.tap('dry')",
+    "() => __ew.world.parts.stoma.dry(0.2)",
+    "() => __ew.world.parts.catcher.tap('co2', 0)",
+    "() => __ew.world.parts.catcher.tap('co2', 1)",
+    "() => __ew.world.parts.catcher.sun(0.1)",
+    "() => __ew.world.parts.catcher.tap('co2', 2)",
+    "() => __ew.world.parts.catcher.tap('beam')",
+    "() => { __ew.showPanel(__ew.world.panels.catcher); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(60) }",
+    "() => { __ew.showPanel(__ew.world.panels.stoma); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick() }",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.willow); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick(); r() }, 1500))"
   ]
 }
