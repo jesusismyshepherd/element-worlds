@@ -147,5 +147,20 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.lamp.tap(); r() }, 1200))",
     "() => { __ew.showPanel(__ew.world.panels.lamp); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
     "() => { __ew.showPanel(__ew.world.panels.colours); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }"
+  ],
+  "/e/C/twins": [
+    "() => __ew.world.parts.deep.go(180)",
+    "() => { __ew.showPanel(__ew.world.panels.deep); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(210) }",
+    "() => new Promise(r => setTimeout(() => { __ew.store.set({ panel: null }); __ew.world.parts.pipe.tap(); r() }, 2500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pipe.look(); r() }, 4000))",
+    "() => __ew.world.parts.pencil.tap('graphite')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pencil.tap('graphite'); r() }, 1400))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pencil.tap('clay'); r() }, 1400))",
+    "() => { __ew.showPanel(__ew.world.panels.pencil); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(80) }",
+    "() => new Promise(r => setTimeout(() => { __ew.store.set({ panel: null }); __ew.world.parts.pencil.tap('kiln'); r() }, 600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pencil.tap('paper'); r() }, 4000))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pencil.tap('clay'); r() }, 2500))",
+    "() => { __ew.showPanel(__ew.world.panels.pencil); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[4].onClick() }",
+    "() => { __ew.store.set({ panel: null }); __ew.world.parts.deep.go(0) }"
   ]
 }

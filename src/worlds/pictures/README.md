@@ -15,6 +15,6 @@ The room inside one of a hall's pictures, stepped into from the board (`docs/kno
   `street.js`: a street at night, lit by reflectance at the lamps' wavelengths.
 - `scenes/<Symbol>/<id>.js` + `<id>.words.js`: a picture's room and its words. Silicon: all six
   (`diatoms`, `solar`, `glass`, `earth`, `valley`, `silicone`). Sodium: all six
-  (`nerves`, `salt`, `davy`, `lamps`, `space`, `kitchen`).
+  (`nerves`, `salt`, `davy`, `lamps`, `space`, `kitchen`). Carbon: `twins`.
 - `pictures.test.js`: every room stands behind a real picture; its words in four languages, the same
   shape, both depths, no em dashes.

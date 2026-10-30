@@ -151,6 +151,15 @@ at the same address.
   (or a slider) brings the colours back; the spectroscope shows one yellow line against a rainbow, at
   Scientist level split into 589.0 and 589.6 nm. Beek to Geleen, 1932.
 
+- Carbon, `twins` ("A diamond and a pencil: twins?", 2026-10-30): the workshop stage raised to 7.2 m.
+  A slice of the Earth to 250 km, room-high: tap it (or a depth slider) to send a lump of graphite down
+  on a glass lift; below 143 km (the diamond zone) it turns into a pale diamond a third smaller, brought
+  up slowly it turns back ("Too slow!"); a board shows depth, heat and the squeeze in elephants on a
+  fingernail (Scientist: the pressure-temperature diagram). The kimberlite pipe: tap it and magma races
+  up, carrying the carbon into a case (deep enough arrives as diamond, shallow as graphite), the ride's
+  hours on a board. The pencil workshop: tap the graphite and clay hoppers (or a slider), a grade from
+  9H to 8B, the kiln, then the paper draws a line as dark as the mix; Borrowdale graphite in a case.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -214,6 +223,9 @@ at the same address.
   reflectance at the lamp's wavelengths, in the shader. A night's own fill light brings the colours
   back unless it is grey (rods see no colour anyway).
 - Near a wall the third-person camera closes in on the Atomling: keep station spots off the walls.
+- The station view backs off for height only: a wide station spills over an upright phone's sides. Give
+  its focus a `size` getter, `max(high, wide / camera.aspect)` (`twins.js`, `focusOf`), and keep the
+  easel and ceiling lamps off the line of that backed-off eye.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
