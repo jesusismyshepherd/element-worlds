@@ -414,6 +414,7 @@
     "following": "Podążasz",
     "call": "Zawołaj wszystkich tutaj",
     "joined": "{{name}} dołącza",
+    "witness": "{{name}} wypróbowuje: {{thing}}. Spróbuj samodzielnie, żeby zaliczyć to jako swoje odkrycie ✦",
     "left": "{{name}} wychodzi",
     "go": "Idź",
     "labTogether": "Budujecie razem: {{names}}",

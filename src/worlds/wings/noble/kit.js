@@ -198,6 +198,9 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
         get verb() {
           return typeof verb === 'function' ? verb() : verb
         },
+        get found() {
+          return isFound(key)
+        },
         onUse: () => act(),
       }
       list.push(it)
@@ -214,6 +217,9 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
       },
       get verb() {
         return typeof verb === 'function' ? verb() : verb
+      },
+      get found() {
+        return isFound(key)
       },
       onUse() {
         const level = ctx.level()

@@ -266,10 +266,11 @@ export async function build(ctx) {
   // set(state, live): live, someone has just done it (it plays here); else a newcomer's view at once
   const shared = {
     triangle: { get: () => tri.state(), set: (s, live) => tri.setState(s, live) },
-    candle: { get: () => candle.state(), set: (s, live) => candle.setState(s, live) },
-    splint: { get: () => splint.state(), set: (s, live) => splint.setState(s, live) },
+    // what unfolds over time has gone on since its state was taken (ago seconds)
+    candle: { get: () => candle.state(), set: (s, live, ago) => candle.setState({ ...s, age: (Number(s.age) || 0) + ago }, live) },
+    splint: { get: () => splint.state(), set: (s, live, ago) => splint.setState({ ...s, run: s.run >= 0 ? s.run + ago : s.run }, live) },
     methane: { get: () => methane.shared(), set: (s, live) => methane.setShared(s, live) },
-    rust: { get: () => rust.state(), set: (s, live) => rust.setState(s, live) },
+    rust: { get: () => rust.state(), set: (s, live, ago) => rust.setState({ ...s, run: s.run >= 0 ? s.run + ago : s.run }, live) },
   }
 
   let unsub = null

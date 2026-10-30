@@ -203,11 +203,16 @@ export function RoomToasts({ engine }) {
     const add = (text, extra = {}) => {
       const id = Math.random().toString(36).slice(2)
       setNotes(list => [...list.slice(-3), { id, text, ...extra }])
-      setTimeout(() => setNotes(list => list.filter(n => n.id !== id)), extra.call ? 12000 : 6000)
+      setTimeout(() => setNotes(list => list.filter(n => n.id !== id)), extra.call ? 12000 : extra.wrap ? 8000 : 6000)
     }
     const paths = new Map()
     const offs = [
       room.on('joined', m => add(t('room.joined', { name: m.name }), { color: m.color })),
+      // someone else did something near me that I have not discovered yet (engine.witness)
+      room.on('witness', p => {
+        const m = room.member(p.from)
+        if (m) add(t('room.witness', { name: m.name, thing: p.label }), { color: m.color, wrap: true })
+      }),
       room.on('left', m => m && add(t('room.left', { name: m.name }), { color: m.color })),
       room.on('call', p => {
         const m = room.member(p.from)
@@ -242,7 +247,7 @@ export function RoomToasts({ engine }) {
     <div className="absolute right-2 sm:right-3 z-30 flex flex-col items-end gap-1 pointer-events-none" style={{ top: 'calc(var(--bar) + 0.25rem)' }}>
       {notes.map(n => (
         <div key={n.id} data-room-note className="glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto flex items-center gap-2 max-w-[18rem]" style={{ borderColor: n.color ? `${n.color}aa` : undefined }}>
-          <span className="truncate">{n.text}</span>
+          <span className={n.wrap ? 'leading-snug' : 'truncate'}>{n.text}</span>
           {n.call && (
             <button type="button" onClick={() => (n.call.duel ? (duel.hide(false), room.go?.('/')) : engine?.others?.answer(n.call))} className="rounded-lg px-2 py-0.5 bg-white/20 hover:bg-white/30">
               {t('room.go')}

@@ -490,7 +490,8 @@ export async function build(ctx) {
     // the column's light and the sky's volley come down together
     ozone: { get: () => col.state(), set: (s, live) => col.setState(s, live) && ozone.volley(12) },
     sources: { get: () => earth.state(), set: (s, live) => earth.setState(s, live) },
-    goe: { get: () => goe.state(), set: (s, live) => goe.setState(s, live) },
+    // a run under way when its state was taken has gone on since (it takes 11 s)
+    goe: { get: () => goe.state(), set: (s, live, ago) => goe.setState({ ...s, run: s.run >= 0 ? s.run + ago / 11 : s.run }, live) },
     breath: { get: () => breath.state(), set: s => breath.setState(s) },
   }
 

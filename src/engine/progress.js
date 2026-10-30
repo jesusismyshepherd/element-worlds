@@ -1,13 +1,16 @@
 // What the player has discovered (a station read, an exhibit tried), kept on the device: keys like
 // "C:identity" or "O:air:candle". A small game for Artur: every world counts its discoveries.
-// With the quiz's records (ew-quiz-best) and the names written in the neon workshop (ew-neon-name:<Sym>)
-// it is the player's progress, which a signed-in account keeps too (src/net/account.js): snapshot()
-// gives it all, adopt() takes the account's back, clearProgress() empties the device at sign-out.
+// With the quiz's records (ew-quiz-best) and the player's own state of each world (ew-world:<path>: the
+// balloons let go, the word on the neon wall; src/net/shared.js) it is the player's progress, which a
+// signed-in account keeps too (src/net/account.js): snapshot() gives it all, adopt() takes the
+// account's back, clearProgress() empties the device at sign-out. The names once kept on their own
+// (ew-neon-name:<Sym>) move into their workshop's world state.
 import { play } from '../audio/sound.js'
 
 const KEY = 'ew-found'
 const QUIZ = 'ew-quiz-best'
 const NEON = 'ew-neon-name:'
+const WORLD = 'ew-world:'
 
 const safe = (f, fallback = null) => {
   try {
@@ -20,6 +23,46 @@ const safe = (f, fallback = null) => {
 function load() {
   return new Set(safe(() => JSON.parse(localStorage.getItem(KEY) ?? '[]'), []))
 }
+
+/** The player's own state of a world: { at (ms), parts: { id: state } }, or null. */
+export function worldState(path) {
+  return safe(() => {
+    const v = JSON.parse(localStorage.getItem(WORLD + path) ?? 'null')
+    return v && typeof v === 'object' && v.parts && typeof v.parts === 'object' ? v : null
+  })
+}
+
+/** Keep the player's own state of a world. */
+export function keepWorldState(path, parts) {
+  safe(() => localStorage.setItem(WORLD + path, JSON.stringify({ at: Date.now(), parts })))
+}
+
+/** A neon name kept the old way (its own key, or an older account's `neon`): into its workshop's world
+ *  state, unless that has a word already. */
+function fromNeon(sym, raw) {
+  const v = safe(() => JSON.parse(raw))
+  if (!/^[A-Z][a-z]?$/.test(sym) || !v || typeof v.text !== 'string') return
+  const path = `/e/${sym}/signs`
+  const ws = worldState(path) ?? { at: 0, parts: {} }
+  if (ws.parts.name) return
+  ws.parts.name = { text: v.text, gas: v.gas }
+  safe(() => localStorage.setItem(WORLD + path, JSON.stringify(ws)))
+}
+
+function migrateNeon() {
+  safe(() => {
+    const keys = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)
+      if (k?.startsWith(NEON)) keys.push(k)
+    }
+    for (const k of keys) {
+      fromNeon(k.slice(NEON.length), localStorage.getItem(k))
+      localStorage.removeItem(k)
+    }
+  })
+}
+migrateNeon()
 
 let found = load()
 const listeners = new Set()
@@ -62,25 +105,28 @@ export function resetFound() {
   safe(() => localStorage.removeItem(KEY))
 }
 
-/** Everything the player has gathered on this device: discoveries, quiz records, neon names. */
+/** Everything the player has gathered on this device: discoveries, quiz records, their own worlds. */
 export function snapshot() {
   const quiz = safe(() => JSON.parse(localStorage.getItem(QUIZ) ?? '{}'), {}) ?? {}
-  const neon = {}
+  const worlds = {}
   safe(() => {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i)
-      if (k?.startsWith(NEON)) neon[k.slice(NEON.length)] = localStorage.getItem(k)
+      if (k?.startsWith(WORLD)) {
+        const ws = worldState(k.slice(WORLD.length))
+        if (ws) worlds[k.slice(WORLD.length)] = ws
+      }
     }
   })
   return {
     found: [...found].sort(),
     quiz: Object.fromEntries(Object.entries(quiz).filter(([, v]) => Number.isFinite(Number(v))).map(([k, v]) => [k, Number(v)])),
-    neon,
+    worlds: Object.fromEntries(Object.keys(worlds).sort().map(k => [k, worlds[k]])),
   }
 }
 
 /** Does this progress hold anything worth keeping? */
-export const hasProgress = p => !!p && (p.found?.length > 0 || Object.keys(p.quiz ?? {}).length > 0 || Object.keys(p.neon ?? {}).length > 0)
+export const hasProgress = p => !!p && (p.found?.length > 0 || Object.keys(p.quiz ?? {}).length > 0 || Object.keys(p.worlds ?? {}).length > 0)
 
 /** Take an account's progress as this device's (the account's is the device's and more, once merged). */
 export function adopt(p) {
@@ -89,9 +135,10 @@ export function adopt(p) {
   found = new Set(Array.isArray(p.found) ? p.found : [])
   safe(() => localStorage.setItem(KEY, JSON.stringify([...found])))
   if (p.quiz && typeof p.quiz === 'object') safe(() => localStorage.setItem(QUIZ, JSON.stringify(p.quiz)))
-  for (const [sym, name] of Object.entries(p.neon ?? {})) {
-    if (typeof name === 'string') safe(() => localStorage.setItem(NEON + sym, name))
+  for (const [path, ws] of Object.entries(p.worlds ?? {})) {
+    if (path.startsWith('/') && ws && typeof ws === 'object' && ws.parts && typeof ws.parts === 'object') safe(() => localStorage.setItem(WORLD + path, JSON.stringify(ws)))
   }
+  for (const [sym, name] of Object.entries(p.neon ?? {})) if (typeof name === 'string') fromNeon(sym, name)
   if (JSON.stringify(snapshot()) !== before) announce()
 }
 
@@ -102,7 +149,7 @@ export function clearProgress() {
     const keys = []
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i)
-      if (k === KEY || k === QUIZ || k?.startsWith(NEON)) keys.push(k)
+      if (k === KEY || k === QUIZ || k?.startsWith(NEON) || k?.startsWith(WORLD)) keys.push(k)
     }
     keys.forEach(k => localStorage.removeItem(k))
   })

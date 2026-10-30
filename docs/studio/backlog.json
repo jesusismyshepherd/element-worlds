@@ -89,10 +89,11 @@
       "date": "2026-10-30",
       "summary": "In a room, the things in a world are shared: you let the balloons go in the neon workshop and everyone there sees them rise; whoever comes in later finds them up under the ceiling. Panels, the Atomling's words and videos stay each one's own.",
       "details": [
-        "Done (2026-10-30): every wing. The neon workshop (the tubes, the radon counter, the word on the wall, the atom, the history board, the spectroscope, the balloons), carbon's gallery (14 exhibits: the peeled graphene, the twisted sheets, the press...) and garden (9: day and night, the carbon-14 clock...), oxygen's air deck (7) and fire chamber (5: the fire triangle, the candle under its jar...), sodium's lab (the oil tin, the bowl, the salt window, the lamp) and silicon's (the lump, the chip line, the wafer, the turbocharger, the minerals).",
-        "The video, its parts and every panel stay each one's own, as you asked; so do the Atomling's and the professor's words, and the discoveries.",
-        "The halls share nothing: what you do there is reading, going through a door or talking.",
-        "Someone else's word on the wall is shown, never saved over yours: alone again, your own word is back."
+        "Done (2026-10-30): every wing. The neon workshop (the tubes, the radon counter, the word on the wall, the atom, the history board, the spectroscope, the balloons), carbon's gallery (14 exhibits) and garden (9), oxygen's air deck (7) and fire chamber (5), sodium's lab (4) and silicon's (5). The halls share nothing: what you do there is reading, going through a door or talking.",
+        "Each world is saved twice, as you asked: your own (on the device and in your account) and each room's. The room keeps its worlds even when nobody is in them: come back to the room later and the balloons are still up, the word still on the wall. A room's world starts fresh, never from anyone's own; leave the room and your own is back.",
+        "Discoveries and badges count the same alone or in a room, and only for the one who does it. Standing beside someone who just tried something you have not, you get a note: try it yourself to make it your discovery.",
+        "The video, its parts and every panel stay each one's own, as you asked; so do the Atomling's and the professor's words.",
+        "How it works: one mechanism for every world, and each exhibit says what its state is and how to replay it (a new wing does the same; a probe flags any exhibit that shares nothing)."
       ],
       "doc": "docs/knowledge/multiplayer.md",
       "link": "https://element-worlds.vercel.app/e/Ne/signs"
@@ -606,7 +607,7 @@
     {
       "date": "2026-10-30",
       "title": "Doing things together in the worlds",
-      "what": "In a room, the things in every wing are shared: let the balloons go in the neon workshop and everyone there sees them rise; fill a tube, light a word, drop sodium in the bowl, run the chip line, and it happens on everyone's screen. Whoever comes in later finds it as it stands. Videos, panels and the Atomling's words stay each one's own.",
+      "what": "In a room, the things in every wing are shared: let the balloons go in the neon workshop and everyone there sees them rise; fill a tube, light a word, drop sodium in the bowl, run the chip line, and it happens on everyone's screen. The room keeps its worlds even when nobody is in them, apart from each player's own, which is saved too. Standing beside someone who tries what you have not, a note says it counts once you do it yourself. Videos, panels and the Atomling's words stay each one's own.",
       "link": "https://element-worlds.vercel.app/e/Ne/signs"
     },
     {

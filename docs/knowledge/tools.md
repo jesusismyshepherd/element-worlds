@@ -45,7 +45,8 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 - `forge_probe.py`: the Atom Forge (`atom-forge.md`).
 - `room_probe.py`, `duel_probe.py`, `plaza_room_probe.py`: rooms, the quiz duel, three players on the
   table (`multiplayer.md`). `shared_probe.py`: a world's things shared in a room (neon's workshop by
-  default; `--world <path>` any world: every exhibit used, the others' states compared, a latecomer).
+  default, with the room kept while empty, own and room apart, the note for a bystander; `--world <path>`
+  any world: every exhibit used, the others' states compared, a latecomer). Its rooms are `PRB...`.
 - `usage_probe.py`, `stats_probe.py` (both want `EW_DASH_PASS`), `account_probe.py`: usage recording, the
   family dashboard, accounts (`usage-data.md`, `accounts.md`).
 

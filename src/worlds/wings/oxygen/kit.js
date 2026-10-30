@@ -639,6 +639,9 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
       get verb() {
         return typeof verb === 'function' ? verb() : verb
       },
+      get found() {
+        return isFound(key)
+      },
       onUse() {
         const level = ctx.level()
         const result = act ? act() : null

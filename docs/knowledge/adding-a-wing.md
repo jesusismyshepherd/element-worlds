@@ -23,25 +23,31 @@ atrium draws its arch by itself, titled from `wings.<Symbol>.<id>.title` in both
 | `cameraBounds` | `{ minX, maxX, minY, maxY, minZ, maxZ }`: the third-person camera stays inside |
 | `interactables` | `[{ id, x, z, radius, label, verb, onUse }]`: the nearest within reach gets the prompt (E or the button) |
 | `doors` | `[{ x, z, radius, to }]`: walking into one goes to the address `to` (`atriumPath(symbol)` for the way back) |
-| `shared` | `{ <id>: { get(), set(state, live) } }`: what everyone in a room's same world shares (below) |
+| `shared` | `{ <id>: { get(), set(state, live, ago) } }`: the world's things, kept and shared (below) |
 | `attach(engine)`, `detach(engine)`, `update(dt, t)`, `dispose()` | optional |
 
 `ctx`: `{ engine, renderer, scene, camera, canvas, input, store, light, t, lang(), level(), go(path), share(id) }`.
 
 ## Shared with the room (every wing, since 2026-10-30)
 
-In a room, everyone in the same world sees the same state of its things and each change as it happens
-(`src/net/shared.js`; the protocol in `multiplayer.md`, "Shared world objects"). Each exhibit's piece gives
-`state()` (small plain JSON: `{ free, age }`, `{ lit: ['He', 'Ne'] }`, `{ gas: 'Ar' }`) and
-`setState(s, live)`; the world lists them in `shared` and calls `ctx.share(id)` right after its own
-visitor changed one (after `act` succeeded, not when it was busy). `live`: someone has just done it, play it
-here as if done here (the animation and its sound); not live: a newcomer, show it as it stands at once
-(fast-forward what unfolds over time: the balloons' flight from `age`). Something that only happens (a
-Geiger counter's clicks, an electron fired) is a count in the state, played when it goes up.
+Every world's things have two saved states, the player's own (alone) and each room's (in a room, where
+everyone in the same world sees the same and each change as it happens): `src/net/shared.js`, the protocol
+in `multiplayer.md`, "Shared world objects". Each exhibit's piece gives `state()` (small plain JSON:
+`{ free, age }`, `{ lit: ['He', 'Ne'] }`, `{ gas: 'Ar' }`) and `setState(s, live)`; the world lists them in
+`shared` and calls `ctx.share(id)` right after its own visitor changed one (after `act` succeeded, not when
+it was busy). `live`: someone has just done it, play it here as if done here (the animation and its
+sound); not live: show it as it stands at once (a newcomer, a saved state coming back). `ago` (seconds):
+how long before the state was taken; what unfolds over time runs on by it (`{ ...s, age: s.age + ago }`
+in the world's `set`; the balloons' flight, the candle's air, a run under way). Something that only happens
+(a Geiger counter's clicks, an electron fired) is a count in the state, played when it goes up.
+A world builds itself as new and never reads or writes a saved state of its own: the keeper puts back the
+player's own or the room's, and the world as built is where a room's starts (the neon wall's word moved
+there from its own key). Exhibits say whether this visitor has found them (`found`, a getter: the kits do
+it), so someone beside an exhibit another player used is told it is not their discovery yet.
 Stays each one's own: panels, the Atomling's words (`say`), discoveries, windows, videos, the camera.
 A piece's callback that speaks after an animation must know whose it was (`onLit(gas, mine)`). Check what
-comes in (a known gas, a cleaned word): it comes from another device. Someone else's word or pick is shown,
-never saved into this visitor's own storage. Example: `noble/signs.js` (`shared`) and its pieces.
+comes in (a known gas, a cleaned word): it comes from another device. A room's word or pick is the room's,
+never saved as this visitor's own. Example: `noble/signs.js` (`shared`) and its pieces.
 Check: `py -3.11 tools/shared_probe.py --world <path>` (every exhibit used by one player, the others' states
 compared, a latecomer); a button in a panel goes in `tools/shared_steps/<area>.json`.
 Traps met (2026-10-30): an exhibit's label or verb that changes with its state must be a getter (the

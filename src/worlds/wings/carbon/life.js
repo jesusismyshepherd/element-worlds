@@ -273,7 +273,7 @@ export async function build(ctx) {
   }
   const interactables = []
   const add = (id, [x, z], radius, onUse, label = W.ex[id]?.label, verb = W.ex[id]?.verb) => {
-    const it = { id, x, z, radius, label, verb, onUse: () => onUse(it) }
+    const it = { id, x, z, radius, label, verb, onUse: () => onUse(it), get found() { return isFound(`C:life:${id}`) } }
     interactables.push(it)
     return it
   }

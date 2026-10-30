@@ -278,6 +278,8 @@ export async function build(ctx) {
   const add = (id, onUse, extra = {}) => {
     const [x, z] = LAYOUT[id].use
     const it = { id, x, z, radius: 2.0, label: W.ex[id]?.label ?? '', verb: W.ex[id]?.verb ?? '', onUse: () => onUse(it), ...extra }
+    // whether this visitor has found it (someone else using it nearby says it is not theirs yet)
+    Object.defineProperty(it, 'found', { get: () => isFound(`C:allotropes:${id}`) })
     interactables.push(it)
     return it
   }

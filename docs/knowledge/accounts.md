@@ -31,13 +31,15 @@ time, "not to lose what Artur has already gathered on the phone (he used one dev
 ## The progress
 
 - What a player gathers: the discoveries (`ew-found`, the passport and the badges come from them), the
-  quiz's records (`ew-quiz-best`), the names written in the neon workshop (`ew-neon-name:<Symbol>`):
-  `snapshot()`, `adopt()`, `clearProgress()` in `src/engine/progress.js`.
+  quiz's records (`ew-quiz-best`), their own state of each world (`ew-world:<path>`: `{ at, parts }`, the
+  balloons let go, the word on the neon wall; `multiplayer.md`, "Shared world objects"): `snapshot()`,
+  `adopt()`, `clearProgress()` in `src/engine/progress.js`. The neon names kept before 2026-10-30 on
+  their own (`ew-neon-name:<Symbol>`, an account's `neon`) move into their workshop's world state.
 - The first account that signs in on a device takes what the device gathered before (`ew-owner` on the
   device says whose the progress is): Artur's phone's discoveries go into his account at his first
   sign-in, by signing up or signing in with an existing account.
 - `ew_save_progress` merges on the server: discoveries joined, the best quiz record kept, the device's
-  neon names over the account's. Signed in, the device saves 2 s after each discovery, every 15 s
+  neon names over the account's, and for each world the newer of the two (`at`; `ew_003_room_worlds.sql`). Signed in, the device saves 2 s after each discovery, every 15 s
   otherwise, and when the page is hidden; another device signing in gets everything back.
 - Signing out saves, then empties the device's progress (the account keeps it): the next player on a
   shared computer starts with their own. Someone else's leftovers on a device (if a sign-out never

@@ -26,25 +26,6 @@ import { spectroscope, atomDisplay } from './signs.optics.js'
 import { nameWall, historyBoard, balloonRack } from './signs.parts.js'
 import { nameOverlay } from './nameOverlay.js'
 
-// the name written on the wall, kept per room: a room starts with its own gas's name until a name is
-// written there (one key for all six rooms showed NÉON in every room once it was lit in neon's)
-const nameKey = sym => `ew-neon-name:${sym}`
-const loadName = sym => {
-  try {
-    const v = JSON.parse(localStorage.getItem(nameKey(sym)) ?? 'null')
-    return v && typeof v.text === 'string' && SIGN_GASES.includes(v.gas) ? { text: sanitizeName(v.text).trim(), gas: v.gas } : null
-  } catch {
-    return null
-  }
-}
-const saveName = (sym, v) => {
-  try {
-    localStorage.setItem(nameKey(sym), JSON.stringify(v))
-  } catch {
-    // storage blocked: kept for this visit
-  }
-}
-
 /** Puts a part on a wall or a spot: position, turn, and a function from its frame to the room's. */
 function place(root, obj, x, z, rotY) {
   obj.position.set(x, 0, z)
@@ -170,11 +151,11 @@ export async function build(ctx, target) {
     },
   })
 
-  // the name on the north wall and the desk below it
-  // the room's own gas's name, in its own light (radon's name in neon's)
-  const saved = loadName(sym)
-  const fallback = sanitizeName(GasName(sym))
-  let current = saved?.text ? saved : { text: fallback, gas: SIGN_GASES.includes(sym) ? sym : 'Ne' }
+  // the name on the north wall and the desk below it: each gas's workshop starts with its own gas's
+  // name, in its own light (radon's name in neon's), until a word is written there; the word written is
+  // kept as the workshop's state (`shared` below: the player's own alone, the room's in a room; one key
+  // for all six workshops once showed NÉON in every one)
+  let current = { text: sanitizeName(GasName(sym)), gas: SIGN_GASES.includes(sym) ? sym : 'Ne' }
   const wall = nameWall({ mats, words: W.name, light, text: current.text, color: glowOf(current.gas) })
   place(root, wall.group, 0, z0, 0)
   updates.push((dt, t) => wall.update(dt, t))
@@ -196,7 +177,6 @@ export async function build(ctx, target) {
       },
       onSubmit: (word, gas) => {
         current = { text: word, gas }
-        saveName(sym, current)
         wall.light(word, glowOf(gas))
         share('name')
         // the tube it took: its length in font units, at the scale the wall drew it
@@ -399,13 +379,14 @@ export async function build(ctx, target) {
     onUse: talk,
   }
 
-  // ---- what everyone in a room's same workshop shares (src/net/shared.js) ----
-  // set(state, live): live, someone has just done it (it plays here); else a newcomer's view at once
+  // ---- the workshop's state: the player's own alone, the room's in a room (src/net/shared.js) ----
+  // set(state, live, ago): live, someone has just done it (it plays here); else as it stands, taken ago
+  // seconds before
   const shared = {
     bench: { get: () => bench.state(), set: (s, live) => bench.setState(s, live) },
     radon: { get: () => radon.state(), set: (s, live) => radon.setState(s, live) },
-    // the word on the wall: someone else's is shown (and never saved over mine); while I type my own,
-    // the wall keeps my preview and shows theirs when the window closes
+    // the word on the wall (a room's word is the room's, mine stays mine); while I type, the wall keeps
+    // my preview and shows the other's word when the window closes
     name: {
       get: () => ({ text: current.text, gas: current.gas }),
       set: (s, live) => {
@@ -421,7 +402,7 @@ export async function build(ctx, target) {
     atom: { get: () => atom.state(), set: (s, live) => atom.setState(s, live) && later(1.5, () => atom.advance()) },
     history: { get: () => history.state(), set: (s, live) => history.setState(s, live) },
     spectrum: { get: () => spec.state(), set: (s, live) => spec.setState(s, live) },
-    balloons: { get: () => balloons.state(), set: (s, live) => balloons.setState(s, live) },
+    balloons: { get: () => balloons.state(), set: (s, live, ago) => balloons.setState({ ...s, age: (Number(s.age) || 0) + ago }, live) },
   }
 
   let unsub = null

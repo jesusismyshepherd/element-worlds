@@ -387,6 +387,7 @@
     "following": "Following",
     "call": "Call everyone here",
     "joined": "{{name}} joined",
+    "witness": "{{name}} tried it: {{thing}}. Try it yourself to make it your discovery ✦",
     "left": "{{name}} left",
     "go": "Go",
     "labTogether": "Building together: {{names}}",

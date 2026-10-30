@@ -390,6 +390,7 @@
     "following": "Du folgst",
     "call": "Alle hierher rufen",
     "joined": "{{name}} ist dabei",
+    "witness": "{{name}} hat es ausprobiert: {{thing}}. Probier es selbst, dann zählt es als deine Entdeckung ✦",
     "left": "{{name}} ist gegangen",
     "go": "Hin",
     "labTogether": "Ihr baut zusammen: {{names}}",

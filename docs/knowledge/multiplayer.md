@@ -50,26 +50,42 @@ games for more players, or for two with "the others ... spectators with possibil
 
 ## Shared world objects (2026-10-30)
 
-- `src/net/shared.js` (`shared`, `window.__ewShared`): the engine tells it each world it enters
-  (`shared.enter(w, path)`, `leave`) and gives worlds `ctx.share(id)`. A world lists its things in `shared`
-  (`{ id: { get, set(state, live) } }`); how a wing does it: `adding-a-wing.md`, "Shared with the room".
+- Two saved states for every world (the user, 2026-10-30: "you have distinct, and saved, state for a
+  player and for a room"; "room hold the state even when empty"): the player's own, alone (on the device,
+  `ew-world:<path>`, and in the account's progress: `accounts.md`), and each room's, in a room (in the
+  family Supabase project, `ew_room_world`, kept while nobody is there). A room's world starts as the world
+  is built, never from anyone's own; leaving the room while in a world brings one's own back, joining one
+  brings the room's. Discoveries and badges count the same alone or in a room, and only for the one who
+  does the thing.
+- `src/net/shared.js` (`shared`, `window.__ewShared`, `mode` 'own' or 'room'): the engine tells it each
+  world it enters (`shared.enter(w, path)`, `leave`, `keep` as the page goes) and gives worlds
+  `ctx.share(id)`. A world lists its things in `shared` (`{ id: { get, set(state, live, ago) } }`); how a
+  wing does it: `adding-a-wing.md`, "Shared with the room".
   Every wing shares its things: the neon workshop all seven (bench, radon, name, atom, history, spectrum,
   balloons), carbon's gallery 14 and garden 9, oxygen's air deck 7 and fire chamber 5, sodium's lab 4
   and silicon's 5 (each area's README lists them; the video, its parts and the panels stay personal).
 - The halls share nothing: every exhibit there opens a panel, takes the player somewhere or talks, and
   their moving pieces (the turntables, the big atom) run on each player's own clock. A world without
   `shared` (or with an empty one) sends no messages; `shared_probe.py --world` stops at "shares things".
-- Per world address (`/e/Ne/signs` and `/e/He/signs` are two worlds). Each thing's state has a version that
-  counts up across the room and who wrote it; the higher (v, by) wins everywhere.
-- Broadcasts: `w-set` (a change, played live), `w-hello` (I came in: tell me; with `parts` when sent by
-  someone already there who met a newcomer late), `w-state` (the answer, or mine after nobody answered:
-  shown at once, not played). Coming into a world while others are in the room waits up to 1.5 s for an
-  answer; nobody answers, its own state stands and is told, so two who came in together (following, a
-  call) agree on one. Alone in the room: no messages at all.
-- Nothing is stored: a world's state lives while someone is in it; the last one out takes it along. Not
-  in a room, nothing changes from before.
-- Tests: `src/net/shared.test.js` (a fake room: live changes, newcomers, two at once, a change made while
-  asking). Probe: `tools/shared_probe.py` (below).
+- Per world address (`/e/Ne/signs` and `/e/He/signs` are two worlds). In a room each thing's state has a
+  version that counts up across the room and who wrote it; the higher (v, by) wins everywhere, in the
+  store too (`ew_room_world_put` keeps only a newer one). Untouched things are the same for everyone (the
+  world as built), so only changed ones travel.
+- Coming in: the room's store gives what was left there (`ew_room_world_get`, with how many seconds ago:
+  `set` runs it forward); anyone already in the world sends what changed (`w-state`, on a `w-hello` or when
+  they see the newcomer arrive), which covers a change still on its way to the store. A change: `w-set`
+  to everyone (played live) and to the store at most every 0.7 s (its last always; at once as the world
+  or the page is left). The store unreachable: the room still works among those there.
+- Someone else's change played near an exhibit (8 m) I have not discovered yet: a note under the bar
+  ("Ana tried it: the balloons. Try it yourself to make it your discovery ✦", `room.witness`), once a
+  visit for each exhibit (`engine.witness`; exhibits say whether they are found with `found`).
+- `supabase/ew_003_room_worlds.sql`: the table (nothing readable with the public key) and its two
+  functions (a room's code is the key: whoever has it is in the room). At most 64 things a world, 8000
+  characters each. No expiry. Probe rooms are named `PRB...`; clear them with the Supabase MCP:
+  `delete from ew_room_world where code like 'PRB%'`.
+- Tests: `src/net/shared.test.js` (a fake room and store: live changes, newcomers, the room kept while
+  empty, own and room apart, the time gone by, a change made before the store answered). Probe:
+  `tools/shared_probe.py` (below).
 
 ## How it works
 
@@ -126,8 +142,10 @@ checks, under a minute; screenshots in `tools/shots/plaza_room/`.
 
 `py -3.11 tools/shared_probe.py [--base ...]`: three players (one a phone) in neon's workshop: the
 balloons, a tube, a word, the spectroscope, the atom, the counter and the board, each played on the other's
-screen without their panel or words; a latecomer finds it as it stands; helium's workshop keeps its own.
-30 checks, under a minute. `--world <path>`: any world, every exhibit used in turn and the states
+screen without their panel or words, and the note for the one beside who has not tried it; a latecomer
+finds it as it stands; helium's workshop keeps its own; everyone leaves and one comes back: the room kept
+it; one leaves the room there: their own (fresh), and the room's again on coming back. 39 checks, under a
+minute. `--world <path>`: any world, every exhibit used in turn and the states
 compared, then a latecomer; it lists the exhibits whose use changed nothing shared.
 
 ## Next

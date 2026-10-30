@@ -5,7 +5,10 @@ each change plays on the other's screen (the balloons rise there, the tube is fi
 panels and the Atomling's words stay with the one who did it. Cid comes in late and finds the workshop
 as it stands (the balloons up under the ceiling, the word on the wall), without anything replayed.
 Ana ties the balloons back: they come back for all. Helium's workshop, another world, keeps its own.
-Screenshots in tools/shots/shared/.
+Bob, standing by the balloons he has not tried, is told Ana's try is not his discovery. Then everyone
+leaves the workshop and Cid comes back to it alone: the room kept it. Ana leaves the room there: her own
+workshop (fresh), not the room's; back in the room, the room's again. Probe rooms are named PRB...
+(their rows in ew_room_world can be told apart and cleared). Screenshots in tools/shots/shared/.
 
 With --world <path>, any world: Ana uses every exhibit in turn (the Atomling and the --skip ones aside),
 and after each one Bob's shared states must match hers (numbers within 2, for times like the balloons'
@@ -20,6 +23,7 @@ all read (or one file with --steps).
 import argparse
 import json
 import pathlib
+import random
 import sys
 import time
 
@@ -28,6 +32,9 @@ from playwright.sync_api import sync_playwright
 READY = 'window.__ew && window.__ew.world && window.__ew.world.shared && !window.__ew.store.get().fading'
 OUT = pathlib.Path(__file__).parent / 'shots' / 'shared'
 WORKSHOP = '/e/Ne/signs'
+# a probe's room: PRB and three letters (ew_room_world keeps every room's worlds; these can be cleared)
+probe_code = lambda: 'PRB' + ''.join(random.choice('ABCDEFGHJKMNPQRSTUVWXYZ') for _ in range(3))
+IN_ROOM = "() => __ewShared.mode === 'room'"
 
 
 def main():
@@ -74,6 +81,7 @@ def main():
         ana.wait_for_function(READY, timeout=90000)
         ana.click('[data-room-button]')
         ana.fill('[data-room-name]', 'Ana')
+        ana.fill('[data-room-code]', probe_code())
         ana.click('[data-room-start]')
         check('Ana starts a room', wait(ana, "() => __ewRoom.status === 'on'"))
         code = ana.evaluate('() => __ewRoom.code')
@@ -90,7 +98,8 @@ def main():
         for pg in (bob, cid):
             if pg.query_selector('[data-room-sheet]'):
                 pg.click('[data-room-button]')
-        check("Bob's workshop keeps step with Ana's", wait(bob, '() => __ewShared.started && !__ewShared.pending', 8000))
+        check("Bob's workshop is the room's", wait(bob, IN_ROOM, 8000))
+        time.sleep(1)
 
         # the balloons: Ana lets them go, they rise on Bob's screen; the words are Ana's only
         bob.evaluate('() => __ew.store.set({ speech: null, panel: null })')
@@ -104,6 +113,9 @@ def main():
         bob.screenshot(path=str(OUT / 'bob_balloons.png'))
         speech = bob.evaluate('() => __ew.store.get().speech')
         check("Bob gets no words or panel from Ana's balloons", not speech and not bob.evaluate('() => __ew.store.get().panel'), str(speech)[:80])
+        note = bob.evaluate('() => [...document.querySelectorAll("[data-room-note]")].map(n => n.textContent).join(" | ")')
+        check("Bob, beside them, is told to try them himself for his discovery", 'Try it yourself' in note, note[:120])
+        check("Ana's try did not count as Bob's discovery", not bob.evaluate("() => __ew.world.interactables.find(i => i.id === 'balloons').found"))
         check("Bob's prompt would now tie them back", bob.evaluate("() => __ew.world.interactables.find(i => i.id === 'balloons').verb") == ana.evaluate("() => __ew.world.interactables.find(i => i.id === 'balloons').verb"))
 
         # the bench: Ana fills the next tube; Bob's bench fills the same tube, its animation playing
@@ -118,7 +130,7 @@ def main():
         ana.keyboard.press('Enter')
         check("Bob's wall says ARTUR", wait(bob, "() => __ew.world.shared.name.get().text === 'ARTUR'"))
         check("Bob's wall lights it letter by letter", wait(bob, '() => __ew.world.parts.wall.lighting', 3000) or bob.evaluate("() => __ew.world.parts.wall.sign.count") > 0)
-        check("Ana's word is not saved into Bob's own", bob.evaluate("() => localStorage.getItem('ew-neon-name:Ne')") is None)
+        check("the room's word is not saved as Bob's own", 'ARTUR' not in (bob.evaluate("() => localStorage.getItem('ew-world:/e/Ne/signs')") or ''))
 
         # Bob turns the spectroscope and fires the atom: Ana's follow
         use(bob, 'spectrum')
@@ -137,9 +149,9 @@ def main():
         # Cid walks into neon's workshop late: everything as it stands, nothing replayed
         time.sleep(3)
         cid.evaluate(f"() => __ew.go('{WORKSHOP}')")
-        cid.wait_for_function(f"() => location.pathname === '{WORKSHOP}' && {READY.replace('window.', '')}", timeout=30000)
-        check("Cid's workshop takes the room's", wait(cid, '() => __ewShared.started && !__ewShared.pending', 8000))
-        time.sleep(0.5)
+        cid.wait_for_function(f"() => location.pathname === '{WORKSHOP}' && {READY.replace('window.', '')}", timeout=60000)
+        check("Cid's workshop is the room's", wait(cid, IN_ROOM, 8000))
+        time.sleep(1)
         for part in ('bench', 'name', 'history', 'spectrum'):
             check(f'Cid finds the {part} as Ana has it', state(cid, part) == state(ana, part), f'{json.dumps(state(cid, part))} vs {json.dumps(state(ana, part))}')
         bal = state(cid, 'balloons')
@@ -155,6 +167,32 @@ def main():
         use(ana, 'balloons')
         for n, pg in (('Bob', bob), ('Cid', cid)):
             check(f"{n}'s balloons come back to the table", wait(pg, '() => !__ew.world.shared.balloons.get().free'))
+
+        # the room keeps its workshop while nobody is in it: Ana lets them go again, everyone leaves,
+        # Cid comes back alone
+        time.sleep(2)
+        use(ana, 'balloons')
+        word = state(ana, 'name')
+        time.sleep(1.5)
+        for pg in (ana, bob, cid):
+            pg.evaluate("() => __ew.go('/')")
+        for pg in (ana, bob, cid):
+            pg.wait_for_function("() => location.pathname === '/' && __ew.world && !__ew.store.get().fading", timeout=60000)
+        time.sleep(5)
+        cid.evaluate(f"() => __ew.go('{WORKSHOP}')")
+        cid.wait_for_function(f"() => location.pathname === '{WORKSHOP}' && {READY.replace('window.', '')}", timeout=60000)
+        check("Cid, alone there, finds the room's word", wait(cid, f"() => __ew.world.shared.name.get().text === '{word['text']}'", 10000), json.dumps(state(cid, 'name')))
+        bal = state(cid, 'balloons')
+        check('and the balloons let go, flown on while nobody was there', bal['free'] and bal['age'] > 5, json.dumps(bal))
+
+        # Ana's own workshop is not the room's: she leaves the room in it, and comes back
+        ana.evaluate(f"() => __ew.go('{WORKSHOP}')")
+        ana.wait_for_function(f"() => location.pathname === '{WORKSHOP}' && {READY.replace('window.', '')}", timeout=60000)
+        check("Ana back in the room's workshop", wait(ana, f"() => __ew.world.shared.name.get().text === '{word['text']}'", 10000))
+        ana.evaluate('() => __ewRoom.leave()')
+        check('Ana leaves the room: her own workshop, fresh', wait(ana, "() => __ewShared.mode === 'own' && __ew.world.shared.name.get().text === 'NEON' && !__ew.world.shared.balloons.get().free", 8000), json.dumps(state(ana, 'name')))
+        ana.evaluate(f"() => __ewRoom.join('{code}', 'Ana')")
+        check("back in the room: the room's workshop again", wait(ana, f"() => __ewShared.mode === 'room' && __ew.world.shared.name.get().text === '{word['text']}'", 15000), json.dumps(state(ana, 'name')))
 
         if fails:
             for n, pg in people.items():
@@ -213,6 +251,7 @@ def generic(a):
         ana.wait_for_function(ready, timeout=90000)
         ana.click('[data-room-button]')
         ana.fill('[data-room-name]', 'Ana')
+        ana.fill('[data-room-code]', probe_code())
         ana.click('[data-room-start]')
         ana.wait_for_function("() => __ewRoom.status === 'on'", timeout=20000)
         code = ana.evaluate('() => __ewRoom.code')
@@ -233,7 +272,8 @@ def generic(a):
         if not parts:
             b.close()
             sys.exit(1)
-        bob.wait_for_function('() => __ewShared.started && !__ewShared.pending', timeout=8000)
+        bob.wait_for_function(IN_ROOM, timeout=8000)
+        time.sleep(1)
         ok, d = in_step(bob)
         check("Bob's world starts as Ana's", ok, d)
 
@@ -263,9 +303,9 @@ def generic(a):
 
         bob.screenshot(path=str(OUT / f"bob_{path.strip('/').replace('/', '_')}.png"))
         cid.evaluate(f"() => __ew.go('{path}')")
-        cid.wait_for_function(f"() => location.pathname === '{path}' && __ew.world && __ew.world.shared && !__ew.store.get().fading", timeout=30000)
-        cid.wait_for_function('() => __ewShared.started && !__ewShared.pending', timeout=8000)
-        time.sleep(0.5)
+        cid.wait_for_function(f"() => location.pathname === '{path}' && __ew.world && __ew.world.shared && !__ew.store.get().fading", timeout=60000)
+        cid.wait_for_function(IN_ROOM, timeout=8000)
+        time.sleep(1)
         ok, d = in_step(cid)
         check('Cid comes in late and finds it all as Ana has it', ok, d)
         if fails:

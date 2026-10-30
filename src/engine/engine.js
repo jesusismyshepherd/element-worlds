@@ -31,6 +31,8 @@ import { room } from '../net/room.js'
 import { shared } from '../net/shared.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
+// how near an exhibit someone else used I must stand to be told it is not my discovery yet (metres)
+const WITNESS_M = 8
 
 export class Engine {
   constructor(canvas, { store, i18n }) {
@@ -57,7 +59,13 @@ export class Engine {
     room.on('members', () => this.meetOthers())
     // an account's progress came in (or a sign-out emptied it): the world on show redraws its marks
     onRestore(() => this.world?.refresh?.())
-    this.onPageHide = () => this.keepSpot(true)
+    this.onPageHide = () => {
+      this.keepSpot(true)
+      shared.keep()
+    }
+    // someone else's change played here: near an exhibit I have not found yet, a word that it counts
+    // only when I do it myself
+    shared.onLive = (id, from) => this.witness(id, from)
     addEventListener('pagehide', this.onPageHide)
     if (!this.light) {
       this.composer = new EffectComposer(r)
@@ -263,6 +271,7 @@ export class Engine {
     // the table and the other worlds without a walker keep their own view (camera, pick)
     if (w.mode !== 'walk' && back?.key === key) w.restoreSpot?.(back)
     this.others?.enter(w)
+    this.witnessed = new Set()
     room.arrived(location.pathname)
     shared.enter(w, location.pathname)
     ambience(target.kind)
@@ -388,6 +397,20 @@ export class Engine {
       this.others = new Others(this)
       if (this.world) this.others.enter(this.world)
     })
+  }
+
+  /** Someone else's change has just played here (src/net/shared.js). Standing near that exhibit without
+   *  having discovered it, I am told it counts as my discovery only when I do it myself (the user,
+   *  2026-10-30: they saw it, but the point is the doer's); once a visit for each exhibit. The exhibits
+   *  say whether they are found (`found`); those that do not are left alone. */
+  witness(id, from) {
+    const w = this.world
+    if (w?.mode !== 'walk') return
+    const p = this.player.pos
+    const it = (w.interactables ?? []).find(i => (i.id === id || String(i.id).startsWith(`${id}-`)) && Math.hypot(i.x - p.x, i.z - p.z) < WITNESS_M)
+    if (!it || it.found !== false || this.witnessed?.has(it.id)) return
+    this.witnessed?.add(it.id)
+    room.emit('witness', { from, label: it.label })
   }
 
   /** "Tell me something": the world's Atomling says its next line. */
