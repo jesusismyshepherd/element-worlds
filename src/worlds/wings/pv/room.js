@@ -2,7 +2,8 @@
 // (docs/knowledge/periodic-videos.md): the lab and courtyard of lab.js, the element's film on the screen by the
 // courtyard door, and the element's stations (<Symbol>.js), each with "Watch this part": the film opens in the
 // station's own panel at the moment its experiment starts, beside the buttons that do it. Contract:
-// docs/knowledge/adding-a-wing.md.
+// docs/knowledge/adding-a-wing.md. In a room, everyone in the same lab shares its experiments (each
+// <Symbol>.js's `shared`, src/net/shared.js); the film, the panels and the words stay each one's own.
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -59,6 +60,7 @@ export async function build(ctx, target) {
   /** A station's panel: its words and buttons, and a button per part of the film it comes from (the first
    *  "Watch this part", the others with their own label); the film opens on top, at that part. */
   const watching = {}
+  const panels = {} // each station's panel, by its id (for the probes: __ew.showPanel(__ew.world.panels.bowl))
   const panel = ({ id, title, parts, extra = {}, blocks }) => {
     const make = lv => {
       const on = watching[id]
@@ -77,6 +79,7 @@ export async function build(ctx, target) {
         blocks: [...(on ? film(video.parts[on]) : []), ...blocks(lv), { buttons: watchButtons }],
       }
     }
+    panels[id] = make
     return make
   }
 
@@ -223,6 +226,8 @@ export async function build(ctx, target) {
     talk,
     // for the probes in tools/ (__ew.world.parts.bowl.busy and so on)
     parts: st.parts,
+    panels,
+    shared: st.shared,
     refresh: () => ex.refresh(),
     attach() {
       ex.report()

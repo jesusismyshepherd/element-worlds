@@ -10,7 +10,9 @@ and the user's requests behind them. Add a line here when a piece of work change
   players in the room see it too and share its state"; videos and popups stay each one's own): in a
   room, the things in a world are shared. Each world lists them; a change plays on everyone's screen in
   that world, and whoever comes in later finds it as it stands (`src/net/shared.js`, `multiplayer.md`
-  "Shared world objects"). The neon workshop first, all seven of its things.
+  "Shared world objects"). Every wing: the neon workshop, carbon's gallery and garden, oxygen's air deck
+  and fire chamber, sodium's and silicon's video labs (the experiments shared, each one watches the film
+  alone). The halls share nothing: their exhibits are reading, doors and talk.
 
 - The music crackled on the user's phone, not on the computer: the beds were sixteen live oscillators
   on 10 ms buffers. Now each bed is rendered once as a seamless 80 s loop and played from a buffer, with

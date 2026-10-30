@@ -2,6 +2,8 @@
 // bottle, turning, its grains glinting; sand and a lens beside it), the chip line (cut a wafer, test the
 // chips, sort them; then a 30 cm wafer), the wafer and its rainbow (turn it over, tilt it under the lamp),
 // the turbocharger (steel and silicon nitride wheels racing), the minerals (quartz, mica, feldspar, garnet).
+// In a room all five are shared (`shared` below, src/net/shared.js); the words, the panels and the film stay
+// each one's own.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { at, fill, num, canvasTex, clamp, lerp, random } from '../noble/kit.js'
@@ -157,10 +159,11 @@ function siliconLump() {
   let state = 'bottle'
   let t = 0
   let spin = 0.25
+  let turns = 0 // for the others in a room
   const tmp = new THREE.Vector3()
   const lampWorld = new THREE.Vector3()
   const nmat = new THREE.Matrix3()
-  return {
+  const api = {
     group,
     act() {
       if (state === 'lifting') return false
@@ -170,10 +173,30 @@ function siliconLump() {
         return 'take'
       }
       spin = 3.2
+      turns++
       return 'turn'
     },
     get out() {
       return state !== 'bottle'
+    },
+    state() {
+      return { out: state !== 'bottle', turns }
+    },
+    /** Someone else took it out or spun it (live: it plays here, returns true); a newcomer finds it on
+     *  its turntable. */
+    setState({ out = false, turns: n = 0 } = {}, live = false) {
+      n = Math.max(0, Math.floor(Number(n) || 0))
+      let played = false
+      if (out && state === 'bottle') {
+        if (live) played = !!api.act()
+        else {
+          state = 'out'
+          spinner.position.copy(onTable)
+          spinner.scale.setScalar(1)
+        }
+      } else if (live && out && n > turns) played = !!api.act()
+      turns = n
+      return played
     },
     update(dt, time, camera, viewH) {
       t += dt
@@ -205,6 +228,7 @@ function siliconLump() {
       }
     },
   }
+  return api
 }
 
 // ---- the chip line: cut a wafer, test its chips, sort them ----
@@ -258,11 +282,11 @@ function chipLine({ onStep }) {
   const backing = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.01, 40), new THREE.MeshStandardMaterial({ color: '#1d2027', roughness: 0.6 }))
   backing.position.y = 0.035
   stage.add(backing)
-  const rnd = random(31)
   let size = 'small'
   let state = 'whole'
   let t = 0
   let list = []
+  let wafers = 0 // the wafer's number: which of its chips work follows from it, the same on every screen
   const m4 = new THREE.Matrix4()
   const q = new THREE.Quaternion()
   const one = new THREE.Vector3(1, 1, 1)
@@ -271,7 +295,9 @@ function chipLine({ onStep }) {
   const BAD = new THREE.Color('#ff4d4d')
   const counts = { good: 0, bad: 0 }
 
-  function newWafer(s) {
+  function newWafer(s, n = wafers + 1) {
+    wafers = n
+    const rnd = random(31 + n * 7919)
     size = s
     const r = R[s]
     disc.scale.set(r, r, r)
@@ -288,7 +314,7 @@ function chipLine({ onStep }) {
       if (Math.hypot(Math.abs(x) + PITCH / 2, Math.abs(z) + PITCH / 2) < r - 0.004) list.push({ x, z, ok: rnd() > 0.17, at: new THREE.Vector3(x, 0.044, z) })
     }
   }
-  newWafer('small')
+  newWafer('small', 0)
 
   const draw = () => {
     chips.count = list.length
@@ -298,7 +324,10 @@ function chipLine({ onStep }) {
     })
     chips.instanceMatrix.needsUpdate = true
   }
-  return {
+  // where each step leads (one under way counts as done: it ends there by itself on every screen)
+  const STEPS = ['whole', 'cut', 'tested', 'done']
+  const stepOf = s => ({ cutting: 'cut', testing: 'tested', sorting: 'done' })[s] ?? s
+  const api = {
     group,
     get state() {
       return state
@@ -309,9 +338,43 @@ function chipLine({ onStep }) {
     get busy() {
       return state === 'cutting' || state === 'testing' || state === 'sorting'
     },
+    snapshot() {
+      return { size, wafer: wafers, step: stepOf(state) }
+    },
+    /** Someone else's step (live: the next step, or a new wafer, plays here; returns true when it did);
+     *  a newcomer sees the wafer as that step left it. */
+    restore({ size: s, wafer = 0, step } = {}, live = false) {
+      if (!R[s] || !STEPS.includes(step)) return false
+      const n = Math.max(0, Math.floor(Number(wafer) || 0))
+      const have = stepOf(state)
+      if (n === wafers && s === size && step === have) return false
+      if (live && !api.busy) {
+        if (n === wafers && STEPS.indexOf(step) === STEPS.indexOf(have) + 1) return !!api.act()
+        if (n === wafers + 1 && step === 'whole') {
+          newWafer(s, n)
+          return true
+        }
+      }
+      newWafer(s, n)
+      const k = STEPS.indexOf(step)
+      if (k >= 1) {
+        disc.visible = false
+        list.forEach((c, i) => {
+          c.at.set(c.x * 1.18, 0.044, c.z * 1.18)
+          chips.setColorAt(i, k >= 2 ? (c.ok ? GOOD : BAD) : GOLD)
+          c.hide = k >= 3
+        })
+        chips.instanceColor.needsUpdate = true
+        counts.good = list.filter(c => c.ok).length
+        counts.bad = list.length - counts.good
+        draw()
+        state = step
+      }
+      return false
+    },
     /** One step: cut, test, sort, then a new wafer (the other size unless one is asked for). */
     act(want) {
-      if (this.busy) return false
+      if (api.busy) return false
       if (want) {
         newWafer(want)
         onStep?.('new', size)
@@ -380,6 +443,7 @@ function chipLine({ onStep }) {
       }
     },
   }
+  return api
 }
 
 // ---- the wafer and its rainbow ----
@@ -467,7 +531,8 @@ function waferRainbow({ light }) {
   let flip = 0
   let flipTo = 0
   let rock = 0
-  return {
+  let rocks = 0 // for the others in a room
+  const api = {
     group,
     get front() {
       return flipTo === 0
@@ -486,7 +551,27 @@ function waferRainbow({ light }) {
     act() {
       // used: it rocks slowly through its angles once, so the rainbow sweeps
       rock = 6
+      rocks++
       return null
+    },
+    state() {
+      return { front: flipTo === 0, tilt: Math.round(tiltTo * 100) / 100, rocks }
+    },
+    /** Someone else turned it over, tilted it or set it rocking: it moves here too (a newcomer's at once). */
+    setState({ front = true, tilt: v = 0.35, rocks: n = 0 } = {}, live = false) {
+      n = Math.max(0, Math.floor(Number(n) || 0))
+      flipTo = front ? 0 : Math.PI
+      const rocked = live && n > rocks
+      rocks = n
+      if (rocked) rock = 6
+      else if (Number.isFinite(v) && (Math.abs(v - tiltTo) > 0.005 || rock > 0)) {
+        tiltTo = Math.max(0, Math.min(1.1, v))
+        rock = 0
+      }
+      if (!live) {
+        flip = flipTo
+        tilt = tiltTo
+      }
     },
     update(dt, t) {
       if (rock > 0) {
@@ -503,6 +588,7 @@ function waferRainbow({ light }) {
       front.material.uniforms.uLight.value.copy(lampPos)
     },
   }
+  return api
 }
 
 // ---- the turbocharger: steel and silicon nitride wheels racing ----
@@ -565,7 +651,8 @@ function turbocharger({ words }) {
   pedalPivot.rotation.z = 0.35
   group.add(pedalPivot)
   let press = 0
-  return {
+  let presses = 0 // for the others in a room
+  const api = {
     group,
     get busy() {
       return press > 0
@@ -573,8 +660,18 @@ function turbocharger({ words }) {
     act() {
       if (press > 0) return false
       press = 2.6
+      presses++
       play('beam')
       return true
+    },
+    state() {
+      return { n: presses }
+    },
+    /** Someone else pressed the pedal: the wheels race here too. */
+    setState({ n = 0 } = {}, live = false) {
+      n = Math.max(0, Math.floor(Number(n) || 0))
+      if (live && n > presses) api.act()
+      presses = n
     },
     update(dt) {
       press = Math.max(0, press - dt)
@@ -588,6 +685,7 @@ function turbocharger({ words }) {
       }
     },
   }
+  return api
 }
 
 // ---- the minerals: quartz, mica, feldspar, garnet ----
@@ -646,14 +744,28 @@ function minerals() {
   })
   let cur = -1
   let lift = 0
+  const show = i => {
+    cur = i
+    lift = 0
+    ring.visible = true
+    ring.position.set(slots[cur][0], 0.032, slots[cur][1])
+  }
   return {
     group,
     next() {
-      cur = (cur + 1) % order.length
-      lift = 0
-      ring.visible = true
-      ring.position.set(slots[cur][0], 0.032, slots[cur][1])
+      show((cur + 1) % order.length)
       return order[cur]
+    },
+    state() {
+      return { cur }
+    },
+    /** Someone else picked one up: it rises here too (live: returns true); a newcomer sees it up. */
+    setState({ cur: i = -1 } = {}, live = false) {
+      i = Math.floor(Number(i))
+      if (i === cur || !(i >= 0 && i < order.length)) return false
+      show(i)
+      if (!live) lift = 1
+      return live
     },
     update(dt, t) {
       lift = Math.min(1, lift + dt * 3)
@@ -669,6 +781,8 @@ function minerals() {
 
 export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
   const level = () => ctx.level()
+  // tell the others in the room's same lab that this visitor changed something
+  const share = id => ctx.share?.(id)
   const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
   const vars = {
     melt: num(el.melt - 273.15, 0, lang),
@@ -691,6 +805,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     act: () => {
       const r = lump.act()
       if (!r) return false
+      share('lump')
       play('tap')
       return r === 'take' ? at(E.lump.says, level()) : null
     },
@@ -700,8 +815,18 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
 
   // the chip line, at the bench's other end
   const say1 = (key, vars2) => say(fill(at(E.chips.says[key], level()), vars2 ?? {}))
+  // the step under way was this visitor's: someone else's plays here too, without the words
+  let mine = true
+  const lineAct = want => {
+    const r = line.act(want)
+    if (!r) return false
+    mine = true
+    share('chips')
+    return r
+  }
   const line = chipLine({
     onStep: (step, info) => {
+      if (!mine) return
       if (step === 'cut') say1('cut')
       else if (step === 'tested') say1('test')
       else if (step === 'sorted') say1('sorted', { ...info, pct: Math.round((info.good / info.all) * 100) })
@@ -718,7 +843,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     focus: { x: SPOTS.benchSide.x + 0.05, y: SPOTS.benchSide.y + 0.15, z: SPOTS.benchSide.z, size: 1.4 },
     label: E.chips.label,
     verb: lineVerb,
-    act: () => (line.act() ? null : false),
+    act: () => (lineAct() ? null : false),
     panelDelay: 0.8,
     panel: panel({
       id: 'chips',
@@ -726,7 +851,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
       parts: ['chips'],
       blocks: lv => [
         ...paras(E.chips.panel[depth(lv)]),
-        { buttons: [{ label: E.chips.buttons.small, onClick: () => line.act('small') || say(W.busy) }, { label: E.chips.buttons.big, onClick: () => line.act('big') || say(W.busy) }] },
+        { buttons: [{ label: E.chips.buttons.small, onClick: () => lineAct('small') || say(W.busy) }, { label: E.chips.buttons.big, onClick: () => lineAct('big') || say(W.busy) }] },
       ],
     }),
   })
@@ -744,6 +869,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     verb: E.wafer.tilt,
     act: () => {
       wafer.act()
+      share('wafer')
       return at(wafer.front ? E.wafer.says.front : E.wafer.says.back, level())
     },
     panelDelay: 1.2,
@@ -754,8 +880,33 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
       extra: { rainbow: E.wafer.says.front.kid.replace(/[!.].*$/, '') + ' ({t})' },
       blocks: lv => [
         ...paras(E.wafer.panel[depth(lv)]),
-        { slider: { label: E.wafer.tilt, min: 0, max: 1.1, step: 0.01, value: wafer.tilt, onInput: v => wafer.setTilt(v), format: v => `${Math.round((v * 180) / Math.PI)}°`, live: () => wafer.tilt } },
-        { buttons: [{ label: E.wafer.flip, onClick: () => say(at(wafer.flip() === 'front' ? E.wafer.says.front : E.wafer.says.back, level())) }] },
+        {
+          slider: {
+            label: E.wafer.tilt,
+            min: 0,
+            max: 1.1,
+            step: 0.01,
+            value: wafer.tilt,
+            onInput: v => {
+              wafer.setTilt(v)
+              tilted()
+            },
+            format: v => `${Math.round((v * 180) / Math.PI)}°`,
+            live: () => wafer.tilt,
+          },
+        },
+        {
+          buttons: [
+            {
+              label: E.wafer.flip,
+              onClick: () => {
+                const side = wafer.flip()
+                share('wafer')
+                say(at(side === 'front' ? E.wafer.says.front : E.wafer.says.back, level()))
+              },
+            },
+          ],
+        },
       ],
     }),
   })
@@ -773,16 +924,27 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     verb: E.turbo.press,
     act: () => {
       if (!turbo.act()) return false
+      share('turbo')
       later(1.8, () => say(at(E.turbo.says, level())))
       return null
     },
     panelDelay: 2.6,
-    panel: panel({ id: 'turbo', title: E.turbo.title, parts: ['turbo'], blocks: lv => [...paras(E.turbo.panel[depth(lv)]), { buttons: [{ label: E.turbo.press, onClick: () => turbo.act() }] }] }),
+    panel: panel({ id: 'turbo', title: E.turbo.title, parts: ['turbo'], blocks: lv => [...paras(E.turbo.panel[depth(lv)]), { buttons: [{ label: E.turbo.press, onClick: () => turbo.act() && share('turbo') }] }] }),
   })
   // a timer for the line said after the race (the room's own timers are not passed in)
   const waits = []
   function later(s, fn) {
     waits.push({ s, fn })
+  }
+  // the tilt slider moves many times a second: the others get it a few times a second, and where it stopped
+  let tilting = false
+  const tilted = () => {
+    if (tilting) return
+    tilting = true
+    later(0.15, () => {
+      tilting = false
+      share('wafer')
+    })
   }
 
   // the minerals, on the side table
@@ -798,6 +960,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     verb: E.minerals.look,
     act: () => {
       const k = rocks.next()
+      share('minerals')
       play('tap')
       return at(E.minerals.says[k], level())
     },
@@ -805,8 +968,24 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     panel: panel({ id: 'minerals', title: E.minerals.title, parts: ['sand'], blocks: lv => paras(E.minerals.panel[depth(lv)]) }),
   })
 
+  // what everyone in a room's same lab shares (src/net/shared.js): set(state, live), live when someone has
+  // just done it (it plays here, with its sound), else a newcomer's view at once
+  const shared = {
+    lump: { get: () => lump.state(), set: (s, live) => lump.setState(s, live) && play('tap') },
+    chips: {
+      get: () => line.snapshot(),
+      set: (s, live) => {
+        if (line.restore(s, live)) mine = false
+      },
+    },
+    wafer: { get: () => wafer.state(), set: (s, live) => wafer.setState(s, live) },
+    turbo: { get: () => turbo.state(), set: (s, live) => turbo.setState(s, live) },
+    minerals: { get: () => rocks.state(), set: (s, live) => rocks.setState(s, live) && play('tap') },
+  }
+
   return {
     parts: { lump, line, wafer, turbo, rocks },
+    shared,
     update(dt, t, camera, viewHeight) {
       for (let i = waits.length - 1; i >= 0; i--) {
         waits[i].s -= dt

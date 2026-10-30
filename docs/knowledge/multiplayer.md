@@ -53,7 +53,9 @@ games for more players, or for two with "the others ... spectators with possibil
 - `src/net/shared.js` (`shared`, `window.__ewShared`): the engine tells it each world it enters
   (`shared.enter(w, path)`, `leave`) and gives worlds `ctx.share(id)`. A world lists its things in `shared`
   (`{ id: { get, set(state, live) } }`); how a wing does it: `adding-a-wing.md`, "Shared with the room".
-  The neon workshop shares all seven (bench, radon, name, atom, history, spectrum, balloons).
+  Every wing shares its things: the neon workshop all seven (bench, radon, name, atom, history, spectrum,
+  balloons), carbon's gallery 14 and garden 9, oxygen's air deck 7 and fire chamber 5, sodium's lab 4
+  and silicon's 5 (each area's README lists them; the video, its parts and the panels stay personal).
 - The halls share nothing: every exhibit there opens a panel, takes the player somewhere or talks, and
   their moving pieces (the turntables, the big atom) run on each player's own clock. A world without
   `shared` (or with an empty one) sends no messages; `shared_probe.py --world` stops at "shares things".

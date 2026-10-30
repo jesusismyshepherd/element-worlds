@@ -1,6 +1,8 @@
 // Sodium's Periodic Videos room: the five scenes of its film (docs/pv/Na.md) as stations. The oil tin
 // (cut a slice, watch it tarnish), the courtyard bowl (three lumps, the flame, the bang, the indicator), the
-// salt window (it cracks at right angles; the lattice inside), the salt lamp, the professor's card.
+// salt window (it cracks at right angles; the lattice inside), the salt lamp, the professor's card. In a room
+// the tin, the bowl, the window and the lamp are shared (`shared` below, src/net/shared.js); the words, the
+// panels and the film stay each one's own.
 import { at, fill, num } from '../noble/kit.js'
 import { play } from '../../../audio/sound.js'
 import { SPOTS } from './lab.js'
@@ -31,6 +33,8 @@ const SIZES = ['small', 'medium', 'large']
 
 export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
   const level = () => ctx.level()
+  // tell the others in the room's same lab that this visitor changed something
+  const share = id => ctx.share?.(id)
   const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
   // the numbers in the words, from the game's data
   const vars = {
@@ -53,6 +57,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     verb: () => (tin.busy ? E.tin.cutting : E.tin.cut),
     act: () => {
       if (!tin.act()) return false
+      share('tin')
       play('tap')
       return at(E.tin.says, level())
     },
@@ -63,20 +68,22 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
   // the courtyard bowl, on the red bench
   let next = 'medium'
   let fizzIn = 0
+  // the lump in the bowl was this visitor's: someone else's flames and bangs here too, without the words
+  let mine = true
   const bowl = courtyardBowl({
     light,
     on: {
       splash: () => play('tap'),
       flame: () => {
-        say(at(E.bowl.says.flame, level()))
+        if (mine) say(at(E.bowl.says.flame, level()))
         play('pop')
       },
       bang: () => {
-        say(at(E.bowl.says.bang, level()))
+        if (mine) say(at(E.bowl.says.bang, level()))
         play('bang')
       },
       pop: () => play('pop'),
-      done: size => size === 'small' && say(at(E.bowl.says.small, level())),
+      done: size => mine && size === 'small' && say(at(E.bowl.says.small, level())),
     },
   })
   put(root, bowl, SPOTS.yard)
@@ -85,7 +92,9 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
       say(W.busy)
       return false
     }
+    mine = true
     next = SIZES[(SIZES.indexOf(size) + 1) % SIZES.length]
+    share('bowl')
     return true
   }
   ex.add({
@@ -111,7 +120,9 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
             {
               label: E.bowl.buttons.indicator,
               onClick: () => {
-                if (bowl.indicator()) say(at(E.bowl.says.pink, level()))
+                if (!bowl.indicator()) return
+                share('bowl')
+                say(at(E.bowl.says.pink, level()))
               },
             },
           ],
@@ -133,7 +144,9 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     label: E.window.label,
     verb: () => (win.cracked ? E.window.again : E.window.crack),
     act: () => {
-      if (win.act() !== 'crack') return null
+      const r = win.act()
+      share('window')
+      if (r !== 'crack') return null
       play('crack')
       return at(E.window.says, level())
     },
@@ -154,6 +167,7 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     verb: () => (lamp.on ? E.lamp.off : E.lamp.on),
     act: () => {
       lamp.act()
+      share('lamp')
       play('tap')
       return null
     },
@@ -175,8 +189,24 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     panel: panel({ id: 'note', title: E.note.title, parts: ['note'], blocks: lv => paras(E.note.panel[depth(lv)]) }),
   })
 
+  // what everyone in a room's same lab shares (src/net/shared.js): set(state, live), live when someone has
+  // just done it (it plays here, with its sound), else a newcomer's view at once
+  const shared = {
+    tin: { get: () => tin.state(), set: (s, live) => tin.setState(s, live) && play('tap') },
+    bowl: {
+      get: () => ({ ...bowl.state(), next }),
+      set: (s, live) => {
+        if (SIZES.includes(s.next)) next = s.next
+        if (bowl.setState(s, live)) mine = false
+      },
+    },
+    window: { get: () => win.state(), set: (s, live) => win.setState(s, live) && play('crack') },
+    lamp: { get: () => lamp.state(), set: (s, live) => lamp.setState(s, live) && play('tap') },
+  }
+
   return {
     parts: { tin, bowl, win, lamp, card },
+    shared,
     update(dt, t, camera, viewHeight) {
       tin.update(dt)
       bowl.update(dt, t, camera, viewHeight)

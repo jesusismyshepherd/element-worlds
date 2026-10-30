@@ -159,7 +159,8 @@ built: `docs/history.md`):
   eyes (`walking.md`).
 - The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the
   Atomlings (`/atomlings`, `atomlings.md`), the passport (`/passport`).
-- Rooms: playing together, the shared lab, the quiz duel (`multiplayer.md`). Accounts (`accounts.md`).
+- Rooms: playing together, the shared lab, the quiz duel, every wing's things shared (since 2026-10-30)
+  (`multiplayer.md`). Accounts (`accounts.md`).
   Usage data and the family dashboard at `/stats` (`usage-data.md`).
 - The HUD keeps the middle free (`hud-layout.md`); walking in both views (`walking.md`); four languages
   (`translating.md`); new versions and Reload (`deploying.md`).

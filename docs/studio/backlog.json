@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "shared-worlds",
     "periodic-videos",
     "halls-116",
     "treasure-hunts",
@@ -85,17 +84,18 @@
       "code": "Sw",
       "title": "Doing things together in the worlds",
       "kind": "together",
-      "status": "building",
+      "status": "built",
       "from": "you",
       "date": "2026-10-30",
       "summary": "In a room, the things in a world are shared: you let the balloons go in the neon workshop and everyone there sees them rise; whoever comes in later finds them up under the ceiling. Panels, the Atomling's words and videos stay each one's own.",
-      "why": "You asked for it (2026-10-30): playing together means doing things in the same world, not side by side.",
       "details": [
-        "Done (2026-10-30): the way it works for every world, and the neon workshop (all seven: the tubes, the radon counter, the word on the wall, the atom, the history board, the spectroscope, the balloons).",
-        "Next: carbon's and oxygen's wings, sodium's and silicon's video labs (the experiments shared, each one watches the video alone) and the halls.",
+        "Done (2026-10-30): every wing. The neon workshop (the tubes, the radon counter, the word on the wall, the atom, the history board, the spectroscope, the balloons), carbon's gallery (14 exhibits: the peeled graphene, the twisted sheets, the press...) and garden (9: day and night, the carbon-14 clock...), oxygen's air deck (7) and fire chamber (5: the fire triangle, the candle under its jar...), sodium's lab (the oil tin, the bowl, the salt window, the lamp) and silicon's (the lump, the chip line, the wafer, the turbocharger, the minerals).",
+        "The video, its parts and every panel stay each one's own, as you asked; so do the Atomling's and the professor's words, and the discoveries.",
+        "The halls share nothing: what you do there is reading, going through a door or talking.",
         "Someone else's word on the wall is shown, never saved over yours: alone again, your own word is back."
       ],
-      "doc": "docs/knowledge/multiplayer.md"
+      "doc": "docs/knowledge/multiplayer.md",
+      "link": "https://element-worlds.vercel.app/e/Ne/signs"
     },
     {
       "id": "halls-116",
@@ -603,6 +603,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Doing things together in the worlds",
+      "what": "In a room, the things in every wing are shared: let the balloons go in the neon workshop and everyone there sees them rise; fill a tube, light a word, drop sodium in the bowl, run the chip line, and it happens on everyone's screen. Whoever comes in later finds it as it stands. Videos, panels and the Atomling's words stay each one's own.",
+      "link": "https://element-worlds.vercel.app/e/Ne/signs"
+    },
     {
       "date": "2026-10-30",
       "title": "Smooth music on the phone",

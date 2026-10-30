@@ -1,6 +1,7 @@
 // The Periodic Videos rooms' apparatus, each with what it does when used: built for sodium first (docs/pv/Na.md)
 // and meant to be used again (the courtyard bowl takes any alkali metal; the screen and the card any element).
-// Every part is a group whose y = 0 is the surface it stands on and whose +x faces the visitor.
+// Every part is a group whose y = 0 is the surface it stands on and whose +x faces the visitor. The parts
+// that change give their state (state / setState) for everyone in a room to share (src/net/shared.js).
 import * as THREE from 'three'
 import { canvasTex, clamp, lerp, smooth, random } from '../noble/kit.js'
 import { edgeGlass } from '../../common/props.js'
@@ -90,20 +91,50 @@ export function oilTin() {
   let t = 0
   let length = ROD
   let cut = 0
+  let count = 0 // cuts made, for the others in a room
+
+  // a new rod (the tin holds two kilos), still in the tin
+  function newRod() {
+    length = ROD
+    body.scale.y = 1
+    body.position.y = ROD / 2
+    for (const s of slices.splice(0)) {
+      group.remove(s.mesh)
+      s.mesh.geometry.dispose()
+    }
+    fresh.length = 1
+    phase = 'in'
+  }
+
+  // a slice off the rod's end: the rod one slice shorter, its end new; `done`, already lying aside and dull
+  function slice(done = false) {
+    const m = freshMetal()
+    const s = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.014, 20), [crustSide(), m.mat, m.mat])
+    s.position.set(0.05, 0.047, onPaper.p.z + 0.007)
+    s.rotation.x = Math.PI / 2
+    group.add(s)
+    const one = { mesh: s, t: 0, n: slices.length }
+    slices.push(one)
+    fresh.push({ m, age: done ? 99 : 0 })
+    length -= 0.016
+    body.scale.y = length / ROD
+    body.position.y = length / 2
+    rod.position.z = onPaper.p.z + 0.016 * (slices.length)
+    fresh[0].age = done ? 99 : 0
+    if (done) {
+      one.t = 1
+      s.rotation.x = 0
+      s.position.set(0.16, 0.007, 0.36 + (one.n % 4) * 0.1)
+    }
+  }
 
   function start() {
     if (phase === 'lift' || phase === 'cut') return false
-    if (length < 0.12) {
-      // a new rod (the tin holds two kilos)
-      length = ROD
-      body.scale.y = 1
-      body.position.y = ROD / 2
-      for (const s of slices.splice(0)) group.remove(s.mesh)
-      phase = 'in'
-    }
+    if (length < 0.12) newRod()
     phase = phase === 'in' ? 'lift' : 'cut'
     t = 0
     cut = 0
+    count++
     return true
   }
 
@@ -129,19 +160,7 @@ export function oilTin() {
       } else if (t < 0.6) knife.position.lerpVectors(over, down, ease((t - 0.35) / 0.25))
       else if (!cut) {
         cut = 1
-        const m = freshMetal()
-        const s = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.014, 20), [crustSide(), m.mat, m.mat])
-        s.position.set(0.05, 0.047, onPaper.p.z + 0.007)
-        s.rotation.x = Math.PI / 2
-        group.add(s)
-        slices.push({ mesh: s, t: 0, n: slices.length })
-        fresh.push({ m, age: 0 })
-        // the rod is one slice shorter and its end is new
-        length -= 0.016
-        body.scale.y = length / ROD
-        body.position.y = length / 2
-        rod.position.z = onPaper.p.z + 0.016 * (slices.length)
-        fresh[0].age = 0
+        slice()
       } else if (t < 1.0) knife.position.lerpVectors(down, over, ease((t - 0.6) / 0.4))
       else if (t < 1.35) {
         const k = ease((t - 1.0) / 0.35)
@@ -177,6 +196,39 @@ export function oilTin() {
     },
     get cuts() {
       return slices.length
+    },
+    state() {
+      return { n: count }
+    },
+    /** Someone else cut: the next slice here too (live; returns true when it played); a newcomer sees
+     *  the rod and its slices as n cuts left them (a new rod after every 15). */
+    setState({ n = 0 } = {}, live = false) {
+      n = Math.max(0, Math.floor(Number(n) || 0))
+      if (n === count) return false
+      if (live && n === count + 1 && start()) return true
+      count = n
+      newRod()
+      knife.position.copy(knifeRest.p)
+      knife.rotation.copy(knifeRest.r)
+      rod.position.copy(inTin.p)
+      rod.rotation.copy(inTin.r)
+      if (!n) return false
+      // the same sums as cutting, so the rod comes out as long as it is on the others' screens
+      let len = ROD
+      let onRod = 0
+      for (let i = 0; i < n; i++) {
+        if (len < 0.12) {
+          len = ROD
+          onRod = 0
+        }
+        len -= 0.016
+        onRod++
+      }
+      rod.position.copy(onPaper.p)
+      rod.rotation.copy(onPaper.r)
+      for (let i = 0; i < onRod; i++) slice(true)
+      phase = 'idle'
+      return false
     },
   }
 }
@@ -245,10 +297,14 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
   let run = null
   let used = false
   let jolt = 0
+  let drops = 0 // lumps dropped, and the last one's size, for the others in a room
+  let last = 'medium'
 
   function drop(size) {
     if (run) return false
     const L = LUMPS[size] ?? LUMPS.medium
+    drops++
+    last = LUMPS[size] ? size : 'medium'
     run = { L, size, t: -0.45, x: 0, z: 0, a: rnd() * 6.28, lit: false, banged: false, popped: false }
     lump.visible = true
     lump.scale.setScalar(L.r)
@@ -392,6 +448,23 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
     get pink() {
       return pinkTo > 0
     },
+    state() {
+      return { n: drops, size: last, pink: pinkTo > 0 }
+    },
+    /** Someone else dropped a lump (live: it falls here too; returns true when it did) or turned the water
+     *  pink; a newcomer finds the water as it is. */
+    setState({ n = 0, size, pink: p = false } = {}, live = false) {
+      n = Math.max(0, Math.floor(Number(n) || 0))
+      const played = live && n === drops + 1 && !!LUMPS[size] && drop(size)
+      drops = n
+      if (LUMPS[size]) last = size
+      if (n > 0 && !played) used = true
+      if (p && !pinkTo) {
+        pinkTo = 1
+        if (!live) pinkness = 1
+      }
+      return played
+    },
   }
 }
 
@@ -469,6 +542,7 @@ export function saltWindow({ light = false } = {}) {
 
   let t = 0
   let state = 'whole'
+  let api = null
   function update(dt, time) {
     t += dt
     if (state !== 'whole') {
@@ -488,7 +562,7 @@ export function saltWindow({ light = false } = {}) {
       lattice.rotation.x = 0.28
     }
   }
-  return {
+  api = {
     group,
     act() {
       if (state === 'whole') {
@@ -506,7 +580,19 @@ export function saltWindow({ light = false } = {}) {
     get cracked() {
       return state !== 'whole'
     },
+    state() {
+      return { cracked: state !== 'whole' }
+    },
+    /** Someone else cracked it (live: it cracks here, returns true) or put in a new one; a newcomer sees
+     *  the cracks and the lattice at once. */
+    setState({ cracked = false } = {}, live = false) {
+      if (!!cracked === (state !== 'whole')) return false
+      const r = api.act()
+      if (r === 'crack' && !live) t = 99
+      return live && r === 'crack'
+    },
   }
+  return api
 }
 
 // ---- the salt lamp: a lump of rock salt with a bulb inside ----
@@ -545,6 +631,16 @@ export function saltLamp({ light = false } = {}) {
     },
     get on() {
       return on
+    },
+    state() {
+      return { on }
+    },
+    /** Someone else switched it (live: it glows up here, returns true); a newcomer's at once. */
+    setState({ on: o = false } = {}, live = false) {
+      if (!!o === on) return false
+      on = !!o
+      if (!live) k = on ? 1 : 0
+      return live
     },
     update(dt) {
       k += ((on ? 1 : 0) - k) * Math.min(1, dt * 4)

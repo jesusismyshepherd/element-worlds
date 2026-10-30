@@ -50,6 +50,12 @@ spoken numbers are often rounded). Dangerous experiments carry the video's own w
   colours (flame tests), fizz and bubbles, smoke, cracking along a crystal grid, liquid nitrogen, a Geiger
   counter, a magnet, a balance. Apparatus modelled in Blender where it beats code (the pokemon project's
   pipeline), effects in code because they answer the player.
+- In a room, everyone in the same lab shares its experiments (the oil tin, the bowl, the salt window and
+  lamp; the lump, the chip line, the wafer, the turbocharger, the minerals); the film, "Watch this part",
+  every panel and the professor's and the Atomling's words stay each one's own (the user, 2026-10-30).
+  How: the pv README; check with `tools/shared_probe.py --world /e/Na/videos` (and `/e/Si/videos`), whose
+  panel-button steps are in `tools/shared_steps/pv.json`. Anything random per use (a wafer's good and bad
+  chips) is seeded from a number in the shared state, or each screen draws its own.
 
 ## Built: sodium's room (2026-10-30)
 

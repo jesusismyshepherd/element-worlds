@@ -49,7 +49,11 @@ prompt then follows a change someone else made); one set by hand in `onUse` stay
 screens, and spreading `extra` into an exhibit turns getters into fixed values (carbon's `wordsFrom`).
 A piece may already use the names `live` or `state` (ozone's rays in flight are `live`, methane's stage is
 `state`): name the parameter or the methods otherwise. A slider sends at most a few times a second, its
-last value always (carbon's moiré).
+last value always (carbon's moiré). Anything drawn from a random generator per use differs between
+players: seed it from a number in the shared state (silicon's wafers). A `setState` that skips a field when
+not live shows only with a latecomer: the probe's latecomer check catches it (sodium's bowl). A panel that
+opens after `panelDelay` only while the player stands near cannot be opened by a probe's `onUse`: give the
+world `panels` (its panel makers) and open it with `__ew.showPanel(__ew.world.panels.<id>)` (pv).
 
 ## Words
 
