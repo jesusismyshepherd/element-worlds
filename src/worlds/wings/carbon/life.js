@@ -3,7 +3,8 @@
 // sun shines; a dial turns day into night and photosynthesis stops). Round the ring path: "you are 18%
 // carbon" (a figure filled by the body's mass fractions), five molecules of chains and rings (methane,
 // ethane, ethanol, benzene, glucose), the carbon-14 clock with a mammoth's thigh bone, and the carbon
-// cycle on a table. Every exhibit used once is a discovery.
+// cycle on a table. Every exhibit used once is a discovery. In a room, everyone in the garden shares its
+// exhibits (`shared` below, src/net/shared.js); panels, words and discoveries stay each one's.
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -14,7 +15,7 @@ import { formulaText, makeText } from '../../../engine/text.js'
 import { MOLECULES } from '../../../chem/molecules.js'
 import { atriumPath } from '../../registry.js'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
-import { standSign, refreshPrompt, onLevel, pick, glowMat, equation, keepPlayerInView } from './kit.js'
+import { standSign, refreshPrompt, promptSync, happening, onLevel, pick, glowMat, equation, keepPlayerInView } from './kit.js'
 import { ethane, ethanol, glucose } from './structures.js'
 import { buildTree, breathing } from './tree.js'
 import { GREEN, skyDome, glassDome, garden, gardenLamps, dayNightDial, carbonPerson, moleculePedestal, c14Clock, cycleTable, butterflies } from './life.parts.js'
@@ -54,6 +55,8 @@ export async function build(ctx) {
   const updates = []
   const timers = []
   const later = (s, fn) => timers.push({ at: s, fn })
+  // tell the others in the room's same garden that this visitor changed something (src/net/shared.js)
+  const share = id => ctx.share?.(id)
 
   // ---- sky, dome, garden
   const sky = skyDome()
@@ -258,6 +261,16 @@ export async function build(ctx) {
     ctx.showPanel(level => ({ title: p.title, kicker: W.kicker, color: GREEN, blocks: level === 'scientist' ? p.sci : p.kid }))
   }
   const say = text => ctx.store.set({ speech: { text, who: nameOf(el, lang), color: GREEN } })
+  // the things that only happen, shared as counts (kit.js happening)
+  const once = {
+    body: happening(() => person.refill()),
+    cycle: happening(() => cycle.burst()),
+    ...Object.fromEntries(MOLS.map(m => [m.id, happening(() => pedestals[m.id].spin())])),
+  }
+  const did = id => {
+    once[id].did()
+    share(id)
+  }
   const interactables = []
   const add = (id, [x, z], radius, onUse, label = W.ex[id]?.label, verb = W.ex[id]?.verb) => {
     const it = { id, x, z, radius, label, verb, onUse: () => onUse(it) }
@@ -268,21 +281,25 @@ export async function build(ctx) {
     found('tree')
     later(0.4, () => panel('tree'))
   })
-  add('night', PLACES.dial.use, 1.5, it => {
+  const nightIt = add('night', PLACES.dial.use, 1.5, it => {
     const night = dial.toggle()
+    share('night')
     found('night')
-    it.verb = night ? W.verbs.day : W.verbs.night
     refreshPrompt(ctx, it)
     later(1.2, () => say(night ? W.say.night : W.say.day))
-  }, W.ex.night.label, W.verbs.night)
+  }, W.ex.night.label)
+  // the dial's verb follows the sky, whoever turned it
+  Object.defineProperty(nightIt, 'verb', { get: () => (dial.night ? W.verbs.day : W.verbs.night), configurable: true })
   add('body', PLACES.body.use, 1.9, () => {
     person.refill()
+    did('body')
     found('body')
     later(5.4, () => panel('body'))
   })
   for (const m of MOLS) {
     add(m.id, at(10.2, m.deg), 1.25, () => {
       pedestals[m.id].spin()
+      did(m.id)
       found(m.id)
       later(0.9, () => panel(m.id))
     })
@@ -290,6 +307,7 @@ export async function build(ctx) {
   add('c14', PLACES.c14.use, 1.9, () => {
     const r = clock.advance()
     if (!r) return
+    share('c14')
     found('c14')
     const line = W.say.c14(r.halvings, W.fmt(r.years), r.left)
     if (r.halvings === 4) later(1.7, () => panel('c14'))
@@ -297,6 +315,7 @@ export async function build(ctx) {
   })
   add('cycle', PLACES.cycle.use, 1.9, () => {
     cycle.burst()
+    did('cycle')
     found('cycle')
     later(1.0, () => panel('cycle'))
   })
@@ -310,6 +329,16 @@ export async function build(ctx) {
     verb: W.talkTo,
     onUse: () => say(greeting()),
   })
+  updates.push(promptSync(ctx, interactables))
+
+  // ---- what everyone in a room's same garden shares (src/net/shared.js): set(state, live), live when
+  // someone has just done it (it plays here), else a newcomer's view at once. The tree's panel is only
+  // read: nothing of it to share.
+  const shared = {
+    night: { get: () => dial.state(), set: (s, live) => dial.setState(s, live) },
+    c14: { get: () => clock.state(), set: (s, live) => clock.setState(s, live) },
+    ...once,
+  }
 
   // ---- solids: the glass wall, the trunk, the exhibits
   const solids = []
@@ -373,6 +402,9 @@ export async function build(ctx) {
     cameraBounds: { minX: -14.9, maxX: 16.2, minY: 0.65, maxY: 13.5, minZ: -16.2, maxZ: 16.2 },
     interactables,
     doors,
+    shared,
+    // for the probes in tools/
+    parts: { dial, clock, person, cycle, pedestals },
     refresh() {
       marks()
       report()

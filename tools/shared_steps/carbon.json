@@ -1,0 +1,12 @@
+{
+  "/e/C/allotropes": [
+    "() => { __ew.world.interactables.find(i => i.id === 'moire').onUse(); __ew.store.get().panel.blocks.find(b => b.buttons).buttons[0].onClick() }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.interactables.find(i => i.id === 'press').onUse()",
+    "() => __ew.world.interactables.find(i => i.id === 'graphene').onUse()"
+  ],
+  "/e/C/life": [
+    "() => __ew.world.interactables.find(i => i.id === 'c14').onUse()",
+    "() => __ew.world.interactables.find(i => i.id === 'night').onUse()"
+  ]
+}

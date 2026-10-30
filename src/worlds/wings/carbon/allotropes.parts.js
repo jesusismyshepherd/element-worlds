@@ -263,7 +263,7 @@ export function graphiteModel({ scale = 0.26, light }) {
   let to = 0
   let t = 1
   let shift = 0
-  return {
+  const api = {
     group,
     height: 3 * GRAPHENE.layer * scale,
     update(dt) {
@@ -284,7 +284,19 @@ export function graphiteModel({ scale = 0.26, light }) {
     get slid() {
       return to > 0.5
     },
+    /** Slid or stacked, for the others in a room (src/net/shared.js). */
+    state() {
+      return { slid: to > 0.5 }
+    },
+    /** Someone else slid the sheets: they slide here too when live; a newcomer's are there at once. */
+    setState({ slid = false } = {}, live = false) {
+      if (!!slid === to > 0.5) return
+      if (live) return void api.slide(!!slid)
+      from = to = shift = slid ? 1 : 0
+      t = 1
+    },
   }
+  return api
 }
 
 // ---------------------------------------------------------------- the giant pencil
@@ -1089,6 +1101,26 @@ export function diamondPress({ light, env, words }) {
         })
       }
       return true
+    },
+    /** The step it stands at (one under way counted as done), for the others in a room
+     *  (src/net/shared.js). */
+    state() {
+      return { step: busy > 0 ? (step + 1) % 5 : step }
+    },
+    /** Someone else worked the press: the next step plays here when live; otherwise every step is run
+     *  to its end at once until the press stands where theirs does. */
+    setState({ step: s = 0 } = {}, live = false) {
+      const want = ((Math.round(Number(s) || 0) % 5) + 5) % 5
+      if (want === actions.state().step) return
+      if (live && busy === 0 && want === (step + 1) % 5) return void actions.use()
+      for (let k = 0; k < 6 && (anim || step !== want); k++) {
+        if (!anim) actions.use()
+        const a = anim
+        anim = null
+        busy = 0
+        a.fn(1)
+        a.done?.()
+      }
     },
   }
   return {

@@ -110,10 +110,14 @@ export function peelStack({ light, onFree }) {
   let tapeCurl = 1
   let flash = 0
   const freeY = topY + 0.85
-  return {
+  const api = {
     group,
     get free() {
       return state === 'free'
+    },
+    /** Off the stack or on its way off (the prompt offers to put it back). */
+    get out() {
+      return state === 'peeling' || state === 'free'
     },
     use() {
       if (state === 'stacked') {
@@ -127,6 +131,25 @@ export function peelStack({ light, onFree }) {
         return 'back'
       }
       return false
+    },
+    /** Peeled or on the stack, for the others in a room (src/net/shared.js). */
+    state() {
+      return { free: api.out }
+    },
+    /** Someone else peeled it (or put it back): played here when live; a newcomer sees it resting. */
+    setState({ free = false } = {}, live = false) {
+      if (!!free === api.out) return
+      if (live && (state === 'stacked' || state === 'free')) return void api.use()
+      state = free ? 'free' : 'stacked'
+      t = 0
+      sheetY = free ? freeY : topY
+      glow = amp = free ? 1 : 0
+      tapeCurl = 1
+      flash = 0
+      if (!free) {
+        sheet.rotation.y = 0
+        ripple(0, 0)
+      }
     },
     update(dt, time) {
       t += dt
@@ -192,6 +215,7 @@ export function peelStack({ light, onFree }) {
       tapeMat.emissiveIntensity = 0.18 + flash * 0.8
     },
   }
+  return api
 }
 
 // ---------------------------------------------------------------- physics: the Dirac cones
@@ -549,11 +573,12 @@ export function grapheneTransistor({ light, words }) {
   let mode = 0 // 0 plain graphene, 1 bilayer in a field (a gap)
   let vg = 1
   let sweep = -1
+  let sweeps = 0 // made so far, for the others in a room
   let onEnd = null
   const current = v => (mode === 0 ? Math.sqrt(0.2 * 0.2 + v * v) / Math.sqrt(0.2 * 0.2 + 1) : clamp((Math.abs(v) - 0.32) / 0.68, 0, 1))
   let I = current(vg)
   const m4 = new THREE.Matrix4()
-  return {
+  const api = {
     group,
     get busy() {
       return sweep >= 0
@@ -564,10 +589,35 @@ export function grapheneTransistor({ light, words }) {
     use(done) {
       if (sweep >= 0) return false
       sweep = 0
+      sweeps++
       onEnd = done
       modeText.text = W.modes[mode]
       modeText.sync()
       return true
+    },
+    /** The sweeps made and the kind of graphene the next one sweeps (after the one under way), for the
+     *  others in a room (src/net/shared.js). */
+    state() {
+      return { n: sweeps, mode: sweep >= 0 ? 1 - mode : mode }
+    },
+    /** Someone else swept the gate: the same sweep here when live (without its words); a newcomer's at
+     *  rest, showing the last one swept. */
+    setState({ n = 0, mode: m = 0 } = {}, live = false) {
+      const want = m === 1 ? 1 : 0
+      const k = Math.max(0, Math.round(Number(n) || 0))
+      if (live && k !== sweeps && sweep < 0) {
+        mode = 1 - want
+        api.use()
+        sweeps = k
+        return
+      }
+      sweeps = k
+      sweep = -1
+      vg = 1
+      onEnd = null
+      mode = want
+      modeText.text = W.modes[k > 0 ? 1 - want : 0]
+      modeText.sync()
     },
     update(dt, t) {
       if (sweep >= 0) {
@@ -602,6 +652,7 @@ export function grapheneTransistor({ light, words }) {
       eMesh.instanceMatrix.needsUpdate = true
     },
   }
+  return api
 }
 
 // ---------------------------------------------------------------- materials: the hammock and the cat
@@ -981,11 +1032,25 @@ export function moireDisc({ radius = 1.6, label = deg => `${deg.toFixed(1)}°` }
   let rings = 1
   let shown = null
   let shownAt = -1
+  // someone else in the room holds it ('follow': it eases to their angle until they let go) or set it
+  // gliding (src/net/shared.js)
+  let target = 0
+  let followFor = 0
+  let led = false
+  const follow = deg => {
+    mode = 'follow'
+    target = deg
+    followFor = 60
+  }
   const settle = () => {
+    if (led) {
+      led = false
+      return follow(MAGIC)
+    }
     mode = held ? 'hand' : 'rest'
     rest = 14
   }
-  return {
+  const api = {
     group,
     MAX,
     get angle() {
@@ -1010,20 +1075,52 @@ export function moireDisc({ radius = 1.6, label = deg => `${deg.toFixed(1)}°` }
       from = theta
       tt = 0
     },
-    /** While the panel is open the visitor holds it; let go, it turns by itself again after a while. */
+    /** While the panel is open the visitor holds it; let go, it turns by itself again after a while.
+     *  Returns whether that changed anything. */
     hold(on) {
-      if (on === held) return
+      if (on === held) return false
       held = on
       if (on && mode === 'sweep') mode = 'hand'
       if (!on && mode === 'hand') {
         mode = 'rest'
         rest = 6
       }
+      return true
     },
     /** Turn by itself again now. */
     release() {
       mode = 'sweep'
       phase = phaseOf(theta)
+    },
+    /** The twist, how it moves and the lattice's size, for the others in a room (src/net/shared.js). */
+    state() {
+      const r = (v, k) => Math.round(v * k) / k
+      return { mode: mode === 'follow' ? 'hand' : mode, angle: r(theta, 1000), phase: r(phase, 1000), rest: r(rest, 10), rings: r(rings, 100) }
+    },
+    /** Someone else turned it: it follows their hand, glides, rests or sweeps as theirs does (live, it
+     *  eases there; a newcomer's is there at once). */
+    setState(s = {}, live = false) {
+      const num = (v, d) => (Number.isFinite(Number(v)) ? Number(v) : d)
+      const angle = Math.min(MAX, Math.max(0, num(s.angle, theta)))
+      api.setRings(num(s.rings, rings))
+      led = false
+      if (s.mode === 'sweep') {
+        mode = 'sweep'
+        phase = num(s.phase, phaseOf(angle)) % TAU
+        theta = sweepAngle(phase)
+      } else if (s.mode === 'glide') {
+        mode = 'glide'
+        from = live ? theta : angle
+        tt = 0
+        led = true
+      } else if (s.mode === 'rest') {
+        mode = 'rest'
+        theta = angle
+        rest = Math.min(14, Math.max(0, num(s.rest, 6)))
+      } else {
+        follow(angle)
+        if (!live) theta = angle
+      }
     },
     update(dt, t) {
       if (mode === 'sweep') {
@@ -1040,6 +1137,14 @@ export function moireDisc({ radius = 1.6, label = deg => `${deg.toFixed(1)}°` }
           mode = 'sweep'
           phase = phaseOf(theta)
         }
+      } else if (mode === 'follow') {
+        theta += (target - theta) * Math.min(1, dt * 8)
+        followFor -= dt
+        if (followFor <= 0) {
+          // the one who held it is gone: rest, then sweep
+          mode = 'rest'
+          rest = 6
+        }
       }
       uniforms.uTheta.value = (theta * Math.PI) / 180
       rimTop.rotation.z = (theta * Math.PI) / 180 // the true turn: a tiny twist, a huge pattern
@@ -1053,6 +1158,7 @@ export function moireDisc({ radius = 1.6, label = deg => `${deg.toFixed(1)}°` }
       }
     },
   }
+  return api
 }
 
 /** The board beside the twisted sheets: the electrons' bands near the Fermi level at the angle now

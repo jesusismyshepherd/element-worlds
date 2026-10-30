@@ -34,5 +34,19 @@ discoveries, words, checking): `docs/knowledge/adding-a-wing.md`. Why they are a
   light beams, equations with real subscripts.
 - `words.test.js`: every word present in four languages and both depths.
 
+## Shared with the room
+
+In a room, everyone in the same wing shares its exhibits (`src/net/shared.js`; `adding-a-wing.md`, "Shared
+with the room"); each world's `shared` sits after its interactables. Pieces with a lasting state give
+`state()` / `setState(s, live)`: the peeled sheet, graphite's slid sheets, the transistor (sweeps and the
+next kind), the moiré (its twist, sweep phase, who holds it: someone else's hand is followed, eased, for at
+most a minute; the slider is sent at most seven times a second), the press's step (a newcomer's runs every
+step to its end at once), the day/night dial, the carbon-14 clock (which atoms decayed: chance, so the one
+who turned it says). What only happens (a pulse, a kick, a spin, the dome's count, the pencil's hexagon)
+is a count (`kit.js` `happening`). Labels that follow a state are getters and `promptSync` keeps the
+prompt right when someone else changed it. The panels (the tree's too), words and discoveries stay each
+one's. Check: `py -3.11 tools/shared_probe.py --world /e/C/allotropes` (and `/e/C/life`); more steps in
+`tools/shared_steps/carbon.json`.
+
 Traps: meshes that are not solids (lattices, crowns) need this wing's own camera fade (CLAUDE.md,
 Open). The nanotube's camera is eased (`docs/knowledge/walking.md`).

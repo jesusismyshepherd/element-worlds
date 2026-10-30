@@ -461,6 +461,15 @@ export function dayNightDial({ light }) {
       target = target > 0.5 ? 0 : 1
       return target > 0.5
     },
+    /** Day or night, for the others in a room (src/net/shared.js). */
+    state() {
+      return { night: target > 0.5 }
+    },
+    /** Someone else turned the dial: the sky turns here too (live), or is so at once (a newcomer). */
+    setState({ night: n = false } = {}, live = false) {
+      target = n ? 1 : 0
+      if (!live) night = target
+    },
     update(dt) {
       night += (target - night) * Math.min(1, dt * 1.6)
       wheel.rotation.z = night * Math.PI
@@ -952,6 +961,35 @@ export function c14Clock({ light, words }) {
     group,
     get halvings() {
       return halvings
+    },
+    /** The half-lives gone by and which atoms are still carbon-14 (a 0 or 1 for each), for the others in
+     *  a room (src/net/shared.js): which ones decay is chance, so the one who turned it says. */
+    state() {
+      return { h: halvings, alive: alive.map(a => (a ? 1 : 0)).join('') }
+    },
+    /** Someone else turned the clock: their atoms decay here (flashing, the hand turning, when live); a
+     *  newcomer's clock stands there at once. */
+    setState({ h = 0, alive: mask = '' } = {}, live = false) {
+      const n = Math.max(0, Math.min(8, Math.round(Number(h) || 0)))
+      const want = Array.from({ length: N }, (_, i) => String(mask)[i] !== '0')
+      if (n === halvings && want.every((a, i) => a === alive[i])) return
+      for (let i = 0; i < N; i++) {
+        if (want[i] === alive[i]) continue
+        alive[i] = want[i]
+        flashes[i] = 0
+        if (want[i]) atoms.setColorAt(i, c14)
+        else if (live) flashes[i] = 1
+        else atoms.setColorAt(i, n14)
+      }
+      atoms.instanceColor.needsUpdate = true
+      halvings = n
+      if (!live) {
+        hand.rotation.z = -(halvings / 8) * Math.PI * 2
+        setCount(alive.filter(Boolean).length)
+      }
+      // the hand turns there (at once for a newcomer: from where it already stands), the count after it
+      from = hand.rotation.z
+      anim = 0
     },
     advance() {
       if (anim >= 0) return null

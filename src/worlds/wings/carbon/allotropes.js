@@ -5,7 +5,8 @@
 // hammock holding a cat), and the frontier (twisted bilayer graphene, the magic-angle moiré). Along the
 // right wall: graphite's sliding sheets, the giant pencil, the diamond lattice and a ray-traced
 // brilliant, the press that makes diamond. Down the middle, a nanotube tunnel leads into a C60 dome,
-// with a football beside it. Every exhibit used once is a discovery.
+// with a football beside it. Every exhibit used once is a discovery. In a room, everyone in the gallery
+// shares its exhibits (`shared` below, src/net/shared.js); panels, words and discoveries stay each one's.
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -14,7 +15,7 @@ import { roomWalls, box, circle } from '../../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../../engine/progress.js'
 import { makeText } from '../../../engine/text.js'
 import { atriumPath } from '../../registry.js'
-import { standSign, spotLamp, beam, refreshPrompt, onLevel, pick, glowMat, keepPlayerInView } from './kit.js'
+import { standSign, spotLamp, beam, refreshPrompt, promptSync, happening, onLevel, pick, glowMat, keepPlayerInView } from './kit.js'
 import { sparkleEnv } from './gem.js'
 import {
   ACCENT, grapheneFloor, hallShell, diamondModel, brilliantGem, graphiteModel, giantPencil, nanotubeTunnel, c60Dome,
@@ -61,6 +62,18 @@ export async function build(ctx) {
   const later = (s, fn) => timers.push({ at: s, fn })
   let now = 0
   const env = sparkleEnv()
+  // tell the others in the room's same gallery that this visitor changed something (src/net/shared.js);
+  // the moiré's slider at most seven times a second, its last turn always sent
+  const share = id => ctx.share?.(id)
+  let moireSoon = false
+  const shareMoire = () => {
+    if (moireSoon) return
+    moireSoon = true
+    later(0.15, () => {
+      moireSoon = false
+      share('moire')
+    })
+  }
 
   // ---- the hall and its graphene floor
   const floor = grapheneFloor({ width: ROOM.x1 - ROOM.x0, depth: ROOM.z1 - ROOM.z0, cx: 0, cz: (ROOM.z0 + ROOM.z1) / 2, bond: 1.42 * FLOOR_SCALE })
@@ -143,7 +156,7 @@ export async function build(ctx) {
   let magicSaid = -99
   updates.push((dt, t) => {
     // the visitor holds the sheet while its panel is open
-    moire.hold(ctx.store.get().panel?.exhibit === 'moire')
+    if (moire.hold(ctx.store.get().panel?.exhibit === 'moire')) share('moire')
     moire.update(dt, t)
     board.update(t, moire.angle, ctx.level())
     // reaching the magic angle by hand: the Atomling says what happens there
@@ -245,6 +258,22 @@ export async function build(ctx) {
     ctx.showPanel(level => ({ title: p.title, kicker: W.kicker, color: ACCENT, blocks: level === 'scientist' ? p.sci : p.kid }))
   }
   const say = text => ctx.store.set({ speech: { text, who: nameOf(el, lang), color: ACCENT } })
+  // the things that only happen, shared as counts (kit.js happening)
+  const once = {
+    physics: happening(() => bands.pulse()),
+    chemistry: happening(() => orbitals.show()),
+    materials: happening(() => hammock.nudge()),
+    pencil: happening(() => pencil.draw(null)),
+    diamond: happening(() => dia.show()),
+    brilliant: happening(() => gem.flash()),
+    nanotube: happening(() => tube.pulse()),
+    fullerene: happening(() => dome.count()),
+    football: happening(() => ball.kick()),
+  }
+  const did = id => {
+    once[id].did()
+    share(id)
+  }
   const interactables = []
   const add = (id, onUse, extra = {}) => {
     const [x, z] = LAYOUT[id].use
@@ -252,39 +281,40 @@ export async function build(ctx) {
     interactables.push(it)
     return it
   }
-  add('graphene', it => {
+  // the words follow the stack and the sheets, whoever moved them (a getter each)
+  const wordsFrom = (it, get) => Object.defineProperties(it, { label: { get: () => get().label, configurable: true }, verb: { get: () => get().verb, configurable: true } })
+  const peelIt = add('graphene', it => {
     const r = peel.use()
+    if (r) share('graphene')
+    refreshPrompt(ctx, it)
     if (r === 'peel') {
       found('graphene')
-      it.label = W.ex.graphene.labelBack
-      it.verb = W.ex.graphene.verbBack
-      refreshPrompt(ctx, it)
       later(3.4, () => panel('graphene'))
-    } else if (r === 'back') {
-      it.label = W.ex.graphene.label
-      it.verb = W.ex.graphene.verb
-      refreshPrompt(ctx, it)
-      say(W.say.peelBack)
-    }
+    } else if (r === 'back') say(W.say.peelBack)
   })
+  wordsFrom(peelIt, () => (peel.out ? { label: W.ex.graphene.labelBack, verb: W.ex.graphene.verbBack } : W.ex.graphene))
   add('physics', () => {
     bands.pulse()
+    did('physics')
     found('physics')
     later(1.6, () => panel('physics'))
   })
   add('chemistry', () => {
     orbitals.show()
+    did('chemistry')
     found('chemistry')
     later(1.8, () => panel('chemistry'))
   })
   add('electronics', () => {
     const first = !isFound('C:allotropes:electronics')
     if (!transistor.use(mode => say(W.say.transistor[mode]))) return
+    share('electronics')
     found('electronics')
     if (first) later(0.8, () => panel('electronics'))
   })
   add('materials', () => {
     hammock.nudge()
+    did('materials')
     found('materials')
     later(1.4, () => panel('materials'))
   })
@@ -303,52 +333,53 @@ export async function build(ctx) {
       exhibit: 'moire',
       blocks: [
         { p: pick(c.hint, level) },
-        { slider: { label: c.twist, min: 0, max: 1, step: 0.0005, value: sliderOf(moire.angle), live: () => sliderOf(moire.angle), format: s => `${twistOf(s).toFixed(2).replace('.', W.decimal)}°`, onInput: s => moire.setAngle(twistOf(s)) } },
-        { buttons: [{ label: c.magic, accent: true, onClick: () => moire.magic() }, { label: c.auto, onClick: () => moire.release() }] },
-        { slider: { label: c.rings, min: 0, max: 1, step: 0.005, value: Math.log(moire.rings / 0.5) / Math.log(16), format: s => `×${ringsOf(s).toFixed(1).replace('.', W.decimal)}`, onInput: s => moire.setRings(ringsOf(s)) } },
+        { slider: { label: c.twist, min: 0, max: 1, step: 0.0005, value: sliderOf(moire.angle), live: () => sliderOf(moire.angle), format: s => `${twistOf(s).toFixed(2).replace('.', W.decimal)}°`, onInput: s => (moire.setAngle(twistOf(s)), shareMoire()) } },
+        { buttons: [{ label: c.magic, accent: true, onClick: () => (moire.magic(), share('moire')) }, { label: c.auto, onClick: () => (moire.release(), share('moire')) }] },
+        { slider: { label: c.rings, min: 0, max: 1, step: 0.005, value: Math.log(moire.rings / 0.5) / Math.log(16), format: s => `×${ringsOf(s).toFixed(1).replace('.', W.decimal)}`, onInput: s => (moire.setRings(ringsOf(s)), shareMoire()) } },
         ...(level === 'scientist' ? p.sci : p.kid),
       ],
     }
   }
   add('moire', () => {
     found('moire')
-    moire.hold(true)
+    if (moire.hold(true)) share('moire')
     ctx.showPanel(moirePanel)
   })
-  add('graphite', it => {
+  const grIt = add('graphite', it => {
     const out = !gr.slid
     gr.slide(out)
-    it.verb = out ? W.ex.graphite.verbBack : W.ex.graphite.verb
+    share('graphite')
     refreshPrompt(ctx, it)
     if (out) {
       found('graphite')
       later(2.3, () => panel('graphite'))
     } else say(W.say.slideBack)
   })
+  wordsFrom(grIt, () => ({ label: W.ex.graphite.label, verb: gr.slid ? W.ex.graphite.verbBack : W.ex.graphite.verb }))
   add('pencil', () => {
-    if (pencil.draw(() => panel('pencil'))) found('pencil')
+    if (!pencil.draw(() => panel('pencil'))) return
+    did('pencil')
+    found('pencil')
   })
   add('diamond', () => {
     dia.show()
+    did('diamond')
     found('diamond')
     later(1.5, () => panel('diamond'))
   })
   add('brilliant', () => {
     gem.flash()
+    did('brilliant')
     found('brilliant')
     later(1.3, () => panel('brilliant'))
   }, { radius: 1.7 })
   const pressIt = add('press', it => {
     const step = press.actions.step
     if (!press.actions.use()) return
-    it.verb = W.press.wait
-    it.label = W.press.working
+    share('press')
     refreshPrompt(ctx, it)
     const seconds = [1.4, 3.6, 3.8, 3.2, 1.2][step]
     later(seconds + 0.05, () => {
-      const next = W.press.steps[press.actions.step]
-      it.verb = next.verb
-      it.label = next.label
       refreshPrompt(ctx, it)
       if (step < 3) say(W.press.say[step])
       if (step === 3) {
@@ -357,20 +388,23 @@ export async function build(ctx) {
       }
     })
   }, { radius: 2.2 })
-  pressIt.verb = W.press.steps[0].verb
-  pressIt.label = W.press.steps[0].label
+  // the press's words follow its step, whoever works it
+  wordsFrom(pressIt, () => (press.actions.busy ? { label: W.press.working, verb: W.press.wait } : W.press.steps[press.actions.step]))
   add('nanotube', () => {
     tube.pulse()
+    did('nanotube')
     found('nanotube')
     later(1.6, () => panel('nanotube'))
   }, { radius: 1.7 })
   add('fullerene', () => {
     dome.count()
+    did('fullerene')
     found('fullerene')
     later(11.5, () => panel('fullerene'))
   }, { radius: 1.8 })
   add('football', () => {
     ball.kick()
+    did('football')
     found('football')
     later(2.2, () => panel('football'))
   })
@@ -384,6 +418,19 @@ export async function build(ctx) {
     verb: W.talkTo,
     onUse: () => say(greeting()),
   })
+  updates.push(promptSync(ctx, interactables))
+
+  // ---- what everyone in a room's same gallery shares (src/net/shared.js): set(state, live), live when
+  // someone has just done it (it plays here), else a newcomer's view at once
+  const part = piece => ({ get: () => piece.state(), set: (s, live) => piece.setState(s, live) })
+  const shared = {
+    graphene: part(peel),
+    electronics: part(transistor),
+    moire: part(moire),
+    graphite: part(gr),
+    press: part(press.actions),
+    ...once,
+  }
 
   // ---- solids: the walls, the exhibits, the tunnel's sides, the dome's ring with its door
   const solids = roomWalls(ROOM.x0, ROOM.x1, ROOM.z0, ROOM.z1, [], 1)
@@ -478,6 +525,9 @@ export async function build(ctx) {
     cameraBounds: { minX: ROOM.x0 + 0.4, maxX: ROOM.x1 - 0.4, minY: 0.3, maxY: ROOM.h - 0.4, minZ: ROOM.z0 + 0.4, maxZ: ROOM.z1 - 0.4 },
     interactables,
     doors,
+    shared,
+    // for the probes in tools/ (__ew.world.parts.press.actions.step and so on)
+    parts: { peel, transistor, moire, gr, press, pencil, dome, ball },
     refresh() {
       marks()
       report()

@@ -339,6 +339,38 @@ export function refreshPrompt(ctx, it) {
   if (ctx.engine.player.near === it) ctx.store.set({ prompt: { id: it.id, label: it.label, verb: it.verb } })
 }
 
+/** Every frame: the prompt follows an exhibit whose words changed by themselves (someone else in the
+ *  room used it: src/net/shared.js). */
+export function promptSync(ctx, list) {
+  let last = ''
+  return () => {
+    const it = ctx.engine.player.near
+    const key = it && list.includes(it) ? `${it.id}|${it.label}|${it.verb}` : ''
+    if (key === last) return
+    last = key
+    if (key) refreshPrompt(ctx, it)
+  }
+}
+
+/** Something that only happens (a pulse of light, a kick), shared in a room as a count
+ *  (src/net/shared.js): the world calls did() after its visitor did it; get/set are its part of the
+ *  world's `shared`, which plays it when someone else's count changes and only takes the count for a
+ *  newcomer. */
+export function happening(play) {
+  let n = 0
+  return {
+    did() {
+      n++
+    },
+    get: () => ({ n }),
+    set(s, live) {
+      const m = Math.max(0, Math.round(Number(s?.n) || 0))
+      if (live && m !== n) play()
+      n = m
+    },
+  }
+}
+
 /** Calls fn(level) now and whenever the Explorer/Scientist switch changes; returns the unsubscribe. */
 export function onLevel(ctx, fn) {
   let last = ctx.level()
