@@ -260,6 +260,7 @@ export function ozoneColumn({ color, light, words, level }) {
   const sent = { A: 0, B: 0, C: 0 }
   let wait = 0
   let flash = 0
+  let runs = 0 // for the others in a room
 
   // the screen
   const scr = standingScreen(
@@ -314,6 +315,7 @@ export function ozoneColumn({ color, light, words, level }) {
     }
     queue = list
     wait = 0
+    runs++
     writeRows()
     return true
   }
@@ -324,6 +326,29 @@ export function ozoneColumn({ color, light, words, level }) {
     start,
     get busy() {
       return queue.length > 0 || live.length > 0
+    },
+    /** How many volleys were sent, for the others in a room (src/net/shared.js). */
+    state() {
+      return { n: runs }
+    },
+    /** Someone else sent the light down: it comes down here too (returns whether it did, so the sky
+     *  sends its volley); a newcomer finds the screen's counts as a volley leaves them. (`playing` is
+     *  the contract's `live`: here `live` is the rays in flight.) */
+    setState({ n = 0 } = {}, playing = false) {
+      const was = runs
+      if (playing && n !== runs && start()) {
+        runs = n
+        return true
+      }
+      runs = n
+      if (!playing && n > 0 && !was && !queue.length && !live.length) {
+        for (const k of kinds) {
+          sent[k.id] = 10
+          passed[k.id] = Math.round(k.pass * 10)
+        }
+        writeRows()
+      }
+      return false
     },
     refresh() {
       scr.set({ small: smallLine() })

@@ -308,9 +308,10 @@ export async function goeExhibit({ color, light, words, level, lang }) {
 
   // time: -1 idle (the whole curve shown), else 0..1 from 4.6 billion years ago to now
   let run = -1
+  let runs = 0 // for the others in a room
   reveal.value = 1
   let mats = 0.6
-  return {
+  const api = {
     group,
     screen: scr,
     get busy() {
@@ -319,8 +320,19 @@ export async function goeExhibit({ color, light, words, level, lang }) {
     start() {
       if (run >= 0) return false
       run = 0
+      runs++
       reveal.value = 0
       return true
+    },
+    /** How many times the story was run and how far the one under way is, for the others in a room. */
+    state() {
+      return { n: runs, run }
+    },
+    /** Someone else ran it: it runs here too; a newcomer joins the one under way where it is. */
+    setState({ n = 0, run: r = -1 } = {}, live = false) {
+      if (live && n !== runs) api.start()
+      else if (!live && run < 0 && r >= 0 && r < 1) run = r
+      runs = n
     },
     refresh() {},
     update(dt, t) {
@@ -368,4 +380,5 @@ export async function goeExhibit({ color, light, words, level, lang }) {
       bubbles.instanceMatrix.needsUpdate = true
     },
   }
+  return api
 }

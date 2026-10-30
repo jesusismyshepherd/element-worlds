@@ -3,7 +3,8 @@
 // the real proportions, the oxygen counted), the rare CO2, O2 up close with its Lewis picture, liquid
 // oxygen held by a magnet, the ozone layer in a column, where our oxygen comes from (a globe), and the
 // Great Oxidation (a stromatolite pool and the history of oxygen in the air). The arch behind the
-// spawn leads back to oxygen's hall. Contract: docs/knowledge/adding-a-wing.md.
+// spawn leads back to oxygen's hall. Contract: docs/knowledge/adding-a-wing.md. In a room, everyone on
+// the deck shares its things (`shared` below, src/net/shared.js); panels and words stay each one's own.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { element, nameOf } from '../../../data/elements.js'
@@ -34,6 +35,8 @@ export async function build(ctx) {
   const root = new THREE.Group()
   root.name = 'wing-O-air'
   const updates = []
+  // tell the others in the room's same world that this visitor changed something
+  const share = id => ctx.share?.(id)
   const disposables = []
 
   // ---- sky, clouds, peaks, the ozone layer ----
@@ -253,6 +256,7 @@ export async function build(ctx) {
     verb: () => W.box.verbs[nextMode()],
     act: () => {
       air.setMode(nextMode())
+      share('box')
       return at(W.box.says[air.mode], level())
     },
     panel: lv => ({ title: W.box.title, kicker: W.kicker, color: COLOR, blocks: W.box.panel[lv === 'scientist' ? 'sci' : 'kid'] }),
@@ -310,7 +314,11 @@ export async function build(ctx) {
     screen: o2.screen,
     label: W.o2.label,
     verb: () => (o2.showing ? W.o2.verbs.hide : W.o2.verbs.show),
-    act: () => at(W.o2.says[o2.toggle() ? 'show' : 'hide'], level()),
+    act: () => {
+      const on = o2.toggle()
+      share('o2')
+      return at(W.o2.says[on ? 'show' : 'hide'], level())
+    },
     panel: lv => ({ title: W.o2.title, kicker: W.kicker, color: '#ff7a6b', blocks: W.o2.panel[depth(lv)] }),
   })
 
@@ -333,7 +341,9 @@ export async function build(ctx) {
     verb: () => W.magnet.verbs[mag.next],
     act: () => {
       const kind = mag.pour()
-      return kind ? at(W.magnet.says[kind], level()) : false
+      if (!kind) return false
+      share('magnet')
+      return at(W.magnet.says[kind], level())
     },
     panel: lv => ({ title: W.magnet.title, kicker: W.kicker, color: '#9fd2ff', blocks: W.magnet.panel[depth(lv)] }),
   })
@@ -358,6 +368,7 @@ export async function build(ctx) {
     act: () => {
       if (!col.start()) return false
       ozone.volley(12)
+      share('ozone')
       return at(W.ozone.says, level())
     },
     panel: lv => ({ title: W.ozone.title, kicker: W.kicker, color: '#b99cff', blocks: W.ozone.panel[depth(lv)] }),
@@ -380,7 +391,11 @@ export async function build(ctx) {
     screen: earth.screen,
     label: W.sources.label,
     verb: () => W.sources.verbs[earth.mode === 'land' ? 'ocean' : 'land'],
-    act: () => at(W.sources.says[earth.next()], level()),
+    act: () => {
+      const mode = earth.next()
+      share('sources')
+      return at(W.sources.says[mode], level())
+    },
     panel: lv => ({ title: W.sources.title, kicker: W.kicker, color: '#6fe0a0', blocks: W.sources.panel[depth(lv)] }),
   })
 
@@ -401,7 +416,11 @@ export async function build(ctx) {
     screen: goe.screen,
     label: W.goe.label,
     verb: W.goe.verb,
-    act: () => (goe.start() ? at(W.goe.says, level()) : false),
+    act: () => {
+      if (!goe.start()) return false
+      share('goe')
+      return at(W.goe.says, level())
+    },
     panel: lv => ({ title: W.goe.title, kicker: W.kicker, color: '#6fe0c0', blocks: W.goe.panel[depth(lv)] }),
   })
 
@@ -422,7 +441,11 @@ export async function build(ctx) {
     screen: breath.screen,
     label: W.breath.label,
     verb: () => (breath.on ? W.breath.hold : W.breath.verb),
-    act: () => (breath.toggle() ? at(W.breath.says, level()) : ''),
+    act: () => {
+      const on = breath.toggle()
+      share('breath')
+      return on ? at(W.breath.says, level()) : ''
+    },
     panel: lv => ({ title: W.breath.title, kicker: W.kicker, color: '#ff8fa0', blocks: W.breath.panel[depth(lv)] }),
   })
 
@@ -455,6 +478,22 @@ export async function build(ctx) {
     onUse: talk,
   }
 
+  // ---- what everyone in a room's same world shares (src/net/shared.js) ----
+  // set(state, live): live, someone has just done it (it plays here); else a newcomer's view at once
+  const shared = {
+    box: {
+      get: () => ({ mode: air.mode }),
+      set: (s, live) => modes.includes(s.mode) && s.mode !== air.mode && air.setMode(s.mode, !live),
+    },
+    o2: { get: () => o2.state(), set: (s, live) => o2.setState(s, live) },
+    magnet: { get: () => mag.state(), set: (s, live) => mag.setState(s, live) },
+    // the column's light and the sky's volley come down together
+    ozone: { get: () => col.state(), set: (s, live) => col.setState(s, live) && ozone.volley(12) },
+    sources: { get: () => earth.state(), set: (s, live) => earth.setState(s, live) },
+    goe: { get: () => goe.state(), set: (s, live) => goe.setState(s, live) },
+    breath: { get: () => breath.state(), set: s => breath.setState(s) },
+  }
+
   let unsub = null
   const fogColor = new THREE.Color().setRGB(0.74, 0.81, 0.91, THREE.LinearSRGBColorSpace)
   return {
@@ -483,6 +522,7 @@ export async function build(ctx) {
     interactables: [...ex.list, host],
     doors,
     talk,
+    shared,
     refresh: () => ex.refresh(),
     attach() {
       ex.report()

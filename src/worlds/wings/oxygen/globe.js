@@ -287,18 +287,29 @@ export function globeExhibit({ color, light, words, level }) {
   const smallLine = () => (level() === 'scientist' ? words.screen.sci : words.screen.kid)
   scr.set({ small: smallLine() })
 
+  const turn = to => {
+    mode = to
+    earthMat.emissiveMap = mode === 'land' ? tex.green : tex.sea
+    earthMat.needsUpdate = true
+    glow = 0
+    return mode
+  }
   return {
     group,
     screen: scr,
     get mode() {
       return mode
     },
-    next() {
-      mode = mode === 'land' ? 'ocean' : 'land'
-      earthMat.emissiveMap = mode === 'land' ? tex.green : tex.sea
-      earthMat.needsUpdate = true
-      glow = 0
-      return mode
+    next: () => turn(mode === 'land' ? 'ocean' : 'land'),
+    /** The half of the world shown, for the others in a room (src/net/shared.js). */
+    state() {
+      return { mode }
+    },
+    /** Someone else turned it: the same half glows here (a newcomer's at once). */
+    setState({ mode: to = null } = {}, live = false) {
+      if ((to !== 'land' && to !== 'ocean') || to === mode) return
+      turn(to)
+      if (!live) glow = 1
     },
     refresh() {
       scr.set({ small: smallLine() })

@@ -43,7 +43,13 @@ A piece's callback that speaks after an animation must know whose it was (`onLit
 comes in (a known gas, a cleaned word): it comes from another device. Someone else's word or pick is shown,
 never saved into this visitor's own storage. Example: `noble/signs.js` (`shared`) and its pieces.
 Check: `py -3.11 tools/shared_probe.py --world <path>` (every exhibit used by one player, the others' states
-compared, a latecomer).
+compared, a latecomer); a button in a panel goes in `tools/shared_steps/<area>.json`.
+Traps met (2026-10-30): an exhibit's label or verb that changes with its state must be a getter (the
+prompt then follows a change someone else made); one set by hand in `onUse` stays stale on the others'
+screens, and spreading `extra` into an exhibit turns getters into fixed values (carbon's `wordsFrom`).
+A piece may already use the names `live` or `state` (ozone's rays in flight are `live`, methane's stage is
+`state`): name the parameter or the methods otherwise. A slider sends at most a few times a second, its
+last value always (carbon's moiré).
 
 ## Words
 

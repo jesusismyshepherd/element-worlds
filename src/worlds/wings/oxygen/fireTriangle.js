@@ -190,8 +190,22 @@ export function fireTriangle({ fire, stoneMat, words, level = () => 'explorer', 
   let anim = null // { id, take, t }
   const wanted = () => SIDES.every(id => sides[id].on)
   let relightAt = -1
+  /** A side as it stands, without its animation: the logs, the lid and the fire where they end up. */
+  const place = (id, on) => {
+    const s = sides[id]
+    s.on = on
+    s.k = on ? 1 : 0
+    writeLine(s)
+    if (id === 'fuel') {
+      fire.logs.position.set(on ? 0 : pile.x, 0, on ? 0 : pile.y)
+      fire.logs.scale.setScalar(on ? 1 : 0.65)
+    } else if (id === 'oxygen') {
+      lid.visible = !on
+      lid.position.y = on ? 4.2 : 0.06
+    } else bucket.visible = false
+  }
 
-  return {
+  const api = {
     group,
     sides,
     spots: Object.fromEntries(SIDES.map(id => [id, sides[id].spot])),
@@ -216,6 +230,21 @@ export function fireTriangle({ fire, stoneMat, words, level = () => 'explorer', 
       } else if (wanted()) relightAt = 0.9
       writeLine(s)
       return s.on ? 'give' : 'take'
+    },
+    /** Which sides are there, for the others in a room (src/net/shared.js). */
+    state() {
+      return Object.fromEntries(SIDES.map(id => [id, sides[id].on]))
+    },
+    /** Someone else took a side away or put it back: it plays here (one change, nothing moving);
+     *  otherwise, and for a newcomer, every side and the fire are put as they stand. */
+    setState(s = {}, live = false) {
+      const diff = SIDES.filter(id => typeof s[id] === 'boolean' && s[id] !== sides[id].on)
+      if (!diff.length) return
+      if (live && diff.length === 1 && !anim) return void api.toggle(diff[0])
+      anim = null
+      relightAt = -1
+      for (const id of diff) place(id, s[id])
+      fire.setLevel(wanted() ? 1 : 0, live ? 1.6 : 60)
     },
     update(dt, t, camera, renderer) {
       for (const id of SIDES) {
@@ -303,6 +332,7 @@ export function fireTriangle({ fire, stoneMat, words, level = () => 'explorer', 
       }, camera, renderer)
     },
   }
+  return api
 }
 
 /** A round emblem for a side of the triangle, drawn on a canvas: logs end on (fuel), a flame (heat),

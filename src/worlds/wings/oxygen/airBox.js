@@ -307,7 +307,8 @@ export function airBox({ x = 0, z = 0, w = 5.4, h = 3.0, d = 3.4, base = 0.36, c
   // ---- highlight and count ----
   let mode = 'all'
   let counting = null
-  const setMode = next => {
+  // now: every molecule of the kind tagged at once, without the counting (a newcomer in a room)
+  const setMode = (next, now = false) => {
     mode = next
     for (const k of Object.values(kinds)) {
       const dimTo = mode === 'all' || mode === k.id ? 0 : 1
@@ -322,6 +323,12 @@ export function airBox({ x = 0, z = 0, w = 5.4, h = 3.0, d = 3.4, base = 0.36, c
     }
     if (counting) {
       cols[mode].num.text = '0'
+      cols[mode].num.sync()
+    }
+    if (counting && now) {
+      for (const m of counting.list) m.tagged = true
+      counting.n = counting.list.length
+      cols[mode].num.text = String(counting.n)
       cols[mode].num.sync()
     }
   }

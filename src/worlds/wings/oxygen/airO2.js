@@ -170,6 +170,15 @@ export function o2UpClose({ color, light, words, level }) {
       target = target > 0 ? 0 : 1
       return target > 0
     },
+    /** The electrons shown or not, for the others in a room (src/net/shared.js). */
+    state() {
+      return { show: target > 0 }
+    },
+    /** Someone else showed or hid them: they fade here too; a newcomer's at once. */
+    setState({ show = false } = {}, live = false) {
+      target = show ? 1 : 0
+      if (!live) shown = target
+    },
     refresh() {
       scr.set({ small: smallLine() })
     },
@@ -347,11 +356,12 @@ export function magnetBench({ color, light, words, level }) {
   // the show: pour (tilt), the stream falls, LOX gathers in the gap and stays, or LN2 runs through
   let show = null
   let next = 'lox'
+  let pours = 0 // for the others in a room
   let bridgeFill = 0 // 0..1, how much liquid oxygen hangs between the poles
   let puddleFill = 0
   const world = new THREE.Vector3()
   const dropColor = new THREE.Color()
-  return {
+  const api = {
     group,
     screen: scr,
     get next() {
@@ -362,6 +372,7 @@ export function magnetBench({ color, light, words, level }) {
     },
     pour() {
       if (show) return false
+      pours++
       show = { kind: next, t: 0 }
       const c = next === 'lox' ? loxColor : ln2Color
       for (const m of [liquid, streamMat]) {
@@ -374,6 +385,20 @@ export function magnetBench({ color, light, words, level }) {
       dropColor.copy(c).multiplyScalar(next === 'lox' ? 1.05 : 1.25)
       next = next === 'lox' ? 'ln2' : 'lox'
       return show.kind
+    },
+    /** How many pours and which liquid comes next, for the others in a room (src/net/shared.js). */
+    state() {
+      return { n: pours, next }
+    },
+    /** Someone else poured: the same liquid pours here (live); a newcomer gets what comes next. */
+    setState({ n = 0, next: nx = 'lox' } = {}, live = false) {
+      const after = nx === 'ln2' ? 'ln2' : 'lox'
+      if (live && n !== pours && !show) {
+        next = after === 'lox' ? 'ln2' : 'lox'
+        api.pour()
+      }
+      pours = n
+      next = after
     },
     refresh() {
       scr.set({ small: smallLine() })
@@ -474,4 +499,5 @@ export function magnetBench({ color, light, words, level }) {
       }, camera, renderer)
     },
   }
+  return api
 }

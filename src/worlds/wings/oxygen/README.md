@@ -42,4 +42,15 @@ A round stone chamber lit by a campfire.
 - `kit.js`: noise, screens on stands in the hall's look, glass, labels, equations, small helpers.
 - `oxygenData.js` (the numbers, no three.js), `oxygenText.js` (text helpers): read by `oxygen.test.js`.
 
+## In a room
+
+Everyone on the same deck or in the same chamber shares its things: each piece's `state()` /
+`setState(s, live)` (the methane stage's `shared()` / `setShared()`: `state` is its own stage), listed in
+`shared` near the end of `air.js` and `fire.js` (`src/net/shared.js`; `adding-a-wing.md`, "Shared with
+the room"). Air: the box's highlight, O2's electrons, the magnet's pours, the ozone volley (the sky's too),
+the globe's half, the Great Oxidation run, breathing. Fire: the triangle's sides, the jar (the air used
+up, run forward for a latecomer), the splint, methane, rust. The rare CO2 is a panel only; the fire's
+flare is each one's own (it answers this visitor's own oxygen Atomling). Check:
+`py -3.11 tools/shared_probe.py --world /e/O/air` (and `/e/O/fire`).
+
 Next for oxygen: `docs/design.md` (a ride with a red blood cell).

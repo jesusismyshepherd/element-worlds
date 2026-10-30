@@ -2,7 +2,9 @@
 // smoke rising to an opening in the dome where the moonlight comes in. Round the fire, the fire
 // triangle (take away fuel, heat or oxygen and the fire dies; put it back and it lights again); on
 // stone benches round the walls, the candle under a jar, the glowing splint test, methane burning atom
-// by atom, and rust as a slow burning. Contract: docs/knowledge/adding-a-wing.md.
+// by atom, and rust as a slow burning. Contract: docs/knowledge/adding-a-wing.md. In a room, everyone
+// in the chamber shares its things (`shared` below, src/net/shared.js); panels and words stay each one's
+// own, and so does the flare of the fire when this visitor's own oxygen Atomling comes close.
 import { decimalOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
@@ -28,6 +30,8 @@ export async function build(ctx) {
   const root = new THREE.Group()
   root.name = 'wing-O-fire'
   const updates = []
+  // tell the others in the room's same world that this visitor changed something
+  const share = id => ctx.share?.(id)
   const level = () => ctx.level()
   const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
   const refreshers = []
@@ -100,6 +104,7 @@ export async function build(ctx) {
       act: () => {
         const r = tri.toggle(id)
         if (!r) return false
+        share('triangle')
         if (r === 'take') return at(W.triangle.says[id], level())
         if (tri.complete) return at(W.triangle.says.back, level())
         return at(W.triangle.says.missing, level()) + tri.missing().map(m => W.triangle.missingNames[m]).join(', ')
@@ -136,8 +141,9 @@ export async function build(ctx) {
   benchSolids(candleAt, 1.6, 1.45, 0.35)
   updates.push((dt, t) => candle.update(dt, t, ctx.camera, ctx.renderer))
   refreshers.push(() => candle.refresh())
-  candle.onOut = () => {
-    if (ctx.engine.world?.root === root && !ctx.store.get().panel) ctx.store.set({ speech: { text: at(W.candle.says.out, level()), who, color: COLOR } })
+  // the flame going out under someone else's jar is theirs to hear about
+  candle.onOut = mine => {
+    if (mine && ctx.engine.world?.root === root && !ctx.store.get().panel) ctx.store.set({ speech: { text: at(W.candle.says.out, level()), who, color: COLOR } })
   }
   const candleSpot = candleAt.at(0, 1.55)
   ex.add({
@@ -148,7 +154,11 @@ export async function build(ctx) {
     screen: candle.screen,
     label: W.candle.label,
     verb: () => (candle.down ? W.candle.verbs.lift : W.candle.verbs.cover),
-    act: () => at(W.candle.says[candle.toggle()], level()),
+    act: () => {
+      const r = candle.toggle()
+      share('candle')
+      return at(W.candle.says[r], level())
+    },
     panel: lv => ({ title: W.candle.title, kicker: W.kicker, color: '#ffc35a', blocks: W.candle.panel[depth(lv)] }),
   })
 
@@ -167,7 +177,11 @@ export async function build(ctx) {
     screen: splint.screen,
     label: W.splint.label,
     verb: W.splint.verb,
-    act: () => (splint.start() ? at(W.splint.says, level()) : false),
+    act: () => {
+      if (!splint.start()) return false
+      share('splint')
+      return at(W.splint.says, level())
+    },
     panel: lv => ({ title: W.splint.title, kicker: W.kicker, color: '#ffb070', blocks: W.splint.panel[depth(lv)] }),
   })
 
@@ -188,7 +202,9 @@ export async function build(ctx) {
     verb: () => (methane.state === 'after' ? W.methane.verbs.again : W.methane.verbs.burn),
     act: () => {
       const r = methane.act()
-      return r ? at(W.methane.says[r], level()) : false
+      if (!r) return false
+      share('methane')
+      return at(W.methane.says[r], level())
     },
     panel: lv => ({ title: W.methane.title, kicker: W.kicker, color: '#7fa8ff', blocks: W.methane.panel[depth(lv)] }),
   })
@@ -210,7 +226,9 @@ export async function build(ctx) {
     verb: () => (rust.rusted ? W.rust.verbs.reset : W.rust.verbs.run),
     act: () => {
       const r = rust.act()
-      return r ? at(W.rust.says[r], level()) : false
+      if (!r) return false
+      share('rust')
+      return at(W.rust.says[r], level())
     },
     panel: lv => ({ title: W.rust.title, kicker: W.kicker, color: '#e0703a', blocks: W.rust.panel[depth(lv)] }),
   })
@@ -244,6 +262,16 @@ export async function build(ctx) {
     onUse: talk,
   }
 
+  // ---- what everyone in a room's same chamber shares (src/net/shared.js) ----
+  // set(state, live): live, someone has just done it (it plays here); else a newcomer's view at once
+  const shared = {
+    triangle: { get: () => tri.state(), set: (s, live) => tri.setState(s, live) },
+    candle: { get: () => candle.state(), set: (s, live) => candle.setState(s, live) },
+    splint: { get: () => splint.state(), set: (s, live) => splint.setState(s, live) },
+    methane: { get: () => methane.shared(), set: (s, live) => methane.setShared(s, live) },
+    rust: { get: () => rust.state(), set: (s, live) => rust.setState(s, live) },
+  }
+
   let unsub = null
   return {
     mode: 'walk',
@@ -269,6 +297,7 @@ export async function build(ctx) {
     interactables: [...ex.list, host],
     doors,
     talk,
+    shared,
     refresh: () => ex.refresh(),
     attach() {
       ex.report()

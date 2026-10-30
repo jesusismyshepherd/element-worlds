@@ -223,6 +223,14 @@ export function breathExhibit({ color, light, words, level }) {
       }
       return on
     },
+    /** Breathing or not, for the others in a room (src/net/shared.js). */
+    state() {
+      return { on }
+    },
+    /** Someone else started or held the breath: the same here. */
+    setState({ on: o = false } = {}) {
+      if (!!o !== on) this.toggle()
+    },
     refresh() {
       scr.set({ small: smallLine() })
     },

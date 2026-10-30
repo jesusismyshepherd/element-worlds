@@ -164,23 +164,53 @@ export function candleJar({ stoneMat, words, level, light, decimal = '.' }) {
   let lit = true
   let relight = -1
   let outSaid = false
+  let mine = true // the jar was put down by this visitor (not someone else in the room)
+  let coveredFor = 0 // seconds since the jar came down
   const api = {
     group,
     screen: scr,
     get down() {
       return down
     },
+    /** The flame went out under the jar: onOut(mine), mine when this visitor put the jar down. */
     onOut: null,
     toggle() {
       down = !down
-      if (down) outSaid = false
-      else relight = 1.1
+      mine = true
+      if (down) {
+        outSaid = false
+        coveredFor = 0
+      } else relight = 1.1
       return down ? 'cover' : 'lift'
+    },
+    /** The jar down or up and for how long, for the others in a room (src/net/shared.js). */
+    state() {
+      return { down, age: down ? Math.round(coveredFor * 10) / 10 : 0 }
+    },
+    /** Someone else moved the jar: it moves here too (the flame's going out is theirs to hear about);
+     *  a newcomer finds the jar down with the air in it used up as far as it has been by now. */
+    setState({ down: d = false, age = 0 } = {}, live = false) {
+      if (!!d === down) return
+      api.toggle()
+      mine = false
+      if (live || !down) return
+      jarK = 1
+      outSaid = true
+      // the flame's use of the oxygen (update's own rule), run forward
+      let left = Math.min(60, Math.max(0, Number(age) || 0))
+      while (left > 0 && o2 > CANDLE_O2.out) {
+        const want = clamp((o2 - 15.6) / (18.6 - 15.6), 0, 1) * 0.75 + 0.25
+        o2 = Math.max(CANDLE_O2.out - 0.3, o2 - 0.05 * 0.62 * Math.max(0.15, want))
+        left -= 0.05
+      }
+      co2 = 0.04 + (20.9 - o2) * 0.66
+      coveredFor = Number(age) || 0
     },
     refresh() {
       scr.set({ small: smallLine() })
     },
     update(dt, t, camera, renderer) {
+      if (down) coveredFor += dt
       jarK = damp(jarK, down ? 1 : 0, 3.2, dt)
       const lift = (1 - jarK) * 0.5
       jar.position.y = H + 0.005 + lift
@@ -197,7 +227,7 @@ export function candleJar({ stoneMat, words, level, light, decimal = '.' }) {
           for (let i = 0; i < 14; i++) smoke.spawn({ x: -0.15 + (Math.random() - 0.5) * 0.02, y: H + 0.3, z: (Math.random() - 0.5) * 0.02, vx: (Math.random() - 0.5) * 0.04, vy: 0.05 + Math.random() * 0.05, vz: (Math.random() - 0.5) * 0.04, life: 3 + Math.random() * 2, size: 0.03, alpha: 0, r: 0.55, g: 0.55, b: 0.55 })
           if (!outSaid) {
             outSaid = true
-            api.onOut?.()
+            api.onOut?.(mine)
           }
         }
       } else if (jarK < 0.6) {
@@ -326,9 +356,10 @@ export function splintTest({ stoneMat, words, level, light }) {
   scr.set({ small: smallLine() })
 
   let run = -1
+  let runs = 0 // for the others in a room
   let burn = 0
   const tipWorld = new THREE.Vector3()
-  return {
+  const api = {
     group,
     screen: scr,
     get busy() {
@@ -337,7 +368,18 @@ export function splintTest({ stoneMat, words, level, light }) {
     start() {
       if (run >= 0) return false
       run = 0
+      runs++
       return true
+    },
+    /** How many tests were made and how far the one under way is, for the others in a room. */
+    state() {
+      return { n: runs, run }
+    },
+    /** Someone else tested: it plays here too; a newcomer joins the one under way where it is. */
+    setState({ n = 0, run: r = -1 } = {}, live = false) {
+      if (live && n !== runs) api.start()
+      else if (!live && run < 0 && r >= 0 && r < 7.6) run = r
+      runs = n
     },
     refresh() {
       scr.set({ small: smallLine() })
@@ -387,6 +429,7 @@ export function splintTest({ stoneMat, words, level, light }) {
       }, camera, renderer)
     },
   }
+  return api
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -531,11 +574,26 @@ export function methaneStage({ stoneMat, words, level, light }) {
   }
   placeAtoms(0)
   drawBonds(1, 0)
-  return {
+  const api = {
     group,
     screen: scr,
     get state() {
       return state
+    },
+    /** Burnt or not (where the one under way ends), for the others in a room (src/net/shared.js).
+     *  Not `state`: that name is the stage's own (before, burning, after, resetting). */
+    shared() {
+      return { burnt: state === 'burning' || state === 'after' }
+    },
+    /** Someone else burnt it or set it again: it plays here (when nothing is under way); otherwise,
+     *  and for a newcomer, the molecules stand as they end. */
+    setShared({ burnt = false } = {}, live = false) {
+      if (!!burnt === api.shared().burnt) return
+      if (live && (state === 'before' || state === 'after')) return void api.act()
+      state = burnt ? 'after' : 'before'
+      tt = 0
+      for (const a of atoms) a.m.scale.setScalar(1)
+      placeAtoms(burnt ? 1 : 0)
     },
     get busy() {
       return state === 'burning' || state === 'resetting'
@@ -609,6 +667,7 @@ export function methaneStage({ stoneMat, words, level, light }) {
       }, camera, renderer)
     },
   }
+  return api
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -761,7 +820,7 @@ export function rustTubes({ stoneMat, words, level, light }) {
   let target = 0
   const waterClear = new THREE.Color('#9cc9e8')
   const waterRust = new THREE.Color('#c27a3c')
-  return {
+  const api = {
     group,
     screen: scr,
     get rusted() {
@@ -782,6 +841,20 @@ export function rustTubes({ stoneMat, words, level, light }) {
       scr.set({ big: words.day(0) })
       return 'reset'
     },
+    /** Rusted or not and how far the week under way is, for the others in a room (src/net/shared.js). */
+    state() {
+      return { rusted: target > 0, run }
+    },
+    /** Someone else ran the week or set the tubes again: the same here (live, when nothing runs); a
+     *  newcomer joins the week under way where it is. */
+    setState({ rusted = false, run: r = -1 } = {}, live = false) {
+      if (!!rusted === target > 0) return
+      if (live && run < 0) return void api.act()
+      target = rusted ? 1 : 0
+      run = rusted && r >= 0 && r < 8.2 ? r : -1
+      rust = run >= 0 ? clamp(run / 8) : target
+      scr.set({ big: words.day(rusted ? Math.min(7, Math.floor((run >= 0 ? run : 8) / (8 / 7))) : 0) })
+    },
     refresh() {
       scr.set({ small: smallLine() })
     },
@@ -801,4 +874,5 @@ export function rustTubes({ stoneMat, words, level, light }) {
       rustyWater.opacity = 0.35 + rust * 0.25
     },
   }
+  return api
 }

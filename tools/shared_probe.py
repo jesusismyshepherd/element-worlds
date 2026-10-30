@@ -9,7 +9,7 @@ Screenshots in tools/shots/shared/.
 
 With --world <path>, any world: Ana uses every exhibit in turn (the Atomling and the --skip ones aside),
 and after each one Bob's shared states must match hers (numbers within 2, for times like the balloons'
-flight); then Cid walks in late and must find them all as Ana has them. Exhibits whose use changed nothing
+flight; counts, `n`, exactly); then Cid walks in late and must find them all as Ana has them. Exhibits whose use changed nothing
 shared are listed (a panel only, or one still to wire). More things for Ana to do in a world (a button in a
 panel), each followed by the same comparison: tools/shared_steps/<area>.json, {"<path>": ["<js>", ...]},
 all read (or one file with --steps).
@@ -169,10 +169,11 @@ def main():
 
 # every shared state of the world on show, and a comparison that lets times differ a little
 ALL = '() => Object.fromEntries(Object.entries(__ew.world.shared || {}).map(([k, p]) => [k, p.get()]))'
+# (a count, `n`, must match exactly: a lost one would hide in the times' margin)
 SAME = """(a, b) => {
-  const same = (x, y) => typeof x === 'number' && typeof y === 'number' ? Math.abs(x - y) <= 2
+  const same = (x, y, k) => typeof x === 'number' && typeof y === 'number' ? (k === 'n' ? x === y : Math.abs(x - y) <= 2)
     : Array.isArray(x) ? Array.isArray(y) && x.length === y.length && x.every((v, i) => same(v, y[i]))
-    : x && typeof x === 'object' ? !!y && typeof y === 'object' && Object.keys({ ...x, ...y }).every(k => same(x[k], y[k]))
+    : x && typeof x === 'object' ? !!y && typeof y === 'object' && Object.keys({ ...x, ...y }).every(k => same(x[k], y[k], k))
     : x === y
   return same(a, b)
 }"""
