@@ -46,19 +46,22 @@ export async function build(ctx, target) {
 
   // things worked by hand: a click or a tap on the thing itself does the step it is for (the user,
   // 2026-10-30: choosing the next step by touching the sand, the soda, the pot beats pressing E again
-  // and again). clickable(object, onTap, { when, reach }): `when()` says whether it can be used now
-  // (the hand shows only then), `reach` how near the visitor must stand (m).
+  // and again). clickable(object, onTap, { when, reach, accept }): `when()` says whether it can be used
+  // now (the hand shows only then), `reach` how near the visitor must stand (m), `accept(hit)` which hits
+  // count (the clear corner of a cut face is no place to tap).
   const clicks = []
   const caster = new THREE.Raycaster()
-  const clickable = (object, onTap, { when = () => true, reach = 4.5 } = {}) => clicks.push({ object, onTap, when, reach })
+  const clickable = (object, onTap, { when = () => true, reach = 4.5, accept = null } = {}) => clicks.push({ object, onTap, when, reach, accept })
   const clickAt = ray => {
     if (!ray || !clicks.length) return null
     caster.ray.copy(ray)
+    // sprites need the camera to be hit
+    caster.camera = ctx.camera
     const p = ctx.engine.player.pos
     let best = null
     for (const c of clicks) {
       if (!c.object.visible || !c.when()) continue
-      const hit = caster.intersectObject(c.object, true)[0]
+      const hit = caster.intersectObject(c.object, true).find(h => !c.accept || c.accept(h))
       if (!hit || (best && hit.distance >= best.hit.distance)) continue
       if (Math.hypot(hit.point.x - p.x, hit.point.z - p.z) > c.reach) continue
       best = { c, hit }

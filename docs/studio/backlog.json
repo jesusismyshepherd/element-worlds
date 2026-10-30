@@ -148,15 +148,15 @@
       "code": "Pi",
       "title": "Step into the pictures",
       "kind": "halls",
-      "status": "building",
+      "status": "next",
       "from": "artur",
       "date": "2026-10-30",
       "summary": "Artur's first question when he saw the new boards: how do I get inside these pictures? Every picture board becomes a doorway, like the Periodic Videos one: you dive into the picture and stand inside its scene, a small place made from the picture itself, with one to three things to do and the board's story told there.",
-      "why": "Artur asked for it himself the moment he saw the boards, and you marked it Sooner (2026-10-30). Silicon first: its six pictures each get their own room; from now on a new picture comes with its room, so a picture on a wall always means you can step in.",
+      "why": "Artur asked for it the moment he saw the boards, and you marked it Sooner. Silicon's six are done; sodium's six come next (its hall was drawn the same day), then carbon's and oxygen's seven each, so every picture on a wall is a door. New halls get their pictures and rooms together.",
       "details": [
         "A ladder of three steps. A picture room for every board, in time: a small scene around where you land, built from a shared kit of stages (a place indoors or outdoors, the sky and space, the very small, a moment in history) and parts, mostly written as data, with one to three things to do. A room that turns out loved (the family dashboard shows the visits) or whose subject keeps growing becomes a full wing like carbon's, at the same address, so nothing breaks. The big wings (carbon, oxygen, the neon signs) keep their arches.",
         "Your rule (2026-10-30): no picture without its room. The pictures already on the walls (silicon, sodium, carbon, oxygen) get their rooms, silicon first; every new hall from now on is drawn and built picture and room together.",
-        "Built so far (2026-10-30): silicon's diatoms (shrunk on a sunlit sea floor: open a diatom, oxygen in the sun, a family that shrinks and grows big again), solar (a hilltop: move the sun with a slider, fire light at a giant solar cell, launch Vanguard 1) and silicone (a kitchen: bend the tray, snap the silicon, the bouncing putty, a silicone chain frozen and warmed). Coming: the glassblower's workshop, the Earth and Moon from space, Silicon Valley.",
+        "Silicon is done (2026-10-30): all six of its pictures are doors. The diatoms (a sunlit sea floor), solar (a hilltop: the sun on a slider, light fired into a giant cell, Vanguard 1), glass (a glassblower's workshop: fill the pot, blow a bottle, light through sand, glass and fibre), the Earth and Moon (a deck in space: the Earth cut open, Moon rocks, a star that makes silicon), Silicon Valley (a hilltop at night: the valley from 1950 to today, a giant transistor, the 4004's 2300 lights) and silicone (a kitchen: the bendy tray, the snapping silicon, the putty, the chain). Next: sodium's six pictures, then carbon's and oxygen's.",
         "No size limit in the code: a room can be any size or shape. The kit is there so that about seven hundred of them can be made at all, open quickly and run well on the phone.",
         "Size is not what slows things down: each world's code is fetched only when you go in (carbon's gallery 310 KB, a hall 45 KB) and freed when you leave. What costs is the first visit's shader compiling (1.2 to 3.9 s now; carbon's gallery needs 53 programs; rooms made from one kit share theirs, so the second room opens almost at once) and, on the phone, how much is drawn at once (lights, glass, particles).",
         "The board's story (four languages, both depths) is told inside, so a room adds only the words for its own things to do. Some existing ideas are rooms that grew: Aveiro's salt pans is sodium's salt board; Walk inside a chip could grow out of silicon's Silicon Valley board."
@@ -639,6 +639,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "All six of silicon's pictures are doors",
+      "what": "The glassblower's workshop, the Earth and Moon from a deck in space, and Silicon Valley by night join the diatoms, the solar hilltop and the silicone kitchen. Every step is chosen by tapping its thing.",
+      "link": "https://element-worlds.vercel.app/e/Si"
+    },
     {
       "date": "2026-10-30",
       "title": "Step into the pictures: the solar hilltop and the silicone kitchen",

@@ -16,7 +16,9 @@ and the user's requests behind them. Add a line here when a piece of work change
   Then (the user: choosing each step by touching its thing beats pressing E again and again; a slider
   for what changes smoothly), every station worked by hand (`clickable` in picture rooms), and silicon's
   solar hilltop (the sun's slider, photons fired at a giant cell, Vanguard 1 launched) and silicone
-  kitchen (the tray that bends, the bar that snaps, the putty, the chain frozen and shaken).
+  kitchen (the tray that bends, the bar that snaps, the putty, the chain frozen and shaken). Then the
+  glassblower's workshop, the Earth and Moon from a deck in space, and Silicon Valley by night: all six
+  of silicon's pictures are doors.
 
 - Doing things together in the worlds (the user: "I release the balloons in the neon chamber, all the
   players in the room see it too and share its state"; videos and popups stay each one's own): in a

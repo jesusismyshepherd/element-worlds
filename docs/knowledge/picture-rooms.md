@@ -29,14 +29,19 @@ in. The studio item is `picture-rooms`.
   parts, shared, update(dt, t), dispose }`. `api`: `ctx, root, el, sym, lang, E (its words), W (shared
   words), ex (exhibitSet), say, later, light, color, level, depth, clickable`.
 - Things worked by hand (the user's rule for every station, 2026-10-30; `adding-a-wing.md`, "Look and
-  feel"): `clickable(object, onTap, { when, reach })` makes a mesh or group a thing to click or tap;
+  feel"): `clickable(object, onTap, { when, reach, accept })` makes a mesh or group a thing to click or
+  tap (`accept(hit)` can refuse some hits);
   the hand shows over it while `when()` is true and the visitor stands within `reach` (4.5 m); `onTap(hit)`
   does the step (count its find with `ex.discover`, share it, say the line). Each step is chosen by
   touching its thing; a smooth quantity is a slider in the station's panel; the panel's buttons do the
   same steps for E and the probes.
 - Stages, one file each in `pictures/stages/`: `water.js` (sunlit shallow sea, from the sea floor),
   `meadow.js` (a grassy hilltop whose sky follows the sun: day, dusk, stars at night), `kitchen.js` (a
-  cosy tiled kitchen: counters round the room, a wall oven, a fridge-freezer, a window). A room picks one
+  cosy tiled kitchen: counters round the room, a wall oven, a fridge-freezer, a window), `space.js` (a
+  round deck floating in space, stars above and below, a far sun lighting the planets from one side),
+  `night.js` (a hilltop at night over a valley below: `drop`, `hills`, `ridge`, `paths`, `clearings`,
+  `groundAt` for the scene), `workshop.js` (indoors at night: brick, flagstones, beams; gives its `brick`
+  and `firebrick` materials, UVs in metres). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -79,6 +84,22 @@ at the same address.
   freezer (−18 °C): the tray stays bendy; the bouncing putty thrown, pulled slowly (a strand), pulled
   fast (it snaps), left alone (it sags, sped up); a giant PDMS chain in the picture's magnifier with a
   temperature slider: stiff below about −125 °C, wiggling harder the warmer, holding at 250 °C.
+- Silicon, `earth` ("What are the Earth and Moon made of?", 2026-10-30): a deck in space. A 10 m Earth
+  cut open, its layers in true proportion; tap a layer (or the depth slider) and a light goes there, a
+  lens showing the atoms at that depth (crust, olivine, ringwoodite, bridgmanite, liquid then solid iron
+  and nickel); the Moon at true size: tap a dark sea or the bright highlands and its rock flies into a
+  case, then a mantle rock from the Earth, "the same oxygen"; tap the giant star: oxygen fuses into
+  silicon, the star explodes, the silicon gathers into a disc with a young Sun and planets.
+- Silicon, `valley` ("Why is a valley named after silicon?", 2026-10-30): a hilltop at night over the
+  valley. A year slider from 1950 to today turns orchards into a lit-up valley, beams marking Shockley
+  1956, Fairchild 1957, Noyce 1959, Intel 1968 and the 1971 headline; a giant transistor whose gate you
+  tap lets electrons through to a lamp; the Intel 4004's 2300 lights, zoomed out twice to about 12
+  billion, a phone chip's count; Berzelius's brown powder of 1824 in a vial.
+- Silicon, `glass` ("How does sand turn into glass?", 2026-10-30): a glassblower's workshop at night.
+  Tap the sand, soda and limestone into the pot in any order and heat it (sand alone stays grains at
+  1500 °C, sand and soda without lime is water glass); blow the gob into a bottle or a vase that cools
+  from orange to clear and goes on the shelf; at the light bench the sand scatters the beam, the pane
+  lets it through (its edge green with iron), the fibre carries it round its coil.
 
 ## Adding a room
 
@@ -113,6 +134,13 @@ at the same address.
 - Through `heavy.py`, a `bash -c` command starts WSL's bash and fails: pass the probe's own command.
 - In a probe, `player.use()` does not move the view to a new station while the last one is still
   active, even after a teleport: call the tap helper in `parts` instead.
+- A tap aimed at something behind another thing hits the nearer one (the bins behind the pot): raise
+  their signs or move them apart. Thin things (a ladle, a fibre) need an invisible hit shape
+  (`MeshBasicMaterial({ visible: false })`), which the ray still hits.
+- A sprite inside a clickable threw (the raycaster had no camera): `room.js` now sets it.
+- A flat summit hides the valley below unless you stand near its edge: put the arrival near the edge or
+  keep the drop small. A 10 m Earth seen from 9 m filled the screen: a station's `focus` only backs the
+  eye off, so leave room for it.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

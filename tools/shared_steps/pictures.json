@@ -31,5 +31,32 @@
     "() => __ew.world.parts.vial.tap()",
     "() => __ew.world.parts.valley.slide(2004)",
     "() => __ew.world.parts.gate.tap()"
+  ],
+  "/e/Si/earth": [
+    "() => __ew.world.parts.tap.earth(1700)",
+    "() => { __ew.showPanel(__ew.world.panels.earth); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(0.55) }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.tap.moon('sea')",
+    "() => __ew.world.parts.tap.moon('high')",
+    "() => __ew.world.parts.tap.case()",
+    "() => __ew.world.parts.tap.star()",
+    "() => __ew.world.parts.tap.case()"
+  ],
+  "/e/Si/glass": [
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.tap('sand'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.tap('fire'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.tap('soda'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.tap('lime'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.tap('fire'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.tap('empty'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.batch.heat(900); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.blow.tap('blow'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.blow.tap('blow'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.blow.tap('vase'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('sand'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('paneTap'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('paneTap'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('fibre'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('lamp'); r() }, 1600))"
   ]
 }

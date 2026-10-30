@@ -164,7 +164,7 @@ export const EARTH_WORDS = {
         ],
         sci: [
           'Stars of more than about 8 solar masses burn hydrogen, helium, carbon, neon, oxygen and finally silicon in their cores, each stage hotter and shorter. Oxygen burning, at about 2 billion K, fuses ¹⁶O + ¹⁶O → ²⁸Si + ⁴He (with other products, such as phosphorus and sulfur); silicon burning, lasting about a day, builds iron-group nuclei, mostly nickel-56, until the core can release no more energy and collapses.',
-          "The supernova's shock adds explosive oxygen burning and throws the layers out; the silicon condenses into silicate dust. Most of the Solar System's silicon came from such core-collapse supernovae, much of the rest from exploding white dwarfs (type Ia). Silicon-28 is 92.2% of all silicon; grains of silicon carbide in meteorites are real stardust, older than the Sun.",
+          "The supernova's shock adds explosive oxygen burning and throws the layers out; the silicon condenses into silicate dust. Most of the Solar System's silicon came from such core-collapse supernovae; exploding white dwarfs (type Ia) added some. Silicon-28 is 92.2% of all silicon; grains of silicon carbide in meteorites are real stardust, older than the Sun.",
         ],
       },
     },
@@ -330,7 +330,7 @@ export const EARTH_WORDS = {
         ],
         sci: [
           'As estrelas com mais de cerca de 8 massas solares queimam no núcleo hidrogénio, hélio, carbono, néon, oxigénio e por fim silício, cada fase mais quente e mais curta. A queima do oxigénio, a cerca de 2 mil milhões de K, funde ¹⁶O + ¹⁶O → ²⁸Si + ⁴He (com outros produtos, como fósforo e enxofre); a queima do silício, que dura cerca de um dia, forma núcleos do grupo do ferro, sobretudo níquel-56, até o núcleo já não conseguir libertar energia e colapsar.',
-          'A onda de choque da supernova junta uma queima explosiva do oxigénio e atira as camadas para fora; o silício condensa-se em poeira de silicatos. A maior parte do silício do Sistema Solar veio destas supernovas de colapso do núcleo, e boa parte do resto de anãs brancas que explodiram (tipo Ia). O silício-28 é 92,2% de todo o silício; os grãos de carboneto de silício dos meteoritos são verdadeira poeira de estrelas, mais antiga do que o Sol.',
+          'A onda de choque da supernova junta uma queima explosiva do oxigénio e atira as camadas para fora; o silício condensa-se em poeira de silicatos. A maior parte do silício do Sistema Solar veio destas supernovas de colapso do núcleo; as anãs brancas que explodiram (tipo Ia) juntaram algum. O silício-28 é 92,2% de todo o silício; os grãos de carboneto de silício dos meteoritos são verdadeira poeira de estrelas, mais antiga do que o Sol.',
         ],
       },
     },
@@ -496,7 +496,7 @@ export const EARTH_WORDS = {
         ],
         sci: [
           'Gwiazdy o masie większej niż około 8 mas Słońca spalają w jądrze kolejno wodór, hel, węgiel, neon, tlen i wreszcie krzem, a każdy etap jest gorętszy i krótszy. Spalanie tlenu, w około 2 miliardach K, łączy ¹⁶O + ¹⁶O → ²⁸Si + ⁴He (z innymi produktami, takimi jak fosfor i siarka); spalanie krzemu, trwające około doby, tworzy jądra z grupy żelaza, głównie nikiel-56, aż jądro gwiazdy nie może już uwolnić energii i się zapada.',
-          'Fala uderzeniowa supernowej dokłada wybuchowe spalanie tlenu i wyrzuca warstwy na zewnątrz; krzem kondensuje w pył krzemianowy. Większość krzemu Układu Słonecznego pochodzi z takich supernowych z kolapsu jądra, a sporo reszty z wybuchających białych karłów (typ Ia). Krzem-28 to 92,2% całego krzemu; ziarna węglika krzemu w meteorytach to prawdziwy gwiezdny pył, starszy od Słońca.',
+          'Fala uderzeniowa supernowej dokłada wybuchowe spalanie tlenu i wyrzuca warstwy na zewnątrz; krzem kondensuje w pył krzemianowy. Większość krzemu Układu Słonecznego pochodzi z takich supernowych z kolapsu jądra; trochę dołożyły wybuchające białe karły (typ Ia). Krzem-28 to 92,2% całego krzemu; ziarna węglika krzemu w meteorytach to prawdziwy gwiezdny pył, starszy od Słońca.',
         ],
       },
     },
@@ -662,7 +662,7 @@ export const EARTH_WORDS = {
         ],
         sci: [
           'Sterne mit mehr als etwa 8 Sonnenmassen brennen im Kern Wasserstoff, Helium, Kohlenstoff, Neon, Sauerstoff und zuletzt Silicium, jede Stufe heißer und kürzer. Das Sauerstoffbrennen bei etwa 2 Milliarden K verschmilzt ¹⁶O + ¹⁶O → ²⁸Si + ⁴He (mit anderen Produkten wie Phosphor und Schwefel); das Siliciumbrennen, das etwa einen Tag dauert, baut Kerne der Eisengruppe auf, vor allem Nickel-56, bis der Kern keine Energie mehr freisetzen kann und kollabiert.',
-          'Die Stoßwelle der Supernova fügt explosives Sauerstoffbrennen hinzu und schleudert die Schichten hinaus; das Silicium kondensiert zu Silikatstaub. Das meiste Silicium des Sonnensystems stammt aus solchen Kernkollaps-Supernovae, vieles vom Rest aus explodierenden Weißen Zwergen (Typ Ia). Silicium-28 macht 92,2% des gesamten Siliciums aus; Siliciumcarbidkörner in Meteoriten sind echter Sternenstaub, älter als die Sonne.',
+          'Die Stoßwelle der Supernova fügt explosives Sauerstoffbrennen hinzu und schleudert die Schichten hinaus; das Silicium kondensiert zu Silikatstaub. Das meiste Silicium des Sonnensystems stammt aus solchen Kernkollaps-Supernovae; explodierende Weiße Zwerge (Typ Ia) haben etwas beigesteuert. Silicium-28 macht 92,2% des gesamten Siliciums aus; Siliciumcarbidkörner in Meteoriten sind echter Sternenstaub, älter als die Sonne.',
         ],
       },
     },

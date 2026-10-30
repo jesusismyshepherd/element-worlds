@@ -157,7 +157,7 @@ built: `docs/history.md`):
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
   showpieces; the other 116 still have the eight text stations (`hall-boards.md`). A picture with a room
-  is stepped into (`picture-rooms.md`; silicon's diatoms first, 2026-10-30).
+  is stepped into (`picture-rooms.md`; all six of silicon's since 2026-10-30).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
   professor in it; a README in each folder). Using a station in third person looks through the Atomling's
@@ -173,6 +173,6 @@ built: `docs/history.md`):
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
 the phone), and what waits on the user. Next: a room behind every picture already on a wall (silicon's
-six, then sodium's, carbon's, oxygen's: `picture-rooms.md`); the user's verdict on sodium's Periodic
+six done; sodium's, carbon's, oxygen's next: `picture-rooms.md`); the user's verdict on sodium's Periodic
 Videos room (`periodic-videos.md`); then element by element each hall's pictures with their rooms and its
 video room, the best-known elements first (`hall-boards.md`, "The other 116 halls").
