@@ -43,6 +43,7 @@
     }
   ],
   "next": [
+    "shared-worlds",
     "periodic-videos",
     "halls-116",
     "treasure-hunts",
@@ -79,6 +80,23 @@
     }
   ],
   "items": [
+    {
+      "id": "shared-worlds",
+      "code": "Sw",
+      "title": "Doing things together in the worlds",
+      "kind": "together",
+      "status": "building",
+      "from": "you",
+      "date": "2026-10-30",
+      "summary": "In a room, the things in a world are shared: you let the balloons go in the neon workshop and everyone there sees them rise; whoever comes in later finds them up under the ceiling. Panels, the Atomling's words and videos stay each one's own.",
+      "why": "You asked for it (2026-10-30): playing together means doing things in the same world, not side by side.",
+      "details": [
+        "Done (2026-10-30): the way it works for every world, and the neon workshop (all seven: the tubes, the radon counter, the word on the wall, the atom, the history board, the spectroscope, the balloons).",
+        "Next: carbon's and oxygen's wings, sodium's and silicon's video labs (the experiments shared, each one watches the video alone) and the halls.",
+        "Someone else's word on the wall is shown, never saved over yours: alone again, your own word is back."
+      ],
+      "doc": "docs/knowledge/multiplayer.md"
+    },
     {
       "id": "halls-116",
       "code": "Hb",

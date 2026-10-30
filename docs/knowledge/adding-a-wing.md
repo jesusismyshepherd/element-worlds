@@ -23,9 +23,27 @@ atrium draws its arch by itself, titled from `wings.<Symbol>.<id>.title` in both
 | `cameraBounds` | `{ minX, maxX, minY, maxY, minZ, maxZ }`: the third-person camera stays inside |
 | `interactables` | `[{ id, x, z, radius, label, verb, onUse }]`: the nearest within reach gets the prompt (E or the button) |
 | `doors` | `[{ x, z, radius, to }]`: walking into one goes to the address `to` (`atriumPath(symbol)` for the way back) |
+| `shared` | `{ <id>: { get(), set(state, live) } }`: what everyone in a room's same world shares (below) |
 | `attach(engine)`, `detach(engine)`, `update(dt, t)`, `dispose()` | optional |
 
-`ctx`: `{ engine, renderer, scene, camera, canvas, input, store, light, t, lang(), level(), go(path) }`.
+`ctx`: `{ engine, renderer, scene, camera, canvas, input, store, light, t, lang(), level(), go(path), share(id) }`.
+
+## Shared with the room (every wing, since 2026-10-30)
+
+In a room, everyone in the same world sees the same state of its things and each change as it happens
+(`src/net/shared.js`; the protocol in `multiplayer.md`, "Shared world objects"). Each exhibit's piece gives
+`state()` (small plain JSON: `{ free, age }`, `{ lit: ['He', 'Ne'] }`, `{ gas: 'Ar' }`) and
+`setState(s, live)`; the world lists them in `shared` and calls `ctx.share(id)` right after its own
+visitor changed one (after `act` succeeded, not when it was busy). `live`: someone has just done it, play it
+here as if done here (the animation and its sound); not live: a newcomer, show it as it stands at once
+(fast-forward what unfolds over time: the balloons' flight from `age`). Something that only happens (a
+Geiger counter's clicks, an electron fired) is a count in the state, played when it goes up.
+Stays each one's own: panels, the Atomling's words (`say`), discoveries, windows, videos, the camera.
+A piece's callback that speaks after an animation must know whose it was (`onLit(gas, mine)`). Check what
+comes in (a known gas, a cleaned word): it comes from another device. Someone else's word or pick is shown,
+never saved into this visitor's own storage. Example: `noble/signs.js` (`shared`) and its pieces.
+Check: `py -3.11 tools/shared_probe.py --world <path>` (every exhibit used by one player, the others' states
+compared, a latecomer).
 
 ## Words
 

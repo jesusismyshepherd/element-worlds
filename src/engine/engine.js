@@ -28,6 +28,7 @@ const readSpot = () => {
 import { insets, freeArea } from './covers.js'
 import { track } from '../net/telemetry.js'
 import { room } from '../net/room.js'
+import { shared } from '../net/shared.js'
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -108,6 +109,8 @@ export class Engine {
       level: () => this.store.get().level,
       go: path => this.go(path),
       showPanel: make => this.showPanel(make),
+      // a thing everyone in the room's same world shares was changed by this visitor (src/net/shared.js)
+      share: id => shared.changed(id),
     }
   }
 
@@ -261,6 +264,7 @@ export class Engine {
     if (w.mode !== 'walk' && back?.key === key) w.restoreSpot?.(back)
     this.others?.enter(w)
     room.arrived(location.pathname)
+    shared.enter(w, location.pathname)
     ambience(target.kind)
     this.store.set({
       world: { kind: target.kind, symbol: target.symbol ?? null, wing: target.wing ?? null },
@@ -274,6 +278,7 @@ export class Engine {
   leave() {
     const w = this.world
     if (!w) return
+    shared.leave()
     w.detach?.(this)
     this.scene.remove(w.root)
     w.dispose?.()

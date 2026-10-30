@@ -6,7 +6,8 @@
 //   coated tubes: argon, mercury and a phosphor).
 // - The balloons: one of each sign gas on a round table; let go, they rise or fall at the speed the
 //   physics gives (nobleData.js balloonOf: buoyancy, weight and the drag of the air).
-// Each is built in a frame whose +z points to the visitor.
+// Each is built in a frame whose +z points to the visitor. The board and the balloons give their state
+// (state / setState) for everyone in a room to share (src/net/shared.js).
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
@@ -245,6 +246,23 @@ export function historyBoard({ mats, words, light }) {
       play('select')
       return signs[i].key
     },
+    /** How many signs are lit (the one lighting counts), for the others in a room. */
+    state() {
+      return { lit: signs.filter(s => s.want).length + (lighting >= 0 ? 1 : 0) }
+    },
+    /** Someone else's board: the next sign lit as it happens, or all off; a newcomer's at once. */
+    setState({ lit = 0 } = {}, live = false) {
+      const n = Math.max(0, Math.min(signs.length, Math.round(lit)))
+      const mine = api.state().lit
+      if (n === mine) return
+      if (live && n === mine + 1 && lighting < 0) return void api.act()
+      if (live && n === 0 && mine === signs.length && lighting < 0) return void api.act()
+      lighting = -1
+      signs.forEach((s, i) => {
+        s.want = i < n ? 1 : 0
+        s.k = s.want
+      })
+    },
     refresh(line) {
       scr.set({ line })
     },
@@ -333,10 +351,38 @@ export function balloonRack({ mats, words, light, ceiling = 5.4 }) {
 
   let free = false
   let back = 0 // seconds of the way back to the table
+  let age = 0 // seconds since they were let go
   const top = ceiling - R * 1.18 - 0.02
   const bottom = R * 1.18 + 0.03
   const knotPos = new THREE.Vector3()
-  return {
+  const release = () => {
+    free = true
+    age = 0
+    back = 0
+    for (const b of balloons) {
+      b.v = 0
+      b.y = b.ball.position.y
+      b.x = b.ball.position.x
+      b.z = b.ball.position.z
+    }
+  }
+  // the physics in small steps: buoyancy, weight and the drag of the air
+  const fly = (b, dt) => {
+    const steps = 4
+    for (let k = 0; k < steps; k++) b.v = stepBalloon(b.phys, b.v, dt / steps)
+    b.y += b.v * dt
+    if (b.y > top) {
+      b.y = top
+      b.v = 0
+    }
+    if (b.y < bottom) {
+      b.y = bottom
+      b.v = Math.abs(b.v) > 0.6 ? -b.v * 0.25 : 0 // a little bounce on the planks
+    }
+    // a slow drift, slower under the ceiling or on the floor, and never far from the table
+    b.x = Math.max(-3, Math.min(3, b.x + b.drift * dt * (b.y < top - 0.01 && b.y > bottom + 0.01 ? 1 : 0.2)))
+  }
+  const api = {
     group,
     screen: scr,
     get free() {
@@ -345,16 +391,14 @@ export function balloonRack({ mats, words, light, ceiling = 5.4 }) {
     get busy() {
       return back > 0
     },
+    /** How high each balloon flies (He, Ne, Ar, Kr, Xe), for the probes. */
+    get heights() {
+      return balloons.map(b => b.ball.position.y)
+    },
     act() {
       if (back > 0) return false
       if (!free) {
-        free = true
-        for (const b of balloons) {
-          b.v = 0
-          b.y = b.ball.position.y
-          b.x = b.ball.position.x
-          b.z = b.ball.position.z
-        }
+        release()
         play('select')
         return 'go'
       }
@@ -363,22 +407,34 @@ export function balloonRack({ mats, words, light, ceiling = 5.4 }) {
       play('tap')
       return 'back'
     },
+    /** Let go or tied, and for how long they have flown, for the others in a room. */
+    state() {
+      return { free, age: free ? Math.round(age * 10) / 10 : 0 }
+    },
+    /** Someone else's balloons: let go or tied back as it happens; a newcomer sees them where they
+     *  have flown to by now (the same physics, run forward). */
+    setState({ free: f = false, age: a = 0 } = {}, live = false) {
+      if (!!f === free) return
+      if (live && back === 0) return void api.act()
+      if (f) {
+        for (const b of balloons) b.ball.position.copy(b.rest)
+        release()
+        const dt = 1 / 30
+        const ahead = Math.min(90, Math.max(0, Number(a) || 0))
+        for (let s = 0; s < ahead; s += dt) for (const b of balloons) fly(b, dt)
+        age = ahead
+        for (const b of balloons) b.ball.position.set(b.x, b.y, b.z)
+      } else {
+        free = false
+        back = 0
+        for (const b of balloons) b.ball.position.copy(b.rest)
+      }
+    },
     update(dt, t) {
+      if (free) age += dt
       for (const b of balloons) {
         if (free) {
-          // the physics in small steps: buoyancy, weight and the drag of the air
-          const steps = 4
-          for (let k = 0; k < steps; k++) b.v = stepBalloon(b.phys, b.v, dt / steps)
-          b.y += b.v * dt
-          if (b.y > top) {
-            b.y = top
-            b.v = 0
-          }
-          if (b.y < bottom) {
-            b.y = bottom
-            b.v = Math.abs(b.v) > 0.6 ? -b.v * 0.25 : 0 // a little bounce on the planks
-          }
-          b.x += b.drift * dt * (b.y < top - 0.01 && b.y > bottom + 0.01 ? 1 : 0.2)
+          fly(b, dt)
           b.ball.position.set(b.x, b.y, b.z)
           b.ball.rotation.z = Math.sin(t * 1.3 + b.sway) * 0.08
         } else {
@@ -401,4 +457,5 @@ export function balloonRack({ mats, words, light, ceiling = 5.4 }) {
       scr.set({ line })
     },
   }
+  return api
 }

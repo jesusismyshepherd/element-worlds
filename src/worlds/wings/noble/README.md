@@ -15,3 +15,7 @@ exhibit. How a shared wing works (one module, the target symbol, discoveries per
 - `spectrumCanvas.js`: spectra drawn on a canvas. `nobleData.js`: the numbers and their sources.
 - `kit.js`: maths, canvas textures, screens, words at the reader's depth, the exhibits' rules.
 - `signs.words.js`: every word, four languages, both depths. `noble.test.js`.
+
+In a room, everyone in the same workshop shares its things: each piece's `state()` / `setState(s, live)`,
+listed in `shared` at the end of `signs.js` (`src/net/shared.js`; `adding-a-wing.md`, "Shared with the
+room"). Check: `tools/shared_probe.py`.

@@ -5,7 +5,9 @@
 // desk; in the corners the atom (why they glow, why they are noble) and the history board (1898, 1910,
 // today). East: the spectroscope, every gas's lines (NIST) under the Sun's 1868 line that was helium.
 // In the middle, five balloons to let go. The visitor's gas starts everything, and the arch leads back
-// to its hall. Contract: docs/knowledge/adding-a-wing.md.
+// to its hall. Contract: docs/knowledge/adding-a-wing.md. In a room, everyone in the same workshop
+// shares its things (the tubes, the word, the balloons...: `shared` below, src/net/shared.js); the
+// panels, the Atomling's words and the discoveries stay each one's own.
 import { tagOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
@@ -74,6 +76,8 @@ export async function build(ctx, target) {
   const timers = []
   const later = (s, fn) => timers.push({ at: s, fn })
   const here = () => ctx.engine.world?.root === root
+  // tell the others in the room's same workshop that this visitor changed something
+  const share = id => ctx.share?.(id)
   await fontsReady()
 
   // ---- the room ----
@@ -105,7 +109,9 @@ export async function build(ctx, target) {
   updates.push((dt, t) => bench.update(dt, t))
   refreshers.push(() => bench.refresh())
   solids.push(box(x0 + 0.45, -2.7, 0.9, 4.75))
-  bench.onLit = gas => {
+  bench.onLit = (gas, mine) => {
+    // someone else's tube lights here too, without the words
+    if (!mine) return
     say(at(W.bench.says[gas], level()), glowOf(gas))
     if (bench.lit === SIGN_GASES.length) later(2.6, () => say(at(W.bench.says.all, level())))
   }
@@ -120,6 +126,7 @@ export async function build(ctx, target) {
     verb: () => (bench.busy ? W.bench.verbs.wait : bench.next ? W.bench.verbs.fill : W.bench.verbs.off),
     act: () => {
       const r = bench.act()
+      if (r) share('bench')
       if (r === 'off') return at(W.bench.says.off, level())
       return r ? null : false
     },
@@ -145,7 +152,11 @@ export async function build(ctx, target) {
     screens: [radon.screen],
     label: W.radon.label,
     verb: W.radon.verb,
-    act: () => (radon.measure() ? at(W.radon.says, level()) : false),
+    act: () => {
+      if (!radon.measure()) return false
+      share('radon')
+      return at(W.radon.says, level())
+    },
     panelDelay: 1.6,
     sayColor: () => glowOf('Rn'),
     panel: lv => {
@@ -187,6 +198,7 @@ export async function build(ctx, target) {
         current = { text: word, gas }
         saveName(sym, current)
         wall.light(word, glowOf(gas))
+        share('name')
         // the tube it took: its length in font units, at the scale the wall drew it
         const metres = num((tubeLength(word) * wall.sign.width) / Math.max(1e-6, layoutText(word).width), 1, lang)
         later(0.6 + word.length * 0.16, () => {
@@ -230,6 +242,7 @@ export async function build(ctx, target) {
     act: () => {
       const l = atom.fire()
       if (!l) return false
+      share('atom')
       later(1.5, () => {
         say(atom.words(fill(at(W.atom.says, level()), { Gas: GasName(sym) })))
         atom.advance()
@@ -269,6 +282,7 @@ export async function build(ctx, target) {
     act: () => {
       const r = history.act()
       if (!r) return false
+      share('history')
       if (r === 'off') return at(W.history.off, level())
       if (r === 'today') later(2.2, () => say(at(W.history.all, level())))
       return at(W.history.steps[r], level())
@@ -299,6 +313,7 @@ export async function build(ctx, target) {
     verb: () => fill(W.spectrum.verb, { gas: gasName(spec.next) }),
     act: () => {
       const g = spec.act()
+      share('spectrum')
       return at(W.spectrum.says[g], level())
     },
     sayColor: () => glowOf(spec.gas),
@@ -324,6 +339,7 @@ export async function build(ctx, target) {
     act: () => {
       const r = balloons.act()
       if (!r) return false
+      share('balloons')
       if (r === 'back') return at(W.balloons.back, level())
       return fill(at(W.balloons.says, level()), { He: num(lift('He'), 2, lang), Ne: num(lift('Ne'), 2, lang) })
     },
@@ -383,6 +399,31 @@ export async function build(ctx, target) {
     onUse: talk,
   }
 
+  // ---- what everyone in a room's same workshop shares (src/net/shared.js) ----
+  // set(state, live): live, someone has just done it (it plays here); else a newcomer's view at once
+  const shared = {
+    bench: { get: () => bench.state(), set: (s, live) => bench.setState(s, live) },
+    radon: { get: () => radon.state(), set: (s, live) => radon.setState(s, live) },
+    // the word on the wall: someone else's is shown (and never saved over mine); while I type my own,
+    // the wall keeps my preview and shows theirs when the window closes
+    name: {
+      get: () => ({ text: current.text, gas: current.gas }),
+      set: (s, live) => {
+        const text = sanitizeName(s.text ?? '').trim()
+        const gas = SIGN_GASES.includes(s.gas) ? s.gas : current.gas
+        if (!text || (text === current.text && gas === current.gas)) return
+        current = { text, gas }
+        if (overlay?.isOpen) return
+        if (live) wall.light(text, glowOf(gas))
+        else wall.restore(text, glowOf(gas))
+      },
+    },
+    atom: { get: () => atom.state(), set: (s, live) => atom.setState(s, live) && later(1.5, () => atom.advance()) },
+    history: { get: () => history.state(), set: (s, live) => history.setState(s, live) },
+    spectrum: { get: () => spec.state(), set: (s, live) => spec.setState(s, live) },
+    balloons: { get: () => balloons.state(), set: (s, live) => balloons.setState(s, live) },
+  }
+
   let unsub = null
   return {
     mode: 'walk',
@@ -405,6 +446,7 @@ export async function build(ctx, target) {
     interactables: [...ex.list, host],
     doors,
     talk,
+    shared,
     // for the probes in tools/ (__ew.world.parts.bench.lit and so on)
     parts: { bench, radon, wall, atom, history, spec, balloons },
     refresh: () => ex.refresh(),

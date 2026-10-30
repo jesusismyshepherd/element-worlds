@@ -252,7 +252,7 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
   }
   draw()
 
-  return {
+  const api = {
     group,
     screen: frame,
     get gas() {
@@ -278,6 +278,19 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
       sym = s
       draw()
     },
+    /** The gas in the holder, for the others in a room (src/net/shared.js). */
+    state() {
+      return { gas: sym }
+    },
+    /** Someone else put a tube in: it goes in here too (with its sound and flash when live). */
+    setState({ gas } = {}, live = false) {
+      if (gas === sym || !gases.includes(gas)) return
+      api.show(gas)
+      if (live) {
+        pulse = 1
+        play('select')
+      }
+    },
     refresh: draw,
     update(dt, t) {
       pulse = damp(pulse, 0, 3, dt)
@@ -286,6 +299,7 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
       tubeMat.emissiveIntensity = (light ? 1.6 : 3) * (0.96 + 0.04 * Math.sin(t * 40))
     },
   }
+  return api
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -374,6 +388,7 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
   lad.content.add(ladBoard)
   const ion = el.ie?.[0] ?? 0
   let lineI = 0
+  let shots = 0 // electrons fired, for the others in a room
   let shot = null // the line being shown
   const drawLadder = (stage = 0) => {
     const l = LADDER[sym][lineI]
@@ -469,7 +484,7 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
   }
 
   let time = 0
-  return {
+  const api = {
     group,
     screen: head,
     ladder: lad,
@@ -485,6 +500,7 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
     fire() {
       if (shot) return false
       shot = { t: 0, out: false, home: 0, stage: 0 }
+      shots++
       play('tap')
       drawLadder(0)
       return LADDER[sym][lineI]
@@ -492,6 +508,27 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
     /** After a shot: the next of the gas's lines. */
     advance() {
       lineI = (lineI + 1) % LADDER[sym].length
+    },
+    /** The electrons fired and the line the next (or the one in flight) gives, for the others in a
+     *  room (src/net/shared.js; the world sends it as the shot is fired, before advance). */
+    state() {
+      return { n: shots, line: lineI }
+    },
+    /** Someone else fired: the same line here, the shot played when live. Returns whether it fired
+     *  (the world then advances, as after its own). */
+    setState({ n = 0, line = 0 } = {}, live = false) {
+      const len = LADDER[sym].length
+      const l = ((Math.round(line) % len) + len) % len
+      if (live && n !== shots && !shot) {
+        lineI = l
+        shots = n - 1
+        api.fire()
+        return true
+      }
+      shots = n
+      // a snapshot is taken after advance; a live one missed while busy: the line after it
+      lineI = live ? (l + 1) % len : l
+      return false
     },
     refresh(line) {
       if (line != null) head.set({ line })
@@ -552,4 +589,5 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
       }
     },
   }
+  return api
 }

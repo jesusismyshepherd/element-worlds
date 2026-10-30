@@ -264,6 +264,7 @@ export function fillingBench({ mats, words, level, light, start }) {
   let current = null
   let mbar = 30 // resting on the air stop
   let wheelSpin = 0
+  let mine = true // the tube being filled was this visitor's (not someone else's in the room)
   const valveTurn = SIGN_GASES.map(() => 0)
   const rnd = random(7)
   const api = {
@@ -293,10 +294,40 @@ export function fillingBench({ mats, words, level, light, start }) {
         return 'off'
       }
       current = next
+      mine = true
       phase = 'pump'
       phaseT = 0
       play('tap')
       return 'start'
+    },
+    /** The tubes lit (and the one being filled), for the others in a room (src/net/shared.js). */
+    state() {
+      return { lit: SIGN_GASES.filter((s, i) => tubes[i].want === 1 || s === current) }
+    },
+    /** Someone else's bench: the next tube filled and lit as it happens (onLit hears it is not mine),
+     *  or all switched off; a newcomer's at once. */
+    setState({ lit = [] } = {}, live = false) {
+      const want = new Set((Array.isArray(lit) ? lit : []).filter(s => SIGN_GASES.includes(s)))
+      const have = new Set(api.state().lit)
+      const added = [...want].filter(s => !have.has(s))
+      const gone = [...have].filter(s => !want.has(s))
+      if (!added.length && !gone.length) return
+      if (live && phase === 'idle') {
+        if (!want.size && have.size === SIGN_GASES.length) return void api.act()
+        if (added.length === 1 && !gone.length && added[0] === api.next) {
+          api.act()
+          mine = false
+          return
+        }
+      }
+      phase = 'idle'
+      phaseT = 0
+      current = null
+      valveTurn.fill(0)
+      for (const tube of tubes) {
+        tube.want = want.has(tube.sym) ? 1 : 0
+        tube.k = tube.want
+      }
     },
     refresh() {
       scr.set({ line: level() === 'scientist' ? words.screen.sci : words.screen.kid })
@@ -334,7 +365,7 @@ export function fillingBench({ mats, words, level, light, start }) {
           phaseT = 0
           const sym = current
           current = null
-          api.onLit?.(sym)
+          api.onLit?.(sym, mine)
         }
       } else mbar = damp(mbar, 30, 1.2, dt)
       wheel.rotation.x = wheelSpin
@@ -464,6 +495,7 @@ export function radonBox({ mats, words, line, light }) {
   scr.content.add(band)
 
   let clicks = 0
+  let count = 0 // measurements made, for the others in a room
   let nextClick = 0
   let flash = 0
   let swing = 0
@@ -478,7 +510,16 @@ export function radonBox({ mats, words, line, light }) {
       if (clicks > 0) return false
       clicks = 22
       nextClick = 0
+      count++
       return true
+    },
+    state() {
+      return { n: count }
+    },
+    /** Someone else measured: the counter clicks here too. */
+    setState({ n = 0 } = {}, live = false) {
+      if (live && n !== count && clicks === 0) api.measure()
+      count = n
     },
     refresh() {
       scr.set({ line: line() })

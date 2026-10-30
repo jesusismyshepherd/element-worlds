@@ -23,6 +23,11 @@ games for more players, or for two with "the others ... spectators with possibil
   with the world, since adding a light later recompiles every material).
 - The Molecule Lab is shared by everyone in it: one molecule, built together. Each player picks atoms
   for themselves (a ring in their colour), the lab card says who is building ("Building together: ...").
+- The things in a wing are shared too (the user, 2026-10-30: "I release the balloons in the neon chamber,
+  all the players in the room see it too and share its state"): someone lets the balloons go, fills a
+  tube, lights a word, and everyone in the same world sees it happen; who comes in later finds it as it
+  stands. Panels, the Atomling's words, videos and discoveries stay each one's own ("as in all popup
+  boxes"). Below, "Shared world objects".
 
 ## The quiz duel: two seats, the others watch (and swap in)
 
@@ -42,6 +47,24 @@ games for more players, or for two with "the others ... spectators with possibil
   The referee's clue count sets the points. `src/net/duel.js`, `src/ui/DuelHud.jsx`.
 - `tools/duel_probe.py`: three players (one a phone), 15 checks: start, seat, the race, lock-out, who got
   it, a swap asked and allowed, a whole game, the rematch with the winner staying, the referee leaving.
+
+## Shared world objects (2026-10-30)
+
+- `src/net/shared.js` (`shared`, `window.__ewShared`): the engine tells it each world it enters
+  (`shared.enter(w, path)`, `leave`) and gives worlds `ctx.share(id)`. A world lists its things in `shared`
+  (`{ id: { get, set(state, live) } }`); how a wing does it: `adding-a-wing.md`, "Shared with the room".
+  The neon workshop shares all seven (bench, radon, name, atom, history, spectrum, balloons).
+- Per world address (`/e/Ne/signs` and `/e/He/signs` are two worlds). Each thing's state has a version that
+  counts up across the room and who wrote it; the higher (v, by) wins everywhere.
+- Broadcasts: `w-set` (a change, played live), `w-hello` (I came in: tell me; with `parts` when sent by
+  someone already there who met a newcomer late), `w-state` (the answer, or mine after nobody answered:
+  shown at once, not played). Coming into a world while others are in the room waits up to 1.5 s for an
+  answer; nobody answers, its own state stands and is told, so two who came in together (following, a
+  call) agree on one. Alone in the room: no messages at all.
+- Nothing is stored: a world's state lives while someone is in it; the last one out takes it along. Not
+  in a room, nothing changes from before.
+- Tests: `src/net/shared.test.js` (a fake room: live changes, newcomers, two at once, a change made while
+  asking). Probe: `tools/shared_probe.py` (below).
 
 ## How it works
 
@@ -95,6 +118,12 @@ leaving. 24 checks, about 3 minutes; it prints each player's trail and realtime 
 the others' Atomlings on the cubes they picked, side by side on a shared one, moving with a new pick,
 gone when one leaves; and the dock (Trends in Explorer, the phone's drawers over a selected card). 17
 checks, under a minute; screenshots in `tools/shots/plaza_room/`.
+
+`py -3.11 tools/shared_probe.py [--base ...]`: three players (one a phone) in neon's workshop: the
+balloons, a tube, a word, the spectroscope, the atom, the counter and the board, each played on the other's
+screen without their panel or words; a latecomer finds it as it stands; helium's workshop keeps its own.
+30 checks, under a minute. `--world <path>`: any world, every exhibit used in turn and the states
+compared, then a latecomer; it lists the exhibits whose use changed nothing shared.
 
 ## Next
 
