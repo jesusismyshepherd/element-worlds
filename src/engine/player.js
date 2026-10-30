@@ -351,15 +351,26 @@ export class Player {
     }
   }
 
-  /** The nearest thing to use within its reach, for the prompt (E, or the button). */
+  /** The nearest thing to use within its reach, for the prompt (E, or the button). Of two in reach, the
+   *  one the walker faces wins: a station with a focus counts as farther the more it is off to the side
+   *  (in a hall's corner, the side wall's board was a few centimetres nearer than the one in front). */
   findNear(world) {
     let best = null
     let bestD = Infinity
+    const [fx, fz] = forward(this.yaw)
     for (const it of world.interactables ?? []) {
       const d = Math.hypot(it.x - this.pos.x, it.z - this.pos.z)
-      if (d < (it.radius ?? 2) && d < bestD) {
+      if (d >= (it.radius ?? 2)) continue
+      let score = d
+      if (it.focus) {
+        const ax = it.focus.x - this.pos.x
+        const az = it.focus.z - this.pos.z
+        const len = Math.hypot(ax, az) || 1
+        score += (1 - (ax * fx + az * fz) / len) * 1.2
+      }
+      if (score < bestD) {
         best = it
-        bestD = d
+        bestD = score
       }
     }
     if (best !== this.near) {

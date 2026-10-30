@@ -79,6 +79,10 @@ person is unchanged. Focus is opt-in: the halls' boards, stations and specimen c
 stations and professor have one (the exhibit kit, `noble/kit.js` `add({ focus })`, passes it through);
 carbon's, oxygen's and the neon workshop's exhibits do not yet.
 
+Of two stations in reach, the one the walker faces wins (`findNear`: a station with a focus counts as
+farther the more it is off to the side): in a hall's corner the side wall's board was a few centimetres
+nearer than the doorway board in front, so "Step in" never came up (2026-10-30).
+
 `player.dive(point, normal, then)`: the view flies into a picture (a hall's doorway board) in a second,
 slowly and then rushing, and calls `then` (the hall's `ctx.go` to the place behind it).
 

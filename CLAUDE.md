@@ -131,6 +131,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   the junction first (`cmd /c rmdir <junction>`), or copy what you need.
 - Stopping a background `npx vite` task ends its shell, not Vite: the old server kept the port and its
   stale bundles. Find it (`Get-CimInstance Win32_Process` with `vite` in the command line) and stop it.
+  Match the server exactly (`vite` and `preview` and `--port 5317` in one command line, `node.exe` only),
+  never a bare port number: matching "5318" killed one of the user's Chrome processes (2026-10-30).
 - The realtime service closes the channel of a client that updates its presence often ("Client
   presence rate limit exceeded"): presence for who is in a room only, the rest by broadcast
   (docs/knowledge/multiplayer.md).

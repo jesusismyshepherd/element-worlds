@@ -54,9 +54,9 @@
   "waiting": [
     {
       "id": "w-na-room",
-      "title": "Try sodium's Periodic Videos room with Artur",
-      "detail": "The pilot for every element's room: is this how you imagined it? Note what to keep and what to change (the look, the experiments, the video beside them) before the other elements get theirs. In the sodium hall, walk through the new arch.",
-      "link": "https://element-worlds.vercel.app/e/Na/videos"
+      "title": "Try sodium's new hall and its Periodic Videos lab with Artur",
+      "detail": "The pilot of the full makeover: the six picture boards and the showpiece, the doorway board you step into, the lab's experiments with the film beside them, the professor, and the view through the Atomling's eyes at each station. Note what to keep and what to change before the others follow; silicon's comes next.",
+      "link": "https://element-worlds.vercel.app/e/Na"
     },
     {
       "id": "w-review",
@@ -84,6 +84,7 @@
       "summary": "The fact file, seven picture boards and a showpiece that Carbon and Oxygen have, for the other 116 halls.",
       "why": "Every visit passes through a hall, so this changes the most. It goes element by element with the Periodic Videos rooms, the 38 elements Artur meets first (the quiz's Explorer list) before the rest.",
       "details": [
+        "Sodium is done (2026-10-30): six picture boards (nerves, the sea and Aveiro's salt pans, Davy 1807, the yellow street lamps, sodium 90 km up, the cake that rises), its doorway board and a showpiece of sodium under oil. Silicon is next, the most visited hall after Oxygen.",
         "Carbon and Oxygen got them first because the eight text boards were boring. You loved them (2026-10-29), so the others follow.",
         "Each board is a picture with a hook question, read in Explorer or Scientist; the fact file has a face drawn from the element's data; the showpiece is a real-looking sample in the museum case.",
         "In batches of five or six: first the 38 well-known elements of the quiz's Explorer list (hydrogen to plutonium), then the rest family by family. Each batch is checked in all four languages and looked at in the game before it goes live, and goes live as soon as it is done.",
@@ -105,6 +106,7 @@
       "why": "The videos are full of experiments a child can't do at home but can do here. Sodium first, as a pilot room to look at; then element by element with the hall boards, since one look at a video serves both.",
       "details": [
         "Sodium's room is built (2026-10-30), the pilot to try: the oil tin, the courtyard bowl with three lumps and the indicator, the salt window, the salt lamp, the professor's card, and the film on the screen with a chapter per experiment.",
+        "The lab is entered through a doorway board in the hall (step into the picture); the professor stands in it and retells his own remarks from the film, each with the moment to watch him say it. Using a station in third person now looks through the Atomling's eyes.",
         "Claude watches each video (a frame every 4 seconds with the captions, in a cache on this computer that never goes online) and writes a brief: what the video shows, with times, and the room's stations.",
         "Sodium's video, watched 2026-10-30: cutting a two-kilo rod from its oil tin (soft, shiny, white within seconds), a gram in a bowl of water in a courtyard (skating, fizzing, the orange flame), a salt window that cracks at right angles, a rock-salt lamp, and a bigger lump with a bang. All five become stations (docs/pv/Na.md).",
         "Each station has 'Watch this part': the video plays from that experiment's moment, in YouTube's own player, credited and linked to periodicvideos.com.",
@@ -576,6 +578,23 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Sodium's hall, made over",
+      "what": "Six picture boards, a showpiece of sodium under oil, and a doorway board you step into, like a picture.",
+      "link": "https://element-worlds.vercel.app/e/Na"
+    },
+    {
+      "date": "2026-10-30",
+      "title": "Through the Atomling's eyes",
+      "what": "Using a station in third person, the view goes into the Atomling's eyes and back out when you walk on."
+    },
+    {
+      "date": "2026-10-30",
+      "title": "The professor in his lab",
+      "what": "He retells his own remarks from the film, each with the moment to watch him say it.",
+      "link": "https://element-worlds.vercel.app/e/Na/videos"
+    },
     {
       "date": "2026-10-30",
       "title": "Sodium's Periodic Videos room",
