@@ -24,7 +24,8 @@ export const SOLAR_WORDS = {
     },
     panel: {
       label: 'The panel and the sun',
-      move: 'Move the sun on',
+      move: 'Move the sun',
+      tip: 'Drag the slider to move the sun, or tap the cloud in the sky to pass it over the sun.',
       title: 'Light in, electricity out',
       meter: 'The meter',
       light: 'Sunlight: {v} W/m²',
@@ -55,7 +56,7 @@ export const SOLAR_WORDS = {
     },
     cell: {
       label: 'Inside a solar cell',
-      fire: { red: 'Fire a red photon', green: 'Fire a green photon', blue: 'Fire a blue photon', ir: 'Fire an infrared photon' },
+      tap: 'Tap a coloured lamp',
       colors: {
         red: { kid: 'Red', sci: 'Red, 650 nm' },
         green: { kid: 'Green', sci: 'Green, 530 nm' },
@@ -93,9 +94,10 @@ export const SOLAR_WORDS = {
     },
     vanguard: {
       label: 'Vanguard 1',
+      tapRocket: 'Tap the rocket to launch it',
+      tapSat: 'Tap Vanguard 1 to hear its radio',
       launch: 'Launch it',
       listen: 'Listen to its radio',
-      again: 'Launch it again',
       real: 'Real size, beside a grapefruit',
       title: 'The grapefruit satellite',
       says: {
@@ -136,6 +138,7 @@ export const SOLAR_WORDS = {
     panel: {
       label: 'O painel e o Sol',
       move: 'Mover o Sol',
+      tip: 'Arrasta o cursor para mover o Sol, ou toca na nuvem no céu para a passares à frente do Sol.',
       title: 'Entra luz, sai eletricidade',
       meter: 'O medidor',
       light: 'Luz do Sol: {v} W/m²',
@@ -166,7 +169,7 @@ export const SOLAR_WORDS = {
     },
     cell: {
       label: 'Dentro de uma célula solar',
-      fire: { red: 'Disparar um fotão vermelho', green: 'Disparar um fotão verde', blue: 'Disparar um fotão azul', ir: 'Disparar um fotão infravermelho' },
+      tap: 'Toca numa lâmpada colorida',
       colors: {
         red: { kid: 'Vermelho', sci: 'Vermelho, 650 nm' },
         green: { kid: 'Verde', sci: 'Verde, 530 nm' },
@@ -204,9 +207,10 @@ export const SOLAR_WORDS = {
     },
     vanguard: {
       label: 'O Vanguard 1',
+      tapRocket: 'Toca no foguetão para o lançar',
+      tapSat: 'Toca no Vanguard 1 para ouvir o rádio',
       launch: 'Lançar',
       listen: 'Ouvir o rádio',
-      again: 'Lançar outra vez',
       real: 'Tamanho real, ao lado de uma toranja',
       title: 'O satélite toranja',
       says: {
@@ -246,7 +250,8 @@ export const SOLAR_WORDS = {
     },
     panel: {
       label: 'Panel i słońce',
-      move: 'Przesuń słońce dalej',
+      move: 'Przesuń słońce',
+      tip: 'Przeciągnij suwak, żeby przesunąć słońce, albo dotknij chmury na niebie, żeby zasłoniła słońce.',
       title: 'Światło wchodzi, prąd wychodzi',
       meter: 'Miernik',
       light: 'Światło: {v} W/m²',
@@ -277,7 +282,7 @@ export const SOLAR_WORDS = {
     },
     cell: {
       label: 'Wnętrze ogniwa słonecznego',
-      fire: { red: 'Wystrzel czerwony foton', green: 'Wystrzel zielony foton', blue: 'Wystrzel niebieski foton', ir: 'Wystrzel foton podczerwieni' },
+      tap: 'Dotknij kolorowej lampy',
       colors: {
         red: { kid: 'Czerwony', sci: 'Czerwony, 650 nm' },
         green: { kid: 'Zielony', sci: 'Zielony, 530 nm' },
@@ -315,9 +320,10 @@ export const SOLAR_WORDS = {
     },
     vanguard: {
       label: 'Vanguard 1',
+      tapRocket: 'Dotknij rakiety, żeby ją wystrzelić',
+      tapSat: 'Dotknij Vanguarda 1, żeby usłyszeć jego radio',
       launch: 'Wystrzel go',
       listen: 'Posłuchaj jego radia',
-      again: 'Wystrzel go jeszcze raz',
       real: 'Prawdziwa wielkość, obok grejpfruta',
       title: 'Satelita grejpfrut',
       says: {
@@ -357,7 +363,8 @@ export const SOLAR_WORDS = {
     },
     panel: {
       label: 'Das Modul und die Sonne',
-      move: 'Lass die Sonne weiterziehen',
+      move: 'Beweg die Sonne',
+      tip: 'Zieh den Regler, um die Sonne zu bewegen, oder tipp die Wolke am Himmel an, damit sie vor die Sonne zieht.',
       title: 'Licht hinein, Strom heraus',
       meter: 'Das Messgerät',
       light: 'Sonnenlicht: {v} W/m²',
@@ -388,7 +395,7 @@ export const SOLAR_WORDS = {
     },
     cell: {
       label: 'In einer Solarzelle',
-      fire: { red: 'Schieß ein rotes Photon', green: 'Schieß ein grünes Photon', blue: 'Schieß ein blaues Photon', ir: 'Schieß ein Infrarot-Photon' },
+      tap: 'Tipp eine bunte Lampe an',
       colors: {
         red: { kid: 'Rot', sci: 'Rot, 650 nm' },
         green: { kid: 'Grün', sci: 'Grün, 530 nm' },
@@ -426,9 +433,10 @@ export const SOLAR_WORDS = {
     },
     vanguard: {
       label: 'Vanguard 1',
+      tapRocket: 'Tipp die Rakete an, um sie zu starten',
+      tapSat: 'Tipp Vanguard 1 an, um seinen Funk zu hören',
       launch: 'Starte ihn',
       listen: 'Hör seinen Funk',
-      again: 'Starte ihn noch einmal',
       real: 'Echte Größe, neben einer Grapefruit',
       title: 'Der Grapefruit-Satellit',
       says: {

@@ -1,15 +1,19 @@
 // Silicon's picture "How does sunlight become electricity?" as a room (docs/knowledge/picture-rooms.md):
 // the picture's grassy hilltop in the evening, the sun low over the hills. Three things to do, all shared in
 // a room (src/net/shared.js):
-// - the panel and the sun: move the sun across the sky (a step at a time, or the slider in the panel) and
-//   pass a cloud over it; the light on the panel (the cosine of the angle between the sun and its face, and
-//   the air a low sun crosses) sets the meter, the electrons running in the wires and the bulb;
-// - inside a solar cell: one cell cut open and made giant, inside the picture's magnifier ring: fire
-//   photons of four colours; above the band gap each frees one electron, which the junction pushes up, round
-//   the wire through a little bulb and back to fill a hole; blue's extra energy glows as heat; infrared
-//   passes through;
-// - Vanguard 1: launch it from its pad; it rises to a globe overhead, goes round on its real orbit's shape
-//   (Kepler's equation) and beeps. Its real size stands by the pad, beside a grapefruit.
+// - the panel and the sun: move the sun across the sky with the slider in the panel (E, or a tap on the
+//   sun, opens it) and tap the cloud to pass it over the sun; the light on the panel (the cosine of the
+//   angle between the sun and its face, and the air a low sun crosses) sets the meter, the electrons
+//   running in the wires and the bulb;
+// - inside a solar cell: one cell cut open and made giant, inside the picture's magnifier ring: tap one of
+//   four lamps (infrared, red, green, blue) to fire its photon; above the band gap each frees one electron,
+//   which the junction pushes up, round the wire through a little bulb and back to fill a hole; blue's
+//   extra energy glows as heat; infrared passes through;
+// - Vanguard 1: tap the rocket or its pad to launch it; it rises to a globe overhead, goes round on its
+//   real orbit's shape (Kepler's equation) and beeps; tap it up there to hear its radio. Its real size
+//   stands by the pad, beside a grapefruit.
+// Each step is chosen by touching its thing (the user's rule, docs/knowledge/adding-a-wing.md "Look and
+// feel"); E opens the station's panel, whose slider and buttons do the same.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { canvasTex, at, clamp, lerp, damp, fill, num, hdr, standingScreen } from '../../../wings/noble/kit.js'
@@ -39,8 +43,7 @@ const M = F.clone().multiplyScalar(Math.cos(NOON)).add(V(0, Math.sin(NOON), 0))
 const TILT = THREE.MathUtils.degToRad(40)
 const N = F.clone().multiplyScalar(Math.sin(TILT)).add(V(0, Math.cos(TILT), 0))
 const EFF = 0.21
-// a press moves the sun on to the next of these (u: 0 sunrise, 0.5 noon, 1 sunset, 1.5 midnight)
-const STOPS = [[0.167, 'morning'], [0.5, 'noon'], [0.75, 'afternoon'], [0.958, 'evening'], [1.5, 'night']]
+// where the sun starts (u: 0 sunrise, 0.5 noon, 1 sunset, 1.5 midnight): low in the evening, as the picture has it
 const START = 0.875
 
 const wrap2 = u => ((u % 2) + 2) % 2
@@ -64,10 +67,11 @@ const EV = { ir: 0.95, red: 1.91, green: 2.34, blue: 2.76 }
 const GAP = 1.12
 const HEX = { red: '#ff4436', green: '#40e070', blue: '#4b86ff', ir: '#a0204a' }
 const CYCLES = { ir: 1.6, red: 3.1, green: 3.8, blue: 4.5 }
-// how deep each colour is caught (the cell's y; not to scale), and where the n-th photon lands (the same
-// on every screen)
+// how deep each colour is caught (the cell's y; not to scale); each colour's lamp, in the spectrum's order
+// (long waves to short), and where under it the n-th photon lands (the same on every screen)
 const ABS = { red: 0.74, green: 1.06, blue: 1.4 }
-const XS = [-0.95, 0.55, -0.4, 1.0, -1.15, 0.25]
+const LX = { ir: -0.96, red: -0.32, green: 0.32, blue: 0.96 }
+const XO = [-0.1, 0.12, 0.02, -0.14, 0.08, -0.04]
 
 /** A wavy line on a see-through canvas (a photon, a ray of light). */
 const waveTex = cycles =>
@@ -150,7 +154,7 @@ function earthTexture() {
 
 // ---- the room ----
 
-export async function build({ ctx, root, E, W, ex, say, later, light, level, lang, color }) {
+export async function build({ ctx, root, E, W, ex, say, later, light, level, lang, color, clickable }) {
   const R = 12.5
   const stage = meadowStage({ radius: R, light })
   root.add(stage.group)
@@ -359,13 +363,11 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
   const dirNow = sunDirAt(sunU)
   let lightNow = 0
   let powerNow = 0
-  /** On to the next stop of the day (through the night after the evening): returns which stop. */
-  const stepSun = () => {
-    const now = wrap2(sunT)
-    const next = STOPS.find(([u]) => u > now + 0.01) ?? STOPS[0]
-    const target = next === STOPS[0] && now >= STOPS[0][0] + 0.01 ? next[0] + 2 : next[0]
-    sunT = target + (sunT - now)
-    return next[1]
+  /** Which part of the day the time u is in (for the Atomling's words). */
+  const partOf = u => {
+    const w = wrap2(u)
+    if (sunDirAt(w).y < 0.01) return 'night'
+    return w < 0.33 ? 'morning' : w < 0.62 ? 'noon' : w < 0.86 ? 'afternoon' : 'evening'
   }
   /** The light and the electricity a time of day gives (for the Atomling's words). */
   const at_ = u => {
@@ -379,9 +381,13 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     if (mine) say(at(v ? E.panel.says.cloud : E.panel.says.clear, level()))
     return true
   }
-  // the slider moves many times a second: the others get it a few times a second, and where it stopped
+  // the slider moves many times a second: the others get it a few times a second, and where it stopped;
+  // once it rests in another part of the day, the Atomling says what the panel gets there
   let sliding = false
+  let settle = 0
+  let saidPart = partOf(START)
   const slid = () => {
+    settle = 0.8
     if (sliding) return
     sliding = true
     later(0.15, () => {
@@ -389,11 +395,21 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
       share('sun')
     })
   }
+  const tapCloud = () => {
+    setCloud(!cloudOn, true)
+    play('select')
+    share('sun')
+    ex.discover('panel', panelPanel, 1.2)
+  }
+  const tapSun = () => {
+    if (!ex.discover('panel', panelPanel, 0)) ctx.showPanel(panelPanel)
+  }
   const panelPanel = lv => ({
     title: E.panel.title,
     color,
     blocks: [
       ...paras(E.panel.panel[depth(lv)]),
+      { p: E.panel.tip },
       {
         slider: {
           label: E.panel.time,
@@ -428,15 +444,13 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     verb: E.panel.move,
     screens: [meter],
     panel: panelPanel,
-    panelDelay: 1.8,
     focus: { x: P.x + G.x * 0.9, y: 1.5, z: P.z + G.z * 0.9, size: 5.4 },
-    act: () => {
-      const key = stepSun()
-      play('select')
-      share('sun')
-      return sunLine(key)
-    },
   })
+  // the cloud is tapped to pass it over the sun (or away again); the sun, to move it with the slider
+  clickable(cloud, tapCloud, { reach: 90 })
+  const sunPick = new THREE.Mesh(new THREE.SphereGeometry(4, 12, 8), new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }))
+  root.add(sunPick)
+  clickable(sunPick, tapSun, { when: () => dirNow.y > 0.02, reach: 90 })
 
   const dotObj = new THREE.Object3D()
   const rayBasis = new THREE.Matrix4()
@@ -483,7 +497,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     dots.instanceMatrix.needsUpdate = true
     // the panel catches the light; the rays come from the sun's side
     faceMat.emissiveIntensity = 0.03 + 0.08 * (1 - stage.look.night) + 0.3 * clamp(lightNow / 950)
-    rayMat.opacity = 0.7 * clamp(lightNow / 600) * clamp(dirNow.y * 6)
+    rayMat.opacity = 0.55 * clamp(lightNow / 600) * clamp(dirNow.y * 6)
     // the studio light the engine gives every world fades with the daylight
     const scene = ctx.scene ?? ctx.engine?.scene
     if (scene) scene.environmentIntensity = stage.env.envIntensity * (0.2 + 0.8 * (1 - stage.look.night))
@@ -502,6 +516,15 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     tmpC.crossVectors(dirNow, UP).normalize()
     cloud.position.set(P.x, 1.6, P.z).addScaledVector(dirNow, 40).addScaledVector(tmpC, (1 - cloudK) * 17).addScaledVector(UP, (1 - cloudK) * 3)
     cloud.lookAt(P.x, 1.6, P.z)
+    sunPick.position.set(P.x, 1.6, P.z).addScaledVector(dirNow, 47)
+    if (settle > 0) {
+      settle -= dt
+      const part = partOf(sunT)
+      if (settle <= 0 && part !== saidPart) {
+        saidPart = part
+        say(sunLine(part))
+      }
+    }
     // the meter, a few times a second
     meterWait -= dt
     lightBar.scale.x = Math.max(0.001, clamp(lightNow / 1000))
@@ -696,16 +719,42 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
   handle.quaternion.setFromUnitVectors(UP, h1.clone().sub(h0).normalize())
   const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.06, PZ - RC.z + 0.03), mats.gold)
   bracket.position.set(0, RC.y + 2.05, (PZ + RC.z) / 2)
-  const drop = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.42, 0.06), mats.gold)
-  drop.position.set(0, RC.y + 2.05 - 0.21, PZ)
-  const LAMP = V(0, 3.45, PZ)
-  const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.16, 0.32, 18), mats.dark)
-  lamp.position.set(0, LAMP.y + 0.18, PZ)
-  const lensMat = new THREE.MeshBasicMaterial({ color: hdr(HEX.red, 1.6) })
-  const lens = new THREE.Mesh(new THREE.CircleGeometry(0.11, 20), lensMat)
-  lens.rotation.x = Math.PI / 2
-  lens.position.set(0, LAMP.y + 0.015, PZ)
-  cellG.add(ring, sheen, handle, bracket, drop, lamp, lens)
+  const drop = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.78, 0.06), mats.gold)
+  drop.position.set(0, RC.y + 2.05 - 0.39, PZ)
+  const lampBar = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.05, 0.05), mats.gold)
+  lampBar.position.set(0, 3.42, PZ)
+  cellG.add(ring, sheen, handle, bracket, drop, lampBar)
+  // four lamps of light, one for each colour, hanging from the bar: tapping one fires its photon
+  const LAMPS = {}
+  const lensMats = {}
+  const lampFlash = { ir: 0, red: 0, green: 0, blue: 0 }
+  const lampGroups = {}
+  const lampBody = new THREE.CylinderGeometry(0.11, 0.14, 0.28, 18)
+  const lampBand = new THREE.CylinderGeometry(0.146, 0.146, 0.06, 18)
+  const lensGeo = new THREE.CircleGeometry(0.1, 20)
+  for (const c of ORDER) {
+    const g = new THREE.Group()
+    g.position.set(LX[c], 0, PZ)
+    const body = new THREE.Mesh(lampBody, mats.dark)
+    body.position.y = 3.24
+    lensMats[c] = new THREE.MeshBasicMaterial({ color: hdr(HEX[c], c === 'ir' ? 1.0 : 1.5) })
+    const band = new THREE.Mesh(lampBand, lensMats[c])
+    band.position.y = 3.14
+    const lens = new THREE.Mesh(lensGeo, lensMats[c])
+    lens.rotation.x = Math.PI / 2
+    lens.position.y = 3.095
+    const hang = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.06, 0.03), mats.gold)
+    hang.position.y = 3.4
+    g.add(body, band, lens, hang)
+    if (c === 'ir') {
+      const tagIR = makeText('IR', { size: 0.085, color: '#ffb3c8' })
+      tagIR.position.set(0, 3.25, 0.13)
+      g.add(tagIR)
+    }
+    cellG.add(g)
+    lampGroups[c] = g
+    LAMPS[c] = V(LX[c], 3.06, PZ)
+  }
   // the legend, on a little stand to the left
   const L = E.cell.legend
   const legendTex = tex(
@@ -783,7 +832,6 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     }),
   )
   const runs = []
-  const nextColor = () => ORDER[shots % ORDER.length]
   /** The wire's path for an electron that reached the top at finger xf and goes back to its hole at xa. */
   const pathFor = (xf, xa) => {
     const pts = [V(xf, Y1 + 0.05, PZ), V(1.48, Y1 + 0.05, PZ), V(1.85, Y1 + 0.05, PZ), V(1.85, Y0 - 0.04, PZ), V(xa, Y0 - 0.04, PZ), V(xa, 0.47, PZ)]
@@ -803,14 +851,16 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     }
   }
   function startRun(c, k) {
-    const xa = XS[k % XS.length]
+    const L0 = LAMPS[c]
+    const xa = LX[c] + XO[k % XO.length]
     const A = V(xa, c === 'ir' ? Y0 - 0.75 : ABS[c], PZ)
-    const dir = A.clone().sub(LAMP)
+    const dir = A.clone().sub(L0)
+    lampFlash[c] = 1
     const photon = new THREE.Mesh(photonGeo, photonMats[c])
     photon.rotation.z = Math.atan2(-dir.x, dir.y)
     photon.renderOrder = 2
     cellG.add(photon)
-    const r = { c, t: 0, T1: dir.length() / 2.6, A, photon, xa, ex: EV[c] - GAP, bulbHit: false }
+    const r = { c, t: 0, T1: dir.length() / 2.6, L: L0, A, photon, xa, ex: EV[c] - GAP, bulbHit: false }
     if (c !== 'ir') {
       r.xf = FINGERS.reduce((best, f) => (Math.abs(f - xa) < Math.abs(best - xa) ? f : best))
       r.path = pathFor(r.xf, xa)
@@ -849,6 +899,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     }
     share('cell')
     later(1.0, () => say(at(E.cell.says[c], level())))
+    ex.discover('cell', cellPanel, 2.8)
     return true
   }
   const cellPanel = lv => ({
@@ -863,22 +914,18 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     z: X2.z,
     radius: 2.0,
     label: E.cell.label,
-    verb: () => E.cell.fire[nextColor()],
+    verb: E.cell.tap,
     panel: cellPanel,
-    panelDelay: 2.8,
     focus: { x: S.x, y: 1.75, z: S.z, size: 4.6 },
-    act: () => {
-      const c = nextColor()
-      if (!fire(c)) return false
-      share('cell')
-      later(1.0, () => say(at(E.cell.says[c], level())))
-      return null
-    },
   })
+  for (const c of ORDER) clickable(lampGroups[c], () => fireMine(c))
   let cellBulbK = 0
   const tmpE = V(0, 0, 0)
   updates.push((dt, t) => {
-    lensMat.color.copy(hdr(HEX[nextColor()], nextColor() === 'ir' ? 1.0 : 1.6))
+    for (const c of ORDER) {
+      lampFlash[c] = damp(lampFlash[c], 0, 3, dt)
+      lensMats[c].color.set(HEX[c]).multiplyScalar((c === 'ir' ? 1.0 : 1.5) + 2.5 * lampFlash[c])
+    }
     for (const w of wander) {
       w.m.position.set(w.x + Math.cos(t * 1.3 + w.ph) * 0.025, w.y + Math.sin(t * 1.7 + w.ph) * 0.025, PZ)
     }
@@ -889,7 +936,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
       // the photon on its way (infrared shrinks away as it leaves through the bottom)
       if (r.t < t1) {
         r.photon.visible = true
-        r.photon.position.lerpVectors(LAMP, r.A, r.t / t1)
+        r.photon.position.lerpVectors(r.L, r.A, r.t / t1)
         if (r.c === 'ir') r.photon.scale.setScalar(clamp((r.photon.position.y - (Y0 - 0.75)) / 0.6, 0.02, 1))
       } else r.photon.visible = false
       if (r.c === 'ir') {
@@ -1130,6 +1177,22 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     later(FLIGHT + 0.5, () => say(at(E.vanguard.says.orbit, level())))
     return at(E.vanguard.says.launch, level())
   }
+  const flyingNow = () => launches > 0 && age < FLIGHT
+  const inOrbit = () => launches > 0 && age >= FLIGHT
+  /** The rocket or its pad tapped: it lifts off (a new one, when one is already up). */
+  const tapRocket = () => {
+    if (flyingNow()) return say(at(W.busy, level()))
+    say(launchMine())
+    ex.discover('vanguard', vgPanel, 5.2)
+  }
+  /** Vanguard 1 tapped in orbit: its radio, loud for a while. */
+  const tapSat = () => {
+    if (!inOrbit()) return say(E.vanguard.tapRocket)
+    listenT = 6
+    beepT = 1.3
+    say(at(E.vanguard.says.listen, level()))
+    ex.discover('vanguard', vgPanel, 1.5)
+  }
   const vgPanel = lv => ({
     title: E.vanguard.title,
     color,
@@ -1137,13 +1200,8 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
       ...paras(E.vanguard.panel[depth(lv)]),
       {
         buttons: [
-          {
-            label: E.vanguard.again,
-            onClick: () => {
-              if (launches > 0 && age < FLIGHT) return say(at(W.busy, level()))
-              say(launchMine())
-            },
-          },
+          { label: E.vanguard.launch, onClick: tapRocket },
+          { label: E.vanguard.listen, onClick: tapSat },
         ],
       },
     ],
@@ -1155,18 +1213,18 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     z: X3.z,
     radius: 2.0,
     label: E.vanguard.label,
-    verb: () => (launches === 0 ? E.vanguard.launch : E.vanguard.listen),
+    verb: () => (inOrbit() ? E.vanguard.tapSat : E.vanguard.tapRocket),
     panel: vgPanel,
-    panelDelay: 5.2,
     focus: { x: VP.x, y: 3.2, z: VP.z - 0.8, size: 7.2 },
-    act: () => {
-      if (launches > 0 && age < FLIGHT) return false
-      if (launches === 0) return launchMine()
-      listenT = 6
-      beepT = 1.3
-      return at(E.vanguard.says.listen, level())
-    },
   })
+  // the rocket on its pad (or the empty pad) launches; Vanguard 1 in orbit is listened to (a wider ball
+  // round it to tap, as it is small up there)
+  clickable(pad, tapRocket, { when: () => !flyingNow() })
+  for (const st of [stage1, stage2, stage3]) clickable(st, tapRocket, { when: () => launches === 0 })
+  clickable(sat, tapRocket, { when: () => launches === 0 })
+  const satPick = new THREE.Mesh(new THREE.SphereGeometry(0.55, 12, 8), new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }))
+  vgG.add(satPick)
+  clickable(satPick, tapSat, { when: inOrbit, reach: 14 })
   const tmpV = V(0, 0, 0)
   const tmpT = V(0, 0, 0)
   const tmpQ = new THREE.Quaternion()
@@ -1237,6 +1295,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
       sat.scale.setScalar(SAT_ON_ROCKET)
     }
     orbitMat.opacity = up ? 0.4 * clamp((age - FLIGHT) / 1.5) : 0
+    satPick.position.copy(sat.position)
     // the flame and the smoke
     const burning = launches > 0 && age < FLIGHT
     flame.visible = burning
@@ -1299,7 +1358,11 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     stand: { x: 5.6, z: 4.6, rot: Math.atan2(-5.6, 2.8) },
     panels: { panel: panelPanel, cell: cellPanel, vanguard: vgPanel },
     parts: {
+      // for probes: a ray from the camera to a point (for __ew.world.onTap and pointAt, as a click casts)
+      rayTo: p => new THREE.Ray(ctx.camera.position.clone(), p.clone().sub(ctx.camera.position).normalize()),
       sun: {
+        cloudAt: () => cloud.position.clone(),
+        sunAt: () => sunPick.position.clone(),
         get u() {
           return wrap2(sunU)
         },
@@ -1320,6 +1383,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
         },
       },
       cell: {
+        lampAt: c => lampGroups[c].localToWorld(V(0, 3.18, 0)),
         get shots() {
           return shots
         },
@@ -1331,6 +1395,9 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
         },
       },
       vanguard: {
+        rocketAt: () => stage1.position.clone().add(V(0, 0.9, 0)),
+        padAt: () => V(VP.x + 0.6, 0.12, VP.z + 0.6),
+        satAt: () => sat.position.clone(),
         get launches() {
           return launches
         },
