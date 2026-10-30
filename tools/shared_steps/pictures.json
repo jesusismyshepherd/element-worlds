@@ -98,5 +98,26 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.desk.tap('downs'); r() }, 1600))",
     "() => { __ew.showPanel(__ew.world.panels.battery); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(3) }",
     "() => { __ew.showPanel(__ew.world.panels.notebook); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }"
+  ],
+  "/e/Na/kitchen": [
+    "() => __ew.world.parts.fizz.tap('vinegar')",
+    "() => __ew.world.parts.fizz.tap('soda')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fizz.tap('water'); r() }, 6000))",
+    "() => __ew.world.parts.fizz.tap('powder')",
+    "() => { __ew.showPanel(__ew.world.panels.fizz); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick() }",
+    "() => __ew.world.parts.cakes.tap('yoghurt')",
+    "() => __ew.world.parts.cakes.tap('soda')",
+    "() => __ew.world.parts.cakes.tap('b')",
+    "() => __ew.world.parts.cakes.tap('soda')",
+    "() => __ew.world.parts.cakes.tap('oven')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.cakes.tap('a'); r() }, 9000))",
+    "() => __ew.world.parts.cakes.tap('b')",
+    "() => __ew.world.parts.heat.tap('burner')",
+    "() => { __ew.showPanel(__ew.world.panels.heat); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(150) }",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.heat.tap('fresh'); r() }, 4000))",
+    "() => __ew.world.parts.heat.tap('tube')",
+    "() => __ew.world.parts.cakes.tap('mixer')",
+    "() => { __ew.showPanel(__ew.world.panels.cakes); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[2].onClick() }",
+    "() => __ew.world.parts.heat.tap('jar')"
   ]
 }

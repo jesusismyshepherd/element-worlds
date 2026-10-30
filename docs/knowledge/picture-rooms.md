@@ -37,7 +37,9 @@ in. The studio item is `picture-rooms`.
   same steps for E and the probes.
 - Stages, one file each in `pictures/stages/`: `water.js` (sunlit shallow sea, from the sea floor),
   `meadow.js` (a grassy hilltop whose sky follows the sun: day, dusk, stars at night), `kitchen.js` (a
-  cosy tiled kitchen: counters round the room, a wall oven, a fridge-freezer, a window), `space.js` (a
+  cosy tiled kitchen: counters round the room, a wall oven, a fridge-freezer, a window; silicon's at night
+  by default, sodium's a sunny morning: `time: 'morning'`, `tiles`, `floorStyle`, `floorTiles`,
+  `ceilingColor`, `shade`, `ovenLabel`; `oven.label(text)`, `oven.glass`, `oven.pane`), `space.js` (a
   round deck floating in space, stars above and below, a far sun lighting the planets from one side),
   `night.js` (a hilltop at night over a valley below: `drop`, `hills`, `ridge`, `paths`, `clearings`,
   `groundAt` for the scene), `workshop.js` (indoors at night: brick, flagstones, beams; gives its `brick`
@@ -124,6 +126,13 @@ at the same address.
   a bead and on sodium's atoms; his desk: a notebook of three pages (potassium, sodium, 1808; no words in
   his hand) and a Downs cell (1924) that runs when tapped.
 
+- Sodium, `kitchen` ("What makes a cake rise?", 2026-10-30): a sunny baking morning. The fizz test:
+  tap a glass (vinegar, lemon juice, water) and a jar (baking soda, baking powder): acids foam over,
+  soda in water only dissolves, baking powder fizzes in water too; two cakes: add yoghurt and soda to
+  either tin, bake, cut a slice (tall and holey, or flat and dense); heat alone: soda in a test tube over
+  a burner (a temperature slider) breaks down from about 80 °C, water drops, milky limewater, and red
+  cabbage juice turns blue with fresh soda, green with what is left (sodium carbonate).
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -177,6 +186,8 @@ at the same address.
 - A point light a few centimetres above a pale thing blooms the whole station view white: keep lights a
   metre away and dim.
 - From Git Bash, `shared_probe.py --world /e/...` needs `MSYS_NO_PATHCONV=1`, as `shot.py` does.
+- three.js hides an object only when `visible === false`: `visible = a && b` can give `null` and show it.
+  Use `!!(a && b)`.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
