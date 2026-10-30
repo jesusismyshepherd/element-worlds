@@ -10,8 +10,9 @@ Screenshots in tools/shots/shared/.
 With --world <path>, any world: Ana uses every exhibit in turn (the Atomling and the --skip ones aside),
 and after each one Bob's shared states must match hers (numbers within 2, for times like the balloons'
 flight); then Cid walks in late and must find them all as Ana has them. Exhibits whose use changed nothing
-shared are listed (a panel only, or one still to wire). --steps <file.json>: {"<path>": ["<js>", ...]}, more
-things for Ana to do there (a button in a panel), each followed by the same comparison.
+shared are listed (a panel only, or one still to wire). More things for Ana to do in a world (a button in a
+panel), each followed by the same comparison: tools/shared_steps/<area>.json, {"<path>": ["<js>", ...]},
+all read (or one file with --steps).
 
     py -3.11 tools/shared_probe.py [--base http://localhost:5317]
     py -3.11 tools/shared_probe.py --world /e/C/allotropes [--skip a,b] [--base ...]
@@ -35,7 +36,7 @@ def main():
     ap.add_argument('--base', default='http://localhost:5310')
     ap.add_argument('--world', help='check any world: every exhibit used, the states compared')
     ap.add_argument('--skip', default='', help='exhibit ids not to use (comma separated)')
-    ap.add_argument('--steps', help='a JSON file: {path: [js, ...]}, more things for Ana to do')
+    ap.add_argument('--steps', help='a JSON file: {path: [js, ...]}, more things for Ana to do (default: tools/shared_steps/*.json)')
     a = ap.parse_args()
     if a.world:
         return generic(a)
@@ -180,7 +181,8 @@ SAME = """(a, b) => {
 def generic(a):
     path = a.world
     skip = {s for s in a.skip.split(',') if s} | {'host'}
-    steps = json.loads(pathlib.Path(a.steps).read_text(encoding='utf-8')).get(path, []) if a.steps else []
+    files = [pathlib.Path(a.steps)] if a.steps else sorted((pathlib.Path(__file__).parent / 'shared_steps').glob('*.json'))
+    steps = [s for f in files for s in json.loads(f.read_text(encoding='utf-8')).get(path, [])]
     fails, errors, quiet = [], [], []
 
     def check(what, ok, detail=''):

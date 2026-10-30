@@ -56,7 +56,8 @@ export class SharedWorld {
   /** A world came on show at this address. */
   enter(w, path) {
     this.leave()
-    if (!w?.shared) return
+    // a world that shares nothing (a hall: its exhibits open panels, take you somewhere or talk) sends nothing
+    if (!w?.shared || !Object.keys(w.shared).length) return
     this.w = w
     this.path = path
     this.start()

@@ -54,6 +54,9 @@ games for more players, or for two with "the others ... spectators with possibil
   (`shared.enter(w, path)`, `leave`) and gives worlds `ctx.share(id)`. A world lists its things in `shared`
   (`{ id: { get, set(state, live) } }`); how a wing does it: `adding-a-wing.md`, "Shared with the room".
   The neon workshop shares all seven (bench, radon, name, atom, history, spectrum, balloons).
+- The halls share nothing: every exhibit there opens a panel, takes the player somewhere or talks, and
+  their moving pieces (the turntables, the big atom) run on each player's own clock. A world without
+  `shared` (or with an empty one) sends no messages; `shared_probe.py --world` stops at "shares things".
 - Per world address (`/e/Ne/signs` and `/e/He/signs` are two worlds). Each thing's state has a version that
   counts up across the room and who wrote it; the higher (v, by) wins everywhere.
 - Broadcasts: `w-set` (a change, played live), `w-hello` (I came in: tell me; with `parts` when sent by
