@@ -23,8 +23,7 @@ export const VALLEY_WORDS = {
     },
     valley: {
       label: 'The valley through time',
-      next: 'Move time on',
-      restart: 'Back to 1950',
+      slide: 'Slide the years',
       title: 'From orchards to chips',
       year: 'Year',
       today: 'today',
@@ -71,7 +70,7 @@ export const VALLEY_WORDS = {
       panel: {
         kid: [
           'In 1950 this valley south of San Francisco was one of the biggest fruit-growing places in the world: apricots, plums and cherries in orchards as far as you could see. People called it the Valley of Heart’s Delight.',
-          'Then people found that very pure silicon makes wonderful tiny electric switches, transistors. Companies to make them started here one after another, and new companies grew out of old ones. Move the years on with the lever, or with the slider here, and watch the trees give way to buildings, lights and cars.',
+          'Then people found that very pure silicon makes wonderful tiny electric switches, transistors. Companies to make them started here one after another, and new companies grew out of old ones. Slide the years here, or jump to a moment with its button, and watch the trees give way to buildings, lights and cars.',
           'In 1971 a journalist wrote about the place and called it Silicon Valley. The name stuck, even though no silicon is dug up there: the silicon is in what they make.',
         ],
         sci: [
@@ -83,6 +82,7 @@ export const VALLEY_WORDS = {
     },
     gate: {
       label: 'The switch',
+      tap: 'Tap the gate',
       on: 'Gate on',
       off: 'Gate off',
       title: 'A switch with no moving parts',
@@ -110,6 +110,7 @@ export const VALLEY_WORDS = {
     },
     chip: {
       label: 'The chip that counts',
+      tap: 'Tap the chip',
       grow: 'Today’s chip',
       back: 'Back to the 4004',
       title: 'From 2300 to billions',
@@ -140,7 +141,7 @@ export const VALLEY_WORDS = {
     },
     vial: {
       label: 'Berzelius’s silicon',
-      verb: 'Look',
+      tap: 'Tap the vial',
       tag: 'Berzelius, 1824',
       title: 'Where it started: a brown powder',
       says: {
@@ -179,8 +180,7 @@ export const VALLEY_WORDS = {
     },
     valley: {
       label: 'O vale ao longo do tempo',
-      next: 'Avançar no tempo',
-      restart: 'Voltar a 1950',
+      slide: 'Mover os anos',
       title: 'Dos pomares aos chips',
       year: 'Ano',
       today: 'hoje',
@@ -227,7 +227,7 @@ export const VALLEY_WORDS = {
       panel: {
         kid: [
           'Em 1950, este vale a sul de São Francisco era um dos maiores sítios de fruta do mundo: alperces, ameixas e cerejas em pomares a perder de vista. Chamavam-lhe «Valley of Heart’s Delight», o vale das delícias do coração.',
-          'Depois descobriu-se que o silício muito puro dá uns interruptores elétricos minúsculos fantásticos, os transístores. Começaram a nascer aqui empresas para os fazer, umas atrás das outras, e das empresas velhas nasciam novas. Avança os anos com a alavanca, ou com o cursor aqui, e vê as árvores darem lugar a prédios, luzes e carros.',
+          'Depois descobriu-se que o silício muito puro dá uns interruptores elétricos minúsculos fantásticos, os transístores. Começaram a nascer aqui empresas para os fazer, umas atrás das outras, e das empresas velhas nasciam novas. Mexe nos anos com o cursor aqui, ou salta para um momento com o seu botão, e vê as árvores darem lugar a prédios, luzes e carros.',
           'Em 1971, um jornalista escreveu sobre este sítio e chamou-lhe Silicon Valley, o Vale do Silício. O nome pegou, embora lá não se escave silício nenhum: o silício está no que lá se faz.',
         ],
         sci: [
@@ -239,6 +239,7 @@ export const VALLEY_WORDS = {
     },
     gate: {
       label: 'O interruptor',
+      tap: 'Tocar na porta',
       on: 'Ligar a porta',
       off: 'Desligar a porta',
       title: 'Um interruptor sem peças móveis',
@@ -266,6 +267,7 @@ export const VALLEY_WORDS = {
     },
     chip: {
       label: 'O chip que conta',
+      tap: 'Tocar no chip',
       grow: 'O chip de hoje',
       back: 'Voltar ao 4004',
       title: 'De 2300 a milhares de milhões',
@@ -296,7 +298,7 @@ export const VALLEY_WORDS = {
     },
     vial: {
       label: 'O silício de Berzelius',
-      verb: 'Ver',
+      tap: 'Tocar no frasco',
       tag: 'Berzelius, 1824',
       title: 'Onde tudo começou: um pó castanho',
       says: {
@@ -335,8 +337,7 @@ export const VALLEY_WORDS = {
     },
     valley: {
       label: 'Dolina w czasie',
-      next: 'Przesuń czas',
-      restart: 'Wróć do 1950',
+      slide: 'Przesuwaj lata',
       title: 'Od sadów do układów scalonych',
       year: 'Rok',
       today: 'dziś',
@@ -383,7 +384,7 @@ export const VALLEY_WORDS = {
       panel: {
         kid: [
           'W 1950 roku ta dolina na południe od San Francisco była jednym z największych sadowniczych miejsc na świecie: morele, śliwki i czereśnie w sadach, jak okiem sięgnąć. Nazywano ją „Valley of Heart’s Delight”, doliną radości serca.',
-          'Potem okazało się, że bardzo czysty krzem świetnie nadaje się na malutkie elektryczne przełączniki, tranzystory. Powstawały tu kolejne firmy, które je robiły, a ze starych firm wyrastały nowe. Przesuwaj lata dźwignią albo suwakiem tutaj i patrz, jak drzewa ustępują miejsca budynkom, światłom i samochodom.',
+          'Potem okazało się, że bardzo czysty krzem świetnie nadaje się na malutkie elektryczne przełączniki, tranzystory. Powstawały tu kolejne firmy, które je robiły, a ze starych firm wyrastały nowe. Przesuwaj lata suwakiem tutaj albo skocz do wybranej chwili jej przyciskiem i patrz, jak drzewa ustępują miejsca budynkom, światłom i samochodom.',
           'W 1971 roku pewien dziennikarz napisał o tym miejscu i nazwał je Doliną Krzemową, Silicon Valley. Nazwa przylgnęła, choć nikt tam nie wydobywa krzemu: krzem jest w tym, co się tam robi.',
         ],
         sci: [
@@ -395,6 +396,7 @@ export const VALLEY_WORDS = {
     },
     gate: {
       label: 'Przełącznik',
+      tap: 'Dotknij bramki',
       on: 'Włącz bramkę',
       off: 'Wyłącz bramkę',
       title: 'Przełącznik bez ruchomych części',
@@ -422,6 +424,7 @@ export const VALLEY_WORDS = {
     },
     chip: {
       label: 'Układ, który liczy',
+      tap: 'Dotknij układu',
       grow: 'Dzisiejszy układ',
       back: 'Wróć do 4004',
       title: 'Od 2300 do miliardów',
@@ -452,7 +455,7 @@ export const VALLEY_WORDS = {
     },
     vial: {
       label: 'Krzem Berzeliusa',
-      verb: 'Obejrzyj',
+      tap: 'Dotknij fiolki',
       tag: 'Berzelius, 1824',
       title: 'Tu się zaczęło: brązowy proszek',
       says: {
@@ -491,8 +494,7 @@ export const VALLEY_WORDS = {
     },
     valley: {
       label: 'Das Tal im Lauf der Zeit',
-      next: 'Dreh die Zeit weiter',
-      restart: 'Zurück nach 1950',
+      slide: 'Schieb die Jahre',
       title: 'Von Obstgärten zu Chips',
       year: 'Jahr',
       today: 'heute',
@@ -539,7 +541,7 @@ export const VALLEY_WORDS = {
       panel: {
         kid: [
           '1950 war dieses Tal südlich von San Francisco eines der größten Obstanbaugebiete der Welt: Aprikosen, Pflaumen und Kirschen in Obstgärten, so weit das Auge reichte. Man nannte es „Valley of Heart’s Delight“, das Tal der Herzensfreude.',
-          'Dann fand man heraus, dass sehr reines Silicium wunderbare winzige elektrische Schalter ergibt, Transistoren. Hier entstanden nacheinander Firmen, die sie herstellten, und aus alten Firmen wuchsen neue. Dreh die Jahre mit dem Hebel weiter, oder mit dem Schieberegler hier, und schau, wie die Bäume Gebäuden, Lichtern und Autos weichen.',
+          'Dann fand man heraus, dass sehr reines Silicium wunderbare winzige elektrische Schalter ergibt, Transistoren. Hier entstanden nacheinander Firmen, die sie herstellten, und aus alten Firmen wuchsen neue. Schieb die Jahre mit dem Schieberegler hier, oder spring mit einem Knopf zu einem Moment, und schau, wie die Bäume Gebäuden, Lichtern und Autos weichen.',
           '1971 schrieb ein Journalist über die Gegend und nannte sie Silicon Valley, das Siliciumtal. Der Name blieb, obwohl dort gar kein Silicium abgebaut wird: Das Silicium steckt in dem, was man dort macht.',
         ],
         sci: [
@@ -551,6 +553,7 @@ export const VALLEY_WORDS = {
     },
     gate: {
       label: 'Der Schalter',
+      tap: 'Tipp auf das Gate',
       on: 'Gate an',
       off: 'Gate aus',
       title: 'Ein Schalter ohne bewegliche Teile',
@@ -578,6 +581,7 @@ export const VALLEY_WORDS = {
     },
     chip: {
       label: 'Der Chip, der zählt',
+      tap: 'Tipp auf den Chip',
       grow: 'Der Chip von heute',
       back: 'Zurück zum 4004',
       title: 'Von 2300 zu Milliarden',
@@ -608,7 +612,7 @@ export const VALLEY_WORDS = {
     },
     vial: {
       label: 'Berzelius’ Silicium',
-      verb: 'Betrachte',
+      tap: 'Tipp auf das Fläschchen',
       tag: 'Berzelius, 1824',
       title: 'Wo alles anfing: ein braunes Pulver',
       says: {

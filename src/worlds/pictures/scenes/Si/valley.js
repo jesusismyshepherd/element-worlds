@@ -1,11 +1,14 @@
 // Silicon's picture "Why is a valley named after silicon?" as a room (docs/knowledge/picture-rooms.md): a
 // hilltop at night above the Santa Clara Valley, the picture's golden chip rising over the far hills like
-// a sun. Three things to do: a lever at the lookout runs the valley from its orchards of 1950 to today (the
-// moments light up: Shockley 1956, Fairchild 1957, Noyce's chip 1959, Intel 1968, the name in 1971); a
-// giant transistor on the hill switches a lamp (gate on, electrons flow from source to drain); the Intel
-// 4004's 2300 transistors as lights, zoomed out twice, each light a whole 4004, to a phone chip's 12
-// billion. Beside the path, Berzelius's brown silicon of 1824, where the story started. All three are
-// shared in a room (src/net/shared.js).
+// a sun. Three things to do, each worked by hand (the user's rule: tap the thing a step is about, a slider
+// for what varies smoothly; E opens the station's panel, whose buttons do the same): at the lookout the
+// years slide the valley from its orchards of 1950 to today (the moments light up: Shockley 1956,
+// Fairchild 1957, Noyce's chip 1959, Intel 1968, the name in 1971; tap the lever for the slider, a
+// moment's beam to go back to it); tapping the gate of a giant transistor switches a lamp (electrons flow
+// from source to drain); tapping the Intel 4004 (its 2300 transistors as lights) zooms out twice, each
+// light a whole 4004, to a phone chip's 12 billion. Beside the path, Berzelius's brown silicon of 1824,
+// where the story started, tells it when tapped. All three are shared in a room (src/net/shared.js);
+// `parts` has a helper for each tap, for the probes.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { canvasTex, at, clamp, lerp, damp, random, screen, hdr } from '../../../wings/noble/kit.js'
@@ -184,8 +187,12 @@ function chipSun() {
 
 // ---- the room ----
 
-export async function build({ ctx, root, E, ex, say, later, light, level, depth }) {
+export async function build({ ctx, root, E, W, ex, say, later, light, level, depth, clickable }) {
   const share = id => ctx.share?.(id)
+  // a panel open now is written again (its buttons follow the state)
+  const refreshPanel = make => {
+    if (ctx.store.get().panel?.make === make) ctx.showPanel(make)
+  }
   const updates = []
   const textures = []
   const rotT = Math.atan2(-T.x, -1.5 - T.z)
@@ -496,7 +503,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   })
   // 1971: the name, over the whole valley
   const banner = new THREE.Group()
-  const bannerTitle = makeText('SILICON VALLEY U.S.A.', { size: 1.7, color: hdr(GOLD, 1.5), anchorY: 'bottom' })
+  const bannerTitle = makeText('SILICON VALLEY U.S.A.', { size: 1.7, color: hdr(GOLD, 1.5), anchorY: 'bottom', maxWidth: 16 })
   const bannerLine = makeText(E.valley.paper, { size: 0.8, color: '#f4ecff', anchorY: 'top' })
   bannerLine.position.y = -0.15
   banner.add(bannerTitle, bannerLine)
@@ -572,11 +579,21 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   const byHand = v => {
     goTo(v, 'hand')
     shareSoon()
+    ex.discover('valley')
     const key = KEYS[stepIndex(target)]
     if (key !== told) {
       told = key
       say(at(E.valley.says[key], level()))
     }
+  }
+  // a moment chosen (its button, or its beam of light in the valley): the years run there
+  const jump = y => {
+    goTo(y, 'press')
+    play(y === 1950 ? 'tap' : 'select')
+    share('valley')
+    ex.discover('valley')
+    told = KEYS[stepIndex(y)]
+    say(at(E.valley.says[told], level()))
   }
   const valleyPanel = lv => ({
     title: E.valley.title,
@@ -594,28 +611,25 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
           onInput: byHand,
         },
       },
+      { buttons: STEPS.map(y => ({ label: y >= NOW ? E.valley.today : String(y), onClick: () => jump(y) })) },
       ...E.valley.panel[depth(lv)].map(p => ({ p })),
     ],
   })
+  const openValley = () => ctx.showPanel(valleyPanel)
   ex.add({
     id: 'valley',
+    manual: true,
     x: LOOK.x,
     z: LOOK.z,
     radius: 2.5,
     label: E.valley.label,
-    verb: () => (target >= NOW ? E.valley.restart : E.valley.next),
-    panel: valleyPanel,
-    panelDelay: 2.8,
+    verb: E.valley.slide,
     focus: { x: 0, y: -3.5, z: -40, size: 20 },
-    act: () => {
-      const next = target >= NOW ? 1950 : STEPS.find(s => s > target + 0.01)
-      goTo(next, 'press')
-      play(next === 1950 ? 'tap' : 'select')
-      share('valley')
-      told = KEYS[stepIndex(next)]
-      return at(E.valley.says[told], level())
-    },
+    act: openValley,
   })
+  // the lever opens the years; a moment's beam of light takes the valley back (or on) to it
+  clickable(consoleG, openValley)
+  for (const m of marks) if (!m.up) clickable(m.beam, () => jump(m.year), { when: () => m.shown > 0.05, reach: 90 })
 
   const o = new THREE.Object3D()
   let posed = -1
@@ -750,7 +764,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   add(new THREE.BoxGeometry(3.2, 1.0, 1.3), TM.si, 0, 1.0, 0)
   for (const s of [-1, 1]) add(new THREE.BoxGeometry(0.9, 0.4, 1.32), TM.n, s * 1.15, 1.3, 0)
   add(new THREE.BoxGeometry(1.5, 0.12, 1.3), TM.oxide, 0, 1.56, 0)
-  add(new THREE.BoxGeometry(1.3, 0.3, 1.2), TM.gate, 0, 1.77, 0)
+  const gateBox = add(new THREE.BoxGeometry(1.3, 0.3, 1.2), TM.gate, 0, 1.77, 0)
   // the channel: a sheet of electrons under the oxide while the gate is on
   const chanMat = new THREE.MeshBasicMaterial({ color: hdr('#5cc8ff', 1.6), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })
   add(new THREE.BoxGeometry(1.42, 0.07, 1.33), chanMat, 0, 1.46, 0)
@@ -781,7 +795,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   lampLight.position.set(1.95, 2.8, 0.3)
   tr.add(lampLight)
   // the gate's switch on top: a lever up (on) or down (off)
-  add(new RoundedBoxGeometry(0.42, 0.24, 0.24, 2, 0.04), new THREE.MeshStandardMaterial({ color: '#6e2a3a', roughness: 0.5 }), 0, 2.52, 0)
+  const switchBox = add(new RoundedBoxGeometry(0.42, 0.24, 0.24, 2, 0.04), new THREE.MeshStandardMaterial({ color: '#6e2a3a', roughness: 0.5 }), 0, 2.52, 0)
   const gateArm = new THREE.Group()
   gateArm.position.set(0, 2.64, 0)
   gateArm.add(new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.36, 0.05).translate(0, 0.18, 0), M.brass))
@@ -823,27 +837,36 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   let gateOn = false
   let onK = 0
   let flow = 0
+  const gatePanel = lv => ({
+    title: E.gate.title,
+    color: GOLD,
+    blocks: [{ buttons: [{ label: gateOn ? E.gate.off : E.gate.on, accent: true, onClick: () => tapGate() }] }, ...E.gate.panel[depth(lv)].map(q => ({ p: q }))],
+  })
   const setGate = (v, live) => {
     gateOn = v
     if (!live) onK = v ? 1 : 0
     else play(v ? 'join' : 'part')
+    refreshPanel(gatePanel)
+  }
+  // a tap on the gate (or its switch) flips it
+  const tapGate = () => {
+    setGate(!gateOn, true)
+    share('gate')
+    ex.discover('gate', gatePanel, 1.8)
+    say(at(gateOn ? E.gate.says.on : E.gate.says.off, level()))
   }
   ex.add({
     id: 'gate',
+    manual: true,
     x: useT.x,
     z: useT.z,
     radius: 2.3,
     label: E.gate.label,
-    verb: () => (gateOn ? E.gate.off : E.gate.on),
-    panel: lv => ({ title: E.gate.title, color: GOLD, blocks: E.gate.panel[depth(lv)].map(p => ({ p })) }),
-    panelDelay: 1.8,
+    verb: E.gate.tap,
     focus: { x: T.x, y: 1.7, z: T.z, size: 4.2 },
-    act: () => {
-      setGate(!gateOn, true)
-      share('gate')
-      return at(gateOn ? E.gate.says.on : E.gate.says.off, level())
-    },
+    act: () => ctx.showPanel(gatePanel),
   })
+  for (const thing of [gateBox, switchBox, gateArm]) clickable(thing, tapGate)
   const p = new THREE.Vector3()
   updates.push((dt, t) => {
     onK = damp(onK, gateOn ? 1 : 0, 5, dt)
@@ -987,29 +1010,41 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   kiosk.add(counter.group)
   let today = false
   let zk = 0 // 0: one 4004; 1: each light a 4004; 2: and again
+  const chipPanel = lv => ({
+    title: E.chip.title,
+    color: GOLD,
+    blocks: [{ buttons: [{ label: today ? E.chip.back : E.chip.grow, accent: true, onClick: () => tapChip() }] }, ...E.chip.panel[depth(lv)].map(q => ({ p: q }))],
+  })
   const setToday = (v, live) => {
     today = v
     if (!live) zk = v ? 2 : 0
     else play(v ? 'beam' : 'tap')
+    refreshPanel(chipPanel)
+  }
+  // a tap on the chip zooms out to today's count, or back to the 4004 (not while it is zooming)
+  const tapChip = () => {
+    if (zk > 0.001 && zk < 1.999) {
+      say(at(W.busy, level()))
+      return
+    }
+    setToday(!today, true)
+    share('chip')
+    ex.discover('chip', chipPanel, 5.0)
+    say(at(today ? E.chip.says.grow : E.chip.says.back, level()))
   }
   ex.add({
     id: 'chip',
+    manual: true,
     x: useC.x,
     z: useC.z,
     radius: 2.3,
     label: E.chip.label,
-    verb: () => (today ? E.chip.back : E.chip.grow),
-    panel: lv => ({ title: E.chip.title, color: GOLD, blocks: E.chip.panel[depth(lv)].map(q => ({ p: q })) }),
-    panelDelay: 5.0,
+    verb: E.chip.tap,
     screens: [counter],
     focus: { x: C.x, y: 1.5, z: C.z, size: 2.6 },
-    act: () => {
-      if (zk > 0.001 && zk < 1.999) return false
-      setToday(!today, true)
-      share('chip')
-      return at(today ? E.chip.says.grow : E.chip.says.back, level())
-    },
+    act: () => ctx.showPanel(chipPanel),
   })
+  for (const thing of [pkg, die, edge, counter.group]) clickable(thing, tapChip)
   let twinkle = 0
   let counted = ''
   let countAt = 0
@@ -1077,17 +1112,25 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
   tag.position.set(0, 0.72, 0.247)
   vial.add(pillar, rim, glass, powder, cork, plate, tag)
   const vialAt = ahead(VIAL, Math.atan2(-VIAL.x, 1), 0.9)
+  const vialPanel = lv => ({ title: E.vial.title, color: GOLD, blocks: E.vial.panel[depth(lv)].map(q => ({ p: q })) })
+  // tapped (or E), it tells where the story started
+  const tapVial = () => {
+    ex.discover('vial')
+    say(at(E.vial.says, level()))
+    ctx.showPanel(vialPanel)
+  }
   ex.add({
     id: 'vial',
+    manual: true,
     x: vialAt.x,
     z: vialAt.z,
     radius: 1.3,
     label: E.vial.label,
-    verb: E.vial.verb,
-    panel: lv => ({ title: E.vial.title, color: GOLD, blocks: E.vial.panel[depth(lv)].map(q => ({ p: q })) }),
+    verb: E.vial.tap,
     focus: { x: VIAL.x, y: 1.05, z: VIAL.z, size: 0.7 },
-    act: () => at(E.vial.says, level()),
+    act: tapVial,
   })
+  clickable(vial, tapVial, { reach: 3 })
 
   updates.push((dt, t) => stage.update(t))
 
@@ -1117,6 +1160,10 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
         get cars() {
           return carsOn
         },
+        // what the hand does, for the probes (shot.py cannot move the mouse)
+        slide: byHand,
+        moment: jump,
+        lever: openValley,
       },
       gate: {
         get on() {
@@ -1125,6 +1172,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
         get flow() {
           return onK
         },
+        tap: tapGate,
       },
       chip: {
         get today() {
@@ -1133,13 +1181,11 @@ export async function build({ ctx, root, E, ex, say, later, light, level, depth 
         get zoom() {
           return zk
         },
+        tap: tapChip,
       },
+      vial: { tap: tapVial },
     },
-    panels: {
-      valley: valleyPanel,
-      gate: lv => ({ title: E.gate.title, color: GOLD, blocks: E.gate.panel[depth(lv)].map(q => ({ p: q })) }),
-      chip: lv => ({ title: E.chip.title, color: GOLD, blocks: E.chip.panel[depth(lv)].map(q => ({ p: q })) }),
-    },
+    panels: { valley: valleyPanel, gate: gatePanel, chip: chipPanel, vial: vialPanel },
     shared: {
       valley: { get: () => ({ year: target }), set: (s, live) => goTo(s?.year, live ? 'remote' : 'jump') },
       gate: { get: () => ({ on: gateOn }), set: (s, live) => setGate(!!s?.on, live) },
