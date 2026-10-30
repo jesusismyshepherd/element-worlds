@@ -44,11 +44,10 @@ share it as tiles and E asks which). E: "Step in": the view dives into the pictu
 the place opens; coming back you stand in front of the board, facing the hall. Doorway boards count as
 one of the seven boards and are no discovery of their own (the place behind has its own).
 
-Next (Artur, 2026-10-30, on first seeing the boards: "how can I get inside these pictures?"): every picture
-board a doorway into its own scene, a picture room. The plan is the studio's item `picture-rooms`: small
-rooms from a shared kit of stages and parts (few kinds of material, so the first visit compiles few
-shaders and rooms share them), the board's story told inside, no size limit in the code; a room that grows
-popular or rich becomes a full wing at the same address. Pilot: Na `lamps`, Na `space`, Si `diatoms`.
+Picture rooms (Artur, 2026-10-30, on first seeing the boards: "how can I get inside these pictures?"): a
+picture with a scene file behind it says "Step in" and dives into its own room, the picture's story on an
+easel inside (`picture-rooms.md`). The user's rule: no picture without its room; silicon's `diatoms` was
+the first.
 
 ## The specimen case (2026-10-29)
 
@@ -104,7 +103,9 @@ Traps met:
 Write the seven stories in English first (each a context that makes you want to walk up: the element in
 you, in nature, in space, in history, in things you use), translate them (`translating.md`), draw the seven
 pictures (look at each one rendered, and at a contact sheet of all seven), then `npm test`,
-`tools/halls_probe.py <Symbol>` and a look in the hall.
+`tools/halls_probe.py <Symbol>` and a look in the hall. Each picture comes with its room (the user,
+2026-10-30: a picture on a wall always means you can step in): design the picture and its room together
+(`picture-rooms.md`).
 
 Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
 `tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`

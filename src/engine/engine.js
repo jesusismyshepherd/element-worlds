@@ -151,6 +151,8 @@ export class Engine {
     try {
       // a world built ahead (prewarm) is taken as it is
       const pre = this.pre?.key === key ? this.pre : null
+      if (pre) pre.taken = true
+      else if (this.pre) this.letGo(this.pre)
       this.pre = null
       next = pre ? await pre.ready : null
       t1 = performance.now()
@@ -194,10 +196,12 @@ export class Engine {
 
   /** Build a world ahead and compile its shaders in the background, so walking into it is quick
    *  (the first visit to a big wing spent 8 s compiling shaders on Windows; the browser keeps them for
-   *  the next visits). The hall calls this when the player walks toward an arch. One at a time. */
+   *  the next visits). The hall calls this when the player walks toward an arch or a picture. One at a
+   *  time: another place asked for lets the one built before go (a hall's pictures stand side by side). */
   prewarm(target) {
     const key = worldKey(target)
-    if (this.light || this.key === key || this.pre) return
+    if (this.light || this.key === key || this.pre?.key === key) return
+    if (this.pre) this.letGo(this.pre)
     const pre = { key }
     pre.ready = (async () => {
       try {
@@ -218,15 +222,19 @@ export class Engine {
     })()
     this.pre = pre
     // a prewarmed world nobody entered within a minute is let go
-    setTimeout(async () => {
-      if (this.pre !== pre) return
-      this.pre = null
-      const w = await pre.ready
-      if (w) {
-        w.dispose?.()
-        disposeTree(w.root)
-      }
+    setTimeout(() => {
+      if (this.pre === pre) this.letGo(pre)
     }, 60000)
+  }
+
+  /** Free a world built ahead that nobody entered (once it is ready: its shaders are compiled by then). */
+  async letGo(pre) {
+    if (this.pre === pre) this.pre = null
+    const w = await pre.ready
+    if (w && !pre.taken) {
+      w.dispose?.()
+      disposeTree(w.root)
+    }
   }
 
   /** Build the current world again (a new language: worlds write their words when built). */

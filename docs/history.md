@@ -6,6 +6,14 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-30
 
+- Stepping into the pictures (Artur, the first time he saw the halls' new picture boards: "How can I get
+  inside these pictures?"; the user marked it Sooner and set the rule: no picture without its room, new
+  pictures drawn with theirs): a picture with a scene behind it says "Step in" and dives into its own
+  room, the picture's story on an easel there, its frame behind you as the way back. One module for
+  every picture, a kit of shared pieces and stages (`picture-rooms.md`). The first: silicon's diatoms
+  (open the round diatom like a box, oxygen bubbling from diatoms in the sun, a family that shrinks with
+  each division until the smallest grows big again).
+
 - Doing things together in the worlds (the user: "I release the balloons in the neon chamber, all the
   players in the room see it too and share its state"; videos and popups stay each one's own): in a
   room, the things in a world are shared. Each world lists them; a change plays on everyone's screen in

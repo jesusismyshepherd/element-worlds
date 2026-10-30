@@ -4,6 +4,7 @@
 //   /e/C/allotropes        one of carbon's wings
 //   /lab                   the Molecule Lab;  /forge (?z=Fe) the Atom Forge
 // A new wing is one entry in WINGS and one module in wings/<element>/ (docs/knowledge/adding-a-wing.md).
+//   /e/Si/diatoms          the room inside one of the hall's pictures (pictures/, picture-rooms.md)
 import { element } from '../data/elements.js'
 
 export const WINGS = {
@@ -36,7 +37,8 @@ export function loadWorld(target) {
   if (target.kind === 'forge') return import('./forge/forge.js')
   if (target.kind === 'atrium') return import('./atrium/atrium.js')
   const wing = wingsOf(target.symbol).find(w => w.id === target.wing)
-  if (!wing) return Promise.reject(new Error(`no wing ${target.wing} for ${target.symbol}`))
+  // not a wing: the room inside one of the hall's pictures (pictures/, which says whether it has one)
+  if (!wing) return import('./pictures/room.js')
   return wing.load()
 }
 

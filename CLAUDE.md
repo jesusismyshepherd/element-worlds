@@ -41,7 +41,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `hud-layout.md` (the
   HUD's layout rule, covers and the view offset, full screen), `walking.md` (both views, the camera,
   `cameraClear`, panels and exhibits, things to click), `hall-boards.md` (the halls' fact file and picture
-  boards, Carbon and Oxygen first), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
+  boards, Carbon and Oxygen first), `picture-rooms.md` (stepping into a hall's pictures: the scene
+  contract, the stages, adding a room), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
   reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps), `accounts.md` (the
   Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
   helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `sound.md` (the
@@ -100,6 +101,9 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/worlds/wings/carbon/`, `oxygen/` (two worlds each), `noble/` (the neon sign workshop, one wing
   shared by the six noble gases, `/e/<Symbol>/signs`), `pv/` (the Periodic Videos rooms, `/e/<Symbol>/videos`,
   sodium's first): each folder's `README.md` maps its files.
+- `src/worlds/pictures/`: the rooms inside the halls' pictures (`/e/<Symbol>/<board id>`): `room.js` for
+  every picture, `kit.js`, `stages/`, `scenes/<Symbol>/<id>.js` (a scene file is what makes its picture a
+  door). Rule (the user, 2026-10-30): no picture without its room; new pictures come with theirs.
 - `tools/`: probes and helpers (`docs/knowledge/tools.md` says what each checks). The everyday ones:
   `shot.py <path>` (screenshots and console errors; `--base https://element-worlds.vercel.app` for the
   live site), `halls_probe.py` (all 118 halls, four languages, both depths), `hud_probe.py` (after any HUD
@@ -152,7 +156,8 @@ built: `docs/history.md`):
   time machine, search, "Who am I?", golden stars over elements with worlds of their own.
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
-  showpieces; the other 116 still have the eight text stations (`hall-boards.md`).
+  showpieces; the other 116 still have the eight text stations (`hall-boards.md`). A picture with a room
+  is stepped into (`picture-rooms.md`; silicon's diatoms first, 2026-10-30).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
   professor in it; a README in each folder). Using a station in third person looks through the Atomling's
@@ -167,6 +172,7 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next: the user's verdict on sodium's Periodic Videos room
-(the pilot, 2026-10-30: `periodic-videos.md`), then element by element each hall's picture boards and
-its room, the best-known elements first (`hall-boards.md`, "The other 116 halls").
+the phone), and what waits on the user. Next: a room behind every picture already on a wall (silicon's
+six, then sodium's, carbon's, oxygen's: `picture-rooms.md`); the user's verdict on sodium's Periodic
+Videos room (`periodic-videos.md`); then element by element each hall's pictures with their rooms and its
+video room, the best-known elements first (`hall-boards.md`, "The other 116 halls").

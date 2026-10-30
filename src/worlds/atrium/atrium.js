@@ -16,6 +16,7 @@ import { wallPanel, pictureBoard, arch, canvasTexture, portalMaterial } from '..
 import { loadBoards, boardArt } from '../../content/boards/index.js'
 import { factFileTexture } from './factFile.js'
 import { doorwayBoard } from './doors.js'
+import { hasRoom } from '../pictures/index.js'
 import { track } from '../../net/telemetry.js'
 import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
@@ -306,11 +307,14 @@ export async function build(ctx, target, previous) {
         }
         const title = inLang(b.title, lang)
         const wing = b.wing && wings.find(w => w.id === b.wing)
+        // a picture with a room behind it is stepped into (its story is told inside)
+        const room = hasRoom(el.symbol, b.id) ? b.id : null
         return {
           id: `board:${b.id}`,
+          room,
           board: pictureBoard({ url: boardArt(el.symbol, b.id), title, color: b.color, ...BOARD }),
           label: title,
-          verb: W.explore,
+          verb: room ? W.stepIn : W.explore,
           open: level => ({
             title,
             kicker: `${el.symbol} · ${nameOf(el, lang)}`,
@@ -368,6 +372,25 @@ export async function build(ctx, target, previous) {
       const mark = () => it.board.setRead(isFound(key))
       mark()
       marks.push(mark)
+      if (it.room) {
+        // the picture's room: the view dives into the picture (the room counts the picture as read)
+        const normal = front.clone().normalize()
+        const centre = new THREE.Vector3(spot.x, 2.2, spot.z).addScaledVector(normal, wallT / 2 + 0.06)
+        doorways[it.room] = { x: spot.x + front.x * 1.25, z: spot.z + front.z * 1.25, yaw: spot.rot + Math.PI }
+        boardDoors.push({ x: spot.x + front.x, z: spot.z + front.z, wing: it.room })
+        interactables.push({
+          id: it.id,
+          x: spot.x + front.x,
+          z: spot.z + front.z,
+          radius: 2.1,
+          label: it.label,
+          verb: it.verb,
+          focus,
+          onUse: () => ctx.engine.player.dive(centre, normal, () => ctx.go(wingPath(el.symbol, it.room))),
+        })
+        if (it.board.dispose) disposers.push(it.board.dispose)
+        return
+      }
       interactables.push({
         focus,
         id: it.id,
@@ -484,10 +507,11 @@ export async function build(ctx, target, previous) {
   solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 1.1))
 
   // where a player arrives: at the entrance, or in front of the arch of the wing it comes back from
-  const back = previous?.kind === 'wing' && previous.symbol === el.symbol ? wings.find(w => w.id === previous.wing) : null
+  const backId = previous?.kind === 'wing' && previous.symbol === el.symbol ? previous.wing : null
+  const back = backId ? wings.find(w => w.id === backId) : null
   const ARRIVE = { n: { x: 0, z: -5.2, yaw: Math.PI }, e: { x: 5.2, z: 0, yaw: Math.PI / 2 }, w: { x: -5.4, z: -1, yaw: -Math.PI / 2 } }
-  // (or out of the doorway board it went in by, facing the hall)
-  const arrival = back?.board && doorways[back.id] ? doorways[back.id] : back && !back.board ? ARRIVE[back.side] : { x: 0, z: 4.4, yaw: 0 }
+  // (or out of the doorway board or picture it went in by, facing the hall)
+  const arrival = doorways[backId] ?? (back && !back.board ? ARRIVE[back.side] : { x: 0, z: 4.4, yaw: 0 })
 
   // ---- light ----
   root.add(new THREE.HemisphereLight('#e4eaff', '#262c55', 1.25))
@@ -562,9 +586,14 @@ export async function build(ctx, target, previous) {
           ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: d.to.split('/').pop() })
         }
       }
+      // the boards stand close together: only the nearest one's place is built ahead
+      let near = null
+      let nearest = 5
       for (const d of boardDoors) {
-        if (Math.hypot(d.x - p.x, d.z - p.z) < 5) ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: d.wing })
+        const dist = Math.hypot(d.x - p.x, d.z - p.z)
+        if (dist < nearest) [near, nearest] = [d, dist]
       }
+      if (near) ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: near.wing })
     },
     dispose() {
       floorTex.dispose()

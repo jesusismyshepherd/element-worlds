@@ -43,8 +43,8 @@
     }
   ],
   "next": [
-    "periodic-videos",
     "picture-rooms",
+    "periodic-videos",
     "halls-116",
     "treasure-hunts",
     "scavenger-hunts",
@@ -148,17 +148,21 @@
       "code": "Pi",
       "title": "Step into the pictures",
       "kind": "halls",
-      "status": "next",
+      "status": "building",
       "from": "artur",
       "date": "2026-10-30",
       "summary": "Artur's first question when he saw the new boards: how do I get inside these pictures? Every picture board becomes a doorway, like the Periodic Videos one: you dive into the picture and stand inside its scene, a small place made from the picture itself, with one to three things to do and the board's story told there.",
-      "why": "Artur asked for it himself the moment he saw the boards. A pilot of three rooms first (sodium's street lamps, sodium 90 km up, silicon's diatoms: a place, the sky, the very small) settles the shared kit before the other halls multiply the boards; then the rooms follow the boards element by element.",
+      "why": "Artur asked for it himself the moment he saw the boards, and you marked it Sooner (2026-10-30). Silicon first: its six pictures each get their own room; from now on a new picture comes with its room, so a picture on a wall always means you can step in.",
       "details": [
         "A ladder of three steps. A picture room for every board, in time: a small scene around where you land, built from a shared kit of stages (a place indoors or outdoors, the sky and space, the very small, a moment in history) and parts, mostly written as data, with one to three things to do. A room that turns out loved (the family dashboard shows the visits) or whose subject keeps growing becomes a full wing like carbon's, at the same address, so nothing breaks. The big wings (carbon, oxygen, the neon signs) keep their arches.",
+        "Your rule (2026-10-30): no picture without its room. The pictures already on the walls (silicon, sodium, carbon, oxygen) get their rooms, silicon first; every new hall from now on is drawn and built picture and room together.",
+        "Built so far (2026-10-30): silicon's diatoms. You shrink to a diatom's size on a sunlit sea floor: open the round diatom like a box to see the living cell, let the sun in so boat diatoms bubble out oxygen, and divide a diatom family that gets smaller each time until the smallest grows big again. Next: silicon's other five pictures (solar cells, sand into glass, the Earth and Moon, Silicon Valley, silicone).",
         "No size limit in the code: a room can be any size or shape. The kit is there so that about seven hundred of them can be made at all, open quickly and run well on the phone.",
         "Size is not what slows things down: each world's code is fetched only when you go in (carbon's gallery 310 KB, a hall 45 KB) and freed when you leave. What costs is the first visit's shader compiling (1.2 to 3.9 s now; carbon's gallery needs 53 programs; rooms made from one kit share theirs, so the second room opens almost at once) and, on the phone, how much is drawn at once (lights, glass, particles).",
         "The board's story (four languages, both depths) is told inside, so a room adds only the words for its own things to do. Some existing ideas are rooms that grew: Aveiro's salt pans is sodium's salt board; Walk inside a chip could grow out of silicon's Silicon Valley board."
-      ]
+      ],
+      "link": "https://element-worlds.vercel.app/e/Si/diatoms",
+      "doc": "docs/knowledge/picture-rooms.md"
     },
     {
       "id": "treasure-hunts",
@@ -622,6 +626,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Step into the pictures: the diatoms",
+      "what": "Silicon's picture \"Who lives in a house made of glass?\" is a door now: inside, a sunlit sea floor where you open a diatom, make oxygen with sunlight and watch a diatom family shrink and grow big again.",
+      "link": "https://element-worlds.vercel.app/e/Si/diatoms"
+    },
     {
       "date": "2026-10-30",
       "title": "Doing things together in the worlds",

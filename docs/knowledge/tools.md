@@ -10,7 +10,8 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 ## Looking at it
 
 - `shot.py <path>`: screenshots of any address, with steps, and the console's errors. Run it before
-  calling 3D work done.
+  calling 3D work done. Its steps are split at every `;`, so a `js:` step holds no semicolon (no `for`
+  loop): `[1, 2].forEach(...)`, or an arrow function with commas.
 - `journey.py`: a whole visit through every wing and back.
 - `lineup.py`: the Atomlings page. `atomsheet.py`: contact sheets of Atomlings (each alone from several
   angles, or the page's rows) for judging them (`atomlings.md`).
