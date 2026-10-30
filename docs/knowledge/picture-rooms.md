@@ -41,7 +41,8 @@ in. The studio item is `picture-rooms`.
   round deck floating in space, stars above and below, a far sun lighting the planets from one side),
   `night.js` (a hilltop at night over a valley below: `drop`, `hills`, `ridge`, `paths`, `clearings`,
   `groundAt` for the scene), `workshop.js` (indoors at night: brick, flagstones, beams; gives its `brick`
-  and `firebrick` materials, UVs in metres). A room picks one
+  and `firebrick` materials, UVs in metres), `summit.js` (a dry desert summit at night like Paranal:
+  gravel, red path lamps, far ranges, a sea of clouds, the Milky Way, airglow). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -101,6 +102,12 @@ at the same address.
   from orange to clear and goes on the shelf; at the light bench the sand scatters the beam, the pane
   lets it through (its edge green with iron), the fibre carries it round its coil.
 
+- Sodium, `space` ("Sodium 90 km above your head", 2026-10-30): a mountaintop observatory at night.
+  Tap the launcher and a 589 nm laser climbs to a star at 90 km beside a height scale (80 to 105 km,
+  planes at 10 km); tap the deformable mirror and the twinkling star on the camera's screen sharpens (a
+  turbulence slider); tap anywhere in the sky for a shooting star that leaves a puff of sodium in the
+  layer, or the comet, Hale-Bopp, to name its dust, ion and sodium tails.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -141,6 +148,10 @@ at the same address.
 - A flat summit hides the valley below unless you stand near its edge: put the arrival near the edge or
   keep the drop small. A 10 m Earth seen from 9 m filled the screen: a station's `focus` only backs the
   eye off, so leave room for it.
+- A tap on something beyond its `reach` falls through to the clickable behind it (a tap on the laser
+  from the spawn sent a shooting star): give far things a reach that covers where people stand. A
+  tappable sky is an invisible BackSide sphere with a large reach and `accept: h => h.point.y > 30`.
+- Long 3D labels beside a station overflow an upright phone: keep them to short lines.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

@@ -58,5 +58,20 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('paneTap'); r() }, 1600))",
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('fibre'); r() }, 1600))",
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.light.tap('lamp'); r() }, 1600))"
+  ],
+  "/e/Na/space": [
+    "() => __ew.world.parts.laser.tap()",
+    "() => __ew.world.parts.ao.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.ao); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(0.8) }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.sky.tap(0.2, 0.7)",
+    "() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.sky.at(-0.6, 0.9))) }",
+    "() => __ew.world.parts.sky.shower()",
+    "() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.comet.at())) }",
+    "() => { __ew.showPanel(__ew.world.panels.sky); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick() }",
+    "() => { __ew.showPanel(__ew.world.panels.ao); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => { __ew.showPanel(__ew.world.panels.laser); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => __ew.world.parts.laser.tap()",
+    "() => __ew.world.parts.comet.tap()"
   ]
 }
