@@ -174,7 +174,8 @@ export function exhibitSet(ctx, { prefix, color, who, busy, later }) {
     const first = markFound(key)
     if (first) for (const s of marks[key] ?? []) s.setRead(true)
     report()
-    if (first && panel) later(delay, () => ctx.showPanel(panel))
+    // not over another station's panel the visitor opened meanwhile (sodium's nerve room, 2026-10-30)
+    if (first && panel) later(delay, () => !ctx.store.get().panel && ctx.showPanel(panel))
     return first
   }
   function add({ id, find = id, x, z, radius = 1.6, label, verb, act, panel, screens = [], panelDelay = 0, sayColor = null, manual = false, focus = null }) {

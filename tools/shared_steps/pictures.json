@@ -73,5 +73,17 @@
     "() => { __ew.showPanel(__ew.world.panels.laser); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
     "() => __ew.world.parts.laser.tap()",
     "() => __ew.world.parts.comet.tap()"
+  ],
+  "/e/Na/nerves": [
+    "() => __ew.world.parts.fire.tap()",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.pump.tap(); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fire.stim(8); __ew.world.parts.fire.tap(); r() }, 2800))",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.fire); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(25); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fire.tap(); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fire.tap(); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fire.tap(); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.race.tap(); r() }, 3600))",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.pump); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 1000))",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.race); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick(); r() }, 9500))"
   ]
 }

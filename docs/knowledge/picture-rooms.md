@@ -42,7 +42,9 @@ in. The studio item is `picture-rooms`.
   `night.js` (a hilltop at night over a valley below: `drop`, `hills`, `ridge`, `paths`, `clearings`,
   `groundAt` for the scene), `workshop.js` (indoors at night: brick, flagstones, beams; gives its `brick`
   and `firebrick` materials, UVs in metres), `summit.js` (a dry desert summit at night like Paranal:
-  gravel, red path lamps, far ranges, a sea of clouds, the Milky Way, airglow). A room picks one
+  gravel, red path lamps, far ranges, a sea of clouds, the Milky Way, airglow), `body.js` (the warm
+  fluid between cells, seen very small; exports `ionCloud`, `ionTexture`, `softGlow`, `ION_LOOK`: labelled
+  ions that face the eye, one draw call per kind). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -108,6 +110,12 @@ at the same address.
   turbulence slider); tap anywhere in the sky for a shooting star that leaves a puff of sodium in the
   layer, or the comet, Hale-Bopp, to name its dust, ion and sodium tails.
 
+- Sodium, `nerves` ("How does your brain send a message?", 2026-10-30): beside a giant nerve fibre in
+  the fluid between cells. Tap the nerve cell: Na+ gates open, Na+ pours in, a voltmeter traces the spike
+  (−70 to about +30 mV in about 1 ms; a push slider shows all or nothing), K+ flows out, the signal jumps
+  node to node; after three messages the nerve is tired until the golden Na+/K+ pump is worked (each tap
+  one cycle: 3 Na+ out, 2 K+ in, one ATP); a race of a bare fibre and a myelinated one over 1 m.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -152,6 +160,10 @@ at the same address.
   from the spawn sent a shooting star): give far things a reach that covers where people stand. A
   tappable sky is an invisible BackSide sphere with a large reach and `accept: h => h.point.y > 30`.
 - Long 3D labels beside a station overflow an upright phone: keep them to short lines.
+- The prompt reads "verb: label", so a hint must hold no colon of its own.
+- A station's first-discovery panel (`ex.discover` with a delay) opened over another station's panel
+  the visitor had opened meanwhile: `discover` now opens it only when no panel is open.
+- Station views are close: keep floating things out of the strip between the visitor and the screens.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
