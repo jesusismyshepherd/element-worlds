@@ -1331,7 +1331,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
         r.t = 0
         const pl = ctx.engine.player?.pos
         const near = pl && Math.hypot(pl.x - VP.x, pl.z - VP.z) < 7.5
-        if (age - FLIGHT < 9 || listenT > 0 || near) play('tap')
+        if (age - FLIGHT < 9 || listenT > 0 || near) play('beep')
       }
     }
     for (const r of rings) {

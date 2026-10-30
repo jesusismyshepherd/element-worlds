@@ -13,6 +13,10 @@ and the user's requests behind them. Add a line here when a piece of work change
   every picture, a kit of shared pieces and stages (`picture-rooms.md`). The first: silicon's diatoms
   (open the round diatom like a box, oxygen bubbling from diatoms in the sun, a family that shrinks with
   each division until the smallest grows big again).
+  Then (the user: choosing each step by touching its thing beats pressing E again and again; a slider
+  for what changes smoothly), every station worked by hand (`clickable` in picture rooms), and silicon's
+  solar hilltop (the sun's slider, photons fired at a giant cell, Vanguard 1 launched) and silicone
+  kitchen (the tray that bends, the bar that snaps, the putty, the chain frozen and shaken).
 
 - Doing things together in the worlds (the user: "I release the balloons in the neon chamber, all the
   players in the room see it too and share its state"; videos and popups stay each one's own): in a

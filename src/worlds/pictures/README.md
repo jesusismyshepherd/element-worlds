@@ -7,7 +7,9 @@ The room inside one of a hall's pictures, stepped into from the board (`docs/kno
   the easel with the picture's story, the Atomling, discoveries, the shared things.
 - `kit.js`: `frameDoor`, `storyStand`, `motes`, `ringWall`, `ease`.
 - `words.js`: the words every room shares (four languages).
-- `stages/`: places a scene stands in. `water.js`: shallow sunlit sea, seen from the sea floor.
-- `scenes/<Symbol>/<id>.js` + `<id>.words.js`: a picture's room and its words. Silicon: `diatoms`.
+- `stages/`: places a scene stands in. `water.js`: shallow sunlit sea, seen from the sea floor;
+  `meadow.js`: a grassy hilltop, its sky following the sun; `kitchen.js`: a cosy tiled kitchen.
+- `scenes/<Symbol>/<id>.js` + `<id>.words.js`: a picture's room and its words. Silicon: `diatoms`, `solar`,
+  `silicone`.
 - `pictures.test.js`: every room stands behind a real picture; its words in four languages, the same
   shape, both depths, no em dashes.

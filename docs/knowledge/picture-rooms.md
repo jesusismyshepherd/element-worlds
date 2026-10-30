@@ -34,9 +34,14 @@ in. The studio item is `picture-rooms`.
   does the step (count its find with `ex.discover`, share it, say the line). Each step is chosen by
   touching its thing; a smooth quantity is a slider in the station's panel; the panel's buttons do the
   same steps for E and the probes.
-- Stages, one file each in `pictures/stages/`: `water.js` (sunlit shallow sea, from the sea floor). A
-  room picks one or builds its own; a new kind of place becomes a new stage file so the next room can
-  use it.
+- Stages, one file each in `pictures/stages/`: `water.js` (sunlit shallow sea, from the sea floor),
+  `meadow.js` (a grassy hilltop whose sky follows the sun: day, dusk, stars at night), `kitchen.js` (a
+  cosy tiled kitchen: counters round the room, a wall oven, a fridge-freezer, a window). A room picks one
+  or builds its own; a new kind of place becomes a new stage file so the next room can use it.
+- A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
+  each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
+  scene's `parts` a helper per tap (`parts.tap('tray')`, `parts.gate.tap()`) so probes can do what a tap
+  does; `tools/shared_steps/pictures.json` drives them in the shared probe.
 - `pictures/kit.js`: `frameDoor`, `storyStand`, `motes`, `ringWall` (a round edge), `ease`. Exhibits use
   the neon workshop's kit (`wings/noble/kit.js`: `exhibitSet`, `canvasTex`, `at`, `damp`, ...).
 - Words: `scenes/<Symbol>/<id>.words.js`, all four languages, kid and sci, the same shape as the English
@@ -60,7 +65,20 @@ at the same address.
   diatom opens like a box and its lid (the golden-brown cell inside, seen through the pores while closed);
   boat diatoms in a sunbeam give off oxygen, O2 rising; a diatom family shrinks by 0.84 with each
   division (the MacDonald-Pfitzer rule) until the smallest leaves its glass, swells into an auxospore and
-  becomes a full-size diatom again.
+  becomes a full-size diatom again. Worked by hand: tap the round diatom, the boats or their sunbeam,
+  the family.
+- Silicon, `solar` ("How does sunlight become electricity?", 2026-10-30): a grassy hilltop. The panel
+  wired to a meter and a bulb, the sun moved by a time-of-day slider (the user liked the slider far more
+  than stepping through times with E) and a cloud to tap; inside a giant cut-away cell (n layer with
+  phosphorus, p layer with boron, the junction), four lamps to tap fire photons: red, green and blue free
+  an electron that goes round through a little bulb, blue's extra energy glows as heat, infrared passes
+  through; Vanguard 1 launched from its pad (tap the rocket), orbiting a globe and beeping, at real size
+  beside a grapefruit.
+- Silicon, `silicone` ("Is your cake mould made of silicon?", 2026-10-30): a kitchen at night. Tap the
+  silicone tray (it bends, the muffins pop out), the silicon bar (it snaps), the oven (220 °C) and the
+  freezer (−18 °C): the tray stays bendy; the bouncing putty thrown, pulled slowly (a strand), pulled
+  fast (it snaps), left alone (it sags, sped up); a giant PDMS chain in the picture's magnifier with a
+  temperature slider: stiff below about −125 °C, wiggling harder the warmer, holding at 250 °C.
 
 ## Adding a room
 
@@ -88,6 +106,13 @@ at the same address.
   `[1, 2, 3].forEach(...)` or an arrow function with commas.
 - Chloroplasts set out in neat rings read as a printed pattern, not a living cell: scatter them (a golden
   angle spiral).
+- Facts with dates: Vanguard 1's battery radio stopped "after about 20 days" in one source and "June
+  1958" in others; where sources disagree, say only what they share ("in 1958").
+- A home-made ring mesh (a hilltop's rim, a road) must be wound counter-clockwise seen from above, or it
+  is culled and the sky shows through.
+- Through `heavy.py`, a `bash -c` command starts WSL's bash and fails: pass the probe's own command.
+- In a probe, `player.use()` does not move the view to a new station while the last one is still
+  active, even after a teleport: call the tap helper in `parts` instead.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

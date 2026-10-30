@@ -145,6 +145,7 @@ export async function build(ctx, target) {
     floor: st.floor,
     cameraBounds: st.cameraBounds,
     cameraClear: st.cameraClear,
+    cameraPitchMax: st.cameraPitchMax,
     interactables: [...ex.list, host],
     doors,
     talk,

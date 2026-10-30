@@ -186,6 +186,8 @@ export function play(kind, { order = 1 } = {}) {
     // a pop for each hand taken, higher for a double or triple bond
     tone(NOTE(67 + order * 5), 0.14, { type: 'triangle', gain: 0.22, to: NOTE(72 + order * 5) })
   } else if (kind === 'part') tone(NOTE(74), 0.18, { type: 'triangle', gain: 0.16, to: NOTE(62) })
+  // a satellite's radio beacon (silicon's solar picture room: Vanguard 1)
+  else if (kind === 'beep') tone(NOTE(81), 0.12, { type: 'square', gain: 0.05 })
   // the Atom Forge: a particle joins (a proton rings higher than a neutron, an electron chirps)
   else if (kind === 'proton') tone(NOTE(67), 0.13, { type: 'triangle', gain: 0.2, to: NOTE(72) })
   else if (kind === 'neutron') tone(NOTE(60), 0.13, { type: 'triangle', gain: 0.17, to: NOTE(62) })

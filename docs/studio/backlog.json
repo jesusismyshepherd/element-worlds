@@ -156,7 +156,7 @@
       "details": [
         "A ladder of three steps. A picture room for every board, in time: a small scene around where you land, built from a shared kit of stages (a place indoors or outdoors, the sky and space, the very small, a moment in history) and parts, mostly written as data, with one to three things to do. A room that turns out loved (the family dashboard shows the visits) or whose subject keeps growing becomes a full wing like carbon's, at the same address, so nothing breaks. The big wings (carbon, oxygen, the neon signs) keep their arches.",
         "Your rule (2026-10-30): no picture without its room. The pictures already on the walls (silicon, sodium, carbon, oxygen) get their rooms, silicon first; every new hall from now on is drawn and built picture and room together.",
-        "Built so far (2026-10-30): silicon's diatoms. You shrink to a diatom's size on a sunlit sea floor: open the round diatom like a box to see the living cell, let the sun in so boat diatoms bubble out oxygen, and divide a diatom family that gets smaller each time until the smallest grows big again. Next: silicon's other five pictures (solar cells, sand into glass, the Earth and Moon, Silicon Valley, silicone).",
+        "Built so far (2026-10-30): silicon's diatoms (shrunk on a sunlit sea floor: open a diatom, oxygen in the sun, a family that shrinks and grows big again), solar (a hilltop: move the sun with a slider, fire light at a giant solar cell, launch Vanguard 1) and silicone (a kitchen: bend the tray, snap the silicon, the bouncing putty, a silicone chain frozen and warmed). Coming: the glassblower's workshop, the Earth and Moon from space, Silicon Valley.",
         "No size limit in the code: a room can be any size or shape. The kit is there so that about seven hundred of them can be made at all, open quickly and run well on the phone.",
         "Size is not what slows things down: each world's code is fetched only when you go in (carbon's gallery 310 KB, a hall 45 KB) and freed when you leave. What costs is the first visit's shader compiling (1.2 to 3.9 s now; carbon's gallery needs 53 programs; rooms made from one kit share theirs, so the second room opens almost at once) and, on the phone, how much is drawn at once (lights, glass, particles).",
         "The board's story (four languages, both depths) is told inside, so a room adds only the words for its own things to do. Some existing ideas are rooms that grew: Aveiro's salt pans is sodium's salt board; Walk inside a chip could grow out of silicon's Silicon Valley board."
@@ -639,6 +639,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-30",
+      "title": "Step into the pictures: the solar hilltop and the silicone kitchen",
+      "what": "Two more of silicon's pictures are doors: a hilltop where you move the sun across the sky, fire light into a giant solar cell and launch Vanguard 1; a kitchen where the silicone tray bends, the silicon snaps and the putty bounces, stretches and sags.",
+      "link": "https://element-worlds.vercel.app/e/Si/solar"
+    },
     {
       "date": "2026-10-30",
       "title": "Step into the pictures: the diatoms",

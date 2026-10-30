@@ -1,0 +1,35 @@
+{
+  "/e/Si/solar": [
+    "() => { __ew.showPanel(__ew.world.panels.panel); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(0.5) }",
+    "() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.sun.cloudAt())) }",
+    "() => { __ew.showPanel(__ew.world.panels.panel); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick() }",
+    "() => { __ew.teleport(2.75, -0.07, -0.813, 0); const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.cell.lampAt('blue'))) }",
+    "() => { __ew.showPanel(__ew.world.panels.cell); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick() }",
+    "() => { __ew.teleport(1.2, -5.9, 0, 0); const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.vanguard.rocketAt())) }",
+    "() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.vanguard.satAt())) }",
+    "() => { __ew.showPanel(__ew.world.panels.vanguard); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }"
+  ],
+  "/e/Si/silicone": [
+    "() => __ew.world.parts.tap('tray')",
+    "() => __ew.world.parts.tap('putty')",
+    "() => { __ew.showPanel(__ew.world.panels.chain); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(150) }",
+    "() => __ew.world.parts.tap('silicon')",
+    "() => __ew.world.parts.tap('slow')",
+    "() => __ew.world.parts.tap('oven')",
+    "() => __ew.world.parts.tap('fast')",
+    "() => { __ew.showPanel(__ew.world.panels.chain); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(-130) }",
+    "() => __ew.world.parts.tap('timer')",
+    "() => __ew.world.parts.tap('freezer')",
+    "() => { __ew.showPanel(__ew.world.panels.putty); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => { __ew.showPanel(__ew.world.panels.tray); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }"
+  ],
+  "/e/Si/valley": [
+    "() => __ew.world.parts.valley.slide(1963)",
+    "() => __ew.world.parts.valley.moment(1971)",
+    "() => __ew.world.parts.gate.tap()",
+    "() => __ew.world.parts.chip.tap()",
+    "() => __ew.world.parts.vial.tap()",
+    "() => __ew.world.parts.valley.slide(2004)",
+    "() => __ew.world.parts.gate.tap()"
+  ]
+}

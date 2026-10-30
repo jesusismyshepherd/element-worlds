@@ -103,15 +103,15 @@ export const SOLAR_WORDS = {
       says: {
         launch: { kid: 'Three, two, one... liftoff! Watch it climb to the Earth up there.', sci: '17 March 1958, Cape Canaveral: a three-stage Vanguard rocket lifts off.' },
         orbit: { kid: 'It is in orbit! Hear the beeps? Its radio runs on sunlight from six little solar cells.', sci: 'In orbit, 654 by 3969 km above the Earth, once round every 134 minutes. The beacon at 108.03 MHz runs on six solar cells.' },
-        listen: { kid: 'Beep, beep: that is its radio. It kept going on sunlight for six years, until 1964.', sci: 'The solar-powered beacon (5 mW) was heard until May 1964; the battery-powered transmitter (10 mW) fell silent after about 20 days.' },
+        listen: { kid: 'Beep, beep: that is its radio. It kept going on sunlight for six years, until 1964.', sci: 'The solar-powered beacon (5 mW) was heard until May 1964; the battery-powered transmitter (10 mW) fell silent in 1958.' },
       },
       panel: {
         kid: [
           'Vanguard 1 is a ball of aluminium about 16 cm across, with six thin aerials and six little silicon solar cells on its body. It weighs about one and a half kilograms. It was so small that a Soviet leader made fun of it and called it the grapefruit satellite. See it at real size beside the launch pad.',
-          'It went up on 17 March 1958, the first satellite to run on sunlight. Its battery radio went quiet within a few weeks, but the solar radio kept beeping until 1964. Vanguard 1 is still up there today, the oldest human-made thing in orbit, and scientists think it will stay up for about 240 years in all.',
+          'It went up on 17 March 1958, the first satellite to run on sunlight. Its battery radio went quiet the same year, but the solar radio kept beeping until 1964. Vanguard 1 is still up there today, the oldest human-made thing in orbit, and scientists think it will stay up for about 240 years in all.',
         ],
         sci: [
-          'Built by the US Naval Research Laboratory: an aluminium sphere about 16 cm across and about 1.5 kg, with six 30 cm aerials. A 10 mW, 108 MHz transmitter ran on a mercury battery and fell silent after about 20 days; a 5 mW, 108.03 MHz beacon ran on six silicon solar cells and was heard until May 1964. It was the fourth satellite, after Sputnik 1 and 2 and Explorer 1, and the first with solar power.',
+          'Built by the US Naval Research Laboratory: an aluminium sphere about 16 cm across and about 1.5 kg, with six 30 cm aerials. A 10 mW, 108 MHz transmitter ran on a mercury battery and fell silent in 1958; a 5 mW, 108.03 MHz beacon ran on six silicon solar cells and was heard until May 1964. It was the fourth satellite, after Sputnik 1 and 2 and Explorer 1, and the first with solar power.',
           'Its first orbit was 654 by 3969 km, inclined 34.25°, once round every 134 minutes. Tracking that orbit showed that the Earth is very slightly pear-shaped. Vanguard 1 and its third stage are the oldest human-made objects still in orbit; it is expected to stay up for about 240 years in all.',
         ],
       },
@@ -216,15 +216,15 @@ export const SOLAR_WORDS = {
       says: {
         launch: { kid: 'Três, dois, um... descolagem! Vê-o subir até à Terra lá em cima.', sci: '17 de março de 1958, Cabo Canaveral: um foguetão Vanguard de três andares descola.' },
         orbit: { kid: 'Está em órbita! Ouves os bipes? O rádio dele funciona com a luz do Sol de seis pequenas células solares.', sci: 'Em órbita, entre 654 e 3969 km acima da Terra, uma volta a cada 134 minutos. O emissor de 108,03 MHz funciona com seis células solares.' },
-        listen: { kid: 'Bip, bip: é o rádio dele. Continuou a funcionar com a luz do Sol durante seis anos, até 1964.', sci: 'O emissor solar (5 mW) ouviu-se até maio de 1964; o emissor a pilha (10 mW) calou-se ao fim de cerca de 20 dias.' },
+        listen: { kid: 'Bip, bip: é o rádio dele. Continuou a funcionar com a luz do Sol durante seis anos, até 1964.', sci: 'O emissor solar (5 mW) ouviu-se até maio de 1964; o emissor a pilha (10 mW) calou-se em 1958.' },
       },
       panel: {
         kid: [
           'O Vanguard 1 é uma bola de alumínio com cerca de 16 cm, com seis antenas finas e seis pequenas células solares de silício no corpo. Pesa cerca de quilo e meio. Era tão pequeno que um líder soviético fez troça dele e lhe chamou o satélite toranja. Vê-o em tamanho real ao lado da rampa de lançamento.',
-          'Subiu a 17 de março de 1958, o primeiro satélite a funcionar com a luz do Sol. O rádio a pilha calou-se em poucas semanas, mas o rádio solar continuou a apitar até 1964. O Vanguard 1 ainda lá está hoje, a coisa feita pelo ser humano há mais tempo em órbita, e os cientistas pensam que vai ficar lá em cima cerca de 240 anos ao todo.',
+          'Subiu a 17 de março de 1958, o primeiro satélite a funcionar com a luz do Sol. O rádio a pilha calou-se nesse mesmo ano, mas o rádio solar continuou a apitar até 1964. O Vanguard 1 ainda lá está hoje, a coisa feita pelo ser humano há mais tempo em órbita, e os cientistas pensam que vai ficar lá em cima cerca de 240 anos ao todo.',
         ],
         sci: [
-          'Construído pelo Laboratório de Investigação Naval dos EUA: uma esfera de alumínio com cerca de 16 cm e cerca de 1,5 kg, com seis antenas de 30 cm. Um emissor de 10 mW e 108 MHz funcionava com uma pilha de mercúrio e calou-se ao fim de cerca de 20 dias; um emissor de 5 mW e 108,03 MHz funcionava com seis células solares de silício e ouviu-se até maio de 1964. Foi o quarto satélite, depois do Sputnik 1 e 2 e do Explorer 1, e o primeiro com energia solar.',
+          'Construído pelo Laboratório de Investigação Naval dos EUA: uma esfera de alumínio com cerca de 16 cm e cerca de 1,5 kg, com seis antenas de 30 cm. Um emissor de 10 mW e 108 MHz funcionava com uma pilha de mercúrio e calou-se em 1958; um emissor de 5 mW e 108,03 MHz funcionava com seis células solares de silício e ouviu-se até maio de 1964. Foi o quarto satélite, depois do Sputnik 1 e 2 e do Explorer 1, e o primeiro com energia solar.',
           'A primeira órbita foi de 654 por 3969 km, com inclinação de 34,25°, uma volta a cada 134 minutos. Seguir essa órbita mostrou que a Terra tem uma forma muito ligeiramente de pera. O Vanguard 1 e o seu terceiro andar são os objetos feitos pelo ser humano há mais tempo em órbita; espera-se que fique lá em cima cerca de 240 anos ao todo.',
         ],
       },
@@ -329,15 +329,15 @@ export const SOLAR_WORDS = {
       says: {
         launch: { kid: 'Trzy, dwa, jeden... start! Patrz, jak leci do Ziemi tam w górze.', sci: '17 marca 1958, Przylądek Canaveral: startuje trzystopniowa rakieta Vanguard.' },
         orbit: { kid: 'Jest na orbicie! Słyszysz piszczenie? Jego radio działa na światło słoneczne z sześciu małych ogniw.', sci: 'Na orbicie, od 654 do 3969 km nad Ziemią, jedno okrążenie co 134 minuty. Nadajnik 108,03 MHz zasilają ogniwa słoneczne.' },
-        listen: { kid: 'Pip, pip: to jego radio. Działało na światło słoneczne przez sześć lat, aż do 1964 roku.', sci: 'Nadajnik słoneczny (5 mW) było słychać do maja 1964; nadajnik na baterię (10 mW) zamilkł po około 20 dniach.' },
+        listen: { kid: 'Pip, pip: to jego radio. Działało na światło słoneczne przez sześć lat, aż do 1964 roku.', sci: 'Nadajnik słoneczny (5 mW) było słychać do maja 1964; nadajnik na baterię (10 mW) zamilkł w 1958 roku.' },
       },
       panel: {
         kid: [
           'Vanguard 1 to aluminiowa kula o średnicy około 16 cm, z sześcioma cienkimi antenami i sześcioma małymi krzemowymi ogniwami słonecznymi. Waży około półtora kilograma. Był tak mały, że pewien radziecki przywódca nabijał się z niego i nazwał go satelitą grejpfrutem. Zobacz go w prawdziwej wielkości obok wyrzutni.',
-          'Poleciał 17 marca 1958 roku jako pierwszy satelita zasilany światłem słonecznym. Radio na baterię zamilkło po kilku tygodniach, ale radio słoneczne piszczało aż do 1964 roku. Vanguard 1 wciąż tam jest, to najstarsza zbudowana przez ludzi rzecz na orbicie, a naukowcy sądzą, że zostanie tam w sumie około 240 lat.',
+          'Poleciał 17 marca 1958 roku jako pierwszy satelita zasilany światłem słonecznym. Radio na baterię zamilkło jeszcze tego samego roku, ale radio słoneczne piszczało aż do 1964 roku. Vanguard 1 wciąż tam jest, to najstarsza zbudowana przez ludzi rzecz na orbicie, a naukowcy sądzą, że zostanie tam w sumie około 240 lat.',
         ],
         sci: [
-          'Zbudowany przez Laboratorium Badawcze Marynarki Wojennej USA: aluminiowa kula o średnicy około 16 cm i masie około 1,5 kg, z sześcioma antenami po 30 cm. Nadajnik 10 mW na 108 MHz zasilała bateria rtęciowa; zamilkł po około 20 dniach. Nadajnik 5 mW na 108,03 MHz zasilało sześć krzemowych ogniw słonecznych; było go słychać do maja 1964. Był czwartym satelitą, po Sputnikach 1 i 2 oraz Explorerze 1, i pierwszym z zasilaniem słonecznym.',
+          'Zbudowany przez Laboratorium Badawcze Marynarki Wojennej USA: aluminiowa kula o średnicy około 16 cm i masie około 1,5 kg, z sześcioma antenami po 30 cm. Nadajnik 10 mW na 108 MHz zasilała bateria rtęciowa; zamilkł w 1958 roku. Nadajnik 5 mW na 108,03 MHz zasilało sześć krzemowych ogniw słonecznych; było go słychać do maja 1964. Był czwartym satelitą, po Sputnikach 1 i 2 oraz Explorerze 1, i pierwszym z zasilaniem słonecznym.',
           'Jego pierwsza orbita miała 654 na 3969 km, nachylenie 34,25°, jedno okrążenie co 134 minuty. Śledzenie tej orbity pokazało, że Ziemia ma bardzo lekko gruszkowaty kształt. Vanguard 1 i jego trzeci stopień to najstarsze zbudowane przez ludzi obiekty, które wciąż są na orbicie; ma tam pozostać w sumie około 240 lat.',
         ],
       },
@@ -442,15 +442,15 @@ export const SOLAR_WORDS = {
       says: {
         launch: { kid: 'Drei, zwei, eins... Start! Schau, wie er zur Erde da oben hinaufsteigt.', sci: '17. März 1958, Cape Canaveral: Eine dreistufige Vanguard-Rakete hebt ab.' },
         orbit: { kid: 'Er ist in der Umlaufbahn! Hörst du das Piepen? Sein Funkgerät läuft mit Sonnenlicht aus sechs kleinen Solarzellen.', sci: 'In der Umlaufbahn, 654 bis 3969 km über der Erde, eine Runde alle 134 Minuten. Der Sender auf 108,03 MHz läuft mit sechs Solarzellen.' },
-        listen: { kid: 'Piep, piep: Das ist sein Funkgerät. Es lief sechs Jahre lang mit Sonnenlicht, bis 1964.', sci: 'Der solarbetriebene Sender (5 mW) war bis Mai 1964 zu hören; der batteriebetriebene (10 mW) verstummte nach etwa 20 Tagen.' },
+        listen: { kid: 'Piep, piep: Das ist sein Funkgerät. Es lief sechs Jahre lang mit Sonnenlicht, bis 1964.', sci: 'Der solarbetriebene Sender (5 mW) war bis Mai 1964 zu hören; der batteriebetriebene (10 mW) verstummte 1958.' },
       },
       panel: {
         kid: [
           'Vanguard 1 ist eine Kugel aus Aluminium, etwa 16 cm groß, mit sechs dünnen Antennen und sechs kleinen Solarzellen aus Silicium auf seinem Körper. Er wiegt etwa eineinhalb Kilogramm. Er war so klein, dass ein sowjetischer Staatschef sich über ihn lustig machte und ihn den Grapefruit-Satelliten nannte. Sieh ihn dir in echter Größe neben der Startrampe an.',
-          'Er flog am 17. März 1958 los, als erster Satellit, der mit Sonnenlicht lief. Sein Batteriefunk verstummte nach wenigen Wochen, aber der Solarfunk piepte bis 1964 weiter. Vanguard 1 ist heute noch da oben, das älteste von Menschen gebaute Ding in einer Umlaufbahn, und Forschende glauben, dass er insgesamt etwa 240 Jahre oben bleibt.',
+          'Er flog am 17. März 1958 los, als erster Satellit, der mit Sonnenlicht lief. Sein Batteriefunk verstummte noch im selben Jahr, aber der Solarfunk piepte bis 1964 weiter. Vanguard 1 ist heute noch da oben, das älteste von Menschen gebaute Ding in einer Umlaufbahn, und Forschende glauben, dass er insgesamt etwa 240 Jahre oben bleibt.',
         ],
         sci: [
-          'Gebaut vom Forschungslabor der US-Marine (Naval Research Laboratory): eine Aluminiumkugel von etwa 16 cm und etwa 1,5 kg mit sechs 30 cm langen Antennen. Ein 10-mW-Sender auf 108 MHz lief mit einer Quecksilberbatterie und verstummte nach etwa 20 Tagen; ein 5-mW-Sender auf 108,03 MHz lief mit sechs Solarzellen aus Silicium und war bis Mai 1964 zu hören. Er war der vierte Satellit, nach Sputnik 1 und 2 und Explorer 1, und der erste mit Solarstrom.',
+          'Gebaut vom Forschungslabor der US-Marine (Naval Research Laboratory): eine Aluminiumkugel von etwa 16 cm und etwa 1,5 kg mit sechs 30 cm langen Antennen. Ein 10-mW-Sender auf 108 MHz lief mit einer Quecksilberbatterie und verstummte 1958; ein 5-mW-Sender auf 108,03 MHz lief mit sechs Solarzellen aus Silicium und war bis Mai 1964 zu hören. Er war der vierte Satellit, nach Sputnik 1 und 2 und Explorer 1, und der erste mit Solarstrom.',
           'Seine erste Umlaufbahn lag bei 654 mal 3969 km, mit 34,25° Bahnneigung, eine Runde alle 134 Minuten. Die Verfolgung dieser Bahn zeigte, dass die Erde ganz leicht birnenförmig ist. Vanguard 1 und seine dritte Stufe sind die ältesten von Menschen gebauten Objekte, die noch im Orbit sind; er soll insgesamt etwa 240 Jahre oben bleiben.',
         ],
       },
