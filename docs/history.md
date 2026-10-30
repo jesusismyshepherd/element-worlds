@@ -21,6 +21,10 @@ and the user's requests behind them. Add a line here when a piece of work change
   of silicon's pictures are doors. Then all six of sodium's (the user: "ok, do next"): beside a nerve
   fibre, Aveiro's salt pans, Davy's lab of 1807, a street under sodium lamps, a mountaintop observatory
   with its laser guide star, a baking kitchen.
+  Then all seven of carbon's: the diamond depths and the pencil workshop, inside you, inside a leaf,
+  beside a red giant, an archaeologists' dig (carbon-14), Smalley's lab of 1985, Mauna Loa's observatory.
+  Three of their builders found wide stations cropped on an upright phone: the station view now fits a
+  station across the screen as well as up it, everywhere (`walking.md`).
 
 - Doing things together in the worlds (the user: "I release the balloons in the neon chamber, all the
   players in the room see it too and share its state"; videos and popups stay each one's own): in a

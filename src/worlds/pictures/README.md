@@ -13,9 +13,11 @@ The room inside one of a hall's pictures, stepped into from the board (`docs/kno
   brick workshop at night; `summit.js`: a desert mountaintop at night; `body.js`: the fluid between
   cells, with labelled ions; `saltpan.js`: Aveiro's salt pans;
   `street.js`: a street at night, lit by reflectance at the lamps' wavelengths; `leaf.js`: inside a
-  leaf among its cells.
+  leaf among its cells; `lab.js`: a 1980s university lab at night; `giant.js`: a deck beside a red giant;
+  `dig.js`: open country at golden hour with pits.
 - `scenes/<Symbol>/<id>.js` + `<id>.words.js`: a picture's room and its words. Silicon: all six
   (`diatoms`, `solar`, `glass`, `earth`, `valley`, `silicone`). Sodium: all six
-  (`nerves`, `salt`, `davy`, `lamps`, `space`, `kitchen`). Carbon: `twins`, `leaf`.
+  (`nerves`, `salt`, `davy`, `lamps`, `space`, `kitchen`). Carbon: all seven (`twins`, `you`,
+  `leaf`, `stars`, `clock`, `football`, `sky`).
 - `pictures.test.js`: every room stands behind a real picture; its words in four languages, the same
   shape, both depths, no em dashes.

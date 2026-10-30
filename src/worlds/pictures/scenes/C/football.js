@@ -163,7 +163,7 @@ export async function build({ ctx, root, E, W, ex, say, light, level, color, cli
   const unitCyl = new THREE.CylinderGeometry(1, 1, 1, 10)
   const glassMat = new THREE.MeshStandardMaterial({ color: '#d8eef4', roughness: 0.06, metalness: 0.1, transparent: true, opacity: 0.22, depthWrite: false, envMap: stage.shine, envMapIntensity: 1.2 })
   // an upright phone sees a narrow slice: a wide station looks at its most telling part there (the
-  // station view fits a station's size against the height of the view only)
+  // whole machine would be tiny)
   const narrow = () => (ctx.camera?.aspect ?? 1.6) < 1
   const focusBy = (item, wide, tall) => Object.defineProperty(item, 'focus', { get: () => (narrow() ? tall() : wide), configurable: true })
   const tag = (text, x, y, z, rotY, size = 0.1) => {
@@ -831,7 +831,7 @@ export async function build({ ctx, root, E, W, ex, say, light, level, color, cli
     act: () => ctx.showPanel(beamPanel),
   })
   // on a phone: the screen and the helium bottle, where the peak grows
-  focusBy(beamItem, beamItem.focus, () => ({ x: 1.5, y: 1.35, z: -4.1, size: 1.9 }))
+  focusBy(beamItem, beamItem.focus, () => ({ x: 1.5, y: 1.35, z: -4.1, size: 1.9, width: 0.9 }))
   const beamSet = (s, liveSet) => {
     const wasOn = S.on
     S.on = s?.on ? 1 : 0
@@ -1784,7 +1784,7 @@ export async function build({ ctx, root, E, W, ex, say, light, level, color, cli
     act: () => ctx.showPanel(tubePanel),
   })
   // on a phone: the sheet and its signs, or the rig once there is a tube to hang
-  focusBy(tubeItem, tubeItem.focus, () => (T.rolled ? { x: -4.3, y: 1.1, z: 1.63, size: 3.6 } : { x: -4.2, y: 1.2, z: -0.75, size: 3.6 }))
+  focusBy(tubeItem, tubeItem.focus, () => (T.rolled ? { x: -4.3, y: 1.1, z: 1.63, size: 3.6, width: 1.6 } : { x: -4.2, y: 1.2, z: -0.75, size: 3.6, width: 1.6 }))
   const tubeSet = (s, liveSet) => {
     const kind = s?.kind === 'zigzag' ? 'zigzag' : 'armchair'
     const rolled = s?.rolled ? 1 : 0

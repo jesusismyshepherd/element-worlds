@@ -53,7 +53,12 @@ in. The studio item is `picture-rooms`.
   and `lamps.set()`: each surface's reflectance near 589 and 640 nm from its colour, Smits' smooth
   spectra), `leaf.js` (inside a leaf among its cells: palisade cells overhead, spongy cells round about,
   the lower skin's jigsaw floor with `holes` for stomata, a vein; `setSun(k)`; exports `lumpyGeometry`,
-  `chloroTexture`). A room picks one
+  `chloroTexture`), `lab.js` (a 1980s university lab at night: painted block walls, vinyl tiles,
+  fluorescent panels, windows onto a city; gives `mats`, `shine`, `onWall(obj, side, at, y)`),
+  `giant.js` (the space deck beside a red giant, limb-darkened with churning cells and its warm light;
+  `giant.set({ scale, heat, glow })` ages or removes it; exports `NOISE`), `dig.js` (open country at
+  golden hour, real pits cut in the ground; `pits`, `bare`, `clear`, `strataTexture`, `soilTexture`). A
+  room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -170,6 +175,46 @@ at the same address.
   itself. The carbon catcher: tap a CO2 or RuBisCO, its carbon joins a sugar, six make one that goes to
   the starch grain; dim the sunbeam and it stalls; new CO2 comes only while the stoma is open.
 
+- Carbon, `football` ("A molecule shaped like a football", 2026-10-30): Smalley's lab at Rice, September
+  1985 (`lab.js`). Tap the laser: pulses hit the spinning graphite disc, clusters fly, the screen draws
+  the spectrum; tap the helium bottle (or a slider) and the 60 peak grows as in the Nature paper's three
+  spectra. Smalley's paper model under a chalkboard and Fuller's Expo 67 dome: tap hexagons (they stay
+  flat) and pentagons (they curl; two never touch), the board counts, at 12 and 20 the ball closes with
+  60 corners. A graphene sheet rolled armchair or zigzag, then a nanotube and a steel wire as thin side
+  by side: tap the weights, the steel snaps first.
+
+- Carbon, `stars` ("Made inside a giant star", 2026-10-30): a deck beside a red giant (`giant.js`). The
+  lens: tap to join two heliums into a trembling beryllium-8, tap again quickly for the third (its real
+  exponential lifetime slowed 10^16 times, the same draw for everyone in a room; the first try lasts at
+  least 1.4 s). Hoyle's ladder: an energy slider (or the rail), the helium gun fires 16 and near 288 keV
+  most are caught, each burst a point on a chart, so the peak comes from the visitor's own tries;
+  Hoyle's notebook turns a page per tap (1953, Whaling's team, the 1983 Nobel). The giant: tap it old,
+  tap it into a planetary nebula, carbon drifts into a cloud, a young sun and planets form, "the carbon in
+  you" on the blue one.
+
+- Carbon, `you` ("What are you made of?", 2026-10-30): inside a body (`body.js` in violet, no ions). The
+  picture's glass child on a scale, seven jars sized by mass and filled by a weight slider; tap a jar and
+  the child lights where that element is. A DNA zipper of eight base pairs that unzips and copies; tap a
+  sugar carbon for its four tetrahedral bonds. Bread breaks into glucose and amino acids: glucose burns
+  to CO2 into your breath, amino acids coil into a protein; a slider for how hard you move.
+
+- Carbon, `clock` ("A clock inside every bone", 2026-10-30): an archaeologists' dig at sunset (`dig.js`;
+  the oak from carbon's life wing). Tap the sky: a cosmic ray strikes there, a neutron turns nitrogen-14
+  into carbon-14, its CO2 drifts down to the oak and a deer eats the leaves. A stepped trench of four
+  layers, a find in each (linen, a bowl, a deer's bone, charcoal; invented, and the panel says so): tap
+  one to the tent, tap the machine for the share left and the age, a board plots it on the decay curve;
+  the tree slice explains calibration. The picture's hourglass of 128 carbon-14 atoms, each decaying at
+  its own random moment into nitrogen-14 (a time slider, pauses at one and two half-lives, a lever for
+  new atoms, the count at 5730 years compared with the last run).
+
+- Carbon, `sky` ("The carbon in the sky", 2026-10-30): the Mauna Loa observatory above the clouds at night
+  (`summit.js`). A window into the Carboniferous swamp: tap giants to fell them, the sea for plankton, a
+  time slider buries them into coal, shale, oil and gas; lift a coal block and a flask of oil. The
+  Keeling curve, 5.6 m, from NOAA's monthly means (March 1958 to September 2026, in the file): tap the
+  analyser and it draws to today, the tree for one year up close, the ice core for 280 ppm. The blanket:
+  a column of air where CO2 catches heat light and sends it any way, some back down, N2 and O2 let it
+  pass; burn coal, then what helps (wind and sun stop the chimney, a tree takes one back).
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -240,6 +285,23 @@ at the same address.
 - Round guard cells touching still leave a gap at the floor: lips close over the hole. Two mirrored
   copies of a home-made tube need the same winding, or one renders inside out. Bright streaks far off
   in haze read as lines across the screen.
+- A chamber built as one solid box hides what its porthole should show: build it hollow. A panel opened
+  by `ex.discover` turns the view to the nearest station, so a probe tapping from across the room sees
+  odd views.
+- A shader's `pow(1 - abs(dot), k)` can go slightly negative and give NaN, and the bloom spreads it
+  into a black square over the screen: clamp before `pow()`. Shared ages timed by adding frame times
+  drift (the engine caps a frame at 1/20 s): use wall-clock time. A shared `set` keeps the age it is
+  given, even when not live, or the latecomer check fails.
+- An `InstancedMesh` keeps the bounding sphere of its first raycast: moving instances need
+  `mesh.boundingSphere = null`, or a plain sphere test (`sphereCast` in `C/you.js`). A see-through
+  figure of overlapping shapes shows its own insides: draw a depth-only pass first (`colorWrite: false`).
+  A tap at a ring's centre goes through the hole: give rings a solid invisible hit shape.
+- Ground decals must not cover pits; third person cannot see into a pit, so lift dug things well above
+  the ground. A running shared clock shares its start and age, not its moving value.
+- A big frame turning gold when found blooms over the whole view: about 0.45 emissive for gold.
+  Paintings on a box's own faces z-fight: inset them about 5 cm. Things lying flat in water at eye level
+  vanish: let them lean. An opaque cut in front of a diorama takes taps only in its regions (`accept`),
+  so taps reach the trees behind.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

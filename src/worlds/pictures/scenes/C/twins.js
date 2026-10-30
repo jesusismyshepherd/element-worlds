@@ -207,16 +207,9 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, col
   const ghost = new THREE.MeshBasicMaterial({ visible: false })
   const tmpV = new THREE.Vector3()
   const tmpC = new THREE.Color()
-  // a station's focus whose size fits its width too: the station view backs off for the height only, so on
-  // an upright phone a wide station would spill over the sides (read when the station is used)
-  const focusOf = (x, y, z, high, wide) => ({
-    x,
-    y,
-    z,
-    get size() {
-      return Math.max(high, wide / Math.max(0.3, ctx.camera?.aspect ?? 1.6))
-    },
-  })
+  // a station's focus: how high and how wide it is (the station view fits both, so an upright phone sees
+  // the whole width too)
+  const focusOf = (x, y, z, high, wide) => ({ x, y, z, size: high, width: wide })
   // things whose words follow the depth switch: [object, 'kid' | 'sci']
   const byLevel = []
   let shownLevel = null

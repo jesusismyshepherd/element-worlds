@@ -158,8 +158,6 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
   }
   const metal = new THREE.MeshStandardMaterial({ color: '#3a3448', roughness: 0.5, metalness: 0.3 })
   const GOLD = new THREE.Color('#ffd166')
-  // a station seen on an upright phone needs the eye farther back (the view is narrow there)
-  const fitSize = s => (ctx.camera.aspect < 1 ? s * 1.45 : s)
   // words that follow the reader's depth (3D signs): set again when the level changes
   const relabels = []
   let shownLevel = null
@@ -403,7 +401,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     },
     manual: true,
     screens: [lensSign],
-    focus: { x: LENS.x, y: LENS.y + 0.05, z: LENS.z, get size() { return fitSize(4.3) } },
+    focus: { x: LENS.x, y: LENS.y + 0.05, z: LENS.z, size: 4.3, width: 2.9 },
     act: () => ctx.showPanel(catchPanel),
   })
   const lensHit = new THREE.Mesh(new THREE.CircleGeometry(LR + 0.2, 32), new THREE.MeshBasicMaterial({ visible: false }))
@@ -1001,7 +999,7 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     screens: [chartScreen],
     focus: (() => {
       const p = L(0.1, 1.9, 0)
-      return { x: p.x, y: p.y, z: p.z, get size() { return fitSize(5.6) } }
+      return { x: p.x, y: p.y, z: p.z, size: 5.6, width: 3.75 }
     })(),
     act: () => ctx.showPanel(hoylePanel),
   })

@@ -330,17 +330,9 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
     if (ex.discover(id)) later(delay, () => ctx.engine.player?.near?.id === id && ctx.showPanel(panel))
   }
   const cam = () => ctx.camera
-  /** A station's view: `size` is fitted to the screen's height, so on an upright phone (narrow) it is
-   *  widened until `wide` metres fit across. Read when the station is used. */
-  const view = (x, y, z, size, wide) => ({
-    x,
-    y,
-    z,
-    get size() {
-      const aspect = ctx.camera?.aspect ?? 1.6
-      return Math.max(size, aspect < 1 ? wide / Math.max(0.4, aspect) : size)
-    },
-  })
+  /** A station's view: `size` metres high and `wide` across (the station view fits both, so an upright
+   *  phone sees the whole width). */
+  const view = (x, y, z, size, wide) => ({ x, y, z, size, width: wide })
   // carbon's tree fades what stands between the camera and the player in its own wings: not here
   FADE.uFadeRadius.value = 0
 
