@@ -2,14 +2,19 @@
 // picture made into a glassblower's workshop at night (stages/workshop.js). The round brick furnace of the
 // picture glows at the back with a gob of molten glass on a blowpipe in front of its mouth; the heap of
 // sand is on the left, the shelf of glass on the right, with the lens over it showing glass's jumbled
-// network of silicon and oxygen. Three things to do:
-// - the melting pot: sand alone stays sand at the furnace's 1500 °C (pure silica needs about 1700 °C), soda
-//   melts it with a fizz of CO2, limestone makes the glass last; a dial shows the temperature;
-// - the blowpipe: blow the gob into a bubble, then a bottle or a vase, watch it cool from orange through
-//   red to clear and join the shelf, which keeps what visitors made;
-// - the light bench: a lamp shone at a heap of sand (white, nothing passes), through a pane (straight on to
-//   the card), into the pane's edge (green, the iron) and into a coil of glass fibre (round the bends).
+// network of silicon and oxygen. Three things to do, each step chosen by tapping its thing (the user,
+// 2026-10-30: pressing E through fixed steps felt passive), in the visitor's own order; the prompt names
+// the next thing to tap, E opens the station's panel, whose buttons (and a slider for the fire) do the same:
+// - the melting pot: tap the sand, soda and limestone piles to scoop them in, the pot to light or put out
+//   the fire, the ladle to empty it. Sand alone stays sand at the furnace's 1500 °C (pure silica needs about
+//   1700 °C), soda alone melts but is no glass, sand and soda melt from 851 °C with a fizz of CO2, limestone
+//   makes the glass last, and the melt sets as glass once the fire is out; a dial shows the temperature;
+// - the blowpipe: tap the glowing glass to blow it into a bubble, then the bottle or the vase on the stool
+//   to shape it; it cools from orange through red to clear and joins the shelf, which keeps what was made;
+// - the light bench: tap the sand (white, nothing passes), the pane (straight on to the card; tapped again,
+//   its edge turns to the lamp: green, the iron), the coil of glass fibre (round the bends), the lamp (off).
 // All three are shared in a room (src/net/shared.js); the words, panels and discoveries stay each one's.
+// parts.<exhibit>.tap(...) does what a tap does, for the probes.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { canvasTex, at, clamp, lerp, damp, random } from '../../../wings/noble/kit.js'
@@ -31,6 +36,8 @@ const FURNACE = { x: 0, z: -5.6, w: 3.2, h: 3.6, d: 2.4, mouthY: 1.35, mouthR: 0
 const FRONT = FURNACE.z + FURNACE.d / 2
 // the blowpipe lies along the furnace's face, right of its mouth, so the gob glows against the brick
 const PIPE = { tip: new THREE.Vector3(1.62, 1.2, -3.78), end: new THREE.Vector3(3.15, 1.3, -3.3) }
+// the stool with the two patterns (bottle, vase), behind the pipe's far end
+const STOOL = { x: 3.05, z: -4.05 }
 const KILN = { x: -3.2, z: -3.0, r: 0.78, h: 0.6 }
 const GAUGE = { x: -2.05, z: -3.55, y: 1.3, r: 0.3 }
 const BINS = { z: -4.95, xs: [-4.9, -3.9, -2.9], w: 0.8, h: 0.55, d: 0.6 }
@@ -216,7 +223,7 @@ function sandTex(base, seed) {
 
 // ---- the room ----
 
-export async function build({ ctx, root, E, ex, say, later, light, level, color }) {
+export async function build({ ctx, root, E, W, ex, say, light, level, color, clickable }) {
   const stage = workshopStage({
     light,
     lamps: [
@@ -233,7 +240,6 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   const updates = []
   const textures = []
   const depthOf = lv => (lv === 'scientist' ? 'sci' : 'kid')
-  const panelOf = w => lv => ({ title: w.title, color, blocks: w.panel[depthOf(lv)].map(p => ({ p })) })
   const soft = softTex()
   textures.push(soft)
   const tmpC = new THREE.Color()
@@ -366,6 +372,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     lime: { mat: new THREE.MeshStandardMaterial({ color: '#a8a294', roughness: 0.95 }), grain: '#bdb7a7' },
   }
   const binSpots = {}
+  const bins = []
   ;['sand', 'soda', 'lime'].forEach((id, i) => {
     const bin = new THREE.Group()
     const x = BINS.xs[i]
@@ -395,6 +402,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     bin.add(sign, leg, label)
     bin.position.set(x, 0, BINS.z)
     root.add(bin)
+    bins.push(bin)
     binSpots[id] = new THREE.Vector3(x, h + 0.05, BINS.z)
   })
   solids.push(box((BINS.xs[0] + BINS.xs[2]) / 2, BINS.z, BINS.xs[2] - BINS.xs[0] + BINS.w + 0.05, BINS.d + 0.05))
@@ -519,6 +527,8 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     }
   })
   textures.push(meltTex)
+  const MELT_HOT = new THREE.Color('#1a0c06')
+  const MELT_COLD = new THREE.Color('#6c9a88')
   const meltMat = new THREE.MeshStandardMaterial({ color: '#1a0c06', roughness: 0.15, metalness: 0.1, emissive: '#000000', emissiveMap: meltTex })
   const melt = new THREE.Mesh(new THREE.CircleGeometry(1, 48), meltMat)
   melt.rotation.x = -Math.PI / 2
@@ -638,24 +648,42 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   solids.push(circle(GAUGE.x, GAUGE.z, 0.12))
   let shownT = 20
 
-  // ---- the batch: what is in the pot, and how hot ----
-  // steps: 0 empty and cold, 1 sand, 2 sand at 1500 °C (still grains), 3 melted with soda, 4 window glass
-  const B_KIND = ['sand', 'heat', 'soda', 'lime', 'empty']
-  const B_END = { sand: 1.9, heat: 3.9, soda: 3.8, lime: 3.0, empty: 2.6 }
-  const B_TEMP = [20, 20, 1500, 1500, 1500]
-  let bStep = 0
-  let bCycle = 0
-  let bAnim = null
-  let temp = 20
+  // ---- the batch: what is in the pot, how hot the fire is, how far it has melted ----
+  // Every step is the visitor's choice, in any order, done by tapping its thing (the user, 2026-10-30):
+  // a pile scoops itself into the pot, the pot (or its kiln) lights or puts out the fire, the ladle
+  // empties the pot. A wrong choice is answered, not refused: sand alone at 1500 °C stays sand. In the
+  // pot: sand, soda, limestone (0 or 1 each); `heat` is the fire's setting (20 °C out, up to the
+  // furnace's 1500 °C; a slider in the panel), `temp` follows it; `m` how much of the sand the soda has
+  // melted (from 851 °C, faster the hotter), `c` how much of the limestone has given off its CO2 (from
+  // about 850 °C; it goes into the melt once there is one).
+  const BIN_IDS = ['sand', 'soda', 'lime']
+  const B = { sand: 0, soda: 0, lime: 0, heat: 20, temp: 20, m: 0, c: 0 }
+  let scoopAnim = null // { id, t }: a scoop on its way
+  let ladleAnim = null // { t, was }: the pot being emptied (was: what it held)
+  let mine = false // the last change to the pot was this visitor's (only then the Atomling tells what happens)
+  let said = {} // what has been told about the pot as it stands
   let fireK = 0
-  const startBatch = kind => {
-    bAnim = { kind, t: 0 }
-    if (kind === 'heat') play('beam')
-    else if (kind === 'empty') play('tap')
-    else play('select')
+  const LADLE_T = 1.7
+  const inPot = id => !!B[id] && !(scoopAnim?.id === id && scoopAnim.t < 1.05)
+  const busyB = () => !!scoopAnim || !!ladleAnim
+  // the pot over time: the same rules on every screen, so all who watch see the same
+  const meltRate = T => 0.06 + 0.55 * clamp((T - 851) / 649)
+  const limeRate = T => 0.12 + 0.5 * clamp((T - 850) / 650)
+  function advance(dt, gated = true) {
+    const has = id => (gated ? inPot(id) : !!B[id])
+    B.temp = B.heat > B.temp ? Math.min(B.heat, B.temp + 380 * dt) : Math.max(B.heat, B.temp - 260 * dt)
+    if (has('sand') && has('soda') && B.temp > 851) B.m = Math.min(1, B.m + meltRate(B.temp) * dt)
+    if (has('lime') && B.temp > 850) B.c = Math.min(1, B.c + limeRate(B.temp) * dt)
   }
-  const BIN_OF = { sand: 'sand', soda: 'soda', lime: 'lime' }
   const POT_TOP = new THREE.Vector3(K.x, 1.1, K.z)
+  const startScoop = id => {
+    scoopAnim = { id, t: 0 }
+    play('select')
+  }
+  const startLadle = () => {
+    ladleAnim = { t: 0, was: { ...B } }
+    play('tap')
+  }
   const scoopPose = (from, s) => {
     // to the pot (0 to 0.55 s), tip and pour (to 1.1), back to its bin (to 1.7)
     scoop.visible = s < 1.75
@@ -666,60 +694,85 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     scoop.position.copy(pos)
     scoop.rotation.set(0, 0, -1.7 * span(0.55, 0.8, s) * (1 - span(1.0, 1.2, s)))
     scoop.userData.load.visible = s < 0.75
+    scoop.userData.load.material = BIN_LOOK[scoopAnim.id].mat
   }
+  // the ladle, leaning on the kiln: tapped, it dips into the pot and lifts out what is in it
+  const ladle = new THREE.Group()
+  const ladleLoad = new THREE.Mesh(new THREE.CircleGeometry(0.1, 20), new THREE.MeshBasicMaterial({ color: '#000000' }))
+  {
+    const bowl = new THREE.Mesh(new THREE.SphereGeometry(0.12, 18, 8, 0, TAU, Math.PI / 2, Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#4a4c52', roughness: 0.5, metalness: 0.7, side: THREE.DoubleSide }))
+    const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 1.3, 8), mats.iron)
+    handle.position.y = 0.65
+    const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.3, 10), mats.wood)
+    grip.position.y = 1.2
+    ladleLoad.rotation.x = -Math.PI / 2
+    ladleLoad.position.y = -0.03
+    // something easy to hit: the thin handle alone is hard to tap
+    const hit = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 1.4, 8), new THREE.MeshBasicMaterial({ visible: false }))
+    hit.position.y = 0.6
+    ladle.add(bowl, handle, grip, ladleLoad, hit)
+  }
+  root.add(ladle)
+  const LADLE_REST = { pos: new THREE.Vector3(K.x - 0.95, 0.13, K.z + 0.35), rz: -0.33 }
+  const LADLE_POT = { pos: new THREE.Vector3(K.x, 0.82, K.z), rz: 0.75 }
+  const ladlePose = s => {
+    const go = span(0, 0.45, s)
+    const back = span(0.95, 1.6, s)
+    const k = go * (1 - back)
+    ladle.position.lerpVectors(LADLE_REST.pos, LADLE_POT.pos, k)
+    ladle.position.y += Math.sin(Math.PI * k) * 0.25 - 0.2 * span(0.45, 0.6, s) * (1 - span(0.6, 0.9, s))
+    ladle.rotation.set(0, 0, lerp(LADLE_REST.rz, LADLE_POT.rz, k))
+    ladleLoad.visible = s > 0.6 && s < 1.5
+  }
+  ladlePose(0)
   const grainDummy = new THREE.Object3D()
   function poseBatch(dt, t) {
-    const a = bAnim
-    const s = a?.t ?? 0
-    // temperature and fire
-    let fireTarget = bStep >= 2 ? 0.22 : 0
-    if (a?.kind === 'heat') {
-      temp = lerp(20, 1500, span(0.3, 3.5, s))
-      fireTarget = 1
-    } else if (a?.kind === 'empty') {
-      temp = lerp(1500, 20, span(0.4, 2.5, s))
-      fireTarget = 0
-    } else temp = B_TEMP[bStep]
-    fireK = damp(fireK, fireTarget, 3, dt)
-    // the melt (0 grains, 1 all molten)
-    let m = bStep >= 3 ? 1 : 0
-    if (a?.kind === 'soda') m = span(0.9, 3.4, s)
-    let level = lerp(POT.floor + 0.01, 0.63, m)
-    let meltK = m
-    if (a?.kind === 'empty') {
-      level = lerp(0.63, POT.floor, span(0.2, 1.6, s))
-      meltK = 1 - span(1.2, 1.7, s)
-    }
+    const sc = scoopAnim
+    const la = ladleAnim
+    // what the pot shows: what it holds, or what the ladle is taking out
+    const show = la ? la.was : B
+    const fade = la ? 1 - span(0.55, 0.9, la.t) : 1
+    const temp = B.temp
+    fireK = damp(fireK, B.heat > 20 ? (temp < B.heat - 30 ? 1 : 0.3) : 0, 3, dt)
+    const m = show.m
+    // soda alone melts into a little pool (not glass): only while it is above 851 °C
+    const pool = show.soda && !show.sand ? clamp((temp - 851) / 60) : 0
+    const level = show.sand ? lerp(POT.floor + 0.01, 0.63, m) : POT.floor + 0.02
+    const meltK = (show.sand ? m : pool) * fade
     melt.visible = meltK > 0.01
     melt.position.y = level
-    melt.scale.setScalar(innerR(level) - 0.01)
+    melt.scale.setScalar((innerR(level) - 0.01) * (show.sand ? 1 : 0.55))
     meltTex.rotation = t * 0.03
     meltTex.center.set(0.5, 0.5)
+    // hot, the melt glows; cooled, it has set as greenish glass
+    const cold = 1 - clamp((temp - 450) / 300)
+    meltMat.color.copy(MELT_HOT).lerp(MELT_COLD, show.sand ? cold : 0)
     glowAt(temp, tmpC)
     meltMat.emissive.copy(tmpC).multiplyScalar(meltK)
     grainMat.emissive.copy(tmpC).multiplyScalar(0.85)
     potMat.emissive.copy(glowAt(temp * 0.85, tmpC)).multiplyScalar(0.12)
     glowAt(temp, tmpC)
-    // which grains show
-    const from = a && BIN_OF[a.kind] ? binSpots[a.kind] : null
+    ladleLoad.material.color.copy(m > 0.3 || pool > 0.3 ? tmpC : BIN_LOOK.sand.mat.color)
+    // the grains
     grainList.forEach((g, i) => {
       let k = 0
       const p = grainDummy.position.copy(g.rest)
       if (g.id === 'sand') {
-        if (bStep >= 1 && bStep <= 2) k = 1
-        if (a?.kind === 'soda') k = 1 - span(1.0, 3.2, s)
-        if (a?.kind === 'sand') k = 1
+        if (show.sand) k = 1 - ease(m)
         p.y -= m * 0.1
       } else if (g.id === 'soda') {
-        if (bStep === 2 && a?.kind === 'soda') k = 1 - span(1.2, 3.3, s)
+        if (show.soda) k = show.sand ? 1 - clamp(m * 3) : 1 - pool
         p.y -= m * 0.08
-      } else if (a?.kind === 'lime') {
-        k = 1 - span(1.3, 2.8, s)
-        p.y = level + 0.012 + (g.rest.y - HEAP_TOP) * 0.3
+      } else if (show.lime) {
+        // on the melt they fizz in and are gone; on grains they give off their CO2 and stay (lime)
+        if (m > 0.3) {
+          k = 1 - show.c
+          p.y = level + 0.012 + (g.rest.y - HEAP_TOP) * 0.3
+        } else k = 1 - 0.3 * show.c
       }
       // falling in from the scoop
-      if (a && a.kind === g.id) {
-        const f = clamp((s - 0.62 - g.delay) / 0.4)
+      if (sc && sc.id === g.id) {
+        const f = clamp((sc.t - 0.62 - g.delay) / 0.4)
         if (f <= 0) k = 0
         else {
           const start = new THREE.Vector3(POT_TOP.x - K.x - 0.16, POT_TOP.y - 0.05, POT_TOP.z - K.z)
@@ -727,27 +780,28 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
         }
       }
       grainDummy.rotation.copy(g.rot)
-      grainDummy.scale.setScalar(g.size * k)
+      grainDummy.scale.setScalar(g.size * k * fade)
       grainDummy.updateMatrix()
       grains.setMatrixAt(i, grainDummy.matrix)
     })
     grains.instanceMatrix.needsUpdate = true
-    if (from) scoopPose(from, s)
+    if (sc) scoopPose(binSpots[sc.id], sc.t)
     else scoop.visible = false
-    // bubbles of CO2: while soda or limestone reacts
+    ladlePose(la ? la.t : 0)
+    // bubbles of CO2: while the soda eats the sand, and while the limestone gives its gas off
     let fizz = 0
-    if (a?.kind === 'soda') fizz = span(0.8, 1.2, s) * (1 - span(3.0, 3.7, s))
-    if (a?.kind === 'lime') fizz = span(0.9, 1.2, s) * (1 - span(2.4, 2.95, s))
+    if (inPot('sand') && inPot('soda') && temp > 851 && B.m < 1) fizz += 1
+    if (inPot('lime') && temp > 850 && B.c < 1) fizz += 0.7
+    const top = m > 0.05 ? level : HEAP_TOP
     if (fizz > 0 && bubbleList.length < BUB && Math.random() < fizz * dt * 40) {
       const ang = Math.random() * TAU
       const rr = Math.sqrt(Math.random()) * 0.3
-      bubbleList.push({ x: Math.cos(ang) * rr, z: Math.sin(ang) * rr, y: level - 0.05, v: 0.05 + Math.random() * 0.05, r: 0.008 + Math.random() * 0.014, life: 0 })
+      bubbleList.push({ x: Math.cos(ang) * rr, z: Math.sin(ang) * rr, y: top - 0.05, top, v: 0.05 + Math.random() * 0.05, r: 0.008 + Math.random() * 0.014 })
     }
     for (let i = bubbleList.length - 1; i >= 0; i--) {
       const b = bubbleList[i]
-      b.y = Math.min(b.y + b.v * dt, level + b.r * 0.4)
-      b.life += dt
-      if (b.y >= level + b.r * 0.4 - 0.001 && (b.pop = (b.pop ?? 0) + dt) > 0.25) bubbleList.splice(i, 1)
+      b.y = Math.min(b.y + b.v * dt, b.top + b.r * 0.4)
+      if (b.y >= b.top + b.r * 0.4 - 0.001 && (b.pop = (b.pop ?? 0) + dt) > 0.25) bubbleList.splice(i, 1)
     }
     bubbles.count = bubbleList.length
     bubbleList.forEach((b, i) => {
@@ -773,45 +827,138 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
       readout.sync()
     }
   }
-  const batchSay = { sand: 'sand', soda: 'soda', lime: 'lime', empty: 'empty' }
+  // what happens, told by the Atomling to whoever made it happen (once, while the pot stays as it is)
+  const tell = key => {
+    said[key] = true
+    if (mine) say(at(E.batch.says[key], level()))
+  }
+  function events() {
+    const sand = inPot('sand')
+    const soda = inPot('soda')
+    const lime = inPot('lime')
+    if (sand && !soda && B.temp >= 1495 && !said.hot) tell('hot')
+    if (soda && !sand && B.temp > 870 && !said.sodaAlone) tell('sodaAlone')
+    if (sand && soda && B.temp > 851 && B.m > 0.03 && B.m < 1 && !said.melts) tell('melts')
+    if (B.m >= 1 && !lime && !said.water) tell('water')
+    if (B.m >= 1 && lime && B.c >= 1 && !said.window) tell('window')
+    if (B.m >= 1 && B.heat <= 20 && B.temp < 550 && !said.set) tell('set')
+  }
+  // a visitor's step, from a tap on its thing or the panel's button (and the probes: parts.batch.tap)
+  const batchPanel = lv => ({
+    title: E.batch.title,
+    color,
+    blocks: [
+      { slider: { label: E.batch.slider, min: 20, max: 1500, step: 10, value: B.heat, onInput: setHeat, format: v => `${Math.round(v)} °C`, live: () => B.heat } },
+      { buttons: ['sand', 'soda', 'lime', 'fire', 'empty'].map(k => ({ label: E.batch.buttons[k], onClick: () => batchStep(k) })) },
+      ...E.batch.panel[depthOf(lv)].map(p => ({ p })),
+    ],
+  })
+  const changed = () => {
+    mine = true
+    said = {}
+    ex.discover('batch', batchPanel, 2.2)
+    share('batch')
+  }
+  function batchStep(step) {
+    const lv = level()
+    if (BIN_IDS.includes(step)) {
+      if (B[step]) return say(at(E.batch.says.again, lv))
+      if (busyB()) return say(at(W.busy, lv))
+      B[step] = 1
+      startScoop(step)
+      say(at(E.batch.says[step], lv))
+    } else if (step === 'fire') {
+      setHeat(B.heat > 20 ? 20 : 1500, true)
+      say(at(E.batch.says[B.heat > 20 ? 'fire' : 'out'], lv))
+      play(B.heat > 20 ? 'beam' : 'tap')
+      return
+    } else if (step === 'empty') {
+      if (!B.sand && !B.soda && !B.lime) return
+      if (busyB()) return say(at(W.busy, lv))
+      startLadle()
+      Object.assign(B, { sand: 0, soda: 0, lime: 0, m: 0, c: 0 })
+      say(at(E.batch.says.empty, lv))
+    } else return
+    changed()
+  }
+  // the fire's setting, from a tap (all or nothing) or the slider (sent a few times a second, the last always)
+  let heatSend = null
+  function setHeat(v, now = false) {
+    B.heat = clamp(Math.round(v / 10) * 10, 20, 1500)
+    if (now) {
+      changed()
+      return
+    }
+    mine = true
+    said = {}
+    if (!heatSend) {
+      heatSend = setTimeout(() => {
+        heatSend = null
+        changed()
+      }, 250)
+    }
+  }
   ex.add({
     id: 'batch',
     x: -2.55,
     z: -1.45,
     radius: 2.1,
+    manual: true,
     label: E.batch.label,
-    // during an animation the prompt already offers what comes next
-    verb: () => E.batch.verbs[B_KIND[batchState().step]],
-    panel: panelOf(E.batch),
-    panelDelay: 2.2,
-    focus: { x: -3.3, y: 0.85, z: -3.5, size: 3.3 },
-    act: () => {
-      if (bAnim) return false
-      const kind = B_KIND[bStep]
-      startBatch(kind)
-      share('batch')
-      if (kind === 'heat') {
-        later(B_END.heat, () => say(at(E.batch.says.hot, level())))
-        return null
-      }
-      return at(E.batch.says[batchSay[kind]], level())
+    // the next step, as a hint: the visitor does it by tapping its thing (E opens the panel)
+    verb: () => {
+      const H = E.batch.hints
+      if (!B.sand) return H.sand
+      if (!B.soda) return B.temp >= 1490 ? H.soda : H.fire
+      if (B.heat <= 20 && B.m < 1) return H.fire
+      if (!B.lime) return H.lime
+      if (B.m >= 1 && B.c >= 1) return H.empty
+      return B.heat <= 20 ? H.fire : H.empty
     },
+    focus: { x: -3.3, y: 0.85, z: -3.5, size: 3.3 },
+    act: () => ctx.showPanel(batchPanel),
   })
+  BIN_IDS.forEach((id, i) => clickable(bins[i], () => batchStep(id)))
+  clickable(kiln, () => batchStep('fire'))
+  clickable(ladle, () => batchStep('empty'), { when: () => !!(B.sand || B.soda || B.lime) && !busyB() })
   updates.push((dt, t) => {
-    if (bAnim) {
-      bAnim.t += dt
-      if (bAnim.t >= B_END[bAnim.kind]) {
-        if (bAnim.kind === 'empty') {
-          bStep = 0
-          bCycle++
-        } else bStep++
-        bAnim = null
-      }
-    }
+    if (scoopAnim && (scoopAnim.t += dt) > 1.8) scoopAnim = null
+    if (ladleAnim && (ladleAnim.t += dt) > LADLE_T) ladleAnim = null
+    advance(dt)
+    events()
     poseBatch(dt, t)
   })
-  // the state a share sends is where it ends (the step moves at the end of its animation)
-  const batchState = () => (bAnim ? (bAnim.kind === 'empty' ? { step: 0, cycle: bCycle + 1 } : { step: bStep + 1, cycle: bCycle }) : { step: bStep, cycle: bCycle })
+  const round2 = v => Math.round(v * 100) / 100
+  const batchState = () => ({ sand: B.sand, soda: B.soda, lime: B.lime, heat: B.heat, temp: Math.round(B.temp), m: round2(B.m), c: round2(B.c) })
+  const batchSet = (s, liveSet, ago = 0) => {
+    const n = {
+      sand: s?.sand ? 1 : 0,
+      soda: s?.soda ? 1 : 0,
+      lime: s?.lime ? 1 : 0,
+      heat: clamp(Math.round(Number(s?.heat) || 20), 20, 1500),
+      temp: clamp(Number(s?.temp) || 20, 20, 1500),
+      m: clamp(Number(s?.m) || 0),
+      c: clamp(Number(s?.c) || 0),
+    }
+    // someone else's pot now: what happens next is theirs to be told
+    mine = false
+    said = {}
+    if (liveSet) {
+      const emptied = !n.sand && !n.soda && !n.lime && (B.sand || B.soda || B.lime)
+      const added = BIN_IDS.find(id => n[id] && !B[id])
+      if (emptied && !ladleAnim) startLadle()
+      else if (added && !scoopAnim) startScoop(added)
+      if ((n.heat > 20) !== (B.heat > 20)) play(n.heat > 20 ? 'beam' : 'tap')
+    } else {
+      scoopAnim = null
+      ladleAnim = null
+    }
+    Object.assign(B, n)
+    // run on what has unfolded since the state was taken (the fire, the melting)
+    for (let left = Math.min(Number(ago) || 0, 60); left > 0; left -= 0.1) advance(Math.min(0.1, left), false)
+    // a pot found as it stands has nothing new to tell
+    if (!liveSet) said = { hot: true, sodaAlone: true, melts: true, water: true, window: true, set: true }
+  }
 
   // ======== the blowpipe and the shelf ========
   const pipeDir = PIPE.tip.clone().sub(PIPE.end).normalize()
@@ -1001,8 +1148,8 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
   const onPipe = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), pipeDir.clone().negate())
   const spinQ = new THREE.Quaternion()
   const yAxis = new THREE.Vector3(0, 1, 0)
-  const startBlow = kind => {
-    wAnim = { kind, t: 0, shape: kind === 'make' ? KINDS[wN % KINDS.length] : null, landed: false }
+  const startBlow = (kind, shape = KINDS[0]) => {
+    wAnim = { kind, t: 0, shape: kind === 'make' ? shape : null, landed: false }
     if (kind === 'make') play('select')
     else play('fizz', { order: 1.6 })
   }
@@ -1066,32 +1213,80 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     pieceLight.intensity = clamp((T - 500) / 500) * 2.2 * scale
     pieceLight.color.copy(glowAt(Math.max(T, 700), tmpC)).multiplyScalar(1 / Math.max(0.01, tmpC.r))
   }
+  // two patterns on a stool beside the pipe: tap the bottle or the vase to give the parison that shape
+  const patterns = {}
+  {
+    const stool = new THREE.Group()
+    const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.05, 24), mats.wood)
+    seat.position.y = 0.66
+    stool.add(seat)
+    for (let i = 0; i < 3; i++) {
+      const a = (i / 3) * TAU
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.03, 0.66, 8), mats.wood)
+      leg.position.set(Math.cos(a) * 0.24, 0.33, Math.sin(a) * 0.24)
+      stool.add(leg)
+    }
+    stool.position.set(STOOL.x, 0, STOOL.z)
+    root.add(stool)
+    solids.push(circle(STOOL.x, STOOL.z, 0.36))
+    for (const [kind, dx] of [['bottle', -0.15], ['vase', 0.15]]) {
+      const g = new THREE.Group()
+      const m = new THREE.Mesh(shapeGeos[kind], cold)
+      m.scale.setScalar(0.62)
+      m.renderOrder = 2
+      const hit = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.45, 0.3), new THREE.MeshBasicMaterial({ visible: false }))
+      hit.position.y = 0.21
+      g.add(m, hit)
+      g.position.set(STOOL.x + dx, 0.685, STOOL.z)
+      root.add(g)
+      patterns[kind] = g
+    }
+  }
+  // a visitor's step, from a tap on the glass or a pattern, or the panel's button (and parts.blow.tap)
+  const blowPanel = lv => ({
+    title: E.blow.title,
+    color,
+    blocks: [
+      { buttons: ['blow', 'bottle', 'vase'].map(k => ({ label: E.blow.buttons[k], onClick: () => blowStep(k) })) },
+      ...E.blow.panel[depthOf(lv)].map(p => ({ p })),
+    ],
+  })
+  function blowStep(kind) {
+    const lv = level()
+    if (wAnim) return say(at(W.busy, lv))
+    if (kind === 'blow') {
+      if (wStep >= 2) return say(at(E.blow.says.big, lv))
+      say(at(wStep === 0 ? E.blow.says.blow : E.blow.says.more, lv))
+      startBlow(wStep === 0 ? 'blow' : 'more')
+    } else if (KINDS.includes(kind)) {
+      // a solid gob cannot be shaped into something hollow: that is answered, not refused silently
+      if (wStep < 2) return say(at(E.blow.says.early, lv))
+      startBlow('make', kind)
+      say(at(E.blow.says[kind], lv))
+    } else return
+    ex.discover('blow', blowPanel, 1.6)
+    share('blow')
+  }
   ex.add({
     id: 'blow',
     x: 2.05,
     z: -1.8,
     radius: 1.9,
+    manual: true,
     label: E.blow.label,
+    // the next step, as a hint (E opens the panel)
     verb: () => {
       const s = blowState()
-      return s.step === 0 ? E.blow.verbs.blow : s.step === 1 ? E.blow.verbs.more : E.blow.verbs[KINDS[s.n % KINDS.length]]
+      return s.step === 0 ? E.blow.hints.blow : s.step === 1 ? E.blow.hints.more : E.blow.hints.shape
     },
-    panel: panelOf(E.blow),
-    panelDelay: 1.6,
-    focus: { x: 1.4, y: 1.2, z: -3.8, size: 2.0 },
-    act: () => {
-      if (wAnim) return false
-      const lv = level()
-      if (wStep < 2) {
-        startBlow(wStep === 0 ? 'blow' : 'more')
-        share('blow')
-        return at(wStep === 0 ? E.blow.says.blow : E.blow.says.more, lv)
-      }
-      startBlow('make')
-      share('blow')
-      return at(E.blow.says[wAnim.shape], lv)
-    },
+    focus: { x: 1.9, y: 1.0, z: -3.4, size: 2.4 },
+    act: () => ctx.showPanel(blowPanel),
   })
+  const gobHit = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 8), new THREE.MeshBasicMaterial({ visible: false }))
+  gobHit.position.copy(PIPE.tip).addScaledVector(pipeDir, 0.25)
+  root.add(gobHit)
+  clickable(gobHit, () => blowStep('blow'), { when: () => !wAnim })
+  for (const kind of KINDS) clickable(patterns[kind], () => blowStep(kind), { when: () => !wAnim })
   updates.push((dt, t) => {
     if (wAnim) {
       wAnim.t += dt
@@ -1312,25 +1507,57 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
       front = 0
     } else snapLight()
   }
+  // a visitor's step, from a tap on the sand, the pane (once its face, again its edge), the fibre or the
+  // lamp (on or off), or the panel's buttons (and the probes: parts.light.tap)
+  let lastAim = 'sand'
+  const lightPanel = lv => ({
+    title: E.light.title,
+    color,
+    blocks: [
+      { buttons: ['sand', 'pane', 'edge', 'fibre', 'off'].map(k => ({ label: E.light.buttons[k], onClick: () => lightStep(k) })) },
+      ...E.light.panel[depthOf(lv)].map(p => ({ p })),
+    ],
+  })
+  function lightStep(which) {
+    let next = which
+    if (which === 'paneTap') next = aim === 'pane' ? 'edge' : 'pane'
+    if (which === 'lamp') next = aim === 'off' ? lastAim : 'off'
+    if (!['off', ...AIMS].includes(next)) return
+    say(at(E.light.says[next], level()))
+    if (next === aim) return
+    if (next !== 'off') lastAim = next
+    setAim(next, true)
+    play('tap')
+    ex.discover('light', lightPanel, 2.4)
+    share('light')
+  }
+  const LIGHT_HINT = { off: 'start', sand: 'pane', pane: 'turn', edge: 'fibre', fibre: 'sand' }
   ex.add({
     // seen from the bench's corner: the lamp on the right, the three things side by side, the card behind
     id: 'light',
     x: 3.85,
     z: 2.2,
     radius: 2.0,
+    manual: true,
     label: E.light.label,
-    verb: () => E.light.verbs[AIMS[(AIMS.indexOf(aim) + 1) % AIMS.length]],
-    panel: panelOf(E.light),
-    panelDelay: 2.4,
+    verb: () => E.light.hints[LIGHT_HINT[aim]],
     focus: { x: 5.45, y: 1.1, z: -0.25, size: 3.0 },
-    act: () => {
-      const next = AIMS[(AIMS.indexOf(aim) + 1) % AIMS.length]
-      setAim(next, true)
-      play('tap')
-      share('light')
-      return at(E.light.says[next], level())
-    },
+    act: () => ctx.showPanel(lightPanel),
   })
+  {
+    // easy things to hit: the sand heap's mound and the fibre's coil (a thin tube alone is hard to tap)
+    const ghost = new THREE.MeshBasicMaterial({ visible: false })
+    const sandHit = new THREE.Mesh(new THREE.BoxGeometry(SAND.r * 2 + 0.1, 0.36, SAND.r * 1.7 + 0.1), ghost)
+    sandHit.position.set(SAND.x, BENCH.top + 0.18, SAND.z)
+    const coilHit = new THREE.Mesh(new THREE.CylinderGeometry(FIBRE.r + 0.08, FIBRE.r + 0.08, 0.34, 12), ghost)
+    coilHit.position.set(FIBRE.x, BENCH.top + 0.17, FIBRE.cz)
+    root.add(sandHit, coilHit)
+    clickable(sandHit, () => lightStep('sand'))
+    clickable(pane, () => lightStep('paneTap'))
+    clickable(coilHit, () => lightStep('fibre'))
+    clickable(fibre, () => lightStep('fibre'))
+    clickable(lamp, () => lightStep('lamp'))
+  }
   const lensPos = new THREE.Vector3()
   const dir = new THREE.Vector3()
   const hit = new THREE.Vector3()
@@ -1400,27 +1627,29 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
     hostSpot: { x: 1.7, z: 3.8, yaw: Math.atan2(1.7, -0.8) },
     back: { x: 0, z: 9.0, rot: Math.PI },
     stand: { x: -2.2, z: 3.0, rot: Math.atan2(2.2, 1.6) },
+    // for the probes: tap(...) does what a tap on that thing does (shot.py cannot move the mouse)
     parts: {
-      batch: { get step() { return bStep }, get cycle() { return bCycle }, get temp() { return Math.round(temp) }, get busy() { return !!bAnim } },
-      blow: { get step() { return wStep }, get n() { return wN }, get made() { return [...made] }, get busy() { return !!wAnim } },
-      light: { get aim() { return aim } },
-    },
-    panels: { batch: panelOf(E.batch), blow: panelOf(E.blow), light: panelOf(E.light) },
-    shared: {
       batch: {
-        get: batchState,
-        set: (s, liveSet) => {
-          const st = clamp(Math.round(Number(s?.step) || 0), 0, 4)
-          const c = Math.max(0, Math.round(Number(s?.cycle) || 0))
-          if (liveSet && !bAnim && c === bCycle && st === bStep + 1) startBatch(B_KIND[bStep])
-          else if (liveSet && !bAnim && c === bCycle + 1 && st === 0 && bStep === 4) startBatch('empty')
-          else {
-            bAnim = null
-            bStep = st
-            bCycle = c
-          }
-        },
+        tap: step => batchStep(step), // 'sand' | 'soda' | 'lime' (the piles), 'fire' (the pot), 'empty' (the ladle)
+        heat: v => setHeat(v, true), // the panel's slider
+        get state() { return batchState() },
+        get busy() { return busyB() },
       },
+      blow: {
+        tap: kind => blowStep(kind), // 'blow' (the glowing glass), 'bottle' | 'vase' (the patterns)
+        get step() { return wStep },
+        get n() { return wN },
+        get made() { return [...made] },
+        get busy() { return !!wAnim },
+      },
+      light: {
+        tap: which => lightStep(which), // 'sand', 'paneTap' (the pane), 'fibre', 'lamp'; or an aim (the panel)
+        get aim() { return aim },
+      },
+    },
+    panels: { batch: batchPanel, blow: blowPanel, light: lightPanel },
+    shared: {
+      batch: { get: batchState, set: batchSet },
       blow: {
         get: blowState,
         set: (s, liveSet) => {
@@ -1429,8 +1658,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, color 
           const list = (Array.isArray(s?.made) ? s.made : []).filter(k => KINDS.includes(k)).slice(-MADE_MAX)
           if (liveSet && !wAnim && n === wN && st === wStep + 1) startBlow(wStep === 0 ? 'blow' : 'more')
           else if (liveSet && !wAnim && n === wN + 1 && st === 0 && wStep === 2) {
-            startBlow('make')
-            wAnim.shape = list[list.length - 1] ?? KINDS[wN % KINDS.length]
+            startBlow('make', list[list.length - 1] ?? KINDS[0])
           } else {
             wAnim = null
             wStep = st
