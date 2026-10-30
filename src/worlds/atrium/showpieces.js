@@ -3,7 +3,7 @@
 // "often generic polyhedra"; Carbon and Oxygen first). Each is built at the generic sample's size
 // (about 0.6 m across on the turntable, before the case scales it) and returns { group, update(t) }.
 import * as THREE from 'three'
-import { edgeGlass } from '../common/props.js'
+import { edgeGlass, canvasTexture } from '../common/props.js'
 
 const rnd = seed => () => {
   seed = (seed * 16807) % 2147483647
@@ -259,4 +259,199 @@ function oxygen({ light }) {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { C: carbon, O: oxygen }
+/** A lump cut through by the plane x = c: the part on one side kept, what lay over the plane pressed onto
+ *  it, so it has one flat face. keep -1 keeps x < c (the face looks along +x), 1 keeps x > c (the slice
+ *  that came off; its face looks along -x). Group 0 is the lump's outside, group 1 the flat face (the
+ *  same lump from the same seed on both sides gives a piece and the slice cut from it). */
+function cutLump(r, rand, squash, c, keep = -1) {
+  const g = lump(r, rand, squash).toNonIndexed()
+  const p = g.attributes.position
+  const n = g.attributes.normal
+  for (let i = 0; i < p.count; i++) if ((p.getX(i) - c) * keep < 0) p.setX(i, c)
+  const outside = []
+  const face = []
+  for (let t = 0; t < p.count / 3; t++) {
+    const onFace = [0, 1, 2].every(k => Math.abs(p.getX(t * 3 + k) - c) < 1e-6)
+    ;(onFace ? face : outside).push(t)
+  }
+  const pos = []
+  const nor = []
+  const uv = []
+  for (const t of outside) {
+    for (let k = 0; k < 3; k++) {
+      const i = t * 3 + k
+      pos.push(p.getX(i), p.getY(i), p.getZ(i))
+      nor.push(n.getX(i), n.getY(i), n.getZ(i))
+      uv.push(0, 0)
+    }
+  }
+  for (const t of face) {
+    for (let k = 0; k < 3; k++) {
+      const i = t * 3 + k
+      pos.push(p.getX(i), p.getY(i), p.getZ(i))
+      nor.push(-keep, 0, 0)
+      uv.push(0.5 + p.getZ(i) / (2 * r), 0.5 + p.getY(i) / (2 * r))
+    }
+  }
+  const out = new THREE.BufferGeometry()
+  out.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
+  out.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3))
+  out.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2))
+  out.addGroup(0, outside.length * 3, 0)
+  out.addGroup(outside.length * 3, face.length * 3, 1)
+  g.dispose()
+  return out
+}
+
+// ---- Sodium: lumps kept under oil in a glass jar, and a piece just cut on filter paper ----
+function sodium() {
+  const group = new THREE.Group()
+  const updates = []
+  // the outside of every lump: the dull white-grey crust that air and damp leave on it in seconds
+  // (oxide, hydroxide, carbonate); a fresh cut: bright metal, as shiny as polished silver
+  // (the case's lamp and the hall's bloom light things two or three times brighter than their colour, and
+  // turn anything pale into a white blob: every colour here is dark, as Carbon's coal is)
+  const crust = new THREE.MeshStandardMaterial({ color: '#414449', roughness: 1, metalness: 0 })
+  // a bare metal face only mirrors the pink hall: polished silver is drawn into it (bands of light and
+  // shade, as a mirror catches a room), lit a little from within so it reads in the dim case
+  const silver = canvasTexture(128, (g, s) => {
+    const grad = g.createLinearGradient(0, 0, s, s)
+    for (const [o, c] of [[0, '#5d6470'], [0.22, '#c4cad3'], [0.34, '#7d8592'], [0.5, '#dfe4ea'], [0.6, '#959daa'], [0.8, '#cfd5dd'], [1, '#69717e']]) grad.addColorStop(o, c)
+    g.fillStyle = grad
+    g.fillRect(0, 0, s, s)
+  })
+  const fresh = new THREE.MeshStandardMaterial({ map: silver, emissiveMap: silver, emissive: '#ffffff', emissiveIntensity: 0.14, roughness: 0.2, metalness: 0.35 })
+  const kept = new THREE.MeshStandardMaterial({ color: '#474c57', roughness: 0.4, metalness: 0.6 })
+
+  // ---- the jar: lumps at the bottom, covered by oil, a screw cap, a label
+  const jar = new THREE.Group()
+  jar.position.set(-0.15, 0, -0.07)
+  group.add(jar)
+  const rand = rnd(1807)
+  for (const [r, x, z, ry] of [[0.056, -0.04, 0.02, 0], [0.046, 0.05, 0.035, 1.3], [0.044, 0.02, -0.055, 2.2], [0.036, -0.02, -0.02, 0.6]]) {
+    const m = new THREE.Mesh(lump(r, rand, 0.72), kept)
+    m.position.set(x, 0.008 + r * 0.66 + (r < 0.04 ? 0.06 : 0), z)
+    m.rotation.y = ry
+    jar.add(m)
+  }
+  // the oil (mineral oil keeps air and water off the metal): pale amber, a surface at its top
+  const OIL = 0.235
+  const oilMat = new THREE.MeshStandardMaterial({ color: '#c9a85a', transparent: true, opacity: 0.1, roughness: 0.1, depthWrite: false })
+  const oil = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.125, OIL - 0.008, 48, 1, true), oilMat)
+  oil.position.y = 0.008 + (OIL - 0.008) / 2
+  oil.renderOrder = 1
+  const surface = new THREE.Mesh(
+    new THREE.CircleGeometry(0.125, 48),
+    new THREE.MeshStandardMaterial({ color: '#e8b84a', transparent: true, opacity: 0.3, roughness: 0.04, metalness: 0.2, depthWrite: false }),
+  )
+  surface.rotation.x = -Math.PI / 2
+  surface.position.y = OIL
+  surface.renderOrder = 1
+  jar.add(oil, surface)
+  // glass that shows at its edges only (a transmissive or milky glass hid or fogged what was inside)
+  const wall = [[0, 0.004], [0.115, 0], [0.128, 0.008], [0.132, 0.03], [0.132, 0.3], [0.124, 0.322], [0.104, 0.33], [0.104, 0.352]]
+  const glass = new THREE.Mesh(new THREE.LatheGeometry(wall.map(([x, y]) => new THREE.Vector2(x, y)), 48), edgeGlass({ color: '#eef6ff', edge: 0.6, base: 0.03 }))
+  glass.renderOrder = 2
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.113, 0.113, 0.052, 40), new THREE.MeshStandardMaterial({ color: '#23408c', roughness: 0.45 }))
+  cap.position.y = 0.376
+  const capTop = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.113, 0.01, 40), cap.material)
+  capTop.position.y = 0.407
+  // a label round the jar over the oil: the symbol and the orange of a hazard sign
+  const label = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.1335, 0.1335, 0.06, 32, 1, true, -0.6, 1.2),
+    new THREE.MeshStandardMaterial({
+      roughness: 0.8,
+      map: canvasTexture(128, (g, s) => {
+        g.fillStyle = '#f6f1e4'
+        g.fillRect(0, 0, s, s)
+        g.fillStyle = '#ff8a1e'
+        g.fillRect(0, 0, s, s * 0.14)
+        g.fillRect(0, s * 0.86, s, s * 0.14)
+        g.fillStyle = '#1d2a5c'
+        g.font = `700 ${s * 0.55}px Outfit, Nunito, sans-serif`
+        g.textAlign = 'center'
+        g.textBaseline = 'middle'
+        g.save()
+        g.scale(0.375, 1) // the band is 2.7 times wider than high: squeeze the letters so they keep their shape on it
+        g.fillText('Na', s / 2 / 0.375, s * 0.52)
+        g.restore()
+      }),
+    }),
+  )
+  label.position.y = 0.282
+  jar.add(glass, cap, capTop, label)
+
+  // ---- the tile, filter paper with an oily stain, the cut piece, the slice and the knife
+  const bench = new THREE.Group()
+  bench.position.set(0.15, 0, 0.1)
+  bench.rotation.y = -0.4
+  group.add(bench)
+  const TOP = 0.018
+  const tile = new THREE.Mesh(new THREE.BoxGeometry(0.32, TOP, 0.24), new THREE.MeshStandardMaterial({ color: '#6c717c', roughness: 0.35 }))
+  tile.position.y = TOP / 2
+  const paper = new THREE.Mesh(new THREE.CircleGeometry(0.105, 40), new THREE.MeshStandardMaterial({ color: '#8c897f', roughness: 1 }))
+  paper.rotation.x = -Math.PI / 2
+  paper.position.set(-0.01, TOP + 0.0006, 0.005)
+  const stain = new THREE.Mesh(
+    new THREE.CircleGeometry(0.058, 32),
+    new THREE.MeshStandardMaterial({ color: '#6e5c2c', transparent: true, opacity: 0.5, roughness: 0.6, depthWrite: false }),
+  )
+  stain.rotation.x = -Math.PI / 2
+  stain.position.set(-0.03, TOP + 0.0012, 0.01)
+  bench.add(tile, paper, stain)
+
+  // the piece, crusted all round, its new face turned out and a little up; the slice that came off it
+  // propped beside it, its face turned the other way: as the table turns one of them always faces you
+  // (a face on top showed only edge-on from where a visitor stands)
+  const R = 0.08
+  const piece = new THREE.Mesh(cutLump(R, rnd(23), 0.74, 0.03, -1), [crust, fresh])
+  piece.rotation.y = -Math.PI / 2 // the face (+x) looks along +z
+  const tilt = new THREE.Group()
+  tilt.rotation.x = -0.35 // and a little up
+  tilt.position.set(-0.045, TOP + R * 0.66, -0.02)
+  tilt.add(piece)
+  const slice = new THREE.Mesh(cutLump(R, rnd(23), 0.74, 0.03, 1), [crust, fresh])
+  slice.rotation.y = -Math.PI / 2 // the face (-x) looks along -z
+  const prop = new THREE.Group()
+  prop.rotation.x = 0.45 // and a little up
+  prop.position.set(0.095, TOP + R * 0.5, -0.03)
+  prop.add(slice)
+  bench.add(tilt, prop)
+
+  // the knife it was cut with: a steel blade and a wooden handle
+  const blade = new THREE.Shape()
+  blade.moveTo(0, 0)
+  blade.lineTo(0.1, 0)
+  blade.lineTo(0.125, 0.017)
+  blade.lineTo(0, 0.02)
+  blade.closePath()
+  const knife = new THREE.Group()
+  const steel = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(blade, { depth: 0.002, bevelEnabled: false }),
+    new THREE.MeshStandardMaterial({ color: '#dfe5ec', metalness: 1, roughness: 0.22 }),
+  )
+  steel.rotation.x = -Math.PI / 2
+  const handle = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.014, 0.022), new THREE.MeshStandardMaterial({ color: '#7a4a26', roughness: 0.7 }))
+  handle.position.set(-0.04, 0.007, -0.01)
+  knife.add(steel, handle)
+  knife.position.set(-0.02, TOP + 0.001, -0.085)
+  knife.rotation.y = 0.18
+  bench.add(knife)
+
+  // glints that come and go on the two bright faces
+  const glints = []
+  for (const [host, x, y, z] of [[piece, 0.034, 0.012, 0.018], [piece, 0.034, -0.016, -0.02], [slice, 0.026, 0.01, 0.01]]) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#ffffff', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    s.scale.setScalar(0.07)
+    s.position.set(x, y, z)
+    host.add(s)
+    glints.push({ s, phase: glints.length * 2.3, speed: 0.7 + glints.length * 0.2 })
+  }
+  updates.push(t => {
+    for (const g of glints) g.s.material.opacity = Math.max(0, Math.sin(t * g.speed + g.phase)) ** 8
+  })
+
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { C: carbon, O: oxygen, Na: sodium }

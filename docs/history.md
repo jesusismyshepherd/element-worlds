@@ -17,6 +17,12 @@ and the user's requests behind them. Add a line here when a piece of work change
   Atomling's eyes (`walking.md`). The professor stands in his lab and retells his own remarks from the
   film, each with the moment to watch him say it (`periodic-videos.md`).
 
+- Sodium's hall has its picture boards and its own showpiece, the first of the other 116 halls (the user
+  loved Carbon's and Oxygen's): beside the doorway into its lab, six pictures (its nerves, the sea's salt
+  and Aveiro's salt pans, Davy in 1807, the yellow street lamps, the sodium layer in the sky, the rising
+  cake), and in the case lumps under oil in a jar beside a piece just cut, silver against its crust. The
+  pictures are the first drawn with the shared kit `tools/boards/lib/` (`hall-boards.md`).
+
 ## 2026-10-29
 
 - Evening: accounts (the Pokémon site's logins; 👤): progress kept in the account and moved there from a

@@ -55,7 +55,10 @@ nugget; crystals as pointed six-sided crystals growing from a rock; liquids in a
 noble gases as a glowing tube, superheavies as a question mark, each at the size that fits the case.
 An element can have its own showpiece (`src/worlds/atrium/showpieces.js`, `SHOWPIECES`): Carbon shows its
 three faces (a cut diamond over a stack of graphite flakes whose top one slips, and a lump of coal), Oxygen
-liquid oxygen boiling in a flask with cold fog over the rim and a magnet holding a drop of it.
+liquid oxygen boiling in a flask with cold fog over the rim and a magnet holding a drop of it, Sodium
+(2026-10-30) lumps kept under oil in a capped jar, and on a tile with filter paper a piece just cut, its
+silver face beside the dull grey crust, the slice that came off it and the knife (`cutLump`: a lump cut
+flat by a plane, the face its own material).
 
 Traps met:
 - Glass: a transmissive (`transmission`) glass does not show transparent things inside it (the liquid
@@ -66,7 +69,16 @@ Traps met:
   facets each have their own shade of white and ice blue (vertex colours, flat shading), with glints.
 - Random bumps per corner make a crumpled polyhedron; a rounded rock is a sphere pushed by smooth waves
   (`lump` in showpieces.js).
-- Look at a case from where a visitor stands (`teleport(-3.2, 3.15, 0.38, -0.2)` in first person).
+- Look at a case from where a visitor stands (`teleport(-3.2, 3.15, 0.38, -0.2)` in first person; closer,
+  `teleport(-3.35, 1.75, 0.68, -0.32)`, a few shots some seconds apart as the table turns).
+- The case's lamp and the hall's bloom light a sample two or three times brighter than its colour: pale
+  things (sodium's grey-white crust, a white tile) came out as white blobs. Give a showpiece dark colours
+  (Carbon's coal is near black; sodium's crust is #414449) and judge them in the case.
+- A bare metal face (metalness, low roughness) only mirrors the pink hall, so it does not read as silver:
+  sodium's cut face carries a drawn silver (bands of light and shade on a canvas, a little emissive), as
+  the diamond's facets carry their shades.
+- A visitor looks at the table from the side: a face lying on top shows edge-on. Turn what must be seen
+  outwards, two such things opposite ways, so one faces you whichever way the table has turned.
 
 ## Adding an element's boards
 
@@ -74,6 +86,15 @@ Write the seven stories in English first (each a context that makes you want to 
 you, in nature, in space, in history, in things you use), translate them (`translating.md`), draw the seven
 pictures (look at each one rendered, and at a contact sheet of all seven), then `npm test`,
 `tools/halls_probe.py <Symbol>` and a look in the hall.
+
+Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
+`tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`
+renders them and a contact sheet with the titles on the caption band. Traps met with sodium's:
+- The hall's bloom (threshold 0.78) makes any large near-white area glow on the wall (a whole nerve went
+  white, the salt pans' crust washed out): keep big pale areas a little under it (#f0c4d8, #c8e8e2);
+  small white highlights and sparkles may glow.
+- A charge drawn as a small white badge beside an ion read as an eye: the sign goes on the ball (`ion`).
+- A doorway board takes one of the seven places, so an element with a doorway has six pictures.
 
 ## The other 116 halls (the user approved them on 2026-10-29)
 
@@ -86,7 +107,13 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   the element's story in `src/content/`, its Periodic Videos
   video (retold in the game's own words, never copied), every number from `elements.json`. The
   well-known ones get a showpiece of their own (`showpieces.js`); the rest keep the case's samples.
-- One style for every hall's pictures: start a shared module (`tools/boards/lib/`) from Carbon's
-  `lib.py` and Oxygen's `kit.py` instead of a new one per element, so the halls read as one series.
+- One style for every hall's pictures: the shared module `tools/boards/lib/` (started on 2026-10-30 from
+  Carbon's `lib.py` and Oxygen's `kit.py`, which stay as they are), so the halls read as one series.
+- Done: Sodium (2026-10-30): its Periodic Videos doorway and six pictures (`nerves` your nerves fire with
+  sodium and the sodium-potassium pump; `salt` why the sea is salty and Aveiro's salt pans; `davy` Davy's
+  1807 electrolysis; `lamps` the low-pressure sodium street lamp, one street in its light and in white
+  light; `space` the sodium layer 90 km up, laser guide stars, Hale-Bopp's sodium tail; `kitchen` baking
+  soda and a rising cake), none repeating the lab (cutting, water, the salt window, the salt lamp); its
+  showpiece above.
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
