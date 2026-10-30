@@ -45,12 +45,12 @@
   "next": [
     "picture-rooms",
     "by-hand",
-    "periodic-videos",
+    "star-forge",
+    "shared-forge",
     "halls-116",
     "treasure-hunts",
     "scavenger-hunts",
-    "star-forge",
-    "shared-forge",
+    "periodic-videos",
     "red-blood-cell"
   ],
   "waiting": [
@@ -109,7 +109,7 @@
       "from": "you",
       "date": "2026-10-29",
       "summary": "The fact file, seven picture boards and a showpiece that Carbon and Oxygen have, for the other 116 halls.",
-      "why": "Every visit passes through a hall, so this changes the most. It goes element by element with the Periodic Videos rooms, the 38 elements Artur meets first (the quiz's Explorer list) before the rest.",
+      "why": "Every visit passes through a hall, so this changes the most. Element by element, each new picture with its room (your rule); the Periodic Videos rooms wait (Later). The 38 elements Artur meets first (the quiz's Explorer list) before the rest.",
       "details": [
         "Done (2026-10-30): sodium (nerves, the sea and Aveiro's salt pans, Davy 1807, the yellow street lamps, sodium 90 km up, the cake that rises) and silicon (diatoms' glass houses, solar cells, sand into glass, the rocky Earth and Moon, Silicon Valley, silicone bakeware), each with its doorway board and a showpiece. Next by the dashboard's visits, then the rest of the quiz's well-known elements.",
         "Carbon and Oxygen got them first because the eight text boards were boring. You loved them (2026-10-29), so the others follow.",
@@ -130,7 +130,7 @@
       "from": "you",
       "date": "2026-10-29",
       "summary": "Each element gets a room where the experiments from its Periodic Videos video (Brady Haran with Professor Sir Martyn Poliakoff, University of Nottingham) are rebuilt as things you do, with the video beside them: watch to understand, do it yourself, go back to the video for the why.",
-      "why": "The videos are full of experiments a child can't do at home but can do here. Sodium first, as a pilot room to look at; then element by element with the hall boards, since one look at a video serves both.",
+      "why": "You marked it Later (2026-10-30): sodium's and silicon's rooms stay as they are, and no new video rooms until the forges and the halls have had their turn.",
       "details": [
         "Two rooms are built (2026-10-30): sodium's and silicon's (the glittering lump and sand, the chip line, the wafer's rainbow, the turbocharger race, the minerals).",
         "Sodium's room is built (2026-10-30), the pilot to try: the oil tin, the courtyard bowl with three lumps and the indicator, the salt window, the salt lamp, the professor's card, and the film on the screen with a chapter per experiment.",
@@ -207,7 +207,7 @@
       "from": "claude",
       "date": "2026-10-29",
       "summary": "Make the elements as the universe did: fuse hydrogen into helium inside a star and climb toward iron; heavier elements need neutrons, caught slowly in old giant stars or all at once when neutron stars collide.",
-      "why": "The plaza already says the elements were made in stars; this lets you do it, on top of the Atom Forge's physics.",
+      "why": "You marked it Sooner (2026-10-30). The plaza already says the elements were made in stars; this lets you do it, on top of the Atom Forge's physics. After every station by hand, so it is built to that rule from the start.",
       "details": [
         "Explorer: pick a star's size and watch which elements it can make before it dies. Scientist: the burning stages, their temperatures and how long each lasts, the slow and rapid neutron captures.",
         "Every element made lights up on the table, with where the atoms in your body came from."
@@ -222,7 +222,7 @@
       "from": "claude",
       "date": "2026-10-29",
       "summary": "The Atom Forge in a room: build one nucleus together, or race each other to a mission.",
-      "why": "Rooms already share the Molecule Lab; the forge is the other half of the table.",
+      "why": "You marked it Sooner (2026-10-30). Rooms already share the Molecule Lab and every wing; the forge is the other half of the table. Right after the star forge, so both are shared at once.",
       "details": [
         "The next step for rooms (docs/knowledge/multiplayer.md)."
       ],
