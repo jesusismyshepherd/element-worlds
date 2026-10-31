@@ -102,7 +102,7 @@
       "code": "Hb",
       "title": "Picture boards for every hall",
       "kind": "halls",
-      "status": "next",
+      "status": "building",
       "from": "you",
       "date": "2026-10-29",
       "summary": "The fact file, seven picture boards and a showpiece that Carbon and Oxygen have, for the other 116 halls.",
@@ -113,7 +113,8 @@
         "Each board is a picture with a hook question, read in Explorer or Scientist; the fact file has a face drawn from the element's data; the showpiece is a real-looking sample in the museum case.",
         "In batches of five or six: first the 38 well-known elements of the quiz's Explorer list (hydrogen to plutonium), then the rest family by family. Each batch is checked in all four languages and looked at in the game before it goes live, and goes live as soon as it is done.",
         "Each element's Periodic Videos video and its own story in the game are the research notes; every number comes from the game's data.",
-        "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples."
+        "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples.",
+        "Being built (2026-10-31): hydrogen and iron first (with krypton and radon the most visited of the well-known halls so far). Each in two steps on its own branch: the seven stories, pictures and showpiece with a room designed for each picture, then the seven rooms built on top; the hall goes live only with all its rooms (your rule)."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
