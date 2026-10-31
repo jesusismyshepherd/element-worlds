@@ -2,7 +2,9 @@
 // smoke rising to an opening in the dome where the moonlight comes in. Round the fire, the fire
 // triangle (take away fuel, heat or oxygen and the fire dies; put it back and it lights again); on
 // stone benches round the walls, the candle under a jar, the glowing splint test, methane burning atom
-// by atom, and rust as a slow burning. Contract: docs/knowledge/adding-a-wing.md. In a room, everyone
+// by atom, and rust as a slow burning. Contract: docs/knowledge/adding-a-wing.md. Each step is a tap on
+// the thing it is about (a side's post, the jar, the splint, the molecules, the tubes); E opens the
+// station's panel, whose buttons do the same. In a room, everyone
 // in the chamber shares its things (`shared` below, src/net/shared.js); panels and words stay each one's
 // own, and so does the flare of the fire when this visitor's own oxygen Atomling comes close.
 import { decimalOf } from '../../../i18n/langs.js'
@@ -17,7 +19,8 @@ import { fireCave, CAVE } from './fireCave.js'
 import { campfire } from './flame.js'
 import { fireTriangle, SIDES } from './fireTriangle.js'
 import { candleJar, splintTest, methaneStage, rustTubes } from './fireBenches.js'
-import { exhibitSet, onLevel, at, chem } from './kit.js'
+import { exhibitSet, onLevel, at, chem, within } from './kit.js'
+import { tapTargets } from '../../common/taps.js'
 
 const COLOR = '#ff9a4d'
 
@@ -87,30 +90,57 @@ export async function build(ctx) {
   const doors = [{ x: 0, z: archZ + 0.25, radius: 0.85, to: atriumPath('O') }]
 
   // ---- exhibits ----
+  // Every step is chosen by tapping the thing it is about (the user, 2026-10-30: E pressed again and
+  // again felt passive): the prompt names the next tap, E opens the station's panel, whose buttons (and
+  // the rust's slider) do the same. common/taps.js finds what was tapped.
   const ex = exhibitSet(ctx, { wing: 'fire', color: COLOR, who, busy: lv => at(W.busy, lv) })
+  const taps = tapTargets(ctx)
+  const clickable = taps.clickable
+  // a far station's things are not raycast every frame
+  const near = (x, z, d = 7) => () => within(ctx, x, z, d)
+  const panels = {}
+  const worldOf = obj => obj.getWorldPosition(new THREE.Vector3())
 
-  // the fire triangle: three posts, one discovery
-  const triPanel = lv => ({ title: W.triangle.title, kicker: W.kicker, color: COLOR, blocks: W.triangle.panel[depth(lv)] })
+  // the fire triangle: three posts, one discovery; tap a side's post (or its glowing bar) to take that
+  // side away, again to put it back
+  const triStep = id => {
+    const r = tri.toggle(id)
+    if (!r) return void ex.sayBusy()
+    share('triangle')
+    const lv = level()
+    if (r === 'take') ex.say(at(W.triangle.says[id], lv))
+    else if (tri.complete) ex.say(at(W.triangle.says.back, lv))
+    else ex.say(at(W.triangle.says.missing, lv) + tri.missing().map(m => W.triangle.missingNames[m]).join(', '))
+    ex.discover(`triangle-${id}`, 3.5)
+    for (const side of SIDES) ex.refreshPanel(`triangle-${side}`)
+  }
+  const triPanel = lv => ({
+    title: W.triangle.title,
+    kicker: W.kicker,
+    color: COLOR,
+    blocks: [
+      { buttons: SIDES.map(id => ({ label: `${tri.sides[id].on ? W.triangle.verbs.take : W.triangle.verbs.give}: ${W.triangle.sides[id]}`, accent: !tri.sides[id].on, onClick: () => triStep(id) })) },
+      ...W.triangle.panel[depth(lv)],
+    ],
+  })
   for (const id of SIDES) {
     const s = tri.sides[id]
-    ex.add({
+    // the station view: the side's post and the fire behind it
+    const look = s.mid.clone().addScaledVector(s.n, 0.1)
+    panels[`triangle-${id}`] = ex.add({
       id: `triangle-${id}`,
       find: 'triangle',
       x: s.spot.x,
       z: s.spot.y,
       radius: 1.3,
       label: W.triangle.sides[id],
-      verb: () => (tri.sides[id].on ? W.triangle.verbs.take : W.triangle.verbs.give),
-      act: () => {
-        const r = tri.toggle(id)
-        if (!r) return false
-        share('triangle')
-        if (r === 'take') return at(W.triangle.says[id], level())
-        if (tri.complete) return at(W.triangle.says.back, level())
-        return at(W.triangle.says.missing, level()) + tri.missing().map(m => W.triangle.missingNames[m]).join(', ')
-      },
+      verb: () => (tri.sides[id].on ? W.triangle.hints.take : W.triangle.hints.give),
+      manual: true,
+      focus: { x: look.x, y: 0.75, z: look.y, size: 2.4 },
       panel: triPanel,
-    })
+    }).make
+    clickable(s.post, () => triStep(id), { when: near(s.post.position.x, s.post.position.z) })
+    clickable(s.bar, () => triStep(id), { when: near(s.post.position.x, s.post.position.z) })
   }
 
   /** Puts a bench at an azimuth (degrees from north toward east) and distance, facing the fire. */
@@ -146,21 +176,34 @@ export async function build(ctx) {
     if (mine && ctx.engine.world?.root === root && !ctx.store.get().panel) ctx.store.set({ speech: { text: at(W.candle.says.out, level()), who, color: COLOR } })
   }
   const candleSpot = candleAt.at(0, 1.55)
-  ex.add({
+  // tap the jar (or the candle) to cover the candle, again to lift the jar
+  const candleStep = () => {
+    const r = candle.toggle()
+    share('candle')
+    ex.say(at(W.candle.says[r], level()))
+    // the first time, the panel after the flame has gone out (about nine seconds under the jar)
+    ex.discover('candle', r === 'cover' ? 10 : 2)
+    ex.refreshPanel('candle')
+  }
+  const candleFocus = candleAt.at(0.55, 0.15)
+  panels.candle = ex.add({
     id: 'candle',
     x: candleSpot.x,
     z: candleSpot.z,
     radius: 1.5,
     screen: candle.screen,
     label: W.candle.label,
-    verb: () => (candle.down ? W.candle.verbs.lift : W.candle.verbs.cover),
-    act: () => {
-      const r = candle.toggle()
-      share('candle')
-      return at(W.candle.says[r], level())
-    },
-    panel: lv => ({ title: W.candle.title, kicker: W.kicker, color: '#ffc35a', blocks: W.candle.panel[depth(lv)] }),
-  })
+    verb: () => (candle.down ? W.candle.hints.lift : W.candle.hints.cover),
+    manual: true,
+    focus: { x: candleFocus.x, y: 1.3, z: candleFocus.z, size: 2.1 },
+    panel: lv => ({
+      title: W.candle.title,
+      kicker: W.kicker,
+      color: '#ffc35a',
+      blocks: [{ buttons: [{ label: candle.down ? W.candle.verbs.lift : W.candle.verbs.cover, onClick: candleStep }] }, ...W.candle.panel[depth(lv)]],
+    }),
+  }).make
+  for (const thing of candle.things) clickable(thing, candleStep, { when: near(candleAt.x, candleAt.z) })
 
   // the glowing splint (north-west)
   const splint = splintTest({ stoneMat, words: W.splint, level, light })
@@ -169,21 +212,32 @@ export async function build(ctx) {
   updates.push((dt, t) => splint.update(dt, t, ctx.camera, ctx.renderer))
   refreshers.push(() => splint.refresh())
   const splintSpot = splintAt.at(0, 1.55)
-  ex.add({
+  // tap the glowing splint (or the tube) to put it into the oxygen
+  const splintStep = () => {
+    if (!splint.start()) return void ex.sayBusy()
+    share('splint')
+    ex.say(at(W.splint.says, level()))
+    ex.discover('splint', 7.8)
+  }
+  const splintFocus = splintAt.at(0.55, 0.15)
+  panels.splint = ex.add({
     id: 'splint',
     x: splintSpot.x,
     z: splintSpot.z,
     radius: 1.5,
     screen: splint.screen,
     label: W.splint.label,
-    verb: W.splint.verb,
-    act: () => {
-      if (!splint.start()) return false
-      share('splint')
-      return at(W.splint.says, level())
-    },
-    panel: lv => ({ title: W.splint.title, kicker: W.kicker, color: '#ffb070', blocks: W.splint.panel[depth(lv)] }),
-  })
+    verb: W.splint.hint,
+    manual: true,
+    focus: { x: splintFocus.x, y: 1.35, z: splintFocus.z, size: 2.1 },
+    panel: lv => ({
+      title: W.splint.title,
+      kicker: W.kicker,
+      color: '#ffb070',
+      blocks: [{ buttons: [{ label: W.splint.verb, onClick: splintStep }] }, ...W.splint.panel[depth(lv)]],
+    }),
+  }).make
+  for (const thing of splint.things) clickable(thing, splintStep, { when: near(splintAt.x, splintAt.z) })
 
   // methane burning (north-east)
   const methane = methaneStage({ stoneMat, words: W.methane, level, light })
@@ -192,22 +246,34 @@ export async function build(ctx) {
   updates.push((dt, t) => methane.update(dt, t, ctx.camera, ctx.renderer))
   refreshers.push(() => methane.refresh())
   const methaneSpot = methaneAt.at(0, 1.6)
-  ex.add({
+  // tap the molecules (or the gas ring) to burn them, again to set them up again
+  const methaneStep = () => {
+    const r = methane.act()
+    if (!r) return void ex.sayBusy()
+    share('methane')
+    ex.say(at(W.methane.says[r], level()))
+    ex.discover('methane', 4)
+    ex.refreshPanel('methane')
+  }
+  const methaneFocus = methaneAt.at(0.55, 0.15)
+  panels.methane = ex.add({
     id: 'methane',
     x: methaneSpot.x,
     z: methaneSpot.z,
     radius: 1.6,
     screen: methane.screen,
     label: W.methane.label,
-    verb: () => (methane.state === 'after' ? W.methane.verbs.again : W.methane.verbs.burn),
-    act: () => {
-      const r = methane.act()
-      if (!r) return false
-      share('methane')
-      return at(W.methane.says[r], level())
-    },
-    panel: lv => ({ title: W.methane.title, kicker: W.kicker, color: '#7fa8ff', blocks: W.methane.panel[depth(lv)] }),
-  })
+    verb: () => (methane.state === 'after' || methane.state === 'burning' ? W.methane.hints.again : W.methane.hints.burn),
+    manual: true,
+    focus: { x: methaneFocus.x, y: 1.55, z: methaneFocus.z, size: 2.6 },
+    panel: lv => ({
+      title: W.methane.title,
+      kicker: W.kicker,
+      color: '#7fa8ff',
+      blocks: [{ buttons: [{ label: methane.state === 'after' ? W.methane.verbs.again : W.methane.verbs.burn, onClick: methaneStep }] }, ...W.methane.panel[depth(lv)]],
+    }),
+  }).make
+  for (const thing of methane.things) clickable(thing, methaneStep, { when: near(methaneAt.x, methaneAt.z) })
 
   // rust (east)
   const rust = rustTubes({ stoneMat, words: W.rust, level, light })
@@ -216,22 +282,56 @@ export async function build(ctx) {
   updates.push((dt, t) => rust.update(dt, t))
   refreshers.push(() => rust.refresh())
   const rustSpot = rustAt.at(0, 1.55)
-  ex.add({
+  // tap the tubes to run the week on (at its end, new nails); the panel's slider stops it at any day
+  const rustStep = step => {
+    const r = step === 'reset' ? rust.reset() : step === 'run' && !rust.busy && rust.day >= 7 ? (rust.reset(), rust.act()) : rust.act()
+    if (!r) return void ex.sayBusy()
+    share('rust')
+    ex.say(at(W.rust.says[r], level()))
+    ex.discover('rust', r === 'run' ? 8.5 : 1.5)
+  }
+  // the slider moves many times a second: the others get it a few times a second, and where it stopped
+  let rustSend = null
+  const rustDay = d => {
+    rust.setDay(d)
+    ex.discover('rust')
+    if (!rustSend) {
+      rustSend = setTimeout(() => {
+        rustSend = null
+        share('rust')
+      }, 250)
+    }
+  }
+  const rustFocus = rustAt.at(0.55, 0.15)
+  panels.rust = ex.add({
     id: 'rust',
     x: rustSpot.x,
     z: rustSpot.z,
     radius: 1.5,
     screen: rust.screen,
     label: W.rust.label,
-    verb: () => (rust.rusted ? W.rust.verbs.reset : W.rust.verbs.run),
-    act: () => {
-      const r = rust.act()
-      if (!r) return false
-      share('rust')
-      return at(W.rust.says[r], level())
-    },
-    panel: lv => ({ title: W.rust.title, kicker: W.kicker, color: '#e0703a', blocks: W.rust.panel[depth(lv)] }),
-  })
+    verb: () => (rust.busy || rust.day >= 7 ? W.rust.hints.reset : rust.day > 0 ? W.rust.hints.rest : W.rust.hints.run),
+    manual: true,
+    focus: { x: rustFocus.x, y: 1.3, z: rustFocus.z, size: 2.1 },
+    panel: lv => ({
+      title: W.rust.title,
+      kicker: W.kicker,
+      color: '#e0703a',
+      blocks: [
+        { buttons: [{ label: W.rust.verbs.run, onClick: () => rustStep('run') }, { label: W.rust.verbs.reset, onClick: () => rustStep('reset') }] },
+        { slider: { label: W.rust.slider, min: 0, max: 7, step: 0.1, value: rust.day, onInput: rustDay, format: v => W.rust.day(Math.floor(v + 1e-6)), live: () => rust.day } },
+        ...W.rust.panel[depth(lv)],
+      ],
+    }),
+  }).make
+  for (const thing of rust.things) clickable(thing, () => rustStep('tap'), { when: near(rustAt.x, rustAt.z) })
+
+  // an open panel's buttons follow its station, whoever changed it (someone else in the room too), and
+  // the methane's when its burning ends
+  const sides = () => SIDES.map(id => (tri.sides[id].on ? 1 : 0)).join('')
+  for (const id of SIDES) ex.watch(`triangle-${id}`, sides)
+  ex.watch('candle', () => candle.down)
+  ex.watch('methane', () => methane.state === 'after')
 
   // ---- the oxygen Atomling ----
   const avatar = createAtomling(el, { light })
@@ -299,6 +399,19 @@ export async function build(ctx) {
     doors,
     talk,
     shared,
+    // the things to tap (common/taps.js)
+    pointAt: taps.pointAt,
+    onTap: taps.onTap,
+    // for the probes in tools/: each station's taps by name, where its things are, its panel
+    parts: {
+      triangle: { tap: id => triStep(id), get state() { return tri.state() }, at: id => worldOf(tri.sides[id].post).setY(0.7) },
+      candle: { tap: () => candleStep(), get down() { return candle.down }, get o2() { return candle.o2 }, at: thing => worldOf(thing === 'candle' ? candle.things[1] : candle.things[0]) },
+      splint: { tap: () => splintStep(), get busy() { return splint.busy }, at: () => splint.splint.localToWorld(new THREE.Vector3(0, 0.24, 0)) },
+      methane: { tap: () => methaneStep(), get stage() { return methane.state }, get busy() { return methane.busy }, at: () => worldOf(methane.stage) },
+      rust: { tap: step => rustStep(step ?? 'tap'), day: d => rustDay(d), get busy() { return rust.busy }, get dayNow() { return rust.day }, at: () => worldOf(rust.things[0]) },
+      rayTo: p => new THREE.Ray(ctx.camera.position.clone(), new THREE.Vector3(p.x, p.y, p.z).sub(ctx.camera.position).normalize()),
+    },
+    panels,
     refresh: () => ex.refresh(),
     attach() {
       ex.report()
@@ -309,6 +422,7 @@ export async function build(ctx) {
     },
     detach() {
       unsub?.()
+      clearTimeout(rustSend)
       ctx.store.set({ speech: null, discoveries: null })
     },
     update(dt, t) {

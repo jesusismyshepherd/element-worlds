@@ -1,12 +1,12 @@
 // Where our oxygen comes from: the Earth as a globe (the real coastlines, Natural Earth 1:110m; forests,
-// deserts and ice placed where they are), clouds and a thin blue rim of atmosphere. Using it lights the
-// forests and every green land, with O2 molecules rising from them; again, the ocean's phytoplankton
-// (where the sea is green with it: coasts, cold seas, the equator's upwelling), with O2 rising from the
-// sea. A bar on the screen shows the split: about half and half.
+// deserts and ice placed where they are), clouds and a thin blue rim of atmosphere. Tapping the land (or
+// the screen's Land) lights the forests and every green land, with O2 molecules rising from them; tapping
+// the sea, the ocean's phytoplankton (where the sea is green with it: coasts, cold seas, the equator's
+// upwelling), with O2 rising from the sea. A bar on the screen shows the split: about half and half.
 import * as THREE from 'three'
 import { makeText } from '../../../engine/text.js'
 import { LAND } from './earthLand.js'
-import { standingScreen, glowMat, hdr, makeNoise, damp, random, canvasTex } from './kit.js'
+import { standingScreen, glowMat, hdr, makeNoise, damp, random, canvasTex, hitBall, hitBox } from './kit.js'
 
 const W = 1024
 const H = 512
@@ -273,10 +273,16 @@ export function globeExhibit({ color, light, words, level }) {
   bar.position.y = 0.02
   scr.content.add(bar)
   const halves = {}
+  const halfMeshes = {}
   ;[['land', '#4fd16a', -1], ['ocean', '#33c6e8', 1]].forEach(([id, c, s]) => {
     const m = new THREE.MeshBasicMaterial({ color: hdr(c, 1.2), transparent: true, opacity: 0.55 })
     const half = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.2), m)
     half.position.set(s * 0.37, 0, 0.002)
+    // its name above it counts as the half too: a taller invisible card to tap
+    const card = hitBox(0.74, 0.46, 0.02)
+    card.position.set(s * 0.37, 0.09, 0.004)
+    bar.add(card)
+    halfMeshes[id] = card
     const name = makeText(id === 'land' ? words.land : words.ocean, { size: 0.095, color: hdr('#ffffff', 1.3) })
     name.position.set(s * 0.37, 0.19, 0)
     const pct = makeText('50%', { size: 0.11, color: hdr('#0b1030', 1) })
@@ -294,13 +300,37 @@ export function globeExhibit({ color, light, words, level }) {
     glow = 0
     return mode
   }
+  // the globe to tap (a plainer invisible ball turning with it: where the tap lands says land or sea)
+  const hit = hitBall(R * 1.01)
+  spinner.add(hit)
+  const hitLocal = new THREE.Vector3()
   return {
     group,
     screen: scr,
+    // things to tap: the globe, and the screen's two halves
+    globe: hit,
+    halves: { ...halfMeshes },
+    /** Whether a tap on the globe (a raycast hit) landed on land or on the sea. */
+    sideAt: hitPoint => (isLand(spinner.worldToLocal(hitLocal.copy(hitPoint))) ? 'land' : 'ocean'),
+    /** A point on the side facing +z (the reader) that is land or sea, in the world, for the probes. */
+    pointOn: want => {
+      spinner.updateWorldMatrix(true, false)
+      for (let i = 0; i < 400; i++) {
+        const a = (i * 2.399) % (Math.PI * 2)
+        const r = Math.sqrt((i + 0.5) / 400) * 0.8
+        v.set(Math.cos(a) * r, Math.sin(a) * r, 0)
+        v.z = Math.sqrt(Math.max(0, 1 - v.x * v.x - v.y * v.y))
+        const w = group.localToWorld(v.clone().multiplyScalar(R).add(new THREE.Vector3(0, cy, 0)))
+        if ((isLand(spinner.worldToLocal(w.clone())) ? 'land' : 'ocean') === want) return w
+      }
+      return null
+    },
     get mode() {
       return mode
     },
     next: () => turn(mode === 'land' ? 'ocean' : 'land'),
+    /** Light one half of the world's oxygen: `land` or `ocean`. */
+    show: to => turn(to),
     /** The half of the world shown, for the others in a room (src/net/shared.js). */
     state() {
       return { mode }

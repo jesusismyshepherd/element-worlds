@@ -4,12 +4,14 @@
 // - methane burning atom by atom (CH4 + 2 O2 -> CO2 + 2 H2O: the atoms regroup, none lost, light and
 //   heat given out), over a gas ring's blue flame,
 // - rust, a slow burning: three nails in three tubes (air + water, dry air, water without air); in a
-//   time-lapse only the one with both air and water rusts.
+//   time-lapse only the one with both air and water rusts, and a slider stops the week at any day.
+// Each is worked by tapping its things (`things`: the jar or the candle, the splint or its tube, the
+// molecules or the gas ring, the rack of tubes); fire.js makes them clickable (common/taps.js).
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
 import { MOLECULES } from '../../../chem/molecules.js'
-import { standingScreen, glowMat, hdr, label, glass, Particles, softDot, damp, smooth, ease, clamp, random, equation, canvasTex, NOISE_GLSL } from './kit.js'
+import { standingScreen, glowMat, hdr, label, glass, Particles, softDot, damp, smooth, ease, clamp, random, equation, canvasTex, NOISE_GLSL, hitBox } from './kit.js'
 import { flameCard, flicker, FIRE, CANDLE, GAS } from './flame.js'
 import { CANDLE_O2 } from './oxygenData.js'
 
@@ -80,6 +82,12 @@ export function candleJar({ stoneMat, words, level, light, decimal = '.' }) {
   jar.add(jarBack, jarFront)
   jar.position.set(-0.15, H + 0.005, 0)
   group.add(jar)
+  const jarHit = hitBox(0.42, 0.6, 0.42)
+  jarHit.position.y = 0.28
+  jar.add(jarHit)
+  const candleHit = hitBox(0.26, 0.36, 0.26)
+  candleHit.position.set(-0.15, H + 0.17, 0)
+  group.add(candleHit)
   const arm = new THREE.Group()
   const b = brass()
   const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.025, 1.1, 12), b)
@@ -169,6 +177,9 @@ export function candleJar({ stoneMat, words, level, light, decimal = '.' }) {
   const api = {
     group,
     screen: scr,
+    // the things to tap: the jar (an invisible box going up and down with it) and the candle
+    things: [jarHit, candleHit],
+    jar,
     get down() {
       return down
     },
@@ -327,7 +338,10 @@ export function splintTest({ stoneMat, words, level, light }) {
   tipGlow.scale.setScalar(0.09)
   const clamp1 = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.03, 0.05), brass())
   clamp1.position.y = 0.42
-  splint.add(stick, tip, tipGlow, clamp1)
+  // the splint to tap: a thicker invisible stick round the thin one
+  const splintHit = hitBox(0.12, 0.56, 0.12)
+  splintHit.position.y = 0.24
+  splint.add(stick, tip, tipGlow, clamp1, splintHit)
   // its flame stays upright whatever the splint's angle (a flame rises)
   const flame = flameCard({ w: 0.07, h: 0.16, colors: FIRE, seed: 4.4, turb: 0.8, gain: 1.7 })
   group.add(flame.mesh)
@@ -362,6 +376,9 @@ export function splintTest({ stoneMat, words, level, light }) {
   const api = {
     group,
     screen: scr,
+    // the things to tap: the splint (it goes into the tube) and the tube of oxygen
+    things: [splint, tube],
+    splint,
     get busy() {
       return run >= 0
     },
@@ -495,6 +512,9 @@ export function methaneStage({ stoneMat, words, level, light }) {
   stage.position.copy(C0)
   group.add(stage)
   for (const at of atoms) stage.add(at.m)
+  // the molecules to tap: an invisible box round all of them (the gaps between the atoms count too)
+  const stageHit = hitBox(2.0, 1.2, 0.7)
+  stage.add(stageHit)
   const stickMat = new THREE.MeshStandardMaterial({ color: '#e6ebf5', roughness: 0.35, transparent: true })
   const bond = (i, j, order, phase) => {
     const sticks = []
@@ -577,6 +597,9 @@ export function methaneStage({ stoneMat, words, level, light }) {
   const api = {
     group,
     screen: scr,
+    // the things to tap: the molecules and the gas ring under them
+    things: [stageHit, burner, crown],
+    stage,
     get state() {
       return state
     },
@@ -815,45 +838,76 @@ export function rustTubes({ stoneMat, words, level, light }) {
   const smallLine = () => (level() === 'scientist' ? words.screen.sci : words.screen.kid)
   scr.set({ small: smallLine() })
 
+  // the rack and its tubes to tap: an invisible box round them
+  const rackHit = hitBox(1.06, 0.66, 0.3)
+  rackHit.position.set(0, H + 0.32, 0)
+  group.add(rackHit)
+
+  // the week: `day` where it stands (0 to 7, the panel's slider sets it), `run` seconds into the
+  // time-lapse while one plays (RUN seconds for the whole week, counted from day 0)
+  const RUN = 8
+  const dayOfRun = r => Math.min(7, (r * 7) / RUN)
   let rust = 0
   let run = -1
-  let target = 0
+  let day = 0
   const waterClear = new THREE.Color('#9cc9e8')
   const waterRust = new THREE.Color('#c27a3c')
+  const show = () => {
+    const d = api.day
+    rust = d / 7
+    scr.set({ big: words.day(Math.floor(d + 1e-6)) })
+  }
   const api = {
     group,
     screen: scr,
+    things: [rackHit],
     get rusted() {
-      return target > 0
+      return api.day > 0
+    },
+    /** Days gone by, 0 to 7 (the time-lapse's, or the slider's). */
+    get day() {
+      return run >= 0 ? dayOfRun(run) : day
     },
     get busy() {
       return run >= 0
     },
+    /** The tap: the time-lapse runs the week on from where it stands; at its end, new nails. */
     act() {
       if (run >= 0) return false
-      if (target === 0) {
-        target = 1
-        run = 0
+      if (day < 7) {
+        run = (day * RUN) / 7
         return 'run'
       }
-      target = 0
-      rust = 0
-      scr.set({ big: words.day(0) })
+      return api.reset()
+    },
+    /** Three shiny new nails (day 0). */
+    reset() {
+      run = -1
+      day = 0
+      show()
       return 'reset'
     },
-    /** Rusted or not and how far the week under way is, for the others in a room (src/net/shared.js). */
-    state() {
-      return { rusted: target > 0, run }
+    /** The slider: the week stopped at a day (0 to 7). */
+    setDay(d) {
+      run = -1
+      day = clamp(Number(d) || 0, 0, 7)
+      show()
     },
-    /** Someone else ran the week or set the tubes again: the same here (live, when nothing runs); a
-     *  newcomer joins the week under way where it is. */
-    setState({ rusted = false, run: r = -1 } = {}, live = false) {
-      if (!!rusted === target > 0) return
-      if (live && run < 0) return void api.act()
-      target = rusted ? 1 : 0
-      run = rusted && r >= 0 && r < 8.2 ? r : -1
-      rust = run >= 0 ? clamp(run / 8) : target
-      scr.set({ big: words.day(rusted ? Math.min(7, Math.floor((run >= 0 ? run : 8) / (8 / 7))) : 0) })
+    /** Rusted or not, the day and how far the week under way is, for the others in a room
+     *  (src/net/shared.js). */
+    state() {
+      return { rusted: api.rusted, run: run >= 0 ? Math.round(run * 10) / 10 : -1, day: Math.round(api.day * 10) / 10 }
+    },
+    /** Someone else ran the week, chose a day or set the tubes again: the same here; a newcomer joins
+     *  the week under way where it is. (A state kept from before the slider has `rusted` alone.) */
+    setState({ rusted = false, run: r = -1, day: d = null } = {}) {
+      if (r >= 0 && r < RUN + 0.2) {
+        if (run < 0) run = r
+      } else {
+        run = -1
+        day = r >= RUN + 0.2 ? 7 : clamp(typeof d === 'number' ? d : rusted ? 7 : 0, 0, 7)
+      }
+      show()
     },
     refresh() {
       scr.set({ small: smallLine() })
@@ -861,10 +915,11 @@ export function rustTubes({ stoneMat, words, level, light }) {
     update(dt) {
       if (run >= 0) {
         run += dt
-        rust = clamp(run / 8)
-        const day = Math.min(7, Math.floor(run / (8 / 7)))
-        scr.set({ big: words.day(day) })
-        if (run >= 8.2) run = -1
+        if (run >= RUN + 0.2) {
+          run = -1
+          day = 7
+        }
+        show()
       }
       for (const n of nails) {
         const r = n.kind === 'wet' ? rust : rust * 0.015

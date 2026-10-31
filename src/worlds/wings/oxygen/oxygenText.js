@@ -21,6 +21,9 @@ export function chemBlocks(blocks) {
     if (b.big) return { big: chem(b.big), small: b.small ? chem(b.small) : undefined }
     if (b.rows) return { rows: b.rows.map(([k, v]) => [chem(k), chem(v)]) }
     if (b.list) return { list: b.list.map(chem) }
+    if (b.h) return { h: chem(b.h) }
+    if (b.buttons) return { buttons: b.buttons.map(x => ({ ...x, label: chem(x.label) })) }
+    if (b.slider) return { slider: { ...b.slider, label: chem(b.slider.label) } }
     return b
   })
 }

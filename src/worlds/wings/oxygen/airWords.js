@@ -31,7 +31,7 @@ export const AIR_WORDS = {
       ],
     },
     greet: {
-      kid: 'Welcome to the sky deck! All around you is air, and 21 of every 100 of its molecules are me: oxygen. Look round, and press E at anything that glows.',
+      kid: 'Welcome to the sky deck! All around you is air, and 21 of every 100 of its molecules are me: oxygen. Look round: walk up to anything that glows and tap what you want to try.',
       sci: 'The sky deck. Dry air by volume: 78.08% nitrogen, 20.95% oxygen, 0.93% argon, about 0.04% carbon dioxide. Each exhibit is about the O2 in it.',
     },
     box: {
@@ -39,6 +39,7 @@ export const AIR_WORDS = {
       screenTitle: '100 molecules of air',
       label: 'The box of air',
       verbs: { O2: 'Find the oxygen', N2: 'Show the nitrogen', Ar: 'Find the argon', all: 'Show them all' },
+      hints: { pick: 'Tap a molecule to count its gas', more: 'Tap another gas, or the same one for all' },
       says: {
         O2: { kid: '21 red pairs: that is me, oxygen, about a fifth of the air.', sci: 'O2: 21 of 100 (20.95% by volume).' },
         N2: { kid: '78 blue pairs: nitrogen, most of the air. It hardly reacts with anything.', sci: 'N2: 78 of 100 (78.08%). Its triple bond (945 kJ/mol) makes it very unreactive.' },
@@ -51,7 +52,7 @@ export const AIR_WORDS = {
           { big: '21 of 100', small: 'are oxygen (the red pairs)' },
           { list: ['78 are nitrogen (the blue pairs)', '21 are oxygen (the red pairs): that is me!', '1 is argon (a single atom: it holds no hands)'] },
           { p: 'In real air the molecules are tiny and far apart. They zoom about faster than a jet plane and bump into each other billions of times every second.' },
-          { p: 'Press E again to find the other gases.' },
+          { p: 'Tap a molecule in the box, or a gas on the screen, to find the others.' },
         ],
         sci: [
           { p: 'One hundred molecules in the proportions of dry air by volume. For a gas, the share by volume is the share of molecules (Avogadro\'s law).' },
@@ -84,6 +85,7 @@ export const AIR_WORDS = {
       title: 'O2 up close',
       label: 'The oxygen molecule',
       verbs: { show: 'Show its electrons', hide: 'Hide its electrons' },
+      hints: { show: 'Tap the molecule to see its electrons', hide: 'Tap the molecule to hide its electrons' },
       screen: { kid: 'a double bond: two hands each', sci: 'O=O · 121 pm · 498 kJ/mol' },
       says: {
         show: { kid: 'Twelve outer electrons: four shared in the double bond, eight in pairs at home.', sci: 'Lewis: one σ and one π bond, two lone pairs on each atom. But see the two lit up: unpaired, in π*.' },
@@ -107,6 +109,8 @@ export const AIR_WORDS = {
       title: 'Liquid oxygen and a magnet',
       label: 'The magnet',
       verbs: { lox: 'Pour liquid oxygen', ln2: 'Pour liquid nitrogen' },
+      hints: { lox: 'Tap the blue flask: liquid oxygen', ln2: 'Now tap the other flask: liquid nitrogen' },
+      flasks: { lox: 'liquid oxygen', ln2: 'liquid nitrogen' },
       screen: { kid: 'liquid oxygen sticks to a magnet', sci: 'boils at 90.2 K · paramagnetic' },
       says: {
         lox: { kid: 'Liquid oxygen: pale blue, and it hangs between the poles of the magnet!', sci: 'LOX, 90 K: drawn into the strongest field, between the poles, by its two unpaired electrons.' },
@@ -116,7 +120,7 @@ export const AIR_WORDS = {
         kid: [
           { p: 'Cooled to −183 °C, oxygen turns into a liquid, and the liquid is pale blue.' },
           { p: 'Pour it onto a strong magnet and it sticks! It hangs between the poles like a little bridge until it boils away.' },
-          { p: 'Press E again to pour liquid nitrogen: it is not magnetic, so it falls straight through.' },
+          { p: 'Tap the other flask to pour liquid nitrogen: it is not magnetic, so it falls straight through.' },
         ],
         sci: [
           { rows: [['Boiling point', '90.2 K (−183.0 °C)'], ['Melting point', '54.36 K (−218.8 °C)'], ['Liquid density', '1.141 g/cm³'], ['Colour', 'pale blue']] },
@@ -130,6 +134,7 @@ export const AIR_WORDS = {
       title: 'The ozone layer',
       label: 'The ozone layer',
       verb: 'Send the Sun\'s UV',
+      hint: 'Tap the column to send the Sun\'s UV',
       screen: { kid: 'the Earth\'s sunscreen', sci: 'stops all UV-C and most UV-B' },
       big: '15 to 35 km up',
       km: 'km',
@@ -161,6 +166,7 @@ export const AIR_WORDS = {
       title: 'Where our oxygen comes from',
       label: 'Where our oxygen comes from',
       verbs: { land: 'Show the land\'s oxygen', ocean: 'Show the ocean\'s oxygen' },
+      hints: { pick: 'Tap the land or the sea on the globe', land: 'Now tap the sea on the globe', ocean: 'Now tap the land on the globe' },
       screen: { kid: 'about half from the ocean, half from the land', sci: 'photosynthesis: the oxygen comes from water' },
       land: 'Land',
       ocean: 'Ocean',
@@ -173,7 +179,7 @@ export const AIR_WORDS = {
           { p: 'Almost all the oxygen in the air was made by living things that use sunlight: green plants on land, and tiny algae and bacteria floating in the sea, called phytoplankton.' },
           { big: 'About half', small: 'of the oxygen made each year comes from the ocean' },
           { p: 'They take in carbon dioxide and water and, with the energy of light, make sugar for food and give out oxygen. This is photosynthesis.' },
-          { p: 'Press E again to switch between the land and the ocean.' },
+          { p: 'Tap the land or the sea on the globe to see where each one\'s oxygen comes from.' },
         ],
         sci: [
           { p: 'Photosynthesis: 6 CO2 + 6 H2O + light → C6H12O6 + 6 O2. The oxygen given out comes from the water, not from the CO2 (shown in 1941 with water labelled with oxygen-18).' },
@@ -186,6 +192,8 @@ export const AIR_WORDS = {
       title: 'The Great Oxidation',
       label: 'The Great Oxidation',
       verb: 'Travel through time',
+      hint: 'Tap the pool to travel through time',
+      slider: 'When',
       screen: { kid: '2.4 billion years ago', sci: 'about 2.4 to 2.1 billion years ago' },
       axis: { now: 'now', ago: 'billion years ago', o2: 'O2 in the air' },
       when: ga => (ga >= 0.995 ? `${ga.toFixed(1)} billion years ago` : ga > 0.004 ? `${Math.round(ga * 1000)} million years ago` : 'today'),
@@ -221,6 +229,7 @@ export const AIR_WORDS = {
       label: 'Breathing',
       verb: 'Take a breath',
       hold: 'Hold your breath',
+      hints: { start: 'Tap the lungs to breathe', hold: 'Tap the lungs to hold your breath' },
       in: 'Air in',
       out: 'Air out',
       gas: { N2: 'nitrogen', O2: 'oxygen', CO2: 'carbon dioxide', Ar: 'argon' },
@@ -267,7 +276,7 @@ export const AIR_WORDS = {
       ],
     },
     greet: {
-      kid: 'Bem-vindo ao miradouro do céu! À tua volta está o ar, e 21 em cada 100 das suas moléculas sou eu: o oxigénio. Olha à volta e carrega no E em tudo o que brilha.',
+      kid: 'Bem-vindo ao miradouro do céu! À tua volta está o ar, e 21 em cada 100 das suas moléculas sou eu: o oxigénio. Olha à volta: aproxima-te de tudo o que brilha e toca no que quiseres experimentar.',
       sci: 'O miradouro do céu. Ar seco, em volume: 78,08% de azoto, 20,95% de oxigénio, 0,93% de árgon e cerca de 0,04% de dióxido de carbono. Cada experiência fala do O2 que lá está.',
     },
     box: {
@@ -275,6 +284,7 @@ export const AIR_WORDS = {
       screenTitle: '100 moléculas de ar',
       label: 'A caixa de ar',
       verbs: { O2: 'Procurar o oxigénio', N2: 'Mostrar o azoto', Ar: 'Procurar o árgon', all: 'Mostrar todas' },
+      hints: { pick: 'Toca numa molécula para contar o seu gás', more: 'Toca noutro gás, ou no mesmo para ver todas' },
       says: {
         O2: { kid: '21 pares vermelhos: sou eu, o oxigénio, cerca de um quinto do ar.', sci: 'O2: 21 em 100 (20,95% em volume).' },
         N2: { kid: '78 pares azuis: o azoto, a maior parte do ar. Quase não reage com nada.', sci: 'N2: 78 em 100 (78,08%). A ligação tripla (945 kJ/mol) torna-o muito pouco reativo.' },
@@ -287,7 +297,7 @@ export const AIR_WORDS = {
           { big: '21 em 100', small: 'são de oxigénio (os pares vermelhos)' },
           { list: ['78 são de azoto (os pares azuis)', '21 são de oxigénio (os pares vermelhos): sou eu!', '1 é de árgon (um átomo sozinho: não dá a mão a ninguém)'] },
           { p: 'No ar verdadeiro as moléculas são minúsculas e estão afastadas umas das outras. Andam mais depressa do que um avião a jato e chocam umas com as outras milhares de milhões de vezes por segundo.' },
-          { p: 'Carrega outra vez no E para encontrar os outros gases.' },
+          { p: 'Toca numa molécula da caixa, ou num gás do ecrã, para encontrar os outros.' },
         ],
         sci: [
           { p: 'Cem moléculas nas proporções do ar seco em volume. Num gás, a fração em volume é a fração de moléculas (lei de Avogadro).' },
@@ -320,6 +330,7 @@ export const AIR_WORDS = {
       title: 'O O2 de perto',
       label: 'A molécula de oxigénio',
       verbs: { show: 'Mostrar os eletrões', hide: 'Esconder os eletrões' },
+      hints: { show: 'Toca na molécula para ver os eletrões', hide: 'Toca na molécula para esconder os eletrões' },
       screen: { kid: 'uma ligação dupla: duas mãos cada', sci: 'O=O · 121 pm · 498 kJ/mol' },
       says: {
         show: { kid: 'Doze eletrões de fora: quatro partilhados na ligação dupla, oito em pares em casa.', sci: 'Lewis: uma ligação σ e uma π, dois pares não ligantes em cada átomo. Mas repara nos dois acesos: desemparelhados, em π*.' },
@@ -343,6 +354,8 @@ export const AIR_WORDS = {
       title: 'Oxigénio líquido e um íman',
       label: 'O íman',
       verbs: { lox: 'Deitar oxigénio líquido', ln2: 'Deitar azoto líquido' },
+      hints: { lox: 'Toca no frasco azul: oxigénio líquido', ln2: 'Agora toca no outro frasco: azoto líquido' },
+      flasks: { lox: 'oxigénio líquido', ln2: 'azoto líquido' },
       screen: { kid: 'o oxigénio líquido agarra-se a um íman', sci: 'ferve a 90,2 K · paramagnético' },
       says: {
         lox: { kid: 'Oxigénio líquido: azul-claro, e fica pendurado entre os polos do íman!', sci: 'LOX a 90 K: puxado para o campo mais forte, entre os polos, pelos seus dois eletrões desemparelhados.' },
@@ -352,7 +365,7 @@ export const AIR_WORDS = {
         kid: [
           { p: 'Arrefecido a −183 °C, o oxigénio passa a líquido, e esse líquido é azul-claro.' },
           { p: 'Deita-o num íman forte e ele agarra-se! Fica pendurado entre os polos como uma pontezinha, até ferver e desaparecer.' },
-          { p: 'Carrega outra vez no E para deitar azoto líquido: não é magnético, por isso cai a direito.' },
+          { p: 'Toca no outro frasco para deitar azoto líquido: não é magnético, por isso cai a direito.' },
         ],
         sci: [
           { rows: [['Ponto de ebulição', '90,2 K (−183,0 °C)'], ['Ponto de fusão', '54,36 K (−218,8 °C)'], ['Densidade do líquido', '1,141 g/cm³'], ['Cor', 'azul-claro']] },
@@ -366,6 +379,7 @@ export const AIR_WORDS = {
       title: 'A camada de ozono',
       label: 'A camada de ozono',
       verb: 'Enviar os raios UV do Sol',
+      hint: 'Toca na coluna para enviar os raios UV do Sol',
       screen: { kid: 'o protetor solar da Terra', sci: 'trava toda a UV-C e a maior parte da UV-B' },
       big: '15 a 35 km de altura',
       km: 'km',
@@ -397,6 +411,7 @@ export const AIR_WORDS = {
       title: 'De onde vem o nosso oxigénio',
       label: 'De onde vem o nosso oxigénio',
       verbs: { land: 'Mostrar o oxigénio da terra', ocean: 'Mostrar o oxigénio do mar' },
+      hints: { pick: 'Toca na terra ou no mar do globo', land: 'Agora toca no mar do globo', ocean: 'Agora toca na terra do globo' },
       screen: { kid: 'cerca de metade do mar, metade da terra', sci: 'fotossíntese: o oxigénio vem da água' },
       land: 'Terra',
       ocean: 'Mar',
@@ -409,7 +424,7 @@ export const AIR_WORDS = {
           { p: 'Quase todo o oxigénio do ar foi feito por seres vivos que usam a luz do Sol: as plantas verdes em terra, e algas e bactérias minúsculas que flutuam no mar, o fitoplâncton.' },
           { big: 'Cerca de metade', small: 'do oxigénio produzido em cada ano vem do mar' },
           { p: 'Absorvem dióxido de carbono e água e, com a energia da luz, fazem açúcar para se alimentarem e libertam oxigénio. Isto é a fotossíntese.' },
-          { p: 'Carrega outra vez no E para trocar entre a terra e o mar.' },
+          { p: 'Toca na terra ou no mar do globo para ver de onde vem o oxigénio de cada um.' },
         ],
         sci: [
           { p: 'Fotossíntese: 6 CO2 + 6 H2O + luz → C6H12O6 + 6 O2. O oxigénio libertado vem da água, não do CO2 (demonstrado em 1941 com água marcada com oxigénio-18).' },
@@ -422,6 +437,8 @@ export const AIR_WORDS = {
       title: 'A Grande Oxidação',
       label: 'A Grande Oxidação',
       verb: 'Viajar no tempo',
+      hint: 'Toca no lago para viajar no tempo',
+      slider: 'Quando',
       screen: { kid: 'há 2,4 mil milhões de anos', sci: 'há cerca de 2,4 a 2,1 mil milhões de anos' },
       axis: { now: 'hoje', ago: 'mil milhões de anos atrás', o2: 'O2 no ar' },
       when: ga => (ga >= 0.995 ? `há ${ga.toFixed(1).replace('.', ',')} mil milhões de anos` : ga > 0.004 ? `há ${Math.round(ga * 1000)} milhões de anos` : 'hoje'),
@@ -457,6 +474,7 @@ export const AIR_WORDS = {
       label: 'Respirar',
       verb: 'Respirar fundo',
       hold: 'Suster a respiração',
+      hints: { start: 'Toca nos pulmões para respirar', hold: 'Toca nos pulmões para suster a respiração' },
       in: 'Ar que entra',
       out: 'Ar que sai',
       gas: { N2: 'azoto', O2: 'oxigénio', CO2: 'dióxido de carbono', Ar: 'árgon' },
@@ -503,7 +521,7 @@ export const AIR_WORDS = {
       ],
     },
     greet: {
-      kid: 'Witaj na podniebnym tarasie! Wszędzie wokół ciebie jest powietrze, a 21 na każde 100 jego cząsteczek to ja: tlen. Rozejrzyj się i naciśnij E przy wszystkim, co świeci.',
+      kid: 'Witaj na podniebnym tarasie! Wszędzie wokół ciebie jest powietrze, a 21 na każde 100 jego cząsteczek to ja: tlen. Rozejrzyj się: podejdź do wszystkiego, co świeci, i dotknij tego, co chcesz wypróbować.',
       sci: 'Podniebny taras. Suche powietrze, objętościowo: 78,08% azotu, 20,95% tlenu, 0,93% argonu, około 0,04% dwutlenku węgla. Każdy eksponat opowiada o zawartym w nim O2.',
     },
     box: {
@@ -511,6 +529,7 @@ export const AIR_WORDS = {
       screenTitle: '100 cząsteczek powietrza',
       label: 'Skrzynia z powietrzem',
       verbs: { O2: 'Znajdź tlen', N2: 'Pokaż azot', Ar: 'Znajdź argon', all: 'Pokaż wszystkie' },
+      hints: { pick: 'Dotknij cząsteczki, żeby policzyć jej gaz', more: 'Dotknij innego gazu albo tego samego, żeby zobaczyć wszystkie' },
       says: {
         O2: { kid: '21 czerwonych par: to ja, tlen, mniej więcej jedna piąta powietrza.', sci: 'O2: 21 na 100 (20,95% objętościowo).' },
         N2: { kid: '78 niebieskich par: azot, większość powietrza. Prawie z niczym nie reaguje.', sci: 'N2: 78 na 100 (78,08%). Wiązanie potrójne (945 kJ/mol) czyni go bardzo mało reaktywnym.' },
@@ -523,7 +542,7 @@ export const AIR_WORDS = {
           { big: '21 na 100', small: 'to tlen (czerwone pary)' },
           { list: ['78 to azot (niebieskie pary)', '21 to tlen (czerwone pary): to ja!', '1 to argon (pojedynczy atom: nikogo nie trzyma za rękę)'] },
           { p: 'W prawdziwym powietrzu cząsteczki są malutkie i daleko od siebie. Pędzą szybciej niż odrzutowiec i zderzają się ze sobą miliardy razy na sekundę.' },
-          { p: 'Naciśnij E jeszcze raz, żeby znaleźć inne gazy.' },
+          { p: 'Dotknij cząsteczki w skrzyni albo gazu na ekranie, żeby znaleźć pozostałe.' },
         ],
         sci: [
           { p: 'Sto cząsteczek w proporcjach suchego powietrza (objętościowo). W gazie udział objętościowy jest udziałem cząsteczek (prawo Avogadra).' },
@@ -556,6 +575,7 @@ export const AIR_WORDS = {
       title: 'O2 z bliska',
       label: 'Cząsteczka tlenu',
       verbs: { show: 'Pokaż elektrony', hide: 'Ukryj elektrony' },
+      hints: { show: 'Dotknij cząsteczki, żeby zobaczyć jej elektrony', hide: 'Dotknij cząsteczki, żeby ukryć elektrony' },
       screen: { kid: 'wiązanie podwójne: po dwie ręce', sci: 'O=O · 121 pm · 498 kJ/mol' },
       says: {
         show: { kid: 'Dwanaście elektronów zewnętrznych: cztery wspólne w wiązaniu podwójnym, osiem w parach w domu.', sci: 'Lewis: jedno wiązanie σ i jedno π, dwie wolne pary na każdym atomie. Ale spójrz na te dwa podświetlone: niesparowane, na π*.' },
@@ -579,6 +599,8 @@ export const AIR_WORDS = {
       title: 'Ciekły tlen i magnes',
       label: 'Magnes',
       verbs: { lox: 'Wlej ciekły tlen', ln2: 'Wlej ciekły azot' },
+      hints: { lox: 'Dotknij niebieskiej kolby: ciekły tlen', ln2: 'Teraz dotknij drugiej kolby: ciekły azot' },
+      flasks: { lox: 'ciekły tlen', ln2: 'ciekły azot' },
       screen: { kid: 'ciekły tlen przywiera do magnesu', sci: 'wrze w 90,2 K · paramagnetyczny' },
       says: {
         lox: { kid: 'Ciekły tlen: bladoniebieski, i wisi między biegunami magnesu!', sci: 'LOX, 90 K: dwa niesparowane elektrony wciągają go w najsilniejsze pole, między bieguny.' },
@@ -588,7 +610,7 @@ export const AIR_WORDS = {
         kid: [
           { p: 'Ochłodzony do −183 °C tlen zamienia się w ciecz, a ta ciecz jest bladoniebieska.' },
           { p: 'Wlej go na silny magnes, a przywrze! Wisi między biegunami jak mały mostek, aż wyparuje.' },
-          { p: 'Naciśnij E jeszcze raz, żeby wlać ciekły azot: nie jest magnetyczny, więc spada prosto w dół.' },
+          { p: 'Dotknij drugiej kolby, żeby wlać ciekły azot: nie jest magnetyczny, więc spada prosto w dół.' },
         ],
         sci: [
           { rows: [['Temperatura wrzenia', '90,2 K (−183,0 °C)'], ['Temperatura topnienia', '54,36 K (−218,8 °C)'], ['Gęstość cieczy', '1,141 g/cm³'], ['Barwa', 'bladoniebieska']] },
@@ -602,6 +624,7 @@ export const AIR_WORDS = {
       title: 'Warstwa ozonowa',
       label: 'Warstwa ozonowa',
       verb: 'Wyślij promienie UV Słońca',
+      hint: 'Dotknij kolumny, żeby wysłać promienie UV Słońca',
       screen: { kid: 'krem z filtrem dla Ziemi', sci: 'zatrzymuje całe UV-C i większość UV-B' },
       big: '15 do 35 km w górze',
       km: 'km',
@@ -633,6 +656,7 @@ export const AIR_WORDS = {
       title: 'Skąd się bierze nasz tlen',
       label: 'Skąd się bierze nasz tlen',
       verbs: { land: 'Pokaż tlen z lądu', ocean: 'Pokaż tlen z oceanu' },
+      hints: { pick: 'Dotknij lądu albo morza na globusie', land: 'Teraz dotknij morza na globusie', ocean: 'Teraz dotknij lądu na globusie' },
       screen: { kid: 'około połowa z oceanu, połowa z lądu', sci: 'fotosynteza: tlen pochodzi z wody' },
       land: 'Ląd',
       ocean: 'Ocean',
@@ -645,7 +669,7 @@ export const AIR_WORDS = {
           { p: 'Prawie cały tlen w powietrzu wytworzyły żywe istoty, które korzystają ze światła słonecznego: zielone rośliny na lądzie oraz malutkie glony i bakterie unoszące się w morzu, zwane fitoplanktonem.' },
           { big: 'Około połowa', small: 'tlenu wytwarzanego co roku pochodzi z oceanu' },
           { p: 'Pobierają dwutlenek węgla i wodę i dzięki energii światła robią z nich cukier na pokarm, a oddają tlen. To jest fotosynteza.' },
-          { p: 'Naciśnij E jeszcze raz, żeby przełączać między lądem a oceanem.' },
+          { p: 'Dotknij lądu albo morza na globusie, żeby zobaczyć, skąd pochodzi tlen każdego z nich.' },
         ],
         sci: [
           { p: 'Fotosynteza: 6 CO2 + 6 H2O + światło → C6H12O6 + 6 O2. Uwalniany tlen pochodzi z wody, a nie z CO2 (wykazano to w 1941 roku za pomocą wody znakowanej tlenem-18).' },
@@ -658,6 +682,8 @@ export const AIR_WORDS = {
       title: 'Katastrofa tlenowa',
       label: 'Katastrofa tlenowa',
       verb: 'Podróżuj w czasie',
+      hint: 'Dotknij basenu, żeby podróżować w czasie',
+      slider: 'Kiedy',
       screen: { kid: '2,4 miliarda lat temu', sci: 'około 2,4 do 2,1 miliarda lat temu' },
       axis: { now: 'dziś', ago: 'miliardy lat temu', o2: 'O2 w powietrzu' },
       when: ga => (ga >= 0.995 ? `${ga.toFixed(1).replace('.', ',')} miliarda lat temu` : ga > 0.004 ? `${plMillions(Math.round(ga * 1000))} lat temu` : 'dziś'),
@@ -693,6 +719,7 @@ export const AIR_WORDS = {
       label: 'Oddychanie',
       verb: 'Weź oddech',
       hold: 'Wstrzymaj oddech',
+      hints: { start: 'Dotknij płuc, żeby oddychać', hold: 'Dotknij płuc, żeby wstrzymać oddech' },
       in: 'Wdech',
       out: 'Wydech',
       gas: { N2: 'azot', O2: 'tlen', CO2: 'dwutlenek węgla', Ar: 'argon' },
@@ -739,7 +766,7 @@ export const AIR_WORDS = {
       ],
     },
     greet: {
-      kid: 'Willkommen auf der Himmelsterrasse! Überall um dich herum ist Luft, und 21 von 100 ihrer Moleküle bin ich: Sauerstoff. Schau dich um und drück E bei allem, was leuchtet.',
+      kid: 'Willkommen auf der Himmelsterrasse! Überall um dich herum ist Luft, und 21 von 100 ihrer Moleküle bin ich: Sauerstoff. Schau dich um: Geh zu allem, was leuchtet, und tipp an, was du ausprobieren willst.',
       sci: 'Die Himmelsterrasse. Trockene Luft, Volumenanteile: 78,08% Stickstoff, 20,95% Sauerstoff, 0,93% Argon, etwa 0,04% Kohlenstoffdioxid. Jedes Exponat handelt vom O2 darin.',
     },
     box: {
@@ -747,6 +774,7 @@ export const AIR_WORDS = {
       screenTitle: '100 Luftmoleküle',
       label: 'Die Luftkiste',
       verbs: { O2: 'Finde den Sauerstoff', N2: 'Zeig den Stickstoff', Ar: 'Finde das Argon', all: 'Zeig alle' },
+      hints: { pick: 'Tipp ein Molekül an, um sein Gas zu zählen', more: 'Tipp ein anderes Gas an, oder dasselbe für alle' },
       says: {
         O2: { kid: '21 rote Paare: das bin ich, Sauerstoff, etwa ein Fünftel der Luft.', sci: 'O2: 21 von 100 (Volumenanteil 20,95%).' },
         N2: { kid: '78 blaue Paare: Stickstoff, der größte Teil der Luft. Er reagiert mit fast nichts.', sci: 'N2: 78 von 100 (78,08%). Seine Dreifachbindung (945 kJ/mol) macht ihn sehr reaktionsträge.' },
@@ -759,7 +787,7 @@ export const AIR_WORDS = {
           { big: '21 von 100', small: 'sind Sauerstoff (die roten Paare)' },
           { list: ['78 sind Stickstoff (die blauen Paare)', '21 sind Sauerstoff (die roten Paare): das bin ich!', '1 ist Argon (ein einzelnes Atom: es hält keine Hände)'] },
           { p: 'In echter Luft sind die Moleküle winzig und weit voneinander entfernt. Sie flitzen schneller als ein Düsenflugzeug herum und stoßen jede Sekunde Milliarden Mal zusammen.' },
-          { p: 'Drück noch einmal E, um die anderen Gase zu finden.' },
+          { p: 'Tipp ein Molekül in der Kiste oder ein Gas auf dem Bildschirm an, um die anderen zu finden.' },
         ],
         sci: [
           { p: 'Hundert Moleküle in den Volumenanteilen trockener Luft. Bei einem Gas ist der Volumenanteil gleich dem Anteil der Moleküle (Satz von Avogadro).' },
@@ -792,6 +820,7 @@ export const AIR_WORDS = {
       title: 'O2 aus der Nähe',
       label: 'Das Sauerstoffmolekül',
       verbs: { show: 'Zeig seine Elektronen', hide: 'Versteck seine Elektronen' },
+      hints: { show: 'Tipp das Molekül an, um seine Elektronen zu sehen', hide: 'Tipp das Molekül an, um sie zu verstecken' },
       screen: { kid: 'eine Doppelbindung: je zwei Hände', sci: 'O=O · 121 pm · 498 kJ/mol' },
       says: {
         show: { kid: 'Zwölf Außenelektronen: vier geteilt in der Doppelbindung, acht paarweise zu Hause.', sci: 'Lewis: eine σ- und eine π-Bindung, zwei freie Elektronenpaare an jedem Atom. Aber sieh dir die zwei leuchtenden an: ungepaart, in π*.' },
@@ -815,6 +844,8 @@ export const AIR_WORDS = {
       title: 'Flüssiger Sauerstoff und Magnet',
       label: 'Der Magnet',
       verbs: { lox: 'Gieß flüssigen Sauerstoff ein', ln2: 'Gieß flüssigen Stickstoff ein' },
+      hints: { lox: 'Tipp die blaue Flasche an: flüssiger Sauerstoff', ln2: 'Jetzt tipp die andere Flasche an: flüssiger Stickstoff' },
+      flasks: { lox: 'flüssiger Sauerstoff', ln2: 'flüssiger Stickstoff' },
       screen: { kid: 'flüssiger Sauerstoff haftet am Magneten', sci: 'siedet bei 90,2 K · paramagnetisch' },
       says: {
         lox: { kid: 'Flüssiger Sauerstoff: hellblau, und er hängt zwischen den Polen des Magneten!', sci: 'LOX, 90 K: von seinen zwei ungepaarten Elektronen ins stärkste Feld gezogen, zwischen die Pole.' },
@@ -824,7 +855,7 @@ export const AIR_WORDS = {
         kid: [
           { p: 'Auf −183 °C abgekühlt wird Sauerstoff flüssig, und die Flüssigkeit ist hellblau.' },
           { p: 'Gieß ihn auf einen starken Magneten, und er bleibt hängen! Er hängt zwischen den Polen wie eine kleine Brücke, bis er verdampft ist.' },
-          { p: 'Drück noch einmal E, um flüssigen Stickstoff einzugießen: er ist nicht magnetisch und fällt direkt hindurch.' },
+          { p: 'Tipp die andere Flasche an, um flüssigen Stickstoff einzugießen: er ist nicht magnetisch und fällt direkt hindurch.' },
         ],
         sci: [
           { rows: [['Siedepunkt', '90,2 K (−183,0 °C)'], ['Schmelzpunkt', '54,36 K (−218,8 °C)'], ['Dichte der Flüssigkeit', '1,141 g/cm³'], ['Farbe', 'hellblau']] },
@@ -838,6 +869,7 @@ export const AIR_WORDS = {
       title: 'Die Ozonschicht',
       label: 'Die Ozonschicht',
       verb: 'Schick das UV-Licht der Sonne',
+      hint: 'Tipp die Säule an, um das UV-Licht der Sonne zu schicken',
       screen: { kid: 'die Sonnencreme der Erde', sci: 'stoppt alles UV-C und das meiste UV-B' },
       big: '15 bis 35 km hoch',
       km: 'km',
@@ -869,6 +901,7 @@ export const AIR_WORDS = {
       title: 'Woher unser Sauerstoff kommt',
       label: 'Woher unser Sauerstoff kommt',
       verbs: { land: 'Zeig den Sauerstoff vom Land', ocean: 'Zeig den Sauerstoff aus dem Meer' },
+      hints: { pick: 'Tipp auf das Land oder das Meer des Globus', land: 'Jetzt tipp auf das Meer des Globus', ocean: 'Jetzt tipp auf das Land des Globus' },
       screen: { kid: 'etwa die Hälfte aus dem Meer, die Hälfte vom Land', sci: 'Fotosynthese: der Sauerstoff stammt aus dem Wasser' },
       land: 'Land',
       ocean: 'Ozean',
@@ -881,7 +914,7 @@ export const AIR_WORDS = {
           { p: 'Fast der ganze Sauerstoff in der Luft wurde von Lebewesen gemacht, die Sonnenlicht nutzen: von grünen Pflanzen an Land und von winzigen Algen und Bakterien, die im Meer treiben, dem Phytoplankton.' },
           { big: 'Etwa die Hälfte', small: 'des Sauerstoffs, der jedes Jahr entsteht, kommt aus dem Ozean' },
           { p: 'Sie nehmen Kohlenstoffdioxid und Wasser auf, machen mit der Energie des Lichts Zucker als Nahrung und geben Sauerstoff ab. Das ist Fotosynthese.' },
-          { p: 'Drück noch einmal E, um zwischen Land und Ozean zu wechseln.' },
+          { p: 'Tipp auf das Land oder das Meer des Globus, um zu sehen, woher der Sauerstoff von beiden kommt.' },
         ],
         sci: [
           { p: 'Fotosynthese: 6 CO2 + 6 H2O + Licht → C6H12O6 + 6 O2. Der abgegebene Sauerstoff stammt aus dem Wasser, nicht aus dem CO2 (1941 gezeigt mit Wasser, das mit Sauerstoff-18 markiert war).' },
@@ -894,6 +927,8 @@ export const AIR_WORDS = {
       title: 'Große Sauerstoffkatastrophe',
       label: 'Große Sauerstoffkatastrophe',
       verb: 'Reise durch die Zeit',
+      hint: 'Tipp das Becken an, um durch die Zeit zu reisen',
+      slider: 'Wann',
       screen: { kid: 'vor 2,4 Milliarden Jahren', sci: 'vor etwa 2,4 bis 2,1 Milliarden Jahren' },
       axis: { now: 'heute', ago: 'Milliarden Jahre vor heute', o2: 'O2 in der Luft' },
       when: ga => (ga >= 0.995 ? `vor ${ga.toFixed(1).replace('.', ',')} Milliarden Jahren` : ga > 0.004 ? `vor ${Math.round(ga * 1000)} Millionen Jahren` : 'heute'),
@@ -929,6 +964,7 @@ export const AIR_WORDS = {
       label: 'Atmen',
       verb: 'Hol tief Luft',
       hold: 'Luft anhalten',
+      hints: { start: 'Tipp die Lunge an, um zu atmen', hold: 'Tipp die Lunge an, um die Luft anzuhalten' },
       in: 'Einatemluft',
       out: 'Ausatemluft',
       gas: { N2: 'Stickstoff', O2: 'Sauerstoff', CO2: 'Kohlenstoffdioxid', Ar: 'Argon' },

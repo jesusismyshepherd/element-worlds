@@ -42,6 +42,7 @@ export const FIRE_WORDS = {
       },
       off: { kid: 'taken away: the fire goes out', sci: 'removed: combustion stops' },
       verbs: { take: 'Take away', give: 'Put back' },
+      hints: { take: 'Tap the post to take it away', give: 'Tap the post to put it back' },
       screen: { kid: 'take one away and the fire goes out', sci: 'fuel + oxidiser + activation energy' },
       says: {
         fuel: { kid: 'No fuel, nothing to burn: the fire starves.', sci: 'Fuel removed: no more vapour to burn.' },
@@ -54,7 +55,7 @@ export const FIRE_WORDS = {
         kid: [
           { p: 'A fire needs three things at once: fuel (something to burn, like wood), heat (to start it and keep it going) and oxygen (from the air).' },
           { p: 'Take away any one of them and the fire goes out. That is how firefighters work: water takes away the heat, a fire blanket takes away the oxygen, and clearing the trees in front of a forest fire takes away its fuel.' },
-          { p: 'Try each side of the triangle!' },
+          { p: 'Try each side: tap its post to take it away, and again to put it back.' },
         ],
         sci: [
           { p: 'Combustion needs a fuel, an oxidiser (here O2) and enough energy to reach the ignition temperature (the activation energy). Once burning, the reaction\'s own heat keeps it going.' },
@@ -67,6 +68,7 @@ export const FIRE_WORDS = {
       title: 'The candle under the jar',
       label: 'The candle and the jar',
       verbs: { cover: 'Cover the candle', lift: 'Lift the jar' },
+      hints: { cover: 'Tap the jar to cover the candle', lift: 'Tap the jar to lift it' },
       gauge: 'oxygen in the jar',
       out: 'out',
       screen: { kid: 'oxygen in the jar', sci: 'oxygen in the jar, % by volume' },
@@ -92,6 +94,7 @@ export const FIRE_WORDS = {
       title: 'The glowing splint test',
       label: 'The glowing splint',
       verb: 'Put the splint in the tube',
+      hint: 'Tap the splint to put it in the tube',
       tube: 'pure oxygen',
       screen: { kid: 'the test for oxygen', sci: 'a glowing splint relights in oxygen' },
       says: {
@@ -114,6 +117,7 @@ export const FIRE_WORDS = {
       title: 'Burning, atom by atom',
       label: 'Methane burning',
       verbs: { burn: 'Burn the methane', again: 'Start again' },
+      hints: { burn: 'Tap the molecules to burn them', again: 'Tap the molecules to start again' },
       screen: { kid: 'atoms are never lost, only regrouped', sci: '890 kJ per mole of methane' },
       count: { C: 'C', H: 'H', O: 'O' },
       says: {
@@ -138,6 +142,8 @@ export const FIRE_WORDS = {
       title: 'Rust, a slow burning',
       label: 'The three nails',
       verbs: { run: 'Speed up time', reset: 'New nails' },
+      hints: { run: 'Tap the tubes to speed up time', rest: 'Tap the tubes for the rest of the week', reset: 'Tap the tubes for new nails' },
+      slider: 'Days',
       tubes: { wet: 'air + water', dry: 'dry air', airless: 'water, no air' },
       day: d => (d < 1 ? 'day 0' : d === 1 ? '1 day' : `${d} days`),
       screen: { kid: 'iron + oxygen + water', sci: 'rust: hydrated iron(III) oxide' },
@@ -197,6 +203,7 @@ export const FIRE_WORDS = {
       },
       off: { kid: 'tirado: o fogo apaga-se', sci: 'retirado: a combustão para' },
       verbs: { take: 'Tirar', give: 'Repor' },
+      hints: { take: 'Toca no poste para o tirar', give: 'Toca no poste para o repor' },
       screen: { kid: 'tira um e o fogo apaga-se', sci: 'combustível + comburente + energia de ativação' },
       says: {
         fuel: { kid: 'Sem combustível, nada para arder: o fogo morre de fome.', sci: 'Sem combustível: deixa de haver vapores para arder.' },
@@ -209,7 +216,7 @@ export const FIRE_WORDS = {
         kid: [
           { p: 'Um fogo precisa de três coisas ao mesmo tempo: combustível (algo que arda, como a lenha), calor (para o acender e o manter aceso) e oxigénio (do ar), a que os cientistas chamam comburente.' },
           { p: 'Tira qualquer um deles e o fogo apaga-se. É assim que os bombeiros trabalham: a água tira o calor, uma manta corta-fogo tira o oxigénio, e cortar as árvores à frente de um incêndio florestal tira-lhe o combustível.' },
-          { p: 'Experimenta cada lado do triângulo!' },
+          { p: 'Experimenta cada lado: toca no seu poste para o tirar, e outra vez para o repor.' },
         ],
         sci: [
           { p: 'A combustão precisa de um combustível, de um comburente (aqui o O2) e de energia suficiente para atingir a temperatura de ignição (a energia de ativação). Depois de começar, o calor da própria reação mantém-na.' },
@@ -222,6 +229,7 @@ export const FIRE_WORDS = {
       title: 'A vela debaixo do frasco',
       label: 'A vela e o frasco',
       verbs: { cover: 'Tapar a vela', lift: 'Levantar o frasco' },
+      hints: { cover: 'Toca no frasco para tapar a vela', lift: 'Toca no frasco para o levantar' },
       gauge: 'oxigénio no frasco',
       out: 'apagou',
       screen: { kid: 'oxigénio no frasco', sci: 'oxigénio no frasco, % em volume' },
@@ -247,6 +255,7 @@ export const FIRE_WORDS = {
       title: 'O teste da tala em brasa',
       label: 'A tala em brasa',
       verb: 'Pôr a tala no tubo',
+      hint: 'Toca na tala para a pôr no tubo',
       tube: 'oxigénio puro',
       screen: { kid: 'o teste do oxigénio', sci: 'uma tala em brasa reacende-se no oxigénio' },
       says: {
@@ -269,6 +278,7 @@ export const FIRE_WORDS = {
       title: 'A combustão, átomo a átomo',
       label: 'O metano a arder',
       verbs: { burn: 'Queimar o metano', again: 'Recomeçar' },
+      hints: { burn: 'Toca nas moléculas para as queimar', again: 'Toca nas moléculas para recomeçar' },
       screen: { kid: 'os átomos nunca se perdem, só se reagrupam', sci: '890 kJ por mole de metano' },
       count: { C: 'C', H: 'H', O: 'O' },
       says: {
@@ -293,6 +303,8 @@ export const FIRE_WORDS = {
       title: 'A ferrugem, uma combustão lenta',
       label: 'Os três pregos',
       verbs: { run: 'Acelerar o tempo', reset: 'Pregos novos' },
+      hints: { run: 'Toca nos tubos para acelerar o tempo', rest: 'Toca nos tubos para o resto da semana', reset: 'Toca nos tubos para ter pregos novos' },
+      slider: 'Dias',
       tubes: { wet: 'ar + água', dry: 'ar seco', airless: 'água sem ar' },
       day: d => (d < 1 ? 'dia 0' : d === 1 ? '1 dia' : `${d} dias`),
       screen: { kid: 'ferro + oxigénio + água', sci: 'ferrugem: óxido de ferro(III) hidratado' },
@@ -352,6 +364,7 @@ export const FIRE_WORDS = {
       },
       off: { kid: 'zabrane: ogień gaśnie', sci: 'usunięte: spalanie ustaje' },
       verbs: { take: 'Zabierz', give: 'Przywróć' },
+      hints: { take: 'Dotknij słupka, żeby go zabrać', give: 'Dotknij słupka, żeby go przywrócić' },
       screen: { kid: 'zabierz jedno, a ogień zgaśnie', sci: 'paliwo + utleniacz + energia aktywacji' },
       says: {
         fuel: { kid: 'Bez paliwa nie ma co się palić: ogień głoduje.', sci: 'Usunięto paliwo: nie ma już par, które mogą się palić.' },
@@ -364,7 +377,7 @@ export const FIRE_WORDS = {
         kid: [
           { p: 'Ogień potrzebuje naraz trzech rzeczy: paliwa (czegoś, co się pali, na przykład drewna), ciepła (żeby go rozpalić i podtrzymać) i tlenu (z powietrza).' },
           { p: 'Zabierz którąkolwiek z nich, a ogień zgaśnie. Tak pracują strażacy: woda zabiera ciepło, koc gaśniczy zabiera tlen, a wycięcie drzew przed pożarem lasu zabiera mu paliwo.' },
-          { p: 'Wypróbuj każdy bok trójkąta!' },
+          { p: 'Wypróbuj każdy bok: dotknij jego słupka, żeby go zabrać, i jeszcze raz, żeby go przywrócić.' },
         ],
         sci: [
           { p: 'Spalanie wymaga paliwa, utleniacza (tutaj O2) i dość energii, by osiągnąć temperaturę zapłonu (energia aktywacji). Gdy już się pali, ciepło samej reakcji je podtrzymuje.' },
@@ -377,6 +390,7 @@ export const FIRE_WORDS = {
       title: 'Świeca pod słojem',
       label: 'Świeca i słój',
       verbs: { cover: 'Przykryj świecę', lift: 'Podnieś słój' },
+      hints: { cover: 'Dotknij słoja, żeby przykryć świecę', lift: 'Dotknij słoja, żeby go podnieść' },
       gauge: 'tlen w słoju',
       out: 'zgasła',
       screen: { kid: 'tlen w słoju', sci: 'tlen w słoju, % objętościowo' },
@@ -402,6 +416,7 @@ export const FIRE_WORDS = {
       title: 'Próba z tlącym się łuczywem',
       label: 'Tlące się łuczywo',
       verb: 'Włóż łuczywo do probówki',
+      hint: 'Dotknij łuczywa, żeby włożyć je do probówki',
       tube: 'czysty tlen',
       screen: { kid: 'próba na tlen', sci: 'tlące się łuczywo zapala się w tlenie' },
       says: {
@@ -424,6 +439,7 @@ export const FIRE_WORDS = {
       title: 'Spalanie, atom po atomie',
       label: 'Spalanie metanu',
       verbs: { burn: 'Spal metan', again: 'Zacznij od nowa' },
+      hints: { burn: 'Dotknij cząsteczek, żeby je spalić', again: 'Dotknij cząsteczek, żeby zacząć od nowa' },
       screen: { kid: 'atomy nie giną, tylko się przegrupowują', sci: '890 kJ na mol metanu' },
       count: { C: 'C', H: 'H', O: 'O' },
       says: {
@@ -448,6 +464,8 @@ export const FIRE_WORDS = {
       title: 'Rdza, powolne spalanie',
       label: 'Trzy gwoździe',
       verbs: { run: 'Przyspiesz czas', reset: 'Nowe gwoździe' },
+      hints: { run: 'Dotknij probówek, żeby przyspieszyć czas', rest: 'Dotknij probówek, żeby zobaczyć resztę tygodnia', reset: 'Dotknij probówek, żeby dostać nowe gwoździe' },
+      slider: 'Dni',
       tubes: { wet: 'powietrze + woda', dry: 'suche powietrze', airless: 'woda bez powietrza' },
       day: d => (d < 1 ? 'dzień 0' : d === 1 ? '1 dzień' : `${d} dni`),
       screen: { kid: 'żelazo + tlen + woda', sci: 'rdza: uwodniony tlenek żelaza(III)' },
@@ -507,6 +525,7 @@ export const FIRE_WORDS = {
       },
       off: { kid: 'weggenommen: das Feuer geht aus', sci: 'entfernt: die Verbrennung stoppt' },
       verbs: { take: 'Nimm weg', give: 'Gib zurück' },
+      hints: { take: 'Tipp den Pfosten an, um die Seite wegzunehmen', give: 'Tipp den Pfosten an, um die Seite zurückzugeben' },
       screen: { kid: 'nimm eins weg und das Feuer geht aus', sci: 'Brennstoff + Oxidationsmittel + Aktivierungsenergie' },
       says: {
         fuel: { kid: 'Kein Brennstoff, nichts zum Brennen: das Feuer verhungert.', sci: 'Brennstoff entfernt: kein Dampf mehr, der brennen kann.' },
@@ -519,7 +538,7 @@ export const FIRE_WORDS = {
         kid: [
           { p: 'Ein Feuer braucht drei Dinge gleichzeitig: Brennstoff (etwas, das brennt, wie Holz), Wärme (zum Anzünden und Weiterbrennen) und Sauerstoff (aus der Luft).' },
           { p: 'Nimm eines davon weg, und das Feuer geht aus. So arbeitet die Feuerwehr: Wasser nimmt die Wärme weg, eine Löschdecke den Sauerstoff, und wer die Bäume vor einem Waldbrand fällt, nimmt ihm den Brennstoff.' },
-          { p: 'Probier jede Seite des Dreiecks aus!' },
+          { p: 'Probier jede Seite aus: Tipp ihren Pfosten an, um sie wegzunehmen, und noch einmal, um sie zurückzugeben.' },
         ],
         sci: [
           { p: 'Verbrennung braucht einen Brennstoff, ein Oxidationsmittel (hier O2) und genug Energie, um die Zündtemperatur zu erreichen (die Aktivierungsenergie). Brennt es einmal, hält die Wärme der Reaktion selbst es in Gang.' },
@@ -532,6 +551,7 @@ export const FIRE_WORDS = {
       title: 'Die Kerze unter dem Glas',
       label: 'Die Kerze und das Glas',
       verbs: { cover: 'Deck die Kerze ab', lift: 'Heb das Glas an' },
+      hints: { cover: 'Tipp das Glas an, um die Kerze abzudecken', lift: 'Tipp das Glas an, um es anzuheben' },
       gauge: 'Sauerstoff im Glas',
       out: 'aus',
       screen: { kid: 'Sauerstoff im Glas', sci: 'Sauerstoff im Glas, Volumenanteil in %' },
@@ -557,6 +577,7 @@ export const FIRE_WORDS = {
       title: 'Die Glimmspanprobe',
       label: 'Der Glimmspan',
       verb: 'Steck den Span ins Reagenzglas',
+      hint: 'Tipp den Span an, um ihn ins Reagenzglas zu stecken',
       tube: 'reiner Sauerstoff',
       screen: { kid: 'der Test auf Sauerstoff', sci: 'glimmender Span flammt in Sauerstoff auf' },
       says: {
@@ -579,6 +600,7 @@ export const FIRE_WORDS = {
       title: 'Verbrennung, Atom für Atom',
       label: 'Methan verbrennt',
       verbs: { burn: 'Verbrenn das Methan', again: 'Fang von vorn an' },
+      hints: { burn: 'Tipp die Moleküle an, um sie zu verbrennen', again: 'Tipp die Moleküle an, um von vorn anzufangen' },
       screen: { kid: 'Atome gehen nie verloren, nur neu geordnet', sci: '890 kJ pro Mol Methan' },
       count: { C: 'C', H: 'H', O: 'O' },
       says: {
@@ -603,6 +625,8 @@ export const FIRE_WORDS = {
       title: 'Rost, ein langsames Brennen',
       label: 'Die drei Nägel',
       verbs: { run: 'Spul die Zeit vor', reset: 'Neue Nägel' },
+      hints: { run: 'Tipp die Röhrchen an, um die Zeit vorzuspulen', rest: 'Tipp die Röhrchen an für den Rest der Woche', reset: 'Tipp die Röhrchen an für neue Nägel' },
+      slider: 'Tage',
       tubes: { wet: 'Luft + Wasser', dry: 'trockene Luft', airless: 'Wasser ohne Luft' },
       day: d => (d < 1 ? 'Tag 0' : d === 1 ? '1 Tag' : `${d} Tage`),
       screen: { kid: 'Eisen + Sauerstoff + Wasser', sci: 'Rost: wasserhaltiges Eisen(III)-oxid' },

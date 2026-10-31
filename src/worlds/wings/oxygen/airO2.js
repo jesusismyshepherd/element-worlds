@@ -1,15 +1,16 @@
 // Two exhibits about the O2 molecule itself.
 // - O2 up close: a big O2 (double bond) turning over a projector, beside a screen with its Lewis
-//   picture. Using it shows its twelve outer electrons (four shared in the bond, eight at home in pairs);
+//   picture. Tapping it shows its twelve outer electrons (four shared in the bond, eight at home in pairs);
 //   at the Scientist depth also the truth the Lewis picture hides: two electrons unpaired, one in each
 //   of two pi* orbitals, with parallel spins (why O2 is magnetic).
-// - The magnet: a horseshoe magnet lying on a stand, its poles close together. Liquid oxygen poured from
-//   a flask is caught between the poles and hangs there, steaming, until it boils away; liquid nitrogen
-//   (press again) falls straight through into the dish below.
+// - The magnet: a horseshoe magnet lying on a stand, its poles close together, and two flasks over the
+//   gap, each on its own arm. Tapping the blue one pours liquid oxygen, caught between the poles, hanging
+//   there steaming until it boils away; tapping the other pours liquid nitrogen, which falls straight
+//   through into the dish below (the user, 2026-10-30: each step chosen by tapping its thing).
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { standingScreen, glowMat, hdr, softDot, Particles, glass, damp, ease, clamp, smooth } from './kit.js'
+import { standingScreen, glowMat, hdr, softDot, Particles, glass, damp, ease, clamp, smooth, hitBox, equation, label as textLabel } from './kit.js'
 
 const RED = '#f2302b'
 const E_COLOR = '#a8ecff'
@@ -41,6 +42,8 @@ export function o2UpClose({ color, light, words, level }) {
   group.add(mol)
   const spin = new THREE.Group()
   mol.add(spin)
+  // the molecule to tap: a box round both atoms (a tap between the sticks counts too)
+  mol.add(hitBox(2.0, 0.95, 0.95))
   const d = 1.21
   const atomR = 0.36
   const oMat = light
@@ -163,6 +166,9 @@ export function o2UpClose({ color, light, words, level }) {
   return {
     group,
     screen: scr,
+    // things to tap: the molecule and its Lewis picture
+    mol,
+    lewisScreen: scr.group,
     get showing() {
       return target > 0
     },
@@ -266,30 +272,45 @@ export function magnetBench({ color, light, words, level }) {
   dishFloor.position.set(0, 0.966, gapZ - 0.05)
   rig.add(dish, dishFloor)
 
-  // the flask on its arm, hanging over the gap
-  const arm = new THREE.Group()
-  arm.position.set(0.42, 0.96, gapZ - 0.05 - 0.12)
-  rig.add(arm)
-  const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.03, 0.95, 12), steel)
-  mast.position.y = 0.475
-  const boom = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 12), steel)
-  boom.rotation.z = Math.PI / 2
-  boom.position.set(-0.25, 0.92, 0)
-  arm.add(mast, boom)
-  const flaskPivot = new THREE.Group()
-  flaskPivot.position.set(-0.47, 0.82, 0.12)
-  arm.add(flaskPivot)
-  const flask = new THREE.Group()
-  flaskPivot.add(flask)
-  const flaskBody = new THREE.Mesh(
-    new THREE.LatheGeometry([new THREE.Vector2(0, -0.14), new THREE.Vector2(0.075, -0.14), new THREE.Vector2(0.085, -0.11), new THREE.Vector2(0.085, 0.08), new THREE.Vector2(0.05, 0.12), new THREE.Vector2(0.045, 0.16), new THREE.Vector2(0.052, 0.165)], 32),
-    steel,
-  )
-  const band = new THREE.Mesh(new THREE.CylinderGeometry(0.088, 0.088, 0.05, 32), new THREE.MeshStandardMaterial({ color: '#3b78c4', roughness: 0.4, metalness: 0.3 }))
-  band.position.y = -0.02
-  flask.add(flaskBody, band)
-  flask.traverse(o => o.isMesh && (o.castShadow = true))
+  // two flasks, each on its own arm, hanging either side of the gap: liquid oxygen (the blue band, on the
+  // reader's right) and liquid nitrogen (the silver band, on the left); each tips toward the gap to pour
+  const flaskGeo = new THREE.LatheGeometry([new THREE.Vector2(0, -0.14), new THREE.Vector2(0.075, -0.14), new THREE.Vector2(0.085, -0.11), new THREE.Vector2(0.085, 0.08), new THREE.Vector2(0.05, 0.12), new THREE.Vector2(0.045, 0.16), new THREE.Vector2(0.052, 0.165)], 32)
   const lip = new THREE.Vector3(0, 0.165, 0)
+  const flasks = {}
+  for (const [kind, s, bandColor] of [['lox', 1, '#3b78c4'], ['ln2', -1, '#b9c2cc']]) {
+    const arm = new THREE.Group()
+    arm.position.set(s * 0.42, 0.96, gapZ - 0.05 - 0.12)
+    rig.add(arm)
+    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.03, 0.95, 12), steel)
+    mast.position.y = 0.475
+    const boom = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.3, 12), steel)
+    boom.rotation.z = Math.PI / 2
+    boom.position.set(-s * 0.15, 0.92, 0)
+    arm.add(mast, boom)
+    const pivot = new THREE.Group()
+    pivot.position.set(-s * 0.29, 0.82, 0.12)
+    arm.add(pivot)
+    const flask = new THREE.Group()
+    pivot.add(flask)
+    const body = new THREE.Mesh(flaskGeo, steel)
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(0.088, 0.088, 0.05, 32), new THREE.MeshStandardMaterial({ color: bandColor, roughness: 0.4, metalness: 0.3 }))
+    band.position.y = -0.02
+    // a bigger, invisible flask to tap (it is small at arm's length)
+    const hit = hitBox(0.24, 0.4, 0.24)
+    hit.position.y = 0.01
+    flask.add(body, band, hit)
+    flask.traverse(o => o.isMesh && (o.castShadow = true))
+    // its name on a tag hanging from the boom, the formula above the words
+    const tag = new THREE.Group()
+    tag.position.set(-s * 0.29 + s * 0.2, 0.86, 0.12)
+    const formula = equation([kind === 'lox' ? 'O2' : 'N2'], { size: 0.06, color: kind === 'lox' ? '#9fd2ff' : '#e6edf5' })
+    formula.position.y = 0.035
+    const name = textLabel(words.flasks[kind], { size: 0.028, color: '#ffffff', maxWidth: 0.2 })
+    name.position.y = -0.012
+    tag.add(formula, name)
+    arm.add(tag)
+    flasks[kind] = { flask, side: s, tilt: 0 }
+  }
 
   // the pour, the bridge between the poles, the puddle in the dish. Liquid oxygen is pale blue;
   // liquid nitrogen is colourless, so its stream is drawn bright and silvery, with mist round it
@@ -355,50 +376,53 @@ export function magnetBench({ color, light, words, level }) {
 
   // the show: pour (tilt), the stream falls, LOX gathers in the gap and stays, or LN2 runs through
   let show = null
-  let next = 'lox'
+  let last = null // the liquid poured last
   let pours = 0 // for the others in a room
   let bridgeFill = 0 // 0..1, how much liquid oxygen hangs between the poles
   let puddleFill = 0
   const world = new THREE.Vector3()
   const dropColor = new THREE.Color()
+  const KINDS = ['lox', 'ln2']
   const api = {
     group,
     screen: scr,
+    /** The flasks to tap: { lox, ln2 }. */
+    flasks: Object.fromEntries(KINDS.map(k => [k, flasks[k].flask])),
+    /** The one to try next: liquid oxygen first, then the other one. */
     get next() {
-      return next
+      return last === 'lox' ? 'ln2' : 'lox'
     },
     get busy() {
       return !!show
     },
-    pour() {
-      if (show) return false
+    /** Pour a flask (`lox` or `ln2`); false while the last pour is still going. */
+    pour(kind) {
+      if (show || !KINDS.includes(kind)) return false
       pours++
-      show = { kind: next, t: 0 }
-      const c = next === 'lox' ? loxColor : ln2Color
+      last = kind
+      show = { kind, t: 0 }
+      const c = kind === 'lox' ? loxColor : ln2Color
       for (const m of [liquid, streamMat]) {
         m.color.copy(c)
         m.emissive.copy(c)
       }
-      liquid.opacity = next === 'lox' ? 0.9 : 0.78
-      liquid.emissiveIntensity = next === 'lox' ? 0.15 : 0.35
-      streamMat.emissiveIntensity = next === 'lox' ? 0.3 : 0.55
-      dropColor.copy(c).multiplyScalar(next === 'lox' ? 1.05 : 1.25)
-      next = next === 'lox' ? 'ln2' : 'lox'
-      return show.kind
+      liquid.opacity = kind === 'lox' ? 0.9 : 0.78
+      liquid.emissiveIntensity = kind === 'lox' ? 0.15 : 0.35
+      streamMat.emissiveIntensity = kind === 'lox' ? 0.3 : 0.55
+      dropColor.copy(c).multiplyScalar(kind === 'lox' ? 1.05 : 1.25)
+      return kind
     },
-    /** How many pours and which liquid comes next, for the others in a room (src/net/shared.js). */
+    /** How many pours and the last liquid poured, for the others in a room (src/net/shared.js). */
     state() {
-      return { n: pours, next }
+      return { n: pours, last }
     },
-    /** Someone else poured: the same liquid pours here (live); a newcomer gets what comes next. */
-    setState({ n = 0, next: nx = 'lox' } = {}, live = false) {
-      const after = nx === 'ln2' ? 'ln2' : 'lox'
-      if (live && n !== pours && !show) {
-        next = after === 'lox' ? 'ln2' : 'lox'
-        api.pour()
-      }
+    /** Someone else poured: the same liquid pours here (live); a newcomer gets the count and the last
+     *  one. (A state kept from before the two flasks says `next`: the last was the other one.) */
+    setState({ n = 0, last: l = null, next: nx = null } = {}, live = false) {
+      const kind = KINDS.includes(l) ? l : nx === 'ln2' ? 'lox' : nx === 'lox' && n > 0 ? 'ln2' : null
+      if (live && n !== pours && !show && kind) api.pour(kind)
       pours = n
-      next = after
+      last = kind
     },
     refresh() {
       scr.set({ small: smallLine() })
@@ -437,7 +461,9 @@ export function magnetBench({ color, light, words, level }) {
           if (t > 7.5 && pud <= 0.001) show = null
         }
       }
-      flask.rotation.z = tilt * 1.9
+      // the pouring flask tips toward the gap (the one on the right turns one way, the left the other)
+      for (const [kind, f] of Object.entries(flasks)) f.flask.rotation.z = show?.kind === kind ? f.side * tilt * 1.9 : 0
+      const flask = flasks[show?.kind ?? 'lox'].flask
       bridgeFill = fill
       puddleFill = pud
       // the bridge fills the gap first (its length), then swells; it shrinks the same way as it boils

@@ -1,13 +1,15 @@
 // The Great Oxidation: a stone pool with stromatolites (rocks built layer by layer by mats of
 // cyanobacteria) whose green mats give off bubbles of oxygen, and a screen with the history of oxygen
-// in the air over 4.6 billion years. Using it travels through time: the curve draws itself from the
-// Earth's birth to today, the mats wake up (the first stromatolites, about 3.5 billion years ago), the
-// bubbles come, and at about 2.4 billion years the oxygen in the air begins to rise.
+// in the air over 4.6 billion years. Tapping the pool (or the screen) travels through time: the curve
+// draws itself from the Earth's birth to today, the mats wake up (the first stromatolites, about 3.5
+// billion years ago), the bubbles come, and at about 2.4 billion years the oxygen in the air begins to
+// rise. The panel's slider stops at any moment of it (the user, 2026-10-30: what varies smoothly is a
+// slider).
 import { tagOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { screen, glowMat, hdr, makeNoise, damp, random, canvasTex, smooth, normalFromHeight } from './kit.js'
+import { screen, glowMat, hdr, makeNoise, damp, random, canvasTex, smooth, normalFromHeight, clamp, hitShape } from './kit.js'
 import { o2At } from './oxygenData.js'
 
 const MAX_PCT = 35
@@ -306,32 +308,67 @@ export async function goeExhibit({ color, light, words, level, lang }) {
     }
   }
 
-  // time: -1 idle (the whole curve shown), else 0..1 from 4.6 billion years ago to now
+  // the things to tap: the pool (an invisible drum over it) and the history's screen
+  const poolHit = hitShape(new THREE.CylinderGeometry(Rp + 0.15, Rp + 0.15, 0.9, 20))
+  poolHit.position.y = 0.45
+  group.add(poolHit)
+
+  // time: -1 idle (the whole curve shown), else 0..1 from 4.6 billion years ago to now; `held`, a moment
+  // chosen on the panel's slider (billions of years ago), or -1
   let run = -1
+  let held = -1
   let runs = 0 // for the others in a room
+  let yearOff = null
   reveal.value = 1
   let mats = 0.6
+  /** The curve drawn up to a moment, its bright head there and the date over it. */
+  const showAt = ga => {
+    reveal.value = THREE.MathUtils.lerp(graph.X(4.6), graph.X(0), 1 - ga / 4.6)
+    head.visible = true
+    head.position.set((graph.X(ga) - 0.5) * gw, (graph.Y(o2At(ga)) - 0.5) * gh + gy, 0.004)
+    clearTimeout(yearOff)
+    setYear(ga)
+  }
   const api = {
     group,
     screen: scr,
+    things: [poolHit, scr.group],
     get busy() {
       return run >= 0
+    },
+    /** The moment shown: billions of years ago (the run's, the slider's, or 0 for today). */
+    get ga() {
+      return run >= 0 ? 4.6 * (1 - run) : held >= 0 ? held : 0
     },
     start() {
       if (run >= 0) return false
       run = 0
+      held = -1
       runs++
       reveal.value = 0
       return true
     },
-    /** How many times the story was run and how far the one under way is, for the others in a room. */
-    state() {
-      return { n: runs, run }
+    /** Stop at a moment (the slider): billions of years ago, 0 to 4.6. */
+    hold(ga) {
+      held = clamp(Number(ga) || 0, 0, 4.6)
+      run = -1
+      showAt(held)
     },
-    /** Someone else ran it: it runs here too; a newcomer joins the one under way where it is. */
-    setState({ n = 0, run: r = -1 } = {}, live = false) {
+    /** How many times the story was run, how far the one under way is, and the moment held, for the
+     *  others in a room. */
+    state() {
+      return { n: runs, run, at: Math.round(held * 100) / 100 }
+    },
+    /** Someone else ran it: it runs here too; a newcomer joins the one under way where it is. A moment
+     *  someone chose with the slider is shown here too. */
+    setState({ n = 0, run: r = -1, at: h = -1 } = {}, live = false) {
       if (live && n !== runs) api.start()
-      else if (!live && run < 0 && r >= 0 && r < 1) run = r
+      else if (r >= 0 && r < 1) {
+        if (!live && run < 0) {
+          run = r
+          held = -1
+        }
+      } else if (h >= 0) api.hold(h)
       runs = n
     },
     refresh() {},
@@ -340,21 +377,19 @@ export async function goeExhibit({ color, light, words, level, lang }) {
       if (run >= 0) {
         run = Math.min(1, run + dt / 11)
         ga = 4.6 * (1 - run)
-        reveal.value = THREE.MathUtils.lerp(graph.X(4.6), graph.X(0), run)
-        head.visible = true
-        head.position.set((graph.X(ga) - 0.5) * gw, (graph.Y(o2At(ga)) - 0.5) * gh + gy, 0.004)
-        setYear(ga)
+        showAt(ga)
         if (run >= 1) {
           run = -1
           head.visible = false
-          setTimeout(() => setYear(null), 2500)
+          yearOff = setTimeout(() => setYear(null), 2500)
         }
-      }
-      const living = run >= 0 ? smooth(3.7, 3.3, ga) : 1
-      const oxygen = run >= 0 ? smooth(2.6, 2.2, ga) : 1
+      } else if (held >= 0) ga = held
+      const then = run >= 0 || held >= 0
+      const living = then ? smooth(3.7, 3.3, ga) : 1
+      const oxygen = then ? smooth(2.6, 2.2, ga) : 1
       mats = damp(mats, living, 3, dt)
-      matMat.emissiveIntensity = mats * (0.025 + Math.sin(t * 2.5) * 0.01) + (run >= 0 ? 0.04 * mats : 0)
-      waterMat.color.copy(early).lerp(now, run >= 0 ? oxygen : 1)
+      matMat.emissiveIntensity = mats * (0.025 + Math.sin(t * 2.5) * 0.01) + (then ? 0.04 * mats : 0)
+      waterMat.color.copy(early).lerp(now, then ? oxygen : 1)
       waterNormal.offset.set(t * 0.01, t * 0.007)
       // bubbles: some from the start of the mats, many more once oxygen is building up
       const rate = (light ? 3 : 7) * mats * (run >= 0 ? 0.4 + oxygen : 1)

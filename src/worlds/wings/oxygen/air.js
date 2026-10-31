@@ -3,8 +3,10 @@
 // the real proportions, the oxygen counted), the rare CO2, O2 up close with its Lewis picture, liquid
 // oxygen held by a magnet, the ozone layer in a column, where our oxygen comes from (a globe), and the
 // Great Oxidation (a stromatolite pool and the history of oxygen in the air). The arch behind the
-// spawn leads back to oxygen's hall. Contract: docs/knowledge/adding-a-wing.md. In a room, everyone on
-// the deck shares its things (`shared` below, src/net/shared.js); panels and words stay each one's own.
+// spawn leads back to oxygen's hall. Contract: docs/knowledge/adding-a-wing.md. Each step is a tap on
+// the thing it is about (a molecule, a flask, the globe's land or sea); E opens the station's panel,
+// whose buttons do the same. In a room, everyone on the deck shares its things (`shared` below,
+// src/net/shared.js); panels and words stay each one's own.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { element, nameOf } from '../../../data/elements.js'
@@ -20,7 +22,8 @@ import { globeExhibit } from './globe.js'
 import { goeExhibit } from './airGoe.js'
 import { breathExhibit } from './airBreath.js'
 import { AIR_WORDS } from './airWords.js'
-import { exhibitSet, onLevel, at, chem, canvasTex, makeNoise, glowMat, softDot } from './kit.js'
+import { exhibitSet, onLevel, at, chem, canvasTex, makeNoise, glowMat, softDot, within } from './kit.js'
+import { tapTargets } from '../../common/taps.js'
 
 const COLOR = '#8fd0ff'
 const R = 12.5 // the deck's radius
@@ -31,6 +34,7 @@ export async function build(ctx) {
   const lang = ctx.lang()
   const W = AIR_WORDS[lang] ?? AIR_WORDS.en
   const who = nameOf(el, lang)
+  const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
   const light = ctx.light
   const root = new THREE.Group()
   root.name = 'wing-O-air'
@@ -235,32 +239,57 @@ export async function build(ctx) {
   const doors = [{ x: 0, z: R - 0.05, radius: 0.85, to: atriumPath('O') }]
 
   // ---- exhibits ----
+  // Every step is chosen by tapping the thing it is about (the user, 2026-10-30: E pressed again and
+  // again felt passive): the prompt names the next tap, E opens the station's panel, whose buttons (and
+  // the Great Oxidation's slider) do the same. common/taps.js finds what was tapped.
   const ex = exhibitSet(ctx, { wing: 'air', color: COLOR, who, busy: lv => at(W.busy, lv) })
   const level = () => ctx.level()
+  const taps = tapTargets(ctx)
+  const clickable = taps.clickable
+  // a far station's things are not raycast every frame
+  const near = (x, z, d = 8) => () => within(ctx, x, z, d)
+  const panels = {}
+  const V3 = (x, y, z) => new THREE.Vector3(x, y, z)
+  const worldOf = obj => obj.getWorldPosition(new THREE.Vector3())
 
-  // the box of air, in the middle
+  // the box of air, in the middle: tap a molecule (or a gas's column on the console) to count its gas,
+  // the same gas again for all of them
   const air = airBox({ x: 0, z: -0.6, color: COLOR, light, words: { screenTitle: W.box.screenTitle, rareTag: W.rare.tag } })
   root.add(air.group)
   solids.push(box(0, -0.6, air.halfSize.x * 2 + 0.1, air.halfSize.z * 2 + 0.1))
   solids.push(box(0, -0.6 + 1.7 + 0.55, 0.6, 0.4))
   updates.push((dt, t) => air.update(dt, t, ctx.camera))
   const modes = ['all', 'O2', 'N2', 'Ar']
-  const nextMode = () => modes[(modes.indexOf(air.mode) + 1) % modes.length]
-  ex.add({
+  const GASES = ['O2', 'N2', 'Ar']
+  /** A gas tapped (`tapped`: the same one again shows them all) or chosen on the panel. */
+  const boxStep = (gas, tapped = false) => {
+    if (!modes.includes(gas)) return
+    const mode = tapped && gas === air.mode ? 'all' : gas
+    air.setMode(mode)
+    share('box')
+    ex.say(at(W.box.says[mode], level()))
+    ex.discover('box', 3)
+    ex.refreshPanel('box')
+  }
+  panels.box = ex.add({
     id: 'box',
     x: 0,
     z: 2.75,
     radius: 1.9,
     screen: air.con,
     label: W.box.label,
-    verb: () => W.box.verbs[nextMode()],
-    act: () => {
-      air.setMode(nextMode())
-      share('box')
-      return at(W.box.says[air.mode], level())
-    },
-    panel: lv => ({ title: W.box.title, kicker: W.kicker, color: COLOR, blocks: W.box.panel[lv === 'scientist' ? 'sci' : 'kid'] }),
-  })
+    verb: () => (air.mode === 'all' ? W.box.hints.pick : W.box.hints.more),
+    manual: true,
+    focus: { x: 0, y: 1.7, z: -0.4, size: 4.4 },
+    panel: lv => ({
+      title: W.box.title,
+      kicker: W.kicker,
+      color: COLOR,
+      blocks: [{ buttons: [...GASES, 'all'].map(k => ({ label: W.box.verbs[k], accent: air.mode === k, onClick: () => boxStep(k) })) }, ...W.box.panel[depth(lv)]],
+    }),
+  }).make
+  clickable(air.picker, hit => boxStep(hit.gas, true), { when: near(0, -0.6, 5), reach: 6 })
+  for (const id of GASES) clickable(air.columns[id], () => boxStep(id, true), { when: near(0, -0.6, 5), reach: 6 })
   // the rare one, beside the box
   air.rare.position.set(-3.75, 0, 2.55)
   root.add(air.rare)
@@ -278,7 +307,6 @@ export async function build(ctx) {
 
   // ---- the exhibits round the deck, each facing the middle ----
   const refreshers = []
-  const depth = lv => (lv === 'scientist' ? 'sci' : 'kid')
   /** Puts an exhibit at an azimuth (degrees from north toward east) and distance, facing the middle;
    *  returns where a point given in the exhibit's own frame lands in the world. */
   const stand = (obj, az, dist) => {
@@ -306,21 +334,34 @@ export async function build(ctx) {
   const o2Scr = o2At.at(1.85, 0.55)
   solids.push(circle(o2Scr.x, o2Scr.z, 0.4))
   const o2Spot = o2At.at(0, 2.3)
-  ex.add({
+  // tap the molecule (or its Lewis picture) to show its electrons, again to hide them
+  const o2Step = () => {
+    const on = o2.toggle()
+    share('o2')
+    ex.say(at(W.o2.says[on ? 'show' : 'hide'], level()))
+    ex.discover('o2', 2.5)
+    ex.refreshPanel('o2')
+  }
+  const o2Focus = o2At.at(0.9, 0.2)
+  panels.o2 = ex.add({
     id: 'o2',
     x: o2Spot.x,
     z: o2Spot.z,
     radius: 1.9,
     screen: o2.screen,
     label: W.o2.label,
-    verb: () => (o2.showing ? W.o2.verbs.hide : W.o2.verbs.show),
-    act: () => {
-      const on = o2.toggle()
-      share('o2')
-      return at(W.o2.says[on ? 'show' : 'hide'], level())
-    },
-    panel: lv => ({ title: W.o2.title, kicker: W.kicker, color: '#ff7a6b', blocks: W.o2.panel[depth(lv)] }),
-  })
+    verb: () => (o2.showing ? W.o2.hints.hide : W.o2.hints.show),
+    manual: true,
+    focus: { x: o2Focus.x, y: 1.5, z: o2Focus.z, size: 3.4 },
+    panel: lv => ({
+      title: W.o2.title,
+      kicker: W.kicker,
+      color: '#ff7a6b',
+      blocks: [{ buttons: [{ label: o2.showing ? W.o2.verbs.hide : W.o2.verbs.show, onClick: o2Step }] }, ...W.o2.panel[depth(lv)]],
+    }),
+  }).make
+  clickable(o2.mol, o2Step, { when: near(o2At.x, o2At.z) })
+  clickable(o2.lewisScreen, o2Step, { when: near(o2At.x, o2At.z) })
 
   // liquid oxygen and the magnet (west)
   const mag = magnetBench({ color: COLOR, light, words: W.magnet, level })
@@ -331,22 +372,32 @@ export async function build(ctx) {
   const magScr = magAt.at(-1.45, 0.35)
   solids.push(circle(magScr.x, magScr.z, 0.4))
   const magSpot = magAt.at(0, 1.9)
-  ex.add({
+  // tap a flask to pour it: liquid oxygen hangs between the poles, liquid nitrogen falls through
+  const magStep = kind => {
+    if (!mag.pour(kind)) return void ex.sayBusy()
+    share('magnet')
+    ex.say(at(W.magnet.says[kind], level()))
+    ex.discover('magnet', 4.5)
+  }
+  const magFocus = magAt.at(-0.2, 0.15)
+  panels.magnet = ex.add({
     id: 'magnet',
     x: magSpot.x,
     z: magSpot.z,
     radius: 1.7,
     screen: mag.screen,
     label: W.magnet.label,
-    verb: () => W.magnet.verbs[mag.next],
-    act: () => {
-      const kind = mag.pour()
-      if (!kind) return false
-      share('magnet')
-      return at(W.magnet.says[kind], level())
-    },
-    panel: lv => ({ title: W.magnet.title, kicker: W.kicker, color: '#9fd2ff', blocks: W.magnet.panel[depth(lv)] }),
-  })
+    verb: () => W.magnet.hints[mag.next],
+    manual: true,
+    focus: { x: magFocus.x, y: 1.7, z: magFocus.z, size: 2.2 },
+    panel: lv => ({
+      title: W.magnet.title,
+      kicker: W.kicker,
+      color: '#9fd2ff',
+      blocks: [{ buttons: ['lox', 'ln2'].map(k => ({ label: W.magnet.verbs[k], onClick: () => magStep(k) })) }, ...W.magnet.panel[depth(lv)]],
+    }),
+  }).make
+  for (const k of ['lox', 'ln2']) clickable(mag.flasks[k], () => magStep(k), { when: near(magAt.x, magAt.z) })
 
   // the ozone layer in a column (north-west)
   const col = ozoneColumn({ color: COLOR, light, words: W.ozone, level })
@@ -357,22 +408,33 @@ export async function build(ctx) {
   const colScr = colAt.at(1.75, 0.75)
   solids.push(circle(colScr.x, colScr.z, 0.4))
   const colSpot = colAt.at(0, 2.4)
-  ex.add({
+  // tap the column to send the Sun's UV down it (and over the deck, to the real layer)
+  const ozoneStep = () => {
+    if (!col.start()) return void ex.sayBusy()
+    ozone.volley(12)
+    share('ozone')
+    ex.say(at(W.ozone.says, level()))
+    ex.discover('ozone', 5)
+  }
+  const colFocus = colAt.at(0.6, 0.2)
+  panels.ozone = ex.add({
     id: 'ozone',
     x: colSpot.x,
     z: colSpot.z,
     radius: 1.9,
     screen: col.screen,
     label: W.ozone.label,
-    verb: W.ozone.verb,
-    act: () => {
-      if (!col.start()) return false
-      ozone.volley(12)
-      share('ozone')
-      return at(W.ozone.says, level())
-    },
-    panel: lv => ({ title: W.ozone.title, kicker: W.kicker, color: '#b99cff', blocks: W.ozone.panel[depth(lv)] }),
-  })
+    verb: W.ozone.hint,
+    manual: true,
+    focus: { x: colFocus.x, y: 2.6, z: colFocus.z, size: 4.6 },
+    panel: lv => ({
+      title: W.ozone.title,
+      kicker: W.kicker,
+      color: '#b99cff',
+      blocks: [{ buttons: [{ label: W.ozone.verb, onClick: ozoneStep }] }, ...W.ozone.panel[depth(lv)]],
+    }),
+  }).make
+  clickable(col.column, ozoneStep, { when: near(colAt.x, colAt.z), reach: 5 })
 
   // where our oxygen comes from: the globe (north, behind the box)
   const earth = globeExhibit({ color: COLOR, light, words: W.sources, level })
@@ -383,21 +445,35 @@ export async function build(ctx) {
   const earthScr = earthAt.at(1.8, 0.7)
   solids.push(circle(earthScr.x, earthScr.z, 0.4))
   const earthSpot = earthAt.at(0, 2.2)
-  ex.add({
+  // tap the land or the sea on the globe (or the screen's halves) to light that half of the oxygen
+  const earthStep = side => {
+    if (side !== 'land' && side !== 'ocean') return
+    earth.show(side)
+    share('sources')
+    ex.say(at(W.sources.says[side], level()))
+    ex.discover('sources', 2.5)
+    ex.refreshPanel('sources')
+  }
+  const earthFocus = earthAt.at(0.9, 0.2)
+  panels.sources = ex.add({
     id: 'sources',
     x: earthSpot.x,
     z: earthSpot.z,
     radius: 1.9,
     screen: earth.screen,
     label: W.sources.label,
-    verb: () => W.sources.verbs[earth.mode === 'land' ? 'ocean' : 'land'],
-    act: () => {
-      const mode = earth.next()
-      share('sources')
-      return at(W.sources.says[mode], level())
-    },
-    panel: lv => ({ title: W.sources.title, kicker: W.kicker, color: '#6fe0a0', blocks: W.sources.panel[depth(lv)] }),
-  })
+    verb: () => W.sources.hints[earth.mode ?? 'pick'],
+    manual: true,
+    focus: { x: earthFocus.x, y: 1.5, z: earthFocus.z, size: 3.2 },
+    panel: lv => ({
+      title: W.sources.title,
+      kicker: W.kicker,
+      color: '#6fe0a0',
+      blocks: [{ buttons: ['land', 'ocean'].map(k => ({ label: W.sources.verbs[k], accent: earth.mode === k, onClick: () => earthStep(k) })) }, ...W.sources.panel[depth(lv)]],
+    }),
+  }).make
+  clickable(earth.globe, hit => earthStep(earth.sideAt(hit.point)), { when: near(earthAt.x, earthAt.z) })
+  for (const k of ['land', 'ocean']) clickable(earth.halves[k], () => earthStep(k), { when: near(earthAt.x, earthAt.z) })
 
   // the Great Oxidation (north-east)
   const goe = await goeExhibit({ color: COLOR, light, words: W.goe, level, lang })
@@ -408,21 +484,49 @@ export async function build(ctx) {
   const goeBack = goeAt.at(0, -1.08)
   solids.push(box(goeBack.x, goeBack.z, 2.9, 0.3, { rot: goeAt.rot }))
   const goeSpot = goeAt.at(0, 2.5)
-  ex.add({
+  // tap the pool (or the screen) to travel through time; the panel's slider stops at any moment
+  const goeStep = () => {
+    if (!goe.start()) return void ex.sayBusy()
+    share('goe')
+    ex.say(at(W.goe.says, level()))
+    ex.discover('goe', 12)
+  }
+  // the slider moves many times a second: the others get it a few times a second, and where it stopped
+  let goeSend = null
+  const goeHold = ga => {
+    goe.hold(ga)
+    ex.discover('goe')
+    if (!goeSend) {
+      goeSend = setTimeout(() => {
+        goeSend = null
+        share('goe')
+      }, 250)
+    }
+  }
+  const goeFocus = goeAt.at(0, -0.4)
+  panels.goe = ex.add({
     id: 'goe',
     x: goeSpot.x,
     z: goeSpot.z,
     radius: 1.9,
     screen: goe.screen,
     label: W.goe.label,
-    verb: W.goe.verb,
-    act: () => {
-      if (!goe.start()) return false
-      share('goe')
-      return at(W.goe.says, level())
-    },
-    panel: lv => ({ title: W.goe.title, kicker: W.kicker, color: '#6fe0c0', blocks: W.goe.panel[depth(lv)] }),
-  })
+    verb: W.goe.hint,
+    manual: true,
+    focus: { x: goeFocus.x, y: 1.3, z: goeFocus.z, size: 3.2 },
+    panel: lv => ({
+      title: W.goe.title,
+      kicker: W.kicker,
+      color: '#6fe0c0',
+      blocks: [
+        { buttons: [{ label: W.goe.verb, onClick: goeStep }] },
+        // left the Earth's birth, right today, as on the screen's graph
+        { slider: { label: W.goe.slider, min: 0, max: 4.6, step: 0.01, value: 4.6 - goe.ga, onInput: v => goeHold(4.6 - v), format: v => W.goe.when(Math.max(0, 4.6 - v)), live: () => 4.6 - goe.ga } },
+        ...W.goe.panel[depth(lv)],
+      ],
+    }),
+  }).make
+  for (const thing of goe.things) clickable(thing, goeStep, { when: near(goeAt.x, goeAt.z) })
 
   // breathing (south-east)
   const breath = breathExhibit({ color: COLOR, light, words: W.breath, level })
@@ -433,21 +537,40 @@ export async function build(ctx) {
   const breathScr = breathAt.at(0, 0.95)
   solids.push(circle(breathScr.x, breathScr.z, 0.4))
   const breathSpot = breathAt.at(0, 2.2)
-  ex.add({
+  // tap the lungs to start breathing; it goes on, breath after breath, until they are tapped again
+  // (the user, 2026-10-29: one breath was over before the breath out was seen)
+  const breathStep = () => {
+    const on = breath.toggle()
+    share('breath')
+    if (on) ex.say(at(W.breath.says, level()))
+    ex.discover('breath', 9)
+    ex.refreshPanel('breath')
+  }
+  const breathFocus = breathAt.at(0, -0.1)
+  panels.breath = ex.add({
     id: 'breath',
     x: breathSpot.x,
     z: breathSpot.z,
     radius: 1.6,
     screen: breath.screen,
     label: W.breath.label,
-    verb: () => (breath.on ? W.breath.hold : W.breath.verb),
-    act: () => {
-      const on = breath.toggle()
-      share('breath')
-      return on ? at(W.breath.says, level()) : ''
-    },
-    panel: lv => ({ title: W.breath.title, kicker: W.kicker, color: '#ff8fa0', blocks: W.breath.panel[depth(lv)] }),
-  })
+    verb: () => (breath.on ? W.breath.hints.hold : W.breath.hints.start),
+    manual: true,
+    focus: { x: breathFocus.x, y: 1.4, z: breathFocus.z, size: 3.2 },
+    panel: lv => ({
+      title: W.breath.title,
+      kicker: W.kicker,
+      color: '#ff8fa0',
+      blocks: [{ buttons: [{ label: breath.on ? W.breath.hold : W.breath.verb, onClick: breathStep }] }, ...W.breath.panel[depth(lv)]],
+    }),
+  }).make
+  clickable(breath.lungs, breathStep, { when: near(breathAt.x, breathAt.z) })
+
+  // an open panel's buttons follow its station, whoever changed it (someone else in the room too)
+  ex.watch('box', () => air.mode)
+  ex.watch('o2', () => o2.showing)
+  ex.watch('sources', () => earth.mode)
+  ex.watch('breath', () => breath.on)
 
   // ---- the oxygen Atomling ----
   const avatar = createAtomling(el, { light })
@@ -524,6 +647,21 @@ export async function build(ctx) {
     doors,
     talk,
     shared,
+    // the things to tap (common/taps.js)
+    pointAt: taps.pointAt,
+    onTap: taps.onTap,
+    // for the probes in tools/: each station's taps by name, where its things are, its panel
+    parts: {
+      box: { tap: gas => boxStep(gas, true), get mode() { return air.mode }, columnAt: id => air.columnAt(id) },
+      o2: { tap: () => o2Step(), get showing() { return o2.showing }, at: () => worldOf(o2.mol) },
+      magnet: { tap: kind => magStep(kind), get busy() { return mag.busy }, at: kind => worldOf(mag.flasks[kind]) },
+      ozone: { tap: () => ozoneStep(), get busy() { return col.busy }, at: () => worldOf(col.column) },
+      sources: { tap: side => earthStep(side), get mode() { return earth.mode }, pointOn: side => earth.pointOn(side), at: side => worldOf(earth.halves[side]) },
+      goe: { tap: () => goeStep(), hold: ga => goeHold(ga), get ga() { return goe.ga }, get busy() { return goe.busy }, at: () => worldOf(goe.things[0]) },
+      breath: { tap: () => breathStep(), get on() { return breath.on }, at: () => worldOf(breath.lungs) },
+      rayTo: p => new THREE.Ray(ctx.camera.position.clone(), V3(p.x, p.y, p.z).sub(ctx.camera.position).normalize()),
+    },
+    panels,
     refresh: () => ex.refresh(),
     attach() {
       ex.report()
@@ -534,6 +672,7 @@ export async function build(ctx) {
     },
     detach() {
       unsub?.()
+      clearTimeout(goeSend)
       ctx.store.set({ speech: null, discoveries: null })
     },
     update(dt, t) {
