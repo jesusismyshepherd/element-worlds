@@ -168,5 +168,19 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   hydrogen bonds). Trap: the kit already defines `url(#b<El>)` for every ball, so a gradient of your own
   named `bP` or `bN` silently takes phosphorus's orange or nitrogen's blue (the first definition wins):
   name your own gradients apart (`pP`, `pN`).
+- Done: Krypton (2026-10-31): seven pictures, no doorway yet (its Periodic Videos room is still to come), each
+  with a room designed for it (`hidden` the last drops of liquid air in May 1898, the yellow and green lines,
+  linked to the neon sign workshop; `metre` the krypton-86 metre of 1960 to 1983 beside the X-section bar;
+  `windows` krypton in triple glazing, a third of air's heat conduction; `thruster` Hall thrusters on Starlink;
+  `water` krypton-81 dating of the Nubian aquifer's million-year-old water, atoms caught by lasers; `hands`
+  KrF2 of 1963 and the KrF excimer laser; `kryptonite` the comics' invention beside jadarite, the real mineral
+  with the film case's formula), none repeating the noble gases' workshop (the bench, radon's box, the name
+  in neon, the spectroscope, the energy ladder, the history board, the balloons). Its showpiece: a globe of
+  krypton glowing lilac on a dark power box, and a steel flask of liquid nitrogen smoking with cold under a
+  sealed bulb whose krypton froze into white crystals (`krypton` in showpieces.js; the case's words say it
+  freezes at −157 °C). The pictures share `tools/boards/Kr/krkit.py` (balls the kit lacks, named `kKr`, `kF`
+  and so on, air's molecules, motion streaks, snowflakes, glass drawn by its edges). Trap: in the case, glass
+  shows the bright boards behind it, so a showpiece of glass alone reads as nothing; give it dark solid
+  anchors (a steel flask, a power box) and keep glows violet rather than white.
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.

@@ -762,4 +762,149 @@ function hydrogen({ light }) {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon }
+// ---- Krypton: its two faces. A sealed glass globe of it glowing lilac between two electrodes, on a dark
+// power box (the generic case shows a bent tube and hydrogen's showpiece a straight one, so this is a globe),
+// and beside it a steel flask of liquid nitrogen (−196 °C) smoking with cold: a sealed bulb of krypton has
+// just been lifted out of it, and below −157 °C its krypton froze into white crystals in the bulb's bottom
+// (the boards' kryptonite story: real krypton's only "rock") ----
+function krypton({ light }) {
+  const group = new THREE.Group()
+  const rand = rnd(3657)
+  const updates = []
+  const GLOW = '#a986ff'
+  const brass = new THREE.MeshStandardMaterial({ color: '#b8892e', roughness: 0.35, metalness: 0.8 })
+  const dark = new THREE.MeshStandardMaterial({ color: '#363c5a', roughness: 0.45, metalness: 0.3 })
+
+  // the power box: a dark block with a red pilot light and a brass collar the globe stands in
+  const globe = new THREE.Group()
+  globe.position.set(0.13, 0, 0.06)
+  globe.rotation.y = -0.4
+  group.add(globe)
+  const box = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.06, 0.15), dark)
+  box.position.y = 0.03
+  const pilot = new THREE.Mesh(new THREE.SphereGeometry(0.008, 12, 8), new THREE.MeshBasicMaterial({ color: '#ff3a3a' }))
+  pilot.position.set(0.07, 0.04, 0.076)
+  const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.03, 0.05, 24), brass)
+  collar.position.y = 0.085
+  globe.add(box, pilot, collar)
+  const GY = 0.215
+  const R = 0.1
+  const glass = edgeGlass({ color: '#efe6ff', edge: 0.7, base: 0.04 })
+  const shell = new THREE.Mesh(new THREE.SphereGeometry(R, 40, 28), glass)
+  shell.position.y = GY
+  // the gas glowing inside: a violet fill, brighter in a column between the electrodes (violet, not white:
+  // the hall's bloom whitens anything pale that glows)
+  const fill = new THREE.Mesh(new THREE.SphereGeometry(R * 0.92, 32, 24),
+    new THREE.MeshBasicMaterial({ color: '#7a4cff', transparent: true, opacity: 0.34, depthWrite: false }))
+  fill.position.y = GY
+  const core = new THREE.MeshStandardMaterial({ color: GLOW, emissive: GLOW, emissiveIntensity: 0.8 })
+  const column = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.011, R * 1.05, 16), core)
+  column.position.y = GY
+  const tip = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.004, 0.035, 16), glass)
+  tip.position.y = GY + R + 0.012
+  globe.add(fill, column, shell, tip)
+  for (const s of [-1, 1]) {
+    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, R * 0.45, 10), brass)
+    rod.position.y = GY + s * R * 0.72
+    const knob = new THREE.Mesh(new THREE.SphereGeometry(0.01, 12, 10), brass)
+    knob.position.y = GY + s * R * 0.5
+    globe.add(rod, knob)
+  }
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: softSpot(), color: '#8a5cff', transparent: true, depthWrite: false, opacity: 0.32, blending: THREE.AdditiveBlending }))
+  halo.scale.set(0.32, 0.32, 1)
+  halo.position.y = GY
+  globe.add(halo)
+  if (!light) {
+    const lamp = new THREE.PointLight('#a080ff', 1.1, 1.1, 2)
+    lamp.position.set(0, GY, 0.06)
+    globe.add(lamp)
+  }
+  updates.push(t => {
+    // a discharge flickers
+    const k = Math.sin(t * 8.3) * 0.06 + Math.sin(t * 21) * 0.03
+    core.emissiveIntensity = 0.8 + k
+    fill.material.opacity = 0.33 + k * 0.5
+    halo.material.opacity = 0.3 + k
+  })
+
+  // the steel flask of liquid nitrogen, smoking, and the bulb held just above it
+  const flask = new THREE.Group()
+  flask.position.set(-0.13, 0, -0.05)
+  group.add(flask)
+  const DR = 0.075
+  const DH = 0.16
+  const steel = new THREE.MeshStandardMaterial({ color: '#59627e', roughness: 0.32, metalness: 0.7 })
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(DR, DR * 0.96, DH, 36), steel)
+  body.position.y = DH / 2
+  // frost on its upper part, a rolled rim, the liquid's surface showing at the mouth
+  const frosty = new THREE.Mesh(new THREE.CylinderGeometry(DR + 0.002, DR + 0.002, 0.05, 36, 1, true),
+    new THREE.MeshStandardMaterial({ color: '#6e7896', roughness: 0.95 }))
+  frosty.position.y = DH - 0.03
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(DR - 0.004, 0.008, 10, 40), steel)
+  rim.rotation.x = Math.PI / 2
+  rim.position.y = DH
+  const surface = new THREE.Mesh(new THREE.CircleGeometry(DR - 0.01, 32),
+    new THREE.MeshStandardMaterial({ color: '#6f8fd0', emissive: '#2a3c78', emissiveIntensity: 0.5, roughness: 0.15 }))
+  surface.rotation.x = -Math.PI / 2
+  surface.position.y = DH - 0.012
+  flask.add(body, frosty, rim, surface)
+  // the bulb: a round bottom just above the mouth, a sealed neck rising to a clamp on a little post
+  const BY = DH + 0.06
+  const BR = 0.042
+  const bulbGlass = edgeGlass({ color: '#eef4ff', edge: 0.75, base: 0.05 })
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(BR, 28, 20), bulbGlass)
+  bulb.position.y = BY
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.2, 16, 1, true), bulbGlass)
+  neck.position.y = BY + 0.13
+  const seal = new THREE.Mesh(new THREE.ConeGeometry(0.011, 0.025, 16), bulbGlass)
+  seal.position.y = BY + 0.24
+  flask.add(bulb, neck, seal)
+  // frozen krypton: white crystals heaped in the bulb's bottom (grey-white: the case's lamp and the bloom
+  // whiten anything paler into a blob), and frost on the outside of the glass
+  const ice = new THREE.MeshStandardMaterial({ color: '#b4bacb', roughness: 0.25, metalness: 0.05, flatShading: true, emissive: '#2a3046', emissiveIntensity: 0.35 })
+  for (let i = 0; i < 22; i++) {
+    const a = rand() * Math.PI * 2
+    const d = rand() * 0.026
+    const c = new THREE.Mesh(new THREE.OctahedronGeometry(0.006 + rand() * 0.006, 0), ice)
+    c.position.set(Math.cos(a) * d, BY - BR * 0.66 + rand() * 0.01 + (0.026 - d) * 0.45, Math.sin(a) * d)
+    c.rotation.set(rand() * 3, rand() * 3, rand() * 3)
+    c.scale.y = 1 + rand() * 0.8
+    flask.add(c)
+  }
+  const frost = new THREE.Mesh(new THREE.SphereGeometry(BR + 0.002, 28, 12, 0, Math.PI * 2, Math.PI * 0.62, Math.PI * 0.38),
+    new THREE.MeshStandardMaterial({ color: '#a3acc4', roughness: 0.95, transparent: true, opacity: 0.4, depthWrite: false }))
+  frost.position.y = BY
+  flask.add(frost)
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.38, 8), dark)
+  post.position.set(-DR - 0.025, 0.19, 0)
+  const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.034, 0.012, 16), dark)
+  foot.position.set(-DR - 0.025, 0.006, 0)
+  const arm = new THREE.Mesh(new THREE.BoxGeometry(DR + 0.025, 0.008, 0.008), dark)
+  arm.position.set(-(DR + 0.025) / 2, BY + 0.17, 0)
+  const clamp = new THREE.Mesh(new THREE.TorusGeometry(0.015, 0.004, 8, 16), brass)
+  clamp.rotation.x = Math.PI / 2
+  clamp.position.set(0, BY + 0.17, 0)
+  flask.add(post, foot, arm, clamp)
+  // cold mist pouring over the rim and curling round the bulb
+  const mist = []
+  for (let i = 0; i < (light ? 4 : 8); i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: softSpot(), color: '#e4ecff', transparent: true, depthWrite: false, opacity: 0 }))
+    flask.add(s)
+    mist.push({ s, phase: rand(), a: rand() * Math.PI * 2, speed: 0.1 + rand() * 0.08 })
+  }
+  updates.push(t => {
+    for (const m of mist) {
+      const k = (t * m.speed + m.phase) % 1
+      // up out of the mouth round the bulb, then over the rim and down the outside
+      const r = 0.035 + Math.min(1, k * 2) * 0.065
+      const y = k < 0.35 ? DH + k * 0.26 : DH + 0.09 - (k - 0.35) * 0.26
+      m.s.position.set(Math.cos(m.a + k) * r, y, Math.sin(m.a + k) * r)
+      m.s.scale.setScalar(0.06 + k * 0.08)
+      m.s.material.opacity = Math.sin(k * Math.PI) * 0.24
+    }
+  })
+
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon, Kr: krypton }
