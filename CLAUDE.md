@@ -38,7 +38,7 @@ built when, and the user's requests behind it: `docs/history.md`.
 
 - `docs/design.md`: what it is, the decisions, the Atomling grammar, the extension path to molecules.
 - `docs/knowledge/`: `adding-a-wing.md` (the world contract, words, pieces, checking), `atomlings.md`
-  (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `hud-layout.md` (the
+  (how characters are made, the traps met), `molecule-lab.md`, `atom-forge.md`, `star-forge.md`, `hud-layout.md` (the
   HUD's layout rule, covers and the view offset, full screen), `walking.md` (both views, the camera,
   `cameraClear`, panels and exhibits, things to click), `hall-boards.md` (the halls' fact file and picture
   boards, Carbon and Oxygen first), `picture-rooms.md` (stepping into a hall's pictures: the scene
@@ -92,6 +92,9 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/worlds/forge/` + `src/ui/ForgeHud.jsx`, `src/ui/NuclideChart.jsx`: the Atom Forge (`/forge`):
   build atoms from protons, neutrons and electrons, watch nuclei decay; physics in `src/chem/nucleus.js`.
   `src/worlds/common/pack.js`: an even ball of points (every nucleus).
+- `src/worlds/stars/` + `src/ui/StarHud.jsx`, `StarTable.jsx`: the Star Forge (`/stars`): pick a star,
+  its burnings from inside, its end, the slow and rapid neutron captures, the table by where each element
+  came from (`star-forge.md`; data in `src/data/origins.js`, `binding.json`).
 - `src/game/quiz.js` + `src/ui/QuizHud.jsx`: "Who am I?" (Quem sou eu?) in the plaza: clues from the
   data and the element's own words (its name and symbol hidden; `mask` knows units like °C and words
   like "O" or "As"), ten a round, the table flies to each answer.
@@ -162,8 +165,9 @@ built: `docs/history.md`):
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
   professor in it; a README in each folder). Using a station in third person looks through the Atomling's
   eyes (`walking.md`).
-- The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the
-  Atomlings (`/atomlings`, `atomlings.md`), the passport (`/passport`).
+- The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the Star
+  Forge (`/stars`, `star-forge.md`, 2026-10-31), the Atomlings (`/atomlings`, `atomlings.md`), the
+  passport (`/passport`).
 - Rooms: playing together, the shared lab, the quiz duel, every wing's things shared (since 2026-10-30),
   each world saved twice: the player's own and each room's, kept while empty (`multiplayer.md`). Accounts (`accounts.md`).
   Usage data and the family dashboard at `/stats` (`usage-data.md`).

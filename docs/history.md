@@ -6,6 +6,13 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- The Star Forge (`/stars`; the user marked it Sooner): make the elements as the universe did. Pick a star
+  (a red dwarf to 25 suns, or a mass slider), tap its core through its burnings in a cutaway (hydrogen to
+  silicon, the onion of shells), see its end (a white dwarf and its nebula, a supernova, a pulsar or a
+  black hole), catch neutrons the slow way inside an old giant (iron to lead) and the rapid way in two
+  merging neutron stars (gold, uranium), and watch the table light up by where each element came from
+  (after Jennifer Johnson's chart), with where your own atoms came from. Twelve missions in the passport;
+  shared in a room (`star-forge.md`).
 - Carbon's two wings worked by hand (the user's rule of 2026-10-30, the queue's "Every station worked by
   hand"): each step chosen by tapping its thing, sliders for the transistor's gate and the garden's
   sunlight, the panels' buttons doing the same (`src/worlds/wings/carbon/README.md`, "Worked by hand";
