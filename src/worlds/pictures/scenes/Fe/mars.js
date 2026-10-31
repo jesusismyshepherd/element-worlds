@@ -837,7 +837,8 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, col
   })
   disposers.push(() => cutTex.dispose())
   const halves = new THREE.Group()
-  const BIG = 0.042
+  // a 6 mm berry, ten times bigger
+  const BIG = 0.03
   for (const s of [-1, 1]) {
     const h = new THREE.Group()
     const shell = new THREE.Mesh(new THREE.SphereGeometry(BIG, 24, 14, 0, TAU, 0, Math.PI / 2), berryMat)
@@ -1192,7 +1193,8 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, col
   root.add(dialG)
   solids.push(circle(DIAL.x, DIAL.z, 0.3))
   const DIAL_Y = 1.0
-  const DS = 0.46
+  // five times the real dial (about 3 inches, 7.6 cm, square), as the panel says
+  const DS = 0.38
   {
     const post = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, DIAL_Y, 10), metal)
     post.position.y = DIAL_Y / 2
