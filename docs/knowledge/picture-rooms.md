@@ -57,7 +57,9 @@ in. The studio item is `picture-rooms`.
   fluorescent panels, windows onto a city; gives `mats`, `shine`, `onWall(obj, side, at, y)`),
   `giant.js` (the space deck beside a red giant, limb-darkened with churning cells and its warm light;
   `giant.set({ scale, heat, glow })` ages or removes it; exports `NOISE`), `dig.js` (open country at
-  golden hour, real pits cut in the ground; `pits`, `bare`, `clear`, `strataTexture`, `soilTexture`). A
+  golden hour, real pits cut in the ground; `pits`, `bare`, `clear`, `strataTexture`, `soilTexture`),
+  `coldlab.js` (a cold lab, frosted pipes and mist, big doors onto a fenced yard at dusk; `frost`, `mats`,
+  `pipeRun(points, { r, mat, bend })`, `mist({ x, y, z, rate, spread, floor })`, `puffs(max)`). A
   room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
@@ -215,6 +217,15 @@ at the same address.
   a column of air where CO2 catches heat light and sends it any way, some back down, N2 and O2 let it
   pass; burn coal, then what helps (wind and sun stop the chimney, a tree takes one back).
 
+- Oxygen, `magnet` ("Oxygen that sticks to a magnet", 2026-10-31): a cold lab (`coldlab.js`). The liquid
+  air machine: tap it (or a temperature slider) and it cools, frost, dry-ice snow, pale blue drops near
+  −191 °C; tap the column and the nitrogen boils off, the oxygen flask fills. Three tubes for the race
+  (1877 a mist, 1883 Kraków's liquid, 1895 Linde). A big electromagnet with a field slider: liquid oxygen
+  bridges the poles (and falls when the field drops), nitrogen falls through, water on a dish dips
+  0.83 mm at 1.5 T. The Nijmegen magnet: tap it to 16 T and the frog floats. Outside, a rocket engine on
+  its stand: a mix slider (too little oxygen sooty, near 2.5 bright with shock diamonds), Goddard's 1926
+  rocket beside it.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -302,6 +313,10 @@ at the same address.
   Paintings on a box's own faces z-fight: inset them about 5 cm. Things lying flat in water at eye level
   vanish: let them lean. An opaque cut in front of a diorama takes taps only in its regions (`accept`),
   so taps reach the trees behind.
+- A normal map from random block heights bands the walls in rows: paint them flat. A value snapped to 0
+  below a threshold every frame never grows: snap only while it shrinks. A `js:` step whose result is
+  a function gets called by Playwright: wrap assignments in `void (...)`. Animating a shared material
+  lights every surface that uses it: clone it.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

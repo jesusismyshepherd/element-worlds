@@ -261,5 +261,20 @@
     "() => __ew.world.parts.blanket.tap('trees')",
     "() => { __ew.showPanel(__ew.world.panels.blanket); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(14) }",
     "() => { __ew.showPanel(__ew.world.panels.forest); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[4].onClick() }"
+  ],
+  "/e/O/magnet": [
+    "() => __ew.world.parts.air.tap('machine')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.air.tap('column'); r() }, 12500))",
+    "() => { __ew.showPanel(__ew.world.panels.air); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(-120) }",
+    "() => { __ew.store.set({ panel: null }); __ew.world.parts.firsts.tap(1) }",
+    "() => __ew.world.parts.magnet.tap('lox')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.magnet.tap('water'); r() }, 3600))",
+    "() => { __ew.showPanel(__ew.world.panels.magnet); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(1.5) }",
+    "() => { __ew.store.set({ panel: null }); __ew.world.parts.magnet.tap('ln2') }",
+    "() => __ew.world.parts.frog.tap()",
+    "() => __ew.world.parts.rocket.tap('lox')",
+    "() => { __ew.showPanel(__ew.world.panels.rocket); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(2.5) }",
+    "() => { __ew.store.set({ panel: null }); __ew.world.parts.rocket.tap('engine') }",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.rocket.tap('fuel'); r() }, 8000))"
   ]
 }
