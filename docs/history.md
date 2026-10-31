@@ -6,6 +6,11 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- The family studio on the game's own site (`/studio`; the user: share it with Artur, who has no Claude
+  account, and know who made each input): the backlog for anyone with the link, ideas, notes and verdicts
+  from signed-in family accounts kept under their names (`supabase/ew_004_studio.sql`), Claude's answers
+  under them (`update-dashboard.md`). Each built card shows the tokens its agents used
+  (`tools/studio_tokens.py`).
 - Iron's hall: seven pictures and a showpiece (an iron meteorite sawn and etched to show its crystal
   pattern, the slice beside it, a polished cube of pure iron), each picture with its room: the Hoba
   meteorite and Tutankhamun's dagger, a research ship over the Atlantic and the Earth's iron dynamo, an Iron

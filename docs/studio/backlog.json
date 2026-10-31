@@ -651,6 +651,20 @@
   "built": [
     {
       "date": "2026-10-31",
+      "title": "The family studio on the game's site",
+      "what": "This studio at element-worlds.vercel.app/studio, for anyone with the link: sign in with your game account (the Pokémon site's works too) to send an idea, a note or a verdict, each kept with who sent it, and Claude answers under it. Each built card now shows the tokens its agents used.",
+      "link": "https://element-worlds.vercel.app/studio",
+      "agents": [
+        "ac6359ef33126eb42"
+      ],
+      "tokens": {
+        "total": 14285226,
+        "output": 111028,
+        "agents": 1
+      }
+    },
+    {
+      "date": "2026-10-31",
       "title": "Iron's hall: seven pictures to step into",
       "what": "A meteorite of 60 tonnes weighed against elephants and Tutankhamun's dagger from the sky, a ship's deck over the Earth's iron core, an Iron Age smith, iron pulled out of cereal with a magnet, the Eiffel Tower's rivet gang, a rover on red Mars, and a railway welded with thermite. In the case, a meteorite sawn and etched to show its crystals.",
       "link": "https://element-worlds.vercel.app/e/Fe",
@@ -1096,6 +1110,11 @@
       "date": "2026-10-29",
       "title": "Claude picks, you steer",
       "why": "Claude chooses what comes next and says why; your Sooner, Later and notes change it at any time."
+    },
+    {
+      "date": "2026-10-31",
+      "title": "The studio on the game's own site, with the family's accounts",
+      "why": "You wanted to share the studio with Artur, who has no Claude account, and to know who made each input. The game already has accounts (the Pokémon site's logins), so the studio is a page of the game: anyone with the link reads it, signed-in accounts send ideas, notes and verdicts kept under their names, and Claude reads and answers them. Your claude.ai studio stays for photos and files."
     }
   ]
 }
