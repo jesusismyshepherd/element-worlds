@@ -211,6 +211,8 @@ select { background: var(--raised); border: 1px solid var(--line); border-radius
 .b-day li span { color: var(--muted) }
 .b-day li a { font-size: .88rem; white-space: nowrap }
 @media (max-width: 560px) { .b-day { grid-template-columns: minmax(0, 1fr) } }
+.b-day li .tok { margin: 2px 0 0; font: 500 .74rem/1.4 var(--font-mono); color: var(--muted) }
+.tok-note { margin: -4px 0 14px; max-width: 70ch; font-size: .82rem; color: var(--muted) }
 
 /* how we decided */
 .decided { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 28px }
@@ -320,6 +322,7 @@ body.locked { overflow: hidden }
       <h2 id="h-built">Built</h2>
       <p>What the game gained, newest first.</p>
     </div>
+    <p class="tok-note" id="built-tok"></p>
     <div class="built" id="built"></div>
   </section>
 
@@ -505,12 +508,18 @@ body.locked { overflow: hidden }
         <div class="grid">${list.map(it => tile(it)).join('')}</div></div>`
     }).join('') || '<p class="empty">No ideas here yet.</p>'
   }
+  // tokens in millions: 390 M, 35.0 M
+  const mtok = n => `${n >= 1e8 ? Math.round(n / 1e6) : (n / 1e6).toFixed(1)} M`
+  const tokLine = t => t ? `${mtok(t.total)} tokens · ${(t.output / 1e6).toFixed(2)} M written · ${t.agents} ${t.agents === 1 ? 'agent' : 'agents'}` : 'Tokens: not recorded'
   function renderBuilt() {
     const by = {}
     for (const b of S.data.built || []) (by[b.date] ||= []).push(b)
     $('#built').innerHTML = Object.keys(by).sort().reverse().map(d => `
       <div class="b-day"><p class="b-date"><time datetime="${esc(d)}">${esc(day(d))}</time></p>
-        <ul>${by[d].map(b => `<li><b>${esc(b.title)}</b> <span>${esc(b.what)}</span>${b.link ? ` <a href="${esc(b.link)}" target="_blank" rel="noopener">Open ↗</a>` : ''}</li>`).join('')}</ul></div>`).join('')
+        <ul>${by[d].map(b => `<li><b>${esc(b.title)}</b> <span>${esc(b.what)}</span>${b.link ? ` <a href="${esc(b.link)}" target="_blank" rel="noopener">Open ↗</a>` : ''}<p class="tok">${tokLine(b.tokens)}</p></li>`).join('')}</ul></div>`).join('')
+    const all = (S.data.built || []).filter(b => b.tokens)
+    const sum = all.reduce((n, b) => n + b.tokens.total, 0)
+    $('#built-tok').textContent = all.length ? `Tokens are what the agents that built each one used, rereading included; the session that planned and checked their work is not counted. Recorded since 29 October: ${mtok(sum)} tokens.` : ''
   }
   function renderDecided() {
     $('#decided').innerHTML = (S.data.decisions || []).slice().reverse().map(d => `

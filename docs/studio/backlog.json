@@ -652,55 +652,157 @@
       "date": "2026-10-31",
       "title": "Hydrogen's hall: seven pictures to step into",
       "what": "The first atoms after the Big Bang, Charles's hydrogen balloon over Paris in 1783, a pond at a pond skater's size, a hydrogen bus and train station, Cavendish making water with a spark, a gondola sinking into Jupiter, and a radio telescope listening to hydrogen's 21 cm whisper. In the case, a spectrum tube glowing pink-violet.",
-      "link": "https://element-worlds.vercel.app/e/H"
+      "link": "https://element-worlds.vercel.app/e/H",
+      "agents": [
+        "ab48b32047471f676",
+        "a60242c983791c666",
+        "a9e5b4f4111973ee0",
+        "ac9b43baaad1ca16a",
+        "ad045eb595caf031a",
+        "afd3d786da621e982",
+        "a5d6229eefe263b38",
+        "a49fb53035485b663"
+      ],
+      "tokens": {
+        "total": 390048623,
+        "output": 2163455,
+        "agents": 8
+      }
     },
     {
       "date": "2026-10-31",
       "title": "The Atom Forge together",
       "what": "In a room you all build one atom, each press counted, the others' particles glowing in their colour; or race each other to a mission, each building your own atom, a board showing who is closest.",
-      "link": "https://element-worlds.vercel.app/forge"
+      "link": "https://element-worlds.vercel.app/forge",
+      "agents": [
+        "a981e7642bf62844f"
+      ],
+      "tokens": {
+        "total": 34989559,
+        "output": 200274,
+        "agents": 1
+      }
     },
     {
       "date": "2026-10-31",
       "title": "The Star Forge",
       "what": "Make the elements as the universe did: pick a star, tap its core through its burnings, watch it end as a white dwarf or a supernova, catch neutrons slowly in an old giant and all at once when neutron stars collide, and see the table light up by where each element came from.",
-      "link": "https://element-worlds.vercel.app/stars"
+      "link": "https://element-worlds.vercel.app/stars",
+      "agents": [
+        "a49e3904243a2beef"
+      ],
+      "tokens": {
+        "total": 94921698,
+        "output": 314286,
+        "agents": 1
+      }
     },
     {
       "date": "2026-10-31",
       "title": "Every station worked by hand",
       "what": "In carbon's and oxygen's wings, the neon workshop and the two video labs you now choose each step by tapping its thing (the pump, a gas flask, the fire triangle's side, the oil tin, the knife), with sliders for what changes smoothly. E still opens the panel with the same steps.",
-      "link": "https://element-worlds.vercel.app/e/O/fire"
+      "link": "https://element-worlds.vercel.app/e/O/fire",
+      "agents": [
+        "ad46f40c25744888f",
+        "a32c7ec5af5999330",
+        "a69345b9c0aa08f83",
+        "a8227c3b32621a4c3"
+      ],
+      "tokens": {
+        "total": 194783403,
+        "output": 692006,
+        "agents": 4
+      }
     },
     {
       "date": "2026-10-31",
       "title": "All seven of oxygen's pictures are doors: every picture on a wall is one now",
       "what": "Ride a red blood cell from the lung to a muscle; Lavoisier's laboratory and Priestley's burning lens; an Antarctic station where the ozone hole was found and fixed; a sea 2.5 billion years ago rusting into stripes; a bath on a giant balance by a frozen lake; a camp under the northern lights; liquid air, a floating frog and a rocket. Silicon, sodium, carbon and oxygen: 26 rooms.",
-      "link": "https://element-worlds.vercel.app/e/O"
+      "link": "https://element-worlds.vercel.app/e/O",
+      "agents": [
+        "a611a49204e4a2ca0",
+        "a69ffcb9bc4f7a263",
+        "a8e6099e3e24752f6",
+        "aec437796fba84348",
+        "afb7408b9802c841e",
+        "af0d96cad66f45fc7",
+        "acee351d8e5ac2894"
+      ],
+      "tokens": {
+        "total": 431394574,
+        "output": 2142174,
+        "agents": 7
+      }
     },
     {
       "date": "2026-10-30",
       "title": "All seven of carbon's pictures are doors",
       "what": "Down to where diamonds are born and up a kimberlite pipe, then a pencil workshop; inside you, inside a leaf, beside a red giant making carbon, an archaeologists' dig dating finds by carbon-14, Smalley's lab where the football molecule was found, and the Mauna Loa observatory with its curve. On an upright phone every station's view now fits its whole width.",
-      "link": "https://element-worlds.vercel.app/e/C"
+      "link": "https://element-worlds.vercel.app/e/C",
+      "agents": [
+        "af4fbada59b8ea831",
+        "a2fa897cb89beb698",
+        "a180ab054daa884bc",
+        "ae42e1fa25c88d3d0",
+        "ae809e1feb95335d0",
+        "a344f5bc21b2af132",
+        "a7821c076cef98614"
+      ],
+      "tokens": {
+        "total": 303451363,
+        "output": 1900450,
+        "agents": 7
+      }
     },
     {
       "date": "2026-10-30",
       "title": "All six of sodium's pictures are doors",
       "what": "Beside a nerve fibre, Aveiro's salt pans, Davy's lab of 1807, a street under sodium lamps, a mountaintop observatory with its laser star, a baking kitchen.",
-      "link": "https://element-worlds.vercel.app/e/Na"
+      "link": "https://element-worlds.vercel.app/e/Na",
+      "agents": [
+        "a9315b25f7962eb8a",
+        "ad9de8026fac017a1",
+        "adc2a60541855d202",
+        "a5dc57a4549da81b0",
+        "a82d31a368c87f83d",
+        "a7b0e9107fb196af8"
+      ],
+      "tokens": {
+        "total": 227154567,
+        "output": 1472068,
+        "agents": 6
+      }
     },
     {
       "date": "2026-10-30",
       "title": "All six of silicon's pictures are doors",
       "what": "The glassblower's workshop, the Earth and Moon from a deck in space, and Silicon Valley by night join the diatoms, the solar hilltop and the silicone kitchen. Every step is chosen by tapping its thing.",
-      "link": "https://element-worlds.vercel.app/e/Si"
+      "link": "https://element-worlds.vercel.app/e/Si",
+      "agents": [
+        "a4298532928b4bb3f",
+        "ad8cc0cd976152c61",
+        "a4cdee960ce365bd6"
+      ],
+      "tokens": {
+        "total": 121407728,
+        "output": 865819,
+        "agents": 3
+      }
     },
     {
       "date": "2026-10-30",
       "title": "Step into the pictures: the solar hilltop and the silicone kitchen",
       "what": "Two more of silicon's pictures are doors: a hilltop where you move the sun across the sky, fire light into a giant solar cell and launch Vanguard 1; a kitchen where the silicone tray bends, the silicon snaps and the putty bounces, stretches and sags.",
-      "link": "https://element-worlds.vercel.app/e/Si/solar"
+      "link": "https://element-worlds.vercel.app/e/Si/solar",
+      "agents": [
+        "a528d1d0d3f0e7514",
+        "a5ff5655ce64f269e"
+      ],
+      "tokens": {
+        "total": 74808905,
+        "output": 513436,
+        "agents": 2
+      }
     },
     {
       "date": "2026-10-30",
@@ -712,7 +814,18 @@
       "date": "2026-10-30",
       "title": "Doing things together in the worlds",
       "what": "In a room, the things in every wing are shared: let the balloons go in the neon workshop and everyone there sees them rise; fill a tube, light a word, drop sodium in the bowl, run the chip line, and it happens on everyone's screen. The room keeps its worlds even when nobody is in them, apart from each player's own, which is saved too. Standing beside someone who tries what you have not, a note says it counts once you do it yourself. Videos, panels and the Atomling's words stay each one's own.",
-      "link": "https://element-worlds.vercel.app/e/Ne/signs"
+      "link": "https://element-worlds.vercel.app/e/Ne/signs",
+      "agents": [
+        "abc15f52fd9a48893",
+        "af689b8becfd1216b",
+        "a3407472b64697d3f",
+        "a3596c5b2542d41a2"
+      ],
+      "tokens": {
+        "total": 33805390,
+        "output": 110908,
+        "agents": 4
+      }
     },
     {
       "date": "2026-10-30",
@@ -724,7 +837,15 @@
       "date": "2026-10-30",
       "title": "Silicon's hall, made over",
       "what": "Six picture boards (diatoms, solar cells, glass, the rocky Earth, Silicon Valley, silicone), a showpiece of a lump, a boule and a wafer, and its doorway board.",
-      "link": "https://element-worlds.vercel.app/e/Si"
+      "link": "https://element-worlds.vercel.app/e/Si",
+      "agents": [
+        "a78ddd56fa77a00d9"
+      ],
+      "tokens": {
+        "total": 28380965,
+        "output": 161184,
+        "agents": 1
+      }
     },
     {
       "date": "2026-10-30",
@@ -736,7 +857,15 @@
       "date": "2026-10-30",
       "title": "Sodium's hall, made over",
       "what": "Six picture boards, a showpiece of sodium under oil, and a doorway board you step into, like a picture.",
-      "link": "https://element-worlds.vercel.app/e/Na"
+      "link": "https://element-worlds.vercel.app/e/Na",
+      "agents": [
+        "a13ca0a4b2db9f855"
+      ],
+      "tokens": {
+        "total": 33115854,
+        "output": 192657,
+        "agents": 1
+      }
     },
     {
       "date": "2026-10-30",

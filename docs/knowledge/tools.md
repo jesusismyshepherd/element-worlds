@@ -41,6 +41,8 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   music crackled on the phone (`sound.md`).
 - `breath_probe.py`: the air wing's breathing, on and held by tapping the lungs (a real click), every gas streaming in and out, two
   breaths filmed as a contact sheet.
+- `agent_tokens.py`: every agent's tokens from the session transcripts (fresh input, cache, output);
+  `studio_tokens.py` fills the studio's built cards from the agent ids they list.
 - `pv_taps_probe.py`: the two video labs worked by hand: at each station E, then each thing tapped with a
   real ray (the hand, the step, the find, the next prompt, a screenshot); `--lab Na|Si|both`, `--phone`,
   `--lang`, `--level`, `--only`, `--first`. A Python probe printing pt, pl or de text needs

@@ -48,7 +48,10 @@ Run `/update-dashboard` at the start of every session here (CLAUDE.md says so); 
 5. Steering: with `mode` `me`, finish what is being built, then start nothing new from `next` until an
    item has a Sooner verdict. With `claude`, take the top of `next`.
 6. While building: the item's `status` is `building`; when done, `built`, out of `next`, a line in
-   `built` (date, title, what, link into the game), and `docs/history.md` as usual.
+   `built` (date, title, what, link into the game, and `agents`: the ids of the agents that built it), then
+   `py -3.11 tools/studio_tokens.py` fills its `tokens` from their transcripts (the user, 2026-10-31: the
+   cost of each built feature in tokens; `tools/agent_tokens.py` lists every agent's), and
+   `docs/history.md` as usual.
 7. Republish whenever `backlog.json` changed (set `updated` to today): `Artifact` publish with
    `file_path` `docs/studio/studio.html`, `files` `{"backlog.json": "docs/studio/backlog.json"}` and
    the `url` above (from another conversation the `url` is required, or a new artifact is made; read
