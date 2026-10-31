@@ -336,8 +336,10 @@ export class Player {
       // its top), no higher than a child's eyes
       const own = (b.hover ?? 0) + Math.max(b.height * 0.9, 0.95)
       const eye = new THREE.Vector3(this.pos.x, this.pos.y + Math.max(own, Math.min(st.at.y - this.pos.y + 0.35, 1.45)), this.pos.z)
-      // a focus with a `width` also fits across a narrow screen (an upright phone)
-      const fit = (Math.max(st.size, st.width / cam.aspect) / 2 / Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2)) * 1.1
+      // a focus with a `width` also fits across a narrow screen (an upright phone), and across the part a
+      // side panel leaves free (the view offset only moves the centre: hydrogen's radio room, 2026-10-31)
+      const shareW = this.engine.freeShare?.().w ?? 1
+      const fit = (Math.max(st.size, st.width / (cam.aspect * shareW)) / 2 / Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2)) * 1.1
       const dist = eye.distanceTo(st.at)
       // backed off along the line of sight, but never downward: a focus above the eyes (a balloon, a sky)
       // pulled the eye down to the floor (the neon workshop, 2026-10-31)
