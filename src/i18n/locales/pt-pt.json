@@ -133,6 +133,7 @@
     "talk": "Conta-me algo (T)",
     "lab": "Laboratório",
     "forge": "Forja de Átomos",
+    "stars": "Forja de Estrelas",
     "menu": "Menu",
     "soundOn": "Ligar o som",
     "soundOff": "Desligar o som",
@@ -288,6 +289,9 @@
       "unmeasured": "por medir"
     }
   },
+  "stars": {
+    "title": "Forja de Estrelas"
+  },
   "quiz": {
     "title": "Quem sou eu?",
     "start": "Quem sou eu?",
@@ -317,6 +321,7 @@
     "badges": "Medalhas",
     "lab": "Missões de moléculas",
     "forge": "Missões da forja",
+    "stars": "Missões das estrelas",
     "forgeStat": "missões da forja",
     "quizStat": "recorde do Quem sou eu?",
     "badge": {
@@ -354,6 +359,11 @@
         "icon": "⚒️",
         "name": "Ferreiro de átomos",
         "how": "Cumpre cinco missões da Forja de Átomos"
+      },
+      "stars": {
+        "icon": "🌟",
+        "name": "Fazedor de estrelas",
+        "how": "Cumpre cinco missões da Forja de Estrelas"
       },
       "detective": {
         "icon": "🔎",

@@ -133,6 +133,7 @@
     "talk": "Tell me something (T)",
     "lab": "Molecule Lab",
     "forge": "Atom Forge",
+    "stars": "Star Forge",
     "menu": "Menu",
     "soundOn": "Turn the sound on",
     "soundOff": "Turn the sound off",
@@ -288,6 +289,9 @@
       "unmeasured": "not timed"
     }
   },
+  "stars": {
+    "title": "Star Forge"
+  },
   "quiz": {
     "title": "Who am I?",
     "start": "Who am I?",
@@ -317,6 +321,7 @@
     "badges": "Badges",
     "lab": "Molecule missions",
     "forge": "Forge missions",
+    "stars": "Star missions",
     "forgeStat": "forge missions",
     "quizStat": "best quiz score",
     "badge": {
@@ -354,6 +359,11 @@
         "icon": "⚒️",
         "name": "Atom smith",
         "how": "Complete five Atom Forge missions"
+      },
+      "stars": {
+        "icon": "🌟",
+        "name": "Star maker",
+        "how": "Complete five Star Forge missions"
       },
       "detective": {
         "icon": "🔎",

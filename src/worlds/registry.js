@@ -2,7 +2,7 @@
 //   /                      the plaza (the table), ?at=C turns the view to carbon's cube
 //   /e/C                   carbon's atrium
 //   /e/C/allotropes        one of carbon's wings
-//   /lab                   the Molecule Lab;  /forge (?z=Fe) the Atom Forge
+//   /lab                   the Molecule Lab;  /forge (?z=Fe) the Atom Forge;  /stars the Star Forge
 // A new wing is one entry in WINGS and one module in wings/<element>/ (docs/knowledge/adding-a-wing.md).
 //   /e/Si/diatoms          the room inside one of the hall's pictures (pictures/, picture-rooms.md)
 import { element } from '../data/elements.js'
@@ -35,6 +35,7 @@ export function loadWorld(target) {
   if (target.kind === 'plaza') return import('./plaza/plaza.js')
   if (target.kind === 'lab') return import('./lab/lab.js')
   if (target.kind === 'forge') return import('./forge/forge.js')
+  if (target.kind === 'stars') return import('./stars/stars.js')
   if (target.kind === 'atrium') return import('./atrium/atrium.js')
   const wing = wingsOf(target.symbol).find(w => w.id === target.wing)
   // not a wing: the room inside one of the hall's pictures (pictures/, which says whether it has one)
@@ -44,11 +45,12 @@ export function loadWorld(target) {
 
 /** Two targets with the same key are the same world (the plaza's ?at= only turns the view). */
 export function worldKey(t) {
-  return t.kind === 'plaza' || t.kind === 'lab' || t.kind === 'forge' ? t.kind : `${t.kind}:${t.symbol}:${t.wing ?? ''}`
+  return t.kind === 'plaza' || t.kind === 'lab' || t.kind === 'forge' || t.kind === 'stars' ? t.kind : `${t.kind}:${t.symbol}:${t.wing ?? ''}`
 }
 
 export function targetFrom(pathname, search = '') {
   if (/^\/lab\/?$/.test(pathname)) return { kind: 'lab' }
+  if (/^\/stars\/?$/.test(pathname)) return { kind: 'stars' }
   if (/^\/forge\/?$/.test(pathname)) {
     const z = new URLSearchParams(search).get('z')
     return { kind: 'forge', z: (z && element(z)?.symbol) || null }

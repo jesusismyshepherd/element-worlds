@@ -21,7 +21,7 @@ const GAP_MS = 30 * 60000 // a pause this long ends an estimated stay or reading
 export const LIMIT = 50000 // the most events ew_admin returns at once (the newest)
 
 /** The kinds this dashboard knows; any other is listed as it came (othersOf). */
-export const KINDS = new Set(['start', 'enter', 'leave', 'hide', 'show', 'sel', 'fact', 'panel', 'pclose', 'talk', 'tile', 'quizopen', 'quiz', 'drawer', 'find', 'forge', 'mission', 'level', 'view', 'lang', 'err'])
+export const KINDS = new Set(['start', 'enter', 'leave', 'hide', 'show', 'sel', 'fact', 'panel', 'pclose', 'talk', 'tile', 'quizopen', 'quiz', 'drawer', 'find', 'forge', 'stars', 'mission', 'level', 'view', 'lang', 'err'])
 
 /** The places that matter most for "never entered": the lab, the forge and every wing (registry.js). */
 export const MAIN_PLACES = ['lab', 'forge', ...WING_PLACES]
@@ -53,6 +53,7 @@ export function placeOfPath(path) {
   if (p === '/') return 'plaza'
   if (p === '/lab') return 'lab'
   if (p === '/forge') return 'forge'
+  if (p === '/stars') return 'stars'
   const m = p.match(/^\/e\/([A-Za-z]{1,3})(?:\/([\w-]+))?$/)
   const el = m && element(m[1])
   if (el) return m[2] ? `wing:${el.symbol}:${m[2]}` : `atrium:${el.symbol}`

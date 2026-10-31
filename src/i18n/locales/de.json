@@ -135,6 +135,7 @@
     "talk": "Erzähl mir was (T)",
     "lab": "Moleküllabor",
     "forge": "Atomschmiede",
+    "stars": "Sternenschmiede",
     "menu": "Menü",
     "soundOn": "Ton einschalten",
     "soundOff": "Ton ausschalten",
@@ -291,6 +292,9 @@
       "unmeasured": "nicht gemessen"
     }
   },
+  "stars": {
+    "title": "Sternenschmiede"
+  },
   "quiz": {
     "title": "Wer bin ich?",
     "start": "Wer bin ich?",
@@ -320,6 +324,7 @@
     "badges": "Abzeichen",
     "lab": "Molekül-Missionen",
     "forge": "Missionen der Schmiede",
+    "stars": "Sternmissionen",
     "forgeStat": "Missionen der Schmiede",
     "quizStat": "Rekord bei „Wer bin ich?“",
     "badge": {
@@ -357,6 +362,11 @@
         "icon": "⚒️",
         "name": "Atomschmied",
         "how": "Erfülle fünf Missionen der Atomschmiede"
+      },
+      "stars": {
+        "icon": "🌟",
+        "name": "Sternenmacher",
+        "how": "Erfülle fünf Missionen der Sternenschmiede"
       },
       "detective": {
         "icon": "🔎",

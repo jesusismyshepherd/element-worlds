@@ -87,5 +87,8 @@ would pass element 118 is refused with why (note `beyond`): zinc-70 at uranium m
 ## Next
 
 - Fusion in a star: four protons to helium-4 step by step (the proton-proton chain), then the triple
-  alpha to carbon-12 (the Hoyle state).
-- Binding energy per nucleon as a curve beside the chart (iron-56 and nickel-62 at the top).
+  alpha to carbon-12 (the Hoyle state). The Star Forge (`/stars`, `star-forge.md`, 2026-10-31) now tells
+  each burning star by star and catches neutrons both ways on this forge's chart and decays; the step-by-step
+  chain in this forge is still to do.
+- Binding energy per nucleon as a curve beside the chart: the Star Forge has it (`BindingCurve.jsx`,
+  `src/data/binding.json`); this forge's chart could show it too.

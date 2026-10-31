@@ -233,6 +233,7 @@ const BEDS = {
   lab: [53, 60, 64, 69],
   wing: [45, 52, 57, 64],
   forge: [46, 53, 58, 65],
+  stars: [43, 50, 55, 62],
 }
 
 // Each bed is made once, offline, as an 80 s loop, and played from that buffer: the audio thread then

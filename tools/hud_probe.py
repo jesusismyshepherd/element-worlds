@@ -154,6 +154,14 @@ def scenes():
     def forge(page):
         page.wait_for_timeout(800)
 
+    def stars(page):
+        page.evaluate('() => { __ew.world.tapCore(); __ew.world.setLife(0.6) }')
+        page.wait_for_timeout(1500)
+
+    def stars_slow(page):
+        page.evaluate("() => { __ew.world.go('slow'); __ew.world.tapNucleus(); __ew.world.tapNucleus() }")
+        page.wait_for_timeout(2200)
+
     def neon_name(page):
         if not open_exhibit(page, 'nome|name'):
             raise RuntimeError('the name window did not open')
@@ -171,6 +179,8 @@ def scenes():
         'lab-water': ('/lab', lab_water, 0.5),  # a workbench: the palette and the missions are its tools
         'forge': ('/forge?z=26', forge, 0.5),
         'neon-name': ('/e/Ne/signs', neon_name, 0.55),
+        'stars': ('/stars', stars, 0.5),  # the Star Forge: its sliders, its card, its table
+        'stars-slow': ('/stars', stars_slow, 0.5),  # its slow capture, the path on the chart
     }
 
 

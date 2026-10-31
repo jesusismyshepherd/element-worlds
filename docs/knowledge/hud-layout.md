@@ -68,8 +68,8 @@ full screen.
 
 - `MSYS_NO_PATHCONV=1 py -3.11 tools/hud_probe.py` (dev server on 5310): six screens (a desktop, a
   laptop, an upright phone and a phone on its side, each phone also inside the browser's bars, 690 x 265
-  being the user's screenshot) and ten scenes (the plaza at rest, with a card, a drawer, the quiz; a
-  hall's panel and speech; a wing's panel; the lab with water made; the forge; the neon name window).
+  being the user's screenshot) and twelve scenes (the plaza at rest, with a card, a drawer, the quiz; a
+  hall's panel and speech; a wing's panel; the lab with water made; the forge; the neon name window; the Star Forge's star and its slow capture).
   It fails when a HUD piece lies in the middle of the free part (the stick in its corner excepted) or the HUD covers more than the scene allows. Screenshots in `tools/shots/hud/`;
   look at them too. About 4 minutes.
 - `MSYS_NO_PATHCONV=1 py -3.11 tools/fullscreen_probe.py`: the first tap, the button off and on, a
