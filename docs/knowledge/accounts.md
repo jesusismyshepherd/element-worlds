@@ -14,6 +14,8 @@ time, "not to lose what Artur has already gathered on the phone (he used one dev
     ("12 discoveries from this device are now in your account"), the switch (kept with the account, on
     every device), the family dashboard for an admin, "Sign out".
 - The room's name starts as the account's name.
+- The family studio (`/studio`, `update-dashboard.md`) opens the same sheet for "Sign in to send ideas";
+  what is sent there is kept with the account.
 
 ## The accounts
 

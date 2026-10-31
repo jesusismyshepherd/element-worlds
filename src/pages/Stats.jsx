@@ -17,6 +17,7 @@ import { loadBoards } from '../content/boards/index.js'
 import { Card, Kpi, Table, Columns, BarRows, StackRows, Legend, Chip, INK, SERIES, STATUS, BUTTON } from '../stats/ui.jsx'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
+import { useNoAutoFullscreen } from '../ui/fullscreen.js'
 
 // the halls with picture boards (src/content/boards/<Symbol>.js), known without loading them
 const BOARD_HALLS = Object.keys(import.meta.glob('../content/boards/[A-Z]*.js')).map(k => k.match(/([A-Za-z]+)\.js$/)[1])
@@ -26,26 +27,7 @@ const INPUT = 'rounded-lg bg-[#121838] border border-white/20 px-2.5 py-1.5 text
 const PRIMARY = 'rounded-lg px-3 py-1.5 text-sm font-bold bg-[#256abf] hover:bg-[#2a78d6] disabled:opacity-50'
 
 // phones go full screen at their first touch on every page (src/ui/fullscreen.js); not this one, which
-// is read, not played: the same opt-out its button sets, for as long as the page is open
-function useNoAutoFullscreen() {
-  useEffect(() => {
-    const KEY = 'ew-fullscreen-off'
-    let before = null
-    try {
-      before = sessionStorage.getItem(KEY)
-      sessionStorage.setItem(KEY, '1')
-    } catch {
-      // storage blocked: nothing to undo
-    }
-    return () => {
-      try {
-        if (before == null) sessionStorage.removeItem(KEY)
-      } catch {
-        // as above
-      }
-    }
-  }, [])
-}
+// is read, not played (useNoAutoFullscreen, shared with /studio)
 
 export default function Stats() {
   const [pass, setPass] = useState(savedPass)
@@ -275,6 +257,10 @@ function Dashboard({ pass, logout }) {
           </Link>
           <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">Family dashboard</h1>
         </div>
+        {/* the family studio: ideas, the queue, Claude's answers (docs/knowledge/update-dashboard.md) */}
+        <Link to="/studio" className={BUTTON} data-studio-link>
+          Studio
+        </Link>
         <button type="button" className={BUTTON} onClick={refresh} disabled={loading}>
           {loading ? 'Loading…' : 'Refresh'}
         </button>

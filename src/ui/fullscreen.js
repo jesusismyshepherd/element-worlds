@@ -84,3 +84,24 @@ export function useFullscreen() {
   }
   return { can: canFullscreen(), on, toggle }
 }
+
+/** A page that is read, not played (/stats, /studio): no full screen at the first touch, the same
+ *  opt-out the button sets, for as long as the page is open. */
+export function useNoAutoFullscreen() {
+  useEffect(() => {
+    let before = null
+    try {
+      before = sessionStorage.getItem(OFF)
+      sessionStorage.setItem(OFF, '1')
+    } catch {
+      // storage blocked: nothing to undo
+    }
+    return () => {
+      try {
+        if (before == null) sessionStorage.removeItem(OFF)
+      } catch {
+        // as above
+      }
+    }
+  }, [])
+}

@@ -11,7 +11,9 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `shot.py <path>`: screenshots of any address, with steps, and the console's errors. Run it before
   calling 3D work done. Its steps are split at every `;`, so a `js:` step holds no semicolon (no `for`
-  loop): `[1, 2].forEach(...)`, or an arrow function with commas.
+  loop): `[1, 2].forEach(...)`, or an arrow function with commas. A plain page (no 3D: `/studio`,
+  `/passport`) takes `--ready "<css selector>"` to wait for instead of the world; `full:<name>` shoots
+  the whole page, scrolled.
 - `journey.py`: a whole visit through every wing and back.
 - `lineup.py`: the Atomlings page. `atomsheet.py`: contact sheets of Atomlings (each alone from several
   angles, or the page's rows) for judging them (`atomlings.md`).
@@ -68,6 +70,14 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   `tools/shots/forge_room/` (`multiplayer.md`, "The forge together").
 - `usage_probe.py`, `stats_probe.py` (both want `EW_DASH_PASS`), `account_probe.py`: usage recording, the
   family dashboard, accounts (`usage-data.md`, `accounts.md`).
+- `studio_probe.py [--port 5347]`: the family studio at `/studio` (`update-dashboard.md`, "The family
+  studio"). Signed out: the backlog's sections against `backlog.json`, no form, the database refusing a
+  post and a read without an account. A throwaway `probe_st_...` account made in the page's own sheet
+  sends an idea, a Sooner and a note through the page; after a reload all three are read back from the
+  page and from `ew_studio_list`, each with its username; Portuguese; an admin's view (the probe answers
+  `ew_me` and `ew_studio_list` with someone else's answered idea); sign-out. 28 checks, under a minute;
+  screenshots in `tools/shots/studio/`. With `EW_DASH_PASS` it deletes the account (and its rows);
+  without, it prints the SQL to run with the Supabase MCP.
 
 ## Making things
 

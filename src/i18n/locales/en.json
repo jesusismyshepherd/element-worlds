@@ -493,5 +493,133 @@
       "busy": "Too many tries: wait a minute.",
       "failed": "Something went wrong: try again."
     }
+  },
+  "studio": {
+    "title": "Studio",
+    "docTitle": "Studio · Element Worlds",
+    "link": "Ideas for the game",
+    "tagline": "Where the game goes next: what Claude is building, what comes after it, and every idea so far.",
+    "english": "The list itself is written in English; the buttons and headings are in your language.",
+    "play": "Play the game",
+    "signIn": "Sign in",
+    "tell": {
+      "title": "Tell Claude",
+      "hint": "An idea for the game, or anything Claude should know. Claude reads it and answers here.",
+      "what": "What is it?",
+      "idea": "An idea",
+      "message": "A message",
+      "ideaHolder": "For example: a world for iron where you forge a sword",
+      "messageHolder": "Anything Claude should know",
+      "label": "Your idea or message",
+      "send": "Send to Claude",
+      "sending": "Sending…",
+      "sent": "Sent! Claude reads it at the start of the next session and answers here.",
+      "signIn": "Sign in to send ideas",
+      "signInHint": "Anyone with the link can read this page. To send ideas, notes and votes, sign in with your game account (the Pokémon site's works too)."
+    },
+    "sent": {
+      "mine": "What you sent",
+      "everyone": "What everyone sent",
+      "everyoneHint": "You see what everyone sent, with their names; the others see only their own.",
+      "none": "Nothing sent yet.",
+      "waiting_one": "{{count}} waiting for Claude",
+      "waiting_other": "{{count}} waiting for Claude",
+      "allAnswered": "Claude has answered everything.",
+      "more": "Show all ({{n}})",
+      "fewer": "Show fewer",
+      "loading": "Loading…",
+      "failed": "This could not be loaded. Try again in a moment."
+    },
+    "building": {
+      "title": "Being built now",
+      "hint": "What Claude is making right now.",
+      "none": "Nothing is being built right now."
+    },
+    "next": {
+      "title": "Up next",
+      "hint": "Claude's order, and why each piece is where it is. Sooner, Later and Not now change it.",
+      "none": "Nothing in the queue."
+    },
+    "waiting": {
+      "title": "Waiting on the family",
+      "hint": "Only the family can do these, like trying something new on the phone. Send a note when one is done, or to say how it went.",
+      "none": "Nothing is waiting.",
+      "optional": "Optional"
+    },
+    "ideas": {
+      "title": "All ideas",
+      "hint": "Everything thought of so far, by kind. Tap one to read it, say when it should be built, or send a note.",
+      "whose": "Whose ideas",
+      "all": "All",
+      "you": "Dad's",
+      "artur": "Artur's",
+      "claude": "Claude's",
+      "none": "No ideas here."
+    },
+    "built": {
+      "title": "Built",
+      "hint": "What the game gained, newest first.",
+      "tokens_one": "{{total}} tokens · {{written}} written · {{count}} agent",
+      "tokens_other": "{{total}} tokens · {{written}} written · {{count}} agents",
+      "noTokens": "Tokens: not recorded",
+      "tokensNote": "Tokens are what the agents that built each piece used, rereading included; the session that planned and checked their work is not counted. Since 29 October: {{total}} tokens.",
+      "open": "Open"
+    },
+    "decided": {
+      "title": "How we decided",
+      "hint": "The choices behind the game, and the reason for each."
+    },
+    "who": {
+      "you": "Dad's idea",
+      "artur": "Artur's idea",
+      "claude": "Claude's idea"
+    },
+    "status": {
+      "next": "Up next",
+      "building": "Building now",
+      "idea": "Idea",
+      "parked": "Not now",
+      "built": "Built"
+    },
+    "verdict": {
+      "ask": "When should Claude build it?",
+      "first": "Sooner",
+      "later": "Later",
+      "no": "Not now",
+      "saved": "Saved: {{v}}"
+    },
+    "item": {
+      "why": "Why it is here",
+      "open": "Open in the game",
+      "repo": "In the repository:",
+      "notes": "Notes",
+      "none": "No notes yet.",
+      "noteHolder": "A note about this for Claude",
+      "noteLabel": "Your note",
+      "send": "Send note",
+      "notesButton": "Notes ({{n}})",
+      "addNote": "Add a note",
+      "signIn": "Sign in to send a note or say when."
+    },
+    "entry": {
+      "idea": "Idea",
+      "note": "Note",
+      "verdict": "Vote",
+      "said": "Voted: {{v}}",
+      "about": "About: {{title}}",
+      "waiting": "Waiting for Claude",
+      "answered": "Answered",
+      "claude": "Claude"
+    },
+    "errors": {
+      "signedOut": "Sign in first.",
+      "empty": "Write something first.",
+      "long": "That is too long: make it shorter.",
+      "slow": "That is a lot at once: wait a while, then send again.",
+      "kind": "That did not go through. Try again in a moment.",
+      "verdict": "That vote did not go through. Try again.",
+      "failed": "That did not go through. Try again in a moment."
+    },
+    "footer": "Claude reads what is sent here at the start of every session and answers on this page. The list was last changed on {{date}}."
   }
 }

@@ -5,8 +5,10 @@ pokemon arena's probes). Start the dev server first (npm run dev, port 5310).
     python tools/shot.py /e/C --name carbon --phone
     python tools/shot.py / --steps "wait:2; js:__ew.world.select(6); wait:1.5; shot:carbon-selected"
     python tools/shot.py /forge --base https://element-worlds.vercel.app   (the live site)
+    python tools/shot.py /studio --ready "[data-studio]" --steps "full:studio"   (a plain page, no 3D)
 
-Steps (separated by ';'): wait:<seconds>, js:<code run in the page>, shot:<name>, key:<KeyCode>[*seconds held].
+Steps (separated by ';'): wait:<seconds>, js:<code run in the page>, shot:<name>, full:<name> (the whole
+page, scrolled), key:<KeyCode>[*seconds held].
 Shots go to tools/shots/<name>.png. Console errors are printed; the exit code is 1 if there were any.
 Run it through the machine's heavy-job lock when other sessions render:
     python "D:/Family/Artur/pokemon images/blender/arena/tools/heavy.py" shot -- python tools/shot.py ...
@@ -34,6 +36,7 @@ def main():
     ap.add_argument('--wait', type=float, default=2.5, help='seconds after the world is shown')
     ap.add_argument('--steps', default='')
     ap.add_argument('--query', default='', help='extra query string, e.g. light=1')
+    ap.add_argument('--ready', default=None, help='a plain page (/studio, /stats, /passport): wait for this CSS selector instead of the 3D world')
     a = ap.parse_args()
 
     OUT.mkdir(exist_ok=True)
@@ -53,10 +56,13 @@ def main():
             page.add_init_script(f"try {{ localStorage.setItem('ew-level', '{a.level}') }} catch (e) {{}}")
         page.goto(url)
         try:
-            page.wait_for_function('window.__ew && window.__ew.world && !window.__ew.store.get().fading', timeout=60000)
+            if a.ready:
+                page.wait_for_selector(a.ready, timeout=60000)
+            else:
+                page.wait_for_function('window.__ew && window.__ew.world && !window.__ew.store.get().fading', timeout=60000)
         except Exception as e:
-            # the world never came: say why (the console usually knows)
-            print('the world did not load:', str(e).splitlines()[0])
+            # the world (or the page) never came: say why (the console usually knows)
+            print('the page did not load:' if a.ready else 'the world did not load:', str(e).splitlines()[0])
             for err in errors:
                 print('console error:', err[:400])
             b.close()
@@ -77,12 +83,13 @@ def main():
                 page.keyboard.down(key)
                 time.sleep(float(held or 0.1))
                 page.keyboard.up(key)
-            elif kind == 'shot':
+            elif kind in ('shot', 'full'):
                 path = OUT / f'{arg}.png'
-                page.screenshot(path=str(path))
+                page.screenshot(path=str(path), full_page=kind == 'full')
                 print(f'shot {path}')
-        frames = page.evaluate('window.__ew.frames')
-        print(f'frames drawn: {frames}')
+        if not a.ready:
+            frames = page.evaluate('window.__ew.frames')
+            print(f'frames drawn: {frames}')
         b.close()
     for e in errors:
         print('console error:', e[:400])

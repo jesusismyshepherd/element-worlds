@@ -17,7 +17,7 @@ export const symbolOf = ref => (ref == null || ref === '' ? null : element(ref)?
 
 export const wingTitle = (symbol, id) => en.wings?.[symbol]?.[id]?.title ?? id
 
-const PAGES = { '/passport': 'the passport page', '/atomlings': 'the Atomlings page', '/stats': 'this dashboard' }
+const PAGES = { '/passport': 'the passport page', '/atomlings': 'the Atomlings page', '/stats': 'this dashboard', '/studio': 'the studio page' }
 
 /** A world or page as telemetry.js names it ('plaza', 'atrium:C', 'wing:C:allotropes', 'page:/passport'). */
 export function placeName(w) {
