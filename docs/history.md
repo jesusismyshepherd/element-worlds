@@ -6,6 +6,12 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- The forge together (the user marked it Sooner): in a room everyone in the Atom Forge builds one atom (each
+  press counted, even at the same moment; the others' particles fly in glowing in their colour, a line says
+  who did what; missions done together count for everyone there), and anyone can start a race to a mission:
+  a countdown, each racer builds their own atom, a board shows how far each is, the first to pass the
+  mission's check wins, then back to the shared atom. The duel's referee is shared by both
+  (`src/net/referee.js`; `multiplayer.md`, `atom-forge.md`).
 - The Star Forge (`/stars`; the user marked it Sooner): make the elements as the universe did. Pick a star
   (a red dwarf to 25 suns, or a mass slider), tap its core through its burnings in a cutaway (hydrogen to
   silicon, the onion of shells), see its end (a white dwarf and its nebula, a supernova, a pulsar or a

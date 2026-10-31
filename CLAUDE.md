@@ -54,7 +54,7 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
   the signed-in session, the client loaded on demand), `account.js` (sign in, new account, the progress
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`
-  (rooms), `duel.js` (the quiz duel), `shared.js` (a world's things shared in a room: the world's `shared`
+  (rooms), `duel.js` (the quiz duel), `referee.js` (the duel's and the forge race's referee), `shared.js` (a world's things shared in a room: the world's `shared`
   and `ctx.share(id)`, `adding-a-wing.md`). `supabase/ew_001_usage.sql`, `ew_002_accounts.sql`,
   `ew_003_room_worlds.sql` (the rooms' worlds kept): the `ew_` tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
   `src/pages/Stats.jsx` + `src/stats/`: the family dashboard at `/stats` (password or an admin account;
@@ -169,7 +169,8 @@ built: `docs/history.md`):
 - The Molecule Lab (`/lab`, `molecule-lab.md`), the Atom Forge (`/forge`, `atom-forge.md`), the Star
   Forge (`/stars`, `star-forge.md`, 2026-10-31), the Atomlings (`/atomlings`, `atomlings.md`), the
   passport (`/passport`).
-- Rooms: playing together, the shared lab, the quiz duel, every wing's things shared (since 2026-10-30),
+- Rooms: playing together, the shared lab, the quiz duel, every wing's things shared (since 2026-10-30), the
+  Atom Forge built together and raced (2026-10-31),
   each world saved twice: the player's own and each room's, kept while empty (`multiplayer.md`). Accounts (`accounts.md`).
   Usage data and the family dashboard at `/stats` (`usage-data.md`).
 - The HUD keeps the middle free (`hud-layout.md`); walking in both views (`walking.md`); four languages

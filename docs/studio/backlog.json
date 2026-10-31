@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "shared-forge",
     "halls-116",
     "treasure-hunts",
     "scavenger-hunts",
@@ -218,15 +217,16 @@
       "code": "Fg",
       "title": "The forge together",
       "kind": "together",
-      "status": "next",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-29",
       "summary": "The Atom Forge in a room: build one nucleus together, or race each other to a mission.",
-      "why": "You marked it Sooner (2026-10-30). Rooms already share the Molecule Lab and every wing; the forge is the other half of the table. Right after the star forge, so both are shared at once.",
       "details": [
-        "The next step for rooms (docs/knowledge/multiplayer.md)."
+        "The next step for rooms (docs/knowledge/multiplayer.md).",
+        "Built (2026-10-31): in a room everyone builds one atom (every press counts, the others' particles fly in glowing in their colour, a line says who did what, missions done together count for everyone there); anyone can start a race to a mission (a countdown, each builds their own atom, a board shows how far each is, the first wins, then back to the shared atom). Ideas next: a head start for the younger racer, best of three, watching one racer's atom."
       ],
-      "doc": "docs/knowledge/multiplayer.md"
+      "doc": "docs/knowledge/multiplayer.md",
+      "link": "https://element-worlds.vercel.app/forge"
     },
     {
       "id": "red-blood-cell",
@@ -648,6 +648,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "The Atom Forge together",
+      "what": "In a room you all build one atom, each press counted, the others' particles glowing in their colour; or race each other to a mission, each building your own atom, a board showing who is closest.",
+      "link": "https://element-worlds.vercel.app/forge"
+    },
     {
       "date": "2026-10-31",
       "title": "The Star Forge",
