@@ -30,10 +30,13 @@ export const NA_WORDS = {
     },
     tin: {
       label: 'The oil tin',
-      cut: 'Cut a slice',
-      cutting: 'Cutting',
       title: 'Sodium under oil',
-      says: { kid: 'Look at the cut: shiny silver... now watch it go dull!', sci: 'Fresh sodium: a mirror for a few seconds, then oxide and hydroxide.' },
+      hints: { lift: 'Tap the oil tin to lift the rod out', cut: 'Tap the knife to cut a slice', fresh: 'This rod is used up: tap the oil tin for a new one', watch: 'Watch the cut face' },
+      buttons: { lift: 'Lift a rod out of the oil', cut: 'Cut a slice' },
+      says: {
+        lift: { kid: 'Out of the oil it comes! The white outside is only a crust: the metal hides inside.', sci: 'The crust is hydroxide (and carbonate) from the air: only the inside is metal.' },
+        cut: { kid: 'Look at the cut: shiny silver... now watch it go dull!', sci: 'Fresh sodium: a mirror for a few seconds, then oxide and hydroxide.' },
+      },
       panel: {
         kid: [
           'Sodium is a metal you can cut with a knife, like cold butter. Inside it shines like silver.',
@@ -46,11 +49,20 @@ export const NA_WORDS = {
       },
     },
     bowl: {
-      label: { small: 'A small lump', medium: 'A medium lump', large: 'A large lump' },
-      drop: 'Drop it in',
+      label: 'The bowl of water',
       title: 'Sodium meets water',
+      hints: {
+        first: 'Tap a lump of sodium to drop it in the water',
+        small: 'Now tap the small lump',
+        medium: 'Now tap the medium lump',
+        large: 'Now tap the large lump',
+        indicator: 'Tap the indicator bottle to add a drop',
+        again: 'Tap any lump to drop it in',
+        watch: 'Watch the lump',
+      },
       buttons: { small: 'Drop a small lump', medium: 'Drop a medium lump', large: 'Drop a large lump', indicator: 'Add a drop of indicator', bang: 'Watch the big one ({t})' },
       says: {
+        notyet: { kid: 'Drop a lump of sodium in first: the indicator has nothing to show yet.', sci: 'In neutral water phenolphthalein stays colourless: react some sodium first.' },
         small: { kid: 'Too small to catch fire: it just fizzes away.', sci: 'A small piece loses its heat to the water faster than the hydrogen can ignite.' },
         flame: { kid: 'There! The hydrogen caught fire. See how orange it is?', sci: 'Ignition: hydrogen burning in air, coloured by sodium at 589 nm.' },
         bang: { kid: 'BANG! That is why they did it outside.', sci: 'The large lump: the hydrogen and air went off together.' },
@@ -73,6 +85,7 @@ export const NA_WORDS = {
       label: 'The salt window',
       crack: 'Crack it',
       again: 'Take a new window',
+      hints: { crack: 'Tap the window to crack it', again: 'Tap the window to put in a new one' },
       title: 'Why salt cracks in squares',
       says: { kid: 'Look at the cracks: all straight, all at right angles!', sci: 'Cleavage along the cube faces, the {100} planes.' },
       panel: {
@@ -90,6 +103,7 @@ export const NA_WORDS = {
       label: 'The salt lamp',
       on: 'Switch it on',
       off: 'Switch it off',
+      hints: { on: 'Tap the switch to turn it on', off: 'Tap the switch to turn it off' },
       title: 'A lamp of rock salt',
       panel: {
         kid: ['This lamp is a lump of rock salt with a bulb inside. Rock salt is the same sodium chloride, left behind when ancient seas dried up millions of years ago and were buried. Miners dig it out of the ground.'],
@@ -140,10 +154,13 @@ export const NA_WORDS = {
     },
     tin: {
       label: 'A lata de óleo',
-      cut: 'Cortar uma fatia',
-      cutting: 'A cortar',
       title: 'Sódio debaixo de óleo',
-      says: { kid: 'Olha para o corte: prateado e brilhante... agora vê como fica baço!', sci: 'Sódio acabado de cortar: um espelho por segundos, depois óxido e hidróxido.' },
+      hints: { lift: 'Toca na lata de óleo para tirares a barra', cut: 'Toca na faca para cortares uma fatia', fresh: 'Esta barra já acabou: toca na lata de óleo para tirares outra', watch: 'Olha para a face cortada' },
+      buttons: { lift: 'Tirar uma barra do óleo', cut: 'Cortar uma fatia' },
+      says: {
+        lift: { kid: 'Cá está ela, a sair do óleo! O branco por fora é só uma crosta: o metal esconde-se lá dentro.', sci: 'A crosta é hidróxido (e carbonato) formado com o ar: só o interior é metal.' },
+        cut: { kid: 'Olha para o corte: prateado e brilhante... agora vê como fica baço!', sci: 'Sódio acabado de cortar: um espelho por segundos, depois óxido e hidróxido.' },
+      },
       panel: {
         kid: [
           'O sódio é um metal que se corta com uma faca, como manteiga fria. Por dentro brilha como a prata.',
@@ -156,11 +173,20 @@ export const NA_WORDS = {
       },
     },
     bowl: {
-      label: { small: 'Um pedaço pequeno', medium: 'Um pedaço médio', large: 'Um pedaço grande' },
-      drop: 'Deitar na água',
+      label: 'A tigela de água',
       title: 'O sódio encontra a água',
+      hints: {
+        first: 'Toca num pedaço de sódio para o deitares na água',
+        small: 'Agora toca no pedaço pequeno',
+        medium: 'Agora toca no pedaço médio',
+        large: 'Agora toca no pedaço grande',
+        indicator: 'Toca no frasco de indicador para juntares uma gota',
+        again: 'Toca em qualquer pedaço para o deitares na água',
+        watch: 'Olha para o pedaço',
+      },
       buttons: { small: 'Deitar um pedaço pequeno', medium: 'Deitar um pedaço médio', large: 'Deitar um pedaço grande', indicator: 'Juntar uma gota de indicador', bang: 'Ver o grande ({t})' },
       says: {
+        notyet: { kid: 'Primeiro deita um pedaço de sódio na água: o indicador ainda não tem nada para mostrar.', sci: 'Em água neutra a fenolftaleína fica incolor: primeiro faz reagir algum sódio.' },
         small: { kid: 'Pequeno demais para pegar fogo: só se desfaz a borbulhar.', sci: 'Um pedaço pequeno perde o calor para a água mais depressa do que o hidrogénio se inflama.' },
         flame: { kid: 'Já está! O hidrogénio pegou fogo. Vês como é laranja?', sci: 'Ignição: hidrogénio a arder no ar, colorido pelo sódio a 589 nm.' },
         bang: { kid: 'PUM! É por isso que o fizeram lá fora.', sci: 'O pedaço grande: o hidrogénio e o ar explodiram juntos.' },
@@ -183,6 +209,7 @@ export const NA_WORDS = {
       label: 'A janela de sal',
       crack: 'Parti-la',
       again: 'Pegar numa janela nova',
+      hints: { crack: 'Toca na janela para a partires', again: 'Toca na janela para pores uma nova' },
       title: 'Porque é que o sal parte aos quadrados',
       says: { kid: 'Olha para as fendas: todas direitas, todas em ângulo reto!', sci: 'Clivagem pelas faces do cubo, os planos {100}.' },
       panel: {
@@ -200,6 +227,7 @@ export const NA_WORDS = {
       label: 'O candeeiro de sal',
       on: 'Acender',
       off: 'Apagar',
+      hints: { on: 'Toca no interruptor para o acenderes', off: 'Toca no interruptor para o apagares' },
       title: 'Um candeeiro de sal-gema',
       panel: {
         kid: ['Este candeeiro é um pedaço de sal-gema com uma lâmpada lá dentro. O sal-gema é o mesmo cloreto de sódio, deixado para trás quando mares antigos secaram, há milhões de anos, e ficaram enterrados. Os mineiros tiram-no da terra.'],
@@ -250,10 +278,13 @@ export const NA_WORDS = {
     },
     tin: {
       label: 'Puszka z olejem',
-      cut: 'Odkrój plasterek',
-      cutting: 'Kroję',
       title: 'Sód pod olejem',
-      says: { kid: 'Spójrz na przekrój: srebrny i błyszczący... a teraz zobacz, jak matowieje!', sci: 'Świeży sód: lustro przez kilka sekund, potem tlenek i wodorotlenek.' },
+      hints: { lift: 'Dotknij puszki z olejem, żeby wyjąć pręt', cut: 'Dotknij noża, żeby odkroić plasterek', fresh: 'Ten pręt się skończył: dotknij puszki z olejem, żeby wyjąć nowy', watch: 'Patrz na przekrój' },
+      buttons: { lift: 'Wyjmij pręt z oleju', cut: 'Odkrój plasterek' },
+      says: {
+        lift: { kid: 'Wychodzi z oleju! Biała warstwa na zewnątrz to tylko skorupka: metal chowa się w środku.', sci: 'Skorupka to wodorotlenek (i węglan) z powietrza: metal jest tylko w środku.' },
+        cut: { kid: 'Spójrz na przekrój: srebrny i błyszczący... a teraz zobacz, jak matowieje!', sci: 'Świeży sód: lustro przez kilka sekund, potem tlenek i wodorotlenek.' },
+      },
       panel: {
         kid: [
           'Sód to metal, który można kroić nożem jak zimne masło. W środku błyszczy jak srebro.',
@@ -266,11 +297,20 @@ export const NA_WORDS = {
       },
     },
     bowl: {
-      label: { small: 'Mały kawałek', medium: 'Średni kawałek', large: 'Duży kawałek' },
-      drop: 'Wrzuć do wody',
+      label: 'Miska z wodą',
       title: 'Sód spotyka wodę',
+      hints: {
+        first: 'Dotknij kawałka sodu, żeby wrzucić go do wody',
+        small: 'Teraz dotknij małego kawałka',
+        medium: 'Teraz dotknij średniego kawałka',
+        large: 'Teraz dotknij dużego kawałka',
+        indicator: 'Dotknij buteleczki ze wskaźnikiem, żeby dodać kroplę',
+        again: 'Dotknij dowolnego kawałka, żeby go wrzucić',
+        watch: 'Patrz na kawałek',
+      },
       buttons: { small: 'Wrzuć mały kawałek', medium: 'Wrzuć średni kawałek', large: 'Wrzuć duży kawałek', indicator: 'Dodaj kroplę wskaźnika', bang: 'Obejrzyj ten duży ({t})' },
       says: {
+        notyet: { kid: 'Najpierw wrzuć do wody kawałek sodu: wskaźnik nie ma jeszcze czego pokazać.', sci: 'W obojętnej wodzie fenoloftaleina jest bezbarwna: najpierw przeprowadź reakcję z sodem.' },
         small: { kid: 'Za mały, żeby się zapalić: po prostu znika, sycząc.', sci: 'Mały kawałek oddaje ciepło wodzie szybciej, niż wodór zdąży się zapalić.' },
         flame: { kid: 'Jest! Wodór się zapalił. Widzisz, jaki pomarańczowy?', sci: 'Zapłon: wodór płonie w powietrzu, zabarwiony przez sód przy 589 nm.' },
         bang: { kid: 'BUM! Dlatego robili to na dworze.', sci: 'Duży kawałek: wodór i powietrze wybuchły razem.' },
@@ -293,6 +333,7 @@ export const NA_WORDS = {
       label: 'Solne okienko',
       crack: 'Pęknij je',
       again: 'Weź nowe okienko',
+      hints: { crack: 'Dotknij okienka, żeby pękło', again: 'Dotknij okienka, żeby włożyć nowe' },
       title: 'Czemu sól pęka w kratkę',
       says: { kid: 'Spójrz na pęknięcia: wszystkie proste, wszystkie pod kątem prostym!', sci: 'Łupliwość wzdłuż ścian sześcianu, płaszczyzn {100}.' },
       panel: {
@@ -310,6 +351,7 @@ export const NA_WORDS = {
       label: 'Lampa solna',
       on: 'Włącz',
       off: 'Wyłącz',
+      hints: { on: 'Dotknij przełącznika, żeby ją włączyć', off: 'Dotknij przełącznika, żeby ją wyłączyć' },
       title: 'Lampa z soli kamiennej',
       panel: {
         kid: ['Ta lampa to bryła soli kamiennej z żarówką w środku. Sól kamienna to ten sam chlorek sodu, który został, gdy dawne morza wyschły miliony lat temu i zostały zasypane. Górnicy wydobywają ją spod ziemi.'],
@@ -360,10 +402,13 @@ export const NA_WORDS = {
     },
     tin: {
       label: 'Die Öldose',
-      cut: 'Eine Scheibe abschneiden',
-      cutting: 'Schneide',
       title: 'Natrium unter Öl',
-      says: { kid: 'Sieh dir den Schnitt an: silbern und glänzend... und jetzt schau, wie er matt wird!', sci: 'Frisches Natrium: ein paar Sekunden ein Spiegel, dann Oxid und Hydroxid.' },
+      hints: { lift: 'Tippe auf die Öldose, um die Stange herauszuholen', cut: 'Tippe auf das Messer, um eine Scheibe abzuschneiden', fresh: 'Diese Stange ist aufgebraucht: Tippe auf die Öldose für eine neue', watch: 'Schau auf die Schnittfläche' },
+      buttons: { lift: 'Eine Stange aus dem Öl holen', cut: 'Eine Scheibe abschneiden' },
+      says: {
+        lift: { kid: 'Raus aus dem Öl! Das Weiße außen ist nur eine Kruste: Das Metall versteckt sich innen.', sci: 'Die Kruste ist Hydroxid (und Carbonat) aus der Luft: Nur das Innere ist Metall.' },
+        cut: { kid: 'Sieh dir den Schnitt an: silbern und glänzend... und jetzt schau, wie er matt wird!', sci: 'Frisches Natrium: ein paar Sekunden ein Spiegel, dann Oxid und Hydroxid.' },
+      },
       panel: {
         kid: [
           'Natrium ist ein Metall, das man mit einem Messer schneiden kann wie kalte Butter. Innen glänzt es wie Silber.',
@@ -376,11 +421,20 @@ export const NA_WORDS = {
       },
     },
     bowl: {
-      label: { small: 'Ein kleines Stück', medium: 'Ein mittleres Stück', large: 'Ein großes Stück' },
-      drop: 'Hineinwerfen',
+      label: 'Die Wasserschüssel',
       title: 'Natrium trifft Wasser',
+      hints: {
+        first: 'Tippe auf ein Stück Natrium, um es ins Wasser zu werfen',
+        small: 'Tippe jetzt auf das kleine Stück',
+        medium: 'Tippe jetzt auf das mittlere Stück',
+        large: 'Tippe jetzt auf das große Stück',
+        indicator: 'Tippe auf die Indikatorflasche, um einen Tropfen dazuzugeben',
+        again: 'Tippe auf irgendein Stück, um es hineinzuwerfen',
+        watch: 'Schau dem Stück zu',
+      },
       buttons: { small: 'Ein kleines Stück hineinwerfen', medium: 'Ein mittleres Stück hineinwerfen', large: 'Ein großes Stück hineinwerfen', indicator: 'Einen Tropfen Indikator dazugeben', bang: 'Das große ansehen ({t})' },
       says: {
+        notyet: { kid: 'Wirf zuerst ein Stück Natrium hinein: Der Indikator hat noch nichts zu zeigen.', sci: 'In neutralem Wasser bleibt Phenolphthalein farblos: Lass zuerst etwas Natrium reagieren.' },
         small: { kid: 'Zu klein, um Feuer zu fangen: Es zischt einfach weg.', sci: 'Ein kleines Stück gibt seine Wärme schneller ans Wasser ab, als der Wasserstoff zünden kann.' },
         flame: { kid: 'Da! Der Wasserstoff hat Feuer gefangen. Siehst du, wie orange er ist?', sci: 'Zündung: Wasserstoff brennt an der Luft, gefärbt vom Natrium bei 589 nm.' },
         bang: { kid: 'PENG! Darum haben sie es draußen gemacht.', sci: 'Das große Stück: Wasserstoff und Luft sind zusammen explodiert.' },
@@ -403,6 +457,7 @@ export const NA_WORDS = {
       label: 'Das Salzfenster',
       crack: 'Zerbrechen',
       again: 'Ein neues Fenster nehmen',
+      hints: { crack: 'Tippe auf das Fenster, um es zu zerbrechen', again: 'Tippe auf das Fenster, um ein neues einzusetzen' },
       title: 'Warum Salz in Quadraten bricht',
       says: { kid: 'Schau dir die Risse an: alle gerade, alle im rechten Winkel!', sci: 'Spaltung entlang der Würfelflächen, der {100}-Ebenen.' },
       panel: {
@@ -420,6 +475,7 @@ export const NA_WORDS = {
       label: 'Die Salzlampe',
       on: 'Einschalten',
       off: 'Ausschalten',
+      hints: { on: 'Tippe auf den Schalter, um sie einzuschalten', off: 'Tippe auf den Schalter, um sie auszuschalten' },
       title: 'Eine Lampe aus Steinsalz',
       panel: {
         kid: ['Diese Lampe ist ein Brocken Steinsalz mit einer Glühbirne darin. Steinsalz ist dasselbe Natriumchlorid, übrig geblieben, als alte Meere vor Millionen Jahren austrockneten und verschüttet wurden. Bergleute holen es aus der Erde.'],
