@@ -84,7 +84,13 @@ in. The studio item is `picture-rooms`.
   `sky.setLst(rad)`, `galDir`, `eqDir`, `altAz`), `pond.js` (a pond at a pond skater's size: you stand
   on the water, whose skin dents, `dimple(...)`, `heightAt`, `ripple`, reeds like trunks, a lily pad),
   `townhouse.js` (a Georgian London room at night: panelling, sash windows onto moonlit roofs, a coal
-  fire, bookcases; `candle()`, `onWall`),
+  fire, bookcases; `candle()`, `onWall`), `ship.js` (a research ship's aft deck at night: winch and tow,
+  portholes, a moonlit swell; `onWall`, `seaLevel`), `table.js` (a breakfast table seen at 20 times its
+  size: `K`, `cm()`, bowls, cups, a cereal box), `village.js` (an Iron Age village at dusk: round houses,
+  a wattle fence, a stream; `smoke()`), `tower.js` (the Eiffel Tower's second floor over Paris, the real
+  sun of 21 June: `setTime(hour)`, `sunAt`, `towerParts` for models at any scale), `mars.js` (Meridiani
+  Planum beside Eagle crater, a Mars sky by the hour: `marsSun(hour)`, `marsRover()`, `marsLander()`),
+  `railway.js` (a welded and a jointed line through fields at night: `cuts`, `railTrain()`),
   `arctic.js` (a winter camp in Lapland at night: snow, a frozen lake, fells, spruces and birches, a log
   hut and a tent, the aurora's curtains coloured by height and lighting the snow; `aurora.set({ level,
   storm })`, `aurora.time` for long exposures, `kmWorld`). A
@@ -348,6 +354,42 @@ at the same address.
   Sydney's charts for the part that never rises. The spin flip: a random wait, a true-size 21 cm wave over
   a ruler. The Pioneer plaque at 3 m, and your height in hydrogen units, in binary.
 
+- Iron, `meteorite` ("A dagger from outer space?", 2026-10-31): the Hoba West farm at golden hour
+  (`dig.js`). Hoba: an X-ray meter reads its iron, nickel and cobalt into the picture's lens, a magnet
+  clings, a scale weighs it against ten elephants. Tutankhamun's dagger (a copy) against a smelted knife.
+  The etching bench: saw, polish and acid, and only the Gibeon meteorite shows the Widmanstätten pattern. A
+  little planet melts into core and mantle, a cooling slider widens the crystal plates, a rock smashes it.
+
+- Iron, `compass` ("Why does a compass point north?", 2026-10-31): a research ship over the Mid-Atlantic
+  Ridge (`ship.js`). Gilbert's little Earth with a dip needle and the ship's compass. A dynamo globe of
+  liquid iron: spin it and heat it, and only with both does the field grow; a lever flips it. Lava laid
+  half a million years a tap records the field in stripes. The wandering north magnetic pole, 1590 to 2025.
+
+- Iron, `smith` ("How did people get iron from rock?", 2026-10-31): an Iron Age village at dusk
+  (`village.js`). The bloomery cut open: charcoal and ore, the bellows, a dial that never reaches 1538 °C,
+  carbon monoxide taking the oxygen in the lens, the bloom pulled out. The anvil: ten blows, slag sprays.
+  Steel: hours in the charcoal, the magnet letting go at 770 °C, the quench, the file skating or biting.
+
+- Iron, `cereal` ("Can a magnet pull iron from cereal?", 2026-10-31): a breakfast table at a mouse's size
+  (`table.js`). Crush the flakes and stir with a magnet hung from a spoon crane. The specks into stomach
+  acid: hydrogen bubbles, green iron(II), a pH slider. Six foods on a plate and the gut's gate letting few
+  in (orange juice helps, tea hinders), the day's board and the iron used again.
+
+- Iron, `tower` ("How do you build a tower of iron?", 2026-10-31): the Eiffel Tower's second floor on a
+  summer evening (`tower.js`). The rivet gang: heat, toss, catch, strike, and the cooling rivet squeezing
+  the plates in the lens. A model bending away from the sun through a day, a temperature slider. The
+  painters: graded paint looks even from the foot.
+
+- Iron, `mars` ("Why is Mars red?", 2026-10-31): Meridiani Planum (`mars.js`). Opportunity's arm brushes
+  and grinds a rock and reads its iron minerals. The blueberries: a handful under a lens, one cut open, a
+  model of the rock's story. The sky clock from noon to the blue sunset and the Earth as an evening star.
+  The magnets gathering magnetic dust over the sols.
+
+- Iron, `rails` ("How do you weld a railway track?", 2026-10-31): a railway at night (`railway.js`). The
+  thermite crucible cut open: rust and aluminium in scoops, the burn, the iron sinking under the slag. The
+  weld: gap, mould, preheat, pour, shear, grind, then trains over the jointed and the welded rail. Who
+  takes the oxygen: metals and oxides on a bench and a ladder of how tightly each holds oxygen.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -465,6 +507,11 @@ at the same address.
 - `Number(age) || 30` turns an age of 0 into 30: a shared age of 0 must stay 0. `flat` is a GLSL keyword.
   A glow alone inside a cloud deck is invisible: briefly raise the fill light too. Rounding gives "-0":
   add `+ 0`.
+- A big invisible hit shape round a thing catches taps meant for smaller things inside it (the forge and
+  its rivet; a block's edge and the magnet on it): hit shapes must not enclose smaller tappable things.
+  A cooling value is shared as its value at the last change plus its age (wall clock), and a running
+  simulation as a snapshot the receiver runs forward. A sky shader's twilight factor inverted paints the
+  whole night blue; a bright sun disc's bloom washes its blue glow white.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

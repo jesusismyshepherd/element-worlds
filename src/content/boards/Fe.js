@@ -232,7 +232,7 @@ export default [
         ],
         sci: [
           'Gustave Eiffel’s company built it from January 1887 to March 1889, to a design by the engineers Maurice Koechlin and Émile Nouguier with the architect Stephen Sauvestre: about 7300 tonnes of puddled iron, a wrought iron very low in carbon, from the Pompey works in Lorraine; 312 m tall in 1889, 330 m with today’s antennas. Hot rivets contract as they cool and clamp the plates together; the open lattice keeps the weight down and lets the wind through.',
-          'Iron expands by about 12 µm per metre for each degree, so 300 m of it lengthens by about 3.6 mm per degree warmer. Sunlight warms one face more than the others, so the tower bends away from the Sun, its top tracing a loop about 15 cm across on a clear day. The paint, about 60 t every 7 years or so, comes in three shades of Eiffel Tower brown, darkest at the bottom, so the tower looks evenly coloured against the sky.',
+          'Iron expands by about 12 µm per metre for each degree, so 300 m of it lengthens by about 3.6 mm per degree warmer. Sunlight warms one face more than the others, so the tower bends away from the Sun, its top tracing a loop about 15 cm across on a clear day. The paint, about 60 t every 7 years or so, is shaded from darkest at the bottom to lightest at the top, so the tower looks evenly coloured against the sky: "Eiffel Tower brown" from 1968 to 2019, the yellow-brown of 1907 again since.',
         ],
       },
       'pt-pt': {
@@ -242,7 +242,7 @@ export default [
         ],
         sci: [
           'A empresa de Gustave Eiffel construiu-a de janeiro de 1887 a março de 1889, segundo um projeto dos engenheiros Maurice Koechlin e Émile Nouguier e do arquiteto Stephen Sauvestre: cerca de 7300 toneladas de ferro pudelado, um ferro forjado com muito pouco carbono, das forjas de Pompey, na Lorena; 312 m de altura em 1889, 330 m com as antenas de hoje. Os rebites quentes contraem ao arrefecer e apertam as chapas umas contra as outras; a treliça aberta mantém o peso baixo e deixa passar o vento.',
-          'O ferro dilata cerca de 12 µm por metro por cada grau, por isso 300 m de ferro alongam-se cerca de 3,6 mm por cada grau a mais. A luz do Sol aquece uma face mais do que as outras, e a torre curva-se para longe do Sol, com o topo a desenhar uma volta de cerca de 15 cm num dia limpo. A tinta, cerca de 60 t mais ou menos de sete em sete anos, tem três tons de castanho Torre Eiffel, o mais escuro em baixo, para que a torre pareça de uma só cor contra o céu.',
+          'O ferro dilata cerca de 12 µm por metro por cada grau, por isso 300 m de ferro alongam-se cerca de 3,6 mm por cada grau a mais. A luz do Sol aquece uma face mais do que as outras, e a torre curva-se para longe do Sol, com o topo a desenhar uma volta de cerca de 15 cm num dia limpo. A tinta, cerca de 60 t mais ou menos de sete em sete anos, vai do tom mais escuro em baixo ao mais claro no topo, para que a torre pareça de uma só cor contra o céu: "castanho Torre Eiffel" de 1968 a 2019, e desde então de novo o castanho-amarelado de 1907.',
         ],
       },
       pl: {
@@ -252,7 +252,7 @@ export default [
         ],
         sci: [
           'Firma Gustave’a Eiffla budowała ją od stycznia 1887 do marca 1889 roku według projektu inżynierów Maurice’a Koechlina i Émile’a Nouguiera oraz architekta Stephena Sauvestre’a: około 7300 ton żelaza pudlarskiego, czyli żelaza zgrzewnego o bardzo małej zawartości węgla, z zakładów w Pompey w Lotaryngii; w 1889 roku miała 312 m wysokości, dziś z antenami 330 m. Gorące nity kurczą się, stygnąc, i zaciskają blachy; ażurowa kratownica utrzymuje mały ciężar i przepuszcza wiatr.',
-          'Żelazo wydłuża się o około 12 µm na metr na każdy stopień, więc 300 m żelaza wydłuża się o około 3,6 mm na każdy stopień cieplej. Słońce nagrzewa jedną ścianę bardziej niż pozostałe, więc wieża wygina się od słońca, a jej szczyt w pogodny dzień zatacza pętlę o średnicy około 15 cm. Farba, około 60 t mniej więcej co 7 lat, ma trzy odcienie brązu wieży Eiffla, najciemniejszy na dole, żeby wieża na tle nieba wyglądała na jednolicie pomalowaną.',
+          'Żelazo wydłuża się o około 12 µm na metr na każdy stopień, więc 300 m żelaza wydłuża się o około 3,6 mm na każdy stopień cieplej. Słońce nagrzewa jedną ścianę bardziej niż pozostałe, więc wieża wygina się od słońca, a jej szczyt w pogodny dzień zatacza pętlę o średnicy około 15 cm. Farba, około 60 t mniej więcej co 7 lat, przechodzi od najciemniejszego odcienia na dole do najjaśniejszego na górze, żeby wieża na tle nieba wyglądała na jednolicie pomalowaną: „brąz wieży Eiffla” od 1968 do 2019 roku, a od tamtej pory znów żółtobrązowy kolor z 1907 roku.',
         ],
       },
       de: {
@@ -262,7 +262,7 @@ export default [
         ],
         sci: [
           'Gustave Eiffels Firma baute ihn von Januar 1887 bis März 1889 nach einem Entwurf der Ingenieure Maurice Koechlin und Émile Nouguier und des Architekten Stephen Sauvestre: etwa 7300 Tonnen Puddeleisen, ein Schmiedeeisen mit sehr wenig Kohlenstoff, aus den Werken von Pompey in Lothringen; 1889 war er 312 m hoch, mit den heutigen Antennen 330 m. Heiße Nieten ziehen sich beim Abkühlen zusammen und pressen die Bleche aneinander; das offene Fachwerk hält das Gewicht klein und lässt den Wind hindurch.',
-          'Eisen dehnt sich um etwa 12 µm pro Meter und Grad aus, also werden 300 m Eisen pro Grad Erwärmung um etwa 3,6 mm länger. Das Sonnenlicht erwärmt eine Seite stärker als die anderen, so biegt sich der Turm von der Sonne weg, und seine Spitze zeichnet an einem klaren Tag eine Schleife von etwa 15 cm. Die Farbe, etwa 60 t ungefähr alle 7 Jahre, gibt es in drei Tönen von Eiffelturm-Braun, unten am dunkelsten, damit der Turm vor dem Himmel gleichmäßig gefärbt wirkt.',
+          'Eisen dehnt sich um etwa 12 µm pro Meter und Grad aus, also werden 300 m Eisen pro Grad Erwärmung um etwa 3,6 mm länger. Das Sonnenlicht erwärmt eine Seite stärker als die anderen, so biegt sich der Turm von der Sonne weg, und seine Spitze zeichnet an einem klaren Tag eine Schleife von etwa 15 cm. Die Farbe, etwa 60 t ungefähr alle 7 Jahre, geht von unten am dunkelsten bis oben am hellsten, damit der Turm vor dem Himmel gleichmäßig gefärbt wirkt: von 1968 bis 2019 „Eiffelturm-Braun“, seitdem wieder das Gelbbraun von 1907.',
         ],
       },
     },

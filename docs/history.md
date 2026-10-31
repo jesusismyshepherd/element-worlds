@@ -6,6 +6,13 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- Iron's hall: seven pictures and a showpiece (an iron meteorite sawn and etched to show its crystal
+  pattern, the slice beside it, a polished cube of pure iron), each picture with its room: the Hoba
+  meteorite and Tutankhamun's dagger, a research ship over the Atlantic and the Earth's iron dynamo, an Iron
+  Age smith's bloomery, a breakfast table at a mouse's size with iron pulled from cereal, the Eiffel Tower's
+  rivet gang and its top leaning from the sun, Opportunity on Mars, a thermite weld on a railway at night.
+  The arches in their doorways got the wall round their round tops (the user: the doorway's corners showed
+  dark above the portal).
 - Hydrogen's hall, the first of the other halls with pictures you step into (the queue's halls, the
   best-known elements first): seven pictures and a showpiece (a spectrum tube glowing pink-violet beside a
   balloon tugging its string), each picture with its room: the young universe cooling into the first

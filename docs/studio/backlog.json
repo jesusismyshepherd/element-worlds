@@ -112,7 +112,8 @@
         "In batches of five or six: first the 38 well-known elements of the quiz's Explorer list (hydrogen to plutonium), then the rest family by family. Each batch is checked in all four languages and looked at in the game before it goes live, and goes live as soon as it is done.",
         "Each element's Periodic Videos video and its own story in the game are the research notes; every number comes from the game's data.",
         "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples.",
-        "Hydrogen done (2026-10-31): seven pictures, each a room: the young universe cooling into the first atoms, Charles's balloon over the Tuileries in 1783, a pond at a skater's size, a hydrogen filling station by a railway, Cavendish's laboratory where fire makes water, a gondola sinking into Jupiter, the Dwingeloo dish listening for the 21 cm line; its showpiece a spectrum tube glowing pink-violet beside a balloon. Iron's seven are being built (four rooms done). Each hall in two steps: the boards and room designs, then the rooms (docs/agents/)."
+        "Hydrogen done (2026-10-31): seven pictures, each a room: the young universe cooling into the first atoms, Charles's balloon over the Tuileries in 1783, a pond at a skater's size, a hydrogen filling station by a railway, Cavendish's laboratory where fire makes water, a gondola sinking into Jupiter, the Dwingeloo dish listening for the 21 cm line; its showpiece a spectrum tube glowing pink-violet beside a balloon. Each hall in two steps: the boards and room designs, then the rooms (docs/agents/).",
+        "Iron done (2026-10-31): the Hoba meteorite and Tutankhamun's dagger, a research ship over the Earth's iron dynamo, an Iron Age smith, iron pulled from breakfast cereal, the Eiffel Tower's rivets and its top leaning from the sun, Opportunity on Mars, a thermite weld on a railway; its showpiece an etched iron meteorite. Next: krypton's and radon's seven rooms, from the designs in docs/agents/designs/ (their boards wait on branches until their rooms are built)."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -648,6 +649,27 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "Iron's hall: seven pictures to step into",
+      "what": "A meteorite of 60 tonnes weighed against elephants and Tutankhamun's dagger from the sky, a ship's deck over the Earth's iron core, an Iron Age smith, iron pulled out of cereal with a magnet, the Eiffel Tower's rivet gang, a rover on red Mars, and a railway welded with thermite. In the case, a meteorite sawn and etched to show its crystals.",
+      "link": "https://element-worlds.vercel.app/e/Fe",
+      "agents": [
+        "a8d1f51621f015af4",
+        "a0439bbeb6067bf37",
+        "a4dd377be4563353e",
+        "a0633b417e70e1578",
+        "a8200445719ef0e04",
+        "acdd2aabb45397097",
+        "ae27b9e4badd48aa9",
+        "af6ba22c624a8d43a"
+      ],
+      "tokens": {
+        "total": 366795901,
+        "output": 2198019,
+        "agents": 8
+      }
+    },
     {
       "date": "2026-10-31",
       "title": "Hydrogen's hall: seven pictures to step into",
