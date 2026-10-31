@@ -5,8 +5,12 @@
 // hammock holding a cat), and the frontier (twisted bilayer graphene, the magic-angle moiré). Along the
 // right wall: graphite's sliding sheets, the giant pencil, the diamond lattice and a ray-traced
 // brilliant, the press that makes diamond. Down the middle, a nanotube tunnel leads into a C60 dome,
-// with a football beside it. Every exhibit used once is a discovery. In a room, everyone in the gallery
-// shares its exhibits (`shared` below, src/net/shared.js); panels, words and discoveries stay each one's.
+// with a football beside it. Every exhibit used once is a discovery. The visitor chooses each step by
+// tapping the thing it is about (the user, 2026-10-30: the tape, the layers, the knob and the chip, the
+// press's graphite, lever, capsule, piston and diamond; common/taps.js), the prompt names the next tap,
+// and E opens the station's panel, whose buttons and sliders do the same. In a room, everyone in the
+// gallery shares its exhibits (`shared` below, src/net/shared.js); panels, words and discoveries stay
+// each one's.
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -15,7 +19,8 @@ import { roomWalls, box, circle } from '../../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../../engine/progress.js'
 import { makeText } from '../../../engine/text.js'
 import { atriumPath } from '../../registry.js'
-import { standSign, spotLamp, beam, refreshPrompt, promptSync, happening, onLevel, pick, glowMat, keepPlayerInView } from './kit.js'
+import { tapTargets } from '../../common/taps.js'
+import { standSign, spotLamp, beam, promptSync, happening, onLevel, pick, glowMat, keepPlayerInView, ghostAround, ghostPost, ghostBall } from './kit.js'
 import { sparkleEnv } from './gem.js'
 import {
   ACCENT, grapheneFloor, hallShell, diamondModel, brilliantGem, graphiteModel, giantPencil, nanotubeTunnel, c60Dome,
@@ -285,16 +290,41 @@ export async function build(ctx) {
   }
   // the words follow the stack and the sheets, whoever moved them (a getter each)
   const wordsFrom = (it, get) => Object.defineProperties(it, { label: { get: () => get().label, configurable: true }, verb: { get: () => get().verb, configurable: true } })
-  const peelIt = add('graphene', it => {
+  // things worked by hand (the user, 2026-10-30): a tap on the thing does the step it is about and the
+  // prompt names the next tap (common/taps.js); E opens the station's panel, whose buttons do the same
+  const taps = tapTargets(ctx)
+  const tap = taps.clickable
+  // a station's own panel says so (`exhibit`): a find made from its buttons does not cover it
+  const station = (id, lv, blocks, title = W.ex[id].panel.title) => ({ title, kicker: W.kicker, color: ACCENT, exhibit: id, blocks })
+  const buttons = list => ({ buttons: list.map(([label, onClick]) => ({ label, onClick })) })
+  /** The first find of a station worked by hand: its panel opens once the step has played, unless the
+   *  visitor has a panel open meanwhile. */
+  const firstFind = (id, make, delay) => {
+    const first = !isFound(`C:allotropes:${id}`)
+    found(id)
+    if (first) later(delay, () => !ctx.store.get().panel && ctx.showPanel(make))
+  }
+
+  // graphene: tap the tape to peel the top sheet off, the floating sheet to put it back
+  const G = W.ex.graphene
+  const peelPanel = lv => station('graphene', lv, [
+    buttons([[G.taps.buttons.peel, () => peelStep('peel')], [G.taps.buttons.back, () => peelStep('back')]]),
+    ...pick(G.panel, lv),
+  ])
+  function peelStep(want) {
+    if (peel.moving) return
+    if (want === 'peel' ? peel.out : !peel.free) return say(peel.free ? G.taps.hints.back : G.taps.hints.peel)
     const r = peel.use()
-    if (r) share('graphene')
-    refreshPrompt(ctx, it)
-    if (r === 'peel') {
-      found('graphene')
-      later(3.4, () => panel('graphene'))
-    } else if (r === 'back') say(W.say.peelBack)
-  })
-  wordsFrom(peelIt, () => (peel.out ? { label: W.ex.graphene.labelBack, verb: W.ex.graphene.verbBack } : W.ex.graphene))
+    if (!r) return
+    share('graphene')
+    if (r === 'peel') firstFind('graphene', peelPanel, 3.4)
+    else say(W.say.peelBack)
+  }
+  const peelIt = add('graphene', () => ctx.showPanel(peelPanel))
+  wordsFrom(peelIt, () => ({ label: G.sign.title, verb: peel.moving ? G.taps.hints.moving : peel.free ? G.taps.hints.back : G.taps.hints.peel }))
+  tap(peel.tape, () => peelStep('peel'), { when: () => !peel.out })
+  tap(peel.sheet, () => peelStep('back'), { when: () => peel.free })
+  tap(peel.stack, () => peelStep(peel.free ? 'back' : 'peel'), { when: () => !peel.moving })
   add('physics', () => {
     bands.pulse()
     did('physics')
@@ -307,13 +337,50 @@ export async function build(ctx) {
     found('chemistry')
     later(1.8, () => panel('chemistry'))
   })
-  add('electronics', () => {
-    const first = !isFound('C:allotropes:electronics')
-    if (!transistor.use(mode => say(W.say.transistor[mode]))) return
+  // electronics: tap the knob to sweep the gate voltage, the chip to swap plain graphene for two layers
+  // with a gap; the panel's slider sets the gate by hand
+  const EL = W.ex.electronics
+  const signed = v => `${v > 0.004 ? '+' : v < -0.004 ? '−' : ''}${Math.abs(v).toFixed(2).replace('.', W.decimal)}`
+  const trPanel = lv => station('electronics', lv, [
+    { slider: { label: EL.taps.slider, min: -1, max: 1, step: 0.01, value: transistor.vg, live: () => transistor.vg, format: signed, onInput: v => trGate(v) } },
+    buttons([[EL.taps.buttons.sweep, () => trStep('sweep')], [EL.taps.buttons.plain, () => trStep('plain')], [EL.taps.buttons.gap, () => trStep('gap')]]),
+    ...pick(EL.panel, lv),
+  ])
+  function trStep(k) {
+    if (transistor.busy) return
+    if (k === 'sweep') transistor.use(kind => say(W.say.transistor[kind]))
+    else if (!transistor.setKind(k === 'gap' ? 1 : 0)) return
     share('electronics')
-    found('electronics')
-    if (first) later(0.8, () => panel('electronics'))
+    firstFind('electronics', trPanel, 0.8)
+  }
+  // the slider: sent at most seven times a second, its last value always; the bottom reached by hand
+  // tells what it means, once each time it is reached
+  let trSoon = false
+  let trLow = false
+  function trGate(v) {
+    if (!transistor.setGate(v)) return
+    if (!trSoon) {
+      trSoon = true
+      later(0.15, () => {
+        trSoon = false
+        share('electronics')
+      })
+    }
+    firstFind('electronics', trPanel, 0)
+    if (Math.abs(v) < 0.03 && !trLow) {
+      trLow = true
+      say(W.say.transistor[transistor.mode])
+    } else if (Math.abs(v) > 0.2) trLow = false
+  }
+  const trIt = add('electronics', () => ctx.showPanel(trPanel))
+  wordsFrom(trIt, () => {
+    const H = EL.taps.hints
+    const verb = transistor.busy ? H.busy : transistor.mode === 0 ? (transistor.swept ? H.gap : H.sweep) : transistor.swept ? H.plain : H.again
+    return { label: EL.sign.title, verb }
   })
+  tap(transistor.gate, () => trStep('sweep'), { when: () => !transistor.busy })
+  tap(transistor.knob, () => trStep('sweep'), { when: () => !transistor.busy })
+  tap(transistor.chip, () => trStep(transistor.mode ? 'plain' : 'gap'), { when: () => !transistor.busy })
   add('materials', () => {
     hammock.nudge()
     did('materials')
@@ -347,17 +414,21 @@ export async function build(ctx) {
     if (moire.hold(true)) share('moire')
     ctx.showPanel(moirePanel)
   })
-  const grIt = add('graphite', it => {
-    const out = !gr.slid
+  // graphite: tap the layers to slide them, again to stack them up
+  const GR = W.ex.graphite
+  const grPanel = lv => station('graphite', lv, [
+    buttons([[GR.taps.buttons.slide, () => grStep(true)], [GR.taps.buttons.back, () => grStep(false)]]),
+    ...pick(GR.panel, lv),
+  ])
+  function grStep(out) {
+    if (out === gr.slid) return
     gr.slide(out)
     share('graphite')
-    refreshPrompt(ctx, it)
-    if (out) {
-      found('graphite')
-      later(2.3, () => panel('graphite'))
-    } else say(W.say.slideBack)
-  })
-  wordsFrom(grIt, () => ({ label: W.ex.graphite.label, verb: gr.slid ? W.ex.graphite.verbBack : W.ex.graphite.verb }))
+    if (out) firstFind('graphite', grPanel, 2.3)
+    else say(W.say.slideBack)
+  }
+  const grIt = add('graphite', () => ctx.showPanel(grPanel))
+  wordsFrom(grIt, () => ({ label: GR.sign.title, verb: gr.slid ? GR.taps.hints.back : GR.taps.hints.slide }))
   add('pencil', () => {
     if (!pencil.draw(() => panel('pencil'))) return
     did('pencil')
@@ -375,23 +446,39 @@ export async function build(ctx) {
     found('brilliant')
     later(1.3, () => panel('brilliant'))
   }, { radius: 1.7 })
-  const pressIt = add('press', it => {
-    const step = press.actions.step
-    if (!press.actions.use()) return
+  // the press: each step is a tap on its thing, in order (the graphite on the tray, the pump lever, the
+  // capsule, the piston, the diamond); the panel's buttons do the same, and say which comes first
+  const PR = W.press
+  const pressPanel = lv => {
+    const made = isFound('C:allotropes:press')
+    return station('press', lv, [
+      buttons(PR.buttons.map((label, k) => [label, () => pressStep(k)])),
+      ...(made ? pick(W.ex.press.panel, lv) : [{ p: pick(PR.how, lv) }]),
+    ], made && press.actions.step === 4 ? W.ex.press.panel.title : W.ex.press.sign.title)
+  }
+  function pressStep(k) {
+    const a = press.actions
+    if (a.busy) return
+    if (k !== a.step) return say(PR.hints[a.step])
+    a.use()
     share('press')
-    refreshPrompt(ctx, it)
-    const seconds = [1.4, 3.6, 3.8, 3.2, 1.2][step]
+    const seconds = [1.4, 3.6, 3.8, 3.2, 1.2][k]
     later(seconds + 0.05, () => {
-      refreshPrompt(ctx, it)
-      if (step < 3) say(W.press.say[step])
-      if (step === 3) {
+      if (k < 3) say(PR.say[k])
+      if (k === 3) {
         found('press')
-        panel('press')
+        // the diamond is made: the panel says so, unless another station's panel is open
+        const open = ctx.store.get().panel
+        if (!open || open.exhibit === 'press') ctx.showPanel(pressPanel)
       }
     })
-  }, { radius: 2.2 })
+  }
+  const pressIt = add('press', () => ctx.showPanel(pressPanel), { radius: 2.2 })
   // the press's words follow its step, whoever works it
-  wordsFrom(pressIt, () => (press.actions.busy ? { label: W.press.working, verb: W.press.wait } : W.press.steps[press.actions.step]))
+  wordsFrom(pressIt, () => (press.actions.busy ? { label: PR.working, verb: PR.wait } : { label: W.ex.press.sign.title, verb: PR.hints[press.actions.step] }))
+  ;['graphite', 'lever', 'capsule', 'ram', 'diamond'].forEach((thing, k) => {
+    tap(press.targets[thing], () => pressStep(k), { when: () => !press.actions.busy && press.actions.step === k })
+  })
   add('nanotube', () => {
     tube.pulse()
     did('nanotube')
@@ -410,6 +497,34 @@ export async function build(ctx) {
     found('football')
     later(2.2, () => panel('football'))
   })
+  // the stations of one step (and the moiré, whose tap takes the sheet as E does): a tap on the thing does
+  // what E does. Invisible boxes round each, cheap to test and easy to hit (kit.js ghostAround).
+  const byId = id => interactables.find(i => i.id === id)
+  const things = {
+    physics: bands.group, chemistry: orbitals.group, materials: hammock.group, moire: moire.group, graphite: gr.group,
+    pencil: pencil.group, diamond: dia.group, brilliant: gem.group, nanotube: tube.group, fullerene: dome.group, football: ball.group,
+  }
+  const targets = {
+    tape: peel.tape, stack: peel.stack, sheet: peel.sheet, knob: transistor.knob, gate: transistor.gate, chip: transistor.chip,
+    ...Object.fromEntries(['graphite', 'lever', 'capsule', 'ram', 'diamond'].map(k => [`press-${k}`, press.targets[k]])),
+  }
+  // the tube and the dome are walked into: their own shapes (a box round either would hold the walkway
+  // beside it and catch the football's taps), and a tap from inside meets their far wall, metres away
+  const tubeHit = ghostPost(tube.radius + 0.1, -tube.length / 2, tube.length / 2)
+  tubeHit.rotation.x = Math.PI / 2
+  tubeHit.position.set(0, tube.axisY, tubeSouth - tube.length / 2)
+  const shapes = { nanotube: tubeHit, fullerene: ghostBall(DOME.r + 0.1, DOME.x, dome.lift, DOME.z) }
+  const farReach = { nanotube: 10, fullerene: 10 }
+  for (const [id, object] of Object.entries(things)) {
+    const hit = shapes[id] ?? ghostAround(object)
+    root.add(hit)
+    targets[id] = hit
+    const opts = { reach: farReach[id] ?? 4.5 }
+    // from the dome's door the camera stands in the tube: a tap into the dome is the dome's
+    if (id === 'nanotube') opts.when = () => !inDome(ctx.engine.player.pos.x, ctx.engine.player.pos.z)
+    if (id === 'graphite') tap(hit, () => grStep(!gr.slid), opts)
+    else tap(hit, () => byId(id).onUse(), opts)
+  }
   const greeting = () => pick(W.greeting, ctx.level())
   interactables.push({
     id: 'host',
@@ -528,8 +643,21 @@ export async function build(ctx) {
     interactables,
     doors,
     shared,
-    // for the probes in tools/ (__ew.world.parts.press.actions.step and so on)
-    parts: { peel, transistor, moire, gr, press, pencil, dome, ball },
+    pointAt: taps.pointAt,
+    onTap: taps.onTap,
+    // for the probes in tools/ (__ew.world.parts.press.actions.step and so on): `tap` does what a tap on a
+    // thing (or the panel's button) does, `targets` are the things to tap (a probe finds them on screen)
+    parts: {
+      peel, transistor, moire, gr, press, pencil, dome, ball, targets,
+      tap: {
+        graphene: want => peelStep(want), // 'peel' (the tape) | 'back' (the sheet)
+        graphite: out => grStep(out), // true slides, false stacks
+        electronics: k => trStep(k), // 'sweep' (the knob) | 'plain' | 'gap' (the chip)
+        gate: v => trGate(v), // the panel's slider, -1 to +1
+        press: k => pressStep(k), // 0 graphite, 1 lever, 2 capsule, 3 piston, 4 diamond
+      },
+    },
+    panels: { graphene: peelPanel, electronics: trPanel, graphite: grPanel, press: pressPanel, moire: moirePanel },
     refresh() {
       marks()
       report()

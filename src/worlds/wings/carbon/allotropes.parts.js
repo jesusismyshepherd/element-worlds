@@ -5,7 +5,7 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint, nearFade } from './kit.js'
+import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint, nearFade, ghostBox, ghostPost, ghostBall } from './kit.js'
 import { diamondCluster, graphiteStack, inHexagon, nanotube, c60, brilliant, cuboOctahedron, GRAPHENE, norm, add, mul } from './structures.js'
 import { facetGeometry, gemMaterial, gemMesh, glints } from './gem.js'
 import { HONEY_GLSL } from './honeycomb.js'
@@ -861,7 +861,9 @@ function dialTexture(max, step, unit, red) {
 
 /** The press: a steel frame with a hydraulic ram, tungsten-carbide anvils and a capsule; a console
  *  with a pressure gauge (GPa) and a temperature gauge (°C). Faces +x (the walkway). Steps: load,
- *  squeeze, heat, open; each returns false while the last one is still moving. */
+ *  squeeze, heat, open, start again; each returns false while the last one is still moving. Each step
+ *  is the tap on its thing (`targets`: the graphite on the tray, the pump lever, the capsule, the ram,
+ *  the diamond; common/taps.js). */
 export function diamondPress({ light, env, words }) {
   const group = new THREE.Group()
   const paintMat = new THREE.MeshPhysicalMaterial({ color: '#25365f', roughness: 0.42, metalness: 0.55, clearcoat: light ? 0 : 0.5, clearcoatRoughness: 0.3 })
@@ -1020,6 +1022,18 @@ export function diamondPress({ light, env, words }) {
   knob.position.y = 0.62
   lever.add(arm, knob)
 
+  // ---- what each step is tapped on (common/taps.js): invisible shapes round small or thin things
+  const targets = {
+    graphite: ghostBall(0.26, tray.x, tray.y, tray.z),
+    lever: ghostBox(0.3, 0.86, 0.3, 0, 0.36, 0),
+    capsule: ghostPost(0.38, 0.85, 1.62),
+    ram,
+    diamond: ghostBall(0.3),
+  }
+  group.add(targets.graphite, targets.capsule)
+  lever.add(targets.lever)
+  gemHolder.add(targets.diamond)
+
   // ---- the steps
   let step = 0 // 0 ready to load, 1 loaded, 2 squeezed, 3 heated (diamond inside), 4 open with the diamond
   let busy = 0
@@ -1126,6 +1140,7 @@ export function diamondPress({ light, env, words }) {
   return {
     group,
     actions,
+    targets,
     update(dt, t) {
       if (anim) {
         anim.t = Math.min(anim.seconds, anim.t + dt)

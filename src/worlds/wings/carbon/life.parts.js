@@ -450,6 +450,8 @@ export function dayNightDial({ light }) {
   pointer.position.set(0, 0.62, 0.02)
   pointer.rotation.z = Math.PI
   holder.add(pointer)
+  // how far toward night the dial is turned (0 day, 1 night), and where it eases to: a tap turns it all
+  // the way, the panel's slider anywhere between (the sunlight, 1 - target)
   let night = 0
   let target = 0
   return {
@@ -457,17 +459,26 @@ export function dayNightDial({ light }) {
     get night() {
       return target > 0.5
     },
+    /** The sunlight the dial is set to, 0 (night) to 1 (full day). */
+    get sun() {
+      return 1 - target
+    },
     toggle() {
       target = target > 0.5 ? 0 : 1
       return target > 0.5
     },
-    /** Day or night, for the others in a room (src/net/shared.js). */
-    state() {
-      return { night: target > 0.5 }
+    /** The panel's slider: the sunlight, 0 to 1. */
+    setSun(v) {
+      target = 1 - Math.max(0, Math.min(1, Number(v) || 0))
     },
-    /** Someone else turned the dial: the sky turns here too (live), or is so at once (a newcomer). */
-    setState({ night: n = false } = {}, live = false) {
-      target = n ? 1 : 0
+    /** Day or night and the sunlight, for the others in a room (src/net/shared.js). */
+    state() {
+      return { night: target > 0.5, sun: Math.round((1 - target) * 100) / 100 }
+    },
+    /** Someone else turned the dial: the sky turns here too (live), or is so at once (a newcomer). A state
+     *  saved before the slider came has no sunlight: day or night then. */
+    setState({ night: n = false, sun } = {}, live = false) {
+      target = Number.isFinite(Number(sun)) && sun !== null ? 1 - Math.max(0, Math.min(1, Number(sun))) : n ? 1 : 0
       if (!live) night = target
     },
     update(dt) {
@@ -799,7 +810,8 @@ function clockFace(W) {
 
 /** The carbon-14 clock: a dial of half-lives, a jar of 64 carbon-14 atoms (half of those left decay
  *  to nitrogen-14 at each 5730 years), and a mammoth's thigh bone with 1/16 of its carbon-14 left.
- *  advance() moves the clock on one half-life; returns { halvings, years, left } or null if busy. */
+ *  advance() (a tap on the clock) moves it on one half-life, restart() (a tap on the jar) gives a fresh
+ *  sample; each returns { halvings, years, left } or null. `targets`: the clock and the jar. */
 export function c14Clock({ light, words }) {
   const W = words()
   const group = new THREE.Group()
@@ -959,6 +971,8 @@ export function c14Clock({ light, words }) {
   let boneLit = 0
   return {
     group,
+    // what a tap works (common/taps.js)
+    targets: { clock, jar },
     get halvings() {
       return halvings
     },
@@ -991,19 +1005,28 @@ export function c14Clock({ light, words }) {
       from = hand.rotation.z
       anim = 0
     },
+    /** A tap on the jar: a fresh sample, all 64 atoms carbon-14 again (the clock goes back to 0); null
+     *  while the hand turns or if it is fresh already. */
+    restart() {
+      if (anim >= 0 || (halvings === 0 && alive.every(Boolean))) return null
+      halvings = 0
+      alive.fill(true)
+      flashes.fill(0)
+      home.forEach((_, i) => atoms.setColorAt(i, c14))
+      atoms.instanceColor.needsUpdate = true
+      setCount(64)
+      from = hand.rotation.z
+      anim = 0
+      return { halvings: 0, years: 0, left: 64 }
+    },
+    /** Whether the hand is turning. */
+    get busy() {
+      return anim >= 0
+    },
+    /** A tap on the clock: one half-life goes by; null while the hand turns or once all eight have gone
+     *  (then the jar starts again). */
     advance() {
-      if (anim >= 0) return null
-      if (halvings >= 8) {
-        // start again: a living sample
-        halvings = 0
-        alive.fill(true)
-        home.forEach((_, i) => atoms.setColorAt(i, c14))
-        atoms.instanceColor.needsUpdate = true
-        setCount(64)
-        from = hand.rotation.z
-        anim = 0
-        return { halvings: 0, years: 0, left: 64 }
-      }
+      if (anim >= 0 || halvings >= 8) return null
       halvings++
       // half of those still carbon-14 decay (chosen at random, as decay is)
       const live = alive.map((a, i) => (a ? i : -1)).filter(i => i >= 0)
