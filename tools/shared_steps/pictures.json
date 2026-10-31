@@ -334,5 +334,21 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.fix.tap('sun'); r() }, 2500))",
     "() => __ew.world.parts.fix.tap('treaty')",
     "() => { __ew.showPanel(__ew.world.panels.fix); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(1993) }"
+  ],
+  "/e/O/first": [
+    "() => __ew.world.parts.makers.tap('mirror')",
+    "() => __ew.world.parts.makers.tap('mud')",
+    "() => __ew.world.parts.makers.sun(0.4)",
+    "() => __ew.world.parts.makers.tap('mat')",
+    "() => __ew.world.parts.sea.tap('microbes')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.tap('microbes'); r() }, 3400))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.step('r'); r() }, 3400))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.sea.time(0.4); r() }, 3400))",
+    "() => __ew.world.parts.sea.time(1)",
+    "() => __ew.world.parts.sea.step('again')",
+    "() => __ew.world.parts.living.tap('head')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.living.tap('face'); r() }, 1500))",
+    "() => __ew.world.parts.living.years(1200)",
+    "() => __ew.world.parts.living.tap('head')"
   ]
 }

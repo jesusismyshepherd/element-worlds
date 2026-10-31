@@ -69,7 +69,9 @@ in. The studio item is `picture-rooms`.
   `lake.set({ ice, top, deep })`),
   `polar.js` (an Antarctic ice shelf on a clear spring day: a low sun, long blue shadows, sastrugi, route
   flags, a far station of modules on legs; `sun`, `wind`, `flags`, `station`; gives `snowMaterial`,
-  `sunLight`, `setNacreous(k)` for mother-of-pearl clouds). A
+  `sunLight`, `setNacreous(k)` for mother-of-pearl clouds), `shore.js` (an ancient shore before plants:
+  a tidal flat, clear shallows with stromatolites, bare red hills, a volcano, a hazy sky; `groundAt` shared
+  with the water's shader; exports `stromatoliteGeometry`, `stromatoliteTexture`, `SEA_LEVEL`). A
   room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
@@ -273,6 +275,14 @@ at the same address.
   the Montreal treaty (1987) and a year slider to 2066 (a globe's hole, Halley's October ozone and
   NOAA's chlorine). Sources in the head of `ozone.js` and `ozone.words.js`.
 
+- Oxygen, `first` ("The great oxygen surprise", 2026-10-31): a shore 2.5 billion years ago (`shore.js`),
+  a cut in time in each headland. A giant microscope on blue-green cells: tap its mirror (or a sunlight
+  slider), water drifts in and O2 bubbles out; tap the mud and the microbes that need no oxygen move
+  deeper. The rusting sea in a glass case: tap the microbes for a sunny season (a red rust layer) or a
+  quiet one (grey silica), a slider of millions of years buries the bands into rock and opens the right
+  cut on Karijini's gorge. The left cut shows Hamelin Pool today: tap a stromatolite to split it, its cut
+  face for a magnifier of sand held by microbe threads, a years slider regrows it beside a ruler.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -374,6 +384,10 @@ at the same address.
   the light make them bright (`polar.js`). Dark letters on brass do not read from a few metres: a dark
   plaque with gold letters does. Small glowing molecules need a halo near 0.9 opacity and half their
   size again to read against a bright sky.
+- An `InstancedMesh` made with count 0 keeps empty bounds and is culled: `frustumCulled = false`. The
+  stage's sea-level water sheet shows inside a diorama too: keep diorama floors above it; a closed veil
+  over a hollow box needs `depthWrite` and two-sided walls. `formulaText('Fe2+')` reads the 2 as a
+  subscript: ion charges need their own raised text.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
