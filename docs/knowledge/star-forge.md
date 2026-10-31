@@ -140,7 +140,8 @@ probe through a Sun's whole life, the slow capture and a supernova.
 
 ## Next
 
-- The forge together (the studio's next item): the Atom Forge shared like this one.
+- (Done 2026-10-31: the Atom Forge in a room, one atom built together and a race: `multiplayer.md`, "The
+  forge together".)
 - An exploding white dwarf (a type Ia supernova) from a white dwarf with a companion: the iron, manganese
   and nickel Johnson gives to them.
 - A real r-process abundance curve (weighted by waiting times) beside the products, and the waiting points.

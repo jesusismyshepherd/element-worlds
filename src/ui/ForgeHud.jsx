@@ -10,6 +10,7 @@ import { MISSIONS, describe, decayText, reactionText, isotopeName, halfLifeText,
 import { BEAMS } from '../chem/nucleus.js'
 import { CODES } from '../i18n/langs.js'
 import NuclideChart from './NuclideChart.jsx'
+import { Together, RacePicker, RaceBoard } from './ForgeTogether.jsx'
 import { useCover, useViewport } from './layout.js'
 
 const DOT = { p: '#ff5a55', n: '#b9c6dc', e: '#a8ecff' }
@@ -96,6 +97,12 @@ export default function ForgeHud({ engine }) {
   const [query, setQuery] = useState('')
   const [finding, setFinding] = useState(false)
   const [beaming, setBeaming] = useState(false)
+  // in a room: the race's picker, and the race on (net/race.js)
+  const [picking, setPicking] = useState(false)
+  const raceOn = useStore(store, s => s.forgeRace)
+  useEffect(() => {
+    if (raceOn) setPicking(false)
+  }, [raceOn?.id]) // eslint-disable-line react-hooks/exhaustive-deps
   const leftRef = useRef(null)
   const topRef = useRef(null)
   const rightRef = useRef(null)
@@ -132,7 +139,8 @@ export default function ForgeHud({ engine }) {
   const btn = 'rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 transition px-2 py-1.5'
   const quick = [
     <button key="neutral" type="button" className={btn} onClick={() => world?.neutral?.()} title={t('forge.neutralTip')}>{t('forge.neutral')}</button>,
-    <button key="common" type="button" className={btn} onClick={() => world?.commonest?.()} title={t('forge.commonestTip')}>{t('forge.commonest')}</button>,
+    // (in a race each builds it particle by particle: no jumping to an isotope)
+    <button key="common" type="button" className={`${btn} disabled:opacity-40`} disabled={f.racing} onClick={() => world?.commonest?.()} title={t('forge.commonestTip')}>{t('forge.commonest')}</button>,
     <button key="hold" type="button" className={`${btn} ${f.held ? 'bg-sky-400/40 hover:bg-sky-400/50' : ''}`} onClick={() => world?.setHeld?.(!f.held)} title={t('forge.holdTip')}>🧲 {t('forge.hold')}</button>,
     <button key="clear" type="button" className={btn} onClick={() => world?.clear?.()}>{t('forge.clear')}</button>,
   ]
@@ -249,28 +257,37 @@ export default function ForgeHud({ engine }) {
         <button type="button" onClick={() => setChart(false)} className="rounded-lg px-2 py-0.5 text-sm hover:bg-white/10" aria-label={t('hud.close')}>✕</button>
       </div>
       <div className="text-xs opacity-80 mb-2">{t(level === 'scientist' ? 'forge.chartSci' : 'forge.chartKid')}</div>
-      <NuclideChart Z={Z} N={N} onPick={(z, n) => world?.set?.(z, n, z)} />
+      <NuclideChart Z={Z} N={N} onPick={(z, n) => !f.racing && world?.set?.(z, n, z)} />
     </div>
   )
+  // in a room: who builds with me, the race (its board, or the picker to start one). On an upright
+  // phone the line shows only with someone else here (the race starts from 🏁 in the tools), and in a
+  // race the board takes the card's place, with the card's Decay in my row
+  const together = <Together f={f} onRace={() => setPicking(p => !p)} picking={picking} compact={narrow || side} button={!narrow} />
+  const board = raceOn && <RaceBoard compact={narrow || side} onDecay={(narrow || side) && f.canDecay ? () => world?.decay?.() : null} className={side ? 'w-full' : narrow ? 'w-full max-h-[40vh]' : 'w-[min(80vw,17rem)] max-h-[48vh]'} />
+  const picker = !raceOn && picking && <RacePicker onClose={() => setPicking(false)} className={side ? 'w-full' : narrow ? 'w-full max-h-[34vh]' : 'w-[min(80vw,16rem)] max-h-[45vh]'} />
+  const racing = board || picker || null
   // on a phone the missions, the chart, the finder and the beam open from these
   const tools = [
     <button key="missions" type="button" className={`${btn} ${missionsOpen ? 'bg-white/25' : ''}`} onClick={() => setMissionsOpen(o => !o)}>🏆 {f.done.length}/{MISSIONS.length}</button>,
     <button key="chart" type="button" className={`${btn} ${chart ? 'bg-white/25' : ''}`} onClick={() => setChart(c => !c)} aria-label={t('forge.chart')}>🗺️</button>,
     <button key="find" type="button" className={`${btn} ${finding ? 'bg-white/25' : ''}`} onClick={() => setFinding(x => !x)} aria-label={t('forge.find')}>🔎</button>,
     <button key="beam" type="button" className={`${btn} ${beaming ? 'bg-white/25' : ''}`} onClick={() => setBeaming(x => !x)} aria-label={t('forge.beam')}>🚀</button>,
+    ...(narrow && f.together && !raceOn ? [<button key="race" type="button" data-race-open className={`${btn} ${picking ? 'bg-amber-400 text-[#1a1030]' : ''}`} onClick={() => setPicking(x => !x)} aria-label={t('forge.race.button')}>🏁</button>] : []),
   ]
 
-  // an upright phone: the card (or the chart) at the top, the particles and the tools in a bar at the
-  // bottom
+  // an upright phone: the card (or the chart, or the race's board) at the top, the particles and the
+  // tools in a bar at the bottom
   if (narrow) return (
     <>
       <div ref={topRef} className="absolute inset-x-2 top-[calc(var(--bar)+0.25rem)] flex flex-col pointer-events-none">
-        {chart ? <div className="max-h-[45vh] overflow-y-auto overscroll-contain pointer-events-auto rounded-2xl">{chartBox}</div> : card}
+        {chart ? <div className="max-h-[45vh] overflow-y-auto overscroll-contain pointer-events-auto rounded-2xl">{chartBox}</div> : board || card}
       </div>
       <div ref={bottomRef} className="absolute inset-x-0 bottom-0 p-2 flex flex-col gap-1.5 pointer-events-none">
-        {finding && <div className="flex justify-center">{finder}</div>}
+        {finding && !f.racing && <div className="flex justify-center">{finder}</div>}
         {beaming && <div className="flex justify-center">{beams}</div>}
-        {missionsOpen && <div className="flex justify-end">{missions}</div>}
+        {picker || (!board && missionsOpen && <div className="flex justify-end">{missions}</div>)}
+        {f.together && (f.together.peers.length > 0 || f.together.feed.length > 0) && together}
         <div className="flex flex-wrap gap-1 justify-center pointer-events-auto text-[11px] font-bold">
           {quick}
           {tools}
@@ -292,7 +309,8 @@ export default function ForgeHud({ engine }) {
         </div>
       </div>
       <div ref={rightRef} className="absolute right-1.5 top-[calc(var(--bar)+0.25rem)] flex flex-col gap-1.5 overflow-y-auto overscroll-contain pointer-events-auto" style={{ width: 'min(18rem, 36vw)', maxHeight: 'calc(100vh - var(--bar) - 0.75rem)' }}>
-        {chart ? chartBox : finding ? finder : beaming ? beams : missionsOpen ? missions : card}
+        {together}
+        {chart ? chartBox : finding && !f.racing ? finder : beaming ? beams : racing ?? (missionsOpen ? missions : card)}
       </div>
     </>
   )
@@ -312,7 +330,8 @@ export default function ForgeHud({ engine }) {
       </div>
 
       <div ref={rightRef} className="absolute right-3 top-[calc(var(--bar)+0.25rem)] flex flex-col gap-2 items-end pointer-events-none" style={{ maxHeight: 'calc(100vh - var(--bar) - 4.5rem)' }}>
-        {!chart && missions}
+        {f.together && <div className="w-[min(80vw,17rem)]">{together}</div>}
+        {!chart && (racing ?? missions)}
         <button type="button" onClick={() => setChart(c => !c)} className={`glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto hover:bg-white/10 ${chart ? 'bg-white/20' : ''}`}>
           🗺️ {t('forge.chart')}
         </button>
@@ -322,7 +341,7 @@ export default function ForgeHud({ engine }) {
       </div>
 
       <div className="absolute inset-x-0 bottom-3 flex justify-center pointer-events-none px-2">
-        <div ref={bottomRef}>{finder}</div>
+        <div ref={bottomRef}>{!f.racing && finder}</div>
       </div>
     </>
   )

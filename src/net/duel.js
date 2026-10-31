@@ -2,7 +2,9 @@
 // the referee (who started it, or the next one when they leave), runs the rules four times a second and
 // sends the state (duel-state, with a version); the others send what they do (duel-act) and show the
 // state they get. A newcomer asks for it (duel-hello). Each one shows the clues in their own language;
-// the referee's count of clues sets the points.
+// the referee's count of clues sets the points. The referee's side is src/net/referee.js, which the
+// forge's race (src/net/race.js) runs on too.
+import { Refereed } from './referee.js'
 import { room } from './room.js'
 import { track } from './telemetry.js'
 import { newDuel, act, tick, again, present } from '../game/duel.js'
@@ -10,23 +12,21 @@ import { makeQuestion, cluesFor } from '../game/quiz.js'
 import { loadContent } from '../content/index.js'
 import { ELEMENTS } from '../data/elements.js'
 
-class DuelLink {
+class DuelLink extends Refereed {
   constructor() {
-    this.s = null
+    super('duel', {
+      // "Play again" is the referee's to say
+      act: (s, from, a, now) => (a.t === 'again' ? (from === s.ref ? again(s, now) : s) : act(s, from, a, now)),
+      present,
+      // the next referee: the first seated, then the first in line, then whoever has been in the room longest
+      heirs: (s, list) => [...s.seats, ...s.line, ...list.map(m => m.id)],
+    })
     this.store = null
     this.t = k => k
     this.lang = () => 'en'
-    this.timer = null
     this.ready = null // the next question, prepared ahead: { q, total }
     this.preparing = false
     this.hidden = false
-    room.on('duel-state', p => this.receive(p.s))
-    room.on('duel-act', p => this.mine() && this.apply(p.from, p.a))
-    room.on('duel-hello', () => this.mine() && this.publish())
-    room.on('duel-end', p => {
-      if (this.s && p.id === this.s.id) this.end(false)
-    })
-    room.on('members', list => this.members(list))
   }
 
   /** The store to report into, and the words (the clue count is the referee's language's). */
@@ -37,46 +37,22 @@ class DuelLink {
     this.report()
   }
 
-  mine() {
-    return !!this.s && this.s.ref === room.me?.id
-  }
-
   /** Start a duel in my room (I take the first seat). */
   start(level) {
     if (!room.active) return
-    this.s = newDuel(room.me.id, level, Date.now())
     this.hidden = false
     this.ready = null
     track('duel', { op: 'start', n: room.members.length })
+    const s = newDuel(room.me.id, level, Date.now())
+    this.s = s
     this.prepare([])
-    this.publish()
-    this.run()
+    this.begin(s)
   }
 
-  /** Something I do: the referee does it at once, the others ask the referee. */
   do(a) {
     if (!this.s) return
     if (a.t === 'pick') track('duel', { op: 'pick', ok: a.z === this.s.q?.answer })
-    if (this.mine()) this.apply(room.me.id, a)
-    else room.send('duel-act', { a })
-  }
-
-  apply(from, a) {
-    const now = Date.now()
-    const next = a.t === 'again' ? (from === this.s.ref ? again(this.s, now) : this.s) : act(this.s, from, a, now)
-    if (next !== this.s) {
-      this.s = next
-      this.publish()
-    }
-  }
-
-  /** The referee closes the duel for everyone. */
-  end(tell = true) {
-    if (tell && this.s && this.mine()) room.send('duel-end', { id: this.s.id })
-    clearInterval(this.timer)
-    this.timer = null
-    this.s = null
-    this.report()
+    super.do(a)
   }
 
   /** A watcher closes the duel's window (it comes back when the next duel starts). */
@@ -85,49 +61,9 @@ class DuelLink {
     this.report()
   }
 
-  receive(s) {
-    if (!s) return
-    const fresh = !this.s || s.id !== this.s.id
-    if (!fresh && s.v <= this.s.v) return
-    if (fresh) {
-      this.hidden = false
-      room.emit('duel-new', { from: s.ref, id: s.id })
-    }
-    this.s = s
-    if (this.mine()) this.run()
-    this.report()
-  }
-
-  publish() {
-    room.send('duel-state', { s: this.s })
-    this.report()
-  }
-
-  /** People came or went: the referee clears the seats of those who left; if the referee left, the
-   *  next one (the first seated, then the first in line, then whoever has been in the room longest)
-   *  carries on with the last state they got. */
-  members(list) {
-    if (!this.s) {
-      // just in a room: is a duel on already? (whoever runs it answers)
-      if (!list.length) this.helloSent = false
-      else if (!this.helloSent && list.some(m => m.id === room.me?.id)) {
-        this.helloSent = true
-        room.send('duel-hello')
-      }
-      return
-    }
-    const ids = list.map(m => m.id)
-    if (!ids.length) return this.end(false)
-    if (!ids.includes(this.s.ref)) {
-      const next = [...this.s.seats, ...this.s.line].find(x => x && ids.includes(x)) ?? ids[0]
-      if (next !== room.me?.id) return
-      this.s = { ...this.s, ref: next, v: this.s.v + 1 }
-      this.run()
-    }
-    if (!this.mine()) return
-    const kept = present(this.s, ids)
-    if (kept !== this.s) this.s = kept
-    this.publish()
+  fresh(s) {
+    this.hidden = false
+    room.emit('duel-new', { from: s.ref, id: s.id })
   }
 
   /** Get the next question ready (its clues need the element's own words, loaded on demand). */
@@ -146,32 +82,21 @@ class DuelLink {
     }
   }
 
-  /** The referee's clock. */
-  run() {
-    if (this.timer) return
-    this.timer = setInterval(() => {
-      if (!this.s || !this.mine()) {
-        clearInterval(this.timer)
-        this.timer = null
-        return
+  /** The referee's tick: the rules, with the next question taken when it is ready. */
+  step(now) {
+    const asked = this.s.asked ?? []
+    const take = avoid => {
+      const r = this.ready
+      if (!r || avoid.includes(r.q.answer)) {
+        this.prepare(avoid)
+        return null
       }
-      const asked = this.s.asked ?? []
-      const take = avoid => {
-        const r = this.ready
-        if (!r || avoid.includes(r.q.answer)) {
-          this.prepare(avoid)
-          return null
-        }
-        this.ready = null
-        return r
-      }
-      const next = tick(this.s, Date.now(), take)
-      if (!this.ready && !this.preparing && (next.phase === 'asking' || next.phase === 'reveal' || next.phase === 'waiting')) this.prepare(next.asked ?? asked)
-      if (next !== this.s) {
-        this.s = next
-        this.publish()
-      }
-    }, 250)
+      this.ready = null
+      return r
+    }
+    const next = tick(this.s, now, take)
+    if (!this.ready && !this.preparing && (next.phase === 'asking' || next.phase === 'reveal' || next.phase === 'waiting')) this.prepare(next.asked ?? asked)
+    return next
   }
 
   report() {

@@ -1,0 +1,13 @@
+{
+  "/forge": [
+    "() => __ew.world.set(6, 8, 6)",
+    "() => __ew.world.decay()",
+    "() => __ew.world.fire('a')",
+    "() => __ew.world.remove('n')",
+    "() => __ew.world.remove('e')",
+    "() => __ew.world.neutral()",
+    "() => __ew.world.goTo('Fe')",
+    "() => __ew.world.setHeld(false)",
+    "() => __ew.world.clear()"
+  ]
+}
