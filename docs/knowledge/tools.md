@@ -39,6 +39,10 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   music crackled on the phone (`sound.md`).
 - `breath_probe.py`: the air wing's breathing, on and held with E, every gas streaming in and out, two
   breaths filmed as a contact sheet.
+- `pv_taps_probe.py`: the two video labs worked by hand: at each station E, then each thing tapped with a
+  real ray (the hand, the step, the find, the next prompt, a screenshot); `--lab Na|Si|both`, `--phone`,
+  `--lang`, `--level`, `--only`, `--first`. A Python probe printing pt, pl or de text needs
+  `sys.stdout.reconfigure(encoding='utf-8')` on the Windows console.
 - `carbon_taps_probe.py`: carbon's two worlds worked by hand; every station tapped from where a player
   stands (the hand shown only on the next step, the state after each tap, the panel's buttons and
   sliders), screenshots in `tools/shots/carbon/`; `--phone`, `--lang`, `--level scientist`, `--only

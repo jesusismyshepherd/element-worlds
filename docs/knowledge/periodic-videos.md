@@ -56,6 +56,11 @@ spoken numbers are often rounded). Dangerous experiments carry the video's own w
   How: the pv README; check with `tools/shared_probe.py --world /e/Na/videos` (and `/e/Si/videos`), whose
   panel-button steps are in `tools/shared_steps/pv.json`. Anything random per use (a wafer's good and bad
   chips) is seeded from a number in the shared state, or each screen draws its own.
+- Every step a tap on its thing (2026-10-31, the user's rule): the oil tin and the knife, three lumps on a
+  tile and a dropper bottle by the bowl, the salt window, the lamp's switch; the silicon lump's bottle and
+  a turn slider, the wafer, a tester and a wall board of 20 and 30 cm wafers, the stand and the wafer to
+  turn over, the pedal, the minerals in a row. Each prompt names the next tap; E opens the panel with the
+  same steps. Which thing does what: the pv README table; check with `tools/pv_taps_probe.py`.
 
 ## Built: sodium's room (2026-10-30)
 
