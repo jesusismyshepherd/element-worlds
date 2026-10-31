@@ -77,11 +77,12 @@ starts it (not the panel, which may open seconds later), the view eases from beh
 eyes (raised a little above what it looks at, at most 1.45 m, and backed off along the line of sight only
 as far as `size` needs to fit, up the screen and across it: on an upright phone the view backs off until
 `width` fits too, `size` unless the focus gives a wider one; 2026-10-30, three picture rooms found wide
-stations cropped on a phone), the Atomling turns to the station and is hidden while the view is in its
+stations cropped on a phone; never backed off downward, so a focus above the eyes does not pull the eye
+to the floor, the neon workshop's balloons, 2026-10-31), the Atomling turns to the station and is hidden while the view is in its
 head. Walking, turning, looking round by hand, or closing a panel that had opened eases it back. First
 person is unchanged. Focus is opt-in: the halls' boards, stations and specimen case, the Periodic Videos
-stations and professor have one (the exhibit kit, `noble/kit.js` `add({ focus })`, passes it through);
-carbon's, oxygen's and the neon workshop's exhibits do not yet.
+stations and professor, every picture room's and the neon workshop's stations have one (the exhibit kit,
+`noble/kit.js` `add({ focus })`, passes it through); carbon's and oxygen's wings do not yet.
 
 Of two stations in reach, the one the walker faces wins (`findNear`: a station with a focus counts as
 farther the more it is off to the side): in a hall's corner the side wall's board was a few centimetres

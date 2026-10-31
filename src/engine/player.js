@@ -339,7 +339,11 @@ export class Player {
       // a focus with a `width` also fits across a narrow screen (an upright phone)
       const fit = (Math.max(st.size, st.width / cam.aspect) / 2 / Math.tan(THREE.MathUtils.degToRad(cam.fov) / 2)) * 1.1
       const dist = eye.distanceTo(st.at)
-      if (dist < fit) eye.addScaledVector(eye.clone().sub(st.at).normalize(), fit - dist)
+      // backed off along the line of sight, but never downward: a focus above the eyes (a balloon, a sky)
+      // pulled the eye down to the floor (the neon workshop, 2026-10-31)
+      const away = eye.clone().sub(st.at)
+      if (away.y < 0) away.y = 0
+      if (dist < fit && away.lengthSq() > 1e-6) eye.addScaledVector(away.normalize(), fit - dist)
       if (bounds) {
         eye.x = clamp(eye.x, bounds.minX, bounds.maxX)
         eye.y = clamp(eye.y, bounds.minY, bounds.maxY)
