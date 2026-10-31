@@ -10,6 +10,13 @@ and the user's requests behind them. Add a line here when a piece of work change
   hand"): each step chosen by tapping its thing, sliders for the transistor's gate and the garden's
   sunlight, the panels' buttons doing the same (`src/worlds/wings/carbon/README.md`, "Worked by hand";
   checked by `tools/carbon_taps_probe.py` on a computer and an upright phone, in four languages).
+  Then oxygen's two wings (a molecule or a gas's column to count, two flasks at the magnet, the land or
+  the sea on the globe, the triangle's sides, the jar, the splint, sliders for the Great Oxidation's time
+  and the rust's days; every station got a station view), the neon workshop (any gas in any order at the
+  bench, the ladder's lines, a rack for the spectroscope, one balloon at a time) and the two video labs
+  (the tin and the knife, lumps on a tile and a dropper by the bowl, a lamp switch, a tester and a board
+  of wafers, the lump's turn slider, the minerals in a row): every station in the game is worked by hand.
+  The station view now backs off level, never downward (a focus above the eyes sank it to the floor).
 
 ## 2026-10-30
 

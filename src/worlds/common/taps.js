@@ -6,7 +6,9 @@ import * as THREE from 'three'
 
 /** clickable(object, onTap, { when, reach, accept }): `when()` says whether it can be used now (the hand
  *  shows only then), `reach` how near the visitor must stand (m), `accept(hit)` which hits count (the clear
- *  corner of a cut face is no place to tap). Give the world `pointAt` and `onTap`. */
+ *  corner of a cut face is no place to tap). Give the world `pointAt` and `onTap`. An object whose own
+ *  `visible` is false is skipped: an invisible, bigger hit shape is a mesh with an invisible material
+ *  inside a visible group (oxygen's kit `hitShape`). */
 export function tapTargets(ctx) {
   const list = []
   const caster = new THREE.Raycaster()

@@ -37,7 +37,7 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 - `audio_load.py [path]`: the audio context's buffer and late buffers, and the audio thread's work per
   quantum and per device buffer, from the browser's trace (`--nodes`: each node's share). Made when the
   music crackled on the phone (`sound.md`).
-- `breath_probe.py`: the air wing's breathing, on and held with E, every gas streaming in and out, two
+- `breath_probe.py`: the air wing's breathing, on and held by tapping the lungs (a real click), every gas streaming in and out, two
   breaths filmed as a contact sheet.
 - `pv_taps_probe.py`: the two video labs worked by hand: at each station E, then each thing tapped with a
   real ray (the hand, the step, the find, the next prompt, a screenshot); `--lab Na|Si|both`, `--phone`,

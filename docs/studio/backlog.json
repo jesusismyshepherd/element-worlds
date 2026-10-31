@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "by-hand",
     "star-forge",
     "shared-forge",
     "halls-116",
@@ -637,19 +636,24 @@
       "code": "Hd",
       "title": "Every station worked by hand",
       "kind": "worlds",
-      "status": "building",
+      "status": "built",
       "from": "you",
       "date": "2026-10-30",
       "summary": "Your rule for every station: you choose each step by clicking or tapping the thing it is about (the sand, the soda, the pot), and anything that changes smoothly is a slider; pressing E again and again felt passive.",
       "details": [
         "The picture rooms follow it from now on (the diatoms already: tap the round diatom, the boat diatoms in the sun, the family). The older worlds still step through some stations with E: carbon's and oxygen's wings, the neon workshop and the two video labs could get the same treatment, station by station.",
-        "Being built (2026-10-31): carbon's and oxygen's wings, the neon workshop and the two video labs, one agent each, from the picture rooms' shared tap kit (src/worlds/common/taps.js).",
-        "Carbon's two wings are done (2026-10-31): peel graphene by tapping the stack, slide graphite's layers, the transistor's gate as a slider and the chip tapped to swap plain graphene for two layers, the diamond press in five taps (graphite on the tray, the pump lever, the capsule, the piston, the diamond), the garden's sunlight as a slider, the carbon-14 clock and its jar. Every one-step exhibit takes a tap too."
-      ],
-      "why": "You marked it Sooner. The picture rooms already work this way; the older worlds (carbon's and oxygen's wings, the neon workshop, the two video labs) get the same: each step chosen by tapping its thing, sliders for what changes smoothly. Right after the picture rooms, since both touch the same rooms' rules."
+        "Carbon's two wings are done (2026-10-31): peel graphene by tapping the stack, slide graphite's layers, the transistor's gate as a slider and the chip tapped to swap plain graphene for two layers, the diamond press in five taps (graphite on the tray, the pump lever, the capsule, the piston, the diamond), the garden's sunlight as a slider, the carbon-14 clock and its jar. Every one-step exhibit takes a tap too.",
+        "Done (2026-10-31): oxygen's two wings (a molecule or a gas column to count, two flasks at the magnet, land or sea on the globe, the fire triangle's sides, the jar, the splint, sliders for the Great Oxidation and the rust), the neon workshop (any gas in any order, the ladder's lines, the spectroscope's rack, one balloon at a time) and the two video labs (the tin and the knife, lumps by the bowl, the lamp switch, the chip tester and wafer board, the minerals in a row). Every station in the game is worked by hand now."
+      ]
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "Every station worked by hand",
+      "what": "In carbon's and oxygen's wings, the neon workshop and the two video labs you now choose each step by tapping its thing (the pump, a gas flask, the fire triangle's side, the oil tin, the knife), with sliders for what changes smoothly. E still opens the panel with the same steps.",
+      "link": "https://element-worlds.vercel.app/e/O/fire"
+    },
     {
       "date": "2026-10-31",
       "title": "All seven of oxygen's pictures are doors: every picture on a wall is one now",

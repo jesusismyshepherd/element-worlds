@@ -82,7 +82,8 @@ to the floor, the neon workshop's balloons, 2026-10-31), the Atomling turns to t
 head. Walking, turning, looking round by hand, or closing a panel that had opened eases it back. First
 person is unchanged. Focus is opt-in: the halls' boards, stations and specimen case, the Periodic Videos
 stations and professor, every picture room's and the neon workshop's stations have one (the exhibit kit,
-`noble/kit.js` `add({ focus })`, passes it through); carbon's and oxygen's wings do not yet.
+`noble/kit.js` `add({ focus })`, passes it through), and oxygen's wings (2026-10-31); carbon's wings do
+not yet.
 
 Of two stations in reach, the one the walker faces wins (`findNear`: a station with a focus counts as
 farther the more it is off to the side): in a hall's corner the side wall's board was a few centimetres
