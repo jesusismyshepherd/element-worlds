@@ -56,7 +56,7 @@ built when, and the user's requests behind it: `docs/history.md`.
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`
   (rooms), `duel.js` (the quiz duel), `referee.js` (the duel's and the forge race's referee), `shared.js` (a world's things shared in a room: the world's `shared`
   and `ctx.share(id)`, `adding-a-wing.md`). `supabase/ew_001_usage.sql`, `ew_002_accounts.sql`,
-  `ew_003_room_worlds.sql` (the rooms' worlds kept): the `ew_` tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
+  `ew_003_room_worlds.sql` (the rooms' worlds kept), `ew_004_studio.sql` (the family studio's notes, by account): the `ew_` tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
   `src/pages/Stats.jsx` + `src/stats/`: the family dashboard at `/stats` (password or an admin account;
   English only).
 - `.claude/skills/element-wing/`: the steps for building an element's wing. `docs/agents/`: the briefs
