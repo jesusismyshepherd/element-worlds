@@ -6,6 +6,15 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- Bible passages through the worlds (the user: "interweave passages from the Bible throughout the world
+  relevant to where they are placed; for explorer use NLT and for scientist CSB"): 46 passages, each
+  about the place it stands in, in four languages at both depths (NLT and CSB; Bíblia para Todos and
+  Almeida Corrigida; the EIB's Bible and Biblia Warszawska; Hoffnung für alle and Schlachter 2000), fetched
+  word for word by `scripts/data/fetch_verses.py`. Every hall has a verse stone across from its specimen
+  case (iron sharpens iron, the rainbow in iridium's name, the treasure in the field for the rare earths);
+  each wing has its own (the burning bush by the campfire, let your light shine in the neon workshop); the
+  plaza, the lab and both forges write theirs in the sky; the quiz and the Atomlings page too. A tap or E
+  opens it with why it is there; the orbiting worlds show panels since. `docs/knowledge/scripture.md`.
 - The family studio on the game's own site (`/studio`; the user: share it with Artur, who has no Claude
   account, and know who made each input): the backlog for anyone with the link, ideas, notes and verdicts
   from signed-in family accounts kept under their names (`supabase/ew_004_studio.sql`), Claude's answers

@@ -213,6 +213,8 @@
     },
     "dataTitle": "Woher die Zahlen kommen",
     "data": "Elementdaten aus dem Periodensystem von PubChem (US National Library of Medicine, gemeinfrei) und dem Python-Paket mendeleev (MIT-Lizenz): Massen, Konfigurationen, Radien, Isotope, Häufigkeiten. Die Entdeckungsjahre folgen einer einzigen Regel (wann das Element zuerst erkannt oder isoliert wurde). Werte für die superschweren Elemente sind teilweise Vorhersagen und als solche gekennzeichnet.",
+    "bibleTitle": "Bibeltexte",
+    "bible": "Jeder Ort hat einen Bibeltext über das, was dort steht, und einen Satz dazu, warum. Entdecker zitiert eine leicht lesbare Übersetzung, Wissenschaftler eine genauere: auf Deutsch Hoffnung für alle und die Schlachter 2000. Die Hinweise der Verlage:",
     "privacyTitle": "Was wir notieren",
     "privacy": "Um das Spiel zu verbessern, notieren wir, was hier besucht und gemacht wird (welche Hallen, wie lange, was im Labor ausprobiert wurde), nie Namen oder Adressen. Bist du angemeldet, wird es in deinem Konto gespeichert; sonst ist jeder Besuch anonym, und es wird nichts notiert, wenn dein Browser darum bittet, nicht verfolgt zu werden. Du kannst es unter 👤 ausschalten.",
     "recording": "Du bist als „{{who}}“ angemeldet: Was du spielst, wird in deinem Konto gespeichert."

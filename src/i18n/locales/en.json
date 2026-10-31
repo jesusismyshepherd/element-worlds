@@ -210,6 +210,8 @@
     },
     "dataTitle": "Where the numbers come from",
     "data": "Element data from the PubChem periodic table (US National Library of Medicine, public domain) and the mendeleev Python package (MIT licence): masses, configurations, radii, isotopes, abundances. Discovery years follow one rule (when the element was first recognised or isolated). Values for the superheavy elements are partly predictions and are marked as such.",
+    "bibleTitle": "Bible passages",
+    "bible": "Every place has a passage from the Bible about what stands there, and a line on why. Explorer quotes an easy translation and Scientist a closer one: in English the New Living Translation and the Christian Standard Bible. The publishers’ notices:",
     "privacyTitle": "What we note",
     "privacy": "To make the game better we note what is visited and done here (which halls, for how long, what was tried in the lab), never names or addresses. When you are signed in it is kept with your account; otherwise each visit is anonymous, and nothing is noted when your browser asks not to be tracked. You can switch it off under 👤.",
     "recording": "You are signed in as “{{who}}”: what you play is kept with your account."

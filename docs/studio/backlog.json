@@ -646,9 +646,45 @@
         "Carbon's two wings are done (2026-10-31): peel graphene by tapping the stack, slide graphite's layers, the transistor's gate as a slider and the chip tapped to swap plain graphene for two layers, the diamond press in five taps (graphite on the tray, the pump lever, the capsule, the piston, the diamond), the garden's sunlight as a slider, the carbon-14 clock and its jar. Every one-step exhibit takes a tap too.",
         "Done (2026-10-31): oxygen's two wings (a molecule or a gas column to count, two flasks at the magnet, land or sea on the globe, the fire triangle's sides, the jar, the splint, sliders for the Great Oxidation and the rust), the neon workshop (any gas in any order, the ladder's lines, the spectroscope's rack, one balloon at a time) and the two video labs (the tin and the knife, lumps by the bowl, the lamp switch, the chip tester and wafer board, the minerals in a row). Every station in the game is worked by hand now."
       ]
+    },
+    {
+      "id": "bible-passages",
+      "code": "Vs",
+      "title": "Bible passages in every place",
+      "kind": "worlds",
+      "status": "built",
+      "from": "you",
+      "date": "2026-10-31",
+      "summary": "Your request: passages from the Bible throughout the world, each about the place it stands in; the NLT for Explorer and the CSB for Scientist.",
+      "details": [
+        "Built (2026-10-31): every hall has a verse stone across from its specimen case, with the element's own passage where the Bible has one (iron sharpens iron, gold as clear as glass, the rainbow in iridium's name, sand for silicon), else one for its name (countries, scientists) or its family. The wings have theirs (the burning bush beside the campfire, let your light shine in the neon workshop, the many works of one hand under carbon's motto), the plaza, the lab and both forges write theirs in the sky, and the quiz and the Atomlings page carry one. A tap or E opens it with a line on why it is there.",
+        "The other languages quote their own pair: Bíblia para Todos and Almeida Corrigida (Portugal), the EIB's Bible and Biblia Warszawska, Hoffnung für alle and Schlachter 2000. The About box lists the publishers' notices.",
+        "Not yet: the picture rooms and the video rooms (an idea below)."
+      ],
+      "doc": "docs/knowledge/scripture.md"
+    },
+    {
+      "id": "bible-rooms",
+      "code": "Vr",
+      "title": "Passages in the picture rooms",
+      "kind": "worlds",
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-10-31",
+      "summary": "Every hall and world has its Bible passage now; the rooms inside the pictures and the video rooms could have one each, where the picture's subject has one (the Tyrian purple room, the salt mine, the stars).",
+      "details": [
+        "The pieces are ready (a stone, a wall plaque, words in the sky): a passage is a line in a list, its words fetched by a tool, and a few lines in the room."
+      ],
+      "doc": "docs/knowledge/scripture.md"
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "Bible passages in every place",
+      "what": "46 passages, each about the place it stands in, in the four languages: the NLT for Explorer and the CSB for Scientist in English, and each language's own pair. A verse stone in every hall, one in each wing, the plaza's psalm in the stars behind the table, the lab's and the forges' in their skies, the quiz's and the Atomlings'. Tap one, or press E beside it, for why it is there.",
+      "link": "https://element-worlds.vercel.app/e/Fe"
+    },
     {
       "date": "2026-10-31",
       "title": "The family studio on the game's site",
@@ -1115,6 +1151,11 @@
       "date": "2026-10-31",
       "title": "The studio on the game's own site, with the family's accounts",
       "why": "You wanted to share the studio with Artur, who has no Claude account, and to know who made each input. The game already has accounts (the Pokémon site's logins), so the studio is a page of the game: anyone with the link reads it, signed-in accounts send ideas, notes and verdicts kept under their names, and Claude reads and answers them. Your claude.ai studio stays for photos and files."
+    },
+    {
+      "date": "2026-10-31",
+      "title": "Which Bibles the other languages quote, and quotations never edited",
+      "why": "You chose the NLT for Explorer and the CSB for Scientist. The other languages mirror that pair: an easy, careful translation and a closer one, from each country's own Bible society or publisher (Portugal's, not Brazil's). The words are fetched exactly and never changed, so they keep their translators' punctuation, dashes too; the no-dash rule stays for our own words, and a dash-free verse is chosen when an equally good one exists."
     }
   ]
 }

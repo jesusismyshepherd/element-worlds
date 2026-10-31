@@ -12,6 +12,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { element } from '../../data/elements.js'
 import { createAtomling } from '../../characters/atomling.js'
 import { nightSky } from '../common/sky.js'
+import { skyVerse } from '../common/verse.js'
 import { packBall } from '../common/pack.js'
 import { makeText } from '../../engine/text.js'
 import { loadChart, nuclide, decay, commonestN, ionShells, modeFamily, collide, BEAMS } from '../../chem/nucleus.js'
@@ -46,6 +47,9 @@ export async function build(ctx, target) {
   // ---- the room: a round forge under the stars, its rim glowing like hot metal ----
   const sky = nightSky({ pixelRatio: ctx.renderer.getPixelRatio(), stars: light ? 900 : 1800, horizon: '#2a1d4c' })
   root.add(sky)
+  // in the sky beyond the rim: what is seen was made from what cannot be seen (src/content/scripture/)
+  const verse = skyVerse(ctx, 'forge', { at: [0, 2.35, -12], width: 8.5, size: 0.3, opacity: 0.75 })
+  root.add(verse.group)
   const floor = new THREE.Mesh(new THREE.CircleGeometry(60, 64), new THREE.MeshStandardMaterial({ color: '#100c26', roughness: 0.55, metalness: 0.3 }))
   floor.rotation.x = -Math.PI / 2
   root.add(floor)
@@ -798,7 +802,7 @@ export async function build(ctx, target) {
     if (ling && ray.intersectObject(stage, true).length) {
       ling.poof?.()
       play('select')
-    }
+    } else if (verse.hits(ray)) verse.open()
   }
 
   const tmp = new THREE.Matrix4()
@@ -813,6 +817,7 @@ export async function build(ctx, target) {
     clock = t
     sky.userData.update(t)
     controls.update()
+    verse.face()
     const nuc = nuclide(Z, N)
 
     // decay on its own when it cannot last
@@ -1119,6 +1124,8 @@ export async function build(ctx, target) {
     retarget: t => {
       if (t?.z && element(t.z)) goTo(t.z)
     },
-    dispose() {},
+    dispose() {
+      verse.dispose()
+    },
   }
 }

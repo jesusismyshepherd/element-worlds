@@ -22,6 +22,8 @@ import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
 import { makeText } from '../../engine/text.js'
+import { verseStone } from '../common/verse.js'
+import { hallPassage } from '../../content/scripture/index.js'
 import { wingsOf, plazaPath, wingPath, atriumPath, pictureRoomId } from '../registry.js'
 
 const HALF = 8
@@ -500,6 +502,15 @@ export async function build(ctx, target, previous) {
     },
   })
 
+  // ---- the verse stone, the specimen case's twin across the hall: a Bible passage about this element
+  // (its own, its name's or its family's: src/content/scripture/) ----
+  const stoneSpot = { x: -caseSpot.x, z: caseSpot.z }
+  const verse = verseStone(ctx, hallPassage(el))
+  verse.group.position.set(stoneSpot.x, 0, stoneSpot.z)
+  verse.group.rotation.y = -0.45
+  root.add(verse.group)
+  interactables.push(verse.interactable())
+
   // ---- doors: the way out, the wings, closed arches where there are none yet ----
   const doors = []
   const solids = roomWalls(-HALF, HALF, -HALF, HALF, openings, wallT)
@@ -525,7 +536,7 @@ export async function build(ctx, target, previous) {
     const [x, z, w, d] = SIDES[o.side].stop
     solids.push(box(x, z, w, d))
   }
-  solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 1.1))
+  solids.push(circle(0, 0, 2.3, { y1: 0.32 }), circle(caseSpot.x, caseSpot.z, 1.1), box(stoneSpot.x, stoneSpot.z, 1.9, 0.75, { rot: -0.45 }))
 
   // where a player arrives: at the entrance, or in front of the arch of the wing it comes back from
   const backId = previous?.kind === 'wing' && previous.symbol === el.symbol ? previous.wing : null
@@ -622,6 +633,7 @@ export async function build(ctx, target, previous) {
     dispose() {
       floorTex.dispose()
       tableLabels.dispose()
+      verse.dispose()
       for (const d of disposers) d()
     },
   }

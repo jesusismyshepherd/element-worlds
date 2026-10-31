@@ -19,6 +19,7 @@ import { MOLECULES } from '../../../chem/molecules.js'
 import { atriumPath } from '../../registry.js'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { tapTargets } from '../../common/taps.js'
+import { verseStone } from '../../common/verse.js'
 import { standSign, promptSync, happening, onLevel, pick, glowMat, equation, keepPlayerInView, ghostAround } from './kit.js'
 import { ethane, ethanol, glucose } from './structures.js'
 import { buildTree, breathing } from './tree.js'
@@ -414,6 +415,15 @@ export async function build(ctx) {
     verb: W.talkTo,
     onUse: () => say(greeting()),
   })
+  // a slate by the gate, on the grass beside the ring path: the psalm of the breath that makes life and
+  // renews the earth (src/content/scripture/)
+  const verse = verseStone(ctx, 'life', { look: 'day' })
+  const [vx, vz] = at(10.5, 198)
+  verse.group.position.set(vx, 0, vz)
+  verse.group.rotation.y = Math.atan2(-8.5 - vx, -vz) // toward the path, to be seen from the gate
+  root.add(verse.group)
+  interactables.push(verse.interactable())
+  taps.clickable(verse.group, () => verse.open())
   updates.push(promptSync(ctx, interactables))
 
   // ---- what everyone in a room's same garden shares (src/net/shared.js): set(state, live), live when
@@ -434,6 +444,7 @@ export async function build(ctx) {
     solids.push(box(Math.cos(a) * (wallR + 0.25), Math.sin(a) * (wallR + 0.25), 0.5, 2 * (wallR + 0.25) * Math.sin(Math.PI / segs) + 0.1, { rot: -a }))
   }
   solids.push(circle(0, 0, 0.95))
+  solids.push(box(vx, vz, 1.9, 0.75, { rot: verse.group.rotation.y }))
   solids.push(circle(...PLACES.body.at, 1.0))
   solids.push(circle(...PLACES.c14.at, 2.05))
   solids.push(circle(...PLACES.cycle.at, 1.65))
@@ -528,6 +539,7 @@ export async function build(ctx) {
     },
     dispose() {
       timers.length = 0
+      verse.dispose()
     },
   }
 }

@@ -14,3 +14,6 @@ scripts/data/.venv/
 __pycache__/
 # files the user sends through the studio (docs/knowledge/update-dashboard.md); the repository is public
 .studio-inbox/
+
+# the Bible chapters fetched by scripts/data/fetch_verses.py (whole chapters are not ours to publish)
+scripts/data/.verses-cache/

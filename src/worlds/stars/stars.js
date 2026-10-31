@@ -17,6 +17,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { nightSky } from '../common/sky.js'
+import { skyVerse } from '../common/verse.js'
 import { packBall } from '../common/pack.js'
 import { loadChart } from '../../chem/nucleus.js'
 import { ELEMENTS } from '../../data/elements.js'
@@ -88,6 +89,11 @@ export async function build(ctx) {
   // ---- the sky: deep space, a few faint clouds of gas ----
   const sky = nightSky({ pixelRatio: ctx.renderer.getPixelRatio(), stars: light ? 1400 : 3000, top: '#02030b', mid: '#050821', horizon: '#0b0c2a' })
   root.add(sky)
+  // in the dark beside the star: he calls each star by its name (src/content/scripture/); a tap opens it
+  // (beside the star only where the screen leaves room: on a phone it would hide behind the side panels)
+  const roomy = () => camera.aspect >= 1 && canvas.clientHeight >= 500 && ctx.engine.freeShare().w * canvas.clientWidth >= 600
+  const verse = skyVerse(ctx, 'stars', { at: [-7.2, 0, -1.5], width: 3.9, size: 0.17, align: 'left', opacity: 0.75, fits: roomy })
+  root.add(verse.group)
   const clouds = new THREE.Group()
   root.add(clouds)
   ;[['#5a2a8a', V3(-300, 120, -520), 520], ['#1f4a8a', V3(380, -60, -480), 460], ['#7a2a4a', V3(60, 260, -600), 420], ['#20406a', V3(-80, -200, 500), 500]].forEach(([c, p, s]) => {
@@ -1131,6 +1137,7 @@ export async function build(ctx) {
     down = null
     const best = hitAt(e)
     if (best) best.c.onTap(best.hit)
+    else if (!fly && verse.hits(ray)) verse.open()
   }
   const onMove = e => {
     if (e.pointerType === 'touch') return
@@ -1147,6 +1154,7 @@ export async function build(ctx) {
   const update = (dt, t) => {
     clock = t
     sky.userData.update(t)
+    verse.face()
     if (lifeDue && t - lifeSentAt > 0.25) {
       lifeDue = false
       lifeSentAt = t
@@ -1476,6 +1484,7 @@ export async function build(ctx) {
       }
     },
     dispose() {
+      verse.dispose()
       GLOW.dispose()
     },
   }

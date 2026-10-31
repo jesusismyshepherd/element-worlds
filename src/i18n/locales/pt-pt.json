@@ -210,6 +210,8 @@
     },
     "dataTitle": "De onde vêm os números",
     "data": "Dados dos elementos da tabela periódica do PubChem (Biblioteca Nacional de Medicina dos EUA, domínio público) e do pacote Python mendeleev (licença MIT): massas, configurações, raios, isótopos, abundâncias. Os anos de descoberta seguem uma só regra (quando o elemento foi reconhecido ou isolado pela primeira vez). Os valores dos elementos super-pesados são em parte previsões e estão assinalados como tal.",
+    "bibleTitle": "Passagens da Bíblia",
+    "bible": "Cada lugar tem uma passagem da Bíblia sobre o que lá está, e uma linha a dizer porquê. O Explorador cita uma tradução fácil e o Cientista uma mais próxima do original: em português, a Bíblia para Todos e a Almeida Revista e Corrigida. Os avisos das editoras:",
     "privacyTitle": "O que registamos",
     "privacy": "Para melhorar o jogo, registamos o que aqui se visita e faz (que salões, durante quanto tempo, o que se experimentou no laboratório), nunca nomes nem endereços. Com sessão iniciada, fica guardado na tua conta; sem ela, cada visita é anónima, e nada é registado quando o teu navegador pede para não ser seguido. Podes desligar isto em 👤.",
     "recording": "Tens sessão iniciada como «{{who}}»: o que jogas fica guardado na tua conta."

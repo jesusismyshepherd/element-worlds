@@ -77,6 +77,8 @@ world `panels` (its panel makers) and open it with `__ew.showPanel(__ew.world.pa
   reports what it covers (`setCover(coverId(), { side, size })` from `engine/covers.js`) and sets
   `store.overlay` while open, so the prompt waits (`noble/nameOverlay.js`, `noble/signs.js`).
 - No em dashes. Portuguese element names take articles ("o carbono", but "a prata", "a platina").
+- A Bible passage about the wing's subject, on a stone or a plaque (the user, 2026-10-31): every world has
+  one; how to choose it, fetch it and place it: `scripture.md`.
 - Facts must be right; numbers from `src/data/elements.json` where it has them.
 
 ## Discoveries

@@ -1,0 +1,2394 @@
+{
+ "plaza": {
+  "_ref": "PSA.19.1",
+  "_heb": 1,
+  "en": {
+   "kid": {
+    "text": "The heavens proclaim the glory of God.\nThe skies display his craftsmanship.",
+    "ref": "PSA.19.1",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The heavens declare the glory of God,\nand the expanse proclaims the work of his hands.",
+    "ref": "PSA.19.1",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O céu proclama a glória de Deus,\no firmamento anuncia a obra da sua criação.",
+    "ref": "PSA.19.2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Os céus manifestam a glória de Deus e o firmamento anuncia a obra das suas mãos.",
+    "ref": "PSA.19.1",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Niebiosa ogłaszają chwałę Boga,\nFirmament opowiada o dziele Jego rąk.",
+    "ref": "PSA.19.2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Niebiosa opowiadają chwałę Boga,\nA firmament głosi dzieło rąk jego.",
+    "ref": "PSA.19.2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Der Himmel verkündet Gottes Hoheit und Macht,\ndas Firmament bezeugt seine großen Schöpfungstaten.",
+    "ref": "PSA.19.2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Die Himmel erzählen die Herrlichkeit Gottes,\nund die Ausdehnung verkündigt das Werk seiner Hände.",
+    "ref": "PSA.19.2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "lab": {
+  "_ref": "COL.1.17",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "He existed before anything else,\nand he holds all creation together.",
+    "ref": "COL.1.17",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "He is before all things,\nand by him all things hold together.",
+    "ref": "COL.1.17",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Já existia antes de tudo\ne é ele que dá consistência a tudo o que existe.",
+    "ref": "COL.1.17",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E ele é antes de todas as coisas, e todas as coisas subsistem por ele…",
+    "ref": "COL.1.17",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "On sam jest przed wszystkim\ni w Nim trwa wszystko\nrazem połączone.",
+    "ref": "COL.1.17",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "On też jest przed wszystkimi rzeczami i wszystko na nim jest ugruntowane…",
+    "ref": "COL.1.17",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Denn Christus war vor allem anderen;\nund alles hat nur durch ihn Bestand.",
+    "ref": "COL.1.17",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "…und er ist vor allem, und alles hat seinen Bestand in ihm.",
+    "ref": "COL.1.17",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "forge": {
+  "_ref": "HEB.11.3",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "By faith we understand that the entire universe was formed at God’s command, that what we now see did not come from anything that can be seen.",
+    "ref": "HEB.11.3",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "By faith we understand that the universe was created by the word of God, so that what is seen was made from things that are not visible.",
+    "ref": "HEB.11.3",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Pela fé, compreendemos que o mundo foi criado pela palavra de Deus, de modo que aquilo que se vê veio do que se não vê.",
+    "ref": "HEB.11.3",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Pela fé, entendemos que os mundos, pela palavra de Deus foram criados; de maneira que, aquilo que se vê não foi feito do que é aparente.",
+    "ref": "HEB.11.3",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Dzięki wierze pojmujemy, że wszystko, co istnieje w czasie i przestrzeni, zostało ukształtowane Słowem Boga, tak że to, co widzimy, nie powstało z rzeczy widzialnych.",
+    "ref": "HEB.11.3",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Przez wiarę poznajemy, że światy zostały ukształtowane słowem Boga, tak iż to, co widzialne, nie powstało ze świata zjawisk…",
+    "ref": "HEB.11.3",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Durch unseren Glauben verstehen wir, dass die ganze Welt durch Gottes Wort geschaffen wurde, dass alles Sichtbare aus Unsichtbarem entstanden ist.",
+    "ref": "HEB.11.3",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Durch Glauben verstehen wir, dass die Welten durch Gottes Wort bereitet worden sind, sodass die Dinge, die man sieht, nicht aus Sichtbarem entstanden sind.",
+    "ref": "HEB.11.3",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "stars": {
+  "_ref": "ISA.40.26",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Look up into the heavens.\nWho created all the stars?\nHe brings them out like an army, one after another,\ncalling each by its name.\nBecause of his great power and incomparable strength,\nnot a single one is missing.",
+    "ref": "ISA.40.26",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Look up and see!\nWho created these?\nHe brings out the stars by number;\nhe calls all of them by name.\nBecause of his great power and strength,\nnot one of them is missing.",
+    "ref": "ISA.40.26",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Levantem os olhos para o céu\ne vejam! Quem é que criou as estrelas?\nFoi aquele que as põe em movimento\ncomo se fosse um exército bem ordenado.\nA todas, ele chama pelo seu nome.\nO seu poder é tão grande e a sua força é tal,\nque nenhuma falta à chamada.",
+    "ref": "ISA.40.26",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Levantai ao alto os vossos olhos, e vede quem criou estas coisas, quem produz por conta o seu exército, quem a todas chama pelos seus nomes; por causa da grandeza das suas forças, e pela fortaleza do seu poder, nenhuma faltará.",
+    "ref": "ISA.40.26",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Podnieście ku górze oczy!\nPopatrzcie: Kto to stworzył?\nTen, który wyprowadza zastęp gwiazd\nw ścisłej liczbie.\nWszystkie je zna po imieniu!\nDzięki Jego ogromnej sile\ni potężnej mocy, żadnej z nich\nnie zabrakło!",
+    "ref": "ISA.40.26",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Podnieście ku górze wasze oczy i patrzcie:\nKto to stworzył?\nTen, który wyprowadza ich wojsko w pełnej liczbie,\nna wszystkich woła po imieniu.\nWobec takiego ogromu siły i potężnej mocy nikogo nie brak.",
+    "ref": "ISA.40.26",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Blickt nach oben! Schaut den Himmel an: Wer hat die unzähligen Sterne geschaffen? Er ist es! Er ruft sie, und sie kommen hervor; jeden nennt er mit seinem Namen. Kein einziger fehlt, wenn der starke und mächtige Gott sie antreten lässt.",
+    "ref": "ISA.40.26",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Hebt eure Augen auf zur Höhe und seht: Wer hat diese erschaffen? Er, der ihr Heer abgezählt herausführt, er ruft sie alle mit Namen. So groß ist seine Macht und so stark ist er, dass nicht eines vermisst wird.",
+    "ref": "ISA.40.26",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "atomlings": {
+  "_ref": "REV.4.11",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "“You are worthy, O Lord our God,\nto receive glory and honor and power.\nFor you created all things,\nand they exist because you created what you pleased.”",
+    "ref": "REV.4.11",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Our Lord and God,\nyou are worthy to receive\nglory and honor and power,\nbecause you have created all things,\nand by your will\nthey exist and were created.",
+    "ref": "REV.4.11",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "«Tu és digno ó Senhor e nosso Deus,\nde receber a glória, a honra e o poder\npois tu criaste todas as coisas\ne foi por tua vontade que elas existem e foram criadas!»",
+    "ref": "REV.4.11",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Digno és, Senhor, de receber glória, e honra, e poder; porque tu criaste todas as coisas, e por tua vontade são e foram criadas.",
+    "ref": "REV.4.11",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Godny jesteś, nasz Panie i Boże,\nprzyjąć chwałę, cześć i moc,\nponieważ Ty stworzyłeś wszystko,\ndzięki Twej woli powstało i zostało stworzone.",
+    "ref": "REV.4.11",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Godzien jesteś, Panie i Boże nasz, przyjąć chwałę i cześć, i moc, ponieważ Ty stworzyłeś wszystko, i z woli twojej zostało stworzone, i zaistniało.",
+    "ref": "REV.4.11",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "»Dich, unseren Herrn und Gott, beten wir an.\nDu allein bist würdig, Ehre und Ruhm zu empfangen\nund für deine Macht gepriesen zu werden.\nDenn du hast alles erschaffen.\nNach deinem Willen entstand die Welt\nund alles, was auf ihr lebt.«",
+    "ref": "REV.4.11",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Würdig bist du, o Herr, zu empfangen den Ruhm und die Ehre und die Macht; denn du hast alle Dinge geschaffen, und durch deinen Willen sind sie und wurden sie geschaffen!",
+    "ref": "REV.4.11",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "quiz": {
+  "_ref": "PSA.147.4",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "He counts the stars\nand calls them all by name.",
+    "ref": "PSA.147.4",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "He counts the number of the stars;\nhe gives names to all of them.",
+    "ref": "PSA.147.4",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Ele determina o número das estrelas\ne põe a cada uma o seu nome.",
+    "ref": "PSA.147.4",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Conta o número das estrelas, chamando-as a todas pelos seus nomes.",
+    "ref": "PSA.147.4",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "On wyznacza liczbę gwiazd,\nWszystkim nadaje imiona.",
+    "ref": "PSA.147.4",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Wyznacza liczbę gwiazd,\nWszystkim nadaje imiona.",
+    "ref": "PSA.147.4",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Er hat die Zahl der Sterne festgelegt\nund gab jedem einzelnen einen Namen.",
+    "ref": "PSA.147.4",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Er zählt die Zahl der Sterne\nund nennt sie alle mit Namen.",
+    "ref": "PSA.147.4",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "allotropes": {
+  "_ref": "PSA.104.24",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "O LORD, what a variety of things you have made!\nIn wisdom you have made them all.\nThe earth is full of your creatures.",
+    "ref": "PSA.104.24",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "How countless are your works, LORD!\nIn wisdom you have made them all;\nthe earth is full of your creatures.",
+    "ref": "PSA.104.24",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "SENHOR, tu fizeste tantas coisas\ne tudo com tanta sabedoria!\nA terra está cheia daquilo que tu criaste!",
+    "ref": "PSA.104.24",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Ó Senhor, quão variadas são as tuas obras! todas as coisas fizeste com sabedoria; cheia está a terra das tuas riquezas.",
+    "ref": "PSA.104.24",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Jak liczne są Twoje dzieła, PANIE!\nWszystkie dowodzą Twojej mądrości —\nZiemia jest pełna Twoich bogactw!",
+    "ref": "PSA.104.24",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "O, jak liczne są dzieła twoje, Panie!\nTyś wszystko mądrze uczynił:\nZiemia jest pełna dóbr twoich!",
+    "ref": "PSA.104.24",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "O HERR, welch unermessliche Vielfalt zeigen deine Werke!\nSie alle sind Zeugen deiner Weisheit,\ndie ganze Erde ist voll von deinen Geschöpfen.",
+    "ref": "PSA.104.24",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "HERR, wie sind deine Werke so viele!\nDu hast sie alle in Weisheit gemacht,\nund die Erde ist erfüllt von deinem Besitz.",
+    "ref": "PSA.104.24",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "life": {
+  "_ref": "PSA.104.30",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "When you give them your breath, life is created,\nand you renew the face of the earth.",
+    "ref": "PSA.104.30",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "When you send your breath,\nthey are created,\nand you renew the surface of the ground.",
+    "ref": "PSA.104.30",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Se lhes envias o teu espírito, voltam à vida.\nAssim dás nova vida à terra.",
+    "ref": "PSA.104.30",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Envias o teu Espírito, e são criados, e assim renovas a face da terra.",
+    "ref": "PSA.104.30",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Dopiero Twój Duch, na nowo posłany, tworzy je —\nI tak odnawiasz oblicze ziemi.",
+    "ref": "PSA.104.30",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Wydajesz tchnienie swoje, a stworzone bywają,\nI odnawiasz oblicze ziemi.",
+    "ref": "PSA.104.30",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Doch wenn du deinen Geist schickst, wird neues Leben geschaffen,\nund die Erde kann sich wieder entfalten.",
+    "ref": "PSA.104.30",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "…sendest du deinen Odem aus, so werden sie erschaffen,\nund du erneuerst die Gestalt der Erde.",
+    "ref": "PSA.104.30",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "air": {
+  "_ref": "PSA.150.6",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Let everything that breathes sing praises to the LORD!\nPraise the LORD!",
+    "ref": "PSA.150.6",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Let everything that breathes praise the LORD.\nHallelujah!",
+    "ref": "PSA.150.6",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Que todos os seres vivos louvem o SENHOR!\nAleluia!",
+    "ref": "PSA.150.6",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Tudo quanto tem fôlego, louve ao Senhor. Louvai ao Senhor.",
+    "ref": "PSA.150.6",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Niech wszystko, w czym jest tchnienie,\npulsuje uwielbieniem PANA!\nAlleluja!",
+    "ref": "PSA.150.6",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Niech wszystko, co żyje, chwali Pana!\nAlleluja.",
+    "ref": "PSA.150.6",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Alles, was lebt, lobe den HERRN!\nLobt den HERRN. Halleluja!",
+    "ref": "PSA.150.6",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Alles, was Odem hat, lobe den HERRN!\nHallelujah!",
+    "ref": "PSA.150.6",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "fire": {
+  "_ref": "EXO.3.2",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "There the angel of the LORD appeared to him in a blazing fire from the middle of a bush. Moses stared in amazement. Though the bush was engulfed in flames, it didn’t burn up.",
+    "ref": "EXO.3.2",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Then the angel of the LORD appeared to him in a flame of fire within a bush. As Moses looked, he saw that the bush was on fire but was not consumed.",
+    "ref": "EXO.3.2",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Ali apareceu-lhe o SENHOR numa labareda de fogo, no meio duma sarça. Moisés viu que a sarça estava a arder sem se consumir.",
+    "ref": "EXO.3.2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E apareceu-lhe o anjo do Senhor, em uma chama de fogo do meio de uma sarça; e olhou, e eis que a sarça ardia no fogo, e a sarça não se consumia.",
+    "ref": "EXO.3.2",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Tam ukazał mu się Anioł PANA, w płomieniu ognia, ze środka krzewu. Mojżesz patrzy — oto krzew! Płonie — lecz się nie spala!",
+    "ref": "EXO.3.2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Wtem ukazał mu się anioł Pański w płomieniu ognia ze środka krzewu; i spojrzał, a oto krzew płonął ogniem, jednakże krzew nie spłonął.",
+    "ref": "EXO.3.2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Dort erschien ihm der Engel des HERRN in einer Flamme, die aus einem Dornbusch schlug. Als Mose genauer hinsah, bemerkte er, dass der Busch zwar in Flammen stand, aber nicht niederbrannte.",
+    "ref": "EXO.3.2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Da erschien ihm der Engel des HERRN in einer Feuerflamme mitten aus dem Dornbusch. Und als er hinsah, siehe, da brannte der Dornbusch im Feuer, und der Dornbusch wurde doch nicht verzehrt.",
+    "ref": "EXO.3.2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "signs": {
+  "_ref": "MAT.5.16",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "In the same way, let your good deeds shine out for all to see, so that everyone will praise your heavenly Father.",
+    "ref": "MAT.5.16",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "In the same way, let your light shine before others, so that they may see your good works and give glory to your Father in heaven.",
+    "ref": "MAT.5.16",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Do mesmo modo, façam brilhar a vossa luz diante de toda a gente, para que vejam as vossas boas ações e deem louvores ao vosso Pai que está nos céus.",
+    "ref": "MAT.5.16",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Assim resplandeça a vossa luz diante dos homens, para que vejam as vossas boas obras e glorifiquem a vosso Pai que está nos céus.",
+    "ref": "MAT.5.16",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Tak niech i wasze światło świeci wobec wszystkich. Niech ludzie zobaczą wasze szlachetne czyny i wielbią waszego Ojca w niebie.",
+    "ref": "MAT.5.16",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Tak niechaj świeci wasza światłość przed ludźmi, aby widzieli wasze dobre uczynki i chwalili Ojca waszego, który jest w niebie.",
+    "ref": "MAT.5.16",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Genauso soll euer Licht vor allen Menschen leuchten. Dann werden sie eure guten Taten sehen und euren Vater im Himmel preisen.",
+    "ref": "MAT.5.16",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "So soll euer Licht leuchten vor den Leuten, dass sie eure guten Werke sehen und euren Vater im Himmel preisen.",
+    "ref": "MAT.5.16",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "H": {
+  "_ref": "GEN.1.3",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Then God said, “Let there be light,” and there was light.",
+    "ref": "GEN.1.3",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Then God said, “Let there be light,” and there was light.",
+    "ref": "GEN.1.3",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Então Deus disse: «Que a luz exista!» E a luz começou a existir.",
+    "ref": "GEN.1.3",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E disse Deus: Haja luz. E houve luz.",
+    "ref": "GEN.1.3",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Wtedy Bóg powiedział: Niech się stanie światło! I stało się światło.",
+    "ref": "GEN.1.3",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "I rzekł Bóg: Niech stanie się światłość. I stała się światłość.",
+    "ref": "GEN.1.3",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Da sprach Gott: »Licht soll entstehen!«, und sogleich strahlte Licht auf.",
+    "ref": "GEN.1.3",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Und Gott sprach: Es werde Licht! Und es wurde Licht.",
+    "ref": "GEN.1.3",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "He": {
+  "_ref": "PSA.74.16",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Both day and night belong to you;\nyou made the starlight and the sun.",
+    "ref": "PSA.74.16",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The day is yours, also the night;\nyou established the moon and the sun.",
+    "ref": "PSA.74.16",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O dia e a noite pertencem-te;\nestabeleceste a Lua e o Sol.",
+    "ref": "PSA.74.16",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Teu é o dia e tua é a noite: preparaste a lua e o sol.",
+    "ref": "PSA.74.16",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Twój jest dzień, do Ciebie należy noc,\nTy ustanowiłeś światło oraz słońce.",
+    "ref": "PSA.74.16",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Twój jest dzień i twoja jest noc,\nTyś ustanowił światło i słońce.",
+    "ref": "PSA.74.16",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Dir gehört der Tag und auch die Nacht,\ndu hast die Sonne und den Mond geschaffen.",
+    "ref": "PSA.74.16",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Dein ist der Tag, dein ist auch die Nacht,\ndu hast den Mond und die Sonne bereitet.",
+    "ref": "PSA.74.16",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "C": {
+  "_ref": "GEN.2.7",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Then the LORD God formed the man from the dust of the ground. He breathed the breath of life into the man’s nostrils, and the man became a living person.",
+    "ref": "GEN.2.7",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Then the LORD God formed the man out of the dust from the ground and breathed the breath of life into his nostrils, and the man became a living being.",
+    "ref": "GEN.2.7",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O SENHOR Deus modelou o homem com barro da terra. Soprou-lhe nas narinas e deu-lhe respiração e vida. E o homem tornou-se um ser vivo.",
+    "ref": "GEN.2.7",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E formou o Senhor Deus o homem do pó da terra, e soprou em seus narizes o fôlego da vida: e o homem foi feito alma vivente.",
+    "ref": "GEN.2.7",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Wtedy to PAN, Bóg, ukształtował z prochu ziemi człowieka, tchnął w jego nozdrza dech życia i człowiek stał się żywą istotą.",
+    "ref": "GEN.2.7",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Ukształtował Pan Bóg człowieka z prochu ziemi i tchnął w nozdrza jego dech życia. Wtedy stał się człowiek istotą żywą.",
+    "ref": "GEN.2.7",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Da nahm Gott, der HERR, etwas Staub von der Erde, formte daraus den Menschen und blies ihm den Lebensatem in die Nase. So wurde der Mensch ein lebendiges Wesen.",
+    "ref": "GEN.2.7",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Da bildete Gott der HERR den Menschen, Staub von der Erde, und blies den Odem des Lebens in seine Nase, und so wurde der Mensch eine lebendige Seele.",
+    "ref": "GEN.2.7",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "N": {
+  "_ref": "LEV.26.4",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "I will send you the seasonal rains. The land will then yield its crops, and the trees of the field will produce their fruit.",
+    "ref": "LEV.26.4",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "I will give you rain at the right time, and the land will yield its produce, and the trees of the field will bear their fruit.",
+    "ref": "LEV.26.4",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "…eu hei de dar-vos a chuva na altura própria, para que a terra produza boas colheitas e as árvores frutos com abundância.",
+    "ref": "LEV.26.4",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Então eu vos darei as vossas chuvas a seu tempo; e a terra dará a sua novidade, e a árvore do campo dará o seu fruto…",
+    "ref": "LEV.26.4",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "…to ześlę wam deszcze we właściwym dla nich czasie, ziemia wyda swój plon, a drzewa pól swe owoce.",
+    "ref": "LEV.26.4",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "To dam wam deszcze w swoim czasie właściwym, a ziemia dawać będzie swój plon i drzewo polne swój owoc.",
+    "ref": "LEV.26.4",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "…werde ich es zur rechten Zeit regnen lassen, damit das Land reichen Ertrag bringt und die Bäume viele Früchte tragen.",
+    "ref": "LEV.26.4",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "…so will ich euch Regen geben zu seiner Zeit, und das Land soll seinen Ertrag geben, und die Bäume auf dem Feld sollen ihre Früchte bringen.",
+    "ref": "LEV.26.4",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "O": {
+  "_ref": "JOB.33.4",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "For the Spirit of God has made me,\nand the breath of the Almighty gives me life.",
+    "ref": "JOB.33.4",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The Spirit of God has made me,\nand the breath of the Almighty gives me life.",
+    "ref": "JOB.33.4",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Foi o Deus todo-poderoso que me criou\ne me deu o sopro da vida.",
+    "ref": "JOB.33.4",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "O Espírito de Deus me fez; e a inspiração do Todo-Poderoso me deu vida.",
+    "ref": "JOB.33.4",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Stworzył mnie Duch Boży\ni ożywiło tchnienie\nWszechmocnego.",
+    "ref": "JOB.33.4",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Duch Boży stworzył mnie,\na tchnienie Wszechmocnego ożywiło mnie.",
+    "ref": "JOB.33.4",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Gottes Geist hat mich geschaffen,\nder Atem des Allmächtigen hat mir das Leben geschenkt.",
+    "ref": "JOB.33.4",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Der Geist Gottes hat mich gemacht, und der Odem des Allmächtigen erhält mich am Leben.",
+    "ref": "JOB.33.4",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Ne": {
+  "_ref": "LAM.3.22-23",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "The faithful love of the LORD never ends!\nHis mercies never cease.\nGreat is his faithfulness;\nhis mercies begin afresh each morning.",
+    "ref": "LAM.3.22-23",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Because of the LORD’s faithful love\nwe do not perish,\nfor his mercies never end.\nThey are new every morning;\ngreat is your faithfulness!",
+    "ref": "LAM.3.22-23",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "A compaixão do SENHOR por nós não se esgotou ainda,\no seu amor não chegou ao fim.\nA sua bondade é renovada cada manhã\ne grande é a sua fidelidade.",
+    "ref": "LAM.3.22-23",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "As misericórdias do Senhor são a causa de não sermos consumidos; porque as suas misericórdias não têm fim. Novas são cada manhã; grande é a tua fidelidade.",
+    "ref": "LAM.3.22-23",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Niewyczerpane są dowody łaski PANA,\nJego miłosierdzie nie ustaje.\nCo rano daje o sobie znać na nowo —\nwielka jest Twoja wierność.",
+    "ref": "LAM.3.22-23",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Niewyczerpane są objawy łaski Pana,\nmiłosierdzie jego nie ustaje.\nKażdego poranku objawia się na nowo,\nwielka jest wierność twoja.",
+    "ref": "LAM.3.22-23",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Die Güte des HERRN hat kein Ende,\nsein Erbarmen hört niemals auf,\nes ist jeden Morgen neu!\nGroß ist deine Treue, o Herr!",
+    "ref": "LAM.3.22-23",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Gnadenbeweise des HERRN sind’s, dass wir nicht gänzlich aufgerieben wurden,\ndenn seine Barmherzigkeit ist nicht zu Ende;\nsie ist jeden Morgen neu,\nund deine Treue ist groß!",
+    "ref": "LAM.3.22-23",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Na": {
+  "_ref": "MAT.5.13",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "You are the salt of the earth. But what good is salt if it has lost its flavor? Can you make it salty again? It will be thrown out and trampled underfoot as worthless.",
+    "ref": "MAT.5.13",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "You are the salt of the earth. But if the salt should lose its taste, how can it be made salty? It’s no longer good for anything but to be thrown out and trampled under people’s feet.",
+    "ref": "MAT.5.13",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Vocês são o sal do mundo. Mas se o sal perder as suas qualidades, poderá novamente salgar? Já não presta para nada, senão para se deitar fora e ser pisado por quem passa.",
+    "ref": "MAT.5.13",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Vós sois o sal da terra; e, se o sal for insípido, com que se há de salgar? para nada mais presta senão para se lançar fora, e ser pisado pelos homens.",
+    "ref": "MAT.5.13",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Wy jesteście solą ziemi. Gdyby sól zwietrzała, nikt smaku by jej nie przywracał. Byłaby nieprzydatna, w sam raz do wyrzucenia i podeptania przez ludzi.",
+    "ref": "MAT.5.13",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Wy jesteście solą ziemi; jeśli tedy sól zwietrzeje, czymże ją nasolą? Na nic więcej już się nie przyda, tylko aby była precz wyrzucona i przez ludzi podeptana.",
+    "ref": "MAT.5.13",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Ihr seid für die Welt wie Salz. Wenn das Salz aber fade geworden ist, wodurch soll es seine Würzkraft wiedergewinnen? Es ist nutzlos geworden, man schüttet es weg, und die Leute treten darauf herum.",
+    "ref": "MAT.5.13",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Ihr seid das Salz der Erde. Wenn aber das Salz fade wird, womit soll es wieder salzig gemacht werden? Es taugt zu nichts mehr, als dass es hinausgeworfen und von den Leuten zertreten wird.",
+    "ref": "MAT.5.13",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Si": {
+  "_ref": "PSA.139.17-18",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "How precious are your thoughts about me, O God.\nThey cannot be numbered!\nI can’t even count them;\nthey outnumber the grains of sand!\nAnd when I wake up,\nyou are still with me!",
+    "ref": "PSA.139.17-18",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "God, how precious your thoughts are to me;\nhow vast their sum is!\nIf I counted them,\nthey would outnumber the grains of sand;\nwhen I wake up, I am still with you.",
+    "ref": "PSA.139.17-18",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Mas para mim, que preciosos são os teus pensamentos, ó Deus!\nQue misterioso é o seu conteúdo.\nSe eu quisesse contar, seriam mais do que a areia;\ne se pudesse chegar ao fim, ainda estaria contigo.",
+    "ref": "PSA.139.17-18",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E quão preciosos me são, ó Deus, os teus pensamentos! Quão grandes são as somas deles! Se as contasse, seriam em maior número do que a areia: quando acordo ainda estou contigo.",
+    "ref": "PSA.139.17-18",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Cóż powiem? Jak cenne są Twe myśli,\no Boże,\nI jak niezliczone!\nGdybym chciał je zsumować,\nByłoby ich więcej niż piasku;\nGdybym się otrząsnął z liczenia,\nWciąż byłbym niedaleko od Ciebie.",
+    "ref": "PSA.139.17-18",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Jak niezgłębione są dla mnie myśli twe, Boże,\nJak wielka jest ich liczba!\nGdybym je chciał zliczyć,\nByłoby ich więcej niż piasku;\nGdybym skończył,\nJeszcze byłbym z tobą.",
+    "ref": "PSA.139.17-18",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Wie überwältigend sind deine Gedanken für mich, o Gott,\nes sind so unfassbar viele!\nSie sind zahlreicher als der Sand am Meer;\nwollte ich sie alle zählen, ich käme nie zum Ende!",
+    "ref": "PSA.139.17-18",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Und wie kostbar sind mir deine Gedanken, o Gott!\nWie ist ihre Summe so gewaltig!\nWollte ich sie zählen — sie sind zahlreicher als der Sand.\nWenn ich erwache, so bin ich immer noch bei dir!",
+    "ref": "PSA.139.17-18",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "P": {
+  "_ref": "JHN.1.5",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "The light shines in the darkness,\nand the darkness can never extinguish it.",
+    "ref": "JHN.1.5",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "That light shines in the darkness, and yet the darkness did not overcome it.",
+    "ref": "JHN.1.5",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "A luz brilha nas trevas,\ntrevas que a não venceram.",
+    "ref": "JHN.1.5",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E a luz resplandece nas trevas, e as trevas não a compreenderam.",
+    "ref": "JHN.1.5",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Światło zaś świeci w ciemności\ni ciemność go nie ogarnęła.",
+    "ref": "JHN.1.5",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "A światłość świeci w ciemności, lecz ciemność jej nie przemogła.",
+    "ref": "JHN.1.5",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Es leuchtet in der Finsternis, und die Finsternis hat es nicht auslöschen können.",
+    "ref": "JHN.1.5",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Und das Licht leuchtet in der Finsternis, und die Finsternis hat es nicht begriffen.",
+    "ref": "JHN.1.5",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "S": {
+  "_ref": "PSA.104.32",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "The earth trembles at his glance;\nthe mountains smoke at his touch.",
+    "ref": "PSA.104.32",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "He looks at the earth, and it trembles;\nhe touches the mountains,\nand they pour out smoke.",
+    "ref": "PSA.104.32",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "A terra treme, quando o SENHOR olha para ela;\nos montes fumegam, quando ele lhes toca.",
+    "ref": "PSA.104.32",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Olhando ele para a terra, ela treme; tocando nos montes, logo fumegam.",
+    "ref": "PSA.104.32",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Gdy On przygląda się ziemi, ta drży,\nA kiedy dotyka gór — one dymią.",
+    "ref": "PSA.104.32",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Gdy spojrzy na ziemię, ona drży,\nGdy dotknie gór, dymią.",
+    "ref": "PSA.104.32",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Er braucht die Erde nur anzusehen – schon fängt sie an zu beben;\nund wenn er die Berge berührt, dann stoßen sie Rauch aus.",
+    "ref": "PSA.104.32",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Blickt er die Erde an, so zittert sie;\nrührt er die Berge an, so rauchen sie.",
+    "ref": "PSA.104.32",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Cl": {
+  "_ref": "PSA.51.7",
+  "_heb": 2,
+  "en": {
+   "kid": {
+    "text": "Purify me from my sins, and I will be clean;\nwash me, and I will be whiter than snow.",
+    "ref": "PSA.51.7",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Purify me with hyssop, and I will be clean;\nwash me, and I will be whiter than snow.",
+    "ref": "PSA.51.7",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Limpa-me do meu pecado e ficarei puro;\nlava-me e ficarei mais branco do que a neve.",
+    "ref": "PSA.51.9",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Purifica-me com hissope e ficarei puro: lava-me, e ficarei mais alvo do que a neve.",
+    "ref": "PSA.51.7",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Pokrop mnie hizopem, a będę oczyszczony;\nObmyj mnie, a stanę się bielszy niż śnieg.",
+    "ref": "PSA.51.9",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Pokrop mnie hizopem, a będę oczyszczony;\nObmyj mnie, a ponad śnieg bielszy się stanę.",
+    "ref": "PSA.51.9",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Reinige mich von meiner Schuld, dann bin ich wirklich rein;\nwasche meine Sünde ab, dann bin ich weißer als Schnee!",
+    "ref": "PSA.51.9",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Entsündige mich mit Ysop, so werde ich rein;\nwasche mich, so werde ich weißer als Schnee!",
+    "ref": "PSA.51.9",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Ar": {
+  "_ref": "PRO.6.6",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Take a lesson from the ants, you lazybones.\nLearn from their ways and become wise!",
+    "ref": "PRO.6.6",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Go to the ant, you slacker!\nObserve its ways and become wise.",
+    "ref": "PRO.6.6",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Vai ver a formiga, ó preguiçoso;\nvê como ela faz e aprende a lição.",
+    "ref": "PRO.6.6",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Vai ter com a formiga, ó preguiçoso: olha para os seus caminhos, e sê sábio.",
+    "ref": "PRO.6.6",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Udaj się, leniu, do mrówki,\nzobacz, jak żyje — i zmądrzej.",
+    "ref": "PRO.6.6",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Idź do mrówki, leniwcze,\nprzypatrz się jej postępowaniu, abyś zmądrzał.",
+    "ref": "PRO.6.6",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Beobachte die Ameisen, du Faulpelz! Nimm dir ein Beispiel an ihnen, damit du endlich klug wirst…",
+    "ref": "PRO.6.6",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Geh hin zur Ameise, du Fauler,\nsieh ihre Wege an und werde weise…",
+    "ref": "PRO.6.6",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Ca": {
+  "_ref": "JOB.10.11",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "You clothed me with skin and flesh,\nand you knit my bones and sinews together.",
+    "ref": "JOB.10.11",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "You clothed me with skin and flesh,\nand wove me together with bones and tendons.",
+    "ref": "JOB.10.11",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Teceste-me de ossos e músculos\ne cobriste-me de carne e de pele.",
+    "ref": "JOB.10.11",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "De pele e carne me vestiste, e de ossos e nervos me entreteceste.",
+    "ref": "JOB.10.11",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Odziałeś mnie w skórę i ciało,\npospinałeś kośćmi,\nścięgnami…",
+    "ref": "JOB.10.11",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Przyoblekłeś mnie skórą i ciałem\ni pospinałeś mnie kośćmi i ścięgnami.",
+    "ref": "JOB.10.11",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Mit Knochen und Sehnen hast du mich durchwoben,\nmit Muskeln und Haut mich bekleidet.",
+    "ref": "JOB.10.11",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "…mit Haut und Fleisch mich bekleidet, mit Gebeinen und Sehnen mich durchwoben?",
+    "ref": "JOB.10.11",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Fe": {
+  "_ref": "PRO.27.17",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "As iron sharpens iron,\nso a friend sharpens a friend.",
+    "ref": "PRO.27.17",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Iron sharpens iron,\nand one person sharpens another.",
+    "ref": "PRO.27.17",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O ferro afia-se com ferro;\nos homens aperfeiçoam-se no confronto com os outros.",
+    "ref": "PRO.27.17",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Como o ferro com o ferro se aguça, assim o homem afia o rosto do seu amigo.",
+    "ref": "PRO.27.17",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Żelazo ostrzy żelazo;\nczłowieka ostrzy człowiek.",
+    "ref": "PRO.27.17",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Żelazo ostrzy się żelazem,\na zachowanie swojego bliźniego wygładza człowiek.",
+    "ref": "PRO.27.17",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Wie man Eisen durch Eisen schleift, so schleift ein Mensch den Charakter eines anderen.",
+    "ref": "PRO.27.17",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Eisen schärft Eisen;\nebenso schärft ein Mann den anderen.",
+    "ref": "PRO.27.17",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Cu": {
+  "_ref": "DEU.8.9",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "It is a land where food is plentiful and nothing is lacking. It is a land where iron is as common as stone, and copper is abundant in the hills.",
+    "ref": "DEU.8.9",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "…a land where you will eat food without shortage, where you will lack nothing; a land whose rocks are iron and from whose hills you will mine copper.",
+    "ref": "DEU.8.9",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "É uma terra onde podes comer à vontade, pois lá não haverá falta de comida. É uma terra onde podes arrancar ferro das suas rochas e cobre das suas montanhas.",
+    "ref": "DEU.8.9",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Terra em que comerás o pão sem escassez, e nada te faltará nela; terra cujas pedras são ferro, e de cujos montes tu cavarás o cobre.",
+    "ref": "DEU.8.9",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "…do ziemi, w której będziesz jadł chleb pod dostatkiem, w której nie zabraknie ci niczego, do ziemi, której kamienie są z żelaza i z której gór będziesz wydobywał miedź.",
+    "ref": "DEU.8.9",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Do ziemi, w której bez ograniczeń będziesz spożywał chleb i niczego ci nie będzie brakować, do ziemi, której kamienie są z żelaza i z której gór będziesz wydobywał miedź…",
+    "ref": "DEU.8.9",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Ihr werdet nicht von karger Kost leben müssen, es wird euch an nichts fehlen. Das Gestein des Landes enthält Eisen, und in den Bergen könnt ihr Kupfer gewinnen.",
+    "ref": "DEU.8.9",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "…ein Land, von dem du dich nicht kümmerlich nähren musst, in dem es dir an nichts mangelt; ein Land, dessen Steine Eisen sind, wo du Erz aus den Bergen hauen wirst.",
+    "ref": "DEU.8.9",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Se": {
+  "_ref": "PSA.104.19",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "You made the moon to mark the seasons,\nand the sun knows when to set.",
+    "ref": "PSA.104.19",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "He made the moon to mark the festivals;\nthe sun knows when to set.",
+    "ref": "PSA.104.19",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Fizeste a Lua para medir o tempo;\ne o Sol sabe quando deve esconder-se.",
+    "ref": "PSA.104.19",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Designou a lua para as estações: o sol conhece o seu ocaso.",
+    "ref": "PSA.104.19",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Księżyc do oznaczania pór —\nNawet słońce wie, kiedy zajść.",
+    "ref": "PSA.104.19",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Uczyniłeś księżyc, aby pory oznaczał,\nSłońce zna swój zachód.",
+    "ref": "PSA.104.19",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Du hast den Mond gemacht, um die Monate zu bestimmen,\nund die Sonne weiß, wann sie untergehen soll.",
+    "ref": "PSA.104.19",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Er hat den Mond gemacht zur Bestimmung der Zeiten;\ndie Sonne weiß ihren Untergang.",
+    "ref": "PSA.104.19",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Kr": {
+  "_ref": "PRO.25.2",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "It is God’s privilege to conceal things\nand the king’s privilege to discover them.",
+    "ref": "PRO.25.2",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "It is the glory of God to conceal a matter\nand the glory of kings to investigate a matter.",
+    "ref": "PRO.25.2",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "A grandeza de Deus está em agir em segredo;\na grandeza dos reis está em descobrir o segredo.",
+    "ref": "PRO.25.2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "A glória de Deus é encobrir o negócio; mas a glória dos reis é tudo investigar.",
+    "ref": "PRO.25.2",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Chwałą Bożą jest rzecz ukryć,\nchwałą królów — rzecz zbadać.",
+    "ref": "PRO.25.2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Chwałą Bożą jest rzecz ukryć,\na chwałą królów rzecz zbadać.",
+    "ref": "PRO.25.2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Gott wird geehrt für das, was er verborgen hält; aber der König erlangt nur Ansehen, wenn er alles erforscht.",
+    "ref": "PRO.25.2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Es ist Gottes Ehre, eine Sache zu verbergen,\naber die Ehre der Könige, eine Sache zu erforschen.",
+    "ref": "PRO.25.2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Ag": {
+  "_ref": "PSA.12.6",
+  "_heb": 1,
+  "en": {
+   "kid": {
+    "text": "The LORD’s promises are pure,\nlike silver refined in a furnace,\npurified seven times over.",
+    "ref": "PSA.12.6",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The words of the LORD are pure words,\nlike silver refined in an earthen furnace,\npurified seven times.",
+    "ref": "PSA.12.6",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "E as promessas do SENHOR são verdadeiras,\nsão como a prata mais pura,\nrefinada no forno sete vezes.",
+    "ref": "PSA.12.7",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "As palavras do Senhor são palavras puras, como prata refinada em forno de barro, purificada sete vezes.",
+    "ref": "PSA.12.6",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Słowa PANA to słowa czyste,\nJak srebro po próbie ognia,\nJak złoto siedmiokrotnie oczyszczone.",
+    "ref": "PSA.12.7",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Słowa Pańskie są słowami czystymi,\nSrebrem przetopionym, odłączonym od ziemi, siedemkroć oczyszczonym.",
+    "ref": "PSA.12.7",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "An den Worten des HERRN gibt es nichts zu rütteln.\nSie sind eindeutig und klar, wie durch und durch gereinigtes Silber.",
+    "ref": "PSA.12.7",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Die Worte des HERRN sind reine Worte,\nin irdenem Tiegel geschmolzenes Silber,\nsiebenmal geläutert.",
+    "ref": "PSA.12.7",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Sn": {
+  "_ref": "EZK.27.12",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Tarshish sent merchants to buy your wares in exchange for silver, iron, tin, and lead.",
+    "ref": "EZK.27.12",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Tarshish was your trading partner because of your abundant wealth of every kind. They exchanged silver, iron, tin, and lead for your merchandise.",
+    "ref": "EZK.27.12",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Fizeste negócio com os habitantes de Társis e de lá trouxeste a prata, o ferro, o estanho e o chumbo, em troca da abundância dos teus produtos.",
+    "ref": "EZK.27.12",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Társis negociava contigo, por causa da abundância de toda a casta de fazenda: com prata, ferro, estanho e chumbo negociavam em tuas feiras.",
+    "ref": "EZK.27.12",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Ze względu na dostatek twych dóbr handlował z tobą Tarszisz. Za twoje produkty płacił ci srebrem, żelazem, cyną i ołowiem.",
+    "ref": "EZK.27.12",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Tarszysz prowadził z tobą handel ze względu na obfitość wszelkich twoich dostatków; płacił ci srebrem, żelazem, cyną i ołowiem za twoje towary.",
+    "ref": "EZK.27.12",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Du warst eine reiche Stadt; viele Güter konnte man bei dir kaufen. Tarsis bot dir dafür Silber, Eisen, Zinn und Blei.",
+    "ref": "EZK.27.12",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Tarsis hat mit dir Handel getrieben mit einer Menge von allerlei Gütern; mit Silber, Eisen, Zinn und Blei hat es deine Waren bezahlt.",
+    "ref": "EZK.27.12",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Te": {
+  "_ref": "PSA.102.25",
+  "_heb": 1,
+  "en": {
+   "kid": {
+    "text": "Long ago you laid the foundation of the earth\nand made the heavens with your hands.",
+    "ref": "PSA.102.25",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Long ago you established the earth,\nand the heavens are the work of your hands.",
+    "ref": "PSA.102.25",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Fundaste a terra desde o princípio;\ntu próprio criaste os céus.",
+    "ref": "PSA.102.26",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Desde a antiguidade, fundaste a terra: e os céus são obra das tuas mãos.",
+    "ref": "PSA.102.25",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Dawno już posadowiłeś ziemię\nI niebiosa są dziełem Twoich rąk.",
+    "ref": "PSA.102.26",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Tyś z dawna założył ziemię,\nA niebiosa są dziełem rąk twoich.",
+    "ref": "PSA.102.26",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Vor langer Zeit hast du alles geschaffen,\nHimmel und Erde sind das Werk deiner Hände.",
+    "ref": "PSA.102.26",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Du hast vorzeiten die Erde gegründet,\nund die Himmel sind das Werk deiner Hände.",
+    "ref": "PSA.102.26",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Xe": {
+  "_ref": "HEB.13.2",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Don’t forget to show hospitality to strangers, for some who have done this have entertained angels without realizing it!",
+    "ref": "HEB.13.2",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Don’t neglect to show hospitality, for by doing this some have welcomed angels as guests without knowing it.",
+    "ref": "HEB.13.2",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Não esqueçam o dever da hospitalidade. Foi por causa da hospitalidade que algumas pessoas chegaram a receber anjos em sua casa sem o saberem.",
+    "ref": "HEB.13.2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Não vos esqueçais da hospitalidade, porque por ela, alguns, não o sabendo, hospedaram anjos.",
+    "ref": "HEB.13.2",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Nie zapominajcie o gościnności. Dzięki niej niektórzy, nieświadomi tego, gościli aniołów.",
+    "ref": "HEB.13.2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Gościnności nie zapominajcie; przez nią bowiem niektórzy, nie wiedząc o tym, aniołów gościli.",
+    "ref": "HEB.13.2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Vergesst nicht, Gastfreundschaft zu üben! Denn ohne es zu wissen, haben manche auf diese Weise Engel bei sich aufgenommen.",
+    "ref": "HEB.13.2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Vernachlässigt nicht die Gastfreundschaft; denn durch sie haben etliche ohne ihr Wissen Engel beherbergt.",
+    "ref": "HEB.13.2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Ir": {
+  "_ref": "GEN.9.13",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "I have placed my rainbow in the clouds. It is the sign of my covenant with you and with all the earth.",
+    "ref": "GEN.9.13",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "I have placed my bow in the clouds, and it will be a sign of the covenant between me and the earth.",
+    "ref": "GEN.9.13",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Hei de colocar o meu arco-íris nas nuvens e esse será o sinal de aliança entre mim e a terra.",
+    "ref": "GEN.9.13",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "O meu arco tenho posto na nuvem; este será por sinal do concerto entre mim e a terra.",
+    "ref": "GEN.9.13",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Otóż umieszczam na obłoku mój łuk. On będzie znakiem przymierza między Mną a ziemią.",
+    "ref": "GEN.9.13",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Łuk mój kładę na obłoku, aby był znakiem przymierza między mną a ziemią.",
+    "ref": "GEN.9.13",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Weiter sagte er: Diesen Bund schließe ich mit euch und allen Bewohnern der Erde, immer und ewig will ich dazu stehen. Der Regenbogen soll ein Zeichen für dieses Versprechen sein.",
+    "ref": "GEN.9.12-13",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Meinen Bogen setze ich in die Wolken, der soll ein Zeichen des Bundes sein zwischen mir und der Erde.",
+    "ref": "GEN.9.13",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Au": {
+  "_ref": "REV.21.18",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "The wall was made of jasper, and the city was pure gold, as clear as glass.",
+    "ref": "REV.21.18",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The building material of its wall was jasper, and the city was pure gold clear as glass.",
+    "ref": "REV.21.18",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Os muros eram de jaspe e a cidade estava construída com ouro puro, semelhante ao puro cristal.",
+    "ref": "REV.21.18",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E a fábrica do seu muro era de jaspe, e a cidade de ouro puro, semelhante a vidro puro.",
+    "ref": "REV.21.18",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Mur zbudowany był z jaspisu, a samo miasto z czystego złota, podobnego do szkła czystego jak kryształ.",
+    "ref": "REV.21.18",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "A mur jego zbudowany był z jaspisu, samo miasto zaś ze szczerego złota, podobnego do czystego szkła.",
+    "ref": "REV.21.18",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "…und bestand ganz und gar aus Jaspis. Die Stadt war aus reinem Gold gebaut, klar und durchsichtig wie Glas.",
+    "ref": "REV.21.18",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Und der Baustoff ihrer Mauer war Jaspis, und die Stadt war aus reinem Gold, wie reines Glas.",
+    "ref": "REV.21.18",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "Pb": {
+  "_ref": "EXO.15.10",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "But you blew with your breath,\nand the sea covered them.\nThey sank like lead\nin the mighty waters.",
+    "ref": "EXO.15.10",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "But you blew with your breath,\nand the sea covered them.\nThey sank like lead\nin the mighty waters.",
+    "ref": "EXO.15.10",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Sopraste sobre o mar e o mar engoliu-os;\nafundaram-se como chumbo nas profundezas do mar.",
+    "ref": "EXO.15.10",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Sopraste com o teu vento, o mar os cobriu: afundaram-se como chumbo em veementes águas.",
+    "ref": "EXO.15.10",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Lecz Ty wionąłeś\nswym tchnieniem\ni okryło ich morze.\nPotonęli jak ołów\nw odmętach!",
+    "ref": "EXO.15.10",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Wionąłeś swym tchnieniem, okryło ich morze;\nZatonęli jak ołów w potężnych wodach.",
+    "ref": "EXO.15.10",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Aber als dein Atem blies, verschlang sie das Meer.\nWie Blei versanken sie in den mächtigen Wogen.",
+    "ref": "EXO.15.10",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Du wehtest mit deinem Wind, da bedeckte sie das Meer; sie versanken wie Blei in den gewaltigen Wassern.",
+    "ref": "EXO.15.10",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "nations": {
+  "_ref": "PSA.117.1",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Praise the LORD, all you nations.\nPraise him, all you people of the earth.",
+    "ref": "PSA.117.1",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Praise the LORD, all nations!\nGlorify him, all peoples!",
+    "ref": "PSA.117.1",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Nações e povos,\nlouvem e glorifiquem todos o SENHOR…",
+    "ref": "PSA.117.1",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Louvai ao Senhor, todas as nações, louvai-o, todos os povos.",
+    "ref": "PSA.117.1",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Chwalcie PANA, wszystkie narody,\nUwielbiajcie Go, wszystkie plemiona…",
+    "ref": "PSA.117.1",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Chwalcie Pana, wszystkie narody\nWysławiajcie go, wszystkie ludy…",
+    "ref": "PSA.117.1",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Lobt den HERRN, alle Völker;\npreist ihn, alle Nationen!",
+    "ref": "PSA.117.1",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Lobt den HERRN, alle Heiden!\nPreist ihn, alle Völker!",
+    "ref": "PSA.117.1",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "scientists": {
+  "_ref": "PSA.111.2",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "How amazing are the deeds of the LORD!\nAll who delight in him should ponder them.",
+    "ref": "PSA.111.2",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The LORD’s works are great,\nstudied by all who delight in them.",
+    "ref": "PSA.111.2",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "As obras do SENHOR são grandiosas\ne dignas de meditação para quem as ama.",
+    "ref": "PSA.111.2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Grandes são as obras do Senhor, procuradas por todos os que nelas tomam prazer.",
+    "ref": "PSA.111.2",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Wielkie są dzieła PANA!\nBadają je wszyscy,\ndla których są rozkoszą.",
+    "ref": "PSA.111.2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Wielkie są dzieła Pana,\nGodne badania przez wszystkich, którzy je kochają.",
+    "ref": "PSA.111.2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Wie gewaltig ist alles, was der HERR vollbracht hat!\nWer sich über seine Taten freut, denkt immer wieder darüber nach.",
+    "ref": "PSA.111.2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Groß sind die Werke des HERRN,\nerforscht von allen, die sie lieben.",
+    "ref": "PSA.111.2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "alkali-metal": {
+  "_ref": "ISA.43.2",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "When you go through deep waters,\nI will be with you.\nWhen you go through rivers of difficulty,\nyou will not drown.\nWhen you walk through the fire of oppression,\nyou will not be burned up;\nthe flames will not consume you.",
+    "ref": "ISA.43.2",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "When you pass through the waters,\nI will be with you,\nand the rivers will not overwhelm you.\nWhen you walk through the fire,\nyou will not be scorched,\nand the flame will not burn you.",
+    "ref": "ISA.43.2",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Mesmo que atravesses os mares, estarei contigo;\nos rios profundos não te hão de afogar.\nQuando caminhares pelo fogo, não te queimarás,\nas chamas não te hão de atingir.",
+    "ref": "ISA.43.2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Quando passares pelas águas, estarei contigo, e quando pelos rios, eles não te submergirão, quando passares pelo fogo, não te queimarás, nem a chama arderá em ti.",
+    "ref": "ISA.43.2",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Gdy będziesz przechodził przez wody,\nJa będę z tobą,\na gdy przez rzeki, nie zaleją cię.\nGdy pójdziesz przez ogień, nie spłoniesz\ni płomień nie spali cię.",
+    "ref": "ISA.43.2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Gdy będziesz przechodził przez wody, będę z tobą,\na gdy przez rzeki, nie zaleją cię;\ngdy pójdziesz przez ogień, nie spłoniesz,\na płomień nie spali cię.",
+    "ref": "ISA.43.2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Wenn du durch tiefes Wasser oder reißende Ströme gehen musst – ich bin bei dir, du wirst nicht ertrinken. Und wenn du ins Feuer gerätst, bleibst du unversehrt. Keine Flamme wird dich verbrennen.",
+    "ref": "ISA.43.2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Wenn du durchs Wasser gehst, so will ich bei dir sein, und wenn durch Ströme, so sollen sie dich nicht ersäufen. Wenn du durchs Feuer gehst, sollst du nicht versengt werden, und die Flamme soll dich nicht verbrennen.",
+    "ref": "ISA.43.2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "alkaline-earth-metal": {
+  "_ref": "PSA.104.5",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "You placed the world on its foundation\nso it would never be moved.",
+    "ref": "PSA.104.5",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "He established the earth on its foundations;\nit will never be shaken.",
+    "ref": "PSA.104.5",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Assentaste a terra sobre bases firmes,\npara que ela se mantenha segura.",
+    "ref": "PSA.104.5",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Lançou os fundamentos da terra, para que não vacile em tempo algum.",
+    "ref": "PSA.104.5",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Ziemię oparłeś na jej podstawach\nI nie zachwieje się na wieki.",
+    "ref": "PSA.104.5",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Ugruntowałeś ziemię na stałych podstawach,\nBy się nie zachwiała na wieki wieczne.",
+    "ref": "PSA.104.5",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Die Erde stelltest du auf ein festes Fundament,\nniemals gerät sie ins Wanken.",
+    "ref": "PSA.104.5",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Er hat die Erde auf ihre Grundfesten gegründet,\ndass sie nicht wankt für immer und ewig.",
+    "ref": "PSA.104.5",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "transition-metal": {
+  "_ref": "JOB.28.1-2",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "People know where to mine silver\nand how to refine gold.\nThey know where to dig iron from the earth\nand how to smelt copper from rock.",
+    "ref": "JOB.28.1-2",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Surely there is a mine for silver\nand a place where gold is refined.\nIron is taken from the ground,\nand copper is smelted from ore.",
+    "ref": "JOB.28.1-2",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Sabemos que há minas de onde se tira a prata\ne lugares de onde se extrai o ouro.\nO ferro é retirado da terra\ne da pedra se funde o bronze.",
+    "ref": "JOB.28.1-2",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Na verdade, há veios de onde se extrai a prata, e para o ouro lugar em que o derretem. O ferro tira-se da terra, e da pedra se funde o metal.",
+    "ref": "JOB.28.1-2",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Tak, srebro ma swoje kopalnie\ni są miejsca, gdzie oczyszcza się\nzłoto.\nWydobywa się z ziemi żelazo\ni z rudy wytapia się miedź.",
+    "ref": "JOB.28.1-2",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Tak! Są kopalnie srebra\ni miejsca, gdzie się płucze złoto.\nŻelazo wydobywa się z ziemi,\na miedź wytapia się z rudy.",
+    "ref": "JOB.28.1-2",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Es gibt Minen, wo man nach Silber gräbt,\nwir kennen die Stellen, wo das Gold gewaschen wird.\nEisenerz holt man aus der Erde,\nund Kupfer wird aus Gestein geschmolzen.",
+    "ref": "JOB.28.1-2",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Denn für das Silber gibt es einen Fundort und für das Gold einen Platz, wo man es läutert. Eisen wird aus dem Erdenstaub gewonnen, und Gestein schmilzt man zu Kupfer.",
+    "ref": "JOB.28.1-2",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "post-transition-metal": {
+  "_ref": "PRO.17.3",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Fire tests the purity of silver and gold,\nbut the LORD tests the heart.",
+    "ref": "PRO.17.3",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "A crucible for silver, and a smelter for gold,\nand the LORD is the tester of hearts.",
+    "ref": "PRO.17.3",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O ouro e a prata são provados pelo fogo,\nmas é o SENHOR quem prova a qualidade dos homens.",
+    "ref": "PRO.17.3",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "O crisol é para a prata, e o forno para o ouro; mas o Senhor prova os corações.",
+    "ref": "PRO.17.3",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "W tyglu wytapia się srebro, w piecu złoto,\nlecz tym, który bada serca, jest PAN.",
+    "ref": "PRO.17.3",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Tygiel wytapia srebro, a piec złoto,\nlecz Pan bada serca.",
+    "ref": "PRO.17.3",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Gold und Silber prüft man durch Schmelzen, aber was im Herzen des Menschen vorgeht, das prüft der HERR.",
+    "ref": "PRO.17.3",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Der Schmelztiegel prüft das Silber und der Ofen das Gold,\nder HERR aber prüft die Herzen.",
+    "ref": "PRO.17.3",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "metalloid": {
+  "_ref": "DAN.2.22",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "He reveals deep and mysterious things\nand knows what lies hidden in darkness,\nthough he is surrounded by light.",
+    "ref": "DAN.2.22",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "He reveals the deep and hidden things;\nhe knows what is in the darkness,\nand light dwells with him.",
+    "ref": "DAN.2.22",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Revela o que é profundo e secreto,\nconhece o que é obscuro,\ne está sempre rodeado de luz.",
+    "ref": "DAN.2.22",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Ele revela o profundo e o escondido: conhece o que está em trevas, e com ele mora a luz.",
+    "ref": "DAN.2.22",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "On odsłania to, co głębokie i skryte,\nwie nawet o tym, co się dzieje w ciemności,\nprzy Nim panuje światło.",
+    "ref": "DAN.2.22",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "On odsłania to, co głębokie i ukryte;\nwie, co jest w ciemnościach,\nu niego mieszka światłość.",
+    "ref": "DAN.2.22",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Er enthüllt die unergründlichsten Geheimnisse und weiß,\nwas im Dunkeln verborgen ist,\ndenn er selbst ist vom Licht umgeben.",
+    "ref": "DAN.2.22",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Er offenbart, was tief und verborgen ist; er weiß, was in der Finsternis ist, und bei ihm wohnt das Licht!",
+    "ref": "DAN.2.22",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "halogen": {
+  "_ref": "MRK.9.50",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Salt is good for seasoning. But if it loses its flavor, how do you make it salty again? You must have the qualities of salt among yourselves and live in peace with each other.",
+    "ref": "MRK.9.50",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Salt is good, but if the salt should lose its flavor, how can you season it? Have salt among yourselves, and be at peace with one another.",
+    "ref": "MRK.9.50",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O sal é bom, mas se perder as suas qualidades como poderão salgar com ele? Procure cada um temperar bem a sua vida e vivam todos em paz uns com os outros.",
+    "ref": "MRK.9.50",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Bom é o sal; mas, se o sal se tornar insulso, com que o adubareis? tende sal em vós mesmos, e paz uns com os outros.",
+    "ref": "MRK.9.50",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Dobra jest sól, gdyby jednak straciła smak, czym byście go przywracali? Miejcie sól w samych sobie i zachowujcie pokój między sobą.",
+    "ref": "MRK.9.50",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Sól, to dobra rzecz, ale jeśli sól zwietrzeje, czymże ją przyprawicie? Miejcie sól w samych sobie i zachowujcie pokój między sobą.",
+    "ref": "MRK.9.50",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Salz ist gut und notwendig, solange es wirkt. Wenn es aber fade geworden ist, wodurch soll es seine Würzkraft wiedergewinnen? Deshalb achtet darauf, dass man an euch die Wirkung des Salzes sieht, und haltet Frieden untereinander.",
+    "ref": "MRK.9.50",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Das Salz ist etwas Gutes; wenn aber das Salz salzlos wird, womit wollt ihr es würzen? Habt Salz in euch und haltet Frieden untereinander!",
+    "ref": "MRK.9.50",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "lanthanide": {
+  "_ref": "MAT.13.44",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "The Kingdom of Heaven is like a treasure that a man discovered hidden in a field. In his excitement, he hid it again and sold everything he owned to get enough money to buy the field.",
+    "ref": "MAT.13.44",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The kingdom of heaven is like treasure, buried in a field, that a man found and reburied. Then in his joy he goes and sells everything he has and buys that field.",
+    "ref": "MAT.13.44",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "E continuou: O reino dos céus é como um tesouro escondido num campo. Quando alguém o encontra volta a escondê-lo. E, cheio de alegria, vai vender tudo quanto tem e compra o campo.",
+    "ref": "MAT.13.44",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Também o reino dos céus é semelhante a um tesouro escondido num campo, que um homem achou e escondeu; e, pelo gozo dele, vai, vende tudo quanto tem, e compra aquele campo.",
+    "ref": "MAT.13.44",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Królestwo Niebios przypomina skarb ukryty w roli. Człowiek, który go znalazł, ukrył go, odszedł ucieszony, sprzedał wszystko, co posiadał, i nabył tę rolę.",
+    "ref": "MAT.13.44",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Podobne jest Królestwo Niebios do ukrytego w roli skarbu, który człowiek znalazł, ukrył i uradowany odchodzi, i sprzedaje wszystko, co ma, i kupuje oną rolę.",
+    "ref": "MAT.13.44",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Gottes himmlisches Reich ist wie ein verborgener Schatz, den ein Mann in einem Acker entdeckte und wieder vergrub. In seiner Freude verkaufte er sein gesamtes Hab und Gut und kaufte dafür den Acker mit dem Schatz.",
+    "ref": "MAT.13.44",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Wiederum gleicht das Reich der Himmel einem verborgenen Schatz im Acker, den ein Mensch fand und verbarg. Und vor Freude darüber geht er hin und verkauft alles, was er hat, und kauft jenen Acker.",
+    "ref": "MAT.13.44",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "radioactive": {
+  "_ref": "ISA.40.8",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "The grass withers and the flowers fade,\nbut the word of our God stands forever.",
+    "ref": "ISA.40.8",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "The grass withers, the flowers fade,\nbut the word of our God remains forever.",
+    "ref": "ISA.40.8",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Sim! A erva seca e a flor murcha,\nmas a palavra do nosso Deus permanece para sempre.",
+    "ref": "ISA.40.8",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Seca-se a erva, e caem as flores, mas a palavra do nosso Deus subsiste eternamente.",
+    "ref": "ISA.40.8",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Trawa usycha, a kwiat — więdnie,\nlecz Słowo naszego Boga\ntrwa na wieki!",
+    "ref": "ISA.40.8",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Trawa usycha, kwiat więdnie,\nale słowo Boga naszego trwa na wieki.",
+    "ref": "ISA.40.8",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Das Gras verdorrt, die Blumen verwelken, aber das Wort unseres Gottes bleibt gültig für immer und ewig.",
+    "ref": "ISA.40.8",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Das Gras ist verdorrt, die Blume ist abgefallen; aber das Wort unseres Gottes bleibt in Ewigkeit!",
+    "ref": "ISA.40.8",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "superheavy": {
+  "_ref": "PSA.144.4",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "For they are like a breath of air;\ntheir days are like a passing shadow.",
+    "ref": "PSA.144.4",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "A human is like a breath;\nhis days are like a passing shadow.",
+    "ref": "PSA.144.4",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "O homem é como um suspiro;\na sua vida passa como uma sombra.",
+    "ref": "PSA.144.4",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "O homem é semelhante à vaidade; os seus dias são como a sombra que passa.",
+    "ref": "PSA.144.4",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Człowiek przecież jest niczym tchnienie,\nJego dni są jak cień, który mija.",
+    "ref": "PSA.144.4",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Człowiek podobny jest do tchnienia,\nDni jego są jak cień, co mija.",
+    "ref": "PSA.144.4",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Sein Leben ist vergänglich\nund gleicht einem Schatten, der vorüberhuscht.",
+    "ref": "PSA.144.4",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Der Mensch gleicht einem Hauch,\nseine Tage sind wie ein flüchtiger Schatten!",
+    "ref": "PSA.144.4",
+    "v": "SCH2000"
+   }
+  }
+ }
+}

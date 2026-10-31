@@ -5,6 +5,7 @@ import { ELEMENTS, element, nameOf } from '../data/elements.js'
 import { Lineup } from '../characters/lineup.js'
 import { explain } from '../characters/explain.js'
 import { FAMILY } from '../data/elements.js'
+import VerseLine from '../ui/VerseLine.jsx'
 
 // The sets the page can show: each period, the two f-block series, and a few to compare.
 const SETS = [
@@ -104,6 +105,8 @@ export default function Atomlings() {
             {['hands', 'hoop', 'size', 'move', 'body', 'mark', 'look', 'story'].map(k => <li key={k}>{t(`atomlings.how.${k}`)}</li>)}
           </ul>
         )}
+        {/* all 118 together: you created all things (src/content/scripture/) */}
+        {how && <VerseLine id="atomlings" className="mt-2" />}
         {!how && <div className="text-xs opacity-70 mt-0.5">{t('atomlings.tap')}</div>}
       </div>
     </div>

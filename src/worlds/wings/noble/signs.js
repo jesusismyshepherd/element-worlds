@@ -27,6 +27,7 @@ import { spectroscope, atomDisplay } from './signs.optics.js'
 import { nameWall, historyBoard, balloonRack } from './signs.parts.js'
 import { nameOverlay } from './nameOverlay.js'
 import { tapTargets } from '../../common/taps.js'
+import { versePlaque } from '../../common/verse.js'
 
 /** Puts a part on a wall or a spot: position, turn, and a function from its frame to the room's. */
 function place(root, obj, x, z, rotY) {
@@ -78,6 +79,12 @@ export async function build(ctx, target) {
   open.group.position.set(-4.7, 2.75, z1)
   open.group.rotation.y = Math.PI
   root.add(open.group)
+
+  // and across the door from it, a plaque: let your light shine (src/content/scripture/)
+  const verse = versePlaque(ctx, 'signs', { width: 2.4, height: 1.55, y: 1.95 })
+  verse.group.position.set(4.8, 0, z1)
+  verse.group.rotation.y = Math.PI
+  root.add(verse.group)
 
   // ---- the exhibits and their rules ----
   // Each step is chosen by tapping the thing it is about (the user, 2026-10-30: pressing E again and again
@@ -587,6 +594,9 @@ export async function build(ctx, target) {
   }
 
   let unsub = null
+  // the passage: a tap on it opens it too
+  clickable(verse.group, () => verse.open())
+
   return {
     mode: 'walk',
     root,
@@ -605,7 +615,7 @@ export async function build(ctx, target) {
     solids,
     cameraBounds: { minX: x0 + 0.35, maxX: x1 - 0.35, minY: 0.4, maxY: h - 0.45, minZ: z0 + 0.35, maxZ: z1 - 0.7 },
     cameraPitchMax: 0.5,
-    interactables: [...ex.list, host],
+    interactables: [...ex.list, host, verse.interactable()],
     doors,
     talk,
     shared,
@@ -655,6 +665,7 @@ export async function build(ctx, target) {
     dispose() {
       timers.length = 0
       overlay?.dispose()
+      verse.dispose()
     },
   }
 }

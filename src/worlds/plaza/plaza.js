@@ -13,6 +13,7 @@ import { FONTS } from '../../engine/text.js'
 import { atriumPath, WINGS } from '../registry.js'
 import { createAtomling } from '../../characters/atomling.js'
 import { play } from '../../audio/sound.js'
+import { verseText } from '../common/verse.js'
 
 const N = ELEMENTS.length
 const damp = (a, b, rate, dt) => b + (a - b) * Math.exp(-rate * dt)
@@ -71,6 +72,12 @@ export async function build(ctx, target) {
 
   const sky = nightSky({ pixelRatio: ctx.renderer.getPixelRatio(), stars: light ? 1400 : 2600 })
   root.add(sky)
+  // behind the table, in starlight, the psalm of the heavens (src/content/scripture/): standing up from
+  // the ground and leaning back to face the overview's steep view; a click on it opens it in a sheet
+  const verse = verseText(ctx, 'plaza', { width: 44, size: 1.55, color: '#cfd8ff', citeColor: '#ffd98a', opacity: 0.8, lineHeight: 1.25 })
+  verse.group.position.set(0, 6.2, TABLE.minZ - 13)
+  verse.group.rotation.x = -1.0
+  root.add(verse.group)
 
   // the plaza's floor, dark and glossy, with a pool of light under each cube
   const floor = new THREE.Mesh(
@@ -328,7 +335,10 @@ export async function build(ctx, target) {
     pointerIn = true
     const i = pick()
     if (e.pointerType !== 'mouse') pointerIn = false
-    if (i < 0) return
+    if (i < 0) {
+      if (verse.hits(ray)) verse.open()
+      return
+    }
     const now = performance.now()
     const again = lastClick.i === i && now - lastClick.at < 450
     lastClick = { i, at: now }
@@ -591,6 +601,7 @@ export async function build(ctx, target) {
     hostScale: k => host?.holder.scale.setScalar(k),
     dispose() {
       disc.dispose()
+      verse.dispose()
     },
   }
 }

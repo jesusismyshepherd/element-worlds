@@ -24,6 +24,7 @@ import { breathExhibit } from './airBreath.js'
 import { AIR_WORDS } from './airWords.js'
 import { exhibitSet, onLevel, at, chem, canvasTex, makeNoise, glowMat, softDot, within } from './kit.js'
 import { tapTargets } from '../../common/taps.js'
+import { verseStone } from '../../common/verse.js'
 
 const COLOR = '#8fd0ff'
 const R = 12.5 // the deck's radius
@@ -229,6 +230,16 @@ export async function build(ctx) {
     const chord = 2 * (R + 0.2) * Math.sin(Math.PI / segs) + 0.3
     solids.push(box(Math.sin(a) * (R + 0.05), Math.cos(a) * (R + 0.05), chord, 0.7, { rot: a }))
   }
+
+  // ---- a slate by the arch, south-west on the deck: the psalm of everything that breathes
+  // (src/content/scripture/) ----
+  const verse = verseStone(ctx, 'air', { look: 'day' })
+  const va = (-135 * Math.PI) / 180
+  const [vx, vz] = [Math.sin(va) * 9, -Math.cos(va) * 9]
+  verse.group.position.set(vx, 0, vz)
+  verse.group.rotation.y = Math.atan2(-vx, -vz)
+  root.add(verse.group)
+  solids.push(box(vx, vz, 1.9, 0.75, { rot: verse.group.rotation.y }))
 
   // ---- the arch back to oxygen's hall ----
   const back = arch({ width: 3.6, height: 4.4, color: '#5aa9ff', label: W.back, portal: 'swirl' })
@@ -620,6 +631,9 @@ export async function build(ctx) {
 
   let unsub = null
   const fogColor = new THREE.Color().setRGB(0.74, 0.81, 0.91, THREE.LinearSRGBColorSpace)
+  // the passage: a tap on it opens it too
+  clickable(verse.group, () => verse.open())
+
   return {
     mode: 'walk',
     root,
@@ -643,7 +657,7 @@ export async function build(ctx) {
     cameraBounds: { minX: -R - 3, maxX: R + 3, minY: 0.35, maxY: 14, minZ: -R - 3, maxZ: R - 0.8 },
     // the Atomling's player can tilt the view up to the ozone layer and the Sun's rays
     cameraPitchMax: 0.9,
-    interactables: [...ex.list, host],
+    interactables: [...ex.list, host, verse.interactable()],
     doors,
     talk,
     shared,
@@ -680,6 +694,7 @@ export async function build(ctx) {
       ex.sync()
     },
     dispose() {
+      verse.dispose()
       for (const d of disposables) d.dispose()
     },
   }

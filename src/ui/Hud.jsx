@@ -9,6 +9,7 @@ import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 're
 import PlazaHud from './PlazaHud.jsx'
 import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
+import Panel from './Panel.jsx'
 import LabHud from './LabHud.jsx'
 import ForgeHud from './ForgeHud.jsx'
 // the Star Forge's HUD loads with its world (its words are many)
@@ -78,6 +79,7 @@ export default function Hud({ engine }) {
   const speech = useStore(store, s => s.speech)
   const found = useStore(store, s => s.discoveries)
   const update = useStore(store, s => s.update)
+  const panel = useStore(store, s => s.panel)
   const [updateSeen, setUpdateSeen] = useState(false)
   const lang = i18n.resolvedLanguage
   const el = world?.symbol ? element(world.symbol) : null
@@ -235,6 +237,8 @@ export default function Hud({ engine }) {
       {world?.kind === 'forge' && <ForgeHud engine={engine} />}
       {world?.kind === 'stars' && <Suspense fallback={null}><StarHud engine={engine} /></Suspense>}
       {walking && <WalkHud engine={engine} />}
+      {/* a sheet the orbiting worlds open too: the Bible passage written in their sky (WalkHud has its own) */}
+      {!walking && panel && <Panel panel={panel} onClose={() => store.set({ panel: null })} />}
 
       <RoomToasts engine={engine} />
       {update && !updateSeen && (

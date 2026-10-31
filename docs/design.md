@@ -45,6 +45,12 @@ mechanics, engineering and chemistry games. Everything below is shaped so that t
 7. **Languages:** European Portuguese and English from the start, Polish and German since 2026-10-28
    (`docs/knowledge/translating.md`; element names for all 118 in all four);
    the i18n layout is pokemon-site's, so German, Japanese and Chinese can follow.
+8. **A Bible passage in every place, about what stands there** (the user, 2026-10-31: "interweave
+   passages from the Bible throughout the world, relevant to where they are placed; for Explorer the NLT,
+   for Scientist the CSB"). Each hall, wing and forge quotes one, word for word, with a line on why it
+   stands there; the other languages quote their own pair (an easy translation and a closer one, from
+   their own country). Quotations are never edited, so they keep their translators' punctuation.
+   `docs/knowledge/scripture.md`.
 
 ## The plaza (outside)
 

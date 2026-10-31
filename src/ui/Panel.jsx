@@ -62,6 +62,7 @@ function Slider({ s, color }) {
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
  *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
  *  { link: { to, label } }, { slider }, { buttons: [{ label, onClick }] }, { h } (a section's heading),
+ *  { verse: { text, cite } } (a Bible passage and its reference, src/content/scripture/),
  *  { img, alt, crop } (a picture; crop: the share of its height shown, from the top),
  *  { video: { src, title, credit } } (a player, YouTube's own: the Periodic Videos rooms; kept playing while
  *  the panel is written again, since its key is its src), { href: { url, label } } (a page outside, in a new
@@ -92,6 +93,12 @@ export default function Panel({ panel, onClose }) {
       <div className="px-4 pb-4 flex flex-col gap-3 text-[15px] leading-relaxed">
         {panel.blocks.map((b, i) => {
           if (b.p) return <p key={i}>{b.p}</p>
+          if (b.verse) return (
+            <blockquote key={i} className="m-0 rounded-xl bg-white/5 px-4 py-3 border-l-4" style={{ borderColor: panel.color }}>
+              <p className="font-serif italic text-[17px] leading-relaxed whitespace-pre-line">{b.verse.text}</p>
+              <footer className="mt-1 text-right text-sm font-bold" style={{ color: panel.color }}>{b.verse.cite}</footer>
+            </blockquote>
+          )
           if (b.h) return <h3 key={i} className="font-display text-lg font-bold leading-tight mt-2 -mb-1" style={{ color: panel.color }}>{b.h}</h3>
           if (b.img) return <img key={i} src={b.img} alt={b.alt ?? ''} className="w-full rounded-xl object-cover object-top" style={b.crop ? { aspectRatio: `3 / ${2 * b.crop}` } : undefined} />
           if (b.big) return (

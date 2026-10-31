@@ -20,6 +20,7 @@ import { markFound, isFound, countFound } from '../../../engine/progress.js'
 import { makeText } from '../../../engine/text.js'
 import { atriumPath } from '../../registry.js'
 import { tapTargets } from '../../common/taps.js'
+import { verseText } from '../../common/verse.js'
 import { standSign, spotLamp, beam, promptSync, happening, onLevel, pick, glowMat, keepPlayerInView, ghostAround, ghostPost, ghostBall } from './kit.js'
 import { sparkleEnv } from './gem.js'
 import {
@@ -89,6 +90,11 @@ export async function build(ctx) {
   const motto = makeText(W.wall, { size: 0.55, color: '#dbe9ff', maxWidth: 14 })
   motto.position.set(0, 6.95, ROOM.z0 + 0.32)
   root.add(big, motto)
+  // under the motto, the psalm of the many works made in wisdom (src/content/scripture/), read from
+  // behind the dome
+  const verse = verseText(ctx, 'allotropes', { width: 11, size: 0.3, maxHeight: 1.75, color: '#dbe9ff', citeColor: ACCENT })
+  verse.group.position.set(0, 6.3, ROOM.z0 + 0.32)
+  root.add(verse.group)
 
   // ---- light: a dark gallery with lamps over the exhibits
   root.add(new THREE.HemisphereLight('#a9c4ff', '#0b1030', light ? 1.4 : 0.85))
@@ -535,6 +541,9 @@ export async function build(ctx) {
     verb: W.talkTo,
     onUse: () => say(greeting()),
   })
+  // read from round the back of the dome (E), or by a tap on the words from anywhere they are seen
+  interactables.push(verse.interactable({ x: 0, z: ROOM.z0 + 2.4, radius: 4.6 }, { x: 0, y: 5.5, z: ROOM.z0 + 0.4, size: 2.4, width: 11.5 }))
+  tap(verse.group, () => verse.open(), { reach: 48 })
   updates.push(promptSync(ctx, interactables))
 
   // ---- what everyone in a room's same gallery shares (src/net/shared.js): set(state, live), live when
@@ -687,6 +696,7 @@ export async function build(ctx) {
     dispose() {
       timers.length = 0
       env.dispose()
+      verse.dispose()
     },
   }
 }

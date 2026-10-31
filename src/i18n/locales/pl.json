@@ -220,6 +220,8 @@
     },
     "dataTitle": "Skąd pochodzą liczby",
     "data": "Dane o pierwiastkach pochodzą z układu okresowego PubChem (Narodowa Biblioteka Medyczna USA, domena publiczna) i z pakietu Pythona mendeleev (licencja MIT): masy, konfiguracje, promienie, izotopy, rozpowszechnienie. Lata odkrycia wynikają z jednej zasady (kiedy pierwiastek po raz pierwszy rozpoznano lub wyodrębniono). Wartości dla pierwiastków superciężkich są częściowo przewidywaniami i są tak oznaczone.",
+    "bibleTitle": "Fragmenty Biblii",
+    "bible": "Każde miejsce ma fragment Biblii o tym, co w nim stoi, i zdanie o tym, dlaczego. Odkrywca cytuje przekład łatwy w czytaniu, a Naukowiec bliższy oryginałowi: po polsku Biblię Ewangelicznego Instytutu Biblijnego (SNP) i Biblię Warszawską. Informacje wydawców:",
     "privacyTitle": "Co zapisujemy",
     "privacy": "Żeby ulepszać grę, zapisujemy, co się tu odwiedza i robi (które sale, jak długo, czego próbowano w laboratorium), nigdy imion ani adresów. Po zalogowaniu zapisuje się to na twoim koncie; bez logowania każda wizyta jest anonimowa, a gdy przeglądarka prosi o brak śledzenia, nic nie jest zapisywane. Możesz to wyłączyć pod 👤.",
     "recording": "Zalogowano jako „{{who}}”: to, w co grasz, zapisuje się na twoim koncie."

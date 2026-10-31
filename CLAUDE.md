@@ -47,7 +47,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
   helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `sound.md` (the
   music beds as offline loops, the buffer, why a phone crackles), `periodic-videos.md` (watching an element's
-  video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms). Read the one for the area
+  video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms), `scripture.md` (the Bible
+  passages in every place, the eight translations, fetching them word for word). Read the one for the area
   you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
@@ -80,7 +81,9 @@ built when, and the user's requests behind it: `docs/history.md`.
   (each alone from several angles, or the page's rows) for judging them.
 - `src/content/`: `stations.js` (the atrium's stations for any element, from the data, all four languages,
   both depths), `C.js`, `O.js` (an element's own words), `boards/<Symbol>.js` (a hall's picture boards;
-  pictures in `public/boards/<Symbol>/`, drawn by `tools/boards/<Symbol>/`).
+  pictures in `public/boards/<Symbol>/`, drawn by `tools/boards/<Symbol>/`), `scripture/` (the Bible
+  passages: `passages.json` what is quoted, `verses.json` the words, fetched by
+  `scripts/data/fetch_verses.py`, `why.js`; drawn by `src/worlds/common/verse.js`; `scripture.md`).
 - `src/engine/`: `engine.js` (renderer, loop, world switching, bloom, light mode, `teleport` for probes),
   `player.js` (walking, both views), `collide.js` (solids on the ground plane), `input.js`, `text.js`
   (troika SDF text, `formulaText`), `quality.js` (light mode, from the arena), `store.js` (engine <-> HUD),
@@ -179,6 +182,8 @@ built: `docs/history.md`):
   Usage data and the family dashboard at `/stats` (`usage-data.md`).
 - The HUD keeps the middle free (`hud-layout.md`); walking in both views (`walking.md`); four languages
   (`translating.md`); new versions and Reload (`deploying.md`).
+- A Bible passage in every hall, wing, forge, the lab, the plaza, the quiz and the Atomlings (2026-10-31;
+  NLT for Explorer, CSB for Scientist, and their counterparts in the other languages: `scripture.md`).
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,

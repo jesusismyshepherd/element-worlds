@@ -9,6 +9,7 @@ import { makeQuestion, cluesFor, points } from '../game/quiz.js'
 import { play } from '../audio/sound.js'
 import { track } from '../net/telemetry.js'
 import { useCover, useViewport } from './layout.js'
+import VerseLine from './VerseLine.jsx'
 
 const ROUND = 10
 const BEST = 'ew-quiz-best'
@@ -147,6 +148,8 @@ export default function QuizHud({ select, overview, onClose }) {
               <div className="mt-2">
                 <div className="text-sm">{t('quiz.end', { score: round.score, right: round.right, of: ROUND })}</div>
                 <div className="text-xs opacity-80">{t('quiz.best', { count: best[q.level] ?? round.score })}</div>
+                {/* the round's end: he counts the stars and calls them all by name (src/content/scripture/) */}
+                <VerseLine id="quiz" className="mt-2 text-[13px]" />
                 <button type="button" onClick={again} className="mt-2 rounded-xl bg-amber-400 text-[#1a1030] font-bold text-sm px-3 py-1.5 hover:bg-amber-300">{t('quiz.again')}</button>
               </div>
             ) : (

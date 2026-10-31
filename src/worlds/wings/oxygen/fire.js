@@ -21,6 +21,7 @@ import { fireTriangle, SIDES } from './fireTriangle.js'
 import { candleJar, splintTest, methaneStage, rustTubes } from './fireBenches.js'
 import { exhibitSet, onLevel, at, chem, within } from './kit.js'
 import { tapTargets } from '../../common/taps.js'
+import { verseStone } from '../../common/verse.js'
 
 const COLOR = '#ff9a4d'
 
@@ -142,6 +143,13 @@ export async function build(ctx) {
     clickable(s.post, () => triStep(id), { when: near(s.post.position.x, s.post.position.z) })
     clickable(s.bar, () => triStep(id), { when: near(s.post.position.x, s.post.position.z) })
   }
+
+  // a stone north of the campfire, between the benches, framed in embers: the bush that burned and was
+  // not burned up (src/content/scripture/)
+  const verse = verseStone(ctx, 'fire', { frame: '#ff9a4d' })
+  verse.group.position.set(0, 0, -7.9)
+  root.add(verse.group)
+  solids.push(box(0, -7.9, 1.9, 0.75))
 
   /** Puts a bench at an azimuth (degrees from north toward east) and distance, facing the fire. */
   const stand = (obj, az, dist) => {
@@ -374,6 +382,9 @@ export async function build(ctx) {
   }
 
   let unsub = null
+  // the passage: a tap on it opens it too
+  clickable(verse.group, () => verse.open())
+
   return {
     mode: 'walk',
     root,
@@ -395,7 +406,7 @@ export async function build(ctx) {
     cameraBounds: { minX: -9.4, maxX: 9.4, minY: 0.4, maxY: 8, minZ: -9.4, maxZ: archZ - 0.6 },
     // a little upward look, to the opening in the dome and the moonlight
     cameraPitchMax: 0.45,
-    interactables: [...ex.list, host],
+    interactables: [...ex.list, host, verse.interactable()],
     doors,
     talk,
     shared,
@@ -429,6 +440,8 @@ export async function build(ctx) {
       for (const u of updates) u(dt, t)
       ex.sync()
     },
-    dispose() {},
+    dispose() {
+      verse.dispose()
+    },
   }
 }

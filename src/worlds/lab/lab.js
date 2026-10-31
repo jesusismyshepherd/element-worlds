@@ -21,6 +21,7 @@ import { join, unjoin, removeAtom, freeHands, formulaOf, complete, recognise, MI
 import { makeText } from '../../engine/text.js'
 import { relax, level } from '../../chem/layout.js'
 import { nightSky } from '../common/sky.js'
+import { skyVerse } from '../common/verse.js'
 import { markFound, isFound } from '../../engine/progress.js'
 import { MOLECULE_FACTS } from '../../content/molecules.js'
 import { pick } from '../../content/stations.js'
@@ -41,6 +42,9 @@ export async function build(ctx) {
   // the room: a round table of light under the stars
   const sky = nightSky({ pixelRatio: ctx.renderer.getPixelRatio(), stars: light ? 900 : 1800, horizon: '#1d2a5c' })
   root.add(sky)
+  // in the sky over the bench: he holds all creation together (src/content/scripture/); a tap opens it
+  const verse = skyVerse(ctx, 'lab', { at: [0, LIFT + 2.45, -9], width: 8, size: 0.3, opacity: 0.75 })
+  root.add(verse.group)
   const floor = new THREE.Mesh(new THREE.CircleGeometry(40, 64), new THREE.MeshStandardMaterial({ color: '#0e1430', roughness: 0.5, metalness: 0.3 }))
   floor.rotation.x = -Math.PI / 2
   root.add(floor)
@@ -464,7 +468,8 @@ export async function build(ctx) {
     const targets = [...shown.map(s => s.holder), ...bondMeshes.flatMap(b => [b.armA, b.armB, b.clasp, b.link].filter(Boolean))]
     const hit = ray.intersectObjects(targets, true)[0]
     if (!hit) {
-      pickAtom(null)
+      if (verse.hits(ray)) verse.open()
+      else pickAtom(null)
       return
     }
     if (hit.object.userData.bond != null) {
@@ -481,6 +486,7 @@ export async function build(ctx) {
 
   const v = new THREE.Vector3()
   const update = (dt, t) => {
+    verse.face()
     clock = t
     sky.userData.update(t)
     controls.update()
@@ -637,7 +643,9 @@ export async function build(ctx) {
     tap: i => tapAtom(i),
     molecule: () => mol,
     together: () => ({ hosting: hosting(), host: host(), peers: peers().map(m => m.name), version }),
-    dispose() {},
+    dispose() {
+      verse.dispose()
+    },
   }
 }
 
