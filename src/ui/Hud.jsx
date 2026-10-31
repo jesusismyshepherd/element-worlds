@@ -5,12 +5,14 @@ import { useStore, saveLevel } from '../engine/store.js'
 import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
 import { atriumPath, plazaPath } from '../worlds/registry.js'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import PlazaHud from './PlazaHud.jsx'
 import About from './About.jsx'
 import WalkHud from './WalkHud.jsx'
 import LabHud from './LabHud.jsx'
 import ForgeHud from './ForgeHud.jsx'
+// the Star Forge's HUD loads with its world (its words are many)
+const StarHud = lazy(() => import('./StarHud.jsx'))
 import SoundButton from './SoundButton.jsx'
 import { useCover, useViewport } from './layout.js'
 import { useFullscreen } from './fullscreen.js'
@@ -24,6 +26,7 @@ const PAGES = [
   ['/passport', '🏅', 'passport.title', '2xl:inline'],
   ['/lab', '🧪', 'hud.lab', 'xl:inline'],
   ['/forge', '⚛️', 'hud.forge', 'xl:inline'],
+  ['/stars', '🌟', 'hud.stars', '2xl:inline'],
   ['/atomlings', '🙂', 'atomlings.title', 'xl:inline'],
 ]
 const BTN = 'glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10'
@@ -82,7 +85,7 @@ export default function Hud({ engine }) {
   const [about, setAbout] = useState(false)
   const [menu, setMenu] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
-  const walking = !!world && !['plaza', 'lab', 'forge'].includes(world.kind)
+  const walking = !!world && !['plaza', 'lab', 'forge', 'stars'].includes(world.kind)
   const canTalk = walking && !!engine?.world?.talk
   // a long wait (a big world's first visit compiles its shaders): say why
   const [slow, setSlow] = useState(false)
@@ -139,7 +142,7 @@ export default function Hud({ engine }) {
                   )}
                 </>
               )}
-              {(world.kind === 'lab' || world.kind === 'forge') && (
+              {(world.kind === 'lab' || world.kind === 'forge' || world.kind === 'stars') && (
                 <>
                   <span className="opacity-50">/</span>
                   <span className="font-display font-bold truncate">{t(`${world.kind}.title`)}</span>
@@ -230,6 +233,7 @@ export default function Hud({ engine }) {
       {world?.kind === 'plaza' && <PlazaHud engine={engine} />}
       {world?.kind === 'lab' && <LabHud engine={engine} />}
       {world?.kind === 'forge' && <ForgeHud engine={engine} />}
+      {world?.kind === 'stars' && <Suspense fallback={null}><StarHud engine={engine} /></Suspense>}
       {walking && <WalkHud engine={engine} />}
 
       <RoomToasts engine={engine} />

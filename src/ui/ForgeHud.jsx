@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
@@ -316,6 +317,8 @@ export default function ForgeHud({ engine }) {
           🗺️ {t('forge.chart')}
         </button>
         {chart && <div className="w-[24rem] max-h-[calc(100vh-var(--bar)-7rem)] overflow-y-auto overscroll-contain pointer-events-auto rounded-2xl">{chartBox}</div>}
+        {/* fusion in stars, on top of this forge's physics (docs/knowledge/star-forge.md) */}
+        <Link to="/stars" className="glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto hover:bg-white/10">🌟 {t('hud.stars')}</Link>
       </div>
 
       <div className="absolute inset-x-0 bottom-3 flex justify-center pointer-events-none px-2">

@@ -25,7 +25,7 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, ten scenes (screenshots in
+- `hud_probe.py`: the HUD keeps the middle free on six screens, twelve scenes (screenshots in
   `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`).
 - `card_probe.py`: the plaza card's facts on every element, four languages, a computer and a phone: the
   arrows, a click on the text and T go through them, the arrows stay put.

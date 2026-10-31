@@ -1309,12 +1309,15 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, dep
   solids.push(circle(-8.0, 2.4, 0.35))
   relabels.push(lv => starSign.set({ line: at(E.star.sign, lv) }))
 
+  // every star's whole life, burning by burning, is the Star Forge's (/stars, docs/knowledge/star-forge.md)
+  const FORGE_LINK = { en: 'The Star Forge: live a star’s whole life', 'pt-pt': 'A Forja de Estrelas: vive a vida toda de uma estrela', pl: 'Kuźnia Gwiazd: przeżyj całe życie gwiazdy', de: 'Die Sternenschmiede: erlebe das ganze Leben eines Sterns' }
   const starPanel = lv => ({
     title: E.star.title,
     color: STAR_C,
     blocks: [
       { buttons: [{ label: E.star.verbs[STEPS[S.step]], onClick: () => starStep(S.step === 4 ? 'again' : S.step <= 1 ? 'star' : S.step === 2 ? 'cloud' : 'planet') }] },
       ...paras(E.star.panel, lv),
+      { link: { to: '/stars', label: FORGE_LINK[lang] ?? FORGE_LINK.en } },
     ],
   })
   const ready = () => {

@@ -1,0 +1,15 @@
+{
+  "/stars": [
+    "() => __ew.world.setMass(1)",
+    "() => __ew.world.tapCore()",
+    "() => __ew.world.setLife(0.9)",
+    "() => __ew.world.tapCore()",
+    "() => __ew.world.tapNucleus()",
+    "() => __ew.world.tapNucleus()",
+    "() => __ew.world.slowReset()",
+    "() => __ew.world.pick('fifteen')",
+    "() => __ew.world.setLife(0.99)",
+    "() => __ew.world.tapCore()",
+    "() => __ew.world.tapRemnant()"
+  ]
+}

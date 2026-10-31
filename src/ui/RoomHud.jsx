@@ -23,6 +23,7 @@ export function whereOf(path, t, lang) {
   const target = targetFrom(p)
   if (target.kind === 'lab') return `🧪 ${t('hud.lab')}`
   if (target.kind === 'forge') return `⚛️ ${t('hud.forge')}`
+  if (target.kind === 'stars') return `🌟 ${t('hud.stars')}`
   if (target.kind === 'plaza') return `🔲 ${t('room.where.plaza')}`
   const el = element(target.symbol)
   if (target.kind === 'atrium') return `🏛 ${nameOf(el, lang)}`

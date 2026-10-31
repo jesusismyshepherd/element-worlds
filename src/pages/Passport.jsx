@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ELEMENTS, FAMILY, cellOf, nameOf } from '../data/elements.js'
 import { MISSIONS } from '../chem/build.js'
 import { MISSIONS as FORGE } from '../worlds/forge/words.js'
+import { MISSIONS as STARS } from '../worlds/stars/words.js'
 import { Formula } from '../ui/LabHud.jsx'
 import { onRestore } from '../engine/progress.js'
 
@@ -40,7 +41,7 @@ export default function Passport() {
     const m = {}
     for (const k of keys) {
       const [sym, part] = k.split(':')
-      if (sym === 'lab' || sym === 'forge') continue
+      if (sym === 'lab' || sym === 'forge' || sym === 'stars') continue
       m[sym] ??= { hall: 0, wings: 0 }
       if (k.split(':').length === 2 && part) m[sym].hall++
       else m[sym].wings++
@@ -50,6 +51,7 @@ export default function Passport() {
   const visited = Object.keys(per).length
   const molecules = MISSIONS.filter(k => keys.has(`lab:${k.show}`))
   const forged = FORGE.filter(m => keys.has(`forge:${m.id}`))
+  const starred = STARS.filter(m => keys.has(`stars:${m.id}`))
   const best = useMemo(quizBest, [version])
   const total = keys.size
   const badges = [
@@ -60,6 +62,7 @@ export default function Passport() {
     { id: 'chemist', got: molecules.length >= 5 },
     { id: 'master', got: molecules.length === MISSIONS.length },
     { id: 'smith', got: forged.length >= 5 },
+    { id: 'stars', got: starred.length >= 5 },
     { id: 'detective', got: best >= 40 },
   ]
 
@@ -135,6 +138,15 @@ export default function Passport() {
           {FORGE.map(m => (
             <Link key={m.id} to="/forge" className={`glass rounded-xl px-3 py-2 text-sm ${keys.has(`forge:${m.id}`) ? '' : 'opacity-40'}`} title={m.hint[lang] ?? m.hint.en}>
               {keys.has(`forge:${m.id}`) ? '✔ ' : ''}{m.name[lang] ?? m.name.en}
+            </Link>
+          ))}
+        </div>
+
+        <h2 className="font-display text-xl font-bold mt-6 mb-2">{t('passport.stars')}</h2>
+        <div className="flex flex-wrap gap-2">
+          {STARS.map(m => (
+            <Link key={m.id} to="/stars" className={`glass rounded-xl px-3 py-2 text-sm ${keys.has(`stars:${m.id}`) ? '' : 'opacity-40'}`} title={m.hint[lang] ?? m.hint.en}>
+              {keys.has(`stars:${m.id}`) ? '✔ ' : ''}{m.name[lang] ?? m.name.en}
             </Link>
           ))}
         </div>

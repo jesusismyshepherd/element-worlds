@@ -141,6 +141,7 @@
     "talk": "Powiedz mi coś (T)",
     "lab": "Laboratorium",
     "forge": "Kuźnia Atomów",
+    "stars": "Kuźnia Gwiazd",
     "menu": "Menu",
     "soundOn": "Włącz dźwięk",
     "soundOff": "Wyłącz dźwięk",
@@ -305,6 +306,9 @@
       "unmeasured": "niezmierzone"
     }
   },
+  "stars": {
+    "title": "Kuźnia Gwiazd"
+  },
   "quiz": {
     "title": "Kim jestem?",
     "start": "Kim jestem?",
@@ -344,6 +348,7 @@
     "badges": "Odznaki",
     "lab": "Misje z cząsteczkami",
     "forge": "Misje kuźni",
+    "stars": "Misje gwiazd",
     "forgeStat": "misje kuźni",
     "quizStat": "rekord w „Kim jestem?”",
     "badge": {
@@ -381,6 +386,11 @@
         "icon": "⚒️",
         "name": "Kowal atomów",
         "how": "Wykonaj pięć misji Kuźni Atomów"
+      },
+      "stars": {
+        "icon": "🌟",
+        "name": "Twórca gwiazd",
+        "how": "Wykonaj pięć misji Kuźni Gwiazd"
       },
       "detective": {
         "icon": "🔎",
