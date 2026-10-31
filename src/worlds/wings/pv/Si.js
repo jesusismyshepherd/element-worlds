@@ -1,9 +1,14 @@
 // Silicon's Periodic Videos room: what its film shows (docs/pv/Si.md) as stations. The lump (out of its
 // bottle, turning, its grains glinting; sand and a lens beside it), the chip line (cut a wafer, test the
-// chips, sort them; then a 30 cm wafer), the wafer and its rainbow (turn it over, tilt it under the lamp),
-// the turbocharger (steel and silicon nitride wheels racing), the minerals (quartz, mica, feldspar, garnet).
-// In a room all five are shared (`shared` below, src/net/shared.js); the words, the panels and the film stay
-// each one's own.
+// chips, sort them; then a 20 or 30 cm wafer), the wafer and its rainbow (rock it, turn it over, tilt it under
+// the lamp), the turbocharger (steel and silicon nitride wheels racing), the minerals (quartz, mica, feldspar,
+// garnet). Each step is chosen by tapping its thing (the user, 2026-10-30: pressing E through fixed steps felt
+// passive): the bottle and the lump; the wafer, the tester, the computer or the bin, a wafer on the wall;
+// the rainbow wafer's stand and the wafer itself; the pedal; each mineral. What varies smoothly is a slider
+// (the lump's turn, the wafer's tilt). The prompt names the next tap, and E opens the station's panel, whose
+// buttons do the same. In a room all five are shared (`shared` below, src/net/shared.js); the words, the
+// panels and the film stay each one's own. parts.tap.<thing>() does what a tap on it does, parts.at.<thing>()
+// gives a point to aim a real tap at (for the probes).
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { at, fill, num, canvasTex, clamp, lerp, random } from '../noble/kit.js'
@@ -11,6 +16,7 @@ import { edgeGlass } from '../../common/props.js'
 import { makeText } from '../../../engine/text.js'
 import { play } from '../../../audio/sound.js'
 import { SPOTS } from './lab.js'
+import { hitMesh } from './apparatus.js'
 import { SI_WORDS } from './Si.words.js'
 
 export const WORDS = SI_WORDS
@@ -27,6 +33,8 @@ export const chapters = E => [
 ]
 
 const ease = v => v * v * (3 - 2 * v)
+// how near the visitor must stand to tap a station's things (m)
+const REACH = 3.5
 const put = (root, part, spot, scale = 1) => {
   part.group.scale.setScalar(scale)
   part.group.position.set(spot.x, spot.y, spot.z)
@@ -150,7 +158,12 @@ function siliconLump() {
   const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.12, 8), new THREE.MeshStandardMaterial({ color: '#222' }))
   handle.position.set(0.06, 0.06, 0.5)
   handle.rotation.x = 0.9
-  group.add(bottle, cork, table, tray, lensRing, lensGlass, handle)
+  // the bottle and its cork are one thing to tap
+  const jar = new THREE.Group()
+  jar.add(bottle, cork)
+  group.add(jar, table, tray, lensRing, lensGlass, handle)
+  // the lump is small: a larger target round it
+  spinner.add(hitMesh(new THREE.SphereGeometry(0.08, 10, 8)))
 
   const inBottle = new THREE.Vector3(0.02, 0.06, -0.22)
   const onTable = new THREE.Vector3(0.04, 0.065, 0.08)
@@ -160,42 +173,65 @@ function siliconLump() {
   let t = 0
   let spin = 0.25
   let turns = 0 // for the others in a room
+  let held = null // turned by hand to an angle (the panel's slider) and held there, or free
+  const TAU = Math.PI * 2
+  const angleNow = () => ((spinner.rotation.y % TAU) + TAU) % TAU
   const tmp = new THREE.Vector3()
   const lampWorld = new THREE.Vector3()
   const nmat = new THREE.Matrix3()
   const api = {
     group,
-    act() {
-      if (state === 'lifting') return false
-      if (state === 'bottle') {
-        state = 'lifting'
-        t = 0
-        return 'take'
-      }
+    jar,
+    rock: spinner,
+    /** Out of its bottle onto the turntable. */
+    take() {
+      if (state !== 'bottle') return false
+      state = 'lifting'
+      t = 0
+      return true
+    },
+    /** A push: it spins fast, then slows (free of the slider's hold). */
+    spin() {
+      if (state !== 'out') return false
+      held = null
       spin = 3.2
       turns++
-      return 'turn'
+      return true
+    },
+    /** Turned by hand to an angle (radians) and held there. */
+    hold(v) {
+      if (state === 'bottle') api.take()
+      held = ((Number(v) % TAU) + TAU) % TAU
+    },
+    get angle() {
+      return held ?? angleNow()
+    },
+    get busy() {
+      return state === 'lifting'
     },
     get out() {
       return state !== 'bottle'
     },
     state() {
-      return { out: state !== 'bottle', turns }
+      return { out: state !== 'bottle', turns, hold: held === null ? -1 : Math.round(held * 100) / 100 }
     },
-    /** Someone else took it out or spun it (live: it plays here, returns true); a newcomer finds it on
-     *  its turntable. */
-    setState({ out = false, turns: n = 0 } = {}, live = false) {
+    /** Someone else took it out, spun it or turned it (live: it plays here, returns true); a newcomer finds
+     *  it on its turntable. */
+    setState({ out = false, turns: n = 0, hold: h = -1 } = {}, live = false) {
       n = Math.max(0, Math.floor(Number(n) || 0))
       let played = false
       if (out && state === 'bottle') {
-        if (live) played = !!api.act()
+        if (live) played = api.take()
         else {
           state = 'out'
           spinner.position.copy(onTable)
           spinner.scale.setScalar(1)
         }
-      } else if (live && out && n > turns) played = !!api.act()
+      } else if (live && out && n > turns && state === 'out') played = api.spin()
       turns = n
+      const hv = Number(h)
+      held = Number.isFinite(hv) && hv >= 0 ? hv % TAU : null
+      if (!live && held !== null) spinner.rotation.y = held
       return played
     },
     update(dt, time, camera, viewH) {
@@ -207,8 +243,15 @@ function siliconLump() {
         spinner.scale.setScalar(lerp(0.7, 1, k))
         if (t >= 1.2) state = 'out'
       }
-      spin += (0.35 - spin) * Math.min(1, dt * 0.8)
-      if (state !== 'bottle') spinner.rotation.y += spin * dt
+      if (held !== null) {
+        // turned by hand: it eases to the angle the slider holds, the short way round
+        const d = ((((held - spinner.rotation.y) % TAU) + TAU * 1.5) % TAU) - Math.PI
+        spinner.rotation.y += d * Math.min(1, dt * 6)
+        spin = 0
+      } else {
+        spin += (0.35 - spin) * Math.min(1, dt * 0.8)
+        if (state !== 'bottle') spinner.rotation.y += spin * dt
+      }
       // the glints: a face shines when it mirrors the lamp (the fume cupboard's, above and behind) to the eye
       if (camera) {
         gm.uniforms.uScale.value = viewH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2)
@@ -256,6 +299,54 @@ function chipLine({ onStep }) {
   const bin = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.085, 0.22, 20, 1, true), new THREE.MeshStandardMaterial({ color: '#53606e', roughness: 0.6, side: THREE.DoubleSide }))
   bin.position.set(0, 0.11, -0.45)
   group.add(pc, bin)
+
+  // the tester in front of the stage (the game's own: in the film the chips are only said to be tested):
+  // a box with a probe on a stalk, a light that shows each chip's result as it is tested
+  const tester = new THREE.Group()
+  const tBox = new THREE.Mesh(new RoundedBoxGeometry(0.08, 0.05, 0.1, 2, 0.008), new THREE.MeshStandardMaterial({ color: '#c9ccd2', roughness: 0.45 }))
+  tBox.position.y = 0.065
+  const tFace = new THREE.Mesh(new THREE.PlaneGeometry(0.06, 0.028), new THREE.MeshBasicMaterial({ color: '#0d1a3a' }))
+  tFace.rotation.y = Math.PI / 2
+  tFace.position.set(0.0405, 0.068, 0.012)
+  const ledMat = new THREE.MeshStandardMaterial({ color: '#333', emissive: '#000000', emissiveIntensity: 2 })
+  const led = new THREE.Mesh(new THREE.SphereGeometry(0.007, 10, 8), ledMat)
+  led.position.set(0.04, 0.068, -0.03)
+  const stalk = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.09, 6), new THREE.MeshStandardMaterial({ color: '#2b2e35' }))
+  stalk.position.set(-0.01, 0.13, 0.03)
+  stalk.rotation.z = 0.5
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.006, 0.02, 8), new THREE.MeshStandardMaterial({ color: '#d4a72c', metalness: 0.8, roughness: 0.3 }))
+  tip.position.set(-0.035, 0.172, 0.03)
+  tip.rotation.z = 0.5 + Math.PI
+  const tHit = hitMesh(new THREE.BoxGeometry(0.11, 0.16, 0.13))
+  tHit.position.y = 0.09
+  tester.add(tBox, tFace, led, stalk, tip, tHit)
+  tester.position.set(0.19, 0.04, -0.25)
+  group.add(tester)
+
+  // the wafers to come, side by side on a board on the wall behind the stage: a 30 cm one and a 20 cm one
+  const carrier = new THREE.Group()
+  const board = new THREE.Mesh(new RoundedBoxGeometry(0.012, 0.42, 0.7, 2, 0.004), new THREE.MeshStandardMaterial({ color: '#b08a5c', roughness: 0.7 }))
+  board.position.set(-0.006, 0.585, -0.03)
+  carrier.add(board)
+  const spares = {}
+  for (const [s, y, z] of [['big', 0.61, -0.19], ['small', 0.56, 0.17]]) {
+    const r = { small: 0.1, big: 0.15 }[s]
+    const g = new THREE.Group()
+    const d = new THREE.Mesh(new THREE.CircleGeometry(r, 40), new THREE.MeshStandardMaterial({ map: chipFace(Math.round((2 * r) / 0.018)), roughness: 0.35, metalness: 0.3 }))
+    d.rotation.y = Math.PI / 2
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(r, 0.0025, 4, 48), new THREE.MeshStandardMaterial({ color: '#8a929c', metalness: 1, roughness: 0.2 }))
+    rim.rotation.y = Math.PI / 2
+    g.add(d, rim)
+    g.position.set(0.004, y, z)
+    carrier.add(g)
+    spares[s] = g
+    const label = makeText(s === 'big' ? '30 cm' : '20 cm', { size: 0.032, color: '#ffffff', anchorX: 'center', anchorY: 'middle' })
+    label.rotation.y = Math.PI / 2
+    label.position.set(0.006, 0.405, z)
+    carrier.add(label)
+  }
+  carrier.position.set(-0.325, 0, 0)
+  group.add(carrier)
 
   // the wafer, whole, then its chips (instances), on a stage tilted toward the visitor like a display
   // stand (flat on the bench, the chips were seen edge-on)
@@ -329,6 +420,12 @@ function chipLine({ onStep }) {
   const stepOf = s => ({ cutting: 'cut', testing: 'tested', sorting: 'done' })[s] ?? s
   const api = {
     group,
+    // the things to tap: the wafer on its stage, the tester, the computer and the bin, the wafers on the wall
+    stage,
+    tester,
+    pc,
+    bin,
+    spares,
     get state() {
       return state
     },
@@ -349,7 +446,7 @@ function chipLine({ onStep }) {
       const have = stepOf(state)
       if (n === wafers && s === size && step === have) return false
       if (live && !api.busy) {
-        if (n === wafers && STEPS.indexOf(step) === STEPS.indexOf(have) + 1) return !!api.act()
+        if (n === wafers && STEPS.indexOf(step) === STEPS.indexOf(have) + 1) return !!api[{ cut: 'cut', tested: 'test', done: 'sort' }[step]]()
         if (n === wafers + 1 && step === 'whole') {
           newWafer(s, n)
           return true
@@ -372,37 +469,41 @@ function chipLine({ onStep }) {
       }
       return false
     },
-    /** One step: cut, test, sort, then a new wafer (the other size unless one is asked for). */
-    act(want) {
-      if (api.busy) return false
-      if (want) {
-        newWafer(want)
-        onStep?.('new', size)
-        return 'new'
-      }
+    /** The wafer is cut along the lines between its chips (a whole wafer only). */
+    cut() {
+      if (state !== 'whole') return false
       t = 0
-      if (state === 'whole') {
-        state = 'cutting'
-        disc.visible = false
-        list.forEach((c, i) => chips.setColorAt(i, GOLD))
-        chips.instanceColor.needsUpdate = true
-        play('crack')
-        return 'cut'
-      }
-      if (state === 'cut') {
-        state = 'testing'
-        return 'test'
-      }
-      if (state === 'tested') {
-        state = 'sorting'
-        return 'sort'
-      }
-      newWafer(size === 'small' ? 'big' : 'small')
+      state = 'cutting'
+      disc.visible = false
+      list.forEach((c, i) => chips.setColorAt(i, GOLD))
+      chips.instanceColor.needsUpdate = true
+      play('crack')
+      return true
+    },
+    /** The tester checks every chip in turn (once it is cut). */
+    test() {
+      if (state !== 'cut') return false
+      t = 0
+      state = 'testing'
+      return true
+    },
+    /** The good chips go into the computer, the bad ones into the bin (once tested). */
+    sort() {
+      if (state !== 'tested') return false
+      t = 0
+      state = 'sorting'
+      return true
+    },
+    /** A new wafer from the wall: 'small' (20 cm) or 'big' (30 cm). */
+    take(want) {
+      if (api.busy || !R[want]) return false
+      newWafer(want)
       onStep?.('new', size)
-      return 'new'
+      return true
     },
     update(dt) {
       t += dt
+      if (state !== 'testing') ledMat.emissive.set(state === 'tested' || state === 'sorting' || state === 'done' ? GOOD : '#000000')
       if (state === 'cutting') {
         // the chips draw apart along the cutting lines
         const k = ease(clamp(t / 0.7))
@@ -417,6 +518,8 @@ function chipLine({ onStep }) {
         const n = Math.floor(clamp(t / 2.2) * list.length)
         for (let i = 0; i < n; i++) chips.setColorAt(i, list[i].ok ? GOOD : BAD)
         chips.instanceColor.needsUpdate = true
+        // the tester's light: the result of the chip it is testing now
+        ledMat.emissive.set(n > 0 && !list[n - 1].ok ? BAD : GOOD)
         if (t >= 2.2) {
           state = 'tested'
           counts.good = list.filter(c => c.ok).length
@@ -493,7 +596,12 @@ function waferRainbow({ light }) {
   base.position.y = 0.01
   const post = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.12, 8), dark)
   post.position.y = 0.08
-  group.add(base, post)
+  // the stand, a thing to tap (rocking the wafer): its thin post gets a larger target
+  const stand = new THREE.Group()
+  const postHit = hitMesh(new THREE.CylinderGeometry(0.035, 0.07, 0.14, 10))
+  postHit.position.y = 0.07
+  stand.add(base, post, postHit)
+  group.add(stand)
   const pivot = new THREE.Group()
   pivot.position.y = 0.15
   group.add(pivot)
@@ -534,11 +642,17 @@ function waferRainbow({ light }) {
   let rocks = 0 // for the others in a room
   const api = {
     group,
+    // the things to tap: the wafer (turn it over), its stand (rock it)
+    disc: holder,
+    stand,
     get front() {
       return flipTo === 0
     },
     get tilt() {
       return tiltTo
+    },
+    get rocking() {
+      return rock > 0
     },
     setTilt(v) {
       tiltTo = v
@@ -548,11 +662,10 @@ function waferRainbow({ light }) {
       flipTo = flipTo === 0 ? Math.PI : 0
       return flipTo === 0 ? 'front' : 'back'
     },
-    act() {
-      // used: it rocks slowly through its angles once, so the rainbow sweeps
+    /** It rocks slowly through its angles once, so the rainbow sweeps across it. */
+    rock() {
       rock = 6
       rocks++
-      return null
     },
     state() {
       return { front: flipTo === 0, tilt: Math.round(tiltTo * 100) / 100, rocks }
@@ -647,13 +760,17 @@ function turbocharger({ words }) {
   pedalPivot.position.set(0.32, 0.02, 0)
   const pedal = new THREE.Mesh(new RoundedBoxGeometry(0.1, 0.02, 0.07, 2, 0.006), new THREE.MeshStandardMaterial({ color: '#30333a', roughness: 0.6 }))
   pedal.position.set(0.05, 0.0, 0)
-  pedalPivot.add(pedal)
+  const pedalHit = hitMesh(new THREE.BoxGeometry(0.14, 0.06, 0.11))
+  pedalHit.position.set(0.05, 0.01, 0)
+  pedalPivot.add(pedal, pedalHit)
   pedalPivot.rotation.z = 0.35
   group.add(pedalPivot)
   let press = 0
   let presses = 0 // for the others in a room
   const api = {
     group,
+    // the thing to tap
+    pedal: pedalPivot,
     get busy() {
       return press > 0
     },
@@ -732,15 +849,22 @@ function minerals() {
   garnet.geometry.translate(0, 0.03, 0)
   items.garnet = garnet
   const order = ['quartz', 'mica', 'feldspar', 'garnet']
-  const slots = [[0.1, -0.12], [0.1, 0.12], [-0.1, -0.12], [-0.1, 0.12]]
+  // in a row across the tray, left to right as the visitor sees them, so that none hides another
+  const slots = [[-0.05, 0.18], [0.06, 0.06], [-0.05, -0.06], [0.06, -0.18]]
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.05, 0.062, 32), new THREE.MeshBasicMaterial({ color: '#7fb4ff', transparent: true, opacity: 0.85 }))
   ring.rotation.x = -Math.PI / 2
   ring.visible = false
   group.add(ring)
+  // each mineral on a holder of its own, with a target to tap a little larger than the stone
+  const holders = {}
   order.forEach((k, i) => {
-    const o = items[k]
-    o.position.set(slots[i][0], 0.03, slots[i][1])
-    group.add(o)
+    const h = new THREE.Group()
+    const hit = hitMesh(new THREE.SphereGeometry(k === 'quartz' ? 0.065 : 0.05, 10, 8))
+    hit.position.y = k === 'quartz' ? 0.06 : 0.035
+    h.add(items[k], hit)
+    h.position.set(slots[i][0], 0.03, slots[i][1])
+    group.add(h)
+    holders[k] = h
   })
   let cur = -1
   let lift = 0
@@ -752,9 +876,16 @@ function minerals() {
   }
   return {
     group,
-    next() {
-      show((cur + 1) % order.length)
-      return order[cur]
+    items: holders,
+    get cur() {
+      return order[cur] ?? null
+    },
+    /** Pick one up (it rises and turns on the ring); picked again, it bobs up once more. */
+    pick(k) {
+      const i = order.indexOf(k)
+      if (i < 0) return null
+      show(i)
+      return k
     },
     state() {
       return { cur }
@@ -770,7 +901,7 @@ function minerals() {
     update(dt, t) {
       lift = Math.min(1, lift + dt * 3)
       order.forEach((k, i) => {
-        const o = items[k]
+        const o = holders[k]
         const on = i === cur
         o.position.y = 0.03 + (on ? ease(lift) * 0.04 : 0)
         o.rotation.y = on ? t * 0.8 : o.rotation.y
@@ -779,7 +910,7 @@ function minerals() {
   }
 }
 
-export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
+export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light, clickable, reopen }) {
   const level = () => ctx.level()
   // tell the others in the room's same lab that this visitor changed something
   const share = id => ctx.share?.(id)
@@ -790,40 +921,91 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     crust: num((el.abundance?.crust ?? 282000) / 10000, 1, lang),
   }
   const paras = list => list.map(p => ({ p: fill(p, vars) }))
+  // timers for the lines said after a step and for the sliders' sharing (the room's own are not passed in)
+  const waits = []
+  function later(s, fn) {
+    waits.push({ s, fn })
+  }
+  /** A slider moves many times a second: the others get it a few times a second, and where it stopped. */
+  const throttled = id => {
+    let waiting = false
+    return () => {
+      if (waiting) return
+      waiting = true
+      later(0.15, () => {
+        waiting = false
+        share(id)
+      })
+    }
+  }
 
-  // the lump, in the fume cupboard
+  // ---- the lump, in the fume cupboard: tap the bottle to take it out, the lump to spin it ----
   const lump = siliconLump()
   put(root, lump, SPOTS.bench, 1.3)
+  const lumpHint = () => (lump.out ? E.lump.hints.spin : E.lump.hints.take)
+  const lumpTurned = throttled('lump')
+  const lumpPanel = panel({
+    id: 'lump',
+    title: E.lump.title,
+    parts: ['lump', 'grains'],
+    extra: { grains: E.lump.turn + ' ({t})' },
+    blocks: lv => [
+      ...paras(E.lump.panel[depth(lv)]),
+      {
+        slider: {
+          label: E.lump.slider,
+          min: 0,
+          max: Math.PI * 2,
+          step: 0.01,
+          value: lump.angle,
+          onInput: v => {
+            const was = lump.out
+            lump.hold(v)
+            if (!was) takeLump(true)
+            lumpTurned()
+          },
+          format: v => `${Math.round((v * 180) / Math.PI)}°`,
+          live: () => lump.angle,
+        },
+      },
+      { buttons: [{ label: E.lump.take, onClick: () => takeLump() }, { label: E.lump.spin, onClick: () => spinLump() }] },
+    ],
+  })
+  /** The bottle: the lump comes out onto the turntable, its grains glinting. */
+  function takeLump(already = false) {
+    if (!already && !lump.take()) return say(lump.busy ? W.busy : lumpHint())
+    share('lump')
+    play('tap')
+    say(at(E.lump.says, level()))
+    ex.discover('lump', lumpPanel, 1.6)
+  }
+  /** The lump: a push, and it spins fast in the light, then slows. */
+  function spinLump() {
+    if (!lump.out) return takeLump()
+    if (!lump.spin()) return say(W.busy)
+    share('lump')
+    play('tap')
+  }
   ex.add({
     id: 'lump',
     x: SPOTS.bench.at.x,
     z: SPOTS.bench.at.z,
     radius: 1.5,
-    focus: { x: SPOTS.bench.x + 0.1, y: SPOTS.bench.y + 0.12, z: SPOTS.bench.z + 0.2, size: 0.9 },
+    manual: true,
+    // wide enough on an upright phone for the bottle, the lump and the sand
+    focus: { x: SPOTS.bench.x + 0.1, y: SPOTS.bench.y + 0.12, z: SPOTS.bench.z + 0.2, size: 0.9, width: 1.25 },
     label: E.lump.label,
-    verb: () => (lump.out ? E.lump.turn : E.lump.take),
-    act: () => {
-      const r = lump.act()
-      if (!r) return false
-      share('lump')
-      play('tap')
-      return r === 'take' ? at(E.lump.says, level()) : null
-    },
-    panelDelay: 1.6,
-    panel: panel({ id: 'lump', title: E.lump.title, parts: ['lump', 'grains'], extra: { grains: E.lump.turn + ' ({t})' }, blocks: lv => paras(E.lump.panel[depth(lv)]) }),
+    verb: lumpHint,
+    act: () => ctx.showPanel(lumpPanel),
   })
+  clickable(lump.jar, () => (lump.out ? spinLump() : takeLump()), { reach: REACH })
+  clickable(lump.rock, () => (lump.out ? spinLump() : takeLump()), { reach: REACH })
 
-  // the chip line, at the bench's other end
+  // ---- the chip line, at the bench's other end: tap the wafer (cut), the tester (test), the computer or
+  // the bin (sort), a wafer on the wall (the next) ----
   const say1 = (key, vars2) => say(fill(at(E.chips.says[key], level()), vars2 ?? {}))
   // the step under way was this visitor's: someone else's plays here too, without the words
   let mine = true
-  const lineAct = want => {
-    const r = line.act(want)
-    if (!r) return false
-    mine = true
-    share('chips')
-    return r
-  }
   const line = chipLine({
     onStep: (step, info) => {
       if (!mine) return
@@ -834,139 +1016,194 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     },
   })
   put(root, line, SPOTS.benchSide, 1.25)
-  const lineVerb = () => (line.busy ? E.chips.working : { whole: E.chips.cut, cut: E.chips.test, tested: E.chips.sort, done: E.chips.again }[line.state] ?? E.chips.cut)
+  const chipsHint = () => {
+    const h = E.chips.hints
+    if (line.busy) return h.working
+    return { whole: h.cut, cut: h.test, tested: h.sort, done: h.next }[line.state] ?? h.cut
+  }
+  const chipsPanel = panel({
+    id: 'chips',
+    title: E.chips.title,
+    parts: ['chips'],
+    blocks: lv => [
+      ...paras(E.chips.panel[depth(lv)]),
+      {
+        buttons: [
+          { label: E.chips.cut, onClick: () => chipStep('cut') },
+          { label: E.chips.test, onClick: () => chipStep('test') },
+          { label: E.chips.sort, onClick: () => chipStep('sort') },
+          { label: E.chips.buttons.small, onClick: () => chipStep('take', 'small') },
+          { label: E.chips.buttons.big, onClick: () => chipStep('take', 'big') },
+        ],
+      },
+    ],
+  })
+  /** A step of the line: 'cut' (the wafer), 'test' (the tester), 'sort' (the computer, the bin), 'take' a
+   *  new wafer of a size (on the wall). One out of turn says which comes next. */
+  function chipStep(step, size) {
+    if (line.busy) return say(W.busy)
+    if (!(step === 'take' ? line.take(size) : line[step]())) return say(chipsHint())
+    mine = true
+    share('chips')
+    play('tap')
+    if (step === 'cut') ex.discover('chips', chipsPanel, 0.8)
+  }
   ex.add({
     id: 'chips',
     x: SPOTS.benchSide.at.x,
     z: SPOTS.benchSide.at.z,
     radius: 1.5,
-    focus: { x: SPOTS.benchSide.x + 0.05, y: SPOTS.benchSide.y + 0.15, z: SPOTS.benchSide.z, size: 1.4 },
+    manual: true,
+    focus: { x: SPOTS.benchSide.x + 0.05, y: SPOTS.benchSide.y + 0.3, z: SPOTS.benchSide.z, size: 1.4, width: 1.7 },
     label: E.chips.label,
-    verb: lineVerb,
-    act: () => (lineAct() ? null : false),
-    panelDelay: 0.8,
-    panel: panel({
-      id: 'chips',
-      title: E.chips.title,
-      parts: ['chips'],
-      blocks: lv => [
-        ...paras(E.chips.panel[depth(lv)]),
-        { buttons: [{ label: E.chips.buttons.small, onClick: () => lineAct('small') || say(W.busy) }, { label: E.chips.buttons.big, onClick: () => lineAct('big') || say(W.busy) }] },
-      ],
-    }),
+    verb: chipsHint,
+    act: () => ctx.showPanel(chipsPanel),
   })
+  clickable(line.stage, () => chipStep('cut'), { reach: REACH })
+  clickable(line.tester, () => chipStep('test'), { reach: REACH })
+  clickable(line.pc, () => chipStep('sort'), { reach: REACH })
+  clickable(line.bin, () => chipStep('sort'), { reach: REACH })
+  for (const s of ['small', 'big']) clickable(line.spares[s], () => chipStep('take', s), { reach: REACH })
 
-  // the wafer and its rainbow, on the desk
+  // ---- the wafer and its rainbow, on the desk: tap the stand to rock it, the wafer to turn it over; the
+  // tilt is a slider ----
   const wafer = waferRainbow({ light })
   put(root, wafer, SPOTS.deskA, 1.6)
+  // rocked since it was last turned over: the prompt then offers the other side
+  let rocked = false
+  const waferHint = () => {
+    const h = E.wafer.hints
+    if (!wafer.front) return h.back
+    return rocked ? h.flip : h.rock
+  }
+  const tilted = throttled('wafer')
+  const waferPanel = panel({
+    id: 'wafer',
+    title: E.wafer.title,
+    parts: ['wafer', 'rainbow'],
+    extra: { rainbow: E.wafer.says.front.kid.replace(/[!.].*$/, '') + ' ({t})' },
+    blocks: lv => [
+      ...paras(E.wafer.panel[depth(lv)]),
+      {
+        slider: {
+          label: E.wafer.tilt,
+          min: 0,
+          max: 1.1,
+          step: 0.01,
+          value: wafer.tilt,
+          onInput: v => {
+            wafer.setTilt(v)
+            ex.discover('wafer', waferPanel, 1.2)
+            tilted()
+          },
+          format: v => `${Math.round((v * 180) / Math.PI)}°`,
+          live: () => wafer.tilt,
+        },
+      },
+      { buttons: [{ label: E.wafer.rock, onClick: () => rockWafer() }, { label: E.wafer.flip, onClick: () => flipWafer() }] },
+    ],
+  })
+  /** The stand: the wafer rocks slowly through its angles, and the rainbow sweeps across the chips. */
+  function rockWafer() {
+    wafer.rock()
+    rocked = true
+    share('wafer')
+    play('tap')
+    say(at(wafer.front ? E.wafer.says.front : E.wafer.says.back, level()))
+    ex.discover('wafer', waferPanel, 1.2)
+  }
+  /** The wafer: turned over, its mirror back to the visitor (or its chips again). */
+  function flipWafer() {
+    const side = wafer.flip()
+    rocked = false
+    share('wafer')
+    play('tap')
+    say(at(side === 'front' ? E.wafer.says.front : E.wafer.says.back, level()))
+    ex.discover('wafer', waferPanel, 1.2)
+  }
   ex.add({
     id: 'wafer',
     x: SPOTS.deskA.at.x,
     z: SPOTS.deskA.at.z,
     radius: 1.45,
+    manual: true,
     focus: { x: SPOTS.deskA.x, y: SPOTS.deskA.y + 0.28, z: SPOTS.deskA.z, size: 0.8 },
     label: E.wafer.label,
-    verb: E.wafer.tilt,
-    act: () => {
-      wafer.act()
-      share('wafer')
-      return at(wafer.front ? E.wafer.says.front : E.wafer.says.back, level())
-    },
-    panelDelay: 1.2,
-    panel: panel({
-      id: 'wafer',
-      title: E.wafer.title,
-      parts: ['wafer', 'rainbow'],
-      extra: { rainbow: E.wafer.says.front.kid.replace(/[!.].*$/, '') + ' ({t})' },
-      blocks: lv => [
-        ...paras(E.wafer.panel[depth(lv)]),
-        {
-          slider: {
-            label: E.wafer.tilt,
-            min: 0,
-            max: 1.1,
-            step: 0.01,
-            value: wafer.tilt,
-            onInput: v => {
-              wafer.setTilt(v)
-              tilted()
-            },
-            format: v => `${Math.round((v * 180) / Math.PI)}°`,
-            live: () => wafer.tilt,
-          },
-        },
-        {
-          buttons: [
-            {
-              label: E.wafer.flip,
-              onClick: () => {
-                const side = wafer.flip()
-                share('wafer')
-                say(at(side === 'front' ? E.wafer.says.front : E.wafer.says.back, level()))
-              },
-            },
-          ],
-        },
-      ],
-    }),
+    verb: waferHint,
+    act: () => ctx.showPanel(waferPanel),
   })
+  clickable(wafer.disc, () => flipWafer(), { reach: REACH })
+  clickable(wafer.stand, () => rockWafer(), { reach: REACH })
 
-  // the turbocharger, on the courtyard's red bench
+  // ---- the turbocharger, on the courtyard's red bench: tap the pedal ----
   const turbo = turbocharger({ words: E.turbo })
   put(root, turbo, SPOTS.yard, 1.6)
+  const turboPanel = panel({
+    id: 'turbo',
+    title: E.turbo.title,
+    parts: ['turbo'],
+    blocks: lv => [...paras(E.turbo.panel[depth(lv)]), { buttons: [{ label: E.turbo.press, onClick: () => pressPedal() }] }],
+  })
+  /** The pedal: the same push for both wheels; the lighter one spins up first. */
+  function pressPedal() {
+    if (!turbo.act()) return say(W.busy)
+    share('turbo')
+    later(1.8, () => say(at(E.turbo.says, level())))
+    ex.discover('turbo', turboPanel, 2.6)
+  }
   ex.add({
     id: 'turbo',
     x: SPOTS.yard.at.x,
     z: SPOTS.yard.at.z,
     radius: 1.8,
+    manual: true,
     focus: { x: SPOTS.yard.x, y: SPOTS.yard.y + 0.35, z: SPOTS.yard.z, size: 1.4 },
     label: E.turbo.label,
-    verb: E.turbo.press,
-    act: () => {
-      if (!turbo.act()) return false
-      share('turbo')
-      later(1.8, () => say(at(E.turbo.says, level())))
-      return null
-    },
-    panelDelay: 2.6,
-    panel: panel({ id: 'turbo', title: E.turbo.title, parts: ['turbo'], blocks: lv => [...paras(E.turbo.panel[depth(lv)]), { buttons: [{ label: E.turbo.press, onClick: () => turbo.act() && share('turbo') }] }] }),
+    verb: () => (turbo.busy ? E.turbo.hints.watch : E.turbo.hints.press),
+    act: () => ctx.showPanel(turboPanel),
   })
-  // a timer for the line said after the race (the room's own timers are not passed in)
-  const waits = []
-  function later(s, fn) {
-    waits.push({ s, fn })
-  }
-  // the tilt slider moves many times a second: the others get it a few times a second, and where it stopped
-  let tilting = false
-  const tilted = () => {
-    if (tilting) return
-    tilting = true
-    later(0.15, () => {
-      tilting = false
-      share('wafer')
-    })
-  }
+  clickable(turbo.pedal, () => pressPedal(), { reach: REACH })
 
-  // the minerals, on the side table
+  // ---- the minerals, on the side table: tap each to pick it up ----
   const rocks = minerals()
   put(root, rocks, SPOTS.side, 2.2)
+  const MINERALS = ['quartz', 'mica', 'feldspar', 'garnet']
+  // the ones this visitor has looked at: the prompt names the next one not yet seen
+  const seen = new Set()
+  const mineralsHint = () => {
+    const h = E.minerals.hints
+    if (!seen.size) return h.first
+    const k = MINERALS.find(m => !seen.has(m))
+    return k ? h[k] : h.all
+  }
+  const mineralsPanel = panel({
+    id: 'minerals',
+    title: E.minerals.title,
+    parts: ['sand'],
+    blocks: lv => [...paras(E.minerals.panel[depth(lv)]), { buttons: MINERALS.map(k => ({ label: E.minerals.names[k], onClick: () => pickMineral(k) })) }],
+  })
+  /** A mineral: it rises and turns, and the Atomling says what it is. */
+  function pickMineral(k) {
+    rocks.pick(k)
+    seen.add(k)
+    share('minerals')
+    play('tap')
+    say(at(E.minerals.says[k], level()))
+    ex.discover('minerals', mineralsPanel, 1.0)
+  }
   ex.add({
     id: 'minerals',
     x: SPOTS.side.at.x,
     z: SPOTS.side.at.z,
     radius: 1.45,
-    focus: { x: SPOTS.side.x, y: SPOTS.side.y + 0.12, z: SPOTS.side.z, size: 0.8 },
+    manual: true,
+    // the four minerals in a row: all of them on an upright phone too
+    focus: { x: SPOTS.side.x, y: SPOTS.side.y + 0.12, z: SPOTS.side.z, size: 0.8, width: 1.2 },
     label: E.minerals.label,
-    verb: E.minerals.look,
-    act: () => {
-      const k = rocks.next()
-      share('minerals')
-      play('tap')
-      return at(E.minerals.says[k], level())
-    },
-    panelDelay: 1.0,
-    panel: panel({ id: 'minerals', title: E.minerals.title, parts: ['sand'], blocks: lv => paras(E.minerals.panel[depth(lv)]) }),
+    verb: mineralsHint,
+    act: () => ctx.showPanel(mineralsPanel),
   })
+  for (const k of MINERALS) clickable(rocks.items[k], () => pickMineral(k), { reach: REACH })
 
   // what everyone in a room's same lab shares (src/net/shared.js): set(state, live), live when someone has
   // just done it (it plays here, with its sound), else a newcomer's view at once
@@ -983,8 +1220,46 @@ export function stations({ ctx, root, el, lang, E, W, ex, say, panel, light }) {
     minerals: { get: () => rocks.state(), set: (s, live) => rocks.setState(s, live) && play('tap') },
   }
 
+  // points to aim a real tap at: __ew.world.onTap(p.rayTo(p.at.tester())) with p = __ew.world.parts
+  const point = (obj, x = 0, y = 0, z = 0) => obj.localToWorld(new THREE.Vector3(x, y, z))
   return {
-    parts: { lump, line, wafer, turbo, rocks },
+    parts: {
+      lump,
+      line,
+      wafer,
+      turbo,
+      rocks,
+      // what a tap on each thing does
+      tap: {
+        bottle: () => takeLump(),
+        lump: () => spinLump(),
+        turn: v => {
+          lump.hold(v)
+          share('lump')
+        },
+        wafer: () => chipStep('cut'),
+        tester: () => chipStep('test'),
+        pc: () => chipStep('sort'),
+        carrier: s => chipStep('take', s),
+        stand: () => rockWafer(),
+        disc: () => flipWafer(),
+        pedal: () => pressPedal(),
+        mineral: k => pickMineral(k),
+      },
+      at: {
+        bottle: () => point(lump.jar.children[0], 0, 0.04, 0),
+        lump: () => point(lump.rock),
+        wafer: () => point(line.stage, 0, 0.05, 0),
+        tester: () => point(line.tester, 0, 0.07, 0),
+        pc: () => point(line.pc, 0, 0.17, 0),
+        bin: () => point(line.bin),
+        carrier: s => point(line.spares[s], 0, 0, 0),
+        stand: () => point(wafer.stand, 0, 0.05, 0),
+        disc: () => point(wafer.disc),
+        pedal: () => point(turbo.pedal, 0.05, 0.01, 0),
+        mineral: k => point(rocks.items[k], 0, 0.035, 0),
+      },
+    },
     shared,
     update(dt, t, camera, viewHeight) {
       for (let i = waits.length - 1; i >= 0; i--) {

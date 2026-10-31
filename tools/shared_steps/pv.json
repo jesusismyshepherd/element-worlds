@@ -1,19 +1,29 @@
 {
   "/e/Na/videos": [
-    "() => { __ew.showPanel(__ew.world.panels.bowl); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick() }",
-    "() => { __ew.showPanel(__ew.world.panels.bowl); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[2].onClick() }",
-    "() => __ew.world.interactables.find(i => i.id === 'tin').onUse()",
-    "() => __ew.world.interactables.find(i => i.id === 'window').onUse()"
+    "() => __ew.world.parts.tap.lump('large')",
+    "() => __ew.world.parts.tap.tin()",
+    "() => __ew.world.parts.tap.knife()",
+    "() => __ew.world.parts.tap.window()",
+    "() => __ew.world.parts.tap.lamp()",
+    "() => __ew.world.parts.tap.knife()",
+    "() => { __ew.showPanel(__ew.world.panels.lamp); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => __ew.world.parts.tap.indicator()",
+    "() => __ew.world.parts.tap.lump('small')"
   ],
   "/e/Si/videos": [
-    "() => __ew.world.interactables.find(i => i.id === 'lump').onUse()",
-    "() => __ew.world.interactables.find(i => i.id === 'chips').onUse()",
-    "() => __ew.world.interactables.find(i => i.id === 'chips').onUse()",
-    "() => { __ew.showPanel(__ew.world.panels.chips); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick() }",
-    "() => __ew.world.interactables.find(i => i.id === 'chips').onUse()",
-    "() => { __ew.showPanel(__ew.world.panels.wafer); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => __ew.world.parts.tap.bottle()",
+    "() => __ew.world.parts.tap.lump()",
+    "() => { __ew.showPanel(__ew.world.panels.lump); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(1.5) }",
+    "() => __ew.world.parts.tap.wafer()",
+    "() => __ew.world.parts.tap.tester()",
+    "() => __ew.world.parts.tap.pc()",
+    "() => __ew.world.parts.tap.carrier('big')",
+    "() => __ew.world.parts.tap.stand()",
+    "() => __ew.world.parts.tap.disc()",
     "() => { __ew.showPanel(__ew.world.panels.wafer); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(0.9) }",
-    "() => { __ew.showPanel(__ew.world.panels.turbo); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
-    "() => __ew.world.interactables.find(i => i.id === 'minerals').onUse()"
+    "() => __ew.world.parts.tap.pedal()",
+    "() => __ew.world.parts.tap.mineral('mica')",
+    "() => __ew.world.parts.tap.mineral('garnet')",
+    "() => { __ew.showPanel(__ew.world.panels.chips); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick() }"
   ]
 }

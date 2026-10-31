@@ -2,12 +2,15 @@
 // (docs/knowledge/periodic-videos.md): the lab and courtyard of lab.js, the element's film on the screen by the
 // courtyard door, and the element's stations (<Symbol>.js), each with "Watch this part": the film opens in the
 // station's own panel at the moment its experiment starts, beside the buttons that do it. Contract:
-// docs/knowledge/adding-a-wing.md. In a room, everyone in the same lab shares its experiments (each
-// <Symbol>.js's `shared`, src/net/shared.js); the film, the panels and the words stay each one's own.
+// docs/knowledge/adding-a-wing.md. Each station's steps are chosen by tapping the things they are about
+// (common/taps.js: the stations get `clickable`; E opens a station's panel, whose buttons do the same).
+// In a room, everyone in the same lab shares its experiments (each <Symbol>.js's `shared`,
+// src/net/shared.js); the film, the panels and the words stay each one's own.
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
 import { arch } from '../../common/props.js'
+import { tapTargets } from '../../common/taps.js'
 import { box, circle } from '../../../engine/collide.js'
 import { atriumPath } from '../../registry.js'
 import { at, fill, exhibitSet, onLevel, fontsReady } from '../noble/kit.js'
@@ -83,8 +86,17 @@ export async function build(ctx, target) {
     return make
   }
 
+  // things worked by hand: a tap on the thing does its step
+  const taps = tapTargets(ctx)
+  /** A station's panel written again after one of its buttons changed what it says, if it is open. */
+  const reopen = make => {
+    if (ctx.store.get().panel?.make === make) ctx.showPanel(make)
+  }
+  // a ray from the eye to a point, for the probes' real taps: __ew.world.onTap(p.rayTo(p.at.knife()))
+  const rayTo = p => new THREE.Ray(ctx.camera.position.clone(), p.clone().sub(ctx.camera.position).normalize())
+
   // the element's stations
-  const st = mod.stations({ ctx, root, el, lang, E, W, ex, say, panel, light })
+  const st = mod.stations({ ctx, root, el, lang, E, W, ex, say, panel, light, clickable: taps.clickable, reopen })
 
   // the screen on the north wall: the whole film, and a chapter per experiment
   const screen = videoScreen({ name: nameOf(el, lang), symbol: sym, Z: el.z, line: W.screen.line, color: COLOR })
@@ -224,8 +236,10 @@ export async function build(ctx, target) {
     interactables: [...ex.list, host],
     doors,
     talk,
-    // for the probes in tools/ (__ew.world.parts.bowl.busy and so on)
-    parts: st.parts,
+    pointAt: taps.pointAt,
+    onTap: taps.onTap,
+    // for the probes in tools/ (__ew.world.parts.bowl.busy, parts.tap.knife(), parts.at.knife() and so on)
+    parts: { ...st.parts, rayTo },
     panels,
     shared: st.shared,
     refresh: () => ex.refresh(),

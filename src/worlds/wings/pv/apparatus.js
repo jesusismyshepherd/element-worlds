@@ -9,6 +9,10 @@ import { particles, flame } from './fx.js'
 
 const ease = v => v * v * (3 - 2 * v)
 
+// a tap's target, larger than a small thing itself: never drawn, but hit by a tap (common/taps.js)
+const HIT = new THREE.MeshBasicMaterial({ visible: false })
+export const hitMesh = geo => new THREE.Mesh(geo, HIT)
+
 /** A metal that shines when freshly cut and goes dull in the air (tarnish 0..1 sets it). */
 function freshMetal() {
   const mat = new THREE.MeshStandardMaterial({ color: '#eef1f5', metalness: 1, roughness: 0.12 })
@@ -26,6 +30,8 @@ function freshMetal() {
 
 // ---- the oil tin: a rod of sodium under oil, lifted onto paper and cut ----
 
+/** lift() takes a rod out of the tin onto the paper (a new one once the last is too short to cut), cut()
+ *  slices its end; `can`, `rod` and `knife` are the things to tap. */
 export function oilTin() {
   const group = new THREE.Group()
   const tinMat = new THREE.MeshStandardMaterial({ color: '#6c6a40', metalness: 0.55, roughness: 0.5, side: THREE.DoubleSide })
@@ -48,7 +54,9 @@ export function oilTin() {
   const oil = new THREE.Mesh(new THREE.CircleGeometry(0.106, 28), new THREE.MeshStandardMaterial({ color: '#b98a2e', transparent: true, opacity: 0.6, roughness: 0.05 }))
   oil.rotation.x = -Math.PI / 2
   oil.position.y = 0.215
-  group.add(tin, bottom, label, oil)
+  const can = new THREE.Group()
+  can.add(tin, bottom, label, oil)
+  group.add(can)
 
   // the rod: crusted white outside; its cut end shines
   const crust = new THREE.MeshStandardMaterial({ color: '#dcd7c8', roughness: 0.95 })
@@ -79,7 +87,10 @@ export function oilTin() {
   blade.position.x = 0.1
   const handle = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.028, 0.02), new THREE.MeshStandardMaterial({ color: '#2a2622', roughness: 0.6 }))
   handle.position.x = -0.06
-  knife.add(blade, handle)
+  // a thin blade lying flat is hard to tap: a larger target round it
+  const knifeHit = hitMesh(new THREE.BoxGeometry(0.36, 0.07, 0.05))
+  knifeHit.position.x = 0.03
+  knife.add(blade, handle, knifeHit)
   const knifeRest = { p: new THREE.Vector3(0.18, 0.012, 0.74), r: new THREE.Euler(Math.PI / 2, 0, 0.3) }
   knife.position.copy(knifeRest.p)
   knife.rotation.copy(knifeRest.r)
@@ -87,15 +98,19 @@ export function oilTin() {
 
   const slices = []
   const fresh = [{ m: endMetal, age: 99 }]
+  // in: the rod in the tin; lift: coming out; out: on the paper; cut: the knife at work
   let phase = 'in'
   let t = 0
-  let length = ROD
   let cut = 0
-  let count = 0 // cuts made, for the others in a room
+  let rods = 0 // rods lifted out of the tin, for the others in a room
+  // the tin holds two kilos: a rod gives this many slices, then the next one comes out
+  const CUTS = 15
+  const SLICE = 0.016
+  const lengthOf = n => ROD - SLICE * n
+  const short = () => slices.length >= CUTS
 
-  // a new rod (the tin holds two kilos), still in the tin
+  // a new rod, still in the tin
   function newRod() {
-    length = ROD
     body.scale.y = 1
     body.position.y = ROD / 2
     for (const s of slices.splice(0)) {
@@ -116,10 +131,10 @@ export function oilTin() {
     const one = { mesh: s, t: 0, n: slices.length }
     slices.push(one)
     fresh.push({ m, age: done ? 99 : 0 })
-    length -= 0.016
+    const length = lengthOf(slices.length)
     body.scale.y = length / ROD
     body.position.y = length / 2
-    rod.position.z = onPaper.p.z + 0.016 * (slices.length)
+    rod.position.z = onPaper.p.z + SLICE * slices.length
     fresh[0].age = done ? 99 : 0
     if (done) {
       one.t = 1
@@ -128,13 +143,25 @@ export function oilTin() {
     }
   }
 
-  function start() {
+  /** Take a rod out of the tin onto the paper: the first, or a new one once the last is too short. */
+  function lift() {
     if (phase === 'lift' || phase === 'cut') return false
-    if (length < 0.12) newRod()
-    phase = phase === 'in' ? 'lift' : 'cut'
+    if (phase === 'out') {
+      if (!short()) return false
+      newRod()
+    }
+    phase = 'lift'
+    t = 0
+    rods++
+    return true
+  }
+
+  /** Cut a slice off the rod lying on the paper. */
+  function cutSlice() {
+    if (phase !== 'out' || short()) return false
+    phase = 'cut'
     t = 0
     cut = 0
-    count++
     return true
   }
 
@@ -146,7 +173,7 @@ export function oilTin() {
       rod.position.y += Math.sin(k * Math.PI) * 0.25
       rod.rotation.x = lerp(inTin.r.x, onPaper.r.x, k)
       if (t >= 1.1) {
-        phase = 'cut'
+        phase = 'out'
         t = 0
       }
     } else if (phase === 'cut') {
@@ -166,7 +193,7 @@ export function oilTin() {
         const k = ease((t - 1.0) / 0.35)
         knife.position.lerpVectors(over, knifeRest.p, k)
         knife.rotation.set(lerp(0, knifeRest.r.x, k), lerp(Math.PI / 2, knifeRest.r.y, k), lerp(0, knifeRest.r.z, k))
-      } else phase = 'idle'
+      } else phase = 'out'
     }
     // a slice tips over and slides aside, showing its fresh face up
     for (const s of slices) {
@@ -186,51 +213,67 @@ export function oilTin() {
   }
   let crustMat = null
   const crustSide = () => (crustMat ??= crust)
+  // the slices on the rod now, a cut under way counted as done (it ends there by itself on every screen)
+  const cutsNow = () => slices.length + (phase === 'cut' && !cut ? 1 : 0)
 
-  return {
+  const api = {
     group,
-    act: start,
+    can,
+    rod,
+    knife,
+    lift,
+    cut: cutSlice,
     update,
     get busy() {
       return phase === 'lift' || phase === 'cut'
+    },
+    /** The rod is still in the tin (none lifted out yet). */
+    get inTin() {
+      return phase === 'in'
+    },
+    /** The rod on the paper has given all its slices: the next comes out of the tin. */
+    get short() {
+      return phase === 'out' && short()
     },
     get cuts() {
       return slices.length
     },
     state() {
-      return { n: count }
+      return { rods, n: cutsNow() }
     },
-    /** Someone else cut: the next slice here too (live; returns true when it played); a newcomer sees
-     *  the rod and its slices as n cuts left them (a new rod after every 15). */
-    setState({ n = 0 } = {}, live = false) {
-      n = Math.max(0, Math.floor(Number(n) || 0))
-      if (n === count) return false
-      if (live && n === count + 1 && start()) return true
-      count = n
+    /** Someone else lifted a rod or cut a slice: it plays here too (live; returns true when it did); a
+     *  newcomer sees the rod and its slices as they are. An older state, { n } (cuts in all, the first
+     *  lifting the rod), is read as the rod it left. */
+    setState(s = {}, live = false) {
+      let n = Math.max(0, Math.floor(Number(s.n) || 0))
+      let r = Math.floor(Number(s.rods))
+      if (!Number.isFinite(r)) {
+        r = n ? Math.ceil(n / CUTS) : 0
+        n = n ? n - CUTS * (r - 1) : 0
+      }
+      r = Math.max(0, r)
+      n = r ? Math.min(n, CUTS) : 0
+      if (r === rods && n === cutsNow()) return false
+      if (live && !api.busy) {
+        if (r === rods + 1 && n === 0 && lift()) return true
+        if (r === rods && n === slices.length + 1 && cutSlice()) return true
+      }
+      // as it stands, at once
+      rods = r
       newRod()
       knife.position.copy(knifeRest.p)
       knife.rotation.copy(knifeRest.r)
       rod.position.copy(inTin.p)
       rod.rotation.copy(inTin.r)
-      if (!n) return false
-      // the same sums as cutting, so the rod comes out as long as it is on the others' screens
-      let len = ROD
-      let onRod = 0
-      for (let i = 0; i < n; i++) {
-        if (len < 0.12) {
-          len = ROD
-          onRod = 0
-        }
-        len -= 0.016
-        onRod++
-      }
+      if (!r) return false
       rod.position.copy(onPaper.p)
       rod.rotation.copy(onPaper.r)
-      for (let i = 0; i < onRod; i++) slice(true)
-      phase = 'idle'
+      for (let i = 0; i < n; i++) slice(true)
+      phase = 'out'
       return false
     },
   }
+  return api
 }
 
 // ---- the courtyard bowl: an alkali metal dropped into water ----
@@ -241,8 +284,10 @@ const LUMPS = {
   large: { r: 0.028, ignite: 2.4, bang: 5.2, life: 6, speed: 0.22, bubbles: 120 },
 }
 
-/** A stoneware bowl of water on a surface. drop(size) starts a reaction (false while one runs);
- *  indicator() turns the water pink once it holds an alkali; on.{ flame, bang, done, pop } are called back. */
+/** A stoneware bowl of water on a surface, three lumps on a tile beside it (`lumps`, to tap) and a bottle
+ *  of indicator (`bottle`). drop(size) carries that lump over and drops it in (false while one runs);
+ *  indicator() lets a drop fall from the dropper and turns the water pink once it holds an alkali;
+ *  on.{ splash, flame, bang, done, pop, pink } are called back. */
 export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} } = {}) {
   const group = new THREE.Group()
   const R = 0.17
@@ -272,6 +317,66 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
     group.add(arm)
   }
 
+  // the three lumps waiting on a white tile, small to large: tap one to drop it in (a fresh one of the
+  // same size is back on the tile once the last has reacted)
+  const tile = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.006, 0.27), new THREE.MeshStandardMaterial({ color: '#f1efe8', roughness: 0.5 }))
+  tile.position.set(0.08, 0.003, -0.37)
+  group.add(tile)
+  const dullMetal = new THREE.MeshStandardMaterial({ color: '#d6d8d2', metalness: 0.55, roughness: 0.42, flatShading: true })
+  const TRAY = { small: -0.28, medium: -0.35, large: -0.445 }
+  const lumps = {}
+  for (const [size, z] of Object.entries(TRAY)) {
+    const r = LUMPS[size].r
+    const geo = new THREE.IcosahedronGeometry(1, 1)
+    const p = geo.attributes.position
+    const v = new THREE.Vector3()
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i)
+      v.multiplyScalar(1 + 0.12 * Math.sin(v.x * 9 + v.y * 5 + r * 300) * Math.cos(v.z * 7))
+      p.setXYZ(i, v.x * 1.15, v.y * 0.8, v.z)
+    }
+    geo.computeVertexNormals()
+    const m = new THREE.Mesh(geo, dullMetal)
+    m.scale.setScalar(r)
+    const hit = hitMesh(new THREE.SphereGeometry(Math.max(0.03, r * 1.5), 10, 8))
+    const g = new THREE.Group()
+    g.add(m, hit)
+    g.position.set(0.08, 0.006 + r * 0.75, z)
+    group.add(g)
+    lumps[size] = g
+  }
+
+  // the indicator (phenolphthalein) in a small brown dropper bottle, on the tongs' far side
+  const bottle = new THREE.Group()
+  const brown = new THREE.MeshStandardMaterial({ color: '#6b3b16', roughness: 0.25, metalness: 0.1, transparent: true, opacity: 0.88 })
+  const bBody = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.024, 0.062, 18), brown)
+  bBody.position.y = 0.031
+  const bLabel = new THREE.Mesh(new THREE.CylinderGeometry(0.0245, 0.0245, 0.026, 18, 1, true), new THREE.MeshStandardMaterial({ color: '#f4f1e6', roughness: 0.8 }))
+  bLabel.position.y = 0.03
+  const bNeck = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.012, 0.012, 12), brown)
+  bNeck.position.y = 0.067
+  // the dropper: a glass tube and a red rubber bulb; it rises, goes over the bowl and lets one drop fall
+  const dropper = new THREE.Group()
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0025, 0.07, 8), new THREE.MeshStandardMaterial({ color: '#e8f0f4', transparent: true, opacity: 0.6, roughness: 0.1 }))
+  tube.position.y = -0.035
+  const bulbTop = new THREE.Mesh(new THREE.SphereGeometry(0.011, 12, 10), new THREE.MeshStandardMaterial({ color: '#7a1f1f', roughness: 0.55 }))
+  bulbTop.scale.y = 1.35
+  bulbTop.position.y = 0.012
+  dropper.add(tube, bulbTop)
+  const DROPPER_HOME = new THREE.Vector3(0, 0.08, 0)
+  dropper.position.copy(DROPPER_HOME)
+  const bottleHit = hitMesh(new THREE.CylinderGeometry(0.04, 0.04, 0.13, 10))
+  bottleHit.position.y = 0.06
+  bottle.add(bBody, bLabel, bNeck, dropper, bottleHit)
+  bottle.position.set(0.04, 0, 0.47)
+  group.add(bottle)
+  const theDrop = new THREE.Mesh(new THREE.SphereGeometry(0.004, 8, 6), new THREE.MeshStandardMaterial({ color: '#f4f8ff', transparent: true, opacity: 0.8, roughness: 0.05 }))
+  theDrop.visible = false
+  group.add(theDrop)
+  // the dropper's way: over the bowl's middle (in the bottle's frame), the drop's fall below it
+  const OVER = new THREE.Vector3(-0.02, 0.32, -0.45)
+  let ind = null
+
   const lumpMetal = new THREE.MeshStandardMaterial({ color: '#e8ecf0', metalness: 1, roughness: 0.15, emissive: '#ff7a1a', emissiveIntensity: 0 })
   const lump = new THREE.Mesh(new THREE.SphereGeometry(1, 18, 12), lumpMetal)
   lump.visible = false
@@ -300,18 +405,29 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
   let drops = 0 // lumps dropped, and the last one's size, for the others in a room
   let last = 'medium'
 
+  // carried from the tile up over the bowl (CARRY s), then let go from the tongs' height
+  const CARRY = 0.6
+  const ABOVE = new THREE.Vector3(0.02, 0.42, 0.04)
+  const from = new THREE.Vector3()
   function drop(size) {
-    if (run) return false
+    if (run || ind) return false
     const L = LUMPS[size] ?? LUMPS.medium
     drops++
     last = LUMPS[size] ? size : 'medium'
-    run = { L, size, t: -0.45, x: 0, z: 0, a: rnd() * 6.28, lit: false, banged: false, popped: false }
+    run = { L, size, t: -0.45 - CARRY, x: 0, z: 0, a: rnd() * 6.28, lit: false, banged: false, popped: false }
+    from.copy(lumps[last].position)
     lump.visible = true
     lump.scale.setScalar(L.r)
-    lump.position.set(0.02, 0.42, 0.04)
+    lump.position.copy(from)
     lumpMetal.emissiveIntensity = 0
     lumpMetal.color.set('#e8ecf0')
     return true
+  }
+
+  // the dropper goes over the bowl and lets one drop fall; the water turns pink where it lands
+  function dropIndicator() {
+    ind = { t: 0, landed: false }
+    theDrop.visible = false
   }
 
   function end() {
@@ -328,7 +444,12 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
       const r = run
       r.t += dt
       const L = r.L
-      if (r.t < 0) {
+      if (r.t < -0.45) {
+        // carried from the tile up over the bowl
+        const k = ease(clamp((r.t + 0.45 + CARRY) / CARRY))
+        lump.position.lerpVectors(from, ABOVE, k)
+        lump.position.y += Math.sin(k * Math.PI) * 0.08
+      } else if (r.t < 0) {
         // falling from the tongs
         const k = ease(clamp(1 + r.t / 0.45))
         lump.position.set(lerp(0.02, 0, k), lerp(0.42, WATER_Y + L.r * 0.4, k), lerp(0.04, 0, k))
@@ -419,6 +540,33 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
       }
       bead.position.set(b.x, b.y, b.z)
     }
+    // the lump being dropped is missing from the tile until it has reacted
+    for (const [size, g] of Object.entries(lumps)) g.visible = !(run && size === (LUMPS[run.size] ? run.size : 'medium'))
+    // the indicator: the dropper rises and goes over the bowl (0.7 s), a drop falls (0.35 s), it goes back
+    if (ind) {
+      ind.t += dt
+      const go = ease(clamp(ind.t / 0.7))
+      const back = ease(clamp((ind.t - 1.25) / 0.6))
+      dropper.position.lerpVectors(DROPPER_HOME, OVER, go * (1 - back))
+      dropper.position.y += Math.sin(go * Math.PI) * 0.05 * (1 - back)
+      if (ind.t >= 0.7 && !ind.landed) {
+        // from the dropper's tip down to the water
+        const k = clamp((ind.t - 0.7) / 0.35)
+        theDrop.visible = true
+        theDrop.position.copy(OVER).add(bottle.position)
+        theDrop.position.y = lerp(OVER.y - 0.075, WATER_Y, k * k)
+        if (k >= 1) {
+          ind.landed = true
+          theDrop.visible = false
+          pinkTo = 1
+          on.pink?.()
+        }
+      }
+      if (ind.t >= 1.85) {
+        dropper.position.copy(DROPPER_HOME)
+        ind = null
+      }
+    }
     if (flash) flash.intensity *= Math.exp(-dt * 9)
     jolt *= Math.exp(-dt * 8)
     bowl.position.y = jolt * 0.01 * Math.sin(t * 60)
@@ -432,36 +580,46 @@ export function courtyardBowl({ light = false, flameColor = '#ffb21e', on = {} }
 
   return {
     group,
+    lumps,
+    bottle,
     drop,
+    /** A drop of indicator: false before any lump has reacted, once it is pink, or while something runs. */
     indicator() {
-      if (!used || pinkTo) return false
-      pinkTo = 1
+      if (!used || pinkTo || ind || run) return false
+      dropIndicator()
       return true
     },
     update,
     get busy() {
-      return !!run
+      return !!run || !!ind
+    },
+    /** A lump is on the water, fizzing. */
+    get fizzing() {
+      return !!run && run.t > 0
     },
     get used() {
       return used
     },
     get pink() {
-      return pinkTo > 0
+      return pinkTo > 0 || !!ind
     },
     state() {
-      return { n: drops, size: last, pink: pinkTo > 0 }
+      return { n: drops, size: last, pink: pinkTo > 0 || !!ind }
     },
-    /** Someone else dropped a lump (live: it falls here too; returns true when it did) or turned the water
-     *  pink; a newcomer finds the water as it is. */
+    /** Someone else dropped a lump (live: it falls here too; returns true when it did) or added the
+     *  indicator (live: the drop falls here too); a newcomer finds the water as it is. */
     setState({ n = 0, size, pink: p = false } = {}, live = false) {
       n = Math.max(0, Math.floor(Number(n) || 0))
       const played = live && n === drops + 1 && !!LUMPS[size] && drop(size)
       drops = n
       if (LUMPS[size]) last = size
       if (n > 0 && !played) used = true
-      if (p && !pinkTo) {
-        pinkTo = 1
-        if (!live) pinkness = 1
+      if (p && !pinkTo && !ind) {
+        if (live && !run) dropIndicator()
+        else {
+          pinkTo = 1
+          if (!live) pinkness = 1
+        }
       }
       return played
     },
@@ -489,15 +647,18 @@ export function saltWindow({ light = false } = {}) {
   tube.rotation.z = Math.PI / 2
   tube.position.set(-0.08, 0.1, 0)
   const dark = new THREE.MeshStandardMaterial({ color: '#2b2e35', roughness: 0.6 })
+  // the cell, the thing to tap (the lattice rising above it is not)
+  const cell = new THREE.Group()
+  group.add(cell)
   for (const x of [-0.13, -0.03]) {
     const sup = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.045, 0.08), dark)
     sup.position.set(x, 0.022, 0)
-    group.add(sup)
+    cell.add(sup)
   }
   const plateMat = new THREE.MeshStandardMaterial({ color: '#eef6ff', transparent: true, opacity: 0.38, roughness: 0.04, metalness: 0.1 })
   const plate = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.16, 0.16), plateMat)
   plate.position.set(0.006, 0.1, 0)
-  group.add(tube, plate)
+  cell.add(tube, plate)
 
   const crackMat = new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#cfe3ff', emissiveIntensity: 0.4, roughness: 0.5 })
   const cracks = CRACKS.map(([[u0, v0], [u1, v1]]) => {
@@ -564,6 +725,8 @@ export function saltWindow({ light = false } = {}) {
   }
   api = {
     group,
+    cell,
+    /** Crack the window, or put in a new one once it has cracked. */
     act() {
       if (state === 'whole') {
         state = 'cracked'
@@ -616,6 +779,23 @@ export function saltLamp({ light = false } = {}) {
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.05, 0.17), new THREE.MeshStandardMaterial({ color: '#6b4a2e', roughness: 0.7 }))
   base.position.y = 0.025
   group.add(rock, base)
+  // its cord runs to a switch lying on the table in front, then over the edge
+  const cordMat = new THREE.MeshStandardMaterial({ color: '#f2eee4', roughness: 0.6 })
+  const cord = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([[0.07, 0.012, 0.04], [0.11, 0.005, 0.07], [0.15, 0.008, 0.09], [0.22, 0.004, 0.13], [0.3, 0.004, 0.15], [0.32, -0.3, 0.16]].map(a => new THREE.Vector3(...a))), 40, 0.0035, 6), cordMat)
+  const switchBox = new THREE.Group()
+  const shell = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.02, 0.032), cordMat)
+  shell.position.y = 0.01
+  // the rocker tips one way for on, the other for off; a small orange window shows it on
+  const rocker = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.008, 0.02), new THREE.MeshStandardMaterial({ color: '#3a3530', roughness: 0.5 }))
+  rocker.position.y = 0.022
+  const pilot = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.003, 0.012), new THREE.MeshStandardMaterial({ color: '#5a3a20', emissive: '#ff8a2e', emissiveIntensity: 0 }))
+  pilot.position.set(-0.021, 0.0205, 0)
+  const switchHit = hitMesh(new THREE.BoxGeometry(0.09, 0.05, 0.07))
+  switchHit.position.y = 0.02
+  switchBox.add(shell, rocker, pilot, switchHit)
+  switchBox.position.set(0.15, 0, 0.09)
+  switchBox.rotation.y = -0.5
+  group.add(cord, switchBox)
   const bulb = light ? null : new THREE.PointLight('#ff9a52', 0, 4, 2)
   if (bulb) {
     bulb.position.y = 0.3
@@ -625,6 +805,8 @@ export function saltLamp({ light = false } = {}) {
   let k = 0
   return {
     group,
+    rock,
+    switcher: switchBox,
     act() {
       on = !on
       return on
@@ -644,6 +826,8 @@ export function saltLamp({ light = false } = {}) {
     },
     update(dt) {
       k += ((on ? 1 : 0) - k) * Math.min(1, dt * 4)
+      rocker.rotation.z += ((on ? 0.28 : -0.28) - rocker.rotation.z) * Math.min(1, dt * 18)
+      pilot.material.emissiveIntensity = on ? 2 : 0
       mat.emissiveIntensity = 1.5 * k
       if (bulb) bulb.intensity = 3.2 * k
     },

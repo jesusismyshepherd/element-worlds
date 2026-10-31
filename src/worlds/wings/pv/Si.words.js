@@ -32,6 +32,9 @@ export const SI_WORDS = {
       label: 'The silicon lump',
       take: 'Take it out',
       turn: 'Turn it in the light',
+      spin: 'Give it a spin',
+      slider: 'Turn it',
+      hints: { take: 'Tap the bottle to take the lump out', spin: 'Tap the lump to spin it in the light' },
       title: 'Silicon from sand',
       says: { kid: 'Look how it glitters! Every sparkle is a crystal of its own.', sci: 'Polycrystalline: many small crystals, each catching the light at its own angle.' },
       panel: {
@@ -50,8 +53,13 @@ export const SI_WORDS = {
       cut: 'Cut the wafer',
       test: 'Test the chips',
       sort: 'Sort them',
-      again: 'Take the next wafer',
-      working: 'Working',
+      hints: {
+        cut: 'Tap the wafer to cut it into chips',
+        test: 'Tap the tester to test the chips',
+        sort: 'Tap the computer to sort the chips',
+        next: 'Tap a new wafer on the wall: 20 or 30 cm',
+        working: 'Watch the chips',
+      },
       title: 'Making chips',
       buttons: { small: 'A 20 cm wafer', big: 'A 30 cm wafer' },
       says: {
@@ -75,6 +83,8 @@ export const SI_WORDS = {
       label: 'The wafer',
       flip: 'Turn it over',
       tilt: 'Tilt',
+      rock: 'Rock it',
+      hints: { rock: 'Tap the stand to rock the wafer under the lamp', flip: 'Tap the wafer to turn it over', back: 'Tap the wafer to turn it back' },
       title: 'A rainbow on a chip',
       says: {
         front: { kid: 'Tilt it: a rainbow!', sci: "Diffraction from the circuits' repeating patterns." },
@@ -94,6 +104,7 @@ export const SI_WORDS = {
     turbo: {
       label: 'The turbocharger',
       press: 'Press the pedal',
+      hints: { press: 'Tap the pedal to race the wheels', watch: 'Watch the dials' },
       title: 'A wheel of silicon nitride',
       steel: 'Steel',
       ceramic: 'Silicon nitride',
@@ -111,7 +122,14 @@ export const SI_WORDS = {
     },
     minerals: {
       label: 'The minerals',
-      look: 'Look at the next one',
+      hints: {
+        first: 'Tap a mineral to pick it up',
+        quartz: 'Now tap the quartz crystals',
+        mica: 'Now tap the mica',
+        feldspar: 'Now tap the pink feldspar',
+        garnet: 'Now tap the red garnet',
+        all: 'Tap any of them to look again',
+      },
       title: 'Sand, rock and silicates',
       names: { quartz: 'Quartz', mica: 'Mica', feldspar: 'Feldspar', garnet: 'Garnet' },
       says: {
@@ -123,7 +141,7 @@ export const SI_WORDS = {
       panel: {
         kid: [
           'Most rocks are made of silicates: silicon and oxygen joined with metals. Quartz, mica, feldspar and garnet are all silicates, and sand is mostly crushed quartz.',
-          'Use the table again to look at each one.',
+          'Tap each one to pick it up and look at it.',
         ],
         sci: [
           'In every silicate the basic piece is the SiO4 tetrahedron: one silicon among four oxygens. How the tetrahedra share their corners decides the mineral: alone (garnet), in sheets (mica), or in a framework (quartz, feldspar).',
@@ -162,6 +180,9 @@ export const SI_WORDS = {
       label: 'O pedaço de silício',
       take: 'Tirá-lo',
       turn: 'Rodá-lo à luz',
+      spin: 'Pô-lo a girar',
+      slider: 'Rodá-lo',
+      hints: { take: 'Toca no frasco para tirares o pedaço', spin: 'Toca no pedaço para o pores a girar à luz' },
       title: 'Silício a partir da areia',
       says: { kid: 'Olha como brilha! Cada cintilação é um cristal só seu.', sci: 'Policristalino: muitos cristais pequenos, cada um a apanhar a luz no seu ângulo.' },
       panel: {
@@ -180,8 +201,13 @@ export const SI_WORDS = {
       cut: 'Cortar a bolacha',
       test: 'Testar os chips',
       sort: 'Separá-los',
-      again: 'Pegar na bolacha seguinte',
-      working: 'A trabalhar',
+      hints: {
+        cut: 'Toca na bolacha para a cortares em chips',
+        test: 'Toca no testador para testares os chips',
+        sort: 'Toca no computador para separares os chips',
+        next: 'Toca numa bolacha nova na parede: 20 ou 30 cm',
+        working: 'Olha para os chips',
+      },
       title: 'Fazer chips',
       buttons: { small: 'Uma bolacha de 20 cm', big: 'Uma bolacha de 30 cm' },
       says: {
@@ -205,6 +231,8 @@ export const SI_WORDS = {
       label: 'A bolacha',
       flip: 'Virá-la',
       tilt: 'Inclinar',
+      rock: 'Baloiçá-la',
+      hints: { rock: 'Toca no pé para baloiçares a bolacha debaixo do candeeiro', flip: 'Toca na bolacha para a virares', back: 'Toca na bolacha para a voltares a virar' },
       title: 'Um arco-íris num chip',
       says: {
         front: { kid: 'Inclina-a: um arco-íris!', sci: 'Difração nos padrões repetidos dos circuitos.' },
@@ -224,6 +252,7 @@ export const SI_WORDS = {
     turbo: {
       label: 'O turbocompressor',
       press: 'Carregar no pedal',
+      hints: { press: 'Toca no pedal para pores as rodas a correr', watch: 'Olha para os mostradores' },
       title: 'Uma roda de nitreto de silício',
       steel: 'Aço',
       ceramic: 'Nitreto de silício',
@@ -241,7 +270,14 @@ export const SI_WORDS = {
     },
     minerals: {
       label: 'Os minerais',
-      look: 'Ver o seguinte',
+      hints: {
+        first: 'Toca num mineral para o levantares',
+        quartz: 'Agora toca nos cristais de quartzo',
+        mica: 'Agora toca na mica',
+        feldspar: 'Agora toca no feldspato cor-de-rosa',
+        garnet: 'Agora toca na granada vermelha',
+        all: 'Toca em qualquer um para o veres outra vez',
+      },
       title: 'Areia, rocha e silicatos',
       names: { quartz: 'Quartzo', mica: 'Mica', feldspar: 'Feldspato', garnet: 'Granada' },
       says: {
@@ -253,7 +289,7 @@ export const SI_WORDS = {
       panel: {
         kid: [
           'A maior parte das rochas é feita de silicatos: silício e oxigénio juntos com metais. O quartzo, a mica, o feldspato e a granada são todos silicatos, e a areia é sobretudo quartzo moído.',
-          'Usa a mesa outra vez para ver cada um.',
+          'Toca em cada um para o levantares e o veres de perto.',
         ],
         sci: [
           'Em todos os silicatos a peça base é o tetraedro SiO4: um silício entre quatro oxigénios. A forma como os tetraedros partilham os vértices decide o mineral: isolados (granada), em folhas (mica) ou numa estrutura tridimensional (quartzo, feldspato).',
@@ -292,6 +328,9 @@ export const SI_WORDS = {
       label: 'Bryłka krzemu',
       take: 'Wyjmij ją',
       turn: 'Obróć ją w świetle',
+      spin: 'Zakręć nią',
+      slider: 'Obróć ją',
+      hints: { take: 'Dotknij butelki, żeby wyjąć bryłkę', spin: 'Dotknij bryłki, żeby zakręcić nią w świetle' },
       title: 'Krzem z piasku',
       says: { kid: 'Zobacz, jak się mieni! Każdy błysk to osobny kryształ.', sci: 'Polikrystaliczny: wiele małych kryształów, każdy łapie światło pod swoim kątem.' },
       panel: {
@@ -310,8 +349,13 @@ export const SI_WORDS = {
       cut: 'Potnij wafel',
       test: 'Przetestuj chipy',
       sort: 'Posortuj je',
-      again: 'Weź następny wafel',
-      working: 'Pracuję',
+      hints: {
+        cut: 'Dotknij wafla, żeby pociąć go na chipy',
+        test: 'Dotknij testera, żeby sprawdzić chipy',
+        sort: 'Dotknij komputera, żeby posortować chipy',
+        next: 'Dotknij nowego wafla na ścianie: 20 albo 30 cm',
+        working: 'Patrz na chipy',
+      },
       title: 'Robienie chipów',
       buttons: { small: 'Wafel 20 cm', big: 'Wafel 30 cm' },
       says: {
@@ -335,6 +379,8 @@ export const SI_WORDS = {
       label: 'Wafel',
       flip: 'Odwróć go',
       tilt: 'Przechyl',
+      rock: 'Zakołysz nim',
+      hints: { rock: 'Dotknij podstawki, żeby zakołysać waflem pod lampą', flip: 'Dotknij wafla, żeby go odwrócić', back: 'Dotknij wafla, żeby odwrócić go z powrotem' },
       title: 'Tęcza na chipie',
       says: {
         front: { kid: 'Przechyl go: tęcza!', sci: 'Dyfrakcja na powtarzających się wzorach obwodów.' },
@@ -354,6 +400,7 @@ export const SI_WORDS = {
     turbo: {
       label: 'Turbosprężarka',
       press: 'Wciśnij pedał',
+      hints: { press: 'Dotknij pedału, żeby koła ruszyły w wyścig', watch: 'Patrz na wskaźniki' },
       title: 'Koło z azotku krzemu',
       steel: 'Stal',
       ceramic: 'Azotek krzemu',
@@ -371,7 +418,14 @@ export const SI_WORDS = {
     },
     minerals: {
       label: 'Minerały',
-      look: 'Zobacz następny',
+      hints: {
+        first: 'Dotknij minerału, żeby go podnieść',
+        quartz: 'Teraz dotknij kryształów kwarcu',
+        mica: 'Teraz dotknij miki',
+        feldspar: 'Teraz dotknij różowego skalenia',
+        garnet: 'Teraz dotknij czerwonego granatu',
+        all: 'Dotknij dowolnego, żeby obejrzeć go jeszcze raz',
+      },
       title: 'Piasek, skały i krzemiany',
       names: { quartz: 'Kwarc', mica: 'Mika', feldspar: 'Skaleń', garnet: 'Granat' },
       says: {
@@ -383,7 +437,7 @@ export const SI_WORDS = {
       panel: {
         kid: [
           'Większość skał składa się z krzemianów: krzemu i tlenu połączonych z metalami. Kwarc, mika, skaleń i granat to krzemiany, a piasek to głównie pokruszony kwarc.',
-          'Użyj stołu jeszcze raz, żeby obejrzeć każdy.',
+          'Dotknij każdego, żeby go podnieść i obejrzeć.',
         ],
         sci: [
           'W każdym krzemianie podstawowym klockiem jest tetraedr SiO4: jeden krzem wśród czterech tlenów. To, jak tetraedry dzielą naroża, decyduje o minerale: osobno (granat), w warstwach (mika) albo w szkielecie (kwarc, skaleń).',
@@ -422,6 +476,9 @@ export const SI_WORDS = {
       label: 'Der Siliciumbrocken',
       take: 'Herausnehmen',
       turn: 'Im Licht drehen',
+      spin: 'Drehen lassen',
+      slider: 'Drehen',
+      hints: { take: 'Tippe auf die Flasche, um den Brocken herauszunehmen', spin: 'Tippe auf den Brocken, um ihn im Licht zu drehen' },
       title: 'Silicium aus Sand',
       says: { kid: 'Schau, wie er glitzert! Jedes Funkeln ist ein eigener Kristall.', sci: 'Polykristallin: viele kleine Kristalle, jeder fängt das Licht in seinem eigenen Winkel.' },
       panel: {
@@ -440,8 +497,13 @@ export const SI_WORDS = {
       cut: 'Den Wafer zerschneiden',
       test: 'Die Chips prüfen',
       sort: 'Sortieren',
-      again: 'Den nächsten Wafer nehmen',
-      working: 'Läuft',
+      hints: {
+        cut: 'Tippe auf den Wafer, um ihn in Chips zu zerschneiden',
+        test: 'Tippe auf das Prüfgerät, um die Chips zu prüfen',
+        sort: 'Tippe auf den Computer, um die Chips zu sortieren',
+        next: 'Tippe auf einen neuen Wafer an der Wand: 20 oder 30 cm',
+        working: 'Schau den Chips zu',
+      },
       title: 'Chips machen',
       buttons: { small: 'Ein 20-cm-Wafer', big: 'Ein 30-cm-Wafer' },
       says: {
@@ -465,6 +527,8 @@ export const SI_WORDS = {
       label: 'Der Wafer',
       flip: 'Umdrehen',
       tilt: 'Kippen',
+      rock: 'Schaukeln',
+      hints: { rock: 'Tippe auf den Ständer, um den Wafer unter der Lampe zu schaukeln', flip: 'Tippe auf den Wafer, um ihn umzudrehen', back: 'Tippe auf den Wafer, um ihn zurückzudrehen' },
       title: 'Ein Regenbogen auf dem Chip',
       says: {
         front: { kid: 'Kipp ihn: ein Regenbogen!', sci: 'Beugung an den sich wiederholenden Mustern der Schaltkreise.' },
@@ -484,6 +548,7 @@ export const SI_WORDS = {
     turbo: {
       label: 'Der Turbolader',
       press: 'Aufs Pedal treten',
+      hints: { press: 'Tippe auf das Pedal, damit die Räder um die Wette drehen', watch: 'Schau auf die Anzeigen' },
       title: 'Ein Rad aus Siliciumnitrid',
       steel: 'Stahl',
       ceramic: 'Siliciumnitrid',
@@ -501,7 +566,14 @@ export const SI_WORDS = {
     },
     minerals: {
       label: 'Die Minerale',
-      look: 'Das nächste ansehen',
+      hints: {
+        first: 'Tippe auf ein Mineral, um es hochzuheben',
+        quartz: 'Tippe jetzt auf die Quarzkristalle',
+        mica: 'Tippe jetzt auf den Glimmer',
+        feldspar: 'Tippe jetzt auf den rosa Feldspat',
+        garnet: 'Tippe jetzt auf den roten Granat',
+        all: 'Tippe auf irgendeines, um es dir noch einmal anzusehen',
+      },
       title: 'Sand, Gestein und Silikate',
       names: { quartz: 'Quarz', mica: 'Glimmer', feldspar: 'Feldspat', garnet: 'Granat' },
       says: {
@@ -513,7 +585,7 @@ export const SI_WORDS = {
       panel: {
         kid: [
           'Die meisten Gesteine bestehen aus Silikaten: Silicium und Sauerstoff mit Metallen. Quarz, Glimmer, Feldspat und Granat sind alles Silikate, und Sand ist meist zerriebener Quarz.',
-          'Benutze den Tisch noch einmal, um dir jedes anzusehen.',
+          'Tippe auf jedes, um es hochzuheben und anzusehen.',
         ],
         sci: [
           'In jedem Silikat ist der Grundbaustein das SiO4-Tetraeder: ein Silicium zwischen vier Sauerstoffen. Wie die Tetraeder ihre Ecken teilen, entscheidet über das Mineral: einzeln (Granat), in Schichten (Glimmer) oder als Gerüst (Quarz, Feldspat).',
