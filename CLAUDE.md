@@ -59,7 +59,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   `ew_003_room_worlds.sql` (the rooms' worlds kept): the `ew_` tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
   `src/pages/Stats.jsx` + `src/stats/`: the family dashboard at `/stats` (password or an admin account;
   English only).
-- `.claude/skills/element-wing/`: the steps for building an element's wing.
+- `.claude/skills/element-wing/`: the steps for building an element's wing. `docs/agents/`: the briefs
+  for agents that do a hall's boards and its picture rooms (`hall-boards.md`, the pipeline).
 - `scripts/build-elements.mjs` (`npm run data`): `scripts/data/` raw sources -> `src/data/elements.json`,
   with the fixes to the sources (discovery years by one rule, discoverers, spellings).
   `scripts/data/export_mendeleev.py` refreshes `mendeleev.json` (venv in `scripts/data/.venv`).

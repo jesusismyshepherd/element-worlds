@@ -107,6 +107,16 @@ pictures (look at each one rendered, and at a contact sheet of all seven), then 
 2026-10-30: a picture on a wall always means you can step in): design the picture and its room together
 (`picture-rooms.md`).
 
+The pipeline since hydrogen and iron (2026-10-31), so a hall never shows a picture without its room:
+1. One agent per element (`docs/agents/hall-boards-brief.md`): the seven stories, pictures and the
+   showpiece on its own branch, plus a room design per picture in the scratchpad (`<Symbol>_rooms.md`).
+2. Seven room builders (`docs/agents/picture-room-brief.md`, one file per room, a short prompt pointing
+   to it), each merging the boards branch into its worktree first, then building its room from the design.
+3. The session merges the boards branch and the seven rooms into main together, reviews each room's
+   shots, adds the steps (`tools/shared_steps/pictures.json`) and the docs, and pushes.
+Two elements at a time keep the machine's memory in hand (seven room builders and two more agents ran
+with about 8 GB free).
+
 Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
 `tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`
 renders them and a contact sheet with the titles on the caption band. Traps met with sodium's:
