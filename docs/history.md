@@ -28,8 +28,13 @@ and the user's requests behind them. Add a line here when a piece of work change
 - The family studio on the game's own site (`/studio`; the user: share it with Artur, who has no Claude
   account, and know who made each input): the backlog for anyone with the link, ideas, notes and verdicts
   from signed-in family accounts kept under their names (`supabase/ew_004_studio.sql`), Claude's answers
-  under them (`update-dashboard.md`). Each built card shows the tokens its agents used
-  (`tools/studio_tokens.py`).
+  under them (`update-dashboard.md`). Each built card shows the tokens its agents used.
+- What it cost (the user: "I want to always see the cost effectiveness of the models chosen, Sonnet, Opus,
+  and thinking, high, extra, max"): the claude.ai studio shows each built piece's list-price dollars, its
+  model and effort, working time, how many rooms or passages it made and the dollars for each, the agents'
+  tokens of each kind, and five stars to rate it; a section compares models and effort levels on the same
+  kind of work. The main session's planning and checking is counted with the piece it finished; cards from
+  29 October on were filled from the transcripts (`tools/studio_cost.py`, `update-dashboard.md`).
 - Iron's hall: seven pictures and a showpiece (an iron meteorite sawn and etched to show its crystal
   pattern, the slice beside it, a polished cube of pure iron), each picture with its room: the Hoba
   meteorite and Tutankhamun's dagger, a research ship over the Atlantic and the Earth's iron dynamo, an Iron

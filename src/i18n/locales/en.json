@@ -564,7 +564,7 @@
       "tokens_one": "{{total}} tokens · {{written}} written · {{count}} agent",
       "tokens_other": "{{total}} tokens · {{written}} written · {{count}} agents",
       "noTokens": "Tokens: not recorded",
-      "tokensNote": "Tokens are what the agents that built each piece used, rereading included; the session that planned and checked their work is not counted. Since 29 October: {{total}} tokens.",
+      "tokensNote": "Tokens are what the agents that built each piece used, rereading included; the main session's share of planning and checking is counted with them. Since 29 October: {{total}} tokens.",
       "open": "Open"
     },
     "decided": {

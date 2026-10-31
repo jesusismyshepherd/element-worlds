@@ -564,7 +564,7 @@
       "tokens_one": "{{total}} tokens · {{written}} escritos · {{count}} agente",
       "tokens_other": "{{total}} tokens · {{written}} escritos · {{count}} agentes",
       "noTokens": "Tokens: não registados",
-      "tokensNote": "Os tokens são o que os agentes que construíram cada peça usaram, releituras incluídas; a sessão que planeou e verificou o trabalho deles não conta. Desde 29 de outubro: {{total}} tokens.",
+      "tokensNote": "Os tokens são o que os agentes que construíram cada peça usaram, releituras incluídas; a parte da sessão principal que planeou e verificou o trabalho deles também conta. Desde 29 de outubro: {{total}} tokens.",
       "open": "Abrir"
     },
     "decided": {

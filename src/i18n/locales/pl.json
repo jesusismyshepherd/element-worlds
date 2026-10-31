@@ -603,7 +603,7 @@
       "tokens_many": "{{total}} tokenów · {{written}} wygenerowanych · agenci: {{count}}",
       "tokens_other": "{{total}} tokenów · {{written}} wygenerowanych · agenci: {{count}}",
       "noTokens": "Tokeny: nie zapisano",
-      "tokensNote": "Tokeny to tyle, ile zużyli agenci, którzy zbudowali każdą część, razem z ponownym czytaniem; sesja, która planowała i sprawdzała ich pracę, nie jest liczona. Od 29 października: {{total}} tokenów.",
+      "tokensNote": "Tokeny to tyle, ile zużyli agenci, którzy zbudowali każdą część, razem z ponownym czytaniem; doliczona jest też część głównej sesji, która planowała i sprawdzała ich pracę. Od 29 października: {{total}} tokenów.",
       "open": "Otwórz"
     },
     "decided": {

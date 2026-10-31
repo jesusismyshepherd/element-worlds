@@ -43,3 +43,19 @@ test('the queue names items that wait to be built, each with its reason', () => 
 test('the words the user reads have no em dashes', () => {
   assert.ok(!JSON.stringify(backlog).includes(String.fromCharCode(0x2014)))
 })
+
+test('each built piece has its own id, and what it cost adds up (tools/studio_cost.py)', () => {
+  const ids = backlog.built.map(b => b.id)
+  assert.equal(new Set(ids).size, ids.length, 'built ids are unique (the studio keeps your stars by id)')
+  for (const b of backlog.built) {
+    assert.match(b.id ?? '', /^[a-z0-9-]+$/, b.title)
+    if (b.size) assert.ok(Number.isInteger(b.size.n) && b.size.n > 0 && ['room', 'passage', 'hall', 'feature'].includes(b.size.unit), b.title)
+    if (b.revisions != null) assert.ok(Number.isInteger(b.revisions) && b.revisions >= 0, b.title)
+    const t = b.tokens
+    if (t?.usd == null) continue
+    assert.ok(b.size, `${b.title}: a costed piece says how many of its kind it made`)
+    const parts = (t.per_agent ?? []).reduce((n, a) => n + a.usd, 0) + (t.main?.usd ?? 0)
+    assert.ok(Math.abs(parts - t.usd) < 0.05 * t.usd + 0.05, `${b.title}: agents and main session make the total`)
+    assert.ok(t.configs.length > 0 && t.configs.every(c => c.model && 'effort' in c), b.title)
+  }
+})

@@ -567,7 +567,7 @@
       "tokens_one": "{{total}} Tokens · {{written}} geschrieben · {{count}} Agent",
       "tokens_other": "{{total}} Tokens · {{written}} geschrieben · {{count}} Agenten",
       "noTokens": "Tokens: nicht erfasst",
-      "tokensNote": "Tokens sind das, was die Agenten verbraucht haben, die jedes Stück gebaut haben, erneutes Lesen eingeschlossen; die Sitzung, die ihre Arbeit geplant und geprüft hat, zählt nicht mit. Seit dem 29. Oktober: {{total}} Tokens.",
+      "tokensNote": "Tokens sind das, was die Agenten verbraucht haben, die jedes Stück gebaut haben, erneutes Lesen eingeschlossen; der Anteil der Hauptsitzung, die ihre Arbeit geplant und geprüft hat, zählt mit. Seit dem 29. Oktober: {{total}} Tokens.",
       "open": "Öffnen"
     },
     "decided": {

@@ -113,7 +113,8 @@
         "Each element's Periodic Videos video and its own story in the game are the research notes; every number comes from the game's data.",
         "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples.",
         "Hydrogen done (2026-10-31): seven pictures, each a room: the young universe cooling into the first atoms, Charles's balloon over the Tuileries in 1783, a pond at a skater's size, a hydrogen filling station by a railway, Cavendish's laboratory where fire makes water, a gondola sinking into Jupiter, the Dwingeloo dish listening for the 21 cm line; its showpiece a spectrum tube glowing pink-violet beside a balloon. Each hall in two steps: the boards and room designs, then the rooms (docs/agents/).",
-        "Iron done (2026-10-31): the Hoba meteorite and Tutankhamun's dagger, a research ship over the Earth's iron dynamo, an Iron Age smith, iron pulled from breakfast cereal, the Eiffel Tower's rivets and its top leaning from the sun, Opportunity on Mars, a thermite weld on a railway; its showpiece an etched iron meteorite. Next: krypton's and radon's seven rooms each: their pictures are drawn and their rooms designed (docs/agents/designs/), waiting to go up together with the rooms."
+        "Iron done (2026-10-31): the Hoba meteorite and Tutankhamun's dagger, a research ship over the Earth's iron dynamo, an Iron Age smith, iron pulled from breakfast cereal, the Eiffel Tower's rivets and its top leaning from the sun, Opportunity on Mars, a thermite weld on a railway; its showpiece an etched iron meteorite. Next: krypton's and radon's seven rooms each: their pictures are drawn and their rooms designed (docs/agents/designs/), waiting to go up together with the rooms.",
+        "Model trial (2026-10-31): krypton's rooms built with Sonnet 5.5 at high effort, radon's with Opus 5.5 at xhigh, so \"What it cost\" can compare the two on the same kind of work; your stars on both decide which builds the rooms after that."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -727,18 +728,99 @@
   ],
   "built": [
     {
+      "id": "the-diamond-press-for-two",
       "date": "2026-10-31",
       "title": "The diamond press for two",
       "what": "Carbon's press is a job for two now: one pumps, one works the heater, and the diamond grows only while both are right. Alone you do both; in a room each keeps their job.",
-      "link": "https://element-worlds.vercel.app/e/C/allotropes"
+      "link": "https://element-worlds.vercel.app/e/C/allotropes",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "tokens": {
+        "total": 88716789,
+        "output": 181252,
+        "agents": 0,
+        "usd": 29.21,
+        "requests": 117,
+        "minutes": 51,
+        "input": 240,
+        "cache_write": 1010105,
+        "cache_read": 87525192,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 29.2119
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "4dda8cf0",
+          "usd": 29.21,
+          "requests": 117,
+          "input": 240,
+          "cache_write": 1010105,
+          "cache_read": 87525192,
+          "output": 181252,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 29.2119
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "bible-passages-in-every-place",
       "date": "2026-10-31",
       "title": "Bible passages in every place",
       "what": "46 passages, each about the place it stands in, in the four languages: the NLT for Explorer and the CSB for Scientist in English, and each language's own pair. A verse stone in every hall, one in each wing, the plaza's psalm in the stars behind the table, the lab's and the forges' in their skies, the quiz's and the Atomlings'. Tap one, or press E beside it, for why it is there. Each popup opens its verse in the Bible App, with the whole chapter there.",
-      "link": "https://element-worlds.vercel.app/e/Fe"
+      "link": "https://element-worlds.vercel.app/e/Fe",
+      "size": {
+        "n": 46,
+        "unit": "passage"
+      },
+      "tokens": {
+        "total": 78850459,
+        "output": 246699,
+        "agents": 0,
+        "usd": 25.19,
+        "requests": 195,
+        "minutes": 67,
+        "input": 394,
+        "cache_write": 581515,
+        "cache_read": 78021851,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 25.192
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "4dda8cf0",
+          "usd": 25.19,
+          "requests": 195,
+          "input": 394,
+          "cache_write": 581515,
+          "cache_read": 78021851,
+          "output": 246699,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 25.192
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "the-family-studio-on-the",
       "date": "2026-10-31",
       "title": "The family studio on the game's site",
       "what": "This studio at element-worlds.vercel.app/studio, for anyone with the link: sign in with your game account (the Pokémon site's works too) to send an idea, a note or a verdict, each kept with who sent it, and Claude answers under it. Each built card now shows the tokens its agents used.",
@@ -747,12 +829,66 @@
         "ac6359ef33126eb42"
       ],
       "tokens": {
-        "total": 14285226,
-        "output": 111028,
-        "agents": 1
+        "total": 19815617,
+        "output": 113048,
+        "agents": 1,
+        "usd": 7.55,
+        "requests": 82,
+        "minutes": 26,
+        "input": 168,
+        "cache_write": 274931,
+        "cache_read": 19427470,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 7.5475
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "ac6359ef33126eb42",
+            "what": "Studio page on the game site",
+            "minutes": 23,
+            "usd": 6.3345,
+            "requests": 74,
+            "input": 152,
+            "cache_write": 266367,
+            "cache_read": 13907679,
+            "output": 111028,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 6.3345
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 1.21,
+          "requests": 8,
+          "input": 16,
+          "cache_write": 8564,
+          "cache_read": 5519791,
+          "output": 2020,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 1.2129
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "feature"
       }
     },
     {
+      "id": "irons-hall-seven-pictures-to",
       "date": "2026-10-31",
       "title": "Iron's hall: seven pictures to step into",
       "what": "A meteorite of 60 tonnes weighed against elephants and Tutankhamun's dagger from the sky, a ship's deck over the Earth's iron core, an Iron Age smith, iron pulled out of cereal with a magnet, the Eiffel Tower's rivet gang, a rover on red Mars, and a railway welded with thermite. In the case, a meteorite sawn and etched to show its crystals.",
@@ -768,12 +904,192 @@
         "af6ba22c624a8d43a"
       ],
       "tokens": {
-        "total": 366795901,
-        "output": 2198019,
-        "agents": 8
+        "total": 418985378,
+        "output": 2260356,
+        "agents": 8,
+        "usd": 167.15,
+        "requests": 1063,
+        "minutes": 189,
+        "input": 2158,
+        "cache_write": 7563082,
+        "cache_read": 409159782,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 167.1508
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a8d1f51621f015af4",
+            "what": "Iron hall boards and room designs",
+            "minutes": 40,
+            "usd": 11.9696,
+            "requests": 103,
+            "input": 206,
+            "cache_write": 425537,
+            "cache_read": 29455417,
+            "output": 197502,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 11.9696
+              }
+            ]
+          },
+          {
+            "id": "a0439bbeb6067bf37",
+            "what": "Iron meteorite room",
+            "minutes": 93,
+            "usd": 25.0626,
+            "requests": 140,
+            "input": 284,
+            "cache_write": 1462853,
+            "cache_read": 55611020,
+            "output": 331249,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 25.0626
+              }
+            ]
+          },
+          {
+            "id": "a4dd377be4563353e",
+            "what": "Iron compass room",
+            "minutes": 92,
+            "usd": 20.3947,
+            "requests": 123,
+            "input": 250,
+            "cache_write": 1155650,
+            "cache_read": 43817943,
+            "output": 292591,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 20.3947
+              }
+            ]
+          },
+          {
+            "id": "a0633b417e70e1578",
+            "what": "Iron smith room",
+            "minutes": 80,
+            "usd": 17.3698,
+            "requests": 112,
+            "input": 226,
+            "cache_write": 749496,
+            "cache_read": 41233427,
+            "output": 268738,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 17.3698
+              }
+            ]
+          },
+          {
+            "id": "a8200445719ef0e04",
+            "what": "Iron cereal room",
+            "minutes": 93,
+            "usd": 20.4944,
+            "requests": 139,
+            "input": 280,
+            "cache_write": 842695,
+            "cache_read": 53168077,
+            "output": 282307,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 20.4944
+              }
+            ]
+          },
+          {
+            "id": "acdd2aabb45397097",
+            "what": "Iron tower room",
+            "minutes": 58,
+            "usd": 19.4377,
+            "requests": 132,
+            "input": 268,
+            "cache_write": 771824,
+            "cache_read": 49588844,
+            "output": 282988,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 19.4377
+              }
+            ]
+          },
+          {
+            "id": "ae27b9e4badd48aa9",
+            "what": "Iron mars room",
+            "minutes": 56,
+            "usd": 15.4176,
+            "requests": 117,
+            "input": 236,
+            "cache_write": 517501,
+            "cache_read": 40248595,
+            "output": 238970,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 15.4176
+              }
+            ]
+          },
+          {
+            "id": "af6ba22c624a8d43a",
+            "what": "Iron rails room",
+            "minutes": 69,
+            "usd": 19.3837,
+            "requests": 125,
+            "input": 252,
+            "cache_write": 874960,
+            "cache_read": 44672041,
+            "output": 303674,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 19.3837
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 17.62,
+          "requests": 72,
+          "input": 156,
+          "cache_write": 762566,
+          "cache_read": 51364418,
+          "output": 62337,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 17.6208
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 7,
+        "unit": "room"
       }
     },
     {
+      "id": "hydrogens-hall-seven-pictures-to",
       "date": "2026-10-31",
       "title": "Hydrogen's hall: seven pictures to step into",
       "what": "The first atoms after the Big Bang, Charles's hydrogen balloon over Paris in 1783, a pond at a pond skater's size, a hydrogen bus and train station, Cavendish making water with a spark, a gondola sinking into Jupiter, and a radio telescope listening to hydrogen's 21 cm whisper. In the case, a spectrum tube glowing pink-violet.",
@@ -789,12 +1105,192 @@
         "a49fb53035485b663"
       ],
       "tokens": {
-        "total": 390048623,
-        "output": 2163455,
-        "agents": 8
+        "total": 421399991,
+        "output": 2190552,
+        "agents": 8,
+        "usd": 160.8,
+        "requests": 1081,
+        "minutes": 155,
+        "input": 2202,
+        "cache_write": 6828729,
+        "cache_read": 412378508,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 160.7974
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "ab48b32047471f676",
+            "what": "Hydrogen hall boards and room designs",
+            "minutes": 40,
+            "usd": 11.9368,
+            "requests": 104,
+            "input": 208,
+            "cache_write": 409298,
+            "cache_read": 29134948,
+            "output": 203126,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 11.9368
+              }
+            ]
+          },
+          {
+            "id": "a60242c983791c666",
+            "what": "Hydrogen bigbang room",
+            "minutes": 91,
+            "usd": 19.4662,
+            "requests": 126,
+            "input": 254,
+            "cache_write": 868895,
+            "cache_read": 45940111,
+            "output": 296632,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 19.4662
+              }
+            ]
+          },
+          {
+            "id": "a9e5b4f4111973ee0",
+            "what": "Hydrogen airship room",
+            "minutes": 88,
+            "usd": 17.1767,
+            "requests": 124,
+            "input": 252,
+            "cache_write": 756312,
+            "cache_read": 41637525,
+            "output": 253333,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 17.1767
+              }
+            ]
+          },
+          {
+            "id": "ac9b43baaad1ca16a",
+            "what": "Hydrogen bond room",
+            "minutes": 109,
+            "usd": 21.0868,
+            "requests": 130,
+            "input": 260,
+            "cache_write": 992856,
+            "cache_read": 49763662,
+            "output": 308437,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 21.0868
+              }
+            ]
+          },
+          {
+            "id": "ad045eb595caf031a",
+            "what": "Hydrogen fuel room",
+            "minutes": 106,
+            "usd": 24.2575,
+            "requests": 144,
+            "input": 294,
+            "cache_write": 1182235,
+            "cache_read": 60335278,
+            "output": 313904,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 24.2575
+              }
+            ]
+          },
+          {
+            "id": "afd3d786da621e982",
+            "what": "Hydrogen cavendish room",
+            "minutes": 111,
+            "usd": 20.1594,
+            "requests": 139,
+            "input": 284,
+            "cache_write": 833242,
+            "cache_read": 54254867,
+            "output": 257052,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 20.1594
+              }
+            ]
+          },
+          {
+            "id": "a5d6229eefe263b38",
+            "what": "Hydrogen jupiter room",
+            "minutes": 74,
+            "usd": 16.8606,
+            "requests": 105,
+            "input": 212,
+            "cache_write": 822702,
+            "cache_read": 38974877,
+            "output": 247564,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.8606
+              }
+            ]
+          },
+          {
+            "id": "a49fb53035485b663",
+            "what": "Hydrogen radio room",
+            "minutes": 108,
+            "usd": 22.1149,
+            "requests": 159,
+            "input": 320,
+            "cache_write": 843794,
+            "cache_read": 61132482,
+            "output": 283407,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 22.1149
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 7.74,
+          "requests": 50,
+          "input": 118,
+          "cache_write": 119395,
+          "cache_read": 31204758,
+          "output": 27097,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 7.7385
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 7,
+        "unit": "room"
       }
     },
     {
+      "id": "the-atom-forge-together",
       "date": "2026-10-31",
       "title": "The Atom Forge together",
       "what": "In a room you all build one atom, each press counted, the others' particles glowing in their colour; or race each other to a mission, each building your own atom, a board showing who is closest.",
@@ -803,12 +1299,66 @@
         "a981e7642bf62844f"
       ],
       "tokens": {
-        "total": 34989559,
-        "output": 200274,
-        "agents": 1
+        "total": 47872635,
+        "output": 219910,
+        "agents": 1,
+        "usd": 16.25,
+        "requests": 144,
+        "minutes": 52,
+        "input": 292,
+        "cache_write": 455732,
+        "cache_read": 47196701,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 16.2499
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a981e7642bf62844f",
+            "what": "Share the Atom Forge in rooms",
+            "minutes": 50,
+            "usd": 12.9397,
+            "requests": 120,
+            "input": 240,
+            "cache_write": 411543,
+            "cache_read": 34377502,
+            "output": 200274,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 12.9397
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 3.31,
+          "requests": 24,
+          "input": 52,
+          "cache_write": 44189,
+          "cache_read": 12819199,
+          "output": 19636,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.3103
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "feature"
       }
     },
     {
+      "id": "the-star-forge",
       "date": "2026-10-31",
       "title": "The Star Forge",
       "what": "Make the elements as the universe did: pick a star, tap its core through its burnings, watch it end as a white dwarf or a supernova, catch neutrons slowly in an old giant and all at once when neutron stars collide, and see the table light up by where each element came from.",
@@ -817,12 +1367,66 @@
         "a49e3904243a2beef"
       ],
       "tokens": {
-        "total": 94921698,
-        "output": 314286,
-        "agents": 1
+        "total": 106302844,
+        "output": 334231,
+        "agents": 1,
+        "usd": 31.13,
+        "requests": 252,
+        "minutes": 88,
+        "input": 512,
+        "cache_write": 651773,
+        "cache_read": 105316328,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 31.1286
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a49e3904243a2beef",
+            "what": "Build the star forge",
+            "minutes": 86,
+            "usd": 28.1458,
+            "requests": 229,
+            "input": 460,
+            "cache_write": 611841,
+            "cache_read": 93995111,
+            "output": 314286,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 28.1458
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 2.98,
+          "requests": 23,
+          "input": 52,
+          "cache_write": 39932,
+          "cache_read": 11321217,
+          "output": 19945,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 2.9828
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "feature"
       }
     },
     {
+      "id": "every-station-worked-by-hand",
       "date": "2026-10-31",
       "title": "Every station worked by hand",
       "what": "In carbon's and oxygen's wings, the neon workshop and the two video labs you now choose each step by tapping its thing (the pump, a gas flask, the fire triangle's side, the oil tin, the knife), with sliders for what changes smoothly. E still opens the panel with the same steps.",
@@ -834,12 +1438,120 @@
         "a8227c3b32621a4c3"
       ],
       "tokens": {
-        "total": 194783403,
-        "output": 692006,
-        "agents": 4
+        "total": 213193336,
+        "output": 727845,
+        "agents": 4,
+        "usd": 66.88,
+        "requests": 679,
+        "minutes": 80,
+        "input": 1386,
+        "cache_write": 1994432,
+        "cache_read": 210469673,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 66.8772
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "ad46f40c25744888f",
+            "what": "Carbon wings: stations by hand",
+            "minutes": 58,
+            "usd": 15.4598,
+            "requests": 179,
+            "input": 368,
+            "cache_write": 537695,
+            "cache_read": 46975668,
+            "output": 168738,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 15.4598
+              }
+            ]
+          },
+          {
+            "id": "a32c7ec5af5999330",
+            "what": "Oxygen wings: stations by hand",
+            "minutes": 78,
+            "usd": 16.955,
+            "requests": 166,
+            "input": 334,
+            "cache_write": 483078,
+            "cache_read": 55138881,
+            "output": 175523,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.955
+              }
+            ]
+          },
+          {
+            "id": "a69345b9c0aa08f83",
+            "what": "Neon workshop: stations by hand",
+            "minutes": 65,
+            "usd": 14.7314,
+            "requests": 143,
+            "input": 286,
+            "cache_write": 449743,
+            "cache_read": 44874252,
+            "output": 175336,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 14.7314
+              }
+            ]
+          },
+          {
+            "id": "a8227c3b32621a4c3",
+            "what": "Video labs: stations by hand",
+            "minutes": 68,
+            "usd": 14.6925,
+            "requests": 149,
+            "input": 300,
+            "cache_write": 441041,
+            "cache_read": 45189751,
+            "output": 172409,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 14.6925
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 5.04,
+          "requests": 42,
+          "input": 98,
+          "cache_write": 82875,
+          "cache_read": 18291121,
+          "output": 35839,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 5.0384
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "feature"
       }
     },
     {
+      "id": "all-seven-of-oxygens-pictures",
       "date": "2026-10-31",
       "title": "All seven of oxygen's pictures are doors: every picture on a wall is one now",
       "what": "Ride a red blood cell from the lung to a muscle; Lavoisier's laboratory and Priestley's burning lens; an Antarctic station where the ozone hole was found and fixed; a sea 2.5 billion years ago rusting into stripes; a bath on a giant balance by a frozen lake; a camp under the northern lights; liquid air, a floating frog and a rocket. Silicon, sodium, carbon and oxygen: 26 rooms.",
@@ -854,12 +1566,174 @@
         "acee351d8e5ac2894"
       ],
       "tokens": {
-        "total": 431394574,
-        "output": 2142174,
-        "agents": 7
+        "total": 452126117,
+        "output": 2195000,
+        "agents": 7,
+        "usd": 179.46,
+        "requests": 1098,
+        "minutes": 121,
+        "input": 2238,
+        "cache_write": 9405607,
+        "cache_read": 440523272,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 179.4611
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a611a49204e4a2ca0",
+            "what": "Build oxygen's breath picture room",
+            "minutes": 108,
+            "usd": 30.7209,
+            "requests": 187,
+            "input": 376,
+            "cache_write": 1200028,
+            "cache_read": 89043525,
+            "output": 345528,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 30.7209
+              }
+            ]
+          },
+          {
+            "id": "a69ffcb9bc4f7a263",
+            "what": "Build oxygen's fire picture room",
+            "minutes": 102,
+            "usd": 25.5715,
+            "requests": 184,
+            "input": 372,
+            "cache_write": 850458,
+            "cache_read": 79053701,
+            "output": 275350,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 25.5715
+              }
+            ]
+          },
+          {
+            "id": "a8e6099e3e24752f6",
+            "what": "Build oxygen's magnet picture room",
+            "minutes": 79,
+            "usd": 21.8072,
+            "requests": 131,
+            "input": 262,
+            "cache_write": 1113487,
+            "cache_read": 52622852,
+            "output": 285708,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 21.8072
+              }
+            ]
+          },
+          {
+            "id": "aec437796fba84348",
+            "what": "Build oxygen's ozone picture room",
+            "minutes": 84,
+            "usd": 28.4119,
+            "requests": 152,
+            "input": 316,
+            "cache_write": 2498347,
+            "cache_read": 46480535,
+            "output": 331142,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 28.4119
+              }
+            ]
+          },
+          {
+            "id": "afb7408b9802c841e",
+            "what": "Build oxygen's first picture room",
+            "minutes": 94,
+            "usd": 19.4239,
+            "requests": 115,
+            "input": 234,
+            "cache_write": 1031471,
+            "cache_read": 42895774,
+            "output": 284321,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 19.4239
+              }
+            ]
+          },
+          {
+            "id": "af0d96cad66f45fc7",
+            "what": "Build oxygen's water picture room",
+            "minutes": 87,
+            "usd": 21.5253,
+            "requests": 115,
+            "input": 234,
+            "cache_write": 1232081,
+            "cache_read": 45006727,
+            "output": 318129,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 21.5253
+              }
+            ]
+          },
+          {
+            "id": "acee351d8e5ac2894",
+            "what": "Build oxygen's aurora picture room",
+            "minutes": 98,
+            "usd": 25.717,
+            "requests": 150,
+            "input": 304,
+            "cache_write": 1339927,
+            "cache_read": 64881389,
+            "output": 301996,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 25.717
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 6.28,
+          "requests": 64,
+          "input": 140,
+          "cache_write": 139808,
+          "cache_read": 20538769,
+          "output": 52826,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 6.2833
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 7,
+        "unit": "room"
       }
     },
     {
+      "id": "all-seven-of-carbons-pictures",
       "date": "2026-10-30",
       "title": "All seven of carbon's pictures are doors",
       "what": "Down to where diamonds are born and up a kimberlite pipe, then a pencil workshop; inside you, inside a leaf, beside a red giant making carbon, an archaeologists' dig dating finds by carbon-14, Smalley's lab where the football molecule was found, and the Mauna Loa observatory with its curve. On an upright phone every station's view now fits its whole width.",
@@ -874,12 +1748,174 @@
         "a7821c076cef98614"
       ],
       "tokens": {
-        "total": 303451363,
-        "output": 1900450,
-        "agents": 7
+        "total": 317541903,
+        "output": 1983966,
+        "agents": 7,
+        "usd": 132.75,
+        "requests": 874,
+        "minutes": 88,
+        "input": 1772,
+        "cache_write": 6082822,
+        "cache_read": 309473343,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 132.7531
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "af4fbada59b8ea831",
+            "what": "Build carbon's twins picture room",
+            "minutes": 63,
+            "usd": 14.7804,
+            "requests": 95,
+            "input": 194,
+            "cache_write": 720951,
+            "cache_read": 32672695,
+            "output": 232019,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 14.7804
+              }
+            ]
+          },
+          {
+            "id": "a2fa897cb89beb698",
+            "what": "Build carbon's you picture room",
+            "minutes": 80,
+            "usd": 23.4998,
+            "requests": 140,
+            "input": 282,
+            "cache_write": 1106386,
+            "cache_read": 59489351,
+            "output": 303444,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 23.4998
+              }
+            ]
+          },
+          {
+            "id": "a180ab054daa884bc",
+            "what": "Build carbon's leaf picture room",
+            "minutes": 67,
+            "usd": 15.4901,
+            "requests": 116,
+            "input": 236,
+            "cache_write": 499060,
+            "cache_read": 41430918,
+            "output": 235385,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 15.4901
+              }
+            ]
+          },
+          {
+            "id": "ae42e1fa25c88d3d0",
+            "what": "Build carbon's stars picture room",
+            "minutes": 75,
+            "usd": 16.5827,
+            "requests": 136,
+            "input": 276,
+            "cache_write": 502337,
+            "cache_read": 47488534,
+            "output": 228608,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.5827
+              }
+            ]
+          },
+          {
+            "id": "ae809e1feb95335d0",
+            "what": "Build carbon's clock picture room",
+            "minutes": 82,
+            "usd": 21.5226,
+            "requests": 104,
+            "input": 208,
+            "cache_write": 1236716,
+            "cache_read": 42754249,
+            "output": 339369,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 21.5226
+              }
+            ]
+          },
+          {
+            "id": "a344f5bc21b2af132",
+            "what": "Build carbon's football picture room",
+            "minutes": 68,
+            "usd": 13.2604,
+            "requests": 94,
+            "input": 190,
+            "cache_write": 490812,
+            "cache_read": 28890931,
+            "output": 251372,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 13.2604
+              }
+            ]
+          },
+          {
+            "id": "a7821c076cef98614",
+            "what": "Build carbon's sky picture room",
+            "minutes": 82,
+            "usd": 21.1742,
+            "requests": 117,
+            "input": 236,
+            "cache_write": 1273934,
+            "cache_read": 42992417,
+            "output": 310253,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 21.1742
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 6.44,
+          "requests": 72,
+          "input": 150,
+          "cache_write": 252626,
+          "cache_read": 13754248,
+          "output": 83516,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 6.4428
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 7,
+        "unit": "room"
       }
     },
     {
+      "id": "all-six-of-sodiums-pictures",
       "date": "2026-10-30",
       "title": "All six of sodium's pictures are doors",
       "what": "Beside a nerve fibre, Aveiro's salt pans, Davy's lab of 1807, a street under sodium lamps, a mountaintop observatory with its laser star, a baking kitchen.",
@@ -893,12 +1929,156 @@
         "a7b0e9107fb196af8"
       ],
       "tokens": {
-        "total": 227154567,
-        "output": 1472068,
-        "agents": 6
+        "total": 250317897,
+        "output": 1528535,
+        "agents": 6,
+        "usd": 103.84,
+        "requests": 673,
+        "minutes": 77,
+        "input": 1378,
+        "cache_write": 4827491,
+        "cache_read": 243960493,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 103.8388
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a9315b25f7962eb8a",
+            "what": "Build sodium's nerves picture room",
+            "minutes": 57,
+            "usd": 15.7756,
+            "requests": 106,
+            "input": 212,
+            "cache_write": 700197,
+            "cache_read": 38324864,
+            "output": 230440,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 15.7756
+              }
+            ]
+          },
+          {
+            "id": "ad9de8026fac017a1",
+            "what": "Build sodium's salt picture room",
+            "minutes": 70,
+            "usd": 20.7817,
+            "requests": 131,
+            "input": 264,
+            "cache_write": 910358,
+            "cache_read": 51003729,
+            "output": 301407,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 20.7817
+              }
+            ]
+          },
+          {
+            "id": "adc2a60541855d202",
+            "what": "Build sodium's Davy 1807 picture room",
+            "minutes": 60,
+            "usd": 14.5812,
+            "requests": 89,
+            "input": 182,
+            "cache_write": 904415,
+            "cache_read": 27742030,
+            "output": 225499,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 14.5812
+              }
+            ]
+          },
+          {
+            "id": "a5dc57a4549da81b0",
+            "what": "Build sodium's street lamps picture room",
+            "minutes": 73,
+            "usd": 16.9179,
+            "requests": 109,
+            "input": 220,
+            "cache_write": 698119,
+            "cache_read": 39727396,
+            "output": 274047,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.9179
+              }
+            ]
+          },
+          {
+            "id": "a82d31a368c87f83d",
+            "what": "Build sodium's sky layer picture room",
+            "minutes": 50,
+            "usd": 12.8443,
+            "requests": 84,
+            "input": 168,
+            "cache_write": 724844,
+            "cache_read": 25929438,
+            "output": 201675,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 12.8443
+              }
+            ]
+          },
+          {
+            "id": "a7b0e9107fb196af8",
+            "what": "Build sodium's baking soda picture room",
+            "minutes": 64,
+            "usd": 16.3211,
+            "requests": 111,
+            "input": 226,
+            "cache_write": 778539,
+            "cache_read": 38237298,
+            "output": 239000,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.3211
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 6.62,
+          "requests": 43,
+          "input": 106,
+          "cache_write": 111019,
+          "cache_read": 22995738,
+          "output": 56467,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 6.6171
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 6,
+        "unit": "room"
       }
     },
     {
+      "id": "all-six-of-silicons-pictures",
       "date": "2026-10-30",
       "title": "All six of silicon's pictures are doors",
       "what": "The glassblower's workshop, the Earth and Moon from a deck in space, and Silicon Valley by night join the diatoms, the solar hilltop and the silicone kitchen. Every step is chosen by tapping its thing.",
@@ -909,12 +2089,102 @@
         "a4cdee960ce365bd6"
       ],
       "tokens": {
-        "total": 121407728,
-        "output": 865819,
-        "agents": 3
+        "total": 126550729,
+        "output": 876185,
+        "agents": 3,
+        "usd": 53.33,
+        "requests": 347,
+        "minutes": 72,
+        "input": 710,
+        "cache_write": 2204425,
+        "cache_read": 123469409,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 53.3349
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a4298532928b4bb3f",
+            "what": "Build silicon's glass picture room",
+            "minutes": 70,
+            "usd": 17.3056,
+            "requests": 100,
+            "input": 210,
+            "cache_write": 770095,
+            "cache_read": 37273182,
+            "output": 299982,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 17.3056
+              }
+            ]
+          },
+          {
+            "id": "ad8cc0cd976152c61",
+            "what": "Build silicon's earth picture room",
+            "minutes": 69,
+            "usd": 18.0038,
+            "requests": 125,
+            "input": 250,
+            "cache_write": 857523,
+            "cache_read": 41130087,
+            "output": 274458,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 18.0038
+              }
+            ]
+          },
+          {
+            "id": "a4cdee960ce365bd6",
+            "what": "Build silicon's valley picture room",
+            "minutes": 68,
+            "usd": 16.5514,
+            "requests": 111,
+            "input": 226,
+            "cache_write": 546018,
+            "cache_read": 39964318,
+            "output": 291379,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.5514
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 1.47,
+          "requests": 11,
+          "input": 24,
+          "cache_write": 30789,
+          "cache_read": 5101822,
+          "output": 10366,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 1.4741
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 3,
+        "unit": "room"
       }
     },
     {
+      "id": "step-into-the-pictures-the",
       "date": "2026-10-30",
       "title": "Step into the pictures: the solar hilltop and the silicone kitchen",
       "what": "Two more of silicon's pictures are doors: a hilltop where you move the sun across the sky, fire light into a giant solar cell and launch Vanguard 1; a kitchen where the silicone tray bends, the silicon snaps and the putty bounces, stretches and sags.",
@@ -924,18 +2194,130 @@
         "a5ff5655ce64f269e"
       ],
       "tokens": {
-        "total": 74808905,
-        "output": 513436,
-        "agents": 2
+        "total": 96955854,
+        "output": 575806,
+        "agents": 2,
+        "usd": 39.65,
+        "requests": 270,
+        "minutes": 66,
+        "input": 568,
+        "cache_write": 1779169,
+        "cache_read": 94600311,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 39.6484
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a528d1d0d3f0e7514",
+            "what": "Build silicon's solar picture room",
+            "minutes": 62,
+            "usd": 17.1393,
+            "requests": 105,
+            "input": 214,
+            "cache_write": 1009649,
+            "cache_read": 34716720,
+            "output": 257342,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 17.1393
+              }
+            ]
+          },
+          {
+            "id": "a5ff5655ce64f269e",
+            "what": "Build silicon's silicone picture room",
+            "minutes": 60,
+            "usd": 16.0276,
+            "requests": 110,
+            "input": 226,
+            "cache_write": 664809,
+            "cache_read": 37903851,
+            "output": 256094,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.0276
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 6.48,
+          "requests": 55,
+          "input": 128,
+          "cache_write": 104711,
+          "cache_read": 21979740,
+          "output": 62370,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 6.4815
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 2,
+        "unit": "room"
       }
     },
     {
+      "id": "step-into-the-pictures-the-2",
       "date": "2026-10-30",
       "title": "Step into the pictures: the diatoms",
       "what": "Silicon's picture \"Who lives in a house made of glass?\" is a door now: inside, a sunlit sea floor where you open a diatom, make oxygen with sunlight and watch a diatom family shrink and grow big again.",
-      "link": "https://element-worlds.vercel.app/e/Si/diatoms"
+      "link": "https://element-worlds.vercel.app/e/Si/diatoms",
+      "size": {
+        "n": 1,
+        "unit": "room"
+      },
+      "tokens": {
+        "total": 18630083,
+        "output": 146588,
+        "agents": 0,
+        "usd": 9.9,
+        "requests": 84,
+        "minutes": 27,
+        "input": 176,
+        "cache_write": 419773,
+        "cache_read": 18063546,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 9.9034
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "7f43fe15",
+          "usd": 9.9,
+          "requests": 84,
+          "input": 176,
+          "cache_write": 419773,
+          "cache_read": 18063546,
+          "output": 146588,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 9.9034
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "doing-things-together-in-the",
       "date": "2026-10-30",
       "title": "Doing things together in the worlds",
       "what": "In a room, the things in every wing are shared: let the balloons go in the neon workshop and everyone there sees them rise; fill a tube, light a word, drop sodium in the bowl, run the chip line, and it happens on everyone's screen. The room keeps its worlds even when nobody is in them, apart from each player's own, which is saved too. Standing beside someone who tries what you have not, a note says it counts once you do it yourself. Videos, panels and the Atomling's words stay each one's own.",
@@ -947,18 +2329,166 @@
         "a3596c5b2542d41a2"
       ],
       "tokens": {
-        "total": 33805390,
-        "output": 110908,
-        "agents": 4
+        "total": 48887647,
+        "output": 199064,
+        "agents": 4,
+        "usd": 17.18,
+        "requests": 183,
+        "minutes": 28,
+        "input": 390,
+        "cache_write": 558199,
+        "cache_read": 48129994,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 17.177
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "abc15f52fd9a48893",
+            "what": "Share carbon's wings",
+            "minutes": 11,
+            "usd": 3.7023,
+            "requests": 38,
+            "input": 80,
+            "cache_write": 106525,
+            "cache_read": 11894828,
+            "output": 39231,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 3.7023
+              }
+            ]
+          },
+          {
+            "id": "af689b8becfd1216b",
+            "what": "Share oxygen's wings",
+            "minutes": 12,
+            "usd": 3.0295,
+            "requests": 34,
+            "input": 70,
+            "cache_write": 87435,
+            "cache_read": 10157326,
+            "output": 27741,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 3.0295
+              }
+            ]
+          },
+          {
+            "id": "a3407472b64697d3f",
+            "what": "Share the video labs",
+            "minutes": 13,
+            "usd": 2.7464,
+            "requests": 26,
+            "input": 54,
+            "cache_write": 90175,
+            "cache_read": 7987435,
+            "output": 34600,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 2.7464
+              }
+            ]
+          },
+          {
+            "id": "a3596c5b2542d41a2",
+            "what": "Share the halls' objects",
+            "minutes": 6,
+            "usd": 0.9757,
+            "requests": 13,
+            "input": 30,
+            "cache_write": 22702,
+            "cache_read": 3347822,
+            "output": 9336,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 0.9757
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "c3254eb7",
+          "usd": 6.72,
+          "requests": 72,
+          "input": 156,
+          "cache_write": 251362,
+          "cache_read": 14742583,
+          "output": 88156,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 6.7232
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "feature"
       }
     },
     {
+      "id": "smooth-music-on-the-phone",
       "date": "2026-10-30",
       "title": "Smooth music on the phone",
       "what": "The background music crackled on your phone. Each world's music is now made once as a smooth 80 second loop and played with a bigger sound buffer: the phone's sound work is a quarter of what it was, with three times the room before a crackle. The game also counts its own crackles now, so the next session can see whether any are left.",
-      "link": "https://element-worlds.vercel.app/"
+      "link": "https://element-worlds.vercel.app/",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "tokens": {
+        "total": 5813529,
+        "output": 55820,
+        "agents": 0,
+        "usd": 3.39,
+        "requests": 44,
+        "minutes": 15,
+        "input": 92,
+        "cache_write": 144245,
+        "cache_read": 5613372,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 3.3934
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "7ef9a44a",
+          "usd": 3.39,
+          "requests": 44,
+          "input": 92,
+          "cache_write": 144245,
+          "cache_read": 5613372,
+          "output": 55820,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.3934
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "silicons-hall-made-over",
       "date": "2026-10-30",
       "title": "Silicon's hall, made over",
       "what": "Six picture boards (diatoms, solar cells, glass, the rocky Earth, Silicon Valley, silicone), a showpiece of a lump, a boule and a wafer, and its doorway board.",
@@ -967,18 +2497,112 @@
         "a78ddd56fa77a00d9"
       ],
       "tokens": {
-        "total": 28380965,
-        "output": 161184,
-        "agents": 1
+        "total": 33626953,
+        "output": 179326,
+        "agents": 1,
+        "usd": 12.24,
+        "requests": 119,
+        "minutes": 31,
+        "input": 229,
+        "cache_write": 393690,
+        "cache_read": 33053708,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 12.2404
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a78ddd56fa77a00d9",
+            "what": "Silicon's hall picture boards",
+            "minutes": 30,
+            "usd": 10.6401,
+            "requests": 106,
+            "input": 214,
+            "cache_write": 369103,
+            "cache_read": 27850464,
+            "output": 161184,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 10.6401
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "0a343077",
+          "usd": 1.6,
+          "requests": 13,
+          "input": 15,
+          "cache_write": 24586,
+          "cache_read": 5203244,
+          "output": 18142,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 1.6002
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "hall"
       }
     },
     {
+      "id": "silicons-periodic-videos-lab",
       "date": "2026-10-30",
       "title": "Silicon's Periodic Videos lab",
       "what": "A glittering lump, a chip line to cut, test and sort, a wafer's rainbow, a turbocharger race and four minerals.",
-      "link": "https://element-worlds.vercel.app/e/Si/videos"
+      "link": "https://element-worlds.vercel.app/e/Si/videos",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "tokens": {
+        "total": 5245988,
+        "output": 18142,
+        "agents": 0,
+        "usd": 1.6,
+        "requests": 13,
+        "minutes": 7,
+        "input": 15,
+        "cache_write": 24586,
+        "cache_read": 5203244,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 1.6002
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "0a343077",
+          "usd": 1.6,
+          "requests": 13,
+          "input": 15,
+          "cache_write": 24586,
+          "cache_read": 5203244,
+          "output": 18142,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 1.6002
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "sodiums-hall-made-over",
       "date": "2026-10-30",
       "title": "Sodium's hall, made over",
       "what": "Six picture boards, a showpiece of sodium under oil, and a doorway board you step into, like a picture.",
@@ -987,162 +2611,402 @@
         "a13ca0a4b2db9f855"
       ],
       "tokens": {
-        "total": 33115854,
-        "output": 192657,
-        "agents": 1
+        "total": 44163334,
+        "output": 231376,
+        "agents": 1,
+        "usd": 15.89,
+        "requests": 164,
+        "minutes": 48,
+        "input": 271,
+        "cache_write": 478468,
+        "cache_read": 43453219,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 15.8877
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a13ca0a4b2db9f855",
+            "what": "Sodium's hall picture boards",
+            "minutes": 38,
+            "usd": 12.4535,
+            "requests": 116,
+            "input": 236,
+            "cache_write": 419754,
+            "cache_read": 32503207,
+            "output": 192657,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 12.4535
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "0a343077",
+          "usd": 3.43,
+          "requests": 48,
+          "input": 35,
+          "cache_write": 58714,
+          "cache_read": 10950012,
+          "output": 38719,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.4342
+            }
+          ]
+        }
+      },
+      "size": {
+        "n": 1,
+        "unit": "hall"
       }
     },
     {
+      "id": "through-the-atomlings-eyes",
       "date": "2026-10-30",
       "title": "Through the Atomling's eyes",
-      "what": "Using a station in third person, the view goes into the Atomling's eyes and back out when you walk on."
+      "what": "Using a station in third person, the view goes into the Atomling's eyes and back out when you walk on.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "tokens": {
+        "total": 11047480,
+        "output": 38719,
+        "agents": 0,
+        "usd": 3.43,
+        "requests": 48,
+        "minutes": 20,
+        "input": 35,
+        "cache_write": 58714,
+        "cache_read": 10950012,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 3.4342
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "0a343077",
+          "usd": 3.43,
+          "requests": 48,
+          "input": 35,
+          "cache_write": 58714,
+          "cache_read": 10950012,
+          "output": 38719,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.4342
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "the-professor-in-his-lab",
       "date": "2026-10-30",
       "title": "The professor in his lab",
       "what": "He retells his own remarks from the film, each with the moment to watch him say it.",
-      "link": "https://element-worlds.vercel.app/e/Na/videos"
+      "link": "https://element-worlds.vercel.app/e/Na/videos",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "tokens": {
+        "total": 11047480,
+        "output": 38719,
+        "agents": 0,
+        "usd": 3.43,
+        "requests": 48,
+        "minutes": 20,
+        "input": 35,
+        "cache_write": 58714,
+        "cache_read": 10950012,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 3.4342
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "0a343077",
+          "usd": 3.43,
+          "requests": 48,
+          "input": 35,
+          "cache_write": 58714,
+          "cache_read": 10950012,
+          "output": 38719,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.4342
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "sodiums-periodic-videos-room",
       "date": "2026-10-30",
       "title": "Sodium's Periodic Videos room",
       "what": "The experiments from sodium's film to do yourself: cut it, drop it in water (three sizes, one bangs), crack a salt window, light a salt lamp; each with 'Watch this part'.",
-      "link": "https://element-worlds.vercel.app/e/Na/videos"
+      "link": "https://element-worlds.vercel.app/e/Na/videos",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "tokens": {
+        "total": 52435131,
+        "output": 327559,
+        "agents": 0,
+        "usd": 21.97,
+        "requests": 150,
+        "minutes": 68,
+        "input": 353,
+        "cache_write": 639921,
+        "cache_read": 51467298,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 14.932
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 7.0334
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "0a343077",
+          "usd": 21.97,
+          "requests": 150,
+          "input": 353,
+          "cache_write": 639921,
+          "cache_read": 51467298,
+          "output": 327559,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 14.932
+            },
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 7.0334
+            }
+          ]
+        }
+      }
     },
     {
+      "id": "this-studio",
       "date": "2026-10-29",
       "title": "This studio",
-      "what": "Claude's picks, your ideas and verdicts, and what was built, on one page."
+      "what": "Claude's picks, your ideas and verdicts, and what was built, on one page.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "picture-halls-for-carbon-and",
       "date": "2026-10-29",
       "title": "Picture halls for Carbon and Oxygen",
       "what": "A fact file, seven picture boards and a showpiece instead of eight text boards.",
-      "link": "https://element-worlds.vercel.app/e/C"
+      "link": "https://element-worlds.vercel.app/e/C",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "breathing",
       "date": "2026-10-29",
       "title": "Breathing",
       "what": "Glass lungs between the air breathed in and the air breathed out, breathing until you hold your breath.",
-      "link": "https://element-worlds.vercel.app/e/O/air"
+      "link": "https://element-worlds.vercel.app/e/O/air",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "playing-together",
       "date": "2026-10-29",
       "title": "Playing together",
       "what": "Rooms with a code, the shared Molecule Lab, the quiz as a duel, the others' Atomlings standing on the cubes they picked.",
-      "link": "https://element-worlds.vercel.app/"
+      "link": "https://element-worlds.vercel.app/",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "accounts",
       "date": "2026-10-29",
       "title": "Accounts",
-      "what": "The Pokémon site's logins; discoveries kept in the account."
+      "what": "The Pokémon site's logins; discoveries kept in the account.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "a-reload-keeps-your-place",
       "date": "2026-10-29",
       "title": "A reload keeps your place",
-      "what": "Back where you stood, the table as you left it; a new version offers Reload."
+      "what": "Back where you stood, the table as you left it; a new version offers Reload.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "the-floor-table",
       "date": "2026-10-29",
       "title": "The floor table",
-      "what": "Tap a tile in any hall to go to that element."
+      "what": "Tap a tile in any hall to go to that element.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "the-family-dashboard",
       "date": "2026-10-29",
       "title": "The family dashboard",
-      "what": "What is played and for how long, at /stats."
+      "what": "What is played and for how long, at /stats.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      }
     },
     {
+      "id": "the-screen-around-the-middle",
       "date": "2026-10-28",
       "title": "The screen around the middle",
       "what": "Everything at the edges, full screen on phones, your first notes from the phone."
     },
     {
+      "id": "walking-second-round",
       "date": "2026-10-28",
       "title": "Walking, second round",
       "what": "Turning, looking up, the pinch, a smooth camera in the nanotube."
     },
     {
+      "id": "the-neon-sign-workshop",
       "date": "2026-10-28",
       "title": "The neon sign workshop",
       "what": "Fill tubes with noble gases, your name in neon, the spectroscope.",
       "link": "https://element-worlds.vercel.app/e/Ne/signs"
     },
     {
+      "id": "twisted-graphene",
       "date": "2026-10-28",
       "title": "Twisted graphene",
       "what": "Two flakes on a light table and their bands at the magic angle.",
       "link": "https://element-worlds.vercel.app/e/C/allotropes"
     },
     {
+      "id": "ionic-compounds-in-the-lab",
       "date": "2026-10-28",
       "title": "Ionic compounds in the lab",
       "what": "Metals hand their electrons over: NaCl, MgO, CaCl2.",
       "link": "https://element-worlds.vercel.app/lab"
     },
     {
+      "id": "the-forges-beam",
       "date": "2026-10-28",
       "title": "The forge's beam",
       "what": "Fire particles and nuclei; famous reactions as history saw them.",
       "link": "https://element-worlds.vercel.app/forge"
     },
     {
+      "id": "who-am-i",
       "date": "2026-10-28",
       "title": "Who am I?",
       "what": "The quiz on the plaza: clues, fewer for more points."
     },
     {
+      "id": "polish-and-german",
       "date": "2026-10-28",
       "title": "Polish and German",
       "what": "Everything in four languages."
     },
     {
+      "id": "facts-on-the-plaza-card",
       "date": "2026-10-28",
       "title": "Facts on the plaza card",
       "what": "Tell me something: the Atomling's facts one at a time."
     },
     {
+      "id": "the-plaza-and-118-halls",
       "date": "2026-10-27",
       "title": "The plaza and 118 halls",
       "what": "The table under the stars, and a hall for every element built from its data.",
       "link": "https://element-worlds.vercel.app/"
     },
     {
+      "id": "stories-for-all-118",
       "date": "2026-10-27",
       "title": "Stories for all 118",
       "what": "Each element's own words, at both depths."
     },
     {
+      "id": "carbons-two-worlds",
       "date": "2026-10-27",
       "title": "Carbon's two worlds",
       "what": "Diamond, graphite and company; the carbon of life.",
       "link": "https://element-worlds.vercel.app/e/C/life"
     },
     {
+      "id": "oxygens-two-worlds",
       "date": "2026-10-27",
       "title": "Oxygen's two worlds",
       "what": "The sky deck above the clouds; the fire chamber.",
       "link": "https://element-worlds.vercel.app/e/O/fire"
     },
     {
+      "id": "the-atomlings",
       "date": "2026-10-27",
       "title": "The Atomlings",
       "what": "All 118 characters, built from each element's real properties.",
       "link": "https://element-worlds.vercel.app/atomlings"
     },
     {
+      "id": "the-molecule-lab",
       "date": "2026-10-27",
       "title": "The Molecule Lab",
       "what": "Atomlings hold hands to make molecules.",
       "link": "https://element-worlds.vercel.app/lab"
     },
     {
+      "id": "the-atom-forge",
       "date": "2026-10-27",
       "title": "The Atom Forge",
       "what": "Build atoms from protons, neutrons and electrons; watch nuclei decay.",
       "link": "https://element-worlds.vercel.app/forge"
     },
     {
+      "id": "the-passport",
       "date": "2026-10-27",
       "title": "The passport",
       "what": "Discoveries and badges.",
@@ -1220,5 +3084,15 @@
       "title": "The first station for two: the diamond press",
       "why": "Real diamonds are grown with high pressure and high heat at the same moment, so the press is a job that truly needs two pairs of hands: it teaches the science and makes teamwork the fun. Alone it still works (harder); in a room, each player keeps the job they took, so it needs two."
     }
-  ]
+  ],
+  "cost": {
+    "updated": "2026-10-31",
+    "since": "2026-10-29",
+    "overhead": {
+      "usd": 20.25,
+      "requests": 125
+    },
+    "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
+    "trial": "Every piece so far was built by Opus 5.5 at xhigh effort, so there is nothing to compare yet. The next rooms are a fair test: krypton's seven and radon's seven are the same kind of work from designs already made. Claude builds krypton's with Sonnet 5.5 at high effort and radon's with Opus 5.5 at xhigh, then this table shows both side by side. Your stars on the two halls decide which one Claude uses for the rooms after that. Mark the halls item Not now or send a note if you would rather not try it."
+  }
 }

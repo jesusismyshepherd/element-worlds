@@ -154,7 +154,7 @@ button.tile:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgb
 .w input { width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--gold) }
 .w-body { display: grid; gap: 6px; min-width: 0; overflow-wrap: anywhere }
 .w-title { font-weight: 800; cursor: pointer }
-.w.done .w-title { text-decoration: line-through; text-decoration-color: var(--muted) }
+.w.done .w-title { color: var(--muted) }
 .opt { font: 600 .66rem var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 8px; vertical-align: 1px }
 .w-links { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .9rem }
 .textbtn { border: 0; background: none; padding: 0; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); text-underline-offset: 3px; cursor: pointer; font-size: .9rem }
@@ -213,6 +213,41 @@ select { background: var(--raised); border: 1px solid var(--line); border-radius
 @media (max-width: 560px) { .b-day { grid-template-columns: minmax(0, 1fr) } }
 .b-day li .tok { margin: 2px 0 0; font: 500 .74rem/1.4 var(--font-mono); color: var(--muted) }
 .tok-note { margin: -4px 0 14px; max-width: 70ch; font-size: .82rem; color: var(--muted) }
+/* What it cost: tiles, the chart (dollars per unit against your stars), the table by model and effort.
+   Series colours follow the model, validated for both themes (dataviz palette, slots 1-4). */
+:root { --m-opus: #2a78d6; --m-sonnet: #eb6834; --m-haiku: #1baf7a; --m-fable: #6250d6 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --m-opus: #3987e5; --m-sonnet: #d95926; --m-haiku: #199e70; --m-fable: #9085e9 } }
+:root[data-theme="dark"] { --m-opus: #3987e5; --m-sonnet: #d95926; --m-haiku: #199e70; --m-fable: #9085e9 }
+.ctiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px }
+.ctile { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; align-content: start }
+.ctile .k { font-size: .8rem; font-weight: 700; color: var(--muted) }
+.ctile .v { font: 900 1.6rem/1.15 var(--font-display) }
+.ctile .s { font-size: .8rem; color: var(--muted) }
+.cfig { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; position: relative }
+.clegend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .8rem; color: var(--muted) }
+.clegend span { display: inline-flex; align-items: center; gap: 6px }
+.cchart svg { display: block; width: 100%; height: auto; overflow: visible }
+.cchart .ax { stroke: var(--line); stroke-width: 1 }
+.cchart text { fill: var(--muted); font: 500 11px var(--font-body) }
+.cchart .pt { stroke: var(--panel); stroke-width: 2; cursor: default }
+.cchart .pt:hover, .cchart .pt:focus { stroke: var(--ink); outline: none }
+.ctip { position: absolute; pointer-events: none; background: var(--raised); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; font-size: .8rem; max-width: 260px; box-shadow: 0 6px 18px rgb(0 0 0 / .25) }
+.ctip b { display: block }
+.ctable-wrap { overflow-x: auto }
+.ctable { border-collapse: collapse; width: 100%; font-size: .86rem; min-width: 560px }
+.ctable th, .ctable td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); white-space: nowrap }
+.ctable th:first-child, .ctable td:first-child { text-align: left }
+.ctable th { font-weight: 800; color: var(--muted); font-size: .78rem }
+.ctable td.num { font-family: var(--font-mono); font-size: .8rem }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px }
+.stars { display: inline-flex; gap: 0; margin-left: 4px; vertical-align: -2px }
+.star { font-size: 1rem; line-height: 1; padding: 0 2px; background: none; border: 0; cursor: pointer; color: var(--muted) }
+.star[aria-pressed="true"] { color: var(--gold-ink) }
+.star:disabled { cursor: default; opacity: .6 }
+.b-day li, .b-day details { min-width: 0 }
+.b-day details { margin-top: 2px; font-size: .8rem }
+.b-day details summary { cursor: pointer; color: var(--muted) }
+.b-day details .ctable { min-width: 620px; font-size: .78rem; margin-top: 4px }
 
 /* how we decided */
 .decided { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 28px }
@@ -317,10 +352,26 @@ body.locked { overflow: hidden }
     <div class="groups" id="groups"></div>
   </section>
 
+  <section class="sec" aria-labelledby="h-cost" id="cost-sec" hidden>
+    <div class="sec-head">
+      <h2 id="h-cost">What it cost</h2>
+      <p id="cost-lede"></p>
+    </div>
+    <div class="ctiles" id="cost-tiles"></div>
+    <div class="chips" id="cost-units" role="group" aria-label="Compare pieces of one kind"></div>
+    <figure class="cfig">
+      <div class="clegend" id="cost-legend"></div>
+      <div class="cchart" id="cost-chart"></div>
+      <figcaption class="muted" id="cost-cap"></figcaption>
+    </figure>
+    <div class="ctable-wrap"><table class="ctable" id="cost-table"></table></div>
+    <p class="why-box" id="cost-try" hidden></p>
+  </section>
+
   <section class="sec" aria-labelledby="h-built">
     <div class="sec-head">
       <h2 id="h-built">Built</h2>
-      <p>What the game gained, newest first.</p>
+      <p>What the game gained, newest first. Rate a piece with the stars: 3 or more means you keep it as it is.</p>
     </div>
     <p class="tok-note" id="built-tok"></p>
     <div class="built" id="built"></div>
@@ -365,7 +416,7 @@ body.locked { overflow: hidden }
 
 <script>
 (() => {
-  const S = { data: null, verdicts: {}, notes: [], ticks: {}, steer: null, db: null, uid: null, assets: null,
+  const S = { data: null, verdicts: {}, notes: [], ticks: {}, ratings: {}, costUnit: 'room', steer: null, db: null, uid: null, assets: null,
     canWrite: true, live: 'connecting', filter: 'all', openId: null, lastFocus: null, tellKind: 'idea',
     tellAbout: null, showAll: false }
   const $ = s => document.querySelector(s)
@@ -508,18 +559,130 @@ body.locked { overflow: hidden }
         <div class="grid">${list.map(it => tile(it)).join('')}</div></div>`
     }).join('') || '<p class="empty">No ideas here yet.</p>'
   }
-  // tokens in millions: 390 M, 35.0 M
+  // What each piece cost: list-price dollars from tools/studio_cost.py (agents plus the main session's share)
+  const MODEL = { 'claude-opus-5-5': ['Opus 5.5', 'opus'], 'claude-sonnet-5-5': ['Sonnet 5.5', 'sonnet'], 'claude-haiku-5-5': ['Haiku 5.5', 'haiku'], 'claude-fable-5-1': ['Fable 5.1', 'fable'] }
+  const EFFORTS = ['low', 'medium', 'high', 'xhigh', 'max']
+  const UNIT = { room: ['room', 'rooms', 'Rooms'], passage: ['passage', 'passages', 'Passages'], hall: ['hall', 'halls', 'Halls'], feature: ['feature', 'features', 'Features'] }
+  const mname = m => MODEL[m]?.[0] || m
+  const mcolor = m => `var(--m-${MODEL[m]?.[1] || 'opus'})`
+  const usd = n => n >= 100 ? `$${Math.round(n)}` : `$${n.toFixed(2)}`
   const mtok = n => `${n >= 1e8 ? Math.round(n / 1e6) : (n / 1e6).toFixed(1)} M`
-  const tokLine = t => t ? `${mtok(t.total)} tokens · ${(t.output / 1e6).toFixed(2)} M written · ${t.agents} ${t.agents === 1 ? 'agent' : 'agents'}` : 'Tokens: not recorded'
+  const dur = m => m >= 60 ? `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')} min` : `${m} min`
+  const unitWord = (n, u) => `${n} ${(UNIT[u] || [u, u + 's'])[n === 1 ? 0 : 1]}`
+  const costed = () => (S.data.built || []).filter(b => b.tokens?.usd != null)
+  const top = b => b.tokens.configs?.[0] || { model: '', effort: '' }   // the model and effort that did most of it
+  const cfgLabel = c => `${mname(c.model)} · ${c.effort || 'effort ?'}`
+  const median = a => { const s = [...a].sort((x, y) => x - y), n = s.length; return n ? (n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2) : null }
+  const stars = id => S.ratings[id]?.stars || 0
+  const perUnit = b => b.tokens.usd / (b.size?.n || 1)
+
+  // markers by effort: a ring for low, then a filled circle, square, diamond, triangle
+  function marker(effort, x, y, color, attrs) {
+    const r = 6
+    const shape = {
+      low: `<circle cx="${x}" cy="${y}" r="${r - 1}" fill="none" stroke="${color}" stroke-width="3"`,
+      medium: `<circle cx="${x}" cy="${y}" r="${r}" fill="${color}"`,
+      high: `<rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" rx="2" fill="${color}"`,
+      max: `<path d="M${x} ${y - r - 1}L${x + r + 1} ${y + r}H${x - r - 1}Z" fill="${color}"`,
+    }[effort] || `<path d="M${x} ${y - r - 1}L${x + r + 1} ${y}L${x} ${y + r + 1}L${x - r - 1} ${y}Z" fill="${color}"`
+    return `${shape} class="pt" ${attrs}/>`
+  }
+
+  function renderCost() {
+    const all = costed(), sec = $('#cost-sec')
+    sec.hidden = !all.length
+    if (!all.length) return
+    const c = S.data.cost || {}
+    const total = all.reduce((n, b) => n + b.tokens.usd, 0) + (c.overhead?.usd || 0)
+    const mainUsd = all.reduce((n, b) => n + (b.tokens.main?.usd || 0), 0) + (c.overhead?.usd || 0)
+    const rated = all.filter(b => stars(b.id)), kept = rated.filter(b => stars(b.id) >= 3)
+    const units = Object.keys(UNIT).filter(u => all.some(b => (b.size?.unit || 'feature') === u))
+    if (!units.includes(S.costUnit)) S.costUnit = units[0]
+    const pieces = all.filter(b => (b.size?.unit || 'feature') === S.costUnit)
+    const rooms = all.filter(b => b.size?.unit === 'room').map(perUnit)
+
+    $('#cost-lede').textContent = `List-price dollars: what the API would charge for the tokens each piece took, its agents and the main session's planning and checking. Your plan bills differently; these numbers are for comparing models and effort levels. Recorded since ${day(c.since || '2026-10-29')}.`
+    $('#cost-tiles').innerHTML = [
+      ['Recorded so far', usd(total), `${all.length} pieces of work`],
+      rooms.length ? ['A picture room', usd(median(rooms)), `median of ${rooms.length} batches, ${usd(Math.min(...rooms))} to ${usd(Math.max(...rooms))}`] : null,
+      ['Planning and checking', `${Math.round(100 * mainUsd / total)}%`, 'the main session; the rest is the agents'],
+      ['Your stars', rated.length ? (rated.reduce((n, b) => n + stars(b.id), 0) / rated.length).toFixed(1) : 'none yet', rated.length ? `${kept.length} of ${rated.length} rated pieces kept as they are` : 'rate the pieces under Built'],
+    ].filter(Boolean).map(([k, v, s]) => `<div class="ctile"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span><span class="s">${esc(s)}</span></div>`).join('')
+    $('#cost-units').innerHTML = units.map(u => `<button type="button" class="chip" data-costunit="${u}" aria-pressed="${S.costUnit === u}">${UNIT[u][2]}</button>`).join('')
+
+    // the chart: dollars per unit across, your stars up (a row for "not rated" at the bottom)
+    const models = [...new Set(all.map(b => top(b).model))], efforts = EFFORTS.filter(e => all.some(b => top(b).effort === e))
+    $('#cost-legend').innerHTML = models.map(m => `<span><i class="swatch" style="background:${mcolor(m)}"></i>${esc(mname(m))}</span>`).join('')
+      + efforts.map(e => `<span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">${marker(e, 7, 7, 'var(--muted)', '')}</svg>${esc(e)}</span>`).join('')
+    // drawn at the box's own width, so the labels keep their size on a phone (redrawn on resize)
+    const W = Math.max(280, $('#cost-chart').clientWidth || 640), H = 210, L = 64, R = 12, T = 10, B = 34
+    const xs = pieces.map(perUnit), xmax = Math.max(...xs) * 1.12 || 1
+    const step = [0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500].find(s => xmax / s <= (W < 480 ? 4 : 6)) || 1000
+    const X = v => L + (W - L - R) * v / xmax, rows = ['Not rated', '1', '2', '3', '4', '5'], Y = i => H - B - (H - B - T) * i / 5
+    let g = `<line class="ax" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`
+    rows.forEach((lab, i) => { g += `<text x="${L - 8}" y="${Y(i) + 4}" text-anchor="end">${i ? '★'.repeat(i) : lab}</text>`; if (i) g += `<line class="ax" x1="${L}" x2="${W - R}" y1="${Y(i)}" y2="${Y(i)}" stroke-dasharray="2 4"/>` })
+    for (let v = 0; v <= xmax; v += step) g += `<text x="${X(v)}" y="${H - B + 18}" text-anchor="middle">$${v}</text>`
+    g += `<text x="${(L + W - R) / 2}" y="${H - 2}" text-anchor="middle">dollars per ${UNIT[S.costUnit][0]}</text>`
+    pieces.forEach((b, n) => {
+      const cfg = top(b), s = stars(b.id), jit = s ? 0 : (n % 3 - 1) * 7
+      g += marker(cfg.effort, X(perUnit(b)), Y(s) + jit, mcolor(cfg.model), `tabindex="0" data-tip="${esc(b.id)}" aria-label="${esc(`${b.title}: ${usd(perUnit(b))} a ${UNIT[S.costUnit][0]}`)}"`)
+    })
+    $('#cost-chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Dollars per ${UNIT[S.costUnit][0]} against your stars">${g}</svg>`
+    $('#cost-cap').textContent = `Each mark is a piece of work, coloured by the model that did most of it, shaped by its effort. Best is high and to the left. The table below has the same numbers.`
+
+    // the table: one row per model and effort
+    const groups = {}
+    for (const b of pieces) (groups[cfgLabel(top(b))] ||= { cfg: top(b), list: [] }).list.push(b)
+    const unitN = b => b.size?.n || 1
+    const head = ['Model · effort', 'Pieces', UNIT[S.costUnit][2], 'Dollars', `Per ${UNIT[S.costUnit][0]} (median)`, `Minutes per ${UNIT[S.costUnit][0]}`, 'Changes asked', 'Stars', 'Kept']
+    const body = Object.values(groups).map(({ cfg, list }) => {
+      const r = list.filter(b => stars(b.id)), rev = list.filter(b => b.revisions != null)
+      return `<tr><td><i class="swatch" style="background:${mcolor(cfg.model)}"></i>${esc(cfgLabel(cfg))}</td>
+        <td class="num">${list.length}</td><td class="num">${list.reduce((n, b) => n + unitN(b), 0)}</td>
+        <td class="num">${usd(list.reduce((n, b) => n + b.tokens.usd, 0))}</td><td class="num">${usd(median(list.map(perUnit)))}</td>
+        <td class="num">${Math.round(median(list.map(b => b.tokens.minutes / unitN(b))))}</td>
+        <td class="num">${rev.length ? (rev.reduce((n, b) => n + b.revisions, 0) / rev.length).toFixed(1) : '–'}</td>
+        <td class="num">${r.length ? (r.reduce((n, b) => n + stars(b.id), 0) / r.length).toFixed(1) : '–'}</td>
+        <td class="num">${r.length ? `${r.filter(b => stars(b.id) >= 3).length} of ${r.length}` : '–'}</td></tr>`
+    }).join('')
+    $('#cost-table').innerHTML = `<caption class="muted" style="text-align:left;padding-bottom:6px">${esc(UNIT[S.costUnit][2])}, by the model and effort that did most of the work</caption><thead><tr>${head.map(h => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${body}</tbody>`
+    const tr = $('#cost-try'); tr.hidden = !c.trial
+    tr.innerHTML = c.trial ? `<b>Next comparison</b><span>${esc(c.trial)}</span>` : ''
+  }
+  function tipFor(el) {
+    const b = costed().find(x => x.id === el.dataset.tip), tip = $('#cost-tip') || Object.assign(document.createElement('div'), { id: 'cost-tip', className: 'ctip', role: 'tooltip' })
+    if (!tip.isConnected) $('.cfig').append(tip)
+    if (!b) { tip.hidden = true; return }
+    const t = b.tokens, s = stars(b.id)
+    tip.innerHTML = `<b>${esc(b.title)}</b>${esc(usd(perUnit(b)))} a ${esc(UNIT[b.size?.unit || 'feature'][0])} · ${esc(usd(t.usd))} for ${esc(unitWord(b.size?.n || 1, b.size?.unit || 'feature'))}<br>${esc(t.configs.map(cfgLabel).join(', '))}<br>${esc(dur(t.minutes))} · ${t.requests} requests${b.revisions != null ? ` · ${b.revisions} rounds of changes` : ''}<br>${s ? '★'.repeat(s) : 'Not rated yet'}`
+    tip.hidden = false
+    const f = $('.cfig').getBoundingClientRect(), p = el.getBoundingClientRect()
+    tip.style.left = Math.min(Math.max(8, p.left - f.left - 120), f.width - 268) + 'px'
+    tip.style.top = (p.top - f.top - tip.offsetHeight - 10) + 'px'
+  }
+
+  function costLine(b) {
+    const t = b.tokens
+    if (!t) return '<p class="tok">Cost: not recorded (before 29 October)</p>'
+    if (t.usd == null) return `<p class="tok">${mtok(t.total)} tokens</p>`
+    const n = b.size?.n || 1, u = b.size?.unit || 'feature'
+    const each = n > 1 ? ` · ${usd(t.usd / n)} a ${UNIT[u]?.[0] || u}` : ''
+    const rows = [...(t.per_agent || []).map(a => ({ ...a, label: a.what || a.id })), ...(t.main ? [{ ...t.main, label: 'Main session: planning, briefing, checking, merging' }] : [])]
+    const cell = n => `<td class="num">${n >= 1e6 ? (n / 1e6).toFixed(1) + ' M' : n >= 1e3 ? Math.round(n / 1e3) + ' k' : Math.round(n)}</td>`
+    const detail = rows.length ? `<details><summary>Agents and tokens</summary><div class="ctable-wrap"><table class="ctable"><thead><tr><th scope="col">Who</th><th scope="col">Model · effort</th><th scope="col">Fresh in</th><th scope="col">Cache write</th><th scope="col">Cache read</th><th scope="col">Written</th><th scope="col">Requests</th><th scope="col">Minutes</th><th scope="col">Dollars</th></tr></thead><tbody>${rows.map(a => `<tr><td>${esc(a.label)}</td><td>${esc((a.configs || []).map(cfgLabel).join(', '))}</td>${cell(a.input)}${cell(a.cache_write)}${cell(a.cache_read)}${cell(a.output)}<td class="num">${a.requests}</td><td class="num">${a.minutes ?? '–'}</td><td class="num">${usd(a.usd)}</td></tr>`).join('')}</tbody></table></div></details>` : ''
+    return `<p class="tok">${usd(t.usd)} · ${unitWord(n, u)}${each} · ${esc(t.configs.map(cfgLabel).join(', '))} · ${dur(t.minutes)}${b.revisions ? ` · ${b.revisions} rounds of changes` : ''}</p>${detail}`
+  }
+  function starsHtml(b) {
+    const s = stars(b.id), dis = writable() ? '' : ' disabled'
+    return `<span class="stars" role="group" aria-label="Your stars for ${esc(b.title)}">${[1, 2, 3, 4, 5].map(i => `<button type="button" class="star" data-rate="${esc(b.id)}" data-stars="${i}" aria-pressed="${i <= s}" aria-label="${i} ${i === 1 ? 'star' : 'stars'}"${dis}>${i <= s ? '★' : '☆'}</button>`).join('')}</span>`
+  }
   function renderBuilt() {
     const by = {}
     for (const b of S.data.built || []) (by[b.date] ||= []).push(b)
     $('#built').innerHTML = Object.keys(by).sort().reverse().map(d => `
       <div class="b-day"><p class="b-date"><time datetime="${esc(d)}">${esc(day(d))}</time></p>
-        <ul>${by[d].map(b => `<li><b>${esc(b.title)}</b> <span>${esc(b.what)}</span>${b.link ? ` <a href="${esc(b.link)}" target="_blank" rel="noopener">Open ↗</a>` : ''}<p class="tok">${tokLine(b.tokens)}</p></li>`).join('')}</ul></div>`).join('')
-    const all = (S.data.built || []).filter(b => b.tokens)
-    const sum = all.reduce((n, b) => n + b.tokens.total, 0)
-    $('#built-tok').textContent = all.length ? `Tokens are what the agents that built each one used, rereading included; the session that planned and checked their work is not counted. Recorded since 29 October: ${mtok(sum)} tokens.` : ''
+        <ul>${by[d].map(b => `<li><b>${esc(b.title)}</b>${b.id ? starsHtml(b) : ''} <span>${esc(b.what)}</span>${b.link ? ` <a href="${esc(b.link)}" target="_blank" rel="noopener">Open ↗</a>` : ''}${costLine(b)}${S.ratings[b.id]?.reply ? `<p class="claude-says"><b>Claude</b>${esc(S.ratings[b.id].reply)}</p>` : ''}</li>`).join('')}</ul></div>`).join('')
+    $('#built-tok').textContent = costed().length ? 'Each line says what the piece cost at list price, how many of its kind it made, the model and effort, and the time from its first request to its finish. "Agents and tokens" opens the breakdown.' : ''
   }
   function renderDecided() {
     $('#decided').innerHTML = (S.data.decisions || []).slice().reverse().map(d => `
@@ -538,7 +701,7 @@ body.locked { overflow: hidden }
   }
   function renderAll() {
     if (!S.data) { renderLive(); return }
-    renderHeader(); renderBuilt(); renderDecided(); renderDynamic()
+    renderHeader(); renderCost(); renderBuilt(); renderDecided(); renderDynamic()
   }
 
   function openItem(id, focusNote = false) {
@@ -596,6 +759,15 @@ body.locked { overflow: hidden }
       else { await ref.set({ v, title: item(id)?.title || id, at: new Date().toISOString(), by: S.uid || null }); toast('Saved: ' + label) }
     } catch (e) { toast(errText(e)) }
   }
+  async function setRating(id, n) {
+    if (!writable()) return
+    const b = (S.data.built || []).find(x => x.id === id)
+    try {
+      const ref = S.db.collection('ratings').doc(id)
+      if (stars(id) === n) { await ref.delete(); toast('Stars taken back') }
+      else { await ref.set({ stars: n, title: b?.title || id, at: new Date().toISOString(), by: S.uid || null }); toast(`Saved: ${n} ${n === 1 ? 'star' : 'stars'}`) }
+    } catch (e) { toast(errText(e)) }
+  }
   async function setSteer(mode) {
     if (!writable() || (S.steer?.mode || S.data.steerDefault) === mode && S.steer) return
     try { await S.db.doc('settings/steer').set({ mode, at: new Date().toISOString(), by: S.uid || null }); toast(mode === 'claude' ? 'Claude picks what comes next' : 'Claude waits for your pick') }
@@ -638,6 +810,8 @@ body.locked { overflow: hidden }
     const v = t.closest('[data-verdict]'); if (v) return setVerdict(v.dataset.id, v.dataset.verdict)
     const n = t.closest('[data-note]'); if (n) return noteFor(n.dataset.note)
     const st = t.closest('[data-steer]'); if (st) return setSteer(st.dataset.steer)
+    const rt = t.closest('[data-rate]'); if (rt) return setRating(rt.dataset.rate, Number(rt.dataset.stars))
+    const cu = t.closest('[data-costunit]'); if (cu) { S.costUnit = cu.dataset.costunit; return renderCost() }
     const f = t.closest('[data-filter]'); if (f) { S.filter = f.dataset.filter; return renderIdeas() }
     const tk = t.closest('[data-tellkind]'); if (tk) return setTellKind(tk.dataset.tellkind)
     if (t.id === 'scrim' || t.closest('#sh-close')) return closeSheet()
@@ -671,6 +845,10 @@ body.locked { overflow: hidden }
       itemId: S.openId, about: it?.title, kindName: 'note', who: 'me' })
     if (ok) { $('#sh-text').value = ''; $('#sh-files').value = ''; $('#sh-picked').textContent = '' }
   })
+  let chartW = 0
+  addEventListener('resize', () => { const w = $('#cost-chart').clientWidth; if (S.data && w && w !== chartW) { chartW = w; renderCost() } })
+  for (const ev of ['pointerover', 'focusin']) document.addEventListener(ev, e => { const p = e.target.closest?.('[data-tip]'); if (p) tipFor(p) })
+  for (const ev of ['pointerout', 'focusout']) document.addEventListener(ev, e => { if (e.target.closest?.('[data-tip]') && $('#cost-tip')) $('#cost-tip').hidden = true })
   addEventListener('hashchange', () => {
     const m = /^#i-(.+)$/.exec(location.hash)
     if (m && S.data && S.openId !== m[1]) openItem(m[1])
@@ -690,6 +868,7 @@ body.locked { overflow: hidden }
     db.collection('verdicts').onSnapshot(s => { S.verdicts = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); renderDynamic() }, lost)
     db.collection('notes').orderBy('at', 'desc').limit(400).onSnapshot(s => { S.notes = s.docs.map(d => ({ id: d.id, ...d.data() })); renderDynamic() }, lost)
     db.collection('ticks').onSnapshot(s => { S.ticks = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); if (S.data) { renderWaiting(); renderLive() } }, lost)
+    db.collection('ratings').onSnapshot(s => { S.ratings = Object.fromEntries(s.docs.map(d => [d.id, d.data()])); if (S.data) { renderCost(); renderBuilt() } }, lost)
     db.doc('settings/steer').onSnapshot(d => { S.steer = d.exists ? d.data() : null; renderSteer() }, lost)
     S.live = S.canWrite ? 'live' : 'readonly'
     renderAll()
