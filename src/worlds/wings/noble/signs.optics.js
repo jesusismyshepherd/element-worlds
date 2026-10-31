@@ -2,16 +2,19 @@
 // - The spectroscope (against the east wall): a discharge tube in its holder, a brass collimator, a
 //   glass prism, and a fan of coloured rays from the prism to a big screen on the wall, where the gas's
 //   lines stand at their wavelengths (NIST) under the Sun's row from the eclipse of 1868: hydrogen's
-//   lines and a yellow line nobody knew. Helium's 587.6 nm line falls exactly under it.
+//   lines and a yellow line nobody knew. Helium's 587.6 nm line falls exactly under it. A rack of spare
+//   tubes on the table, one of each gas: the one tapped goes into the holder.
 // - The atom (the north-west corner): the visitor's gas as Bohr's rings with every electron, the outer
-//   ring full; a free electron flies in, knocks an outer electron up to a higher level, it falls back
-//   and a photon flies out in the colour of one of the gas's lines; beside it, the energy ladder with
-//   the real levels (NIST) of that line.
+//   ring full; a free electron flies in (the atom tapped), knocks an outer electron up to a higher level,
+//   it falls back and a photon flies out in the colour of one of the gas's lines; beside it, the energy
+//   ladder with the real levels (NIST) of that line, and the gas's lines as colours down its right side:
+//   the one tapped is chosen and an electron fired to give it (`chipAt(hit)` reads where the tap fell).
 // Both are built in a frame whose +z points to the visitor.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { element } from '../../../data/elements.js'
 import { play } from '../../../audio/sound.js'
+import { makeText } from '../../../engine/text.js'
 import { LINES, SUN_1868, LADDER, levelsEV, glowOf, wavelengthRGB, lineBrightness, colourKey, eyeWeight } from './nobleData.js'
 import { canvasTex, screen, damp, clamp, smooth, hdr, num, fill } from './kit.js'
 import { drawScale, nmX } from './spectrumCanvas.js'
@@ -133,10 +136,47 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
   rays.mesh.renderOrder = 7
   group.add(rays.mesh)
 
+  // the rack of spare tubes on the table, nearer the visitor: one of each gas, glowing faintly in its
+  // colour, its symbol on the block below; the one in the holder leaves its place empty. Tapping a tube
+  // puts it in the holder (the user, 2026-10-30: each step chosen by touching its thing).
+  const rack = new THREE.Group()
+  const block = new THREE.Mesh(new RoundedBoxGeometry(0.66, 0.06, 0.1, 2, 0.015), mats.wood)
+  block.position.y = 0.03
+  rack.add(block)
+  const hitMat = new THREE.MeshBasicMaterial({ visible: false })
+  const slots = gases.map((s, i) => {
+    const x = (i - (gases.length - 1) / 2) * 0.125
+    const c = new THREE.Color(glowOf(s))
+    const glass = new THREE.MeshStandardMaterial({ color: '#d8dce6', roughness: 0.2, emissive: c, emissiveIntensity: light ? 0.55 : 0.9 })
+    const tubeG = new THREE.Group()
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.2, 10), glass)
+    body.position.y = 0.16
+    const cap0 = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.03, 10), mats.metal)
+    cap0.position.y = 0.065
+    const cap1 = cap0.clone()
+    cap1.position.y = 0.275
+    tubeG.add(body, cap0, cap1)
+    tubeG.position.x = x
+    rack.add(tubeG)
+    const tag = makeText(s, { size: 0.04, color: '#f4efe2', anchorY: 'middle' })
+    tag.position.set(x, 0.03, 0.052)
+    rack.add(tag)
+    const hit = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.34, 0.16), hitMat)
+    hit.position.set(x, 0.17, 0)
+    rack.add(hit)
+    return { sym: s, tube: tubeG, hit }
+  })
+  rack.position.set(0.32, T, 1.36)
+  group.add(rack)
+
   // the drawing
   let index = Math.max(0, gases.indexOf(start))
   let sym = gases[index]
   let pulse = 0
+  const syncRack = () => {
+    for (const r of slots) r.tube.visible = r.sym !== sym
+  }
+  syncRack()
   const draw = () => {
     const sci = level() === 'scientist'
     tex.userData.redraw((g, w, h) => {
@@ -261,14 +301,19 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
     get next() {
       return gases[(index + 1) % gases.length]
     },
-    /** The next tube into the holder. */
-    act() {
-      index = (index + 1) % gases.length
-      sym = gases[index]
+    /** The rack's tubes, to tap ({ sym, hit }). */
+    rack: slots,
+    /** A tube from the rack into the holder (the one there goes back); the same gas again just flashes. */
+    pick(s) {
+      if (!gases.includes(s)) return null
+      if (s !== sym) api.show(s)
       pulse = 1
       play('select')
-      draw()
       return sym
+    },
+    /** The next tube into the holder (for the probes). */
+    act() {
+      return api.pick(api.next)
     },
     /** Show this gas's tube (the first use shows the one the visitor came with). */
     show(s) {
@@ -276,6 +321,7 @@ export function spectroscope({ mats, words, level, light, lang, gases, start, na
       if (i < 0) return
       index = i
       sym = s
+      syncRack()
       draw()
     },
     /** The gas in the holder, for the others in a room (src/net/shared.js). */
@@ -387,6 +433,27 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
   ladBoard.position.set(0, -0.11, 0.002)
   lad.content.add(ladBoard)
   const ion = el.ie?.[0] ?? 0
+  // the colours to tap on the ladder (canvas pixels): a column at the right, one row per line
+  const CHIPS = { x0: 376, x1: 500, top: 92, h: 136, gap: 18 }
+  const chipRow = k => ({ y0: CHIPS.top + k * (CHIPS.h + CHIPS.gap), y1: CHIPS.top + k * (CHIPS.h + CHIPS.gap) + CHIPS.h })
+  const cssOf = (nm, a = 1) => {
+    const [r, gg, b] = wavelengthRGB(nm)
+    return `rgba(${Math.round(Math.min(1, r * 1.2) * 255)}, ${Math.round(Math.min(1, gg * 1.2) * 255)}, ${Math.round(Math.min(1, b * 1.2) * 255)}, ${a})`
+  }
+  /** The line whose colour a hit on the ladder fell on, or -1. */
+  const chipAt = hit => {
+    if (!hit?.uv) return -1
+    const px = hit.uv.x * 512
+    const py = (1 - hit.uv.y) * 600
+    if (px < CHIPS.x0 - 8 || px > CHIPS.x1 + 8) return -1
+    return LADDER[sym].findIndex((_, k) => {
+      const { y0, y1 } = chipRow(k)
+      return py >= y0 - 8 && py <= y1 + 8
+    })
+  }
+  // the atom to tap: a disc as wide as the dotted ring, unseen
+  const atomHit = new THREE.Mesh(new THREE.CircleGeometry(upR + 0.12, 32), new THREE.MeshBasicMaterial({ visible: false }))
+  atom.add(atomHit)
   let lineI = 0
   let shots = 0 // electrons fired, for the others in a room
   let shot = null // the line being shown
@@ -450,9 +517,41 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
         g.fill()
       }
       if (stage >= 1) arrow(78, 0, ev.hi, '#bfe8ff')
+      // the gas's lines as colours to tap, down the right side; the chosen one framed in white
+      // its heading over the column, on two lines where it is long ("Tippe auf eine Farbe")
+      {
+        const maxW = CHIPS.x1 - CHIPS.x0 + 14
+        let size = 22
+        let rows = []
+        for (; size >= 14; size -= 2) {
+          g.font = `700 ${size}px Outfit, sans-serif`
+          rows = []
+          for (const word of String(words.ladder.pick).split(' ')) {
+            const tryRow = rows.length ? `${rows[rows.length - 1]} ${word}` : word
+            if (rows.length && g.measureText(tryRow).width <= maxW) rows[rows.length - 1] = tryRow
+            else rows.push(word)
+          }
+          if (rows.length <= 2 && rows.every(r => g.measureText(r).width <= maxW)) break
+        }
+        const top = rows.length > 1 ? 50 : 62
+        rows.forEach((r, k) => note(r, (CHIPS.x0 + CHIPS.x1) / 2, top + k * (size + 2), '#c9d4ff', 'center', size))
+      }
+      LADDER[sym].forEach((line, k) => {
+        const { y0, y1 } = chipRow(k)
+        const x0 = CHIPS.x0
+        const x1 = CHIPS.x1
+        g.fillStyle = cssOf(line.nm, 0.92)
+        g.beginPath()
+        g.roundRect(x0, y0, x1 - x0, y1 - y0, 18)
+        g.fill()
+        g.lineWidth = k === lineI ? 7 : 2
+        g.strokeStyle = k === lineI ? '#ffffff' : 'rgba(255, 255, 255, 0.35)'
+        g.stroke()
+        note(num(line.nm, 1, lang), (x0 + x1) / 2, (y0 + y1) / 2 - 12, '#0b1030', 'center', 30)
+        note('nm', (x0 + x1) / 2, (y0 + y1) / 2 + 22, '#0b1030', 'center', 22)
+      })
       if (stage >= 2) {
-        const [r, gg, b] = wavelengthRGB(l.nm)
-        const c = `rgb(${Math.round(Math.min(1, r * 1.2) * 255)}, ${Math.round(Math.min(1, gg * 1.2) * 255)}, ${Math.round(Math.min(1, b * 1.2) * 255)})`
+        const c = cssOf(l.nm)
         arrow(186, ev.hi, ev.lo, c)
         // the photon's wavelength (and energy) under the lower rung, where the ladder is empty
         note(`${num(l.nm, 1, lang)} nm`, 186, y(ev.lo) + 40, c, 'center', 34)
@@ -505,20 +604,43 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
       drawLadder(0)
       return LADDER[sym][lineI]
     },
-    /** After a shot: the next of the gas's lines. */
-    advance() {
-      lineI = (lineI + 1) % LADDER[sym].length
+    /** Things to tap: the atom (a disc over it, and its plinth) and the ladder, whose colours choose
+     *  the line (`chipAt(hit)`). */
+    hits: { atom: atomHit, plinth: base, ladder: ladBoard },
+    chipAt,
+    /** The middle of a line's colour on the ladder, in the world (for the probes' taps). */
+    chipPoint(k) {
+      const { y0, y1 } = chipRow(k)
+      const px = (CHIPS.x0 + CHIPS.x1) / 2
+      const py = (y0 + y1) / 2
+      return ladBoard.localToWorld(new THREE.Vector3((px / 512 - 0.5) * 1.2, (0.5 - py / 600) * 1.41, 0.001))
     },
-    /** The electrons fired and the line the next (or the one in flight) gives, for the others in a
-     *  room (src/net/shared.js; the world sends it as the shot is fired, before advance). */
+    /** How many lines the gas shows here, and which is chosen. */
+    get lines() {
+      return LADDER[sym].length
+    },
+    get chosen() {
+      return lineI
+    },
+    get shots() {
+      return shots
+    },
+    /** Choose the line the next electron gives (a colour tapped on the ladder); false while busy. */
+    choose(k) {
+      if (shot || !(k >= 0 && k < LADDER[sym].length)) return false
+      lineI = k
+      drawLadder(0)
+      return LADDER[sym][lineI]
+    },
+    /** The electrons fired and the line chosen (the one in flight), for the others in a room
+     *  (src/net/shared.js). */
     state() {
       return { n: shots, line: lineI }
     },
-    /** Someone else fired: the same line here, the shot played when live. Returns whether it fired
-     *  (the world then advances, as after its own). */
+    /** Someone else fired: the same line here, the shot played when live; a newcomer's line at once. */
     setState({ n = 0, line = 0 } = {}, live = false) {
       const len = LADDER[sym].length
-      const l = ((Math.round(line) % len) + len) % len
+      const l = ((Math.round(Number(line) || 0) % len) + len) % len
       if (live && n !== shots && !shot) {
         lineI = l
         shots = n - 1
@@ -526,8 +648,10 @@ export function atomDisplay({ mats, words, level, light, lang, sym, nameOf }) {
         return true
       }
       shots = n
-      // a snapshot is taken after advance; a live one missed while busy: the line after it
-      lineI = live ? (l + 1) % len : l
+      if (lineI !== l) {
+        lineI = l
+        drawLadder(shot ? shot.stage : 0)
+      }
       return false
     },
     refresh(line) {

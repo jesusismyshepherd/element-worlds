@@ -5,9 +5,10 @@
 // desk; in the corners the atom (why they glow, why they are noble) and the history board (1898, 1910,
 // today). East: the spectroscope, every gas's lines (NIST) under the Sun's 1868 line that was helium.
 // In the middle, five balloons to let go. The visitor's gas starts everything, and the arch leads back
-// to its hall. Contract: docs/knowledge/adding-a-wing.md. In a room, everyone in the same workshop
-// shares its things (the tubes, the word, the balloons...: `shared` below, src/net/shared.js); the
-// panels, the Atomling's words and the discoveries stay each one's own.
+// to its hall. Every step is a tap on its thing, and E opens a station's panel whose buttons do the
+// same ("the exhibits and their rules" below). Contract: docs/knowledge/adding-a-wing.md. In a room,
+// everyone in the same workshop shares its things (the tubes, the word, the balloons...: `shared`
+// below, src/net/shared.js); the panels, the Atomling's words and the discoveries stay each one's own.
 import { tagOf } from '../../../i18n/langs.js'
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
@@ -16,7 +17,7 @@ import { arch } from '../../common/props.js'
 import { roomWalls, box, circle } from '../../../engine/collide.js'
 import { atriumPath } from '../../registry.js'
 import { SIGNS_WORDS } from './signs.words.js'
-import { GASES, SIGN_GASES, glowOf, densityOf, AIR_DENSITY, BALLOON, LADDER, levelsEV } from './nobleData.js'
+import { GASES, SIGN_GASES, glowOf, densityOf, AIR_DENSITY, BALLOON, LADDER, levelsEV, balloonOf } from './nobleData.js'
 import { sanitizeName, tubeLength, layoutText } from './tubeFont.js'
 import { neonSign } from './neonTube.js'
 import { at, fill, num, exhibitSet, onLevel, fontsReady } from './kit.js'
@@ -25,6 +26,7 @@ import { fillingBench, radonBox } from './signs.bench.js'
 import { spectroscope, atomDisplay } from './signs.optics.js'
 import { nameWall, historyBoard, balloonRack } from './signs.parts.js'
 import { nameOverlay } from './nameOverlay.js'
+import { tapTargets } from '../../common/taps.js'
 
 /** Puts a part on a wall or a spot: position, turn, and a function from its frame to the room's. */
 function place(root, obj, x, z, rotY) {
@@ -78,41 +80,108 @@ export async function build(ctx, target) {
   root.add(open.group)
 
   // ---- the exhibits and their rules ----
+  // Each step is chosen by tapping the thing it is about (the user, 2026-10-30: pressing E again and again
+  // through fixed steps felt passive): the pump, a gas's flask, the high-voltage box; the Geiger counter;
+  // the word on the wall; the atom and the colours of its ladder; the board's signs; a tube in the
+  // spectroscope's rack; a balloon or the table. The prompt names the next tap; E opens the station's
+  // panel, whose buttons do the same steps (keyboards, probes). The first step of a station counts its
+  // discovery and opens its panel a moment later, while the visitor is still there.
   const ex = exhibitSet(ctx, { prefix: `${sym}:signs`, color: COLOR, who, busy: lv => at(W.busy, lv), later })
   const say = (text, c = COLOR) => {
     if (here() && text) ctx.store.set({ speech: { text, who, color: c } })
   }
   const panelOf = (title, blocks, color = COLOR) => ({ title, kicker: W.kicker, color, blocks })
+  const taps = tapTargets(ctx)
+  const clickable = taps.clickable
+  const me = () => ctx.engine.player.pos
+  const near = (spot, r) => Math.hypot(me().x - spot.x, me().z - spot.z) < r
+  /** A find counted; its panel opens `delay` seconds later, if the visitor is still at that station and
+   *  reads nothing else. */
+  const discover = (find, panel, delay, spot) => {
+    const first = ex.discover(find)
+    if (first && panel) later(delay, () => near(spot, 4) && !ctx.store.get().panel && ctx.showPanel(panel))
+    return first
+  }
+  const busy = () => say(at(W.busy, level()))
+  const isGas = s => SIGN_GASES.includes(s)
 
   // the filling bench (west wall)
-  const bench = fillingBench({ mats, words: W.bench, level, light, start: sym })
+  const B = W.bench
+  const bench = fillingBench({ mats, words: B, level, light, start: sym })
   const benchAt = place(root, bench.group, x0, -2.7, Math.PI / 2)
   updates.push((dt, t) => bench.update(dt, t))
   refreshers.push(() => bench.refresh())
   solids.push(box(x0 + 0.45, -2.7, 0.9, 4.75))
+  const benchSpot = benchAt(0, 2.5)
+  const benchPanel = lv => panelOf(B.title, [
+    {
+      buttons: [
+        { label: B.buttons.pump, onClick: () => benchStep('pump') },
+        ...SIGN_GASES.map(s => ({ label: GasName(s), onClick: () => benchStep(s) })),
+        { label: B.buttons.hv, onClick: () => benchStep('hv') },
+      ],
+    },
+    ...B.panel[depth(lv)],
+  ])
   bench.onLit = (gas, mine) => {
     // someone else's tube lights here too, without the words
     if (!mine) return
-    say(at(W.bench.says[gas], level()), glowOf(gas))
-    if (bench.lit === SIGN_GASES.length) later(2.6, () => say(at(W.bench.says.all, level())))
+    say(at(B.says[gas], level()), glowOf(gas))
+    discover('bench', benchPanel, 2.2, benchSpot)
+    if (bench.lit === SIGN_GASES.length) later(2.6, () => say(at(B.says.all, level())))
   }
-  const benchSpot = benchAt(0, 2.5)
+  /** A step at the bench: 'pump', 'hv', or a gas (its flask or its tube tapped). */
+  function benchStep(what) {
+    const lv = level()
+    if (what === 'pump') {
+      if (!bench.pump()) return busy()
+      share('bench')
+      return say(at(B.steps.pumped, lv))
+    }
+    if (what === 'hv') {
+      const r = bench.power()
+      if (!r) return busy()
+      // a tube lighting speaks when it glows (onLit)
+      if (r === 'lit') return share('bench')
+      if (r === 'off') {
+        share('bench')
+        return say(at(B.says.off, lv))
+      }
+      return say(at(r === 'air' ? B.steps.noAir : B.steps.noGas, lv))
+    }
+    const r = bench.fill(what)
+    if (!r) return busy()
+    if (r === 'filled') {
+      if (bench.busy) share('bench')
+      return say(fill(at(B.steps.filled, lv), { gas: gasName(what), Gas: GasName(what) }), glowOf(what))
+    }
+    if (r === 'lit') return say(at(B.says[what], lv), glowOf(what))
+    if (r === 'waiting') return say(fill(at(B.steps.waiting, lv), { gas: gasName(bench.line) }), glowOf(bench.line))
+    return say(at(B.steps.needPump, lv))
+  }
+  clickable(bench.hits.pump, () => benchStep('pump'))
+  clickable(bench.hits.hv, () => benchStep('hv'))
+  SIGN_GASES.forEach((s, i) => {
+    clickable(bench.hits.flasks[i], () => benchStep(s))
+    clickable(bench.hits.tubes[i], () => benchStep(s))
+  })
   ex.add({
     id: 'bench',
     x: benchSpot.x,
     z: benchSpot.z,
     radius: 1.9,
     screens: [bench.screen],
-    label: () => (bench.busy ? W.bench.labels.working : bench.next ? GasName(bench.next) : W.bench.labels.all),
-    verb: () => (bench.busy ? W.bench.verbs.wait : bench.next ? W.bench.verbs.fill : W.bench.verbs.off),
-    act: () => {
-      const r = bench.act()
-      if (r) share('bench')
-      if (r === 'off') return at(W.bench.says.off, level())
-      return r ? null : false
+    manual: true,
+    label: B.label,
+    verb: () => {
+      if (bench.busy) return B.hints.wait
+      if (isGas(bench.line)) return B.hints.hv
+      if (bench.line === 'empty') return B.hints.gas
+      return bench.lit === SIGN_GASES.length ? B.hints.off : B.hints.pump
     },
-    panelDelay: 3.4,
-    panel: lv => panelOf(W.bench.title, W.bench.panel[depth(lv)]),
+    // across an upright phone the five tubes, the pump and the high-voltage box just fit
+    focus: { ...benchAt(0, 0.35), y: 1.55, size: 3.0, width: 3.4 },
+    act: () => ctx.showPanel(benchPanel),
   })
 
   // radon's lead box (the end of the bench)
@@ -125,37 +194,44 @@ export async function build(ctx, target) {
   refreshers.push(() => radon.refresh())
   solids.push(box(x0 + 0.42, -6.45, 0.84, 1.2))
   const radonSpot = radonAt(0, 1.95)
+  const radonPanel = lv => {
+    const measureIt = { buttons: [{ label: W.radon.button, onClick: () => measure() }] }
+    if (depth(lv) === 'kid') return panelOf(W.radon.title, [measureIt, ...W.radon.panel.kid], glowOf('Rn'))
+    const R = W.radon.rows
+    const V = W.radon.values
+    return panelOf(W.radon.title, [
+      measureIt,
+      { rows: [[R.isotope, V.isotope], [R.half, fill(V.half, { half })], [R.decay, V.decay], [R.density, fill(V.density, { density: rnDensity })]] },
+      ...W.radon.panel.sci.map(b => ({ p: fill(b.p, { half: num(rnHalf, 1, lang) }) })),
+    ], glowOf('Rn'))
+  }
+  function measure() {
+    if (!radon.measure()) return busy()
+    share('radon')
+    say(at(W.radon.says, level()), glowOf('Rn'))
+    discover('radon', radonPanel, 1.6, radonSpot)
+  }
+  clickable(radon.hits.geiger, measure)
+  clickable(radon.hits.cabinet, measure)
   ex.add({
     id: 'radon',
     x: radonSpot.x,
     z: radonSpot.z,
     radius: 1.45,
     screens: [radon.screen],
+    manual: true,
     label: W.radon.label,
     verb: W.radon.verb,
-    act: () => {
-      if (!radon.measure()) return false
-      share('radon')
-      return at(W.radon.says, level())
-    },
-    panelDelay: 1.6,
-    sayColor: () => glowOf('Rn'),
-    panel: lv => {
-      if (depth(lv) === 'kid') return panelOf(W.radon.title, W.radon.panel.kid, glowOf('Rn'))
-      const R = W.radon.rows
-      const V = W.radon.values
-      return panelOf(W.radon.title, [
-        { rows: [[R.isotope, V.isotope], [R.half, fill(V.half, { half })], [R.decay, V.decay], [R.density, fill(V.density, { density: rnDensity })]] },
-        ...W.radon.panel.sci.map(b => ({ p: fill(b.p, { half: num(rnHalf, 1, lang) }) })),
-      ], glowOf('Rn'))
-    },
+    focus: { ...radonAt(0, 0.4), y: 1.55, size: 2.2 },
+    act: () => ctx.showPanel(radonPanel),
   })
 
   // the name on the north wall and the desk below it: each gas's workshop starts with its own gas's
   // name, in its own light (radon's name in neon's), until a word is written there; the word written is
   // kept as the workshop's state (`shared` below: the player's own alone, the room's in a room; one key
-  // for all six workshops once showed NÉON in every one)
-  let current = { text: sanitizeName(GasName(sym)), gas: SIGN_GASES.includes(sym) ? sym : 'Ne' }
+  // for all six workshops once showed NÉON in every one). The word, the desk or its screen tapped (or E)
+  // opens the little window to write a word.
+  let current = { text: sanitizeName(GasName(sym)), gas: isGas(sym) ? sym : 'Ne' }
   const wall = nameWall({ mats, words: W.name, light, text: current.text, color: glowOf(current.gas) })
   place(root, wall.group, 0, z0, 0)
   updates.push((dt, t) => wall.update(dt, t))
@@ -190,6 +266,10 @@ export async function build(ctx, target) {
     })
     overlay.open({ text: current.text, gas: current.gas })
   }
+  const writing = { when: () => !overlay?.isOpen, reach: 6 }
+  clickable(wall.hits.word, openOverlay, writing)
+  clickable(wall.hits.desk, openOverlay, writing)
+  clickable(wall.hits.screen, openOverlay, writing)
   const nameIt = ex.add({
     id: 'name',
     x: 0,
@@ -203,140 +283,240 @@ export async function build(ctx, target) {
   })
 
   // the atom (north-west corner, facing the room)
-  const atom = atomDisplay({ mats, words: { ...W.atom, colours: W.colours }, level, light, lang, sym, nameOf: GasName })
+  const A = W.atom
+  const atom = atomDisplay({ mats, words: { ...A, colours: W.colours }, level, light, lang, sym, nameOf: GasName })
   const atomAt = place(root, atom.group, -5.6, -10.3, Math.PI / 4)
   updates.push((dt, t) => atom.update(dt, t))
-  refreshers.push(() => atom.refresh(at(W.atom.screen, level())))
+  refreshers.push(() => atom.refresh(at(A.screen, level())))
   solids.push(circle(-5.6, -10.3, 0.75))
   const ladderPost = atomAt(...atom.ladderAt)
   solids.push(circle(ladderPost.x, ladderPost.z, 0.32))
   const atomSpot = atomAt(0.3, 3.1)
+  const atomPanel = lv => {
+    const shoot = {
+      buttons: [
+        { label: A.button, onClick: () => fireAtom() },
+        ...LADDER[sym].map((l, k) => ({ label: `${num(l.nm, 1, lang)} nm`, onClick: () => pickLine(k) })),
+      ],
+    }
+    if (depth(lv) === 'kid') return panelOf(A.title, [shoot, ...A.panel.kid])
+    const l = LADDER[sym][atom.chosen]
+    const ev = levelsEV(l)
+    return panelOf(A.title, [
+      shoot,
+      ...A.panel.sci,
+      { p: `${A.ionTitle}:` },
+      { rows: GASES.map(s => [GasName(s), `${num(element(s).ie[0], 2, lang)} eV`]) },
+      { p: fill(A.line, { Gas: GasName(sym), nm: num(l.nm, 1, lang), hi: num(ev.hi, 2, lang), lo: num(ev.lo, 2, lang), photon: num(ev.photon, 2, lang) }) },
+    ])
+  }
+  /** An electron fired at the atom (the atom tapped): it gives the line chosen on the ladder. */
+  function fireAtom() {
+    if (!atom.fire()) return busy()
+    share('atom')
+    later(1.5, () => say(atom.words(fill(at(A.says, level()), { Gas: GasName(sym) }))))
+    discover('atom', atomPanel, 3.3, atomSpot)
+  }
+  /** A colour tapped on the ladder: that line chosen, and an electron fired to give it. */
+  function pickLine(k) {
+    if (atom.busy) return busy()
+    if (!atom.choose(k)) return
+    fireAtom()
+  }
+  clickable(atom.hits.atom, fireAtom)
+  clickable(atom.hits.plinth, fireAtom)
+  clickable(atom.hits.ladder, hit => pickLine(atom.chipAt(hit)), { accept: hit => atom.chipAt(hit) >= 0 })
   ex.add({
     id: 'atom',
     x: atomSpot.x,
     z: atomSpot.z,
     radius: 1.8,
     screens: [atom.screen],
-    label: () => fill(W.atom.label, { gas: gasName(sym) }),
-    verb: W.atom.verb,
-    act: () => {
-      const l = atom.fire()
-      if (!l) return false
-      share('atom')
-      later(1.5, () => {
-        say(atom.words(fill(at(W.atom.says, level()), { Gas: GasName(sym) })))
-        atom.advance()
-      })
-      return null
-    },
-    panelDelay: 3.3,
-    panel: lv => {
-      if (depth(lv) === 'kid') return panelOf(W.atom.title, W.atom.panel.kid)
-      const l = LADDER[sym][0]
-      const ev = levelsEV(l)
-      return panelOf(W.atom.title, [
-        ...W.atom.panel.sci,
-        { p: `${W.atom.ionTitle}:` },
-        { rows: GASES.map(s => [GasName(s), `${num(element(s).ie[0], 2, lang)} eV`]) },
-        { p: fill(W.atom.line, { Gas: GasName(sym), nm: num(l.nm, 1, lang), hi: num(ev.hi, 2, lang), lo: num(ev.lo, 2, lang), photon: num(ev.photon, 2, lang) }) },
-      ])
-    },
+    manual: true,
+    label: () => fill(A.label, { gas: gasName(sym) }),
+    verb: () => (atom.shots ? A.hints.colour : A.hints.fire),
+    focus: { ...atomAt(0.85, 0), y: 2.1, size: 2.7, width: 4.0 },
+    act: () => ctx.showPanel(atomPanel),
   })
 
-  // the history board (north-east corner)
-  const history = historyBoard({ mats, words: W.history, light })
+  // the history board (north-east corner): its three signs lit in the visitor's own order
+  const H = W.history
+  const history = historyBoard({ mats, words: H, light })
   const historyAt = place(root, history.group, 5.6, -10.3, -Math.PI / 4)
   updates.push(dt => history.update(dt))
-  refreshers.push(() => history.refresh(at(W.history.screen, level())))
+  refreshers.push(() => history.refresh(at(H.screen, level())))
   solids.push(box(5.6, -10.3, 2.8, 0.6, { rot: -Math.PI / 4 }))
   const historySpot = historyAt(0, 3.1)
-  const yearOf = key => (key === 'today' ? W.history.today.toLocaleLowerCase(tagOf(lang)) : key)
+  const yearOf = key => (key === 'today' ? H.today : key)
+  const historyPanel = lv => {
+    const signs = {
+      buttons: [
+        ...history.rows.map(r => ({ label: yearOf(r.key), onClick: () => lightSign(r.key) })),
+        { label: H.buttons.off, onClick: () => signsOff() },
+      ],
+    }
+    if (depth(lv) === 'kid') return panelOf(H.title, [signs, ...H.panel.kid])
+    const boil = s => num(element(s).boil, 2, lang)
+    const [rows, boils, today] = H.panel.sci
+    return panelOf(H.title, [signs, rows, { p: fill(boils.p, { Ne: boil('Ne'), Ar: boil('Ar'), Kr: boil('Kr'), Xe: boil('Xe'), N: boil('N'), O: boil('O') }) }, today])
+  }
+  /** A sign tapped: a dark one lights and tells its year; a lit one tells it again. */
+  function lightSign(key) {
+    const r = history.light(key)
+    if (!r) return busy()
+    say(at(H.steps[key], level()))
+    if (r === 'again') return
+    share('history')
+    if (!history.next) later(5, () => say(at(H.all, level())))
+    discover('history', historyPanel, 2.4, historySpot)
+  }
+  function signsOff() {
+    if (!history.off()) return
+    share('history')
+    say(at(H.off, level()))
+  }
+  for (const { key, hit } of history.hits) clickable(hit, () => lightSign(key))
   ex.add({
     id: 'history',
     x: historySpot.x,
     z: historySpot.z,
     radius: 1.8,
     screens: [history.screen],
-    label: W.history.label,
-    verb: () => (history.next ? fill(W.history.verbs.next, { year: yearOf(history.next) }) : W.history.verbs.off),
-    act: () => {
-      const r = history.act()
-      if (!r) return false
-      share('history')
-      if (r === 'off') return at(W.history.off, level())
-      if (r === 'today') later(2.2, () => say(at(W.history.all, level())))
-      return at(W.history.steps[r], level())
-    },
-    panelDelay: 2.4,
-    panel: lv => {
-      if (depth(lv) === 'kid') return panelOf(W.history.title, W.history.panel.kid)
-      const boil = s => num(element(s).boil, 2, lang)
-      const [rows, boils, today] = W.history.panel.sci
-      return panelOf(W.history.title, [rows, { p: fill(boils.p, { Ne: boil('Ne'), Ar: boil('Ar'), Kr: boil('Kr'), Xe: boil('Xe'), N: boil('N'), O: boil('O') }) }, today])
-    },
+    manual: true,
+    label: H.label,
+    verb: () => (history.next ? fill(H.hints.next, { year: yearOf(history.next) }) : H.hints.all),
+    focus: { ...historyAt(0, 0), y: 2.45, size: 3.7 },
+    act: () => ctx.showPanel(historyPanel),
   })
 
-  // the spectroscope (east wall)
-  const spec = spectroscope({ mats, words: W.spectrum, level, light, lang, gases: SIGN_GASES, start: SIGN_GASES.includes(sym) ? sym : 'He', nameOf: GasName })
+  // the spectroscope (east wall): a tube tapped in its rack goes into the holder
+  const S = W.spectrum
+  const spec = spectroscope({ mats, words: S, level, light, lang, gases: SIGN_GASES, start: isGas(sym) ? sym : 'He', nameOf: GasName })
   const specAt = place(root, spec.group, x1, -2.9, -Math.PI / 2)
   updates.push((dt, t) => spec.update(dt, t))
   refreshers.push(() => spec.refresh())
   solids.push(box(x1 - 1.2, -3.25, 0.8, 2.2))
   const specSpot = specAt(0.3, 2.9)
+  const specPanel = lv => panelOf(S.title, [{ buttons: SIGN_GASES.map(s => ({ label: GasName(s), onClick: () => pickTube(s) })) }, ...S.panel[depth(lv)]], '#9ad0ff')
+  function pickTube(s) {
+    const g = spec.pick(s)
+    if (!g) return
+    share('spectrum')
+    say(at(S.says[g], level()), glowOf(g))
+    discover('spectrum', specPanel, 1.2, specSpot)
+  }
+  for (const { sym: s, hit } of spec.rack) clickable(hit, () => pickTube(s), { when: () => spec.gas !== s })
   ex.add({
     id: 'spectrum',
     x: specSpot.x,
     z: specSpot.z,
     radius: 1.8,
     screens: [spec.screen],
-    label: W.spectrum.label,
-    verb: () => fill(W.spectrum.verb, { gas: gasName(spec.next) }),
-    act: () => {
-      const g = spec.act()
-      share('spectrum')
-      return at(W.spectrum.says[g], level())
-    },
-    sayColor: () => glowOf(spec.gas),
-    panelDelay: 1.2,
-    panel: lv => panelOf(W.spectrum.title, W.spectrum.panel[depth(lv)], '#9ad0ff'),
+    manual: true,
+    label: S.label,
+    verb: S.verb,
+    focus: { ...specAt(-0.15, 0.75), y: 1.75, size: 2.6, width: 4.8 },
+    act: () => ctx.showPanel(specPanel),
   })
 
-  // the balloons (the middle of the room)
+  // the balloons (the middle of the room): one tapped goes (or comes back); the table, all at once
+  const BL = W.balloons
   const lift = s => (AIR_DENSITY - densityOf(s))
-  const balloons = balloonRack({ mats, words: W.balloons, light, ceiling: h })
+  const balloons = balloonRack({ mats, words: BL, light, ceiling: h })
   place(root, balloons.group, 0, -3.6, 0)
   updates.push((dt, t) => balloons.update(dt, t))
-  refreshers.push(() => balloons.refresh(at(W.balloons.screen, level())))
+  refreshers.push(() => balloons.refresh(at(BL.screen, level())))
   solids.push(circle(0, -3.6, 0.66), circle(1.53, -4.05, 0.32))
+  const balloonsSpot = { x: 0, z: -2.0 }
+  const balloonsPanel = lv => {
+    const tries = {
+      buttons: [
+        ...SIGN_GASES.map(s => ({ label: GasName(s), onClick: () => balloonTap(s) })),
+        { label: BL.buttons.all, onClick: () => balloonsAll('go') },
+        { label: BL.buttons.back, onClick: () => balloonsAll('back') },
+      ],
+    }
+    if (depth(lv) === 'kid') return panelOf(BL.title, [tries, ...BL.panel.kid], '#7fd4ff')
+    const rows = [...GASES.map(s => [GasName(s), densityOf(s)]), [BL.air, AIR_DENSITY]]
+      .sort((a, b) => a[1] - b[1])
+      .map(([k, v]) => [k, `${num(v, v < 1 ? 3 : v < 9 ? 3 : 2, lang)} g/L`])
+    const liftG = s => num(lift(s) * BALLOON.litres, 1, lang)
+    return panelOf(BL.title, [
+      tries,
+      { p: `${BL.densities} (${BL.at}):` },
+      { rows },
+      ...BL.panel.sci.map(b => ({ p: fill(b.p, { liftHe: liftG('He'), liftNe: liftG('Ne') }) })),
+    ], '#7fd4ff')
+  }
+  /** One balloon tapped: a tied one is let go and says how it flies; a flying one comes back. */
+  function balloonTap(s) {
+    const r = balloons.one(s)
+    if (!r) return busy()
+    share('balloons')
+    if (r !== 'go') return
+    const speed = num(Math.abs(balloonOf(s).terminal), 1, lang)
+    say(fill(at(BL.one[s], level()), { rho: num(densityOf(s), 3, lang), air: num(AIR_DENSITY, 3, lang), speed }), glowOf(s))
+    discover('balloons', balloonsPanel, 3.0, balloonsSpot)
+  }
+  /** All five at once: 'go' lets every tied one go, 'back' ties every flying one; the table toggles. */
+  function balloonsAll(want = balloons.free ? 'back' : 'go') {
+    const r = want === 'back' ? balloons.tie() : balloons.all()
+    if (!r) return
+    share('balloons')
+    if (r === 'back') return say(at(BL.back, level()))
+    say(fill(at(BL.says, level()), { He: num(lift('He'), 2, lang), Ne: num(lift('Ne'), 2, lang) }))
+    discover('balloons', balloonsPanel, 3.0, balloonsSpot)
+  }
+  for (const { sym: s, hit } of balloons.hits.balloons) clickable(hit, () => balloonTap(s), { reach: 6 })
+  clickable(balloons.hits.table, () => balloonsAll())
   ex.add({
     id: 'balloons',
-    x: 0,
-    z: -2.0,
+    x: balloonsSpot.x,
+    z: balloonsSpot.z,
     radius: 1.5,
     screens: [balloons.screen],
-    label: W.balloons.label,
-    verb: () => (balloons.free ? W.balloons.verbs.back : W.balloons.verbs.go),
-    act: () => {
-      const r = balloons.act()
-      if (!r) return false
-      share('balloons')
-      if (r === 'back') return at(W.balloons.back, level())
-      return fill(at(W.balloons.says, level()), { He: num(lift('He'), 2, lang), Ne: num(lift('Ne'), 2, lang) })
-    },
-    panelDelay: 3.0,
-    panel: lv => {
-      if (depth(lv) === 'kid') return panelOf(W.balloons.title, W.balloons.panel.kid, '#7fd4ff')
-      const rows = [...GASES.map(s => [GasName(s), densityOf(s)]), [W.balloons.air, AIR_DENSITY]]
-        .sort((a, b) => a[1] - b[1])
-        .map(([k, v]) => [k, `${num(v, v < 1 ? 3 : v < 9 ? 3 : 2, lang)} g/L`])
-      const liftG = s => num(lift(s) * BALLOON.litres, 1, lang)
-      return panelOf(W.balloons.title, [
-        { p: `${W.balloons.densities} (${W.balloons.at}):` },
-        { rows },
-        ...W.balloons.panel.sci.map(b => ({ p: fill(b.p, { liftHe: liftG('He'), liftNe: liftG('Ne') }) })),
-      ], '#7fd4ff')
-    },
+    manual: true,
+    label: BL.label,
+    verb: () => (balloons.allFree ? BL.hints.back : BL.hints.go),
+    // the whole height of the room, to see them fly up to the ceiling or fall to the floor; at eye height,
+    // so that backing off to fit it keeps the eye up (a focus above the eye drew it down to the floor)
+    focus: { x: 0, y: 1.5, z: -3.6, size: 6.0, width: 3.4 },
+    act: () => ctx.showPanel(balloonsPanel),
   })
+
+  /** What a tap does, for the probes (shot.py cannot move the mouse): tap(id) does the step the prompt
+   *  names next; tap(id, what) taps a given thing (a gas's flask, 'pump', 'hv'; a line's number; a
+   *  sign's key or 'off'; a gas's tube in the rack; a gas's balloon). */
+  const tapStep = (id, what) => {
+    if (id === 'bench') {
+      if (what) return benchStep(what)
+      const l = bench.line
+      return benchStep(isGas(l) ? 'hv' : l === 'empty' ? (bench.next ?? 'hv') : bench.next ? 'pump' : 'hv')
+    }
+    if (id === 'radon') return measure()
+    if (id === 'name') return openOverlay()
+    if (id === 'atom') return what == null ? fireAtom() : pickLine(Number(what))
+    if (id === 'history') return what === 'off' ? signsOff() : what ? lightSign(what) : history.next ? lightSign(history.next) : signsOff()
+    if (id === 'spectrum') return pickTube(what ?? spec.next)
+    if (id === 'balloons') return what ? balloonTap(what) : balloonsAll()
+    return undefined
+  }
+  const worldAt = o => o.getWorldPosition(new THREE.Vector3())
+  const thingAt = {
+    pump: () => worldAt(bench.hits.pump),
+    hv: () => worldAt(bench.hits.hv),
+    flask: s => worldAt(bench.hits.flasks[SIGN_GASES.indexOf(s)]),
+    tube: s => worldAt(bench.hits.tubes[SIGN_GASES.indexOf(s)]),
+    geiger: () => worldAt(radon.hits.geiger),
+    word: () => worldAt(wall.hits.word),
+    desk: () => worldAt(wall.hits.desk).setY(1.0),
+    atom: () => worldAt(atom.hits.atom),
+    chip: k => atom.chipPoint(k),
+    sign: key => worldAt(history.hits.find(x => x.key === key).hit),
+    rack: s => worldAt(spec.rack.find(x => x.sym === s).hit),
+    balloon: s => worldAt(balloons.hits.balloons.find(x => x.sym === s).hit),
+    table: () => worldAt(balloons.hits.table).setY(0.7),
+  }
 
   // ---- the arch back to the gas's hall, behind the spawn ----
   // (inside a sentence the name is lowercase where the language says so; after a colon it is a label and
@@ -399,10 +579,11 @@ export async function build(ctx, target) {
         else wall.restore(text, glowOf(gas))
       },
     },
-    atom: { get: () => atom.state(), set: (s, live) => atom.setState(s, live) && later(1.5, () => atom.advance()) },
+    atom: { get: () => atom.state(), set: (s, live) => atom.setState(s, live) },
     history: { get: () => history.state(), set: (s, live) => history.setState(s, live) },
     spectrum: { get: () => spec.state(), set: (s, live) => spec.setState(s, live) },
-    balloons: { get: () => balloons.state(), set: (s, live, ago) => balloons.setState({ ...s, age: (Number(s.age) || 0) + ago }, live) },
+    // each balloon's flight runs on by the time gone by (ago)
+    balloons: { get: () => balloons.state(), set: (s, live, ago) => balloons.setState(s, live, ago) },
   }
 
   let unsub = null
@@ -428,8 +609,25 @@ export async function build(ctx, target) {
     doors,
     talk,
     shared,
-    // for the probes in tools/ (__ew.world.parts.bench.lit and so on)
-    parts: { bench, radon, wall, atom, history, spec, balloons },
+    // things worked by hand (common/taps.js): the hand over what can be tapped, a tap does its step
+    pointAt: taps.pointAt,
+    onTap: taps.onTap,
+    // for the probes in tools/ (__ew.world.parts.bench.lit, parts.tap('bench', 'pump'), and so on): the
+    // pieces, what a tap does, where the things to tap stand, a ray to one as a tap would cast it
+    parts: {
+      bench,
+      radon,
+      wall,
+      atom,
+      history,
+      spec,
+      balloons,
+      tap: tapStep,
+      at: thingAt,
+      rayTo: p => new THREE.Ray(ctx.camera.position.clone(), p.clone().sub(ctx.camera.position).normalize()),
+    },
+    // the stations' panels (E opens them), for the probes: __ew.showPanel(__ew.world.panels.bench)
+    panels: { bench: benchPanel, radon: radonPanel, atom: atomPanel, history: historyPanel, spectrum: specPanel, balloons: balloonsPanel },
     refresh: () => ex.refresh(),
     attach() {
       ex.report()

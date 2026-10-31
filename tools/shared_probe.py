@@ -62,7 +62,9 @@ def main():
         except Exception:
             return False
 
-    use = lambda page, it: page.evaluate(f"() => __ew.world.interactables.find(i => i.id === '{it}').onUse()")
+    # the workshop's stations are worked by tapping their things (E opens a panel): the tap the prompt
+    # names next (the table for the balloons, the bench's next step, the next sign, the next tube...)
+    use = lambda page, it: page.evaluate(f"() => __ew.world.parts.tap('{it}')")
     state = lambda page, part: page.evaluate(f"() => __ew.world.shared['{part}'].get()")
 
     with sync_playwright() as p:
@@ -118,10 +120,10 @@ def main():
         check("Ana's try did not count as Bob's discovery", not bob.evaluate("() => __ew.world.interactables.find(i => i.id === 'balloons').found"))
         check("Bob's prompt would now tie them back", bob.evaluate("() => __ew.world.interactables.find(i => i.id === 'balloons').verb") == ana.evaluate("() => __ew.world.interactables.find(i => i.id === 'balloons').verb"))
 
-        # the bench: Ana fills the next tube; Bob's bench fills the same tube, its animation playing
+        # the bench: Ana does its next step (the pump); Bob's bench does the same, its animation playing
         use(ana, 'bench')
-        check("Bob's bench is filling too", wait(bob, '() => __ew.world.parts.bench.busy', 5000))
-        check("Bob's bench lights the same tube", wait(bob, f"() => !__ew.world.parts.bench.busy && JSON.stringify(__ew.world.shared.bench.get()) === '{json.dumps(state(ana, 'bench'), separators=(',', ':'))}'", 8000), json.dumps(state(bob, 'bench')))
+        check("Bob's bench is working too", wait(bob, '() => __ew.world.parts.bench.busy', 5000))
+        check("Bob's bench ends as Ana's", wait(bob, f"() => !__ew.world.parts.bench.busy && JSON.stringify(__ew.world.shared.bench.get()) === '{json.dumps(state(ana, 'bench'), separators=(',', ':'))}'", 8000), json.dumps(state(bob, 'bench')))
 
         # the name: Ana lights ARTUR in argon; Bob's wall lights it letter by letter
         use(ana, 'name')
@@ -141,7 +143,7 @@ def main():
         use(bob, 'radon')
         check("Ana's Geiger counter clicks too", wait(ana, '() => __ew.world.parts.radon.busy', 4000))
         use(ana, 'history')
-        check("Bob's history board lights its first sign", wait(bob, '() => __ew.world.shared.history.get().lit === 1'))
+        check("Bob's history board lights its first sign", wait(bob, "() => __ew.world.shared.history.get().lit.join() === '1898'"))
 
         # helium's workshop is another world: Cid's there kept their own
         check("Cid's helium workshop kept its balloons", state(cid, 'balloons')['free'] is False)

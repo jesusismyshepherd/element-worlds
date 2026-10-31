@@ -71,8 +71,17 @@ export const SIGNS_WORDS = {
     bench: {
       title: 'The filling bench',
       screen: { kid: 'Pump the air out, let a gas in, switch on the high voltage.', sci: 'Vacuum, then a few millibar of gas, then thousands of volts: a glow discharge.' },
-      verbs: { fill: 'Fill with', off: 'Switch off', wait: 'Wait' },
-      labels: { all: 'all the tubes', working: 'the tube is filling' },
+      label: 'the filling bench',
+      hints: { pump: 'Tap the pump', gas: 'Tap a gas bottle', hv: 'Tap the high-voltage box', off: 'Tap the high-voltage box to switch off', wait: 'Wait a moment' },
+      buttons: { pump: 'Pump', hv: 'High voltage' },
+      steps: {
+        pumped: { kid: 'Whirr! The pump sucks the air out: the needle falls to 0. Now choose a gas: tap its bottle.', sci: 'Pumped down: the gauge reads 0 mbar. Now let a gas in: tap its flask.' },
+        filled: { kid: 'A little {gas} is in the tube now, much less than the air that was there. Now the high voltage: tap the black box with the lightning sign.', sci: '{Gas} at about 10 mbar, a hundredth of the air pressure. Now the high voltage: tap the transformer.' },
+        needPump: { kid: 'Wait: the tube is still full of air! The gas would mix with it and not glow properly. Tap the pump first.', sci: 'The line is still at air pressure: pump it down first, or the air would spoil the discharge.' },
+        noAir: { kid: 'Nothing happens: in a tube full of air, the electricity cannot get through to make it glow. Pump the air out and let a gas in first.', sci: "No glow: at atmospheric pressure the breakdown voltage is far above what the transformer gives (Paschen's law). Pump down and fill first." },
+        noGas: { kid: 'Nothing glows: the tube is empty! Choose a gas: tap its bottle.', sci: 'A vacuum has no atoms to excite: let a gas in first.' },
+        waiting: { kid: 'The {gas} is waiting for the high voltage: tap the black box with the lightning sign.', sci: 'The {gas} fill is waiting: switch on the high voltage, or pump it out again.' },
+      },
       hv: 'HIGH VOLTAGE',
       air: 'air',
       says: {
@@ -103,7 +112,8 @@ export const SIGNS_WORDS = {
     radon: {
       title: 'Radon, behind lead glass',
       label: 'the radon box',
-      verb: 'Measure',
+      verb: 'Tap the Geiger counter',
+      button: 'Measure',
       screen: { kid: 'Never in a sign: it is radioactive.', sci: 'Radon-222, half-life {half} days. Its lines were measured in sealed tubes (NIST).' },
       sign: 'RADIOACTIVE',
       lines: "Radon's lines",
@@ -129,7 +139,7 @@ export const SIGNS_WORDS = {
     name: {
       title: 'Your name in neon',
       label: 'your name in neon',
-      verb: 'Write',
+      verb: 'Tap the word on the wall',
       screen: { kid: 'Type a word and light it in any gas.', sci: 'Your word, bent in tubing and lit in any gas.' },
       overlay: {
         title: 'Write your name in neon',
@@ -157,7 +167,7 @@ export const SIGNS_WORDS = {
       title: 'The spectroscope',
       lines: 'lines',
       label: 'the spectroscope',
-      verb: 'Try {gas}',
+      verb: 'Tap a tube in the rack',
       screen: { kid: 'A prism splits the light into its colours.', sci: 'Emission lines in air, NIST Atomic Spectra Database.' },
       sun: 'The Sun, 1868',
       match: "It's helium!",
@@ -187,9 +197,10 @@ export const SIGNS_WORDS = {
     atom: {
       title: 'Why they glow',
       label: 'the {gas} atom',
-      verb: 'Fire an electron',
+      hints: { fire: 'Tap the atom to fire an electron', colour: 'Tap a colour on the energy steps' },
+      button: 'Fire an electron',
       screen: { kid: 'A full outer shell: nothing to hold on to. A bump makes light.', sci: 'A closed shell. Collisions excite it, and it gives the energy back as light: E = hc / wavelength.' },
-      ladder: { title: 'Energy steps', ground: 'ground state', ion: 'ionisation', photon: 'photon' },
+      ladder: { title: 'Energy steps', ground: 'ground state', ion: 'ionisation', photon: 'photon', pick: 'Tap a colour' },
       says: {
         kid: 'Bump! An electron jumped up a step, fell back and gave out a flash of {colour} light.',
         sci: '{Gas}: falling from {hi} eV to {lo} eV gives a photon of {photon} eV, λ = {nm} nm.',
@@ -211,9 +222,10 @@ export const SIGNS_WORDS = {
     history: {
       title: 'Signs through time',
       label: 'a short history',
-      verbs: { next: 'Light {year}', off: 'Switch off' },
+      hints: { next: 'Tap the {year} sign', all: 'Tap a sign to hear it again' },
+      buttons: { off: 'Switch them off' },
       today: 'TODAY',
-      screen: { kid: '1898, 1910, today: light them in order.', sci: 'From liquid air (1898) to the lights of the city.' },
+      screen: { kid: '1898, 1910, today: tap a sign to light it.', sci: 'From liquid air (1898) to the lights of the city.' },
       captions: { 1898: 'London: krypton, neon, xenon', 1910: 'Paris: the first neon lights', today: 'argon, mercury and a coating' },
       steps: {
         1898: {
@@ -249,7 +261,15 @@ export const SIGNS_WORDS = {
     balloons: {
       title: 'Which balloon floats?',
       label: 'the balloons',
-      verbs: { go: 'Let go', back: 'Tie them again' },
+      hints: { go: 'Tap a balloon to let it go', back: 'Tap the table to tie them again' },
+      buttons: { all: 'Let them all go', back: 'Tie them again' },
+      one: {
+        He: { kid: 'Whoosh! Helium shoots up to the ceiling: it is about seven times lighter than air.', sci: 'Helium, {rho} g/L against {air} g/L for air: the balloon rises at up to {speed} m/s.' },
+        Ne: { kid: 'Neon floats up, slowly: it is lighter than air, but much heavier than helium.', sci: 'Neon, {rho} g/L against {air} g/L for air: its lift only just beats the rubber, and it rises at up to {speed} m/s.' },
+        Ar: { kid: 'Argon drops to the floor: it is heavier than air.', sci: 'Argon, {rho} g/L against {air} g/L for air: the balloon sinks at up to {speed} m/s.' },
+        Kr: { kid: 'Krypton falls faster: it is almost three times heavier than air.', sci: 'Krypton, {rho} g/L against {air} g/L for air: the balloon sinks at up to {speed} m/s.' },
+        Xe: { kid: 'Xenon falls fastest of all: it is four and a half times heavier than air!', sci: 'Xenon, {rho} g/L against {air} g/L for air: the balloon sinks at up to {speed} m/s.' },
+      },
       screen: { kid: 'Lighter than air floats, heavier sinks.', sci: 'Lift per litre: the density of air minus that of the gas. Air: 1.293 g/L at 0 °C.' },
       says: {
         kid: 'Helium shoots up, neon floats up slowly, and argon, krypton and xenon fall: they are heavier than air!',
@@ -331,8 +351,17 @@ export const SIGNS_WORDS = {
     bench: {
       title: 'A bancada de enchimento',
       screen: { kid: 'Tira o ar, deixa entrar um gás, liga a alta tensão.', sci: 'Vácuo, depois alguns milibares de gás, depois milhares de volts: uma descarga luminosa.' },
-      verbs: { fill: 'Encher com', off: 'Apagar', wait: 'Espera' },
-      labels: { all: 'todos os tubos', working: 'o tubo está a encher' },
+      label: 'a bancada de enchimento',
+      hints: { pump: 'Toca na bomba', gas: 'Toca num frasco de gás', hv: 'Toca na caixa da alta tensão', off: 'Toca na caixa da alta tensão para apagar', wait: 'Espera um momento' },
+      buttons: { pump: 'Bomba', hv: 'Alta tensão' },
+      steps: {
+        pumped: { kid: 'Vrrr! A bomba tira o ar: o ponteiro desce até 0. Agora escolhe um gás: toca no frasco dele.', sci: 'Vácuo feito: o manómetro marca 0 mbar. Agora deixa entrar um gás: toca no frasco dele.' },
+        filled: { kid: 'Já há um pouco de {gas} no tubo, muito menos do que o ar que lá estava. Agora a alta tensão: toca na caixa preta com o sinal do raio.', sci: '{Gas} a cerca de 10 mbar, um centésimo da pressão do ar. Agora a alta tensão: toca no transformador.' },
+        needPump: { kid: 'Espera: o tubo ainda está cheio de ar! O gás misturava-se com ele e não brilhava bem. Toca primeiro na bomba.', sci: 'A linha ainda está à pressão do ar: tira-lhe o ar primeiro, ou o ar estragaria a descarga.' },
+        noAir: { kid: 'Não acontece nada: num tubo cheio de ar, a eletricidade não consegue passar para o fazer brilhar. Tira primeiro o ar e deixa entrar um gás.', sci: 'Nenhum brilho: à pressão atmosférica, a tensão de rutura é muito maior do que a que o transformador dá (lei de Paschen). Faz vácuo e enche primeiro.' },
+        noGas: { kid: 'Nada brilha: o tubo está vazio! Escolhe um gás: toca no frasco dele.', sci: 'No vácuo não há átomos para excitar: deixa entrar um gás primeiro.' },
+        waiting: { kid: 'O {gas} está à espera da alta tensão: toca na caixa preta com o sinal do raio.', sci: 'O {gas} está à espera: liga a alta tensão, ou tira-o outra vez com a bomba.' },
+      },
       hv: 'ALTA TENSÃO',
       air: 'ar',
       says: {
@@ -363,7 +392,8 @@ export const SIGNS_WORDS = {
     radon: {
       title: 'O rádon, atrás de vidro de chumbo',
       label: 'a caixa do rádon',
-      verb: 'Medir',
+      verb: 'Toca no contador Geiger',
+      button: 'Medir',
       screen: { kid: 'Nunca num letreiro: é radioativo.', sci: 'Rádon-222, período de semidesintegração de {half} dias. As suas riscas foram medidas em tubos selados (NIST).' },
       sign: 'RADIOATIVO',
       lines: 'As riscas do rádon',
@@ -389,7 +419,7 @@ export const SIGNS_WORDS = {
     name: {
       title: 'O teu nome em néon',
       label: 'o teu nome em néon',
-      verb: 'Escrever',
+      verb: 'Toca na palavra da parede',
       screen: { kid: 'Escreve uma palavra e acende-a no gás que quiseres.', sci: 'A tua palavra, dobrada em tubo e acesa em qualquer gás.' },
       overlay: {
         title: 'Escreve o teu nome em néon',
@@ -417,7 +447,7 @@ export const SIGNS_WORDS = {
       title: 'O espetroscópio',
       lines: 'riscas',
       label: 'o espetroscópio',
-      verb: 'Experimentar o {gas}',
+      verb: 'Toca num tubo do suporte',
       screen: { kid: 'Um prisma separa a luz nas suas cores.', sci: 'Riscas de emissão no ar, base de dados de espetros atómicos do NIST.' },
       sun: 'O Sol, 1868',
       match: 'É o hélio!',
@@ -447,9 +477,10 @@ export const SIGNS_WORDS = {
     atom: {
       title: 'Porque é que brilham',
       label: 'o átomo de {gas}',
-      verb: 'Disparar um eletrão',
+      hints: { fire: 'Toca no átomo para disparar um eletrão', colour: 'Toca numa cor dos degraus de energia' },
+      button: 'Disparar um eletrão',
       screen: { kid: 'A camada de fora cheia: nada a que se agarrar. Um encontrão faz luz.', sci: 'Uma camada fechada. Os choques excitam-na, e ela devolve a energia em luz: E = hc / comprimento de onda.' },
-      ladder: { title: 'Degraus de energia', ground: 'estado fundamental', ion: 'ionização', photon: 'fotão' },
+      ladder: { title: 'Degraus de energia', ground: 'estado fundamental', ion: 'ionização', photon: 'fotão', pick: 'Toca numa cor' },
       says: {
         kid: 'Pumba! Um eletrão saltou um degrau, voltou a cair e deu um clarão de luz {colour}.',
         sci: '{Gas}: descer de {hi} eV para {lo} eV dá um fotão de {photon} eV, λ = {nm} nm.',
@@ -471,9 +502,10 @@ export const SIGNS_WORDS = {
     history: {
       title: 'Letreiros ao longo do tempo',
       label: 'um pouco de história',
-      verbs: { next: 'Acender {year}', off: 'Apagar' },
+      hints: { next: 'Toca no letreiro {year}', all: 'Toca num letreiro para o ouvires outra vez' },
+      buttons: { off: 'Apagar todos' },
       today: 'HOJE',
-      screen: { kid: '1898, 1910, hoje: acende-os por ordem.', sci: 'Do ar líquido (1898) às luzes da cidade.' },
+      screen: { kid: '1898, 1910, hoje: toca num letreiro para o acender.', sci: 'Do ar líquido (1898) às luzes da cidade.' },
       captions: { 1898: 'Londres: crípton, néon, xénon', 1910: 'Paris: as primeiras luzes de néon', today: 'árgon, mercúrio e um revestimento' },
       steps: {
         1898: {
@@ -509,7 +541,15 @@ export const SIGNS_WORDS = {
     balloons: {
       title: 'Que balão flutua?',
       label: 'os balões',
-      verbs: { go: 'Largar', back: 'Prender outra vez' },
+      hints: { go: 'Toca num balão para o largar', back: 'Toca na mesa para os prender outra vez' },
+      buttons: { all: 'Largar todos', back: 'Prender outra vez' },
+      one: {
+        He: { kid: 'Zum! O hélio dispara até ao teto: é cerca de sete vezes mais leve do que o ar.', sci: 'Hélio, {rho} g/L contra {air} g/L do ar: o balão sobe a uma velocidade de até {speed} m/s.' },
+        Ne: { kid: 'O néon sobe devagarinho: é mais leve do que o ar, mas muito mais pesado do que o hélio.', sci: 'Néon, {rho} g/L contra {air} g/L do ar: a impulsão mal vence o peso da borracha, e o balão sobe a uma velocidade de até {speed} m/s.' },
+        Ar: { kid: 'O árgon cai para o chão: é mais pesado do que o ar.', sci: 'Árgon, {rho} g/L contra {air} g/L do ar: o balão desce a uma velocidade de até {speed} m/s.' },
+        Kr: { kid: 'O crípton cai mais depressa: é quase três vezes mais pesado do que o ar.', sci: 'Crípton, {rho} g/L contra {air} g/L do ar: o balão desce a uma velocidade de até {speed} m/s.' },
+        Xe: { kid: 'O xénon é o que cai mais depressa: é quatro vezes e meia mais pesado do que o ar!', sci: 'Xénon, {rho} g/L contra {air} g/L do ar: o balão desce a uma velocidade de até {speed} m/s.' },
+      },
       screen: { kid: 'Mais leve do que o ar sobe, mais pesado desce.', sci: 'Impulsão por litro: a densidade do ar menos a do gás. Ar: 1,293 g/L a 0 °C.' },
       says: {
         kid: 'O hélio dispara para cima, o néon sobe devagar, e o árgon, o crípton e o xénon caem: são mais pesados do que o ar!',
@@ -591,8 +631,17 @@ export const SIGNS_WORDS = {
     bench: {
       title: 'Stół do napełniania',
       screen: { kid: 'Wypompuj powietrze, wpuść gaz, włącz wysokie napięcie.', sci: 'Próżnia, potem kilka milibarów gazu, potem tysiące woltów: wyładowanie jarzeniowe.' },
-      verbs: { fill: 'Napełnij gazem', off: 'Wyłącz', wait: 'Zaczekaj' },
-      labels: { all: 'wszystkie rurki', working: 'rurka się napełnia' },
+      label: 'stół do napełniania',
+      hints: { pump: 'Dotknij pompy', gas: 'Dotknij kolby z gazem', hv: 'Dotknij skrzynki wysokiego napięcia', off: 'Dotknij skrzynki wysokiego napięcia, żeby wyłączyć', wait: 'Zaczekaj chwilę' },
+      buttons: { pump: 'Pompa', hv: 'Wysokie napięcie' },
+      steps: {
+        pumped: { kid: 'Wrrr! Pompa wysysa powietrze: wskazówka spada do 0. Teraz wybierz gaz: dotknij jego kolby.', sci: 'Wypompowane: manometr pokazuje 0 mbar. Teraz wpuść gaz: dotknij jego kolby.' },
+        filled: { kid: 'W rurce jest już trochę {gas}u, dużo mniej niż powietrza, które tam było. Teraz wysokie napięcie: dotknij czarnej skrzynki ze znakiem błyskawicy.', sci: '{Gas} pod ciśnieniem około 10 mbar, setnej części ciśnienia powietrza. Teraz wysokie napięcie: dotknij transformatora.' },
+        needPump: { kid: 'Zaczekaj: rurka jest jeszcze pełna powietrza! Gaz by się z nim zmieszał i nie świeciłby dobrze. Najpierw dotknij pompy.', sci: 'W instalacji jest jeszcze ciśnienie atmosferyczne: najpierw ją wypompuj, bo powietrze zepsułoby wyładowanie.' },
+        noAir: { kid: 'Nic się nie dzieje: w rurce pełnej powietrza prąd nie może przejść, żeby ją rozświetlić. Najpierw wypompuj powietrze i wpuść gaz.', sci: 'Brak świecenia: przy ciśnieniu atmosferycznym napięcie przebicia jest dużo wyższe, niż daje transformator (prawo Paschena). Najpierw wypompuj i napełnij.' },
+        noGas: { kid: 'Nic nie świeci: rurka jest pusta! Wybierz gaz: dotknij jego kolby.', sci: 'W próżni nie ma atomów do wzbudzenia: najpierw wpuść gaz.' },
+        waiting: { kid: 'Rurka z {gas}em czeka na wysokie napięcie: dotknij czarnej skrzynki ze znakiem błyskawicy.', sci: 'Rurka z {gas}em czeka: włącz wysokie napięcie albo wypompuj gaz z powrotem.' },
+      },
       hv: 'WYSOKIE NAPIĘCIE',
       air: 'atm',
       says: {
@@ -622,8 +671,9 @@ export const SIGNS_WORDS = {
 
     radon: {
       title: 'Radon za szkłem ołowiowym',
-      label: 'skrzynkę z radonem',
-      verb: 'Zmierz',
+      label: 'skrzynka z radonem',
+      verb: 'Dotknij licznika Geigera',
+      button: 'Zmierz',
       screen: { kid: 'Nigdy w neonie: jest promieniotwórczy.', sci: 'Radon-222, okres półtrwania {half} dnia. Jego linie zmierzono w zatopionych rurkach (NIST).' },
       sign: 'RADIOAKTYWNE',
       lines: 'Linie radonu',
@@ -649,7 +699,7 @@ export const SIGNS_WORDS = {
     name: {
       title: 'Twoje imię w neonie',
       label: 'twoje imię w neonie',
-      verb: 'Napisz',
+      verb: 'Dotknij słowa na ścianie',
       screen: { kid: 'Wpisz słowo i zapal je w dowolnym gazie.', sci: 'Twoje słowo wygięte z rurki i zapalone w dowolnym gazie.' },
       overlay: {
         title: 'Napisz swoje imię w neonie',
@@ -677,7 +727,7 @@ export const SIGNS_WORDS = {
       title: 'Spektroskop',
       lines: 'długości fal',
       label: 'spektroskop',
-      verb: 'Wypróbuj {gas}',
+      verb: 'Dotknij rurki na stojaku',
       screen: { kid: 'Pryzmat rozszczepia światło na kolory.', sci: 'Linie emisyjne w powietrzu, baza danych widm atomowych NIST.' },
       sun: 'Słońce, 1868',
       match: 'To hel!',
@@ -707,9 +757,10 @@ export const SIGNS_WORDS = {
     atom: {
       title: 'Dlaczego świecą',
       label: 'atom {gas}u',
-      verb: 'Wystrzel elektron',
+      hints: { fire: 'Dotknij atomu, żeby wystrzelić elektron', colour: 'Dotknij koloru na stopniach energii' },
+      button: 'Wystrzel elektron',
       screen: { kid: 'Pełna zewnętrzna powłoka: nie ma się czego trzymać. Uderzenie daje światło.', sci: 'Zamknięta powłoka. Zderzenia ją wzbudzają, a ona oddaje energię jako światło: E = hc / długość fali.' },
-      ladder: { title: 'Stopnie energii', ground: 'stan podstawowy', ion: 'jonizacja', photon: 'foton' },
+      ladder: { title: 'Stopnie energii', ground: 'stan podstawowy', ion: 'jonizacja', photon: 'foton', pick: 'Dotknij koloru' },
       says: {
         kid: 'Bum! Elektron wskoczył stopień wyżej, spadł z powrotem i wysłał błysk {colour} światła.',
         sci: '{Gas}: przejście z {hi} eV na {lo} eV daje foton o energii {photon} eV, λ = {nm} nm.',
@@ -731,9 +782,10 @@ export const SIGNS_WORDS = {
     history: {
       title: 'Neony przez lata',
       label: 'krótka historia',
-      verbs: { next: 'Zapal {year}', off: 'Wyłącz' },
+      hints: { next: 'Dotknij napisu {year}', all: 'Dotknij napisu, żeby znów go usłyszeć' },
+      buttons: { off: 'Wyłącz wszystkie' },
       today: 'DZIŚ',
-      screen: { kid: '1898, 1910, dziś: zapal je po kolei.', sci: 'Od ciekłego powietrza (1898) do świateł miasta.' },
+      screen: { kid: '1898, 1910, dziś: dotknij napisu, żeby go zapalić.', sci: 'Od ciekłego powietrza (1898) do świateł miasta.' },
       captions: { 1898: 'Londyn: krypton, neon, ksenon', 1910: 'Paryż: pierwsze lampy neonowe', today: 'argon, rtęć i powłoka' },
       steps: {
         1898: {
@@ -769,7 +821,15 @@ export const SIGNS_WORDS = {
     balloons: {
       title: 'Który balon się unosi?',
       label: 'balony',
-      verbs: { go: 'Puść', back: 'Przywiąż je znowu' },
+      hints: { go: 'Dotknij balonu, żeby go puścić', back: 'Dotknij stołu, żeby znowu je przywiązać' },
+      buttons: { all: 'Puść wszystkie', back: 'Przywiąż je znowu' },
+      one: {
+        He: { kid: 'Fiuu! Hel wystrzeliwuje pod sufit: jest około siedmiu razy lżejszy od powietrza.', sci: 'Hel, {rho} g/L wobec {air} g/L powietrza: balon wznosi się z prędkością do {speed} m/s.' },
+        Ne: { kid: 'Neon unosi się powoli: jest lżejszy od powietrza, ale dużo cięższy od helu.', sci: 'Neon, {rho} g/L wobec {air} g/L powietrza: siła nośna ledwo pokonuje ciężar gumy, a balon wznosi się z prędkością do {speed} m/s.' },
+        Ar: { kid: 'Argon spada na podłogę: jest cięższy od powietrza.', sci: 'Argon, {rho} g/L wobec {air} g/L powietrza: balon opada z prędkością do {speed} m/s.' },
+        Kr: { kid: 'Krypton spada szybciej: jest prawie trzy razy cięższy od powietrza.', sci: 'Krypton, {rho} g/L wobec {air} g/L powietrza: balon opada z prędkością do {speed} m/s.' },
+        Xe: { kid: 'Ksenon spada najszybciej: jest cztery i pół raza cięższy od powietrza!', sci: 'Ksenon, {rho} g/L wobec {air} g/L powietrza: balon opada z prędkością do {speed} m/s.' },
+      },
       screen: { kid: 'Lżejsze od powietrza się unosi, cięższe opada.', sci: 'Siła nośna na litr: gęstość powietrza minus gęstość gazu. Powietrze: 1,293 g/L przy 0 °C.' },
       says: {
         kid: 'Hel wystrzeliwuje w górę, neon unosi się powoli, a argon, krypton i ksenon spadają: są cięższe od powietrza!',
@@ -851,8 +911,17 @@ export const SIGNS_WORDS = {
     bench: {
       title: 'Die Füllbank',
       screen: { kid: 'Pump die Luft ab, lass ein Gas hinein, schalte die Hochspannung ein.', sci: 'Vakuum, dann ein paar Millibar Gas, dann Tausende Volt: eine Glimmentladung.' },
-      verbs: { fill: 'Füll mit', off: 'Schalte aus', wait: 'Warte' },
-      labels: { all: 'alle Röhren', working: 'die Röhre wird gefüllt' },
+      label: 'die Füllbank',
+      hints: { pump: 'Tippe auf die Pumpe', gas: 'Tippe auf einen Gaskolben', hv: 'Tippe auf den Hochspannungskasten', off: 'Tippe auf den Hochspannungskasten, um auszuschalten', wait: 'Warte einen Moment' },
+      buttons: { pump: 'Pumpe', hv: 'Hochspannung' },
+      steps: {
+        pumped: { kid: 'Brrr! Die Pumpe saugt die Luft heraus: Der Zeiger fällt auf 0. Jetzt wähle ein Gas: Tippe auf seinen Kolben.', sci: 'Abgepumpt: Das Manometer zeigt 0 mbar. Jetzt lass ein Gas hinein: Tippe auf seinen Kolben.' },
+        filled: { kid: 'Jetzt ist ein bisschen {gas} in der Röhre, viel weniger als die Luft, die vorher drin war. Jetzt die Hochspannung: Tippe auf den schwarzen Kasten mit dem Blitz.', sci: '{Gas} bei etwa 10 mbar, einem Hundertstel des Luftdrucks. Jetzt die Hochspannung: Tippe auf den Transformator.' },
+        needPump: { kid: 'Warte: Die Röhre ist noch voller Luft! Das Gas würde sich mit ihr mischen und nicht richtig leuchten. Tippe zuerst auf die Pumpe.', sci: 'Die Leitung steht noch unter Luftdruck: Pump sie zuerst ab, sonst verdirbt die Luft die Entladung.' },
+        noAir: { kid: 'Nichts passiert: In einer Röhre voller Luft kommt der Strom nicht durch, um sie leuchten zu lassen. Pump zuerst die Luft ab und lass ein Gas hinein.', sci: 'Kein Leuchten: Bei Atmosphärendruck liegt die Zündspannung weit über dem, was der Transformator liefert (Paschen-Gesetz). Erst abpumpen und füllen.' },
+        noGas: { kid: 'Nichts leuchtet: Die Röhre ist leer! Wähle ein Gas: Tippe auf seinen Kolben.', sci: 'Im Vakuum gibt es keine Atome, die man anregen könnte: Lass zuerst ein Gas hinein.' },
+        waiting: { kid: 'Das {gas} wartet auf die Hochspannung: Tippe auf den schwarzen Kasten mit dem Blitz.', sci: 'Die {gas}-Füllung wartet: Schalte die Hochspannung ein oder pump sie wieder ab.' },
+      },
       hv: 'HOCHSPANNUNG',
       air: 'Luft',
       says: {
@@ -883,7 +952,8 @@ export const SIGNS_WORDS = {
     radon: {
       title: 'Radon, hinter Bleiglas',
       label: 'die Radonkiste',
-      verb: 'Miss',
+      verb: 'Tippe auf den Geigerzähler',
+      button: 'Messen',
       screen: { kid: 'Nie in einem Schild: Es ist radioaktiv.', sci: 'Radon-222, Halbwertszeit {half} Tage. Seine Linien wurden in zugeschmolzenen Röhren gemessen (NIST).' },
       sign: 'RADIOAKTIV',
       lines: 'Die Linien des Radons',
@@ -908,8 +978,8 @@ export const SIGNS_WORDS = {
 
     name: {
       title: 'Dein Name in Neon',
-      label: 'deinen Namen in Neon',
-      verb: 'Schreib',
+      label: 'dein Name in Neon',
+      verb: 'Tippe auf das Wort an der Wand',
       screen: { kid: 'Tipp ein Wort ein und lass es in einem beliebigen Gas leuchten.', sci: 'Dein Wort, aus Röhren gebogen und in einem beliebigen Gas gezündet.' },
       overlay: {
         title: 'Schreib deinen Namen in Neon',
@@ -937,7 +1007,7 @@ export const SIGNS_WORDS = {
       title: 'Das Spektroskop',
       lines: 'Linien',
       label: 'das Spektroskop',
-      verb: 'Probier {gas}',
+      verb: 'Tippe auf eine Röhre im Ständer',
       screen: { kid: 'Ein Prisma zerlegt das Licht in seine Farben.', sci: 'Emissionslinien in Luft, Atomspektren-Datenbank des NIST.' },
       sun: 'Sonne, 1868',
       match: 'Es ist Helium!',
@@ -967,9 +1037,10 @@ export const SIGNS_WORDS = {
     atom: {
       title: 'Warum sie leuchten',
       label: 'das {gas}-Atom',
-      verb: 'Schieß ein Elektron',
+      hints: { fire: 'Tippe auf das Atom, um ein Elektron zu schießen', colour: 'Tippe auf eine Farbe an den Energiestufen' },
+      button: 'Elektron schießen',
       screen: { kid: 'Eine volle äußere Schale: nichts zum Festhalten. Ein Stoß macht Licht.', sci: 'Eine abgeschlossene Schale. Stöße regen sie an, und sie gibt die Energie als Licht zurück: E = hc / Wellenlänge.' },
-      ladder: { title: 'Energiestufen', ground: 'Grundzustand', ion: 'Ionisierung', photon: 'Photon' },
+      ladder: { title: 'Energiestufen', ground: 'Grundzustand', ion: 'Ionisierung', photon: 'Photon', pick: 'Tippe auf eine Farbe' },
       says: {
         kid: 'Bumm! Ein Elektron ist eine Stufe hochgesprungen, zurückgefallen und hat einen {colour} Lichtblitz ausgesandt.',
         sci: '{Gas}: Der Fall von {hi} eV auf {lo} eV ergibt ein Photon von {photon} eV, λ = {nm} nm.',
@@ -991,9 +1062,10 @@ export const SIGNS_WORDS = {
     history: {
       title: 'Neon im Lauf der Zeit',
       label: 'eine kurze Geschichte',
-      verbs: { next: 'Schalte {year} ein', off: 'Schalte aus' },
+      hints: { next: 'Tippe auf das Schild {year}', all: 'Tippe auf ein Schild, um es noch einmal zu hören' },
+      buttons: { off: 'Alle ausschalten' },
       today: 'HEUTE',
-      screen: { kid: '1898, 1910, heute: Schalte sie der Reihe nach ein.', sci: 'Von flüssiger Luft (1898) zu den Lichtern der Stadt.' },
+      screen: { kid: '1898, 1910, heute: Tippe auf ein Schild, um es einzuschalten.', sci: 'Von flüssiger Luft (1898) zu den Lichtern der Stadt.' },
       captions: { 1898: 'London: Krypton, Neon, Xenon', 1910: 'Paris: die ersten Neonlichter', today: 'Argon, Quecksilber und eine Beschichtung' },
       steps: {
         1898: {
@@ -1029,7 +1101,15 @@ export const SIGNS_WORDS = {
     balloons: {
       title: 'Welcher Ballon schwebt?',
       label: 'die Ballons',
-      verbs: { go: 'Lass los', back: 'Bind sie wieder fest' },
+      hints: { go: 'Tippe auf einen Ballon, um ihn loszulassen', back: 'Tippe auf den Tisch, um sie wieder festzubinden' },
+      buttons: { all: 'Alle loslassen', back: 'Wieder festbinden' },
+      one: {
+        He: { kid: 'Wusch! Helium schießt bis zur Decke: Es ist etwa siebenmal leichter als Luft.', sci: 'Helium, {rho} g/L gegen {air} g/L für Luft: Der Ballon steigt mit bis zu {speed} m/s.' },
+        Ne: { kid: 'Neon schwebt langsam nach oben: Es ist leichter als Luft, aber viel schwerer als Helium.', sci: 'Neon, {rho} g/L gegen {air} g/L für Luft: Der Auftrieb schlägt das Gummi nur knapp, und der Ballon steigt mit bis zu {speed} m/s.' },
+        Ar: { kid: 'Argon fällt auf den Boden: Es ist schwerer als Luft.', sci: 'Argon, {rho} g/L gegen {air} g/L für Luft: Der Ballon sinkt mit bis zu {speed} m/s.' },
+        Kr: { kid: 'Krypton fällt schneller: Es ist fast dreimal so schwer wie Luft.', sci: 'Krypton, {rho} g/L gegen {air} g/L für Luft: Der Ballon sinkt mit bis zu {speed} m/s.' },
+        Xe: { kid: 'Xenon fällt am schnellsten: Es ist viereinhalbmal so schwer wie Luft!', sci: 'Xenon, {rho} g/L gegen {air} g/L für Luft: Der Ballon sinkt mit bis zu {speed} m/s.' },
+      },
       screen: { kid: 'Leichter als Luft steigt, schwerer sinkt.', sci: 'Auftrieb pro Liter: die Dichte der Luft minus die des Gases. Luft: 1,293 g/L bei 0 °C.' },
       says: {
         kid: 'Helium schießt nach oben, Neon steigt langsam, und Argon, Krypton und Xenon fallen: Sie sind schwerer als Luft!',
