@@ -762,4 +762,169 @@ function hydrogen({ light }) {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon }
+// ---- Radon: a colourless gas shows nothing in a jar, so the case shows where it comes from, how it is found
+// and how it looks frozen: a lump of pink granite (radon seeps out of it), a home radon detector, and a
+// sealed glass capillary lying on a frosted copper cold block, the speck of frozen radon in it glowing
+// orange-red by itself (Gray and Ramsay, 1909: the boards' 'glow'). Dark colours, as the case's lamp and
+// the hall's bloom light things two or three times brighter ----
+/** A broken lump of granite: silicon's chunk for the shape, its faces recoloured by the grain they lie in
+ *  (many small grains: pink feldspar, grey quartz, black mica). */
+function graniteLump(r, rand) {
+  const geo = siliconChunk(r, rand)
+  const p = geo.attributes.position
+  const kinds = [
+    ['#5a363c', '#4e3036', '#66404a', '#553339'], // feldspar
+    ['#2c2f38', '#353846', '#272a32'], // quartz
+    ['#0e0e12', '#16161c'], // mica
+  ].map(list => list.map(c => new THREE.Color(c)))
+  const seeds = Array.from({ length: 70 }, () => {
+    const u = rand()
+    const kind = kinds[u < 0.48 ? 0 : u < 0.76 ? 1 : 2]
+    return { d: new THREE.Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize(), c: kind[Math.floor(rand() * kind.length)] }
+  })
+  const colors = []
+  const v = new THREE.Vector3()
+  const m = new THREE.Vector3()
+  for (let t = 0; t < p.count / 3; t++) {
+    m.set(0, 0, 0)
+    for (let k = 0; k < 3; k++) m.add(v.fromBufferAttribute(p, t * 3 + k))
+    m.normalize()
+    let best = seeds[0]
+    for (const s of seeds) if (s.d.dot(m) > best.d.dot(m)) best = s
+    for (let k = 0; k < 3; k++) colors.push(best.c.r, best.c.g, best.c.b)
+  }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+  return geo
+}
+
+function radon({ light }) {
+  const group = new THREE.Group()
+  const updates = []
+  const rand = rnd(1909)
+
+  // the granite, on one side of the table (the cold finger stands in the middle, so the glow is seen
+  // whichever way the table has turned; at the side, the rock hid it half the time)
+  const R = 0.105
+  const rock = new THREE.Mesh(graniteLump(R, rand), new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 0.75 }))
+  rock.position.set(-0.18, R * 0.5, -0.08)
+  rock.rotation.y = 0.4
+  group.add(rock)
+
+  // the detector: a small round box, charcoal with a grey ring and a label, leaning back on a little stand so
+  // its face looks out (a face lying on top shows only edge-on from where a visitor stands)
+  const det = new THREE.Group()
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.062, 0.028, 40), new THREE.MeshStandardMaterial({ color: '#40454f', roughness: 0.5 }))
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.005, 8, 40), new THREE.MeshStandardMaterial({ color: '#5c5a55', roughness: 0.6 }))
+  ring.rotation.x = Math.PI / 2
+  ring.position.y = 0.017
+  const label = new THREE.Mesh(
+    new THREE.CircleGeometry(0.038, 32),
+    new THREE.MeshStandardMaterial({
+      roughness: 0.8,
+      map: canvasTexture(128, (g, s) => {
+        g.fillStyle = '#4e4b45'
+        g.fillRect(0, 0, s, s)
+        g.fillStyle = '#ffb21e'
+        g.beginPath()
+        g.arc(s / 2, s / 2, s * 0.46, Math.PI * 1.1, Math.PI * 1.9)
+        g.lineTo(s / 2, s / 2)
+        g.fill()
+        g.fillStyle = '#1d2a5c'
+        g.font = `700 ${s * 0.36}px Outfit, Nunito, sans-serif`
+        g.textAlign = 'center'
+        g.textBaseline = 'middle'
+        g.fillText('Rn', s / 2, s * 0.62)
+      }),
+    }),
+  )
+  label.rotation.x = -Math.PI / 2
+  label.position.y = 0.0145
+  det.add(body, ring, label)
+  det.rotation.x = 1.15 // stood up, its face toward the visitor's side of the table
+  const detStand = new THREE.Group()
+  detStand.position.set(0.18, 0.064, 0.1)
+  detStand.rotation.y = -0.3
+  detStand.add(det)
+  const foot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.012, 0.06), new THREE.MeshStandardMaterial({ color: '#3a3f4c', roughness: 0.6 }))
+  foot.position.set(0.18, 0.006, 0.085)
+  foot.rotation.y = -0.3
+  group.add(detStand, foot)
+
+  // the cold finger: a frosted copper column on a dark foot, a cradle on top holding the capillary up where it
+  // can be seen from every side (lying on a low block, it hid behind the rock); the frost as fine specks
+  const cold = new THREE.Group()
+  cold.position.set(0, 0, 0)
+  cold.rotation.y = -0.55
+  group.add(cold)
+  const frost = canvasTexture(128, (g, s) => {
+    g.fillStyle = '#4a2a1e'
+    g.fillRect(0, 0, s, s)
+    const r2 = rnd(71)
+    for (let i = 0; i < 700; i++) {
+      g.fillStyle = `rgba(120,140,165,${0.12 + r2() * 0.22})`
+      g.fillRect(r2() * s, r2() * s, 1 + r2() * 2, 1 + r2() * 2)
+    }
+  })
+  const copper = new THREE.MeshStandardMaterial({ map: frost, roughness: 0.65, metalness: 0.35 })
+  const footC = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.078, 0.03, 32), new THREE.MeshStandardMaterial({ color: '#2c303a', roughness: 0.5 }))
+  footC.position.y = 0.015
+  const column = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.036, 0.13, 24), copper)
+  column.position.y = 0.095
+  const cradle = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.022, 0.045), copper)
+  cradle.position.y = 0.17
+  cold.add(footC, column, cradle)
+  // the capillary lying in the cradle, sealed at both ends, a little bulb at one
+  const glass = edgeGlass({ color: '#e6f2ff', edge: 0.6, base: 0.04 })
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.009, 0.009, 0.22, 16), glass)
+  tube.rotation.z = Math.PI / 2
+  tube.position.y = 0.192
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.02, 20, 14), glass)
+  bulb.position.set(-0.115, 0.192, 0)
+  cold.add(tube, bulb)
+  // the frozen speck: a few orange shards round a yellow heart, its own light round it
+  const speck = new THREE.Group()
+  speck.position.set(0.02, 0.196, 0)
+  const shardMat = new THREE.MeshBasicMaterial({ color: '#ff6a2a' })
+  for (let i = 0; i < 4; i++) {
+    const sh = new THREE.Mesh(new THREE.TetrahedronGeometry(0.011 + rand() * 0.005), shardMat)
+    sh.position.set((rand() - 0.5) * 0.008, (rand() - 0.5) * 0.006, (rand() - 0.5) * 0.006)
+    sh.rotation.set(rand() * 3, rand() * 3, rand() * 3)
+    speck.add(sh)
+  }
+  const heart = new THREE.Mesh(new THREE.SphereGeometry(0.0065, 10, 8), new THREE.MeshBasicMaterial({ color: '#ffd36a' }))
+  speck.add(heart)
+  // the outer glow blended normally: added light vanished against the bright pink hall behind the case
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: softSpot(), color: '#ff5a1e', transparent: true, depthWrite: false, opacity: 0.55 }))
+  halo.scale.setScalar(0.4)
+  // a smaller, hotter glow at its heart, so it reads as light against the bright boards behind the case
+  const core = new THREE.Sprite(new THREE.SpriteMaterial({ map: softSpot(), color: '#ffb040', transparent: true, depthWrite: false, opacity: 0.9, blending: THREE.AdditiveBlending }))
+  core.scale.setScalar(0.11)
+  speck.add(halo, core)
+  cold.add(speck)
+  if (!light) {
+    const lamp = new THREE.PointLight('#ff6a2a', 0.5, 0.5, 2)
+    lamp.position.set(0.02, 0.23, 0)
+    cold.add(lamp)
+  }
+  // the tiny flashes of its own decays round the speck
+  const flashes = []
+  for (let i = 0; i < 3; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#ffd08a', transparent: true, depthWrite: false, opacity: 0, blending: THREE.AdditiveBlending }))
+    s.scale.setScalar(0.035)
+    speck.add(s)
+    flashes.push({ s, phase: rand() * 10, speed: 1.3 + rand() })
+  }
+  updates.push(t => {
+    halo.material.opacity = 0.6 + Math.sin(t * 2.3) * 0.06
+    for (const f of flashes) {
+      const k = Math.max(0, Math.sin(t * f.speed * 3 + f.phase))
+      f.s.material.opacity = k ** 10
+      if (k < 0.02) f.s.position.set((rand() - 0.5) * 0.03, (rand() - 0.5) * 0.02, (rand() - 0.5) * 0.02)
+    }
+  })
+
+  group.scale.setScalar(1.2)
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon, Rn: radon }
