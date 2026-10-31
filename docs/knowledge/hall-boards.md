@@ -144,5 +144,19 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   chip line, the wafer's rainbow, the turbocharger, the minerals); its showpiece above. Trap: a title over
   about 37 characters wraps on the band and can leave one word alone on the second line ("of?", "vidro?");
   keep titles under that where the language allows (the test still allows 44).
+- Done: Hydrogen (2026-10-31): seven pictures, no doorway yet (no wing, no Periodic Videos room), each with
+  a room designed for it and built on top by other agents (`bigbang` the first atoms, 380,000 years after
+  the Big Bang, Penzias and Wilson's hiss; `airship` Charles's balloon of 1783, lift per cubic metre, why
+  airships went to helium after the Hindenburg; `bond` the pond skater and the hydrogen bond; `fuel` the
+  Shuttle's hydrogen and the fuel cell, Apollo's drinking water, the iLint train; `cavendish` inflammable air
+  in 1766, the 1781 spark globe, Lavoisier's name; `jupiter` metallic hydrogen and Jupiter's magnet, the
+  Galileo probe; `radio` the 21 cm line, the hydrogen map of the Milky Way, the Pioneer plaque), none
+  repeating oxygen's water room, the Atom Forge or the Star Forge. Its showpiece: a spectrum tube in its stand
+  glowing pink-violet and a red balloon tugging its string from a brass weight (`hydrogen` in showpieces.js;
+  the case's words in `appearance.js` say it glows in a tube). The pictures share `tools/boards/H/hkit.py`
+  (atoms as models in the Atom Forge's colours, water molecules that report their hydrogens for drawing
+  hydrogen bonds). Trap: the kit already defines `url(#b<El>)` for every ball, so a gradient of your own
+  named `bP` or `bN` silently takes phosphorus's orange or nitrogen's blue (the first definition wins):
+  name your own gradients apart (`pP`, `pN`).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
