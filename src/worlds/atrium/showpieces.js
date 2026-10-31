@@ -262,9 +262,10 @@ function oxygen({ light }) {
 /** A lump cut through by the plane x = c: the part on one side kept, what lay over the plane pressed onto
  *  it, so it has one flat face. keep -1 keeps x < c (the face looks along +x), 1 keeps x > c (the slice
  *  that came off; its face looks along -x). Group 0 is the lump's outside, group 1 the flat face (the
- *  same lump from the same seed on both sides gives a piece and the slice cut from it). */
-function cutLump(r, rand, squash, c, keep = -1) {
-  const g = lump(r, rand, squash).toNonIndexed()
+ *  same lump from the same seed on both sides gives a piece and the slice cut from it). `shape` makes the
+ *  lump (iron's meteorite has thumbprints in it). */
+function cutLump(r, rand, squash, c, keep = -1, shape = lump) {
+  const g = shape(r, rand, squash).toNonIndexed()
   const p = g.attributes.position
   const n = g.attributes.normal
   for (let i = 0; i < p.count; i++) if ((p.getX(i) - c) * keep < 0) p.setX(i, c)
@@ -658,4 +659,152 @@ function silicon() {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { C: carbon, O: oxygen, Na: sodium, Si: silicon }
+/** An iron meteorite's shape: a rounded lump pressed in by shallow round hollows, the thumbprints
+ *  (regmaglypts) that melting in the air carves into it on the way down. Functions of the direction, so
+ *  faces that share a corner stay joined. */
+function meteoriteLump(r, rand, squash = 0.7) {
+  const g = lump(r, rand, squash)
+  const p = g.attributes.position
+  const pits = Array.from({ length: 16 }, () => {
+    const d = new THREE.Vector3(rand() - 0.5, (rand() - 0.5) * 1.4, rand() - 0.5).normalize()
+    return [d, 0.24 + rand() * 0.16, 0.05 + rand() * 0.04]
+  })
+  const v = new THREE.Vector3()
+  for (let i = 0; i < p.count; i++) {
+    v.fromBufferAttribute(p, i)
+    const n = v.clone().normalize()
+    let k = 1
+    for (const [d, width, depth] of pits) {
+      const a = Math.acos(Math.min(1, Math.max(-1, n.dot(d))))
+      k -= depth * Math.exp(-((a / width) ** 2) * 2.5)
+    }
+    v.multiplyScalar(k)
+    p.setXYZ(i, v.x, v.y, v.z)
+  }
+  g.computeVertexNormals()
+  return g
+}
+
+/** An etched face of an iron meteorite: the Widmanstätten pattern, plates of kamacite in three
+ *  directions, each catching the light in its own shade, thin bright taenite along their sides, dark
+ *  fine-grained plessite between (the same drawing as the hall's picture, tools/boards/Fe/meteorite.py).
+ *  Dark colours: the case's lamp and the bloom light a sample two or three times brighter. */
+function widmanstatten(seed) {
+  return canvasTexture(512, (g, s) => {
+    const rand = rnd(seed)
+    g.fillStyle = '#111317'
+    g.fillRect(0, 0, s, s)
+    const plates = []
+    for (const [ang, col] of [[16, '#363b43'], [76, '#24282e'], [136, '#454b55']]) {
+      const a = (ang * Math.PI) / 180
+      const d = [Math.cos(a), Math.sin(a)]
+      const n = [-d[1], d[0]]
+      for (let off = -s * 0.75; off < s * 0.75;) {
+        const w = s * (0.022 + rand() * 0.03)
+        for (let pos = -s * 0.8; pos < s * 0.8;) {
+          const seg = s * (0.1 + rand() * 0.32)
+          plates.push([rand(), off, pos + seg / 2, seg, w, col, d, n])
+          pos += seg + s * (0.012 + rand() * 0.05)
+        }
+        off += w + s * (0.01 + rand() * 0.025)
+      }
+    }
+    plates.sort((p, q) => p[0] - q[0])
+    const line = (x1, y1, x2, y2) => {
+      g.beginPath()
+      g.moveTo(x1, y1)
+      g.lineTo(x2, y2)
+      g.stroke()
+    }
+    for (const [, off, mid, seg, w, col, d, n] of plates) {
+      const cx = s / 2 + n[0] * off + d[0] * mid
+      const cy = s / 2 + n[1] * off + d[1] * mid
+      const [x1, y1, x2, y2] = [cx - (d[0] * seg) / 2, cy - (d[1] * seg) / 2, cx + (d[0] * seg) / 2, cy + (d[1] * seg) / 2]
+      g.strokeStyle = col
+      g.lineWidth = w
+      line(x1, y1, x2, y2)
+      g.strokeStyle = '#69717c'
+      g.lineWidth = s / 300
+      for (const k of [-0.5, 0.5]) line(x1 + n[0] * w * k, y1 + n[1] * w * k, x2 + n[0] * w * k, y2 + n[1] * w * k)
+    }
+  })
+}
+
+// ---- Iron: an iron meteorite, sawn and etched so its crystals show, the slice cut from it standing in a
+// holder, and a polished cube of pure iron stamped with its symbol (the hall's picture `meteorite` tells
+// the story; here the real thing) ----
+function iron() {
+  const group = new THREE.Group()
+  const updates = []
+  // the outside: the dark brown-black crust a meteorite gets from burning through the air and rusting
+  // a little on the ground (dark: the case's lamp makes everything two or three times brighter)
+  const crust = new THREE.MeshStandardMaterial({ color: '#150b09', roughness: 0.6, metalness: 0.25 })
+  const etched = widmanstatten(1808)
+  const face = new THREE.MeshStandardMaterial({ map: etched, emissiveMap: etched, emissive: '#ffffff', emissiveIntensity: 0.06, roughness: 0.35, metalness: 0.3 })
+
+  // the end piece: the meteorite sawn flat on one side, its etched face turned out and a little up
+  const R = 0.15
+  const SEED = 1920
+  const end = new THREE.Mesh(cutLump(R, rnd(SEED), 0.72, 0.05, -1, meteoriteLump), [crust, face])
+  end.rotation.y = -Math.PI / 2 // the face (+x) looks along +z
+  const tilt = new THREE.Group()
+  tilt.rotation.x = -0.3
+  tilt.position.set(-0.13, R * 0.62, -0.06)
+  tilt.add(end)
+  group.add(tilt)
+
+  // the slice cut from it, standing in a slotted holder, its etched face looking the other way, so one of
+  // the two faces is towards you whichever way the table has turned
+  const slice = new THREE.Mesh(cutLump(R, rnd(SEED), 0.72, 0.05, 1, meteoriteLump), [crust, face])
+  // keep a thin slab: everything past x = 0.072 is pressed back onto that plane (a second sawn face)
+  const sp = slice.geometry.attributes.position
+  for (let i = 0; i < sp.count; i++) if (sp.getX(i) > 0.072) sp.setX(i, 0.072)
+  slice.geometry.computeVertexNormals() // flat facets: the sawn back faces back, the etched face forward
+  slice.geometry.computeBoundingSphere()
+  slice.rotation.y = Math.PI / 2 // the face (-x) looks along +z, the slab between z = -0.072 and -0.05
+  const holder = new THREE.Group()
+  const SLOT = 0.03
+  const block = new THREE.Mesh(new THREE.BoxGeometry(0.22, SLOT, 0.06), new THREE.MeshStandardMaterial({ color: '#2a3160', roughness: 0.5 }))
+  block.position.y = SLOT / 2
+  slice.position.set(0, R * 0.72 * 0.95, 0.061) // centred on the block
+  holder.add(block, slice)
+  holder.position.set(0.14, 0, 0.16)
+  holder.rotation.y = Math.PI - 0.35
+  group.add(holder)
+
+  // a cube of pure iron, polished (the drawn matcap of silicon's showpiece, warmed to steel), stamped Fe
+  const stamp = canvasTexture(128, (g, s) => {
+    g.fillStyle = '#ffffff'
+    g.fillRect(0, 0, s, s)
+    g.fillStyle = '#6a6a6a'
+    g.font = `700 ${s * 0.42}px Outfit, Nunito, sans-serif`
+    g.textAlign = 'center'
+    g.textBaseline = 'middle'
+    g.fillText('Fe', s / 2, s * 0.53)
+  })
+  const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(0.1, 0.1, 0.1),
+    new THREE.MeshMatcapMaterial({ matcap: siliconMatcap(), map: stamp, color: '#b4aaa0', flatShading: true }),
+  )
+  cube.position.set(-0.17, 0.05, 0.15)
+  cube.rotation.y = 0.5
+  group.add(cube)
+
+  // glints coming and going on the etched faces
+  const glints = []
+  for (const [host, x, y, z] of [[end, 0.052, 0.02, 0.03], [end, 0.052, -0.03, -0.04], [slice, 0.046, 0.02, -0.02]]) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#eef3ff', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    s.scale.setScalar(0.06)
+    s.position.set(x, y, z)
+    host.add(s)
+    glints.push({ s, phase: glints.length * 2.1, speed: 0.6 + glints.length * 0.25 })
+  }
+  updates.push(t => {
+    for (const g of glints) g.s.material.opacity = Math.max(0, Math.sin(t * g.speed + g.phase)) ** 8
+  })
+
+  group.scale.setScalar(0.95)
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { C: carbon, O: oxygen, Na: sodium, Si: silicon, Fe: iron }
