@@ -144,5 +144,19 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   chip line, the wafer's rainbow, the turbocharger, the minerals); its showpiece above. Trap: a title over
   about 37 characters wraps on the band and can leave one word alone on the second line ("of?", "vidro?");
   keep titles under that where the language allows (the test still allows 44).
+- Done: Iron (2026-10-31, the first hall drawn with its rooms designed beside it; the rooms come next,
+  on the same branch): seven pictures, no doorway yet (`meteorite` Tutankhamun's dagger of sky iron, the
+  Widmanstätten pattern, Hoba; `compass` the geodynamo in the liquid outer core, Gilbert, the sea floor's
+  stripes; `smith` the bloomery, the bloom, steel and quenching, the Iron Age; `cereal` iron powder pulled
+  from cereal with a magnet, how little the gut lets in; `tower` the Eiffel Tower's rivets, its top
+  leaning from the sun, its three browns; `mars` rusty dust, Opportunity's blueberries, blue sunsets;
+  `rails` thermite welding a track), none repeating oxygen's rust, breath and first rooms, silicon's
+  earth or the Star Forge. Its showpiece: an iron meteorite sawn and etched (`meteoriteLump`, thumbprints
+  pressed in; `widmanstatten`, the pattern drawn on a canvas in dark greys), the slice cut from it
+  standing in a holder, and a polished cube of pure iron stamped Fe. Trap: the case's warm lamp turns any
+  dark brown olive and any pale grey white; the etched face reads only at plates of #24282e to #454b55 on
+  #111317, with emissive 0.06. Facts with doubts: the Eiffel Tower's summer growth (the official site says
+  a few millimetres, popular sites 15 cm: the story gives 3.6 mm per degree and the 15 cm loop the top
+  traces); the first thermite rail weld (1899 in most sources, 1896 in one).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
