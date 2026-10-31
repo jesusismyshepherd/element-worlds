@@ -162,12 +162,33 @@ export async function build(ctx, target, previous) {
     m.position.set(s.x, HEIGHT / 2, s.z)
     root.add(m)
   }
+  // the doorways are square and the arches round at the top: the two corners above the arc are wall too
+  // (the user, 2026-10-31: the doorway's corners showed dark above the portal)
+  const corners = (() => {
+    const r = DOOR.width / 2
+    const post = DOOR.height - r
+    const shapes = [-1, 1].map(s => {
+      const sh = new THREE.Shape()
+      sh.moveTo(s * r, post)
+      sh.lineTo(s * r, DOOR.height)
+      sh.lineTo(0, DOOR.height)
+      sh.absarc(0, post, r, Math.PI / 2, s < 0 ? Math.PI : 0, s > 0)
+      return sh
+    })
+    const g = new THREE.ExtrudeGeometry(shapes, { depth: wallT, bevelEnabled: false, curveSegments: 24 })
+    g.translate(0, 0, -wallT)
+    return g
+  })()
   for (const o of openings) {
     const sd = SIDES[o.side]
     const lintel = new THREE.Mesh(new THREE.BoxGeometry(DOOR.width + 0.1, HEIGHT - DOOR.height, wallT), wallMat)
     lintel.position.set(sd.x + Math.sign(sd.x) * wallT / 2, DOOR.height + (HEIGHT - DOOR.height) / 2, sd.z + Math.sign(sd.z) * wallT / 2)
     lintel.rotation.y = sd.rot
     root.add(lintel)
+    const fill = new THREE.Mesh(corners, wallMat)
+    fill.position.set(sd.x, 0, sd.z)
+    fill.rotation.y = sd.rot
+    root.add(fill)
   }
   const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(HALF * 2, HALF * 2), new THREE.MeshStandardMaterial({ color: '#10143a', roughness: 0.9 }))
   ceiling.rotation.x = Math.PI / 2

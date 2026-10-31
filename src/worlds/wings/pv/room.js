@@ -14,7 +14,7 @@ import { tapTargets } from '../../common/taps.js'
 import { box, circle } from '../../../engine/collide.js'
 import { atriumPath } from '../../registry.js'
 import { at, fill, exhibitSet, onLevel, fontsReady } from '../noble/kit.js'
-import { labRoom, LAB, SPOTS, DOORS } from './lab.js'
+import { labRoom, LAB, SPOTS, DOORS, ARCH } from './lab.js'
 import { videoScreen } from './apparatus.js'
 import { professor } from './professor.js'
 import { PV_WORDS } from './pv.words.js'
@@ -183,7 +183,7 @@ export async function build(ctx, target) {
   }
 
   // the arch back to the element's hall, behind the spawn
-  const back = arch({ width: 3.4, height: 3.1, color: COLOR, label: fill(W.back, forms), portal: 'swirl' })
+  const back = arch({ ...ARCH, color: COLOR, label: fill(W.back, forms), portal: 'swirl' })
   back.group.position.set(0, 0, LAB.z1 - 0.1)
   back.group.rotation.y = Math.PI
   root.add(back.group)

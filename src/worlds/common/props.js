@@ -124,6 +124,31 @@ export function arch({ width = 3.6, height = 4.4, color = '#7fd4ff', label = '',
   return { group, update: t => mat.uniforms && (mat.uniforms.uTime.value = t) }
 }
 
+/** The wall left round an arch standing in a wider, taller square doorway, its inner edge cut to the
+ *  arch's round top (`ow` x `oh` the doorway, `aw` x `ah` the arch, both centred and standing on y = 0;
+ *  facing +z; `uv` the metres one texture repeat covers). The doorway's corners showed dark above the
+ *  portal (the user, 2026-10-31). The hall's doorways are as wide as their arches: `atrium.js` fills only
+ *  the two corners. */
+export function archSurround(ow, oh, aw, ah, uv = [1, 1]) {
+  const r = aw / 2
+  const post = ah - r
+  const s = new THREE.Shape()
+  s.moveTo(-ow / 2, 0)
+  s.lineTo(-ow / 2, oh)
+  s.lineTo(ow / 2, oh)
+  s.lineTo(ow / 2, 0)
+  s.lineTo(r, 0)
+  s.lineTo(r, post)
+  s.absarc(0, post, r, 0, Math.PI, false)
+  s.lineTo(-r, 0)
+  s.closePath()
+  const g = new THREE.ShapeGeometry(s, 24)
+  const pos = g.attributes.position
+  const tex = g.attributes.uv
+  for (let i = 0; i < pos.count; i++) tex.setXY(i, pos.getX(i) / uv[0], pos.getY(i) / uv[1])
+  return g
+}
+
 /** Glass that shows only at its edges, as a display case does: clear where you look straight through it,
  *  catching the light where you look along it (a transparent physical glass reflected the bright hall
  *  over the whole case and fogged what was inside). */

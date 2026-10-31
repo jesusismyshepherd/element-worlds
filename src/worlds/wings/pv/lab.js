@@ -6,10 +6,13 @@
 import * as THREE from 'three'
 import { canvasTex, random } from '../noble/kit.js'
 import { roomWalls, box } from '../../../engine/collide.js'
+import { archSurround } from '../../common/props.js'
 
 export const LAB = { x0: -7, x1: 7, z0: -4, z1: 7.5, h: 3.4 }
 export const YARD = { x0: -6, x1: 6, z0: -12.5, z1: -4, h: 4.2 }
 export const DOORS = { south: 3.6, north: 2.4 }
+/** The arch back to the hall, standing in the south doorway (`room.js`). */
+export const ARCH = { width: 3.4, height: 3.1 }
 
 /** Where things stand: a surface's top (y), and `face`, the turn that points a part's +x at the visitor
  *  (rotation.y takes +x to (cos, 0, -sin)). `at`: where the visitor stands to use it. */
@@ -99,6 +102,9 @@ export function labRoom({ light = false } = {}) {
     add(new THREE.BoxGeometry(width, h - doorH, depth), mat, 0, doorH + (h - doorH) / 2, z)
   }
   wallWithDoor(z1 + T / 2, DOORS.south, 3.2)
+  // the wall round the arch: the doorway is a little wider and taller than the arch standing in it
+  const surround = add(archSurround(DOORS.south, 3.2, ARCH.width, ARCH.height), mats.wall, 0, 0, z1 - 0.002)
+  surround.rotation.y = Math.PI
   wallWithDoor(z0 - T / 2, DOORS.north, 2.5)
   solids.push(...roomWalls(x0, x1, z0, z1, [{ side: 's', at: 0, width: DOORS.south }, { side: 'n', at: 0, width: DOORS.north }], 1))
 

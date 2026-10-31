@@ -111,7 +111,9 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
   reach, accept })` for each thing, and the world returns `pointAt: taps.pointAt, onTap: taps.onTap`
   (picture rooms get `clickable` from `room.js`; `picture-rooms.md`, `walking.md` "Things to click").
 - `ctx.light` (phones, weak computers): fewer particles, no glass; keep frames short.
-- The arch back to the atrium stands behind the spawn; the spawn faces into the wing.
+- The arch back to the atrium stands behind the spawn; the spawn faces into the wing. An arch in a square
+  doorway: fill the wall round its round top (`archSurround` in `common/props.js`; the user, 2026-10-31:
+  the doorway's corners showed dark above the portal).
 
 ## Checking it
 

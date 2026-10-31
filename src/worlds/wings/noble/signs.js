@@ -21,7 +21,7 @@ import { GASES, SIGN_GASES, glowOf, densityOf, AIR_DENSITY, BALLOON, LADDER, lev
 import { sanitizeName, tubeLength, layoutText } from './tubeFont.js'
 import { neonSign } from './neonTube.js'
 import { at, fill, num, exhibitSet, onLevel, fontsReady } from './kit.js'
-import { workshopRoom, ROOM, DOOR } from './signs.room.js'
+import { workshopRoom, ROOM, DOOR, ARCH } from './signs.room.js'
 import { fillingBench, radonBox } from './signs.bench.js'
 import { spectroscope, atomDisplay } from './signs.optics.js'
 import { nameWall, historyBoard, balloonRack } from './signs.parts.js'
@@ -522,7 +522,7 @@ export async function build(ctx, target) {
   // (inside a sentence the name is lowercase where the language says so; after a colon it is a label and
   // keeps its capital: "Powrót do sali: Neon")
   const backName = /:\s*\{gas\}$/.test(W.back) ? GasName(sym) : gasName(sym)
-  const back = arch({ width: 3.6, height: 4.4, color: COLOR, label: fill(W.back, { gas: backName }), portal: 'swirl' })
+  const back = arch({ ...ARCH, color: COLOR, label: fill(W.back, { gas: backName }), portal: 'swirl' })
   back.group.position.set(0, 0, z1 - 0.1)
   back.group.rotation.y = Math.PI
   root.add(back.group)

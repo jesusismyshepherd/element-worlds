@@ -5,10 +5,13 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { canvasTex, random, hdr } from './kit.js'
+import { archSurround } from '../../common/props.js'
 
 export const ROOM = { x0: -7.5, x1: 7.5, z0: -12.5, z1: 6, h: 5.4 }
 /** The doorway in the south wall, round the arch back to the hall. */
 export const DOOR = { width: 4.5, height: 4.85 }
+/** The arch back to the hall, standing in the doorway (`signs.js`). */
+export const ARCH = { width: 3.6, height: 4.4 }
 
 /** A height map as a tangent-space normal map. */
 function normalMap(heights, w, h, strength) {
@@ -185,6 +188,8 @@ export function workshopRoom({ light, tint = null }) {
   add(wallPiece(-x1, -dw, 0, h, bricks.size), 0, z1, Math.PI)
   add(wallPiece(dw, -x0, 0, h, bricks.size), 0, z1, Math.PI)
   add(wallPiece(-dw, dw, DOOR.height, h, bricks.size), 0, z1, Math.PI)
+  // brick round the arch too: the doorway is wider and taller than the arch standing in it
+  add(archSurround(DOOR.width, DOOR.height, ARCH.width, ARCH.height, bricks.size), 0, z1, Math.PI)
   // the dark passage behind the doorway (only the arch's portal is seen through it)
   const passage = new THREE.Mesh(new THREE.PlaneGeometry(DOOR.width + 0.4, DOOR.height + 0.3), new THREE.MeshBasicMaterial({ color: '#040408' }))
   passage.position.set(0, DOOR.height / 2, z1 + 0.6)
