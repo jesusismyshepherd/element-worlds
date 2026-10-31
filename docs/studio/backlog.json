@@ -677,9 +677,61 @@
         "The pieces are ready (a stone, a wall plaque, words in the sky): a passage is a line in a list, its words fetched by a tool, and a few lines in the room."
       ],
       "doc": "docs/knowledge/scripture.md"
+    },
+    {
+      "id": "press-for-two",
+      "code": "C",
+      "z": 6,
+      "title": "The diamond press for two",
+      "kind": "together",
+      "status": "built",
+      "from": "you",
+      "date": "2026-10-31",
+      "summary": "Your request: stations two people can play and have fun with, like Experimentarium's and the Copernicus Centre's; some alone, some more fun together, some needing another person. One working example.",
+      "details": [
+        "Built (2026-10-31): carbon's diamond press. One pumps at the red lever (the seals leak; too much opens the safety valve), the other works the heater (its screen shows the window where diamond grows). The diamond grows only while both are right, for 45 seconds, then the press opens on it: about a carat with good teamwork.",
+        "Alone you do both jobs (hard). In a room, with two or more at the press, whoever takes a job keeps it and the other is told “Ana has that job. Call out to them!”. Someone leaving frees their job."
+      ],
+      "link": "https://element-worlds.vercel.app/e/C/allotropes",
+      "doc": "docs/knowledge/press.md"
+    },
+    {
+      "id": "stations-for-two",
+      "code": "Tw",
+      "title": "More stations for two",
+      "kind": "together",
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-10-31",
+      "summary": "After the diamond press, the same pattern elsewhere: a job that really takes two (or three) things at once, split between players, alone still possible.",
+      "details": [
+        "The fire triangle for three: each holds one side (fuel, heat, oxygen), the fire burns only while all three hold.",
+        "The neon bench: one pumps the vacuum, the other fills the gas and switches on the high voltage.",
+        "An electron tug of war between two atoms: who wins is the electronegativity, so the fun is in choosing your atom."
+      ],
+      "doc": "docs/knowledge/press.md"
+    },
+    {
+      "id": "tech-moire-shared",
+      "code": "Mq",
+      "title": "The moiré turns differently for two players",
+      "kind": "tech",
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-10-31",
+      "summary": "The room check of carbon's gallery finds the moiré turntable's state differing between two players after its button (one turning by hand, the other sweeping). It is on the live site too, older than the press.",
+      "details": [
+        "tools/shared_probe.py --world /e/C/allotropes: five checks, all the moiré's."
+      ]
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "The diamond press for two",
+      "what": "Carbon's press is a job for two now: one pumps, one works the heater, and the diamond grows only while both are right. Alone you do both; in a room each keeps their job.",
+      "link": "https://element-worlds.vercel.app/e/C/allotropes"
+    },
     {
       "date": "2026-10-31",
       "title": "Bible passages in every place",
@@ -1162,6 +1214,11 @@
       "date": "2026-10-31",
       "title": "The whole chapter in the Bible App, not in the game",
       "why": "You asked for the chapter in the popup, then saw it better: open the Bible App right on the verse, where the whole chapter is, with its pictures and more. It also keeps whole chapters out of the game, which the publishers allow only as quotations."
+    },
+    {
+      "date": "2026-10-31",
+      "title": "The first station for two: the diamond press",
+      "why": "Real diamonds are grown with high pressure and high heat at the same moment, so the press is a job that truly needs two pairs of hands: it teaches the science and makes teamwork the fun. Alone it still works (harder); in a room, each player keeps the job they took, so it needs two."
     }
   ]
 }

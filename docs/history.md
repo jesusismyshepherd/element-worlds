@@ -6,6 +6,12 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- Stations for two (the user: "all of the stations are for one person; have stations that two people can
+  play with and have fun", after Experimentarium and the Copernicus Science Centre; "just one, as a
+  working example"): carbon's diamond press is now a job for two, as real diamond growth is. One pumps
+  (the seals leak, too much opens the safety valve), the other works the new heater (its screen draws the
+  window where diamond grows); the diamond grows only while both are right, for 45 s. Alone one player does
+  both; two or more in a room each keep the job they took, through the room's referee. `press.md`.
 - Bible passages through the worlds (the user: "interweave passages from the Bible throughout the world
   relevant to where they are placed; for explorer use NLT and for scientist CSB"): 46 passages, each
   about the place it stands in, in four languages at both depths (NLT and CSB; Bíblia para Todos and

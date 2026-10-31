@@ -859,11 +859,12 @@ function dialTexture(max, step, unit, red) {
   })
 }
 
-/** The press: a steel frame with a hydraulic ram, tungsten-carbide anvils and a capsule; a console
- *  with a pressure gauge (GPa) and a temperature gauge (°C). Faces +x (the walkway). Steps: load,
- *  squeeze, heat, open, start again; each returns false while the last one is still moving. Each step
- *  is the tap on its thing (`targets`: the graphite on the tray, the pump lever, the capsule, the ram,
- *  the diamond; common/taps.js). */
+/** The press, made for two (src/game/press.js, docs/knowledge/press.md): a steel frame with a hydraulic
+ *  ram, tungsten-carbide anvils and a capsule; on one side the pump's console (its lever, a pressure gauge
+ *  in GPa and a temperature gauge in °C), on the other the heater (its power knob and a screen with the
+ *  window), a lamp on top. Faces +x (the walkway). The gallery shows each frame of a run (`actions.show`),
+ *  then the press opens on the diamond (`finish`) and is loaded again (`reset`). `targets` (common/taps.js):
+ *  the graphite on the bed, the pump's lever, the heater's knob, the diamond. */
 export function diamondPress({ light, env, words }) {
   const group = new THREE.Group()
   const paintMat = new THREE.MeshPhysicalMaterial({ color: '#25365f', roughness: 0.42, metalness: 0.55, clearcoat: light ? 0 : 0.5, clearcoatRoughness: 0.3 })
@@ -942,7 +943,8 @@ export function diamondPress({ light, env, words }) {
 
   // the graphite and the diamond
   const graphite = add3(new THREE.CylinderGeometry(0.1, 0.1, 0.13, 6), new THREE.MeshStandardMaterial({ color: '#3a3e47', roughness: 0.3, metalness: 0.8 }), 0, 0, 0)
-  const tray = new THREE.Vector3(1.32, 1.27, -1.22)
+  // the graphite waits on the bed, beside the anvil
+  const tray = new THREE.Vector3(0.5, 0.885, -0.62)
   graphite.position.copy(tray)
   const crystal = cuboOctahedron()
   const gemM = gemMesh(facetGeometry(crystal.facets), gemMaterial({ planes: crystal.planes, env, light, tint: '#fff3cf', gain: 2.6 }))
@@ -1022,121 +1024,235 @@ export function diamondPress({ light, env, words }) {
   knob.position.y = 0.62
   lever.add(arm, knob)
 
-  // ---- what each step is tapped on (common/taps.js): invisible shapes round small or thin things
+  // ---- the heater, on the press's other side (the second job): its knob is the heater's power; its screen
+  // shows the window (the pressure against the temperature, where diamond grows) and how the run goes
+  const heaterG = new THREE.Group()
+  heaterG.position.set(1.35, 0, -1.25)
+  group.add(heaterG)
+  const hStand = new THREE.Mesh(new RoundedBoxGeometry(0.42, 1.25, 0.9, 2, 0.04), paintMat)
+  hStand.position.y = 0.625
+  heaterG.add(hStand)
+  const hFace = new THREE.Group()
+  hFace.position.set(0.12, 1.5, 0)
+  hFace.rotation.set(0, Math.PI / 2, 0)
+  hFace.rotateX(-0.45)
+  heaterG.add(hFace)
+  hFace.add(new THREE.Mesh(new RoundedBoxGeometry(1.25, 0.8, 0.08, 3, 0.03), dark))
+  const hEdge = new THREE.Mesh(new RoundedBoxGeometry(1.29, 0.84, 0.05, 3, 0.03), glowMat('#ff8a3c', 1))
+  hEdge.position.z = -0.02
+  hFace.add(hEdge)
+  const screen = pressScreen(W)
+  screen.mesh.position.set(-0.19, 0.02, 0.046)
+  hFace.add(screen.mesh)
+  const dialG = new THREE.Group()
+  dialG.position.set(0.42, -0.04, 0.05)
+  hFace.add(dialG)
+  const dialBase = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.025, 40), chrome)
+  dialBase.rotation.x = Math.PI / 2
+  const dialCap = new THREE.Group()
+  const capKnob = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.105, 0.07, 32), glowMat('#ff5a46', 0.7))
+  capKnob.rotation.x = Math.PI / 2
+  capKnob.position.z = 0.04
+  const mark = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.08, 0.01), glowMat('#ffffff', 1.5))
+  mark.position.set(0, 0.05, 0.08)
+  dialCap.add(capKnob, mark)
+  dialG.add(dialBase, dialCap)
+  const dialName = makeText(W.press.heater.toUpperCase(), { size: 0.045, color: '#ffb48a' })
+  dialName.position.set(0.42, 0.25, 0.05)
+  hFace.add(dialName)
+  // the lamp on top: green while the diamond grows, blue too cold, red too little pressure, orange too hot
+  const lampMat = new THREE.MeshStandardMaterial({ color: '#39424f', emissive: '#000000', roughness: 0.3 })
+  const lamp = add3(new THREE.SphereGeometry(0.16, 24, 16), lampMat, 0, 4.82, 0)
+  lamp.castShadow = false
+  const LAMP = { idle: '#000000', cold: '#3a8bff', graphite: '#ff3b30', hot: '#ff9f1c', grow: '#3ddc84' }
+
+  // ---- what is tapped (common/taps.js): the graphite to start, the lever to pump, the heater's knob, the
+  // diamond to start again; invisible shapes round small or thin things
   const targets = {
     graphite: ghostBall(0.26, tray.x, tray.y, tray.z),
     lever: ghostBox(0.3, 0.86, 0.3, 0, 0.36, 0),
-    capsule: ghostPost(0.38, 0.85, 1.62),
-    ram,
+    knob: ghostBall(0.2),
     diamond: ghostBall(0.3),
   }
-  group.add(targets.graphite, targets.capsule)
+  group.add(targets.graphite)
   lever.add(targets.lever)
+  dialG.add(targets.knob)
   gemHolder.add(targets.diamond)
 
-  // ---- the steps
-  let step = 0 // 0 ready to load, 1 loaded, 2 squeezed, 3 heated (diamond inside), 4 open with the diamond
-  let busy = 0
+  // ---- the run (src/game/press.js): the gallery shows each frame's run here (show), then the press opens
+  // on the diamond made (finish) and is loaded again (reset)
+  let phase = 'idle' // idle | run | opening | open | resetting
   let anim = null
-  const run = (seconds, fn, done) => {
-    anim = { t: 0, seconds, fn, done }
-    busy = seconds
-  }
-  const arc = (from, to, u, h) => from.clone().lerp(to, u).add(new THREE.Vector3(0, Math.sin(u * Math.PI) * h, 0))
-  const capsuleTop = new THREE.Vector3(0, 1.36, 0)
+  let gemCt = 0
   let gemShow = 0
+  let kick = 0 // the lever's last stroke, fading
+  let valveSeen = 0
+  let valveFlash = 0
+  const shown = { P: 0, T: 20 }
+  const trail = []
+  const capsuleTop = new THREE.Vector3(0, 1.36, 0)
+  const arc = (from, to, u, h) => from.clone().lerp(to, u).add(new THREE.Vector3(0, Math.sin(u * Math.PI) * h, 0))
+  const fmtCt = ct => ct.toFixed(2).replace('.', W.decimal)
+  // a 0.8-carat diamond is the size of the old press's; a speck at the least
+  const gemScale = ct => 0.15 * Math.cbrt(Math.max(0.03, ct) / 0.8)
+  const glowAt = T => {
+    const k = clamp((T - 300) / 1300, 0, 1.25)
+    capMat.emissiveIntensity = k * 2.2
+    capMat.emissive.setHSL(0.05 + 0.06 * Math.min(1, k), 1, 0.5)
+    heater.material.emissiveIntensity = k * 2.8
+    glow.intensity = light ? 0 : k * 8
+  }
+  const setLamp = z => {
+    lampMat.emissive.set(LAMP[z] ?? '#000000')
+    lampMat.emissiveIntensity = z === 'idle' ? 0 : 2.4
+  }
+  const loaded = () => {
+    graphite.visible = true
+    graphite.position.copy(tray)
+    graphite.rotation.y = 0
+  }
   const actions = {
-    get step() {
-      return step
+    get phase() {
+      return phase
     },
-    get busy() {
-      return busy > 0
-    },
-    use() {
-      if (busy > 0) return false
-      if (step === 0) {
-        run(1.4, u => {
-          graphite.position.copy(arc(tray, capsuleTop, easeInOut(u), 0.5))
-          graphite.rotation.y = u * 3
-          lever.rotation.x = 0
-        }, () => {
-          graphite.visible = false
-          step = 1
-        })
-      } else if (step === 1) {
-        run(3.6, u => {
-          const k = easeInOut(Math.min(1, u * 1.25))
-          placeRam(restTop + (pressTop - restTop) * k)
-          setGauge(gauges[0], 6 * smooth(clamp((u - 0.25) / 0.75, 0, 1)), fmtP)
-          lever.rotation.x = Math.sin(u * Math.PI * 6) * 0.5
-          group.position.y = u > 0.3 ? Math.sin(u * 160) * 0.003 : 0
-        }, () => {
-          group.position.y = 0
-          lever.rotation.x = 0
-          step = 2
-        })
-      } else if (step === 2) {
-        run(3.8, u => {
-          const k = smooth(clamp(u / 0.8, 0, 1))
-          setGauge(gauges[1], 20 + 1480 * k, fmtT)
-          capMat.emissiveIntensity = k * 2.4
-          capMat.emissive.setHSL(0.05 + 0.06 * k, 1, 0.5)
-          heater.material.emissiveIntensity = k * 3
-          glow.intensity = light ? 0 : k * 9
-        }, () => {
-          step = 3
-        })
-      } else if (step === 3) {
-        run(3.2, u => {
-          const cool = smooth(clamp(u / 0.6, 0, 1))
-          setGauge(gauges[1], 1500 - 1480 * cool, fmtT)
-          setGauge(gauges[0], 6 * (1 - smooth(clamp(u / 0.45, 0, 1))), fmtP)
-          capMat.emissiveIntensity = 2.4 * (1 - cool)
-          heater.material.emissiveIntensity = 3 * (1 - cool)
-          glow.intensity = light ? 0 : 9 * (1 - cool)
-          placeRam(pressTop + (restTop - pressTop) * easeInOut(clamp((u - 0.2) / 0.6, 0, 1)))
-          const rise = easeOut(clamp((u - 0.55) / 0.45, 0, 1))
-          gemHolder.visible = u > 0.5
-          gemHolder.position.set(0, 1.36 + rise * 0.3, 0)
-          gemShow = rise
-        }, () => {
-          step = 4
-        })
-      } else {
-        run(1.2, u => {
-          gemHolder.scale.setScalar(1 - easeInOut(u))
-        }, () => {
-          gemHolder.visible = false
-          gemHolder.scale.setScalar(1)
-          graphite.visible = true
-          graphite.position.copy(tray)
-          gemShow = 0
-          step = 0
-        })
-      }
-      return true
-    },
-    /** The step it stands at (one under way counted as done), for the others in a room
-     *  (src/net/shared.js). */
-    state() {
-      return { step: busy > 0 ? (step + 1) % 5 : step }
-    },
-    /** Someone else worked the press: the next step plays here when live; otherwise every step is run
-     *  to its end at once until the press stands where theirs does. */
-    setState({ step: s = 0 } = {}, live = false) {
-      const want = ((Math.round(Number(s) || 0) % 5) + 5) % 5
-      if (want === actions.state().step) return
-      if (live && busy === 0 && want === (step + 1) % 5) return void actions.use()
-      for (let k = 0; k < 6 && (anim || step !== want); k++) {
-        if (!anim) actions.use()
-        const a = anim
+    /** A run on: `u` ms since it began, P GPa, T °C, the heater's power, the diamond so far (ct), its zone,
+     *  the seconds left and how often the valve opened. The press closes in the first two seconds. */
+    show({ u, P, T, power, ct, zone, left, valve, together }) {
+      if (phase !== 'run') {
+        phase = 'run'
         anim = null
-        busy = 0
-        a.fn(1)
-        a.done?.()
+        gemHolder.visible = false
+        valveSeen = valve
       }
+      const c = clamp(u / 1000, 0, 1)
+      graphite.visible = c < 1
+      if (c < 1) {
+        graphite.position.copy(arc(tray, capsuleTop, easeInOut(c), 0.5))
+        graphite.rotation.y = c * 3
+      }
+      placeRam(restTop + (pressTop - restTop) * easeInOut(clamp((u - 600) / 1400, 0, 1)))
+      shown.P += (P - shown.P) * 0.25
+      shown.T += (T - shown.T) * 0.25
+      setGauge(gauges[0], Math.min(8, shown.P), fmtP)
+      setGauge(gauges[1], Math.min(2000, shown.T), fmtT)
+      glowAt(shown.T)
+      dialCap.rotation.z = -power * Math.PI * 1.5 + Math.PI * 0.75
+      if (valve > valveSeen) {
+        valveSeen = valve
+        valveFlash = 1.2
+      }
+      setLamp(valveFlash > 0 ? (Math.floor(valveFlash * 6) % 2 ? 'graphite' : 'idle') : zone)
+      trail.push([T, P])
+      if (trail.length > 90) trail.shift()
+      screen.draw({ P, T, ct, zone: valveFlash > 0 ? 'valve' : zone, left, trail, together, fmtCt })
+    },
+    /** A stroke of the pump: the lever kicks. */
+    pumped() {
+      kick = 1
+    },
+    /** The run is over: the press cools and opens on the diamond made (a bare chunk of graphite when none). */
+    finish(ct) {
+      gemCt = ct
+      phase = 'opening'
+      const from = { ...shown }
+      const ramFrom = ramY
+      const made = ct >= 0.02
+      gemM.scale.setScalar(gemScale(ct))
+      screen.draw({ P: 0, T: 20, ct, zone: 'done', left: 0, trail, fmtCt })
+      setLamp(made ? 'grow' : 'idle')
+      anim = {
+        t: 0,
+        seconds: 3.2,
+        fn: u => {
+          const cool = smooth(clamp(u / 0.6, 0, 1))
+          setGauge(gauges[1], from.T + (20 - from.T) * cool, fmtT)
+          setGauge(gauges[0], from.P * (1 - smooth(clamp(u / 0.45, 0, 1))), fmtP)
+          glowAt(from.T + (20 - from.T) * cool)
+          placeRam(ramFrom + (restTop - ramFrom) * easeInOut(clamp((u - 0.2) / 0.6, 0, 1)))
+          const rise = easeOut(clamp((u - 0.55) / 0.45, 0, 1))
+          if (made) {
+            gemHolder.visible = u > 0.5
+            gemHolder.position.set(0, 1.36 + rise * 0.3, 0)
+            gemShow = rise
+          } else if (u > 0.5) {
+            graphite.visible = true
+            graphite.position.set(0, 1.36 + rise * 0.3, 0)
+          }
+        },
+        done: () => {
+          phase = 'open'
+          shown.P = 0
+          shown.T = 20
+          setLamp('idle')
+        },
+      }
+    },
+    /** The diamond taken away, the graphite back on the bed: ready for the next run. */
+    reset(now = false) {
+      if (phase === 'idle' || phase === 'run') return
+      phase = 'resetting'
+      const done = () => {
+        gemHolder.visible = false
+        gemHolder.scale.setScalar(1)
+        gemShow = 0
+        loaded()
+        trail.length = 0
+        screen.draw({ P: 0, T: 20, ct: 0, zone: 'idle', left: 0, trail, fmtCt })
+        phase = 'idle'
+      }
+      if (now) {
+        anim = null
+        return done()
+      }
+      anim = { t: 0, seconds: 1.2, fn: u => gemHolder.scale.setScalar(1 - easeInOut(u)), done }
+    },
+    /** The press shown as it stands, without a run: open on a diamond of `ct` carats (null: loaded, ready). */
+    rest(ct) {
+      anim = null
+      shown.P = 0
+      shown.T = 20
+      setGauge(gauges[0], 0, fmtP)
+      setGauge(gauges[1], 20, fmtT)
+      glowAt(20)
+      placeRam(restTop)
+      setLamp('idle')
+      if (ct == null) {
+        gemHolder.visible = false
+        gemShow = 0
+        loaded()
+        phase = 'idle'
+        screen.draw({ P: 0, T: 20, ct: 0, zone: 'idle', left: 0, trail: [], fmtCt })
+        return
+      }
+      gemCt = ct
+      phase = 'open'
+      const made = ct >= 0.02
+      gemM.scale.setScalar(gemScale(ct))
+      gemHolder.visible = made
+      gemHolder.position.set(0, 1.66, 0)
+      gemShow = made ? 1 : 0
+      graphite.visible = !made
+      if (!made) graphite.position.set(0, 1.66, 0)
+      screen.draw({ P: 0, T: 20, ct, zone: 'done', left: 0, trail: [], fmtCt })
+    },
+    /** The press at rest, for the others in a room and the saved world (src/net/shared.js): open on the
+     *  diamond made, or loaded and ready. A run itself goes through the room's referee (src/net/press.js). */
+    state() {
+      return { open: phase === 'open' || phase === 'opening' ? gemCt : null }
+    },
+    setState({ open = null } = {}, live = false) {
+      if (phase === 'run' || phase === 'opening') return
+      const ct = Number.isFinite(Number(open)) && open != null ? Math.max(0, Number(open)) : null
+      if (ct == null) {
+        if (phase === 'idle') return
+        if (live) return actions.reset()
+        return actions.rest(null)
+      }
+      if (phase === 'open' && Math.abs(ct - gemCt) < 0.005) return
+      actions.rest(ct)
     },
   }
+  screen.draw({ P: 0, T: 20, ct: 0, zone: 'idle', left: 0, trail, fmtCt })
   return {
     group,
     actions,
@@ -1148,20 +1264,181 @@ export function diamondPress({ light, env, words }) {
         if (anim.t >= anim.seconds) {
           const done = anim.done
           anim = null
-          busy = 0
           done?.()
         }
+      }
+      if (kick > 0) {
+        kick = Math.max(0, kick - dt * 4)
+        lever.rotation.x = Math.sin(kick * Math.PI) * 0.55
+      }
+      if (valveFlash > 0) {
+        valveFlash = Math.max(0, valveFlash - dt)
+        group.position.y = valveFlash > 0.8 ? Math.sin(t * 160) * 0.004 : 0
       }
       if (gemHolder.visible) {
         gemM.rotation.y += dt * 0.9
         gemHolder.position.y = 1.36 + gemShow * 0.3 + Math.sin(t * 1.6) * 0.02 * gemShow
         sparkle.update(dt, 1.5)
       }
-      if (step === 3 && !anim) {
-        // inside, hot and squeezed: the capsule breathes its glow
-        capMat.emissiveIntensity = 2.2 + Math.sin(t * 5) * 0.25
+      if (phase === 'run') capMat.emissiveIntensity += Math.sin(t * 5) * 0.02
+    },
+  }
+}
+
+/** The heater's screen: on the left the window, the pressure (GPa, up) against the temperature (°C,
+ *  across), graphite below the graphite-diamond line and diamond above it, the growing window in green and
+ *  the safety valve's line in red, the press's point with its trail; on the right the diamond so far, the
+ *  seconds left and a word on how it goes. Drawn again at most ten times a second. */
+function pressScreen(W) {
+  const w = 1024
+  const h = 656
+  const canvas = document.createElement('canvas')
+  canvas.width = w
+  canvas.height = h
+  const g = canvas.getContext('2d')
+  const tex = new THREE.CanvasTexture(canvas)
+  tex.colorSpace = THREE.SRGBColorSpace
+  tex.anisotropy = 4
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }))
+  const font = 'Outfit, system-ui, sans-serif'
+  const box = { x0: 96, x1: 600, y0: 40, y1: 560 }
+  // the part of the diagram that matters: 600 to 1800 °C, 3 to 8 GPa
+  const T0 = 600
+  const P0 = 3
+  const X = T => box.x0 + ((Math.max(T0, Math.min(1800, T)) - T0) / (1800 - T0)) * (box.x1 - box.x0)
+  const Y = P => box.y1 - ((Math.max(P0, Math.min(8, P)) - P0) / (8 - P0)) * (box.y1 - box.y0)
+  const line = T => 1.94 + 0.0025 * T
+  const COLORS = { idle: '#9fb3d9', cold: '#7fb2ff', graphite: '#ff6b5e', hot: '#ffb04a', grow: '#5ef09a', valve: '#ff4a3d', done: '#ffd166' }
+  let last = 0
+  let pending = null
+  let lastV = null
+  const paintNow = v => {
+    lastV = v
+    g.fillStyle = '#0b1026'
+    g.fillRect(0, 0, w, h)
+    // graphite below the line, diamond above
+    g.fillStyle = '#26304a'
+    g.beginPath()
+    g.moveTo(X(T0), Y(line(T0)))
+    g.lineTo(X(1800), Y(line(1800)))
+    g.lineTo(X(1800), Y(P0))
+    g.lineTo(X(T0), Y(P0))
+    g.fill()
+    g.fillStyle = '#17304a'
+    g.beginPath()
+    g.moveTo(X(T0), Y(line(T0)))
+    g.lineTo(X(1800), Y(line(1800)))
+    g.lineTo(X(1800), Y(8))
+    g.lineTo(X(T0), Y(8))
+    g.fill()
+    // the window: hot enough for the metal, not too hot, above the line, under the valve
+    g.fillStyle = 'rgba(70, 220, 130, 0.35)'
+    g.beginPath()
+    g.moveTo(X(1300), Y(line(1300)))
+    g.lineTo(X(1600), Y(line(1600)))
+    g.lineTo(X(1600), Y(7.6))
+    g.lineTo(X(1300), Y(7.6))
+    g.fill()
+    g.strokeStyle = '#ffffff'
+    g.lineWidth = 3
+    g.beginPath()
+    g.moveTo(X(T0), Y(line(T0)))
+    g.lineTo(X(1800), Y(line(1800)))
+    g.stroke()
+    g.setLineDash([12, 10])
+    g.strokeStyle = '#ff5a46'
+    g.beginPath()
+    g.moveTo(X(T0), Y(7.6))
+    g.lineTo(X(1800), Y(7.6))
+    g.stroke()
+    g.setLineDash([])
+    g.strokeStyle = '#5b6a95'
+    g.lineWidth = 2
+    g.strokeRect(box.x0, box.y0, box.x1 - box.x0, box.y1 - box.y0)
+    g.fillStyle = '#c7d3f5'
+    g.font = `500 30px ${font}`
+    g.textAlign = 'center'
+    g.textBaseline = 'top'
+    for (const T of [600, 1000, 1400, 1800]) g.fillText(String(T), X(T), box.y1 + 10)
+    g.fillText(W.press.axis.T, (box.x0 + box.x1) / 2, box.y1 + 48)
+    g.textAlign = 'right'
+    g.textBaseline = 'middle'
+    for (const P of [3, 4, 5, 6, 7, 8]) g.fillText(String(P), box.x0 - 12, Y(P))
+    g.save()
+    g.translate(30, (box.y0 + box.y1) / 2)
+    g.rotate(-Math.PI / 2)
+    g.textAlign = 'center'
+    g.fillText(W.press.axis.P, 0, 0)
+    g.restore()
+    g.font = `700 32px ${font}`
+    g.textAlign = 'left'
+    g.fillStyle = '#9fd7ff'
+    g.fillText(W.press.axis.diamond, X(650), Y(7.2))
+    g.fillStyle = '#aab4cc'
+    g.fillText(W.press.axis.graphite, X(1150), Y(3.6))
+    // the trail and the point
+    if (v.trail.length > 1) {
+      g.strokeStyle = 'rgba(255, 255, 255, 0.45)'
+      g.lineWidth = 3
+      g.beginPath()
+      v.trail.forEach(([T, P], i) => (i ? g.lineTo(X(T), Y(P)) : g.moveTo(X(T), Y(P))))
+      g.stroke()
+    }
+    if (v.zone !== 'idle' && v.zone !== 'done') {
+      const px = X(v.T)
+      const py = Y(v.P)
+      g.fillStyle = COLORS[v.zone]
+      g.beginPath()
+      g.arc(px, py, 16, 0, Math.PI * 2)
+      g.fill()
+      g.strokeStyle = '#ffffff'
+      g.lineWidth = 4
+      g.stroke()
+    }
+    // the diamond so far, the time left, how it goes
+    const cx = 820
+    g.textAlign = 'center'
+    g.textBaseline = 'alphabetic'
+    g.fillStyle = '#ffd166'
+    g.font = `800 112px ${font}`
+    g.fillText(v.fmtCt(v.ct), cx, 210)
+    g.font = `700 44px ${font}`
+    g.fillText('ct', cx, 262)
+    g.fillStyle = '#e8eeff'
+    g.font = `700 60px ${font}`
+    if (v.zone !== 'idle' && v.zone !== 'done') g.fillText(`${v.left} ${W.press.secs}`, cx, 380)
+    g.fillStyle = COLORS[v.zone] ?? '#ffffff'
+    g.font = `800 50px ${font}`
+    // a word too wide for its column goes on two lines, split at the space nearest the middle
+    const word = W.press.short[v.zone] ?? ''
+    let lines = [word]
+    if (g.measureText(word).width > 380 && word.includes(' ')) {
+      const spaces = [...word.matchAll(/ /g)].map(m => m.index)
+      const at = spaces.reduce((a, b) => (Math.abs(b - word.length / 2) < Math.abs(a - word.length / 2) ? b : a))
+      lines = [word.slice(0, at), word.slice(at + 1)]
+    }
+    lines.forEach((l, i) => g.fillText(l, cx, 470 + i * 58))
+    tex.needsUpdate = true
+  }
+  // drawn before the web font came: again once it has
+  document.fonts?.load(`800 40px Outfit`).then(() => lastV && paintNow(lastV), () => {})
+  return {
+    mesh,
+    /** Draw the screen (a run's frames at most ten a second; anything else at once). */
+    draw(v) {
+      const now = performance.now()
+      const running = v.zone !== 'idle' && v.zone !== 'done'
+      if (running && now - last < 100) {
+        pending = v
+        return
       }
-      void ramY
+      last = now
+      pending = null
+      paintNow(v)
+    },
+    flush() {
+      if (pending) paintNow(pending)
+      pending = null
     },
   }
 }

@@ -62,6 +62,9 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   table (`multiplayer.md`). `shared_probe.py`: a world's things shared in a room (neon's workshop by
   default, with the room kept while empty, own and room apart, the note for a bystander; `--world <path>`
   any world: every exhibit used, the others' states compared, a latecomer). Its rooms are `PRB...`.
+- `press_duo_probe.py`: the diamond press for two (`press.md`): two players in a room (a computer in
+  English, a phone in Polish), one run on both, the jobs kept and refused, the same diamond, then one alone
+  working both. 23 checks, about a minute; shots in `tools/shots/press_duo/`.
 - `forge_room_probe.py`: the Atom Forge in a room, three players (a computer in English, a phone in
   Portuguese, a computer in German): presses at the same moment both counting, the others' glow and
   lines, missions for everyone there, a decay, a beam shot and a self-decay played once on every table;

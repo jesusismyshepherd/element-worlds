@@ -46,7 +46,7 @@ built when, and the user's requests behind it: `docs/history.md`.
   contract, the stages, adding a room), `usage-data.md` (what is recorded, the privacy rules, the dashboard,
   reading the data), `multiplayer.md` (rooms, the shared lab, the realtime traps), `accounts.md` (the
   Pokémon site's logins, the progress kept in them, the recording switch), `tools.md` (every probe and
-  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `sound.md` (the
+  helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `press.md` (the diamond press for two: the first station made for two players, its rules and the pattern for more), `sound.md` (the
   music beds as offline loops, the buffer, why a phone crackles), `periodic-videos.md` (watching an element's
   video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms), `scripture.md` (the Bible
   passages in every place, the eight translations, fetching them word for word). Read the one for the area

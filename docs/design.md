@@ -45,6 +45,10 @@ mechanics, engineering and chemistry games. Everything below is shaped so that t
 7. **Languages:** European Portuguese and English from the start, Polish and German since 2026-10-28
    (`docs/knowledge/translating.md`; element names for all 118 in all four);
    the i18n layout is pokemon-site's, so German, Japanese and Chinese can follow.
+9. **Stations for two** (the user, 2026-10-31, after Experimentarium and the Copernicus Science Centre:
+   stations two people play, more fun together, some needing another person; alone where possible, needing
+   two in a room). The first is carbon's diamond press: a job that really takes two things at once, split
+   so each player has one, the result theirs who took part. `docs/knowledge/press.md`.
 8. **A Bible passage in every place, about what stands there** (the user, 2026-10-31: "interweave
    passages from the Bible throughout the world, relevant to where they are placed; for Explorer the NLT,
    for Scientist the CSB"). Each hall, wing and forge quotes one, word for word, with a line on why it

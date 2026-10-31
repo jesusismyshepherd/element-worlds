@@ -25,19 +25,46 @@ const EN = {
   modes: ['plain graphene', 'bilayer in a field'],
   catLabel: 'cat: 4 kg',
   press: {
-    hints: ['Tap the graphite on the tray', 'Tap the red lever to squeeze', 'Tap the capsule to heat it', 'Tap the piston to open the press', 'Tap the diamond to start again'],
-    buttons: ['Put in the graphite', 'Squeeze to 6 GPa', 'Heat to 1500 °C', 'Open the press', 'Start again'],
-    how: {
-      kid: 'Make a diamond: put the graphite in, squeeze it, heat it, open the press. Tap each thing in turn, or use the buttons.',
-      sci: 'High pressure, high temperature (HPHT): load the graphite, press it to about 6 GPa, heat it to about 1500 °C, then cool it and let the pressure off.',
+    hints: {
+      start: 'Tap the graphite to start the press',
+      pump: 'Pump (tap the red lever)',
+      heat: 'Turn the heater',
+      wait: 'Wait',
+      again: 'Tap the diamond to start again',
     },
-    wait: 'Wait',
-    working: 'the press is working…',
-    say: [
-      'The graphite is in the capsule. Now squeeze!',
-      '6 GPa: like 25 elephants standing on a one-cent coin. Now heat it!',
-      "1500 °C! The flat sheets are turning into diamond's 3D net. Open the press!",
-    ],
+    heater: 'The heater',
+    turn: 'Turn',
+    buttons: { start: 'Start the press', pump: 'Pump', again: 'Start again' },
+    power: 'Heater power',
+    how: {
+      kid: 'Grow a diamond: start the press, then keep the pressure up at the pump (tap the red lever again and again) and the heat just right at the heater. It grows only while both are right, for 45 seconds. Alone you do both jobs; it is easier with someone in a room: one pumps, one heats.',
+      sci: 'HPHT for two: keep P above the graphite-diamond line (5.7 GPa at 1500 °C) but under the safety valve (7.6 GPa), and T between 1300 °C (the iron-nickel solvent melts) and 1600 °C. The seals leak and the cell drifts. Alone you work both; with two or more at the press each keeps one job.',
+    },
+    duo: {
+      kid: 'Two of you at the press! One pumps at the red lever, the other works the heater. Whoever takes a job keeps it, so talk to each other!',
+      sci: 'Together: whoever pumps first keeps the pump, whoever turns the heater first keeps the heater, until they leave the press.',
+    },
+    theirs: name => `${name} has that job. Call out to them!`,
+    other: 'You have the other job: someone else does this one.',
+    zones: {
+      cold: { kid: 'Too cold: the metal that helps has not melted yet. More heat!', sci: 'Below 1300 °C the iron-nickel solvent is solid: nothing grows.' },
+      graphite: { kid: 'Not enough pressure: the diamond turns back into graphite. Pump!', sci: 'Below the graphite-diamond line graphite is stable: the diamond dissolves back.' },
+      hot: { kid: 'Too hot: it would grow cloudy. A bit less heat!', sci: 'Above about 1600 °C the crystal traps metal and flaws: this press stops it growing.' },
+      grow: { kid: 'It is growing! Keep it just like this!', sci: 'In the window: diamond crystallises out of the molten metal.' },
+    },
+    short: { idle: 'Ready', cold: 'Too cold', graphite: 'More pressure!', hot: 'Too hot', grow: 'Growing!', valve: 'Safety valve!', done: 'Done!' },
+    valve: 'Too much! The safety valve let the pressure out.',
+    axis: { T: '°C', P: 'GPa', graphite: 'graphite', diamond: 'diamond' },
+    secs: 's',
+    result: {
+      title: ct => `A ${ct}-carat diamond!`,
+      together: ct => `Together: a ${ct}-carat diamond!`,
+      none: 'No diamond this time',
+      size: mm => `about ${mm} mm across`,
+      best: ct => `Your best: ${ct} ct`,
+      noneHow: { kid: 'The graphite was never squeezed hard enough and hot enough at the same time. Pump up first, then turn the heat up, and keep both there!', sci: 'P and T never met in the window for long. Raise P toward 6.5 GPa first, then T to about 1450 °C, and hold both.' },
+      time: { kid: 'A real press takes days to grow a diamond this big: here 45 seconds stand for them.', sci: 'Real HPHT growth runs at roughly a carat in a few days; this run squeezes that into 45 s.' },
+    },
   },
   say: {
     peelFree: 'One single layer, free: that is graphene! Use the tape again to put it back.',
@@ -310,7 +337,7 @@ const EN = {
       },
     },
     press: {
-      sign: { title: 'The diamond press', kid: 'Squeeze and heat graphite to make a diamond.', sci: 'HPHT: about 6 GPa and 1500 °C, with a metal catalyst.' },
+      sign: { title: 'The diamond press', kid: 'Squeeze and heat graphite at the same time to grow a diamond. More fun with two!', sci: 'HPHT for two: P above the graphite-diamond line, T from 1300 to 1600 °C, in a metal solvent.' },
       panel: {
         title: 'You made a diamond!',
         kid: [
@@ -320,8 +347,8 @@ const EN = {
         ],
         sci: [
           { rows: [
-            ['Pressure', 'about 5 to 6 GPa (here 6 GPa)'],
-            ['Temperature', 'about 1300 to 1600 °C (here 1500 °C)'],
+            ['Pressure', 'about 5 to 6 GPa (here above the line, under the valve at 7.6 GPa)'],
+            ['Temperature', 'about 1300 to 1600 °C (here the same window)'],
             ['Catalyst', 'molten iron, nickel or cobalt dissolves the graphite; diamond crystallises out of it'],
             ['First done', 'General Electric, 1954: Tracy Hall’s belt press'],
             ['Today', 'cubic presses and chemical vapour deposition (CVD); most industrial diamond is made, not mined'],
@@ -413,19 +440,46 @@ const PT = {
   modes: ['grafeno simples', 'bicamada num campo'],
   catLabel: 'gato: 4 kg',
   press: {
-    hints: ['Toca na grafite no tabuleiro', 'Toca na alavanca vermelha para apertar', 'Toca na cápsula para a aquecer', 'Toca no pistão para abrir a prensa', 'Toca no diamante para recomeçar'],
-    buttons: ['Pôr a grafite', 'Apertar até 6 GPa', 'Aquecer até 1500 °C', 'Abrir a prensa', 'Recomeçar'],
-    how: {
-      kid: 'Faz um diamante: põe a grafite, aperta, aquece e abre a prensa. Toca em cada coisa, uma de cada vez, ou usa os botões.',
-      sci: 'Alta pressão e alta temperatura (HPHT): pôr a grafite, apertar até cerca de 6 GPa, aquecer até cerca de 1500 °C, depois arrefecer e aliviar a pressão.',
+    hints: {
+      start: 'Toca na grafite para ligar a prensa',
+      pump: 'Bombeia (toca na alavanca vermelha)',
+      heat: 'Roda o aquecedor',
+      wait: 'Espera',
+      again: 'Toca no diamante para recomeçar',
     },
-    wait: 'Espera',
-    working: 'a prensa está a trabalhar…',
-    say: [
-      'A grafite está dentro da cápsula. Agora aperta!',
-      '6 GPa: como 25 elefantes em cima de uma moeda de 1 cêntimo. Agora aquece!',
-      '1500 °C! As folhas planas estão a transformar-se na rede 3D do diamante. Abre a prensa!',
-    ],
+    heater: 'O aquecedor',
+    turn: 'Rodar',
+    buttons: { start: 'Ligar a prensa', pump: 'Bombear', again: 'Recomeçar' },
+    power: 'Potência do aquecedor',
+    how: {
+      kid: 'Faz crescer um diamante: liga a prensa e depois mantém a pressão alta na bomba (toca na alavanca vermelha uma e outra vez) e o calor certo no aquecedor. Só cresce enquanto as duas coisas estão certas, durante 45 segundos. Sozinho fazes os dois trabalhos; é mais fácil com alguém numa sala: um bombeia, o outro aquece.',
+      sci: 'HPHT a dois: manter P acima da linha grafite-diamante (5,7 GPa a 1500 °C) mas abaixo da válvula de segurança (7,6 GPa), e T entre 1300 °C (funde o solvente de ferro e níquel) e 1600 °C. Os vedantes deixam escapar pressão e a célula oscila. Sozinho fazes os dois; com dois ou mais na prensa cada um fica com um trabalho.',
+    },
+    duo: {
+      kid: 'Estão dois na prensa! Um bombeia na alavanca vermelha, o outro trata do aquecedor. Quem pega num trabalho fica com ele, por isso falem um com o outro!',
+      sci: 'Juntos: quem bombeia primeiro fica com a bomba, quem roda o aquecedor primeiro fica com o aquecedor, até sair da prensa.',
+    },
+    theirs: name => `${name} tem esse trabalho. Falem um com o outro!`,
+    other: 'Tens o outro trabalho: este é da outra pessoa.',
+    zones: {
+      cold: { kid: 'Demasiado frio: o metal que ajuda ainda não derreteu. Mais calor!', sci: 'Abaixo de 1300 °C o solvente de ferro e níquel é sólido: nada cresce.' },
+      graphite: { kid: 'Pressão a menos: o diamante volta a ser grafite. Bombeia!', sci: 'Abaixo da linha grafite-diamante a grafite é estável: o diamante volta a dissolver-se.' },
+      hot: { kid: 'Demasiado quente: ficaria turvo. Um pouco menos de calor!', sci: 'Acima de cerca de 1600 °C o cristal apanha metal e defeitos: esta prensa deixa de o fazer crescer.' },
+      grow: { kid: 'Está a crescer! Mantém assim!', sci: 'Na janela: o diamante cristaliza a partir do metal fundido.' },
+    },
+    short: { idle: 'Pronta', cold: 'Frio demais', graphite: 'Mais pressão!', hot: 'Quente demais', grow: 'A crescer!', valve: 'Válvula!', done: 'Pronto!' },
+    valve: 'Demais! A válvula de segurança deixou sair a pressão.',
+    axis: { T: '°C', P: 'GPa', graphite: 'grafite', diamond: 'diamante' },
+    secs: 's',
+    result: {
+      title: ct => `Um diamante de ${ct} quilates!`,
+      together: ct => `Juntos: um diamante de ${ct} quilates!`,
+      none: 'Desta vez não há diamante',
+      size: mm => `cerca de ${mm} mm de largura`,
+      best: ct => `O teu melhor: ${ct} ct`,
+      noneHow: { kid: 'A grafite nunca esteve apertada e quente o suficiente ao mesmo tempo. Primeiro bombeia, depois sobe o calor, e mantém os dois!', sci: 'P e T nunca estiveram juntos na janela tempo suficiente. Sobe P até cerca de 6,5 GPa, depois T até cerca de 1450 °C, e mantém os dois.' },
+      time: { kid: 'Uma prensa a sério leva dias a fazer crescer um diamante assim: aqui 45 segundos fazem as vezes deles.', sci: 'O crescimento HPHT real anda por cerca de um quilate em poucos dias; esta corrida comprime isso em 45 s.' },
+    },
   },
   say: {
     peelFree: 'Uma única camada, solta: isto é grafeno! Usa a fita-cola outra vez para a pousar.',
@@ -698,7 +752,7 @@ const PT = {
       },
     },
     press: {
-      sign: { title: 'A prensa de diamantes', kid: 'Aperta e aquece grafite para fazer um diamante.', sci: 'Alta pressão e temperatura: cerca de 6 GPa e 1500 °C, com um metal catalisador.' },
+      sign: { title: 'A prensa de diamantes', kid: 'Aperta e aquece grafite ao mesmo tempo para fazer crescer um diamante. Mais divertido a dois!', sci: 'HPHT a dois: P acima da linha grafite-diamante, T entre 1300 e 1600 °C, num solvente metálico.' },
       panel: {
         title: 'Fizeste um diamante!',
         kid: [
@@ -708,8 +762,8 @@ const PT = {
         ],
         sci: [
           { rows: [
-            ['Pressão', 'cerca de 5 a 6 GPa (aqui 6 GPa)'],
-            ['Temperatura', 'cerca de 1300 a 1600 °C (aqui 1500 °C)'],
+            ['Pressão', 'cerca de 5 a 6 GPa (aqui acima da linha, abaixo da válvula a 7,6 GPa)'],
+            ['Temperatura', 'cerca de 1300 a 1600 °C (aqui a mesma janela)'],
             ['Catalisador', 'ferro, níquel ou cobalto fundidos dissolvem a grafite; o diamante cristaliza a partir deles'],
             ['Primeira vez', 'General Electric, 1954: a prensa de cinta de Tracy Hall'],
             ['Hoje', 'prensas cúbicas e deposição química em fase de vapor (CVD); a maior parte do diamante industrial é fabricada, não extraída'],
@@ -801,19 +855,46 @@ const PL = {
   modes: ['zwykły grafen', 'dwuwarstwa w polu'],
   catLabel: 'kot: 4 kg',
   press: {
-    hints: ['Dotknij grafitu na tacce', 'Dotknij czerwonej dźwigni, żeby ścisnąć', 'Dotknij kapsuły, żeby ją podgrzać', 'Dotknij tłoka, żeby otworzyć prasę', 'Dotknij diamentu, żeby zacząć od nowa'],
-    buttons: ['Włóż grafit', 'Ściśnij do 6 GPa', 'Podgrzej do 1500 °C', 'Otwórz prasę', 'Zacznij od nowa'],
-    how: {
-      kid: 'Zrób diament: włóż grafit, ściśnij go, podgrzej i otwórz prasę. Dotykaj po kolei każdej rzeczy albo użyj przycisków.',
-      sci: 'Wysokie ciśnienie i wysoka temperatura (HPHT): włożenie grafitu, ściśnięcie do około 6 GPa, podgrzanie do około 1500 °C, potem schłodzenie i zwolnienie nacisku.',
+    hints: {
+      start: 'Dotknij grafitu, żeby uruchomić prasę',
+      pump: 'Pompuj (dotykaj czerwonej dźwigni)',
+      heat: 'Ustaw grzałkę',
+      wait: 'Czekaj',
+      again: 'Dotknij diamentu, żeby zacząć od nowa',
     },
-    wait: 'Zaczekaj',
-    working: 'prasa pracuje…',
-    say: [
-      'Grafit jest w kapsule. Teraz ściskaj!',
-      '6 GPa: jak 25 słoni stojących na monecie jednocentowej. Teraz podgrzej!',
-      '1500 °C! Płaskie warstwy zamieniają się w trójwymiarową sieć diamentu. Otwórz prasę!',
-    ],
+    heater: 'Grzałka',
+    turn: 'Ustaw',
+    buttons: { start: 'Uruchom prasę', pump: 'Pompuj', again: 'Od nowa' },
+    power: 'Moc grzałki',
+    how: {
+      kid: 'Wyhoduj diament: uruchom prasę, a potem trzymaj wysokie ciśnienie przy pompie (dotykaj czerwonej dźwigni raz za razem) i odpowiednie ciepło przy grzałce. Diament rośnie tylko wtedy, gdy oba są dobre, przez 45 sekund. W pojedynkę robisz obie rzeczy; łatwiej z kimś w pokoju: jedno pompuje, drugie grzeje.',
+      sci: 'HPHT we dwoje: utrzymuj P powyżej linii grafit-diament (5,7 GPa przy 1500 °C), ale poniżej zaworu bezpieczeństwa (7,6 GPa), a T między 1300 °C (topi się rozpuszczalnik żelazo-nikiel) a 1600 °C. Uszczelki przepuszczają, a komora dryfuje. W pojedynkę obsługujesz oba; gdy przy prasie są co najmniej dwie osoby, każda ma jedno zadanie.',
+    },
+    duo: {
+      kid: 'Jesteście przy prasie we dwoje! Jedno pompuje czerwoną dźwignią, drugie zajmuje się grzałką. Kto weźmie zadanie, ten je zatrzymuje, więc rozmawiajcie ze sobą!',
+      sci: 'Razem: kto pierwszy pompuje, zostaje przy pompie; kto pierwszy ustawi grzałkę, zostaje przy grzałce, dopóki nie odejdzie od prasy.',
+    },
+    theirs: name => `To zadanie ma ${name}. Zawołaj!`,
+    other: 'Masz drugie zadanie: tym zajmuje się druga osoba.',
+    zones: {
+      cold: { kid: 'Za zimno: metal, który pomaga, jeszcze się nie stopił. Więcej ciepła!', sci: 'Poniżej 1300 °C rozpuszczalnik żelazo-nikiel jest stały: nic nie rośnie.' },
+      graphite: { kid: 'Za małe ciśnienie: diament zamienia się z powrotem w grafit. Pompuj!', sci: 'Poniżej linii grafit-diament trwały jest grafit: diament rozpuszcza się z powrotem.' },
+      hot: { kid: 'Za gorąco: wyrósłby mętny. Trochę mniej ciepła!', sci: 'Powyżej około 1600 °C kryształ wciąga metal i defekty: ta prasa przestaje go hodować.' },
+      grow: { kid: 'Rośnie! Trzymaj tak dalej!', sci: 'W oknie: diament krystalizuje ze stopionego metalu.' },
+    },
+    short: { idle: 'Gotowa', cold: 'Za zimno', graphite: 'Więcej ciśnienia!', hot: 'Za gorąco', grow: 'Rośnie!', valve: 'Zawór!', done: 'Gotowe!' },
+    valve: 'Za dużo! Zawór bezpieczeństwa wypuścił ciśnienie.',
+    axis: { T: '°C', P: 'GPa', graphite: 'grafit', diamond: 'diament' },
+    secs: 's',
+    result: {
+      title: ct => `Diament: ${ct} karata!`,
+      together: ct => `Razem: diament, ${ct} karata!`,
+      none: 'Tym razem bez diamentu',
+      size: mm => `około ${mm} mm szerokości`,
+      best: ct => `Twój rekord: ${ct} ct`,
+      noneHow: { kid: 'Grafit ani razu nie był jednocześnie dość mocno ściśnięty i dość gorący. Najpierw napompuj, potem podkręć ciepło i utrzymaj oba!', sci: 'P i T nie spotkały się w oknie wystarczająco długo. Najpierw podnieś P do około 6,5 GPa, potem T do około 1450 °C, i utrzymaj oba.' },
+      time: { kid: 'Prawdziwa prasa hoduje taki diament przez kilka dni: tu zastępuje je 45 sekund.', sci: 'Prawdziwy wzrost HPHT to mniej więcej karat w kilka dni; ten przebieg ściska to w 45 s.' },
+    },
   },
   say: {
     peelFree: 'Jedna pojedyncza warstwa, wolna: to jest grafen! Użyj taśmy jeszcze raz, żeby ją odłożyć.',
@@ -1086,7 +1167,7 @@ const PL = {
       },
     },
     press: {
-      sign: { title: 'Prasa do diamentów', kid: 'Ściśnij i podgrzej grafit, żeby zrobić diament.', sci: 'HPHT: ok. 6 GPa i 1500 °C, z metalicznym katalizatorem.' },
+      sign: { title: 'Prasa do diamentów', kid: 'Ściskaj i grzej grafit jednocześnie, żeby wyhodować diament. We dwoje fajniej!', sci: 'HPHT we dwoje: P powyżej linii grafit-diament, T od 1300 do 1600 °C, w metalicznym rozpuszczalniku.' },
       panel: {
         title: 'Udało ci się zrobić diament!',
         kid: [
@@ -1096,8 +1177,8 @@ const PL = {
         ],
         sci: [
           { rows: [
-            ['Ciśnienie', 'ok. 5 do 6 GPa (tutaj 6 GPa)'],
-            ['Temperatura', 'ok. 1300 do 1600 °C (tutaj 1500 °C)'],
+            ['Ciśnienie', 'ok. 5 do 6 GPa (tutaj powyżej linii, poniżej zaworu przy 7,6 GPa)'],
+            ['Temperatura', 'ok. 1300 do 1600 °C (tutaj to samo okno)'],
             ['Katalizator', 'stopione żelazo, nikiel lub kobalt rozpuszcza grafit; diament z niego krystalizuje'],
             ['Pierwszy raz', 'General Electric, 1954: prasa typu belt Tracy’ego Halla'],
             ['Dziś', 'prasy kubiczne i chemiczne osadzanie z fazy gazowej (CVD); większość diamentów przemysłowych jest wytwarzana, a nie wydobywana'],
@@ -1189,19 +1270,46 @@ const DE = {
   modes: ['einfaches Graphen', 'Doppelschicht im Feld'],
   catLabel: 'Katze: 4 kg',
   press: {
-    hints: ['Tippe auf den Graphit auf dem Tablett', 'Tippe auf den roten Hebel, um zu pressen', 'Tippe auf die Kapsel, um sie zu erhitzen', 'Tippe auf den Kolben, um die Presse zu öffnen', 'Tippe auf den Diamanten, um von vorn anzufangen'],
-    buttons: ['Graphit einlegen', 'Auf 6 GPa pressen', 'Auf 1500 °C erhitzen', 'Presse öffnen', 'Von vorn anfangen'],
-    how: {
-      kid: 'Mach einen Diamanten: Leg den Graphit ein, press ihn, erhitze ihn und öffne die Presse. Tippe der Reihe nach auf jedes Ding oder nimm die Knöpfe.',
-      sci: 'Hochdruck-Hochtemperatur-Synthese (HPHT): Graphit einlegen, auf etwa 6 GPa pressen, auf etwa 1500 °C erhitzen, dann abkühlen und den Druck ablassen.',
+    hints: {
+      start: 'Tippe auf den Graphit, um die Presse zu starten',
+      pump: 'Pumpen (tippe auf den roten Hebel)',
+      heat: 'Stell die Heizung ein',
+      wait: 'Warte',
+      again: 'Tippe auf den Diamanten, um neu anzufangen',
     },
-    wait: 'Warte',
-    working: 'die Presse arbeitet…',
-    say: [
-      'Der Graphit ist in der Kapsel. Jetzt pressen!',
-      '6 GPa: wie 25 Elefanten auf einer Ein-Cent-Münze. Jetzt erhitzen!',
-      '1500 °C! Die flachen Schichten werden zum 3D-Netz des Diamanten. Öffne die Presse!',
-    ],
+    heater: 'Die Heizung',
+    turn: 'Einstellen',
+    buttons: { start: 'Presse starten', pump: 'Pumpen', again: 'Neu anfangen' },
+    power: 'Heizleistung',
+    how: {
+      kid: 'Lass einen Diamanten wachsen: Starte die Presse, dann halte an der Pumpe den Druck hoch (tippe immer wieder auf den roten Hebel) und an der Heizung die Hitze genau richtig. Er wächst nur, solange beides stimmt, 45 Sekunden lang. Allein machst du beide Aufgaben; leichter geht es mit jemandem in einem Raum: einer pumpt, einer heizt.',
+      sci: 'HPHT zu zweit: P über der Graphit-Diamant-Linie halten (5,7 GPa bei 1500 °C), aber unter dem Sicherheitsventil (7,6 GPa), und T zwischen 1300 °C (das Eisen-Nickel-Lösungsmittel schmilzt) und 1600 °C. Die Dichtungen lassen Druck entweichen und die Zelle driftet. Allein bedienst du beides; mit zwei oder mehr an der Presse hat jeder eine Aufgabe.',
+    },
+    duo: {
+      kid: 'Ihr seid zu zweit an der Presse! Einer pumpt am roten Hebel, der andere kümmert sich um die Heizung. Wer eine Aufgabe nimmt, behält sie, also redet miteinander!',
+      sci: 'Zusammen: Wer zuerst pumpt, behält die Pumpe; wer zuerst die Heizung einstellt, behält die Heizung, bis er die Presse verlässt.',
+    },
+    theirs: name => `Diese Aufgabe hat ${name}. Ruf hinüber!`,
+    other: 'Du hast die andere Aufgabe: Das hier macht jemand anderes.',
+    zones: {
+      cold: { kid: 'Zu kalt: Das Metall, das hilft, ist noch nicht geschmolzen. Mehr Hitze!', sci: 'Unter 1300 °C ist das Eisen-Nickel-Lösungsmittel fest: Nichts wächst.' },
+      graphite: { kid: 'Zu wenig Druck: Der Diamant wird wieder zu Graphit. Pumpen!', sci: 'Unterhalb der Graphit-Diamant-Linie ist Graphit stabil: Der Diamant löst sich wieder auf.' },
+      hot: { kid: 'Zu heiß: Er würde trüb wachsen. Etwas weniger Hitze!', sci: 'Über etwa 1600 °C schließt der Kristall Metall und Fehler ein: Diese Presse lässt ihn dann nicht wachsen.' },
+      grow: { kid: 'Er wächst! Halte es genau so!', sci: 'Im Fenster: Diamant kristallisiert aus dem geschmolzenen Metall.' },
+    },
+    short: { idle: 'Bereit', cold: 'Zu kalt', graphite: 'Mehr Druck!', hot: 'Zu heiß', grow: 'Er wächst!', valve: 'Ventil!', done: 'Fertig!' },
+    valve: 'Zu viel! Das Sicherheitsventil hat den Druck abgelassen.',
+    axis: { T: '°C', P: 'GPa', graphite: 'Graphit', diamond: 'Diamant' },
+    secs: 's',
+    result: {
+      title: ct => `Ein Diamant mit ${ct} Karat!`,
+      together: ct => `Zusammen: ein Diamant mit ${ct} Karat!`,
+      none: 'Diesmal kein Diamant',
+      size: mm => `etwa ${mm} mm breit`,
+      best: ct => `Dein Rekord: ${ct} ct`,
+      noneHow: { kid: 'Der Graphit war nie gleichzeitig stark genug gepresst und heiß genug. Erst pumpen, dann die Hitze hochdrehen, und beides halten!', sci: 'P und T waren nie lange genug zusammen im Fenster. Erst P auf etwa 6,5 GPa bringen, dann T auf etwa 1450 °C, und beides halten.' },
+      time: { kid: 'Eine echte Presse braucht Tage für einen so großen Diamanten: Hier stehen 45 Sekunden dafür.', sci: 'Echtes HPHT-Wachstum schafft etwa ein Karat in einigen Tagen; dieser Lauf rafft das auf 45 s.' },
+    },
   },
   say: {
     peelFree: 'Eine einzige Schicht, ganz frei: Das ist Graphen! Nimm das Klebeband noch einmal, um sie zurückzulegen.',
@@ -1474,7 +1582,7 @@ const DE = {
       },
     },
     press: {
-      sign: { title: 'Die Diamantpresse', kid: 'Press und erhitze Graphit, um einen Diamanten zu machen.', sci: 'HPHT: etwa 6 GPa und 1500 °C, mit einem Metallkatalysator.' },
+      sign: { title: 'Die Diamantpresse', kid: 'Presse und erhitze Graphit gleichzeitig, damit ein Diamant wächst. Zu zweit macht es mehr Spaß!', sci: 'HPHT zu zweit: P über der Graphit-Diamant-Linie, T von 1300 bis 1600 °C, in einem Metall-Lösungsmittel.' },
       panel: {
         title: 'Du hast einen Diamanten gemacht!',
         kid: [
@@ -1484,8 +1592,8 @@ const DE = {
         ],
         sci: [
           { rows: [
-            ['Druck', 'etwa 5 bis 6 GPa (hier 6 GPa)'],
-            ['Temperatur', 'etwa 1300 bis 1600 °C (hier 1500 °C)'],
+            ['Druck', 'etwa 5 bis 6 GPa (hier über der Linie, unter dem Ventil bei 7,6 GPa)'],
+            ['Temperatur', 'etwa 1300 bis 1600 °C (hier dasselbe Fenster)'],
             ['Katalysator', 'geschmolzenes Eisen, Nickel oder Cobalt löst den Graphit; der Diamant kristallisiert daraus'],
             ['Zum ersten Mal', 'General Electric, 1954: die Belt-Presse von Tracy Hall'],
             ['Heute', 'kubische Pressen und chemische Gasphasenabscheidung (CVD); der meiste Industriediamant wird hergestellt, nicht abgebaut'],

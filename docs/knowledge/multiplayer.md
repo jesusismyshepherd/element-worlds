@@ -100,6 +100,12 @@ How it works:
   next tick; the state carries the referee's clock for the countdown). HUD: `src/ui/ForgeTogether.jsx`.
 - Leaving the forge leaves the race; leaving the room in the forge brings one's own forge back (fresh).
 
+## The diamond press for two (2026-10-31)
+
+The first station made for two (the user: stations two people can play, some needing another person):
+in carbon's gallery one pumps and one works the heater, through the room's referee like the race;
+alone one player works both. `press.md`; `tools/press_duo_probe.py`.
+
 ## Shared world objects (2026-10-30)
 
 - Two saved states for every world (the user, 2026-10-30: "you have distinct, and saved, state for a

@@ -20,6 +20,10 @@ import { markFound, isFound, countFound } from '../../../engine/progress.js'
 import { makeText } from '../../../engine/text.js'
 import { atriumPath } from '../../registry.js'
 import { tapTargets } from '../../common/taps.js'
+import { room } from '../../../net/room.js'
+import { track } from '../../../net/telemetry.js'
+import * as R from '../../../game/press.js'
+import { pressRun } from './pressRun.js'
 import { verseText } from '../../common/verse.js'
 import { standSign, spotLamp, beam, promptSync, happening, onLevel, pick, glowMat, keepPlayerInView, ghostAround, ghostPost, ghostBall } from './kit.js'
 import { sparkleEnv } from './gem.js'
@@ -49,7 +53,7 @@ const LAYOUT = {
   pencil: { at: [7.2, -8.4], sign: [5.1, -5.6], use: [4.3, -8.2] },
   diamond: { at: [7.6, -16.2], sign: [5.3, -13.9], use: [4.3, -15.8] },
   brilliant: { at: [5.0, -19.8], sign: [3.4, -21.3], use: [3.6, -19.6] },
-  press: { at: [7.7, -25.4], sign: [5.0, -22.6], use: [4.5, -25.4] },
+  press: { at: [7.7, -25.4], sign: [5.0, -22.6], use: [4.8, -26.5], heat: [4.8, -24.2] },
   football: { at: [EAST, -33.4], sign: [5.2, -30.6], use: [5.3, -32.6] },
   nanotube: { sign: [-2.9, -18.2], use: [0, -18.0] },
   fullerene: { sign: [0, -35.2], use: [0, -32.2] },
@@ -452,38 +456,175 @@ export async function build(ctx) {
     found('brilliant')
     later(1.3, () => panel('brilliant'))
   }, { radius: 1.7 })
-  // the press: each step is a tap on its thing, in order (the graphite on the tray, the pump lever, the
-  // capsule, the piston, the diamond); the panel's buttons do the same, and say which comes first
+  // the press, made for two (src/game/press.js, docs/knowledge/press.md): the graphite (or E at the pump,
+  // or the panel's button) starts a run; at the console the red lever pumps (a tap, E, the panel's button),
+  // at the heater the knob opens the power's slider. Alone one player works both; with two or more at the
+  // press each keeps the job they took. In a room the run goes through the room's referee (pressRun.js)
   const PR = W.press
-  const pressPanel = lv => {
-    const made = isFound('C:allotropes:press')
-    return station('press', lv, [
-      buttons(PR.buttons.map((label, k) => [label, () => pressStep(k)])),
-      ...(made ? pick(W.ex.press.panel, lv) : [{ p: pick(PR.how, lv) }]),
-    ], made && press.actions.step === 4 ? W.ex.press.panel.title : W.ex.press.sign.title)
+  const PRESS_HEAT = '#ff8a3c'
+  const run = pressRun({ onEnd: s => pressEnd(s) })
+  const BEST = 'ew-press-best'
+  const best = () => {
+    try {
+      return Number(localStorage.getItem(BEST)) || 0
+    } catch {
+      return 0
+    }
   }
-  function pressStep(k) {
-    const a = press.actions
-    if (a.busy) return
-    if (k !== a.step) return say(PR.hints[a.step])
-    a.use()
-    share('press')
-    const seconds = [1.4, 3.6, 3.8, 3.2, 1.2][k]
-    later(seconds + 0.05, () => {
-      if (k < 3) say(PR.say[k])
-      if (k === 3) {
-        found('press')
-        // the diamond is made: the panel says so, unless another station's panel is open
-        const open = ctx.store.get().panel
-        if (!open || open.exhibit === 'press') ctx.showPanel(pressPanel)
-      }
+  const fmtCt = ct => ct.toFixed(2).replace('.', W.decimal)
+  const who = id => room.member(id)?.name ?? '?'
+  const refused = r => {
+    if (r && r !== 'ok') say(r.holder ? PR.theirs(who(r.holder)) : PR.other)
+  }
+  let lastRun = null // the last run's end: { ct, together }
+  const heatSlider = () => ({
+    slider: {
+      label: PR.power, min: 0, max: 1, step: 0.01, value: run.s?.power ?? 0, live: () => run.s?.power ?? 0,
+      format: v => `${Math.round(v * 100)} %`, onInput: v => pressHeat(v),
+    },
+  })
+  const pressPanel = lv => {
+    const s = run.s
+    const me = run.me()
+    if (s?.phase === 'run') {
+      return station('press', lv, [
+        R.together(s) && { p: pick(PR.duo, lv) },
+        R.may(s, me, 'pump') && buttons([[PR.buttons.pump, () => pressPump()]]),
+        R.may(s, me, 'heat') && heatSlider(),
+        { p: pick(PR.how, lv) },
+      ].filter(Boolean), W.ex.press.sign.title)
+    }
+    if (lastRun && (press.actions.phase === 'open' || press.actions.phase === 'opening')) {
+      const { ct } = lastRun
+      const made = ct >= 0.02
+      const title = !made ? PR.result.none : lastRun.together ? PR.result.together(fmtCt(ct)) : PR.result.title(fmtCt(ct))
+      return station('press', lv, [
+        ...(made
+          ? [{ big: `${fmtCt(ct)} ct`, small: PR.result.size(R.mm(ct).toFixed(1).replace('.', W.decimal)) }, { p: pick(PR.result.time, lv) }, { p: PR.result.best(fmtCt(best())) }]
+          : [{ p: pick(PR.result.noneHow, lv) }]),
+        buttons([[PR.buttons.again, () => pressAgain()]]),
+        ...pick(W.ex.press.panel, lv),
+      ], title)
+    }
+    return station('press', lv, [
+      buttons([[PR.buttons.start, () => pressStart()]]),
+      { p: pick(PR.how, lv) },
+      ...(isFound('C:allotropes:press') ? pick(W.ex.press.panel, lv) : []),
+    ], W.ex.press.sign.title)
+  }
+  const heatPanel = lv => {
+    const s = run.s
+    const mine = s?.phase === 'run' && R.may(s, run.me(), 'heat')
+    return {
+      title: PR.heater,
+      kicker: W.kicker,
+      color: PRESS_HEAT,
+      exhibit: 'press',
+      blocks: [
+        mine && heatSlider(),
+        s?.phase === 'run' && !mine && { p: R.holder(s, run.me(), 'heat') ? PR.theirs(who(R.holder(s, run.me(), 'heat'))) : PR.other },
+        !s && buttons([[PR.buttons.start, () => pressStart()]]),
+        { p: pick(PR.how, lv) },
+      ].filter(Boolean),
+    }
+  }
+  function pressStart() {
+    if (run.s) return
+    if (press.actions.phase === 'opening' || press.actions.phase === 'resetting') return
+    if (press.actions.phase === 'open') press.actions.reset(true)
+    lastRun = null
+    run.start()
+  }
+  function pressPump() {
+    const r = run.pump()
+    if (r === 'ok') press.actions.pumped()
+    else refused(r)
+  }
+  // the slider sends its value at most every 0.12 s, the last one always
+  let heatWant = 0
+  let heatSoon = false
+  function pressHeat(v) {
+    heatWant = v
+    if (heatSoon) return
+    heatSoon = true
+    later(0.12, () => {
+      heatSoon = false
+      refused(run.heat(heatWant))
     })
   }
-  const pressIt = add('press', () => ctx.showPanel(pressPanel), { radius: 2.2 })
-  // the press's words follow its step, whoever works it
-  wordsFrom(pressIt, () => (press.actions.busy ? { label: PR.working, verb: PR.wait } : { label: W.ex.press.sign.title, verb: PR.hints[press.actions.step] }))
-  ;['graphite', 'lever', 'capsule', 'ram', 'diamond'].forEach((thing, k) => {
-    tap(press.targets[thing], () => pressStep(k), { when: () => !press.actions.busy && press.actions.step === k })
+  function pressAgain() {
+    if (press.actions.phase !== 'open') return
+    press.actions.reset()
+    share('press')
+  }
+  function pressEnd(s) {
+    const me = run.me()
+    // the diamond is theirs who worked the press (whoever only stood by sees it made, without a panel)
+    const mine = (s.doers ?? []).includes(me)
+    lastRun = { ct: s.ct0, together: (s.doers ?? []).length >= 2 }
+    press.actions.finish(s.ct0)
+    if (mine && s.ct0 > best()) {
+      try {
+        localStorage.setItem(BEST, String(s.ct0))
+      } catch {
+        // storage blocked
+      }
+    }
+    if (mine && s.ct0 >= 0.02) found('press')
+    // the press as it rests now goes to the room's store (or one's own): from whoever ran the run
+    if (s.ref === me) share('press')
+    if (s.ref === me) track('press', { op: 'made', ct: s.ct0, n: s.doers.length, pumps: s.pumps })
+    // the diamond shown: the panel says how big, unless another station's panel is open
+    later(3.4, () => {
+      const open = ctx.store.get().panel
+      if (mine && (!open || open.exhibit === 'press')) ctx.showPanel(pressPanel)
+    })
+  }
+  const pressIt = add('press', () => {
+    const s = run.s
+    if (s?.phase === 'run') return pressPump()
+    if (press.actions.phase === 'idle') return pressStart()
+    ctx.showPanel(pressPanel)
+  }, { radius: 1.3 })
+  // the prompt says the next thing to do at the pump, whoever started the run
+  wordsFrom(pressIt, () => {
+    const s = run.s
+    const ph = press.actions.phase
+    const verb = s?.phase === 'run'
+      ? (R.may(s, run.me(), 'pump') ? PR.hints.pump : PR.hints.heat)
+      : ph === 'idle' ? PR.hints.start : ph === 'open' ? PR.hints.again : PR.hints.wait
+    return { label: W.ex.press.sign.title, verb }
+  })
+  // the heater's own spot, on the press's other side (the second job)
+  const heatIt = { id: 'press-heat', x: LAYOUT.press.heat[0], z: LAYOUT.press.heat[1], radius: 1.3, label: PR.heater, verb: PR.turn, onUse: () => ctx.showPanel(heatPanel) }
+  Object.defineProperty(heatIt, 'found', { get: () => isFound('C:allotropes:press') })
+  interactables.push(heatIt)
+  tap(press.targets.graphite, () => pressStart(), { when: () => !run.s && press.actions.phase === 'idle' })
+  tap(press.targets.lever, () => pressPump(), { when: () => run.s?.phase === 'run' })
+  tap(press.targets.knob, () => ctx.showPanel(heatPanel))
+  tap(press.targets.diamond, () => pressAgain(), { when: () => press.actions.phase === 'open' })
+  // each frame: the run on the press, the lever kicking at every stroke (anyone's), the panels following
+  // the jobs as people take them
+  let pumpsSeen = 0
+  let panelKey = ''
+  updates.push(() => {
+    run.update()
+    const s = run.s
+    if (s?.phase === 'run') {
+      const now = run.now()
+      press.actions.show({ u: now - s.start, P: s.P, T: s.T, power: s.power, ct: s.ct, zone: R.zone(s.P, s.T), left: R.left(s, now), valve: s.valve, together: R.together(s) })
+      if (s.pumps > pumpsSeen) press.actions.pumped()
+      pumpsSeen = s.pumps
+    } else pumpsSeen = 0
+    const key = `${s?.id}|${s?.phase}|${s?.players?.length}|${s?.roles?.pump}|${s?.roles?.heat}`
+    if (key !== panelKey) {
+      const was = panelKey
+      panelKey = key
+      const open = ctx.store.get().panel
+      if (was && open?.exhibit === 'press' && (open.make === pressPanel || open.make === heatPanel)) ctx.showPanel(open.make)
+      // a run has just begun: say how it is played, alone or together
+      if (s?.phase === 'run' && !was.startsWith(`${s.id}|`)) say(pick(R.together(s) ? PR.duo : PR.how, ctx.level()))
+    }
   })
   add('nanotube', () => {
     tube.pulse()
@@ -512,7 +653,7 @@ export async function build(ctx) {
   }
   const targets = {
     tape: peel.tape, stack: peel.stack, sheet: peel.sheet, knob: transistor.knob, gate: transistor.gate, chip: transistor.chip,
-    ...Object.fromEntries(['graphite', 'lever', 'capsule', 'ram', 'diamond'].map(k => [`press-${k}`, press.targets[k]])),
+    ...Object.fromEntries(['graphite', 'lever', 'knob', 'diamond'].map(k => [`press-${k}`, press.targets[k]])),
   }
   // the tube and the dome are walked into: their own shapes (a box round either would hold the walkway
   // beside it and catch the football's taps), and a tap from inside meets their far wall, metres away
@@ -571,7 +712,7 @@ export async function build(ctx) {
   solids.push(circle(ringC[0], ringC[1], ringR))
   c('diamond', 1.55)
   c('brilliant', 0.36)
-  solids.push(box(7.7, -25.4, 1.6, 2.7), box(6.35, -26.65, 0.5, 1.0))
+  solids.push(box(7.7, -25.4, 1.6, 2.7), box(6.35, -26.65, 0.5, 1.0), box(6.35, -24.15, 0.5, 1.0))
   c('football', 0.66)
   for (const id of ORDER) solids.push(circle(LAYOUT[id].sign[0], LAYOUT[id].sign[1], 0.3))
   solids.push(box(BOARD.x, BOARD.z, 2.3, 0.35, { rot: board.group.rotation.y }))
@@ -657,13 +798,13 @@ export async function build(ctx) {
     // for the probes in tools/ (__ew.world.parts.press.actions.step and so on): `tap` does what a tap on a
     // thing (or the panel's button) does, `targets` are the things to tap (a probe finds them on screen)
     parts: {
-      peel, transistor, moire, gr, press, pencil, dome, ball, targets,
+      peel, transistor, moire, gr, press, pencil, dome, ball, targets, pressRun: run,
       tap: {
         graphene: want => peelStep(want), // 'peel' (the tape) | 'back' (the sheet)
         graphite: out => grStep(out), // true slides, false stacks
         electronics: k => trStep(k), // 'sweep' (the knob) | 'plain' | 'gap' (the chip)
         gate: v => trGate(v), // the panel's slider, -1 to +1
-        press: k => pressStep(k), // 0 graphite, 1 lever, 2 capsule, 3 piston, 4 diamond
+        press: (what, v) => ({ start: pressStart, pump: pressPump, again: pressAgain, heat: () => pressHeat(v) })[what]?.(), // 'start' | 'pump' | 'heat' (0 to 1) | 'again'
       },
     },
     panels: { graphene: peelPanel, electronics: trPanel, graphite: grPanel, press: pressPanel, moire: moirePanel },
@@ -697,6 +838,7 @@ export async function build(ctx) {
       timers.length = 0
       env.dispose()
       verse.dispose()
+      run.dispose()
     },
   }
 }

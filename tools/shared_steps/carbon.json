@@ -7,7 +7,6 @@
     "() => __ew.world.parts.tap.electronics('gap')",
     "() => __ew.world.parts.tap.gate(-0.4)",
     "() => __ew.world.parts.tap.electronics('sweep')",
-    "() => __ew.world.parts.tap.press(0)",
     "() => __ew.store.set({ panel: null })"
   ],
   "/e/C/life": [
