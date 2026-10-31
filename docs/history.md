@@ -6,6 +6,14 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-10-31
 
+- Hydrogen's hall, the first of the other halls with pictures you step into (the queue's halls, the
+  best-known elements first): seven pictures and a showpiece (a spectrum tube glowing pink-violet beside a
+  balloon tugging its string), each picture with its room: the young universe cooling into the first
+  atoms, Charles's balloon over the Tuileries in 1783, a pond at a skater's size, a hydrogen filling
+  station by a railway, Cavendish's laboratory where fire makes water, a gondola sinking into Jupiter, the
+  Dwingeloo dish listening for the 21 cm line. Made in two steps (the boards agent, then seven room
+  builders; `hall-boards.md`, the pipeline). The airship picture's lens was redrawn: as many molecules
+  inside the balloon as outside.
 - The forge together (the user marked it Sooner): in a room everyone in the Atom Forge builds one atom (each
   press counted, even at the same moment; the others' particles fly in glowing in their colour, a line says
   who did what; missions done together count for everyone there), and anyone can start a race to a mission:

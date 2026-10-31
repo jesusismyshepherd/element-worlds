@@ -17,7 +17,9 @@ round close-up window (`magnifier`). Its header shows how a picture script start
     py -3.11 tools/boards/lib/render.py Na lamps --small    also 420 x 280, as from across the hall
 
 `render.py` reads the boards (ids, colours, English titles) from `src/content/boards/<Symbol>.js` and draws
-each title on the caption band of the sheet, so you see what the band covers.
+each title on the caption band of the sheet, so you see what the band covers. It renders the SVGs that
+exist and does not run the scripts: after changing a picture's script, run the script first (hydrogen's
+airship lens, 2026-10-31, looked unchanged until it was).
 
 ## Carbon and Oxygen (2026-10-29)
 

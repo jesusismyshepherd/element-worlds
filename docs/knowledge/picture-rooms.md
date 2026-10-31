@@ -73,6 +73,18 @@ in. The studio item is `picture-rooms`.
   `sunLight`, `setNacreous(k)` for mother-of-pearl clouds), `shore.js` (an ancient shore before plants:
   a tidal flat, clear shallows with stromatolites, bare red hills, a volcano, a hazy sky; `groundAt` shared
   with the water's shader; exports `stromatoliteGeometry`, `stromatoliteTexture`, `SEA_LEVEL`),
+  `gasgiant.js` (a gondola under a parachute sinking into a gas giant: cloud decks with a clear hole,
+  thunderheads, lightning, the sky by height; `setAltitude(z)` in km above the 1-bar level, `flash`,
+  `JUPITER_SKY`), `garden.js` (a formal garden on a winter afternoon, the Tuileries of 1783: a roped
+  square, a crowd that turns and cheers, lawns, yews, a pond, a palace far off), `youngcosmos.js` (the
+  young universe as a horn-shaped tunnel round a glass walkway, its fog set by `set({ temp, fog })`, a
+  lawn under today's sky past the mouth; `fogColour(T)`), `depot.js` (a hydrogen filling station at dusk
+  by a railway: a forecourt, a canopy, a bus lane curving away, a platform, wind turbines; `DEPOT`,
+  `ROUTE`), `heath.js` (a Drenthe heath at night whose stars and Milky Way sit in the real sky and turn,
+  `sky.setLst(rad)`, `galDir`, `eqDir`, `altAz`), `pond.js` (a pond at a pond skater's size: you stand
+  on the water, whose skin dents, `dimple(...)`, `heightAt`, `ripple`, reeds like trunks, a lily pad),
+  `townhouse.js` (a Georgian London room at night: panelling, sash windows onto moonlit roofs, a coal
+  fire, bookcases; `candle()`, `onWall`),
   `arctic.js` (a winter camp in Lapland at night: snow, a frozen lake, fells, spruces and birches, a log
   hut and a tent, the aurora's curtains coloured by height and lighting the snow; `aurora.set({ level,
   storm })`, `aurora.time` for long exposures, `kmWorld`). A
@@ -296,6 +308,46 @@ at the same address.
   for a long exposure (the camp rendered several times and added up), beside what the eye sees at
   night; tap the white fox for the tale behind "revontulet".
 
+- Hydrogen, `bigbang` ("What were the very first atoms?", 2026-10-31): a walk through the young universe
+  (`youngcosmos.js`), forward in time. The cosmic recipe on a tray (14 protons, 2 neutrons: deuterons,
+  helium-4, a balance, 75/25 by mass and 12 of 13 by number; a clock: too hot before 3 minutes, a neutron
+  decays past 13, too cold after 20). The cooling: a brass time rail to 380,000 years, helium first, below
+  4000 K a tap catches an electron, the fog clears. The Holmdel horn: the hiss from everywhere, the pigeons
+  shooed, the light stretched to 2.7 K.
+
+- Hydrogen, `airship` ("How can a gas lift a ship?", 2026-10-31): the Tuileries, 1 December 1783
+  (`garden.js`). Fill Charles's balloon from barrels, drop sandbags, let the ropes go; four 1 m³ balloons
+  on spring scales (air, helium, hydrogen, hot air with a slider) and the lens: as many molecules inside as
+  outside, hydrogen's lighter (the picture's lens was redrawn so); a Hindenburg model and the candle on a
+  stick: hydrogen burns, helium pops.
+
+- Hydrogen, `bond` ("Why can an insect walk on water?", 2026-10-31): a pond at a skater's size
+  (`pond.js`). The skin: the skater's dimples, sand onto a floating clip until it sinks, soap. Every
+  molecule pulled: a walk-round model, a temperature slider, the foot pressing. The tallest drink: a
+  redwood's water thread, the sun lifting it, a height slider to the 122 to 130 m limit. What if: a lever
+  switches the hydrogen bonds off, water would boil near -80 °C.
+
+- Hydrogen, `fuel` ("What engine puffs out only water?", 2026-10-31): a hydrogen station by a railway
+  (`depot.js`). A giant fuel cell cut open (the hydrogen bottle, the air intake, protons through the
+  membrane, the bulb, water dripping; a road slider). The bus: fill to 350 bar, drive a trip, catch 9 L of
+  water per kg. The Coradia iLint with a glass roof. Hydrogen in space: the Shuttle's engines, Apollo's
+  fuel cell and its bubbly drinking water.
+
+- Hydrogen, `cavendish` ("A fire that makes water?", 2026-10-31): a Georgian London laboratory at night
+  (`townhouse.js`). Inflammable air (1766): zinc, iron or tin in either acid, the gas caught and weighed
+  against air. His nine bottles of mixes, each burning as he wrote. The spark globe (1781): the mixture,
+  the Leyden jar, spark, dew, a drop of water, the lens playing 2 H2 + O2 into 2 H2O.
+
+- Hydrogen, `jupiter` ("What is inside Jupiter?", 2026-10-31): a gondola sinking where Galileo's probe fell
+  (`gasgiant.js`). The descent (a red handle or depth slider to 22 bar and beyond, the helium counter,
+  lightning). Squeezing hydrogen with Livermore's gas gun until it turns metallic and lights a bulb. A
+  turning Jupiter: field lines, a compass, auroras, Io's torus and footprint, the Earth to scale.
+
+- Hydrogen, `radio` ("How would you write to aliens?", 2026-10-31): the Dwingeloo dish on a heath
+  (`heath.js`). Map the Milky Way: six stretches, the 21 cm profile, the clouds placed on a spiral map,
+  Sydney's charts for the part that never rises. The spin flip: a random wait, a true-size 21 cm wave over
+  a ruler. The Pioneer plaque at 3 m, and your height in hydrogen units, in binary.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -405,6 +457,14 @@ at the same address.
   material). Fade a troika text's `outlineOpacity` with its `fillOpacity`, or it reads as black. A
   shader's `#include` must sit on its own line. A home-made band laid on a sphere may face inward: make
   it double-sided.
+- The station view's eye stays at most 1.45 m up: a model topped near that is seen edge-on (tilt its top
+  toward the visitor or raise the visitor on a platform with low steps); closing the panel ends the
+  station view, so probe shots of it keep the panel open. A thing standing between the spot and the focus
+  fills the view: raise `size`. A label above a station sits under the speech bubble: put it on or beside
+  the thing.
+- `Number(age) || 30` turns an age of 0 into 30: a shared age of 0 must stay 0. `flat` is a GLSL keyword.
+  A glow alone inside a cloud deck is invisible: briefly raise the fill light too. Rounding gives "-0":
+  add `+ 0`.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

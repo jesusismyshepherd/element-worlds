@@ -112,7 +112,7 @@
         "In batches of five or six: first the 38 well-known elements of the quiz's Explorer list (hydrogen to plutonium), then the rest family by family. Each batch is checked in all four languages and looked at in the game before it goes live, and goes live as soon as it is done.",
         "Each element's Periodic Videos video and its own story in the game are the research notes; every number comes from the game's data.",
         "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples.",
-        "Being built (2026-10-31): hydrogen and iron first (with krypton and radon the most visited of the well-known halls so far). Each in two steps on its own branch: the seven stories, pictures and showpiece with a room designed for each picture, then the seven rooms built on top; the hall goes live only with all its rooms (your rule)."
+        "Hydrogen done (2026-10-31): seven pictures, each a room: the young universe cooling into the first atoms, Charles's balloon over the Tuileries in 1783, a pond at a skater's size, a hydrogen filling station by a railway, Cavendish's laboratory where fire makes water, a gondola sinking into Jupiter, the Dwingeloo dish listening for the 21 cm line; its showpiece a spectrum tube glowing pink-violet beside a balloon. Iron's seven are being built (four rooms done). Each hall in two steps: the boards and room designs, then the rooms (docs/agents/)."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -648,6 +648,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "Hydrogen's hall: seven pictures to step into",
+      "what": "The first atoms after the Big Bang, Charles's hydrogen balloon over Paris in 1783, a pond at a pond skater's size, a hydrogen bus and train station, Cavendish making water with a spark, a gondola sinking into Jupiter, and a radio telescope listening to hydrogen's 21 cm whisper. In the case, a spectrum tube glowing pink-violet.",
+      "link": "https://element-worlds.vercel.app/e/H"
+    },
     {
       "date": "2026-10-31",
       "title": "The Atom Forge together",

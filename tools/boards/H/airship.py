@@ -1,6 +1,6 @@
 """Board 'airship': an evening sky over Paris. Charles's striped silk balloon of 1783 rising, its net
 over the top and a little boat-shaped car hanging below; far off a great silver airship of the 1930s.
-A close-up of the balloon's skin: inside, a few light hydrogen molecules; outside, the crowded air
+A close-up of the balloon's skin: as many molecules inside as outside, light hydrogen inside, the air
 (nitrogen and oxygen), and the air's push lifting the balloon."""
 import math
 import os
@@ -148,7 +148,7 @@ def build():
         x0 = bx + side * br * 0.86
         s.a(arrow([(x0 + side * 6, car_y + 30), (x0, car_y - 20), (x0 - side * br * 0.1, by + br * 0.9)], "#9fd0ff", w=8, op=0.85))
 
-    # ---------- the close-up of the skin: few hydrogens inside, crowded air outside
+    # ---------- the close-up of the skin: as many hydrogens inside as air molecules outside
     mx, my, mr = 820, 405, 138
     opening, closing = magnifier(s, "zoomSkin", mx, my, mr, COLOR, src=(bx + br * 0.62, by + br * 0.45, 22))
     s.a(opening)
@@ -157,26 +157,36 @@ def build():
     s.a(f'<path d="M{f(sk[0][0])},{f(sk[0][1])} L{f(sk[1][0])},{f(sk[1][1])} L{f(sk[2][0])},{f(sk[2][1])} L{f(sk[3][0])},{f(sk[3][1])} L{f(mx - mr * 1.2)},{f(my - mr * 1.2)} Z" fill="#2a3a78" opacity="0.55"/>')
     s.a(f'<path d="{smooth(sk, closed=False)}" fill="none" stroke="#d8344a" stroke-width="12"/>',
         f'<path d="{smooth([(x, y + 7) for x, y in sk], closed=False)}" fill="none" stroke="#f2c23a" stroke-width="3" opacity="0.8"/>')
-    # inside: four hydrogen molecules, roomy
-    for (x, y, a) in ((mx - 70, my - 75, 20), (mx + 10, my - 108, -30), (mx - 105, my - 18, 70), (mx - 22, my - 40, -60)):
-        s.a(h2(x, y, 13, a, grey=True))
-    # outside: crowded nitrogen (blue) and oxygen (red) pairs
-    spots = []
-    tries = 0
-    while len(spots) < 24 and tries < 2000:
-        tries += 1
-        x = rnd.uniform(mx - mr, mx + mr)
-        y = rnd.uniform(my - mr, my + mr)
-        if math.hypot(x - mx, y - my) > mr - 12:
-            continue
-        # below the skin line (outside the balloon)
-        if y < my + (mx - x) * 0.5 - (x - mx) * 0.3 + 20 and not (x > mx + 40 and y > my - 40):
-            if y < my + 40 - (x - mx) * 0.55:
+    # as many molecules in each cubic centimetre inside as outside (same pressure, same temperature:
+    # Avogadro); the hydrogen ones are just lighter. Both sides are filled at the same spacing.
+    def skin_y(x):
+        for (x0, y0), (x1, y1) in zip(sk, sk[1:]):
+            if x <= x1:
+                return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+        return sk[-1][1]
+
+    def fill(inside):
+        spots = []
+        tries = 0
+        while tries < 4000:
+            tries += 1
+            x = rnd.uniform(mx - mr, mx + mr)
+            y = rnd.uniform(my - mr, my + mr)
+            if math.hypot(x - mx, y - my) > mr - 14:
                 continue
-        if any(math.hypot(x - a, y - b) < 34 for a, b, _ in spots):
-            continue
-        spots.append((x, y, rnd.uniform(0, 180)))
-    for i, (x, y, a) in enumerate(spots):
+            gap = y - skin_y(x)
+            if (inside and gap > -22) or (not inside and gap < 22):
+                continue
+            if any(math.hypot(x - a, y - b) < 36 for a, b, _ in spots):
+                continue
+            spots.append((x, y, rnd.uniform(0, 180)))
+        return spots
+
+    # inside: hydrogen molecules
+    for (x, y, a) in fill(True):
+        s.a(h2(x, y, 13, a, grey=True))
+    # outside: nitrogen (blue) and oxygen (red) pairs, at the same spacing
+    for i, (x, y, a) in enumerate(fill(False)):
         s.a(pair(x, y, 11, "O" if i % 5 == 0 else "N", a))
     s.a(arrow([(mx + 40, my + 95), (mx + 20, my + 40), (mx - 6, my + 2)], "#9fd0ff", w=7, op=0.9))
     s.a(closing)

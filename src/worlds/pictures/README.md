@@ -17,11 +17,13 @@ The room inside one of a hall's pictures, stepped into from the board (`docs/kno
   `dig.js`: open country at golden hour with pits; `coldlab.js`: a cold lab opening onto a yard at dusk;
   `laboratory.js`: a 1770s laboratory by day; `bathhouse.js`: a bathhouse by a frozen lake; `polar.js`: an
   Antarctic ice shelf under a low spring sun, a station far off; `shore.js`: an ancient shore before plants;
-  `arctic.js`: a winter camp under the aurora.
+  `arctic.js`: a winter camp under the aurora; `gasgiant.js`, `garden.js`, `youngcosmos.js`, `depot.js`,
+  `heath.js`, `pond.js`, `townhouse.js` (hydrogen's rooms, `picture-rooms.md`).
 - `scenes/<Symbol>/<id>.js` + `<id>.words.js`: a picture's room and its words. Silicon: all six
   (`diatoms`, `solar`, `glass`, `earth`, `valley`, `silicone`). Sodium: all six
   (`nerves`, `salt`, `davy`, `lamps`, `space`, `kitchen`). Carbon: all seven (`twins`, `you`,
   `leaf`, `stars`, `clock`, `football`, `sky`). Oxygen: all seven (`breath`,
-  `fire` at `fire-picture`, `ozone`, `first`, `water`, `aurora`, `magnet`).
+  `fire` at `fire-picture`, `ozone`, `first`, `water`, `aurora`, `magnet`). Hydrogen: all seven (`bigbang`, `airship`, `bond`, `fuel`, `cavendish`,
+  `jupiter`, `radio`).
 - `pictures.test.js`: every room stands behind a real picture; its words in four languages, the same
   shape, both depths, no em dashes.

@@ -159,8 +159,9 @@ built: `docs/history.md`):
 - The plaza (`/`): the table, the card with the Atomling's facts, families, trends (both depths), the
   time machine, search, "Who am I?", golden stars over elements with worlds of their own.
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
-  floor table to any element. Carbon and Oxygen have a fact file, seven picture boards and their own
-  showpieces; the other 116 still have the eight text stations (`hall-boards.md`). A picture with a room
+  floor table to any element. Carbon, Oxygen, Sodium, Silicon and Hydrogen (2026-10-31) have a fact file,
+  picture boards and their own showpieces; the others still have the eight text stations
+  (`hall-boards.md`; iron's are being built). A picture with a room
   is stepped into (`picture-rooms.md`; every picture on a wall since 2026-10-31).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
