@@ -72,6 +72,8 @@ export default function Passport() {
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <Link to="/" className="glass rounded-xl px-3 py-1.5 font-display font-bold">← {t('hud.table')}</Link>
           <h1 className="font-display text-3xl font-bold">{t('passport.title')}</h1>
+          {/* the family studio: what comes next in the game, and ideas sent to Claude */}
+          <Link to="/studio" data-studio-link className="glass rounded-xl px-3 py-1.5 font-display font-bold sm:ml-auto hover:bg-white/10">💡 {t('studio.link')}</Link>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 max-w-3xl mb-5">
           {[['visited', `${visited}/118`], ['found', total], ['molecules', `${molecules.length}/${MISSIONS.length}`], ['forgeStat', `${forged.length}/${FORGE.length}`], ['quizStat', best]].map(([k, v]) => (

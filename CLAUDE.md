@@ -51,6 +51,9 @@ built when, and the user's requests behind it: `docs/history.md`.
   you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
+  The family studio at `/studio` (shared with Artur; ideas, notes and verdicts kept with their account in
+  `ew_studio_notes`, `supabase/ew_004_studio.sql`): `src/pages/Studio.jsx`, `src/studio/model.js`,
+  `src/net/studio.js`; the routine reads and answers it too (`update-dashboard.md`, "The family studio").
 - `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
   the signed-in session, the client loaded on demand), `account.js` (sign in, new account, the progress
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`

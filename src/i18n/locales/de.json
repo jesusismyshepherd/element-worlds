@@ -496,5 +496,133 @@
       "busy": "Zu viele Versuche: Warte eine Minute.",
       "failed": "Etwas ist schiefgelaufen: Versuch es noch einmal."
     }
+  },
+  "studio": {
+    "title": "Studio",
+    "docTitle": "Studio · Elementwelten",
+    "link": "Ideen für das Spiel",
+    "tagline": "Wohin das Spiel geht: was Claude gerade baut, was danach kommt, und alle Ideen bisher.",
+    "english": "Die Liste selbst ist auf Englisch; Knöpfe und Überschriften sind in deiner Sprache.",
+    "play": "Spielen",
+    "signIn": "Anmelden",
+    "tell": {
+      "title": "Sag es Claude",
+      "hint": "Eine Idee für das Spiel oder alles, was Claude wissen sollte. Claude liest es und antwortet hier.",
+      "what": "Was ist es?",
+      "idea": "Eine Idee",
+      "message": "Eine Nachricht",
+      "ideaHolder": "Zum Beispiel: eine Welt für Eisen, in der man ein Schwert schmiedet",
+      "messageHolder": "Alles, was Claude wissen sollte",
+      "label": "Deine Idee oder Nachricht",
+      "send": "An Claude senden",
+      "sending": "Wird gesendet…",
+      "sent": "Gesendet! Claude liest es zu Beginn der nächsten Sitzung und antwortet hier.",
+      "signIn": "Anmelden, um Ideen zu senden",
+      "signInHint": "Jeder mit dem Link kann diese Seite lesen. Um Ideen, Notizen und Stimmen zu senden, melde dich mit deinem Spielkonto an (das der Pokémon-Seite geht auch)."
+    },
+    "sent": {
+      "mine": "Was du gesendet hast",
+      "everyone": "Was alle gesendet haben",
+      "everyoneHint": "Du siehst, was alle gesendet haben, mit ihren Namen; die anderen sehen nur ihr eigenes.",
+      "none": "Noch nichts gesendet.",
+      "waiting_one": "{{count}} wartet auf Claude",
+      "waiting_other": "{{count}} warten auf Claude",
+      "allAnswered": "Claude hat auf alles geantwortet.",
+      "more": "Alle zeigen ({{n}})",
+      "fewer": "Weniger zeigen",
+      "loading": "Wird geladen…",
+      "failed": "Das konnte nicht geladen werden. Versuch es gleich noch einmal."
+    },
+    "building": {
+      "title": "Gerade im Bau",
+      "hint": "Woran Claude gerade arbeitet.",
+      "none": "Gerade wird nichts gebaut."
+    },
+    "next": {
+      "title": "Als Nächstes",
+      "hint": "Claudes Reihenfolge, und warum jedes Stück an seinem Platz steht. Früher, Später und Jetzt nicht ändern sie.",
+      "none": "Nichts in der Warteschlange."
+    },
+    "waiting": {
+      "title": "Wartet auf die Familie",
+      "hint": "Das kann nur die Familie tun, zum Beispiel etwas Neues auf dem Handy ausprobieren. Schick eine Notiz, wenn etwas erledigt ist, oder um zu sagen, wie es war.",
+      "none": "Nichts wartet.",
+      "optional": "Freiwillig"
+    },
+    "ideas": {
+      "title": "Alle Ideen",
+      "hint": "Alles, was bisher ausgedacht wurde, nach Art. Tippe eine an, um sie zu lesen, zu sagen, wann sie gebaut werden soll, oder eine Notiz zu schicken.",
+      "whose": "Wessen Ideen",
+      "all": "Alle",
+      "you": "Papas",
+      "artur": "Arturs",
+      "claude": "Claudes",
+      "none": "Hier gibt es keine Ideen."
+    },
+    "built": {
+      "title": "Gebaut",
+      "hint": "Was das Spiel dazubekommen hat, das Neueste zuerst.",
+      "tokens_one": "{{total}} Tokens · {{written}} geschrieben · {{count}} Agent",
+      "tokens_other": "{{total}} Tokens · {{written}} geschrieben · {{count}} Agenten",
+      "noTokens": "Tokens: nicht erfasst",
+      "tokensNote": "Tokens sind das, was die Agenten verbraucht haben, die jedes Stück gebaut haben, erneutes Lesen eingeschlossen; die Sitzung, die ihre Arbeit geplant und geprüft hat, zählt nicht mit. Seit dem 29. Oktober: {{total}} Tokens.",
+      "open": "Öffnen"
+    },
+    "decided": {
+      "title": "Wie wir entschieden haben",
+      "hint": "Die Entscheidungen hinter dem Spiel und der Grund für jede."
+    },
+    "who": {
+      "you": "Papas Idee",
+      "artur": "Arturs Idee",
+      "claude": "Claudes Idee"
+    },
+    "status": {
+      "next": "Als Nächstes",
+      "building": "Im Bau",
+      "idea": "Idee",
+      "parked": "Jetzt nicht",
+      "built": "Gebaut"
+    },
+    "verdict": {
+      "ask": "Wann soll Claude das bauen?",
+      "first": "Früher",
+      "later": "Später",
+      "no": "Jetzt nicht",
+      "saved": "Gespeichert: {{v}}"
+    },
+    "item": {
+      "why": "Warum es hier steht",
+      "open": "Im Spiel öffnen",
+      "repo": "Im Repository:",
+      "notes": "Notizen",
+      "none": "Noch keine Notizen.",
+      "noteHolder": "Eine Notiz dazu für Claude",
+      "noteLabel": "Deine Notiz",
+      "send": "Notiz senden",
+      "notesButton": "Notizen ({{n}})",
+      "addNote": "Notiz schreiben",
+      "signIn": "Melde dich an, um eine Notiz zu senden oder zu sagen, wann."
+    },
+    "entry": {
+      "idea": "Idee",
+      "note": "Notiz",
+      "verdict": "Stimme",
+      "said": "Gewählt: {{v}}",
+      "about": "Zu: {{title}}",
+      "waiting": "Wartet auf Claude",
+      "answered": "Beantwortet",
+      "claude": "Claude"
+    },
+    "errors": {
+      "signedOut": "Melde dich zuerst an.",
+      "empty": "Schreib zuerst etwas.",
+      "long": "Das ist zu lang: kürze es ein wenig.",
+      "slow": "Das ist viel auf einmal: warte eine Weile und sende es dann noch einmal.",
+      "kind": "Das hat nicht geklappt. Versuch es gleich noch einmal.",
+      "verdict": "Diese Stimme wurde nicht gespeichert. Versuch es noch einmal.",
+      "failed": "Das hat nicht geklappt. Versuch es gleich noch einmal."
+    },
+    "footer": "Claude liest zu Beginn jeder Sitzung, was hier gesendet wurde, und antwortet auf dieser Seite. Die Liste wurde zuletzt am {{date}} geändert."
   }
 }
