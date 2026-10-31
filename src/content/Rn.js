@@ -44,20 +44,20 @@ export default {
   },
   stateNote: {
     en: {
-      kid: 'Radon is invisible and has no smell, so scientists use special detectors to find it. Frozen solid, it glows all by itself: bright yellow, turning orange-red as it gets colder.',
-      sci: 'Rn boils at −61.7 °C and freezes at −71 °C. Its own alpha decay makes the solid phosphorescent: yellow, then orange-red at liquid-air temperatures. Density 9.73 g/L at 0 °C.',
+      kid: 'Radon is invisible and has no smell, so scientists use special detectors to find it. Frozen solid, it glows all by itself: first steel blue, then bright yellow, turning orange-red as it gets colder.',
+      sci: 'Rn boils at −61.7 °C and freezes at −71 °C. Its own alpha decay makes the solid phosphorescent: steel blue, then yellow, then orange-red at liquid-air temperatures (Gray and Ramsay, 1909). Density 9.73 g/L at 0 °C.',
     },
     'pt-pt': {
-      kid: 'O rádon é invisível e não tem cheiro, por isso os cientistas usam detetores especiais para o encontrar. Congelado, brilha sozinho: amarelo vivo, que passa a laranja-avermelhado quando fica ainda mais frio.',
-      sci: 'O Rn ferve a −61,7 °C e congela a −71 °C. O seu próprio decaimento alfa torna o sólido fosforescente: amarelo e depois laranja-avermelhado à temperatura do ar líquido. Densidade de 9,73 g/L a 0 °C.',
+      kid: 'O rádon é invisível e não tem cheiro, por isso os cientistas usam detetores especiais para o encontrar. Congelado, brilha sozinho: primeiro azul-aço, depois amarelo vivo, que passa a laranja-avermelhado quando fica ainda mais frio.',
+      sci: 'O Rn ferve a −61,7 °C e congela a −71 °C. O seu próprio decaimento alfa torna o sólido fosforescente: azul-aço, depois amarelo e depois laranja-avermelhado à temperatura do ar líquido (Gray e Ramsay, 1909). Densidade de 9,73 g/L a 0 °C.',
     },
     pl: {
-      kid: 'Radon jest niewidzialny i nie ma zapachu, więc naukowcy używają specjalnych detektorów, żeby go znaleźć. Zamrożony na ciało stałe świeci sam z siebie: jaskrawo na żółto, a gdy robi się zimniej, na pomarańczowoczerwono.',
-      sci: 'Rn wrze w −61,7 °C i krzepnie w −71 °C. Jego własny rozpad alfa sprawia, że ciało stałe fosforyzuje: na żółto, a w temperaturze ciekłego powietrza na pomarańczowoczerwono. Gęstość 9,73 g/L w 0 °C.',
+      kid: 'Radon jest niewidzialny i nie ma zapachu, więc naukowcy używają specjalnych detektorów, żeby go znaleźć. Zamrożony na ciało stałe świeci sam z siebie: najpierw na stalowoniebiesko, potem jaskrawo na żółto, a gdy robi się zimniej, na pomarańczowoczerwono.',
+      sci: 'Rn wrze w −61,7 °C i krzepnie w −71 °C. Jego własny rozpad alfa sprawia, że ciało stałe fosforyzuje: na stalowoniebiesko, potem na żółto, a w temperaturze ciekłego powietrza na pomarańczowoczerwono (Gray i Ramsay, 1909). Gęstość 9,73 g/L w 0 °C.',
     },
     de: {
-      kid: 'Radon ist unsichtbar und geruchlos, deshalb benutzen Forscher spezielle Detektoren, um es zu finden. Zu einem Feststoff gefroren, leuchtet es ganz von selbst: leuchtend gelb, und je kälter es wird, desto mehr orangerot.',
-      sci: 'Rn siedet bei −61,7 °C und gefriert bei −71 °C. Sein eigener Alphazerfall lässt den Feststoff phosphoreszieren: gelb, dann orangerot bei der Temperatur flüssiger Luft. Dichte 9,73 g/L bei 0 °C.',
+      kid: 'Radon ist unsichtbar und geruchlos, deshalb benutzen Forscher spezielle Detektoren, um es zu finden. Zu einem Feststoff gefroren, leuchtet es ganz von selbst: erst stahlblau, dann leuchtend gelb, und je kälter es wird, desto mehr orangerot.',
+      sci: 'Rn siedet bei −61,7 °C und gefriert bei −71 °C. Sein eigener Alphazerfall lässt den Feststoff phosphoreszieren: stahlblau, dann gelb, dann orangerot bei der Temperatur flüssiger Luft (Gray und Ramsay, 1909). Dichte 9,73 g/L bei 0 °C.',
     },
   },
   found: {

@@ -283,7 +283,7 @@ export const SIGNS_WORDS = {
         kid: [
           { p: 'A balloon floats when the gas inside is lighter than the same amount of air. Helium is very light, so it rises fast. Neon is lighter than air too, so its balloon floats up, slowly.' },
           { p: 'Argon, krypton and xenon are heavier than air: their balloons drop to the floor. Xenon falls fastest: it is about four and a half times heavier than air!' },
-          { p: 'Radon is the heaviest gas of all, more than seven times heavier than air. That is why it gathers in cellars.' },
+          { p: 'Radon is the heaviest gas of all, more than seven times heavier than air. It gathers in cellars, but not because it is heavy: a house draws air in from the ground under it, and the radon comes in with it.' },
         ],
         sci: [
           { p: 'At the same temperature and pressure a litre of any gas holds the same number of particles (Avogadro), so density follows molar mass: He 4.0, Ne 20.2, air about 29.0, Ar 39.9, Kr 83.8, Xe 131.3 g/mol.' },
@@ -563,7 +563,7 @@ export const SIGNS_WORDS = {
         kid: [
           { p: 'Um balão flutua quando o gás lá dentro é mais leve do que a mesma quantidade de ar. O hélio é muito leve, por isso sobe depressa. O néon também é mais leve do que o ar, por isso o seu balão sobe, devagarinho.' },
           { p: 'O árgon, o crípton e o xénon são mais pesados do que o ar: os seus balões caem ao chão. O xénon cai mais depressa: é cerca de quatro vezes e meia mais pesado do que o ar!' },
-          { p: 'O rádon é o gás mais pesado de todos, mais de sete vezes mais pesado do que o ar. É por isso que se junta nas caves.' },
+          { p: 'O rádon é o gás mais pesado de todos, mais de sete vezes mais pesado do que o ar. Junta-se nas caves, mas não por ser pesado: a casa puxa ar do chão por baixo dela, e o rádon entra com esse ar.' },
         ],
         sci: [
           { p: 'À mesma temperatura e pressão, um litro de qualquer gás tem o mesmo número de partículas (Avogadro), por isso a densidade acompanha a massa molar: He 4,0, Ne 20,2, ar cerca de 29,0, Ar 39,9, Kr 83,8, Xe 131,3 g/mol.' },
@@ -843,7 +843,7 @@ export const SIGNS_WORDS = {
         kid: [
           { p: 'Balon unosi się, kiedy gaz w środku jest lżejszy od tej samej ilości powietrza. Hel jest bardzo lekki, więc wznosi się szybko. Neon też jest lżejszy od powietrza, więc jego balon unosi się, ale powoli.' },
           { p: 'Argon, krypton i ksenon są cięższe od powietrza: ich balony spadają na podłogę. Ksenon spada najszybciej: jest około cztery i pół raza cięższy od powietrza!' },
-          { p: 'Radon jest najcięższym gazem ze wszystkich, ponad siedem razy cięższym od powietrza. Dlatego gromadzi się w piwnicach.' },
+          { p: 'Radon jest najcięższym gazem ze wszystkich, ponad siedem razy cięższym od powietrza. Gromadzi się w piwnicach, ale nie dlatego, że jest ciężki: dom wciąga powietrze z gruntu pod sobą, a razem z nim radon.' },
         ],
         sci: [
           { p: 'W tej samej temperaturze i pod tym samym ciśnieniem litr każdego gazu zawiera tyle samo cząstek (Avogadro), więc gęstość idzie w parze z masą molową: He 4,0; Ne 20,2; powietrze około 29,0; Ar 39,9; Kr 83,8; Xe 131,3 g/mol.' },
@@ -1123,7 +1123,7 @@ export const SIGNS_WORDS = {
         kid: [
           { p: 'Ein Ballon schwebt, wenn das Gas darin leichter ist als dieselbe Menge Luft. Helium ist sehr leicht, deshalb steigt es schnell. Neon ist auch leichter als Luft, also schwebt sein Ballon nach oben, langsam.' },
           { p: 'Argon, Krypton und Xenon sind schwerer als Luft: Ihre Ballons fallen auf den Boden. Xenon fällt am schnellsten: Es ist etwa viereinhalbmal so schwer wie Luft!' },
-          { p: 'Radon ist das schwerste Gas von allen, mehr als siebenmal so schwer wie Luft. Deshalb sammelt es sich in Kellern.' },
+          { p: 'Radon ist das schwerste Gas von allen, mehr als siebenmal so schwer wie Luft. Es sammelt sich in Kellern, aber nicht, weil es schwer ist: Ein Haus saugt Luft aus dem Boden unter sich an, und mit ihr kommt das Radon.' },
         ],
         sci: [
           { p: 'Bei gleicher Temperatur und gleichem Druck enthält ein Liter jedes Gases gleich viele Teilchen (Avogadro), also folgt die Dichte der molaren Masse: He 4,0; Ne 20,2; Luft etwa 29,0; Ar 39,9; Kr 83,8; Xe 131,3 g/mol.' },

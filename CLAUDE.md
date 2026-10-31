@@ -182,7 +182,10 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next: the older wings' stations worked by hand (taps on the
-things, `src/worlds/common/taps.js`), the star forge, the forge together, then element by element each
-hall's pictures with their rooms, the best-known elements first (`hall-boards.md`, "The other 116 halls";
-new Periodic Videos rooms wait, the user marked them Later).
+the phone), and what waits on the user. Next (2026-10-31, the session stopped at the user's word): build
+krypton's and radon's seven rooms each from `docs/agents/designs/Kr_rooms.md` and `Rn_rooms.md`; their
+boards and showpieces wait on the branches `worktree-agent-a2065850749aa7bf4` (krypton) and
+`worktree-agent-a29f4091cc8e22657` (radon), not on main, since a picture goes up only with its room (each
+room builder merges its element's branch first: `hall-boards.md`, the pipeline, `docs/agents/`). Then the
+next well-known elements by visits. The family studio at `/studio` is read and answered at the start of
+every session (`update-dashboard.md`).

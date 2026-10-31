@@ -182,5 +182,15 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   #111317, with emissive 0.06. Facts with doubts: the Eiffel Tower's summer growth (the official site says
   a few millimetres, popular sites 15 cm: the story gives 3.6 mm per degree and the 15 cm loop the top
   traces); the first thermite rail weld (1899 in most sources, 1896 in one).
+- Waiting for their rooms (2026-10-31): krypton (`hidden` 1898 in the last drops of liquid air, `metre`
+  the krypton-86 metre of 1960 to 1983, `windows` krypton in triple glazing, `thruster` Starlink's Hall
+  thrusters, `water` krypton-81 dating of the Sahara's old water, `hands` krypton difluoride, `kryptonite`
+  fiction and jadarite; showpiece a lilac glowing globe and krypton frozen white) on
+  `worktree-agent-a2065850749aa7bf4`, and radon (`glow` frozen radon glowing by itself, `cellar` a granite
+  house in Portugal, `rock` how granite breathes radon out, `draught` Rutherford's door at McGill in 1899,
+  `moon` radon over Aristarchus, `quake` radon and earthquakes as research, `cave` a show cave breathing;
+  showpiece pink granite, a home detector and a speck of frozen radon) on
+  `worktree-agent-a29f4091cc8e22657`. Their room designs: `docs/agents/designs/`. Merge conflict to
+  expect: both add to the `SHOWPIECES` line in `showpieces.js` (keep every element).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
