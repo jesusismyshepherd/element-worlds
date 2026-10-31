@@ -34,7 +34,7 @@ const LOOK = {
   Ti: M('#a8adb4', 'a strong, light grey metal', 'um metal cinzento, forte e leve', 'mocny, lekki szary metal', 'ein festes, leichtes graues Metall'),
   Cr: M('#c3cbd6', 'a hard, very shiny bluish-silver metal', 'um metal duro, prateado-azulado e muito brilhante', 'twardy, bardzo błyszczący niebieskawosrebrny metal', 'ein hartes, stark glänzendes, bläulich silbernes Metall'),
   Mn: M('#a9a9a4', 'a hard, brittle grey metal', 'um metal cinzento, duro e quebradiço', 'twardy, kruchy szary metal', 'ein hartes, sprödes graues Metall'),
-  Fe: M('#a3a6ab', 'a grey metal (that rusts red-brown)', 'um metal cinzento (que enferruja, castanho-avermelhado)', 'szary metal (który rdzewieje na rudobrązowo)', 'ein graues Metall (das rotbraun rostet)'),
+  Fe: M('#a3a6ab', 'a grey metal (that rusts red-brown) and an etched iron meteorite', 'um metal cinzento (que enferruja) e um meteorito de ferro gravado com ácido', 'szary metal (który rdzewieje na rudobrązowo) i wytrawiony meteoryt żelazny', 'ein graues Metall (das rotbraun rostet) und ein geätzter Eisenmeteorit'),
   Co: M('#a8b0bd', 'a hard bluish-grey metal', 'um metal duro, cinzento-azulado', 'twardy niebieskawoszary metal', 'ein hartes, bläulich graues Metall'),
   Ni: M('#cfc8b8', 'a silvery metal with a hint of gold', 'um metal prateado com um toque dourado', 'srebrzysty metal ze złotawym odcieniem', 'ein silbriges Metall mit einem Hauch von Gold'),
   Cu: M('#d27d4f', 'a reddish-orange metal', 'um metal laranja-avermelhado', 'czerwonawopomarańczowy metal', 'ein rötlich oranges Metall'),
