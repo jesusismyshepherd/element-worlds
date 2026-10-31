@@ -18,7 +18,8 @@ built when, and the user's requests behind it: `docs/history.md`.
 - Commit and push when a unit of work is done (the user's standing rule), on `main`. Identity:
   jesusismyshepherd <christskingdomwork@gmail.com> (set in this repo's git config). Vercel deploys `main`.
 - Text for people in European Portuguese (pt-PT), English, Polish and German, all four always
-  (`docs/knowledge/translating.md`; a text missing in one falls back to English); no em dashes anywhere.
+  (`docs/knowledge/translating.md`; a text missing in one falls back to English); our own words without
+  em dashes (the user's taste: fewer is better; quotations keep theirs).
   pt-PT element names follow the Sociedade Portuguesa de Química (azoto, crómio, árgon, xénon).
 - Two depths for every text: `kid` (Explorer) and `sci` (Scientist).
 - Look at what you made: `python tools/shot.py <path>` (screenshots, console errors) before calling
@@ -55,6 +56,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   The family studio at `/studio` (shared with Artur; ideas, notes and verdicts kept with their account in
   `ew_studio_notes`, `supabase/ew_004_studio.sql`): `src/pages/Studio.jsx`, `src/studio/model.js`,
   `src/net/studio.js`; the routine reads and answers it too (`update-dashboard.md`, "The family studio").
+- `api/`: the site's Vercel functions (`chapter.js`: a Bible chapter fetched live for the passages' panels;
+  `_bible.js`; env `YVP_APP_KEY`; `scripture.md`), answered by the dev server too (`vite.config.js`).
 - `src/net/`: `config.js` (the family Supabase project, pokemon-site's: URL, publishable key, `rpc` with
   the signed-in session, the client loaded on demand), `account.js` (sign in, new account, the progress
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`

@@ -2,6 +2,8 @@
 
 - Vercel deploys `main` on every push: https://element-worlds.vercel.app. `tools/shot.py --base
   https://element-worlds.vercel.app` looks at the live site.
+- Functions in `api/` (`api/chapter.js`) run on Vercel; `vercel.json` sends every other address to the
+  page. Their secrets are Vercel environment variables (`YVP_APP_KEY`, `scripture.md`).
 - Every build has a number of its own, in the code (`__BUILD__`) and in `/version.json` (a plugin in
   `vite.config.js`; `vercel.json` keeps that file from being cached). `watchUpdates` in
   `src/engine/release.js`: an open page asks for it when it comes back on screen and offers "Reload" when

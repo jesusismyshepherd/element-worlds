@@ -50,6 +50,12 @@
   ],
   "waiting": [
     {
+      "id": "w-youversion",
+      "title": "A YouVersion key, so every Bible's whole chapter shows in the game",
+      "detail": "Register a free app at platform.youversion.com (your own sign-in), accept the licences for CSB, BPT09 (a BÍBLIA para todos), ARC (Portugal), SNP, BW1975, HFA and SCH2000, and the NLT too if offered. Then add the app key in Vercel (the element-worlds project, Settings, Environment Variables) as YVP_APP_KEY, or send it to Claude in a note here and Claude adds it. Until then the NLT's chapters show in the popup and the others open in the Bible App.",
+      "link": "https://platform.youversion.com"
+    },
+    {
       "id": "w-crackle",
       "title": "Listen on your phone: is the crackle gone?",
       "detail": "Open the game on the phone (tap Reload if it offers a new version), walk through the plaza, a hall and a lab with the sound on, and tick this. If you still hear crackling, send a note saying where. The game now counts its own crackles, so the next session can check your phone's count too.",
@@ -658,6 +664,7 @@
       "summary": "Your request: passages from the Bible throughout the world, each about the place it stands in; the NLT for Explorer and the CSB for Scientist.",
       "details": [
         "Built (2026-10-31): every hall has a verse stone across from its specimen case, with the element's own passage where the Bible has one (iron sharpens iron, gold as clear as glass, the rainbow in iridium's name, sand for silicon), else one for its name (countries, scientists) or its family. The wings have theirs (the burning bush beside the campfire, let your light shine in the neon workshop, the many works of one hand under carbon's motto), the plaza, the lab and both forges write theirs in the sky, and the quiz and the Atomlings page carry one. A tap or E opens it with a line on why it is there.",
+        "The whole chapter (2026-10-31, your request): the passage's popup has “Read the whole chapter”, the chapter with its verse numbers and the quoted verses marked. The NLT shows there now; the other translations do once the YouVersion key exists (waiting on you), and link to the Bible App until then.",
         "The other languages quote their own pair: Bíblia para Todos and Almeida Corrigida (Portugal), the EIB's Bible and Biblia Warszawska, Hoffnung für alle and Schlachter 2000. The About box lists the publishers' notices.",
         "Not yet: the picture rooms and the video rooms (an idea below)."
       ],
@@ -682,7 +689,7 @@
     {
       "date": "2026-10-31",
       "title": "Bible passages in every place",
-      "what": "46 passages, each about the place it stands in, in the four languages: the NLT for Explorer and the CSB for Scientist in English, and each language's own pair. A verse stone in every hall, one in each wing, the plaza's psalm in the stars behind the table, the lab's and the forges' in their skies, the quiz's and the Atomlings'. Tap one, or press E beside it, for why it is there.",
+      "what": "46 passages, each about the place it stands in, in the four languages: the NLT for Explorer and the CSB for Scientist in English, and each language's own pair. A verse stone in every hall, one in each wing, the plaza's psalm in the stars behind the table, the lab's and the forges' in their skies, the quiz's and the Atomlings'. Tap one, or press E beside it, for why it is there. The popup reads the whole chapter too (the NLT now, the others once the YouVersion key exists).",
       "link": "https://element-worlds.vercel.app/e/Fe"
     },
     {
@@ -1155,7 +1162,12 @@
     {
       "date": "2026-10-31",
       "title": "Which Bibles the other languages quote, and quotations never edited",
-      "why": "You chose the NLT for Explorer and the CSB for Scientist. The other languages mirror that pair: an easy, careful translation and a closer one, from each country's own Bible society or publisher (Portugal's, not Brazil's). The words are fetched exactly and never changed, so they keep their translators' punctuation, dashes too; the no-dash rule stays for our own words, and a dash-free verse is chosen when an equally good one exists."
+      "why": "You chose the NLT for Explorer and the CSB for Scientist. The other languages mirror that pair: an easy, careful translation and a closer one, from each country's own Bible society or publisher (Portugal's, not Brazil's). The words are fetched exactly and never changed."
+    },
+    {
+      "date": "2026-10-31",
+      "title": "Whole chapters fetched live, never copied into the game",
+      "why": "The publishers allow quotations to be copied (the NLT up to 500 verses, the CSB 1000), and the halls' chapters come to about a thousand verses in each translation, in a repository that is public. So a chapter is asked of the publisher's own service when someone opens it: Tyndale's NLT API now, and YouVersion's licensed API for the others once its key exists."
     }
   ]
 }

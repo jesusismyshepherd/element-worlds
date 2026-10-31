@@ -7,17 +7,18 @@ import VERSES from './verses.json' with { type: 'json' }
 import WHY from './why.js'
 import { inLang } from '../../i18n/langs.js'
 
-/** The translations, by the code the fetcher keeps: the short name shown after a quote, the full name and
- *  the publisher's notice (the About box lists them; each publisher allows quotations this size with it). */
+/** The translations, by the code the fetcher keeps: the Bible App's number (`yv`, for links to it and its
+ *  developer API, api/_bible.js), the short name shown after a quote, the full name and the publisher's
+ *  notice (the About box lists them; each publisher allows quotations this size with it). */
 export const VERSIONS = {
-  NLT: { short: 'NLT', name: 'Holy Bible, New Living Translation', notice: 'Scripture quotations marked NLT are taken from the Holy Bible, New Living Translation, copyright © 1996, 2004, 2015 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, Carol Stream, Illinois 60188. All rights reserved.' },
-  CSB: { short: 'CSB', name: 'Christian Standard Bible', notice: 'Scripture quotations marked CSB have been taken from the Christian Standard Bible®, Copyright © 2017 by Holman Bible Publishers. Used by permission. Christian Standard Bible® and CSB® are federally registered trademarks of Holman Bible Publishers.' },
-  BPT09: { short: 'BPT', name: 'a BÍBLIA para todos, Edição Comum', notice: 'Citações marcadas BPT: a BÍBLIA para todos, Edição Comum, Copyright © 1993, 2009 Sociedade Bíblica de Portugal.' },
-  ARC: { short: 'ARC', name: 'Almeida Revista e Corrigida (Portugal)', notice: 'Citações marcadas ARC: Almeida Revista e Corrigida, edição de 1898 atualizada em 1968, Sociedade Bíblica de Portugal.' },
-  SNP: { short: 'SNP', name: 'Biblia, to jest Pismo Święte Starego i Nowego Przymierza, wydanie pierwsze 2018', notice: 'Cytaty oznaczone SNP: Biblia, to jest Pismo Święte Starego i Nowego Przymierza, wydanie pierwsze 2018, © Ewangeliczny Instytut Biblijny.' },
-  BW1975: { short: 'BW', name: 'Biblia Warszawska', notice: 'Cytaty oznaczone BW: Biblia Warszawska, © 1975-2020 Towarzystwo Biblijne w Polsce.' },
-  HFA: { short: 'HFA', name: 'Hoffnung für alle', notice: 'Mit HFA gekennzeichnete Zitate: Hoffnung für alle®, Copyright © 1983, 1996, 2002, 2015 by Biblica, Inc.®' },
-  SCH2000: { short: 'SLT', name: 'Die Bibel, Schlachter 2000', notice: 'Mit SLT gekennzeichnete Zitate: Die Bibel, Schlachter 2000, © 2000 Genfer Bibelgesellschaft.' },
+  NLT: { yv: 116, short: 'NLT', name: 'Holy Bible, New Living Translation', notice: 'Scripture quotations marked NLT are taken from the Holy Bible, New Living Translation, copyright © 1996, 2004, 2015 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, Carol Stream, Illinois 60188. All rights reserved.' },
+  CSB: { yv: 1713, short: 'CSB', name: 'Christian Standard Bible', notice: 'Scripture quotations marked CSB have been taken from the Christian Standard Bible®, Copyright © 2017 by Holman Bible Publishers. Used by permission. Christian Standard Bible® and CSB® are federally registered trademarks of Holman Bible Publishers.' },
+  BPT09: { yv: 432, short: 'BPT', name: 'a BÍBLIA para todos, Edição Comum', notice: 'Citações marcadas BPT: a BÍBLIA para todos, Edição Comum, Copyright © 1993, 2009 Sociedade Bíblica de Portugal.' },
+  ARC: { yv: 215, short: 'ARC', name: 'Almeida Revista e Corrigida (Portugal)', notice: 'Citações marcadas ARC: Almeida Revista e Corrigida, edição de 1898 atualizada em 1968, Sociedade Bíblica de Portugal.' },
+  SNP: { yv: 2095, short: 'SNP', name: 'Biblia, to jest Pismo Święte Starego i Nowego Przymierza, wydanie pierwsze 2018', notice: 'Cytaty oznaczone SNP: Biblia, to jest Pismo Święte Starego i Nowego Przymierza, wydanie pierwsze 2018, © Ewangeliczny Instytut Biblijny.' },
+  BW1975: { yv: 3490, short: 'BW', name: 'Biblia Warszawska', notice: 'Cytaty oznaczone BW: Biblia Warszawska, © 1975-2020 Towarzystwo Biblijne w Polsce.' },
+  HFA: { yv: 73, short: 'HFA', name: 'Hoffnung für alle', notice: 'Mit HFA gekennzeichnete Zitate: Hoffnung für alle®, Copyright © 1983, 1996, 2002, 2015 by Biblica, Inc.®' },
+  SCH2000: { yv: 157, short: 'SLT', name: 'Die Bibel, Schlachter 2000', notice: 'Mit SLT gekennzeichnete Zitate: Die Bibel, Schlachter 2000, © 2000 Genfer Bibelgesellschaft.' },
 }
 
 /** The books quoted, as each language cites them (Polish and German with a comma before the verse). */
@@ -52,6 +53,13 @@ export function citeOf(ref, lang) {
 /** The word for "the Bible", the kicker over a passage's panel. */
 const BIBLE = { en: 'The Bible', 'pt-pt': 'A Bíblia', pl: 'Biblia', de: 'Die Bibel' }
 const READ = { en: 'Read', 'pt-pt': 'Ler', pl: 'Przeczytaj', de: 'Lies' }
+// the whole chapter (chapterPanel)
+const CHAPTER = {
+  en: { open: 'Read the whole chapter', back: 'Back to the verse', loading: 'Fetching the chapter…', away: 'This chapter cannot be shown here yet. Read it in the Bible App:', app: 'Open it in the Bible App' },
+  'pt-pt': { open: 'Ler o capítulo inteiro', back: 'Voltar ao versículo', loading: 'A buscar o capítulo…', away: 'Este capítulo ainda não pode ser mostrado aqui. Lê-o na aplicação da Bíblia:', app: 'Abrir na aplicação da Bíblia' },
+  pl: { open: 'Przeczytaj cały rozdział', back: 'Wróć do wersetu', loading: 'Pobieranie rozdziału…', away: 'Tego rozdziału nie da się jeszcze pokazać tutaj. Przeczytaj go w aplikacji Biblia:', app: 'Otwórz w aplikacji Biblia' },
+  de: { open: 'Lies das ganze Kapitel', back: 'Zurück zum Vers', loading: 'Das Kapitel wird geladen…', away: 'Dieses Kapitel kann hier noch nicht gezeigt werden. Lies es in der Bibel-App:', app: 'In der Bibel-App öffnen' },
+}
 
 export const hasPassage = id => id in VERSES
 
@@ -72,15 +80,63 @@ export function whyOf(id, lang, level) {
   return (level === 'scientist' ? w?.sci : null) ?? w?.kid ?? null
 }
 
-/** The panel a passage opens: the words, the reference and the translation, and why it stands here. */
-export function versePanel(id, lang, level, { color = '#ffd98a', kicker } = {}) {
+/** The panel a passage opens: the words, the reference and the translation, why it stands here, and
+ *  (with `onChapter`) a button to the whole chapter. */
+export function versePanel(id, lang, level, { color = '#ffd98a', kicker, onChapter } = {}) {
   const v = verseOf(id, lang, level)
   const why = whyOf(id, lang, level)
   return {
     title: v.cite,
     kicker: kicker ?? inLang(BIBLE, lang),
     color,
-    blocks: [{ verse: { text: v.text, cite: v.label } }, why && { p: why }].filter(Boolean),
+    blocks: [
+      { verse: { text: v.text, cite: v.label } },
+      why && { p: why },
+      onChapter && { buttons: [{ label: `📖 ${inLang(CHAPTER, lang).open}`, accent: true, onClick: onChapter }] },
+    ].filter(Boolean),
+  }
+}
+
+/** Which chapter a passage is in, in the translation the level quotes: { v (NLT), ch (PSA.19), marks (the
+ *  quoted verses, in that translation's numbering), title (Psalm 19), version (NLT), app (the Bible App's
+ *  page for the chapter) }. */
+export function chapterOf(id, lang, level) {
+  const entry = VERSES[id]
+  if (!entry) return null
+  const l = entry[lang] ?? entry.en
+  const q = level === 'scientist' ? l.sci : l.kid
+  const [book, chapter, vs] = q.ref.split('.')
+  const [a, b = a] = vs.split('-').map(Number)
+  const marks = Array.from({ length: b - a + 1 }, (_, i) => a + i)
+  const at = lang in BOOKS.GEN ? lang : 'en'
+  return {
+    v: q.v,
+    ch: `${book}.${chapter}`,
+    marks,
+    title: `${inLang(BOOKS[book], at) ?? book} ${chapter}`,
+    version: VERSIONS[q.v]?.short ?? q.v,
+    app: `https://www.bible.com/bible/${VERSIONS[q.v]?.yv}/${book}.${chapter}.${vs}`,
+  }
+}
+
+/** The panel of a whole chapter (`state`: { status: 'loading' | 'ready' | 'away', data }): the verses with
+ *  their numbers, the quoted ones marked; while it loads, a line; where it cannot be shown, the link to the
+ *  Bible App. A button goes back to the passage. */
+export function chapterPanel(c, lang, state, { color = '#ffd98a', onBack } = {}) {
+  const W = inLang(CHAPTER, lang)
+  const notice = VERSIONS[c.v]?.notice
+  const back = onBack && { buttons: [{ label: `← ${W.back}`, onClick: onBack }] }
+  const body = state.status === 'ready'
+    ? [{ chapter: { verses: state.data.verses, poem: !!state.data.poem, marks: c.marks, key: `${c.v}:${c.ch}` } }, notice && { small: notice }]
+    : state.status === 'loading'
+      ? [{ p: W.loading }]
+      : [{ p: W.away }, { href: { url: c.app, label: `${W.app} (${c.version})` } }]
+  return {
+    title: c.title,
+    kicker: `${inLang(BIBLE, lang)} · ${c.version}`,
+    color,
+    // the way back above and, under a long chapter, below too
+    blocks: [back, ...body, state.status === 'ready' && back].filter(Boolean),
   }
 }
 

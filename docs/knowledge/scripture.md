@@ -69,9 +69,8 @@ Read every text the tool prints before keeping a passage. What it does by itself
 Choosing a passage: it must say the thing itself (sand for silicon, bones for calcium) in all eight, or
 the link breaks in a language (Proverbs 3:8 was dropped for calcium: HFA and BPT say "body", not "bones").
 Prefer verses that stand alone in all eight; Psalm 65:9 was dropped for nitrogen (half sentences and an
-editor's brackets in four), Leviticus 26:4 kept with ellipses. The quotes keep their translators'
-punctuation, dashes included (SNP uses many): the no-dash rule is for our own words (`why.js`), and a
-scripture text is never edited. Prefer a dash-free verse when an equally good one exists.
+editor's brackets in four), Leviticus 26:4 kept with ellipses. A scripture text is never edited: it keeps
+its translators' punctuation.
 
 ## The pieces (`src/worlds/common/verse.js`)
 
@@ -89,6 +88,31 @@ scripture text is never edited. Prefer a dash-free verse when an equally good on
   (Hud.jsx renders `store.panel` when the world does not walk).
 - `src/ui/VerseLine.jsx`: a passage inside a HUD card or a page (the quiz, the Atomlings).
 
+## The whole chapter (2026-10-31)
+
+The user asked for a "Read full chapter" button in the passage's popup, the chapter with its verse numbers
+shown there. A passage's panel has "📖 Read the whole chapter": the panel turns into the chapter in the
+translation the level quotes, each verse numbered, the quoted ones marked and scrolled into view, the
+publisher's notice under it, "Back to the verse" above and below; a change of level switches translation.
+
+The chapters are fetched live, never kept in the repository: the publishers allow quotations to be copied
+(the NLT 500 verses, the CSB 1000), and the halls' chapters come to about 1000 verses in each translation.
+`api/chapter.js` (a Vercel function; the dev server answers it too, a plugin in `vite.config.js`) asks:
+
+1. the **YouVersion developer API** (`api.youversion.com`, the same Bible App as our quotes) when the app
+   key is set: `YVP_APP_KEY` in Vercel's environment, from https://platform.youversion.com, with each
+   translation's licence accepted in its portal. Every translation it allows is shown in the popup. Its
+   HTML reader (`parseYouVersion` in `api/_bible.js`) is written from the Bible App's markup and is to be
+   checked against the API once the key exists (`youVersionChapter` from a `node --input-type=module -e`).
+2. **Tyndale's NLT API** (`api.nlt.to`), which lets non-commercial web pages show the NLT without a key:
+   50 verses a request (a longer chapter is asked for in parts), 500 requests a day; the CDN keeps each
+   chapter a month, so a day's requests stay few.
+
+Where neither has the chapter (until the key exists: everything but the NLT), the answer is empty and the
+panel links to the chapter in the Bible App. `src/content/scripture/chapter.js` keeps what came for the
+visit; `chapterOf` and `chapterPanel` in `index.js` say which chapter and draw it (Panel.jsx's `chapter`
+block).
+
 ## Adding a passage to a new place
 
 1. A line in `passages.json`, then `py -3.11 scripts/data/fetch_verses.py`; read the eight texts.
@@ -104,6 +128,9 @@ scripture text is never edited. Prefer a dash-free verse when an equally good on
   languages at both depths from the right translation and chapter; nothing outside the 3D fonts; every
   place and all 118 halls with a passage; every `why` at both depths without dashes; references cited per
   language (Psalm 19:1, Psalm 19,2, Przysłów 27,17).
+- The same test checks the chapter's pieces (which chapter, the marked verses, the Bible App's numbers
+  in both lists, Tyndale's page read into verses). `curl "http://localhost:5310/api/chapter?v=NLT&ch=PSA.19"`
+  asks the dev server's function.
 - `tools/halls_probe.py` opens every hall's stone with the rest; `tools/hud_probe.py` for the orbiting
   worlds' layouts.
 

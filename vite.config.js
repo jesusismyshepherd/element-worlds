@@ -13,8 +13,32 @@ const version = {
   },
 }
 
+// the dev server answers the site's functions in api/ as Vercel does when deployed (api/chapter.js)
+const functions = {
+  name: 'ew-api',
+  apply: 'serve',
+  configureServer(server) {
+    server.middlewares.use('/api/', async (req, res, next) => {
+      const url = new URL(req.url, 'http://dev')
+      const name = url.pathname.replace(/^\//, '').replace(/[^\w-]/g, '')
+      let handler
+      try {
+        handler = (await server.ssrLoadModule(`/api/${name}.js`)).default
+      } catch {
+        return next()
+      }
+      const reply = {
+        status(code) { res.statusCode = code; return reply },
+        setHeader: (k, v) => res.setHeader(k, v),
+        json(body) { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify(body)) },
+      }
+      await handler({ query: Object.fromEntries(url.searchParams) }, reply)
+    })
+  },
+}
+
 export default defineConfig({
-  plugins: [react(), version],
+  plugins: [react(), version, functions],
   define: { __BUILD__: JSON.stringify(BUILD) },
   build: { chunkSizeWarningLimit: 1500 },
   // the rooms load the Supabase client on demand; bundled at the dev server's start, not found mid-visit
