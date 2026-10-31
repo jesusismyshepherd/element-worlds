@@ -66,7 +66,11 @@ in. The studio item is `picture-rooms`.
   glazed doors open onto a sunny stone terrace, a garden and a city's roofs; `windows`, `doors`,
   `terrace`, `sun`, `onWall`), `bathhouse.js` (a wooden bathhouse whose big window is set low into a
   frozen lake: snow and spruces above the waterline, the ice's underside, stones and fish below;
-  `lake.set({ ice, top, deep })`). A room picks one
+  `lake.set({ ice, top, deep })`),
+  `polar.js` (an Antarctic ice shelf on a clear spring day: a low sun, long blue shadows, sastrugi, route
+  flags, a far station of modules on legs; `sun`, `wind`, `flags`, `station`; gives `snowMaterial`,
+  `sunLight`, `setNacreous(k)` for mother-of-pearl clouds). A
+  room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -257,6 +261,17 @@ at the same address.
   balloon bending the stream (by induced charge, the words say), salt carried off in shells of six. An
   air slider or the thermometer takes the lake through a winter, 4 °C at the bottom and ice on top; the
   model freezes into ice's open hexagons, 9% more room.
+- Oxygen, `ozone` ("Earth's invisible sunscreen", 2026-10-31): a research station on the Brunt Ice Shelf,
+  where Halley found the ozone hole (`polar.js`). The ozone factory: a model sun over four filters
+  (UV-C, UV-B, UV-A, visible), the layer as a slab of O2 and O3 (33 atoms, the count shared), UV beads
+  over the snow; one photon per tap, UV-C makes two O3, UV-B is caught (warmth) or two O3 become O2,
+  UV-A colours the beads; a wavelength slider dims a beam by ozone's real absorption at 300 DU. The
+  Dobson hut: the spectrophotometer squeezes the violet column to its 3 mm at the ground (10 times
+  bigger, beside a 1 euro coin), a month slider and a logbook of decades from Halley's monthly means
+  (BAS), a balloon draws a modelled ozonesonde profile. The fix: a fridge and a spray can send a CFC-12
+  up for years, winter's icy cloud frees the chlorine, the spring sun lets it break ozone after ozone;
+  the Montreal treaty (1987) and a year slider to 2066 (a globe's hole, Halley's October ozone and
+  NOAA's chlorine). Sources in the head of `ozone.js` and `ozone.words.js`.
 
 ## Adding a room
 
@@ -355,6 +370,10 @@ at the same address.
   were rebuilt every frame (1 fps, stepping in took up to a minute). It now asks for the nearest only.
 - On an upright phone the station view backs off until `width` fits: at 6 m wide the eye went about 10 m
   back, into another station. Keep a station's width to about 5 m, nothing in the way behind its stand.
+- Snow: fresh snow drawn white blooms the whole view white; keep the snow and the sky mid-toned and let
+  the light make them bright (`polar.js`). Dark letters on brass do not read from a few metres: a dark
+  plaque with gold letters does. Small glowing molecules need a halo near 0.9 opacity and half their
+  size again to read against a bright sky.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
