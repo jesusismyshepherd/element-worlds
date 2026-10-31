@@ -203,14 +203,15 @@
       "code": "Sf",
       "title": "The star forge",
       "kind": "lab",
-      "status": "next",
+      "status": "building",
       "from": "claude",
       "date": "2026-10-29",
       "summary": "Make the elements as the universe did: fuse hydrogen into helium inside a star and climb toward iron; heavier elements need neutrons, caught slowly in old giant stars or all at once when neutron stars collide.",
       "why": "You marked it Sooner (2026-10-30). The plaza already says the elements were made in stars; this lets you do it, on top of the Atom Forge's physics. After every station by hand, so it is built to that rule from the start.",
       "details": [
         "Explorer: pick a star's size and watch which elements it can make before it dies. Scientist: the burning stages, their temperatures and how long each lasts, the slow and rapid neutron captures.",
-        "Every element made lights up on the table, with where the atoms in your body came from."
+        "Every element made lights up on the table, with where the atoms in your body came from.",
+        "Being built (2026-10-31) at /stars beside the Atom Forge: pick a star, its life from inside, its end, catching neutrons slowly and fast, the table lighting up by where each element came from."
       ]
     },
     {
@@ -636,12 +637,13 @@
       "code": "Hd",
       "title": "Every station worked by hand",
       "kind": "worlds",
-      "status": "next",
+      "status": "building",
       "from": "you",
       "date": "2026-10-30",
       "summary": "Your rule for every station: you choose each step by clicking or tapping the thing it is about (the sand, the soda, the pot), and anything that changes smoothly is a slider; pressing E again and again felt passive.",
       "details": [
-        "The picture rooms follow it from now on (the diatoms already: tap the round diatom, the boat diatoms in the sun, the family). The older worlds still step through some stations with E: carbon's and oxygen's wings, the neon workshop and the two video labs could get the same treatment, station by station."
+        "The picture rooms follow it from now on (the diatoms already: tap the round diatom, the boat diatoms in the sun, the family). The older worlds still step through some stations with E: carbon's and oxygen's wings, the neon workshop and the two video labs could get the same treatment, station by station.",
+        "Being built (2026-10-31): carbon's and oxygen's wings, the neon workshop and the two video labs, one agent each, from the picture rooms' shared tap kit (src/worlds/common/taps.js)."
       ],
       "why": "You marked it Sooner. The picture rooms already work this way; the older worlds (carbon's and oxygen's wings, the neon workshop, the two video labs) get the same: each step chosen by tapping its thing, sliders for what changes smoothly. Right after the picture rooms, since both touch the same rooms' rules."
     }
