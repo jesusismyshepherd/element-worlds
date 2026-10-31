@@ -1,0 +1,27 @@
+{
+  "/e/Ne/signs": [
+    "() => __ew.world.parts.tap('balloons', 'He')",
+    "() => __ew.world.parts.tap('balloons', 'Xe')",
+    "() => __ew.world.parts.tap('balloons')",
+    "() => { __ew.showPanel(__ew.world.panels.balloons); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[5].onClick() }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.tap('bench', 'pump')",
+    "() => __ew.world.parts.tap('bench', 'Kr')",
+    "() => __ew.world.parts.tap('bench', 'hv')",
+    "() => new Promise(r => { __ew.teleport(-5.0, -2.7, 1.5708, 0.1); setTimeout(() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.at.pump())); r() }, 600) })",
+    "() => { __ew.showPanel(__ew.world.panels.bench); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick() }",
+    "() => { __ew.showPanel(__ew.world.panels.bench); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[6].onClick() }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.tap('radon')",
+    "() => __ew.world.parts.tap('atom', 2)",
+    "() => new Promise(r => { __ew.teleport(-3.2, -8.3, 0.88, 0.15); setTimeout(() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.at.chip(1))); r() }, 600) })",
+    "() => __ew.world.parts.tap('history', 'today')",
+    "() => new Promise(r => { __ew.teleport(3.4, -8.1, -0.785, 0.15); setTimeout(() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.at.sign('1898'))); r() }, 600) })",
+    "() => { __ew.showPanel(__ew.world.panels.history); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick() }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.tap('spectrum', 'Xe')",
+    "() => new Promise(r => { __ew.teleport(4.6, -2.6, -1.5708, 0.1); setTimeout(() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.at.rack('Ar'))); r() }, 600) })",
+    "() => { __ew.showPanel(__ew.world.panels.atom); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => __ew.store.set({ panel: null })"
+  ]
+}

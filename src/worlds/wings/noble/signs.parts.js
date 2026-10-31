@@ -1,11 +1,12 @@
 // The name wall, the history board and the balloons.
 // - The name wall: the visitor's word bent in tubing across the north wall, lit letter by letter in the
 //   gas they choose; below it the sign-maker's desk with the full-size pattern of the word on paper.
-// - The history board: a black board in the north-east corner with three signs lit in turn, 1898 (in
-//   krypton's white: liquid air), 1910 (in neon's red: Claude's tubes) and TODAY (in the colours of
-//   coated tubes: argon, mercury and a phosphor).
-// - The balloons: one of each sign gas on a round table; let go, they rise or fall at the speed the
-//   physics gives (nobleData.js balloonOf: buoyancy, weight and the drag of the air).
+// - The history board: a black board in the north-east corner with three signs, each lit by tapping it, in
+//   any order: 1898 (in krypton's white: liquid air), 1910 (in neon's red: Claude's tubes) and TODAY (in
+//   the colours of coated tubes: argon, mercury and a phosphor).
+// - The balloons: one of each sign gas on a round table; a balloon tapped is let go (tapped while flying,
+//   it comes back), the table lets all five go together or ties them back; they rise or fall at the
+//   speed the physics gives (nobleData.js balloonOf: buoyancy, weight and the drag of the air).
 // Each is built in a frame whose +z points to the visitor. The board and the balloons give their state
 // (state / setState) for everyone in a room to share (src/net/shared.js).
 import * as THREE from 'three'
@@ -97,6 +98,12 @@ export function nameWall({ mats, words, light, text, color, maxWidth = 10.4 }) {
   scr.group.rotation.y = 0.5
   group.add(scr.group)
 
+  // things to tap, to write a word: the word on the wall (an unseen plane over the whole row, as the word
+  // changes width), the desk with its pattern, the screen
+  const wordHit = new THREE.Mesh(new THREE.PlaneGeometry(maxWidth + 0.3, 1.5), new THREE.MeshBasicMaterial({ visible: false }))
+  wordHit.position.set(0, 3.35, 0.16)
+  group.add(wordHit)
+
   // lighting the word letter by letter: each glyph flickers, then holds
   let want = 1
   let litAt = null // seconds since the lighting started
@@ -112,6 +119,7 @@ export function nameWall({ mats, words, light, text, color, maxWidth = 10.4 }) {
     group,
     screen: scr,
     sign,
+    hits: { word: wordHit, desk, screen: scr.group },
     get lighting() {
       return litAt !== null
     },
@@ -198,6 +206,7 @@ export function historyBoard({ mats, words, light }) {
   group.add(scr.group)
   // the three signs: 1898 in krypton's white, 1910 in neon's red, today in coated tubes' colours
   const COATED = ['#4fd2ff', '#7dff9a', '#ff7ad9', '#fff1a8', '#9b8cff']
+  const hitMat = new THREE.MeshBasicMaterial({ visible: false })
   const rows = [
     { key: '1898', text: '1898', color: glowOf('Kr'), y: 3.02 },
     { key: '1910', text: '1910', color: glowOf('Ne'), y: 2.08 },
@@ -211,7 +220,11 @@ export function historyBoard({ mats, words, light }) {
     const cap = makeText(words.captions[row.key], { font: 'body', size: 0.075, color: '#c9d4ff', maxWidth: 2.4 })
     cap.position.set(0, row.y - 0.17, 0.05)
     group.add(cap)
-    return { ...row, sign: s, k: 0, want: 0 }
+    // the sign and its caption, to tap (unseen, a little larger than the letters)
+    const hit = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 0.78), hitMat)
+    hit.position.set(0, row.y + 0.12, 0.09)
+    group.add(hit)
+    return { ...row, sign: s, hit, k: 0, want: 0 }
   })
   const glowLight = new THREE.PointLight('#ffffff', 0, 6, 2)
   glowLight.position.set(0, 2.2, 1.2)
@@ -222,46 +235,67 @@ export function historyBoard({ mats, words, light }) {
   let flickT = 0
   let lighting = -1
   let lightingT = 0
+  const litKeys = () => signs.filter((s, i) => s.want || i === lighting).map(s => s.key)
   const api = {
     group,
     screen: scr,
     rows,
-    /** The next sign to light (its key), or null when all are lit. */
+    /** The signs to tap ({ key, hit }). */
+    hits: signs.map(s => ({ key: s.key, hit: s.hit })),
+    /** The first sign still dark (its key), or null when all are lit. */
     get next() {
-      return signs.find(s => !s.want)?.key ?? null
+      return signs.find((s, i) => !s.want && i !== lighting)?.key ?? null
     },
     get busy() {
       return lighting >= 0
     },
-    act() {
+    /** Whether a sign is lit (or lighting). */
+    isLit: key => litKeys().includes(key),
+    /** A sign tapped: a dark one lights (returns its key), a lit one says so ('again'); false while one
+     *  is lighting. The visitor chooses the order. */
+    light(key) {
       if (lighting >= 0) return false
-      const i = signs.findIndex(s => !s.want)
-      if (i < 0) {
-        for (const s of signs) s.want = 0
-        play('part')
-        return 'off'
-      }
+      const i = signs.findIndex(s => s.key === key)
+      if (i < 0) return false
+      if (signs[i].want) return 'again'
       lighting = i
       lightingT = 0
       play('select')
-      return signs[i].key
+      return key
     },
-    /** How many signs are lit (the one lighting counts), for the others in a room. */
+    /** Every sign off ('off'), or false when none is lit. */
+    off() {
+      if (lighting >= 0 || !signs.some(s => s.want)) return false
+      for (const s of signs) s.want = 0
+      play('part')
+      return 'off'
+    },
+    /** For the probes: the first dark sign lit, or all off once all are lit. */
+    act() {
+      return api.next ? api.light(api.next) : api.off()
+    },
+    /** The signs lit (the one lighting counts), for the others in a room. */
     state() {
-      return { lit: signs.filter(s => s.want).length + (lighting >= 0 ? 1 : 0) }
+      return { lit: litKeys() }
     },
-    /** Someone else's board: the next sign lit as it happens, or all off; a newcomer's at once. */
-    setState({ lit = 0 } = {}, live = false) {
-      const n = Math.max(0, Math.min(signs.length, Math.round(lit)))
-      const mine = api.state().lit
-      if (n === mine) return
-      if (live && n === mine + 1 && lighting < 0) return void api.act()
-      if (live && n === 0 && mine === signs.length && lighting < 0) return void api.act()
+    /** Someone else's board: a sign lit or all switched off as it happens; a newcomer's at once. A
+     *  number (a board kept before the signs could be lit in any order) lights the first ones. */
+    setState({ lit = [] } = {}, live = false) {
+      const keys = signs.map(s => s.key)
+      const want = typeof lit === 'number' ? keys.slice(0, Math.max(0, Math.min(keys.length, Math.round(lit)))) : (Array.isArray(lit) ? lit : []).filter(k => keys.includes(k))
+      const have = litKeys()
+      const added = want.filter(k => !have.includes(k))
+      const gone = have.filter(k => !want.includes(k))
+      if (!added.length && !gone.length) return
+      if (live && lighting < 0) {
+        if (added.length === 1 && !gone.length) return void api.light(added[0])
+        if (!want.length) return void api.off()
+      }
       lighting = -1
-      signs.forEach((s, i) => {
-        s.want = i < n ? 1 : 0
+      for (const s of signs) {
+        s.want = want.includes(s.key) ? 1 : 0
         s.k = s.want
-      })
+      }
     },
     refresh(line) {
       scr.set({ line })
@@ -349,22 +383,28 @@ export function balloonRack({ mats, words, light, ceiling = 5.4 }) {
   scr.group.rotation.y = -0.3
   group.add(scr.group)
 
-  let free = false
-  let back = 0 // seconds of the way back to the table
-  let age = 0 // seconds since they were let go
+  // each balloon on its own: tied (resting on its string), flying (free, with its age) or on its way back
+  for (const b of balloons) {
+    b.free = false
+    b.age = 0 // seconds since it was let go
+    b.back = 0 // seconds of the way back to the table
+  }
   const top = ceiling - R * 1.18 - 0.02
   const bottom = R * 1.18 + 0.03
   const knotPos = new THREE.Vector3()
-  const release = () => {
-    free = true
-    age = 0
-    back = 0
-    for (const b of balloons) {
-      b.v = 0
-      b.y = b.ball.position.y
-      b.x = b.ball.position.x
-      b.z = b.ball.position.z
-    }
+  /** One balloon let go from where it is. */
+  const loose = b => {
+    b.free = true
+    b.age = 0
+    b.back = 0
+    b.v = 0
+    b.y = b.ball.position.y
+    b.x = b.ball.position.x
+    b.z = b.ball.position.z
+  }
+  const tieBack = b => {
+    b.free = false
+    b.back = 1.4
   }
   // the physics in small steps: buoyancy, weight and the drag of the air
   const fly = (b, dt) => {
@@ -382,75 +422,122 @@ export function balloonRack({ mats, words, light, ceiling = 5.4 }) {
     // a slow drift, slower under the ceiling or on the floor, and never far from the table
     b.x = Math.max(-3, Math.min(3, b.x + b.drift * dt * (b.y < top - 0.01 && b.y > bottom + 0.01 ? 1 : 0.2)))
   }
+  const byGas = sym => balloons.find(b => b.sym === sym)
   const api = {
     group,
     screen: scr,
+    /** Things to tap: the table (all at once) and each balloon. */
+    hits: { table, balloons: balloons.map(b => ({ sym: b.sym, hit: b.ball })) },
+    /** Whether any balloon is flying. */
     get free() {
-      return free
+      return balloons.some(b => b.free)
+    },
+    get allFree() {
+      return balloons.every(b => b.free)
     },
     get busy() {
-      return back > 0
+      return balloons.some(b => b.back > 0)
     },
+    isFree: sym => !!byGas(sym)?.free,
     /** How high each balloon flies (He, Ne, Ar, Kr, Xe), for the probes. */
     get heights() {
       return balloons.map(b => b.ball.position.y)
     },
-    act() {
-      if (back > 0) return false
-      if (!free) {
-        release()
-        play('select')
-        return 'go'
+    /** A balloon tapped: a tied one is let go ('go'), a flying one comes back to the table ('back');
+     *  false while it is on its way back. */
+    one(sym) {
+      const b = byGas(sym)
+      if (!b || b.back > 0) return false
+      if (b.free) {
+        tieBack(b)
+        play('tap')
+        return 'back'
       }
-      free = false
-      back = 1.4
+      loose(b)
+      play('select')
+      return 'go'
+    },
+    /** Every tied balloon let go together, to see side by side which floats ('all'); false if none is
+     *  tied. */
+    all() {
+      const tied = balloons.filter(b => !b.free)
+      if (!tied.length) return false
+      for (const b of tied) loose(b)
+      play('select')
+      return 'all'
+    },
+    /** Every flying balloon back to the table ('back'); false if none flies. */
+    tie() {
+      const out = balloons.filter(b => b.free)
+      if (!out.length) return false
+      for (const b of out) tieBack(b)
       play('tap')
       return 'back'
     },
-    /** Let go or tied, and for how long they have flown, for the others in a room. */
+    /** The table tapped: with any balloon flying, all come back; else all five go together. */
+    act() {
+      return balloons.some(b => b.free) ? api.tie() : api.all()
+    },
+    /** Each balloon flying (its seconds aloft) or tied (-1), and the old summary (any flying, the
+     *  longest flight), for the others in a room. */
     state() {
-      return { free, age: free ? Math.round(age * 10) / 10 : 0 }
+      const out = balloons.map(b => (b.free ? Math.round(b.age * 10) / 10 : -1))
+      const free = out.some(a => a >= 0)
+      return { free, age: free ? Math.max(...out) : 0, out }
     },
     /** Someone else's balloons: let go or tied back as it happens; a newcomer sees them where they
-     *  have flown to by now (the same physics, run forward). */
-    setState({ free: f = false, age: a = 0 } = {}, live = false) {
-      if (!!f === free) return
-      if (live && back === 0) return void api.act()
-      if (f) {
-        for (const b of balloons) b.ball.position.copy(b.rest)
-        release()
-        const dt = 1 / 30
-        const ahead = Math.min(90, Math.max(0, Number(a) || 0))
-        for (let s = 0; s < ahead; s += dt) for (const b of balloons) fly(b, dt)
-        age = ahead
-        for (const b of balloons) b.ball.position.set(b.x, b.y, b.z)
-      } else {
-        free = false
-        back = 0
-        for (const b of balloons) b.ball.position.copy(b.rest)
-      }
+     *  have flown to by now (the same physics, run forward by their age and `ago`). A state kept
+     *  before the balloons went one by one ({ free, age }) lets all five go. */
+    setState({ free: f = false, age: a = 0, out } = {}, live = false, ago = 0) {
+      const ages = Array.isArray(out) && out.length === balloons.length ? out.map(Number) : balloons.map(() => (f ? Number(a) || 0 : -1))
+      const plus = Math.max(0, Number(ago) || 0)
+      let sound = null
+      balloons.forEach((b, i) => {
+        const want = Number.isFinite(ages[i]) && ages[i] >= 0
+        if (want === b.free) return
+        if (live) {
+          if (want) loose(b)
+          else tieBack(b)
+          sound = want ? 'select' : (sound ?? 'tap')
+          return
+        }
+        if (want) {
+          b.ball.position.copy(b.rest)
+          loose(b)
+          const dt = 1 / 30
+          const ahead = Math.min(90, ages[i] + plus)
+          for (let s = 0; s < ahead; s += dt) fly(b, dt)
+          b.age = ahead
+          b.ball.position.set(b.x, b.y, b.z)
+        } else {
+          b.free = false
+          b.back = 0
+          b.ball.position.copy(b.rest)
+        }
+      })
+      if (sound) play(sound)
     },
     update(dt, t) {
-      if (free) age += dt
       for (const b of balloons) {
-        if (free) {
+        if (b.free) {
+          b.age += dt
           fly(b, dt)
           b.ball.position.set(b.x, b.y, b.z)
           b.ball.rotation.z = Math.sin(t * 1.3 + b.sway) * 0.08
         } else {
-          const k = back > 0 ? 1 - Math.exp(-dt * 4) : 1
+          const k = b.back > 0 ? 1 - Math.exp(-dt * 4) : 1
           b.ball.position.lerp(b.rest, k)
           b.ball.position.y += Math.sin(t * 1.1 + b.sway) * 0.0015
           b.ball.rotation.z = Math.sin(t * 0.9 + b.sway) * 0.05
+          if (b.back > 0) b.back = Math.max(0, b.back - dt)
         }
         // the string: tied to the table, or hanging from the knot when free
         knotPos.set(0, -R * 1.18 - 0.03, 0).applyQuaternion(b.ball.quaternion).add(b.ball.position)
-        if (free) {
+        if (b.free) {
           const hang = Math.min(0.62, knotPos.y - 0.004)
           lookAt(b.string, knotPos, knotPos.clone().add(new THREE.Vector3(0, -hang, 0)))
         } else lookAt(b.string, knotPos, b.tie)
       }
-      if (back > 0) back = Math.max(0, back - dt)
       rimMat.emissiveIntensity = 1.0 + 0.2 * Math.sin(t * 2)
     },
     refresh(line) {

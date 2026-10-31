@@ -1,10 +1,13 @@
 // The filling bench (against the west wall) and the radon box at its end.
 // - The bench: five glass tubes on the wall, each bent into its gas's symbol (He, Ne, Ar, Kr, Xe), a
 //   glass manifold with a flask of each gas, a vacuum pump, a pressure gauge in millibar and a
-//   high-voltage transformer. Filling one: the pump empties the tube (the gauge falls to 0), its gas
-//   goes in (up to about 10 mbar), the high voltage comes on and the tube flickers alight in its colour.
+//   high-voltage transformer. Filling one is three steps, each its own tap (the user, 2026-10-30): the
+//   pump empties the line (the gauge falls to 0), a gas's flask lets that gas into its tube (up to about
+//   10 mbar), the high-voltage box lights it (it flickers alight in its colour). Out of order nothing
+//   happens and the world says why (air still in, no gas yet); with none waiting, the box switches the
+//   lit tubes off. `hits` are the things to tap.
 // - The radon box: a lead cabinet with a lead-glass window and the radiation sign; inside, a sealed
-//   ampoule and a tube bent as "Rn" that is never lit. A Geiger counter clicks when used. On the wall,
+//   ampoule and a tube bent as "Rn" that is never lit. A Geiger counter clicks when tapped. On the wall,
 //   radon's lines as scientists measured them in sealed tubes.
 // Both are built in a frame whose z = 0 is the wall and +z points into the room.
 import * as THREE from 'three'
@@ -256,73 +259,161 @@ export function fillingBench({ mats, words, level, light, start }) {
   group.add(glow)
   const mix = new THREE.Color()
 
-  // state
+  // things to tap (the user, 2026-10-30: each step chosen by touching its thing): the pump, each gas's
+  // flask and the tube bent as its symbol, the high-voltage box. Invisible boxes a little larger than the
+  // things, so a finger finds them.
+  const hitMat = new THREE.MeshBasicMaterial({ visible: false })
+  const hitBox = (w, h, d, x, y, z) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), hitMat)
+    m.position.set(x, y, z)
+    group.add(m)
+    return m
+  }
+  const hits = {
+    pump: hitBox(0.66, 0.62, 0.5, -1.75, 0.5, 0.5),
+    hv: hitBox(0.56, 0.5, 0.46, 1.75, 0.24, 0.55),
+    flasks: SIGN_GASES.map((s, i) => hitBox(0.3, 0.36, 0.34, symbolX(i), TOP + 0.15, manifoldZ + 0.12)),
+    tubes: SIGN_GASES.map((s, i) => hitBox(0.86, 0.62, 0.14, symbolX(i), 1.75, 0.06)),
+  }
+
+  // state: what the line (the manifold and the unlit tubes) holds: 'air' at rest, 'empty' once pumped,
+  // or a gas let in and waiting for the high voltage; and the tubes lit. Each step is its own tap: pump,
+  // a gas, the high voltage (the screen above says so); the animation of a step runs by itself.
   const order = [...SIGN_GASES]
   while (order[0] !== (SIGN_GASES.includes(start) ? start : 'He')) order.push(order.shift())
-  let phase = 'idle'
+  let phase = 'idle' // 'pump' | 'fill' | 'spark' while a step plays
   let phaseT = 0
-  let current = null
+  let current = null // the gas being let in or lit
+  let line = 'air'
   let mbar = 30 // resting on the air stop
   let wheelSpin = 0
-  let mine = true // the tube being filled was this visitor's (not someone else's in the room)
+  let mine = true // the step playing was this visitor's (not someone else's in the room)
   const valveTurn = SIGN_GASES.map(() => 0)
   const rnd = random(7)
+  const isGas = s => SIGN_GASES.includes(s)
+  const tubeOf = s => tubes[SIGN_GASES.indexOf(s)]
+  const litNow = () => SIGN_GASES.filter((s, i) => tubes[i].want === 1 || (phase === 'spark' && s === current))
+  const restOf = l => (l === 'air' ? 30 : l === 'empty' ? 0 : 10)
+  const begin = (p, gas = null, own = true) => {
+    phase = p
+    phaseT = 0
+    current = gas
+    mine = own
+  }
+  const allOff = () => {
+    for (const t of tubes) t.want = 0
+    play('part')
+  }
   const api = {
     group,
     screen: scr,
     light: glow,
+    hits,
     onLit: null,
     get busy() {
       return phase !== 'idle'
     },
+    /** What the line holds: 'air', 'empty' (pumped) or the gas waiting for the voltage. */
+    get line() {
+      return line
+    },
+    /** The next tube to light, in the visitor's order (their gas first), for the probes. */
     get next() {
-      return order.find(s => tubes[SIGN_GASES.indexOf(s)].want === 0) ?? null
+      return order.find(s => tubeOf(s).want === 0) ?? null
     },
     get lit() {
       return tubes.filter(t => t.want === 1).length
     },
+    isLit: s => tubeOf(s)?.want === 1,
     get current() {
       return current
     },
-    /** Fill and light the next tube, or switch all off when all are lit. */
-    act() {
+    /** The pump: empties the line and any gas waiting in it. false while a step plays. */
+    pump() {
       if (phase !== 'idle') return false
-      const next = api.next
-      if (!next) {
-        for (const t of tubes) t.want = 0
-        play('part')
+      line = 'empty'
+      begin('pump')
+      play('tap')
+      return 'pumped'
+    },
+    /** A gas's flask (or its tube): lets that gas into its tube, once the air is out. Returns what
+     *  happened: 'filled', or why not ('air': pump first; 'waiting': another gas waits for the voltage;
+     *  'lit': that tube already glows), false while a step plays. */
+    fill(gas) {
+      if (phase !== 'idle') return false
+      if (!isGas(gas)) return 'air'
+      if (tubeOf(gas).want === 1) return 'lit'
+      if (line === 'air') return 'air'
+      if (isGas(line)) return line === gas ? 'filled' : 'waiting'
+      line = gas
+      begin('fill', gas)
+      play('tap')
+      return 'filled'
+    },
+    /** The high-voltage box: lights the gas waiting in its tube; with none waiting, switches the lit
+     *  tubes off; with none lit, nothing glows ('air': no glow at air pressure; 'empty': no gas). */
+    power() {
+      if (phase !== 'idle') return false
+      if (isGas(line)) {
+        const gas = line
+        line = 'air'
+        begin('spark', gas)
+        play('select')
+        return 'lit'
+      }
+      if (api.lit) {
+        allOff()
         return 'off'
       }
-      current = next
-      mine = true
-      phase = 'pump'
-      phaseT = 0
       play('tap')
-      return 'start'
+      return line
     },
-    /** The tubes lit (and the one being filled), for the others in a room (src/net/shared.js). */
+    /** For the probes and shared_probe's workshop scenario: the step the prompt names next. */
+    act() {
+      if (phase !== 'idle') return false
+      if (isGas(line)) return api.power()
+      if (line === 'empty') return api.next ? api.fill(api.next) : api.power()
+      return api.next ? api.pump() : api.power()
+    },
+    /** The tubes lit (and the one lighting) and what the line holds, for the others in a room
+     *  (src/net/shared.js). */
     state() {
-      return { lit: SIGN_GASES.filter((s, i) => tubes[i].want === 1 || s === current) }
+      return { lit: litNow(), line }
     },
-    /** Someone else's bench: the next tube filled and lit as it happens (onLit hears it is not mine),
-     *  or all switched off; a newcomer's at once. */
-    setState({ lit = [] } = {}, live = false) {
-      const want = new Set((Array.isArray(lit) ? lit : []).filter(s => SIGN_GASES.includes(s)))
-      const have = new Set(api.state().lit)
+    /** Someone else's bench: their step plays here as it happens (onLit hears it is not mine); a
+     *  newcomer's, or a step missed while another played, is shown at once. */
+    setState({ lit = [], line: ln = 'air' } = {}, live = false) {
+      const want = new Set((Array.isArray(lit) ? lit : []).filter(isGas))
+      const to = ln === 'empty' || isGas(ln) ? ln : 'air'
+      const have = new Set(litNow())
       const added = [...want].filter(s => !have.has(s))
       const gone = [...have].filter(s => !want.has(s))
-      if (!added.length && !gone.length) return
+      if (!added.length && !gone.length && to === line) return
       if (live && phase === 'idle') {
-        if (!want.size && have.size === SIGN_GASES.length) return void api.act()
-        if (added.length === 1 && !gone.length && added[0] === api.next) {
-          api.act()
-          mine = false
+        const same = !added.length && !gone.length
+        if (same && to === 'empty') {
+          line = 'empty'
+          begin('pump', null, false)
+          play('tap')
           return
         }
+        if (same && isGas(to) && line === 'empty' && tubeOf(to).want === 0) {
+          line = to
+          begin('fill', to, false)
+          play('tap')
+          return
+        }
+        if (added.length === 1 && !gone.length && added[0] === line && to === 'air') {
+          line = 'air'
+          begin('spark', added[0], false)
+          play('select')
+          return
+        }
+        if (!want.size && have.size && to === line) return void allOff()
       }
-      phase = 'idle'
-      phaseT = 0
-      current = null
+      begin('idle', null)
+      line = to
+      mbar = restOf(to)
       valveTurn.fill(0)
       for (const tube of tubes) {
         tube.want = want.has(tube.sym) ? 1 : 0
@@ -338,20 +429,16 @@ export function fillingBench({ mats, words, level, light, start }) {
       if (phase === 'pump') {
         mbar = damp(mbar, 0, 4, dt)
         wheelSpin += dt * 22
-        if (phaseT > 1.3) {
-          phase = 'fill'
-          phaseT = 0
-        }
+        if (phaseT > 1.3) begin('idle')
       } else if (phase === 'fill') {
+        // the flask's tap opens, the gas goes in up to about 10 mbar, the tap closes
         mbar = damp(mbar, 10, 3.5, dt)
-        valveTurn[i] = clamp(phaseT / 0.3)
+        valveTurn[i] = phaseT < 0.5 ? clamp(phaseT / 0.3) : clamp(1 - (phaseT - 0.5) / 0.4)
         if (phaseT > 0.9) {
-          phase = 'spark'
-          phaseT = 0
-          play('select')
+          valveTurn[i] = 0
+          begin('idle')
         }
       } else if (phase === 'spark') {
-        valveTurn[i] = clamp(1 - phaseT / 0.4)
         const tube = tubes[i]
         tube.flick += dt
         if (tube.flick > 0.06) {
@@ -367,7 +454,7 @@ export function fillingBench({ mats, words, level, light, start }) {
           current = null
           api.onLit?.(sym, mine)
         }
-      } else mbar = damp(mbar, 30, 1.2, dt)
+      } else mbar = damp(mbar, restOf(line), 1.2, dt)
       wheel.rotation.x = wheelSpin
       needleAt(mbar)
       pilotMat.emissiveIntensity = phase === 'spark' ? 3 : api.lit ? 1.6 : 0
@@ -494,6 +581,12 @@ export function radonBox({ mats, words, line, light }) {
   band.position.set(0, -0.15, 0.002)
   scr.content.add(band)
 
+  // things to tap: the Geiger counter (a box round it and its probe, larger than the counter, so a finger
+  // finds it) and the lead cabinet
+  const geigerHit = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.3, 0.4), new THREE.MeshBasicMaterial({ visible: false }))
+  geigerHit.position.set(0.38, 0.95, 0.5)
+  group.add(geigerHit)
+
   let clicks = 0
   let count = 0 // measurements made, for the others in a room
   let nextClick = 0
@@ -503,6 +596,7 @@ export function radonBox({ mats, words, line, light }) {
   const api = {
     group,
     screen: scr,
+    hits: { geiger: geigerHit, cabinet: cab },
     get busy() {
       return clicks > 0
     },
