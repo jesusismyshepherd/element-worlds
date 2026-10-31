@@ -6,7 +6,7 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint, UP } from './kit.js'
+import { ballStick, glowMat, plinth, taperedTube, easeInOut, easeOut, smooth, clamp, paint, UP, ghostBox, ghostPost, ghostBall } from './kit.js'
 import { graphiteStack, inHexagon, GRAPHENE, rng, TAU } from './structures.js'
 import { HONEY_GLSL } from './honeycomb.js'
 import { TBG, bandsAt, widthAt, speedAt } from './tbgBands.js'
@@ -89,6 +89,12 @@ export function peelStack({ light, onFree }) {
   const tape = new THREE.Mesh(tapeGeo, tapeMat)
   tape.renderOrder = 6
   group.add(tape)
+  // easy things to tap: the strip of tape, the free sheet (common/taps.js)
+  tape.add(ghostBox(2.5, 0.34, 0.75))
+  sheet.add(ghostPost(1.02, -0.12, 0.14))
+  // and the stack itself, easier to see from close by than the tape over it
+  const stack = ghostPost(1.05, base - 0.15, topY + 0.15)
+  group.add(stack)
   const curl = k => {
     const a = tapeGeo.getAttribute('position')
     for (let i = 0; i < a.count; i++) {
@@ -112,8 +118,16 @@ export function peelStack({ light, onFree }) {
   const freeY = topY + 0.85
   const api = {
     group,
+    // what a tap peels with and what it puts back
+    tape,
+    stack,
+    sheet,
     get free() {
       return state === 'free'
+    },
+    /** Coming off or going back (neither step can be tapped meanwhile). */
+    get moving() {
+      return state === 'peeling' || state === 'returning'
     },
     /** Off the stack or on its way off (the prompt offers to put it back). */
     get out() {
@@ -463,9 +477,10 @@ export function piOrbitals({ light }) {
 
 // ---------------------------------------------------------------- electronics: the transistor
 /** A graphene field-effect transistor on a silicon chip: source and drain in gold, the honeycomb
- *  channel between them, a gate across it. use() sweeps the gate voltage: plain graphene's current
- *  dips but never stops (no band gap); the next sweep is bilayer graphene in an electric field,
- *  whose gap lets the current stop. */
+ *  channel between them, a gate across it. The visitor chooses each step (common/taps.js): a tap on the
+ *  knob, use(), sweeps the gate voltage down through 0 to -1 and back; a tap on the chip, setKind(k),
+ *  swaps plain graphene (no band gap: the current dips but never stops) for bilayer graphene in an
+ *  electric field (a gap: the current stops); the panel's slider, setGate(v), sets the gate by hand. */
 export function grapheneTransistor({ light, words }) {
   const group = new THREE.Group()
   const stone = new THREE.MeshPhysicalMaterial({ color: '#121a3c', roughness: 0.22, clearcoat: light ? 0 : 0.8 })
@@ -570,71 +585,123 @@ export function grapheneTransistor({ light, words }) {
   modeText.position.set(0, 1.78, -0.35)
   group.add(modeText)
 
-  let mode = 0 // 0 plain graphene, 1 bilayer in a field (a gap)
+  // the kind on the chip (0 plain graphene, 1 bilayer in a field: a gap) and the gate voltage (-1 to +1),
+  // where the visitor's hand left it; a sweep ends at +1
+  let mode = 0
+  let hand = 1
   let vg = 1
   let sweep = -1
+  let from = 1 // where the sweep under way started
   let sweeps = 0 // made so far, for the others in a room
+  let swept = false // the kind on the chip has been swept since it was chosen
   let onEnd = null
   const current = v => (mode === 0 ? Math.sqrt(0.2 * 0.2 + v * v) / Math.sqrt(0.2 * 0.2 + 1) : clamp((Math.abs(v) - 0.32) / 0.68, 0, 1))
   let I = current(vg)
   const m4 = new THREE.Matrix4()
+  const showKind = () => {
+    modeText.text = W.modes[mode]
+    modeText.sync()
+  }
+  // easy things to tap: the knob, the chip
+  const knobHit = ghostBall(0.2)
+  knob.add(knobHit)
+  const chipHit = ghostBox(2.1, 0.42, 1.2, 0, 0.12, 0)
+  chip.add(chipHit)
+  // the gate itself, the middle gold bar: it stands above the chip's box, so a tap on it is the gate's
+  const gateHit = ghostBox(0.42, 0.34, 1.0, 0, 0.3, 0)
+  chip.add(gateHit)
   const api = {
     group,
+    knob: knobHit,
+    chip: chipHit,
+    gate: gateHit,
     get busy() {
       return sweep >= 0
     },
+    /** The kind on the chip: 0 plain graphene, 1 bilayer in a field. */
     get mode() {
       return mode
     },
+    /** Whether the kind on the chip has been swept since it was chosen (the prompt then offers the other). */
+    get swept() {
+      return swept
+    },
+    /** The gate voltage now, -1 to +1 (the slider follows it through a sweep). */
+    get vg() {
+      return vg
+    },
+    /** The current now, 0 to 1 of its most. */
+    get current() {
+      return current(vg)
+    },
+    /** A tap on the knob: one sweep of the gate; done(kind) when it is over. False while one is under way. */
     use(done) {
       if (sweep >= 0) return false
       sweep = 0
+      from = vg
       sweeps++
       onEnd = done
-      modeText.text = W.modes[mode]
-      modeText.sync()
       return true
     },
-    /** The sweeps made and the kind of graphene the next one sweeps (after the one under way), for the
-     *  others in a room (src/net/shared.js). */
-    state() {
-      return { n: sweeps, mode: sweep >= 0 ? 1 - mode : mode }
+    /** A tap on the chip: the other kind of graphene (0 or 1). False during a sweep or if it is there. */
+    setKind(k) {
+      const want = k ? 1 : 0
+      if (sweep >= 0 || want === mode) return false
+      mode = want
+      swept = false
+      showKind()
+      return true
     },
-    /** Someone else swept the gate: the same sweep here when live (without its words); a newcomer's at
-     *  rest, showing the last one swept. */
-    setState({ n = 0, mode: m = 0 } = {}, live = false) {
+    /** The panel's slider: the gate by hand. False during a sweep. */
+    setGate(v) {
+      if (sweep >= 0) return false
+      hand = vg = clamp(Number(v) || 0, -1, 1)
+      return true
+    },
+    /** The sweeps made, the kind on the chip and the gate where the hand left it, for the others in a
+     *  room (src/net/shared.js). */
+    state() {
+      return { n: sweeps, mode, vg: Math.round(hand * 100) / 100 }
+    },
+    /** Someone else worked it: their sweep plays here when live (without its words), their kind and
+     *  their gate follow (eased); a newcomer's stands as theirs at once. */
+    setState({ n = 0, mode: m = 0, vg: v = 1 } = {}, live = false) {
       const want = m === 1 ? 1 : 0
       const k = Math.max(0, Math.round(Number(n) || 0))
-      if (live && k !== sweeps && sweep < 0) {
-        mode = 1 - want
-        api.use()
+      const g = clamp(Number.isFinite(Number(v)) ? Number(v) : 1, -1, 1)
+      if (want !== mode) {
+        mode = want
+        swept = false
+        showKind()
+      }
+      if (live && k !== sweeps) {
+        if (sweep < 0) api.use()
         sweeps = k
         return
       }
       sweeps = k
-      sweep = -1
-      vg = 1
-      onEnd = null
-      mode = want
-      modeText.text = W.modes[k > 0 ? 1 - want : 0]
-      modeText.sync()
+      if (!live) {
+        sweep = -1
+        onEnd = null
+        vg = g
+      }
+      if (sweep < 0) hand = g
     },
     update(dt, t) {
       if (sweep >= 0) {
         sweep += dt
-        // +1 down to 0, wait there, on to -1, back to +1
-        if (sweep < 2.2) vg = 1 - easeInOut(sweep / 2.2)
+        // from where the gate stood down to 0, wait there, on to -1, back to +1
+        if (sweep < 2.2) vg = from * (1 - easeInOut(sweep / 2.2))
         else if (sweep < 4.2) vg = 0
         else if (sweep < 5.6) vg = -easeInOut((sweep - 4.2) / 1.4)
         else if (sweep < 7.2) vg = -1 + 2 * easeInOut((sweep - 5.6) / 1.6)
         else {
           sweep = -1
-          vg = 1
-          const finished = mode
-          mode = 1 - mode
-          onEnd?.(finished)
+          vg = hand = 1
+          swept = true
+          onEnd?.(mode)
         }
-      }
+      } else vg += (hand - vg) * Math.min(1, dt * 8)
       I += (current(vg) - I) * Math.min(1, dt * 6)
       fill.scale.y = Math.max(0.001, I * 0.9)
       fill.position.y = 0.05 + (I * 0.9) / 2

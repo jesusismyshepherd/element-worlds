@@ -16,6 +16,38 @@ export function glowMat(color, intensity = 1.5, extra = {}) {
   return new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: intensity, roughness: 0.4, ...extra })
 }
 
+// Invisible shapes to tap (common/taps.js) round a thin or busy thing: easy to hit with a finger and cheap
+// to test every frame the mouse moves (a lattice of hundreds of balls is not). Never drawn; hit from inside
+// too (a tube walked through, a dome stood in).
+const GHOST = new THREE.MeshBasicMaterial({ visible: false, side: THREE.DoubleSide })
+/** A box w by h by d, its middle at (x, y, z). */
+export function ghostBox(w, h, d, x = 0, y = 0, z = 0) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), GHOST)
+  m.position.set(x, y, z)
+  return m
+}
+/** An upright cylinder of radius r from y0 to y1, standing at (x, z); `open`: no ends (a tube). */
+export function ghostPost(r, y0, y1, x = 0, z = 0, open = false) {
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, y1 - y0, 20, 1, open), GHOST)
+  m.position.set(x, (y0 + y1) / 2, z)
+  return m
+}
+/** A ball of radius r at (x, y, z). */
+export function ghostBall(r, x = 0, y = 0, z = 0) {
+  const m = new THREE.Mesh(new THREE.SphereGeometry(r, 16, 12), GHOST)
+  m.position.set(x, y, z)
+  return m
+}
+/** A box round all of `object` as it stands now, `pad` metres wider each way, in world coordinates (add
+ *  it to the world's root, which stands at the origin). */
+export function ghostAround(object, pad = 0.08) {
+  object.updateWorldMatrix(true, true)
+  const b = new THREE.Box3().setFromObject(object)
+  const size = b.getSize(new THREE.Vector3()).addScalar(pad * 2)
+  const c = b.getCenter(new THREE.Vector3())
+  return ghostBox(size.x, size.y, size.z, c.x, c.y, c.z)
+}
+
 /** Atoms and bonds as two instanced meshes. atoms: [[x, y, z]] in metres; bonds: [[i, j, order?]];
  *  double bonds become two sticks side by side (spread across `side(i, j)`, default sideways). */
 export function ballStick({ atoms, bonds, atomR = 0.15, bondR = 0.05, atomMat, bondMat, seg = 16, doubles = false, side = null }) {

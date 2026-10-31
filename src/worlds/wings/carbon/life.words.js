@@ -75,6 +75,14 @@ const EN = {
     night: {
       label: 'day and night',
       sign: { title: 'Day and night', kid: 'Turn the dial: no light, no photosynthesis.', sci: 'In the dark only respiration goes on.' },
+      taps: {
+        hints: { night: 'Tap the dial to make it night', day: 'Tap the dial to make it day' },
+        slider: 'Sunlight',
+        text: {
+          kid: 'Tap the dial, or slide the sunlight. In sunlight the leaves take in CO₂ and give out O₂: the less light, the less they make. In the dark photosynthesis stops, and the tree only breathes out a little CO₂, as you do.',
+          sci: 'Photosynthesis follows the light; respiration goes on day and night. In dim light (for a sunlit leaf about 1 to 2 per cent of full sunlight: the light compensation point) the two balance; below it the leaf gives out CO₂.',
+        },
+      },
     },
     body: {
       label: 'the carbon in you', verb: 'Fill',
@@ -96,6 +104,11 @@ const EN = {
     },
     c14: {
       label: 'the carbon-14 clock', verb: 'Wind on 5730 years',
+      taps: {
+        hints: { wait: 'Tap the clock to wind on 5730 years', fresh: 'Tap the jar for a fresh sample', busy: 'Watch the atoms in the jar' },
+        buttons: { wait: 'Wait 5730 years', fresh: 'A fresh sample' },
+        full: 'All eight half-lives have gone by. Tap the jar for a fresh sample.',
+      },
       sign: { title: 'Carbon-14 dating', kid: 'Half of the carbon-14 is gone every 5730 years.', sci: 'Half-life 5730 years; beta decay to nitrogen-14; dates up to about 50 000 years.' },
       panel: {
         title: 'Carbon-14 dating',
@@ -283,6 +296,14 @@ const PT = {
     night: {
       label: 'o dia e a noite',
       sign: { title: 'Dia e noite', kid: 'Roda o mostrador: sem luz, não há fotossíntese.', sci: 'No escuro só continua a respiração.' },
+      taps: {
+        hints: { night: 'Toca no mostrador para fazer noite', day: 'Toca no mostrador para fazer dia' },
+        slider: 'Luz do sol',
+        text: {
+          kid: 'Toca no mostrador, ou desliza a luz do sol. Com luz, as folhas absorvem CO₂ e libertam O₂: quanto menos luz, menos fazem. No escuro a fotossíntese para, e a árvore só expira um pouco de CO₂, como tu.',
+          sci: 'A fotossíntese acompanha a luz; a respiração continua de dia e de noite. Com pouca luz (para uma folha ao sol, cerca de 1 a 2 por cento da luz solar plena: o ponto de compensação luminoso) as duas equilibram-se; abaixo disso a folha liberta CO₂.',
+        },
+      },
     },
     body: {
       label: 'o carbono que há em ti', verb: 'Encher',
@@ -304,6 +325,11 @@ const PT = {
     },
     c14: {
       label: 'o relógio do carbono-14', verb: 'Avançar 5730 anos',
+      taps: {
+        hints: { wait: 'Toca no relógio para avançar 5730 anos', fresh: 'Toca no frasco para teres uma amostra nova', busy: 'Olha para os átomos no frasco' },
+        buttons: { wait: 'Esperar 5730 anos', fresh: 'Uma amostra nova' },
+        full: 'Já passaram as oito meias-vidas. Toca no frasco para teres uma amostra nova.',
+      },
       sign: { title: 'Datação por carbono-14', kid: 'A cada 5730 anos desaparece metade do carbono-14.', sci: 'Meia-vida de 5730 anos; decaimento beta para azoto-14; data até cerca de 50 000 anos.' },
       panel: {
         title: 'Datação por carbono-14',
@@ -491,6 +517,14 @@ const PL = {
     night: {
       label: 'dzień i noc',
       sign: { title: 'Dzień i noc', kid: 'Przekręć pokrętło: bez światła nie ma fotosyntezy.', sci: 'W ciemności zachodzi tylko oddychanie.' },
+      taps: {
+        hints: { night: 'Dotknij pokrętła, żeby zrobić noc', day: 'Dotknij pokrętła, żeby zrobić dzień' },
+        slider: 'Światło słońca',
+        text: {
+          kid: 'Dotknij pokrętła albo przesuń światło słońca. W świetle liście pobierają CO₂ i oddają O₂: im mniej światła, tym słabiej to robią. W ciemności fotosynteza staje, a drzewo tylko wydycha trochę CO₂, tak jak ty.',
+          sci: 'Fotosynteza podąża za światłem; oddychanie trwa w dzień i w nocy. Przy słabym świetle (dla liścia w słońcu około 1 do 2 procent pełnego światła słonecznego: świetlny punkt kompensacyjny) oba procesy się równoważą; poniżej liść oddaje CO₂.',
+        },
+      },
     },
     body: {
       label: 'węgiel w tobie', verb: 'Wypełnij',
@@ -512,6 +546,11 @@ const PL = {
     },
     c14: {
       label: 'zegar węgla-14', verb: 'Przesuń o 5730 lat',
+      taps: {
+        hints: { wait: 'Dotknij zegara, żeby przesunąć go o 5730 lat', fresh: 'Dotknij słoja, żeby wziąć świeżą próbkę', busy: 'Patrz na atomy w słoju' },
+        buttons: { wait: 'Odczekaj 5730 lat', fresh: 'Świeża próbka' },
+        full: 'Minęło już osiem okresów połowicznego rozpadu. Dotknij słoja, żeby wziąć świeżą próbkę.',
+      },
       sign: { title: 'Datowanie węglem-14', kid: 'Co 5730 lat znika połowa węgla-14.', sci: 'Czas połowicznego rozpadu 5730 lat; rozpad beta do azotu-14; daty do ok. 50 000 lat.' },
       panel: {
         title: 'Datowanie węglem-14',
@@ -699,6 +738,14 @@ const DE = {
     night: {
       label: 'Tag und Nacht',
       sign: { title: 'Tag und Nacht', kid: 'Dreh den Regler: kein Licht, keine Photosynthese.', sci: 'Im Dunkeln läuft nur die Atmung weiter.' },
+      taps: {
+        hints: { night: 'Tippe auf den Regler, um es Nacht werden zu lassen', day: 'Tippe auf den Regler, um es Tag werden zu lassen' },
+        slider: 'Sonnenlicht',
+        text: {
+          kid: 'Tippe auf den Regler oder schieb das Sonnenlicht. Im Licht nehmen die Blätter CO₂ auf und geben O₂ ab: Je weniger Licht, desto weniger. Im Dunkeln hört die Photosynthese auf, und der Baum atmet nur ein wenig CO₂ aus, so wie du.',
+          sci: 'Die Photosynthese folgt dem Licht; die Atmung läuft Tag und Nacht. Bei schwachem Licht (für ein Sonnenblatt etwa 1 bis 2 Prozent des vollen Sonnenlichts: der Lichtkompensationspunkt) halten sich beide die Waage; darunter gibt das Blatt CO₂ ab.',
+        },
+      },
     },
     body: {
       label: 'den Kohlenstoff in dir', verb: 'Füll',
@@ -720,6 +767,11 @@ const DE = {
     },
     c14: {
       label: 'die Kohlenstoff-14-Uhr', verb: 'Dreh 5730 Jahre vor',
+      taps: {
+        hints: { wait: 'Tippe auf die Uhr, um 5730 Jahre vorzudrehen', fresh: 'Tippe auf das Glas für eine frische Probe', busy: 'Schau auf die Atome im Glas' },
+        buttons: { wait: '5730 Jahre warten', fresh: 'Eine frische Probe' },
+        full: 'Alle acht Halbwertszeiten sind vorbei. Tippe auf das Glas für eine frische Probe.',
+      },
       sign: { title: 'Radiokarbondatierung', kid: 'Alle 5730 Jahre verschwindet die Hälfte des Kohlenstoff-14.', sci: 'Halbwertszeit 5730 Jahre; Betazerfall zu Stickstoff-14; datiert bis etwa 50 000 Jahre.' },
       panel: {
         title: 'Radiokarbondatierung',

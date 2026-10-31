@@ -39,6 +39,10 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   music crackled on the phone (`sound.md`).
 - `breath_probe.py`: the air wing's breathing, on and held with E, every gas streaming in and out, two
   breaths filmed as a contact sheet.
+- `carbon_taps_probe.py`: carbon's two worlds worked by hand; every station tapped from where a player
+  stands (the hand shown only on the next step, the state after each tap, the panel's buttons and
+  sliders), screenshots in `tools/shots/carbon/`; `--phone`, `--lang`, `--level scientist`, `--only
+  <stations>` (`src/worlds/wings/carbon/README.md`, "Worked by hand").
 - `spot_probe.py`: a reload puts the walker back where they stood, and the table's view, pick and trend
   (`walking.md`, "A reload keeps your place").
 - `update_probe.py`: a new version while the page stays open offers Reload; needs two builds

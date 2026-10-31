@@ -4,6 +4,13 @@ The project's log, newest first; moved out of `CLAUDE.md` on 2026-10-29 so every
 it. How each piece works is in its area's doc (`docs/knowledge/`); this file keeps the order of events
 and the user's requests behind them. Add a line here when a piece of work changes what the game has.
 
+## 2026-10-31
+
+- Carbon's two wings worked by hand (the user's rule of 2026-10-30, the queue's "Every station worked by
+  hand"): each step chosen by tapping its thing, sliders for the transistor's gate and the garden's
+  sunlight, the panels' buttons doing the same (`src/worlds/wings/carbon/README.md`, "Worked by hand";
+  checked by `tools/carbon_taps_probe.py` on a computer and an upright phone, in four languages).
+
 ## 2026-10-30
 
 - Stepping into the pictures (Artur, the first time he saw the halls' new picture boards: "How can I get

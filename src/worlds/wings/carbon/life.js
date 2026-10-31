@@ -3,8 +3,11 @@
 // sun shines; a dial turns day into night and photosynthesis stops). Round the ring path: "you are 18%
 // carbon" (a figure filled by the body's mass fractions), five molecules of chains and rings (methane,
 // ethane, ethanol, benzene, glucose), the carbon-14 clock with a mammoth's thigh bone, and the carbon
-// cycle on a table. Every exhibit used once is a discovery. In a room, everyone in the garden shares its
-// exhibits (`shared` below, src/net/shared.js); panels, words and discoveries stay each one's.
+// cycle on a table. Every exhibit used once is a discovery. The visitor chooses each step by tapping the
+// thing it is about (the user, 2026-10-30: the dial, the clock, the jar; common/taps.js), the prompt names
+// the next tap, and E opens the station's panel, whose buttons and slider (the sunlight) do the same. In a
+// room, everyone in the garden shares its exhibits (`shared` below, src/net/shared.js); panels, words and
+// discoveries stay each one's.
 import * as THREE from 'three'
 import { element, nameOf } from '../../../data/elements.js'
 import { createAtomling } from '../../../characters/atomling.js'
@@ -15,7 +18,8 @@ import { formulaText, makeText } from '../../../engine/text.js'
 import { MOLECULES } from '../../../chem/molecules.js'
 import { atriumPath } from '../../registry.js'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
-import { standSign, refreshPrompt, promptSync, happening, onLevel, pick, glowMat, equation, keepPlayerInView } from './kit.js'
+import { tapTargets } from '../../common/taps.js'
+import { standSign, promptSync, happening, onLevel, pick, glowMat, equation, keepPlayerInView, ghostAround } from './kit.js'
 import { ethane, ethanol, glucose } from './structures.js'
 import { buildTree, breathing } from './tree.js'
 import { GREEN, skyDome, glassDome, garden, gardenLamps, dayNightDial, carbonPerson, moleculePedestal, c14Clock, cycleTable, butterflies } from './life.parts.js'
@@ -281,15 +285,59 @@ export async function build(ctx) {
     found('tree')
     later(0.4, () => panel('tree'))
   })
-  const nightIt = add('night', PLACES.dial.use, 1.5, it => {
-    const night = dial.toggle()
+  // things worked by hand (the user, 2026-10-30): a tap on the thing does the step it is about and the
+  // prompt names the next tap (common/taps.js); E opens the station's panel, whose buttons do the same
+  const taps = tapTargets(ctx)
+  const tap = taps.clickable
+  // the prompt's words follow the exhibit, whoever changed it (a getter each)
+  const wordsFrom = (it, get) => Object.defineProperties(it, { label: { get: () => get().label, configurable: true }, verb: { get: () => get().verb, configurable: true } })
+
+  // day and night: a tap on the dial turns it all the way; the panel's slider sets the sunlight anywhere
+  // between (sent at most seven times a second, its last value always)
+  const N = W.ex.night
+  const nightPanel = lv => ({
+    title: N.sign.title,
+    kicker: W.kicker,
+    color: GREEN,
+    exhibit: 'night',
+    blocks: [
+      { slider: { label: N.taps.slider, min: 0, max: 1, step: 0.01, value: dial.sun, live: () => dial.sun, format: v => `${Math.round(v * 100)}%`, onInput: v => setSun(v) } },
+      { buttons: [{ label: W.verbs.day, onClick: () => dialTo(false) }, { label: W.verbs.night, onClick: () => dialTo(true) }] },
+      { p: pick(N.taps.text, lv) },
+    ],
+  })
+  let saidNight = false // what the Atomling last told: night (true) or day
+  function dialTo(night) {
+    if (dial.sun === (night ? 0 : 1)) return
+    dial.setSun(night ? 0 : 1)
     share('night')
     found('night')
-    refreshPrompt(ctx, it)
+    saidNight = night
     later(1.2, () => say(night ? W.say.night : W.say.day))
-  }, W.ex.night.label)
-  // the dial's verb follows the sky, whoever turned it
-  Object.defineProperty(nightIt, 'verb', { get: () => (dial.night ? W.verbs.day : W.verbs.night), configurable: true })
+  }
+  let sunSoon = false
+  function setSun(v) {
+    dial.setSun(v)
+    if (!sunSoon) {
+      sunSoon = true
+      later(0.15, () => {
+        sunSoon = false
+        share('night')
+      })
+    }
+    found('night')
+    // the dark reached by hand, or the full sun again: the Atomling tells what changed
+    if (v <= 0.05 && !saidNight) {
+      saidNight = true
+      say(W.say.night)
+    } else if (v >= 0.95 && saidNight) {
+      saidNight = false
+      say(W.say.day)
+    }
+  }
+  const nightIt = add('night', PLACES.dial.use, 1.5, () => ctx.showPanel(nightPanel), N.label)
+  // the dial's words follow the sky, whoever turned it
+  wordsFrom(nightIt, () => ({ label: N.sign.title, verb: dial.night ? N.taps.hints.day : N.taps.hints.night }))
   add('body', PLACES.body.use, 1.9, () => {
     person.refill()
     did('body')
@@ -304,21 +352,58 @@ export async function build(ctx) {
       later(0.9, () => panel(m.id))
     })
   }
-  add('c14', PLACES.c14.use, 1.9, () => {
-    const r = clock.advance()
-    if (!r) return
+  // carbon-14: a tap on the clock winds it on one half-life, a tap on the jar gives a fresh sample
+  const C = W.ex.c14
+  const c14Panel = lv => ({
+    title: C.panel.title,
+    kicker: W.kicker,
+    color: GREEN,
+    exhibit: 'c14',
+    blocks: [
+      { buttons: [{ label: C.taps.buttons.wait, onClick: () => c14Step('wait') }, { label: C.taps.buttons.fresh, onClick: () => c14Step('fresh') }] },
+      ...pick(C.panel, lv),
+    ],
+  })
+  function c14Step(k) {
+    if (clock.busy) return
+    const r = k === 'wait' ? clock.advance() : clock.restart()
+    if (!r) {
+      if (k === 'wait') say(C.taps.full)
+      return
+    }
     share('c14')
     found('c14')
     const line = W.say.c14(r.halvings, W.fmt(r.years), r.left)
-    if (r.halvings === 4) later(1.7, () => panel('c14'))
-    else later(1.7, () => say(line))
-  })
+    later(1.7, () => {
+      say(line)
+      // 1/16 left, as in the mammoth's bone: the panel tells how the dating works (unless one is open)
+      if (r.halvings === 4 && !ctx.store.get().panel) ctx.showPanel(c14Panel)
+    })
+  }
+  const c14It = add('c14', PLACES.c14.use, 1.9, () => ctx.showPanel(c14Panel))
+  wordsFrom(c14It, () => ({ label: C.sign.title, verb: clock.busy ? C.taps.hints.busy : clock.halvings >= 8 ? C.taps.hints.fresh : C.taps.hints.wait }))
   add('cycle', PLACES.cycle.use, 1.9, () => {
     cycle.burst()
     did('cycle')
     found('cycle')
     later(1.0, () => panel('cycle'))
   })
+  // the things to tap, each in an invisible box round it (cheap to test, easy to hit: kit.js ghostAround);
+  // the exhibits of one step do what E does
+  const byId = id => interactables.find(i => i.id === id)
+  const targets = {}
+  const thing = (name, object, onTap, when) => {
+    const hit = ghostAround(object)
+    root.add(hit)
+    targets[name] = hit
+    tap(hit, onTap, when ? { when } : undefined)
+  }
+  thing('dial', dial.group, () => dialTo(!dial.night))
+  thing('clock', clock.targets.clock, () => c14Step('wait'), () => !clock.busy && clock.halvings < 8)
+  thing('jar', clock.targets.jar, () => c14Step('fresh'), () => !clock.busy && clock.halvings > 0)
+  thing('body', person.group, () => byId('body').onUse())
+  for (const m of MOLS) thing(m.id, pedestals[m.id].group, () => byId(m.id).onUse())
+  thing('cycle', cycle.group, () => byId('cycle').onUse())
   const greeting = () => pick(W.greeting, ctx.level())
   interactables.push({
     id: 'host',
@@ -403,8 +488,19 @@ export async function build(ctx) {
     interactables,
     doors,
     shared,
-    // for the probes in tools/
-    parts: { dial, clock, person, cycle, pedestals },
+    pointAt: taps.pointAt,
+    onTap: taps.onTap,
+    // for the probes in tools/: `tap` does what a tap on a thing (or the panel's button) does, `targets`
+    // are the things to tap (a probe finds them on screen)
+    parts: {
+      dial, clock, person, cycle, pedestals, targets,
+      tap: {
+        night: on => dialTo(on), // the dial: true night, false day
+        sun: v => setSun(v), // the panel's slider, 0 to 1
+        c14: k => c14Step(k), // 'wait' (the clock) | 'fresh' (the jar)
+      },
+    },
+    panels: { night: nightPanel, c14: c14Panel },
     refresh() {
       marks()
       report()

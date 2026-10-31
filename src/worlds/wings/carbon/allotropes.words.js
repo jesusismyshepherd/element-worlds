@@ -25,13 +25,12 @@ const EN = {
   modes: ['plain graphene', 'bilayer in a field'],
   catLabel: 'cat: 4 kg',
   press: {
-    steps: [
-      { verb: 'Put in', label: 'graphite in the press' },
-      { verb: 'Squeeze', label: 'the press to 6 GPa' },
-      { verb: 'Heat', label: 'the capsule to 1500 °C' },
-      { verb: 'Open', label: 'the press' },
-      { verb: 'Start again', label: 'with new graphite' },
-    ],
+    hints: ['Tap the graphite on the tray', 'Tap the red lever to squeeze', 'Tap the capsule to heat it', 'Tap the piston to open the press', 'Tap the diamond to start again'],
+    buttons: ['Put in the graphite', 'Squeeze to 6 GPa', 'Heat to 1500 °C', 'Open the press', 'Start again'],
+    how: {
+      kid: 'Make a diamond: put the graphite in, squeeze it, heat it, open the press. Tap each thing in turn, or use the buttons.',
+      sci: 'High pressure, high temperature (HPHT): load the graphite, press it to about 6 GPa, heat it to about 1500 °C, then cool it and let the pressure off.',
+    },
     wait: 'Wait',
     working: 'the press is working…',
     say: [
@@ -78,7 +77,8 @@ const EN = {
   },
   ex: {
     graphene: {
-      label: 'the sticky tape', verb: 'Use', labelBack: 'the graphene sheet', verbBack: 'Put back',
+      label: 'the sticky tape', verb: 'Use',
+      taps: { hints: { peel: 'Tap the stack to peel off its top layer with the tape', back: 'Tap the floating sheet to put it back', moving: 'Watch the sheet' }, buttons: { peel: 'Peel off one layer', back: 'Put it back' } },
       sign: { title: 'Graphene', kid: 'Peel one layer off graphite with sticky tape.', sci: 'One layer of graphite: 2004, Geim and Novoselov (Nobel Prize 2010).' },
       panel: {
         title: 'Graphene',
@@ -143,12 +143,17 @@ const EN = {
     },
     electronics: {
       label: 'the graphene transistor', verb: 'Try',
+      taps: {
+        hints: { sweep: 'Tap the gate, the middle gold bar, to turn its voltage down and up', gap: 'Tap the chip for two layers with a gap', again: 'Tap the gate again to see if the current stops now', plain: 'Tap the chip for plain graphene again', busy: 'Watch the current in the glass tube' },
+        buttons: { sweep: 'Turn the knob down and up', plain: 'Plain graphene', gap: 'Two layers in a field' },
+        slider: 'Gate voltage',
+      },
       sign: { title: 'Graphene · Electronics', kid: 'A very fast switch that never switches fully off.', sci: 'No band gap: a semimetal. On/off ratio only about 5 to 10.' },
       panel: {
         title: 'Graphene · Electronics',
         kid: [
           { p: 'A transistor is a tiny switch: a computer has billions of them. Electrons rush through graphene so fast that it makes very fast transistors, but there is a problem: it cannot switch fully off.' },
-          { p: 'Turn the knob: the current falls, but even at its lowest it keeps flowing. Turn it again: now there are two layers in an electric field, and the current stops.' },
+          { p: 'Tap the gate (the middle gold bar), or move its voltage yourself: the current falls, but even at its lowest it keeps flowing. Now tap the chip for two layers in an electric field and try again: the current stops.' },
           { big: 'no gap', small: 'graphene never switches fully off on its own' },
           { p: 'Scientists open a gap: two layers in an electric field, or graphene cut into very narrow ribbons. It is also used in see-through electrodes and in sensors that can feel single molecules.' },
         ],
@@ -213,7 +218,8 @@ const EN = {
       },
     },
     graphite: {
-      label: 'the graphite layers', verb: 'Slide', verbBack: 'Stack up',
+      label: 'the graphite layers', verb: 'Slide',
+      taps: { hints: { slide: 'Tap the layers to slide them', back: 'Tap the layers to stack them up again' }, buttons: { slide: 'Slide the layers', back: 'Stack them up' } },
       sign: { title: 'Graphite', kid: 'Sheets of hexagons that slide over each other.', sci: 'AB stacking, layers 3.35 Å apart; C–C 1.42 Å in each sheet.' },
       panel: {
         title: 'Graphite',
@@ -407,13 +413,12 @@ const PT = {
   modes: ['grafeno simples', 'bicamada num campo'],
   catLabel: 'gato: 4 kg',
   press: {
-    steps: [
-      { verb: 'Pôr', label: 'grafite na prensa' },
-      { verb: 'Apertar', label: 'a prensa até 6 GPa' },
-      { verb: 'Aquecer', label: 'a cápsula até 1500 °C' },
-      { verb: 'Abrir', label: 'a prensa' },
-      { verb: 'Recomeçar', label: 'com grafite nova' },
-    ],
+    hints: ['Toca na grafite no tabuleiro', 'Toca na alavanca vermelha para apertar', 'Toca na cápsula para a aquecer', 'Toca no pistão para abrir a prensa', 'Toca no diamante para recomeçar'],
+    buttons: ['Pôr a grafite', 'Apertar até 6 GPa', 'Aquecer até 1500 °C', 'Abrir a prensa', 'Recomeçar'],
+    how: {
+      kid: 'Faz um diamante: põe a grafite, aperta, aquece e abre a prensa. Toca em cada coisa, uma de cada vez, ou usa os botões.',
+      sci: 'Alta pressão e alta temperatura (HPHT): pôr a grafite, apertar até cerca de 6 GPa, aquecer até cerca de 1500 °C, depois arrefecer e aliviar a pressão.',
+    },
     wait: 'Espera',
     working: 'a prensa está a trabalhar…',
     say: [
@@ -460,7 +465,8 @@ const PT = {
   },
   ex: {
     graphene: {
-      label: 'a fita-cola', verb: 'Usar', labelBack: 'a folha de grafeno', verbBack: 'Pousar',
+      label: 'a fita-cola', verb: 'Usar',
+      taps: { hints: { peel: 'Toca na pilha para descolar a camada de cima com a fita', back: 'Toca na folha a flutuar para a pousar', moving: 'Olha para a folha' }, buttons: { peel: 'Descolar uma camada', back: 'Pousar a folha' } },
       sign: { title: 'Grafeno', kid: 'Descola uma camada da grafite com fita-cola.', sci: 'Uma camada de grafite: 2004, Geim e Novoselov (Prémio Nobel 2010).' },
       panel: {
         title: 'Grafeno',
@@ -525,12 +531,17 @@ const PT = {
     },
     electronics: {
       label: 'o transístor de grafeno', verb: 'Experimentar',
+      taps: {
+        hints: { sweep: 'Toca na porta, a barra dourada do meio, para baixar e subir a tensão', gap: 'Toca no chip para teres duas camadas com um hiato', again: 'Toca outra vez na porta para ver se agora a corrente para', plain: 'Toca no chip para voltar ao grafeno simples', busy: 'Olha para a corrente no tubo de vidro' },
+        buttons: { sweep: 'Rodar o botão para baixo e para cima', plain: 'Grafeno simples', gap: 'Duas camadas num campo' },
+        slider: 'Tensão na porta',
+      },
       sign: { title: 'Grafeno · Eletrónica', kid: 'Um interruptor muito rápido que nunca desliga por completo.', sci: 'Sem hiato de energia: um semimetal. Razão ligado/desligado só de 5 a 10.' },
       panel: {
         title: 'Grafeno · Eletrónica',
         kid: [
           { p: 'Um transístor é um interruptor minúsculo: um computador tem milhares de milhões deles. Os eletrões correm tão depressa no grafeno que dá transístores muito rápidos, mas há um problema: não consegue desligar por completo.' },
-          { p: 'Roda o botão: a corrente desce, mas mesmo no ponto mais baixo continua a passar. Roda outra vez: agora há duas camadas num campo elétrico, e a corrente para.' },
+          { p: 'Toca na porta (a barra dourada do meio), ou muda tu a tensão: a corrente desce, mas mesmo no ponto mais baixo continua a passar. Agora toca no chip para teres duas camadas num campo elétrico e experimenta outra vez: a corrente para.' },
           { big: 'sem hiato', small: 'sozinho, o grafeno nunca desliga por completo' },
           { p: 'Os cientistas abrem um hiato: duas camadas num campo elétrico, ou grafeno cortado em fitas muito estreitas. Também se usa em elétrodos transparentes e em sensores que sentem moléculas isoladas.' },
         ],
@@ -595,7 +606,8 @@ const PT = {
       },
     },
     graphite: {
-      label: 'as camadas de grafite', verb: 'Deslizar', verbBack: 'Empilhar',
+      label: 'as camadas de grafite', verb: 'Deslizar',
+      taps: { hints: { slide: 'Toca nas camadas para as deslizar', back: 'Toca nas camadas para as empilhar outra vez' }, buttons: { slide: 'Deslizar as camadas', back: 'Empilhar' } },
       sign: { title: 'Grafite', kid: 'Folhas de hexágonos que deslizam umas sobre as outras.', sci: 'Empilhamento AB, camadas a 3,35 Å; C–C 1,42 Å em cada folha.' },
       panel: {
         title: 'Grafite',
@@ -789,13 +801,12 @@ const PL = {
   modes: ['zwykły grafen', 'dwuwarstwa w polu'],
   catLabel: 'kot: 4 kg',
   press: {
-    steps: [
-      { verb: 'Włóż', label: 'grafit do prasy' },
-      { verb: 'Dociśnij', label: 'prasę do 6 GPa' },
-      { verb: 'Podgrzej', label: 'kapsułę do 1500 °C' },
-      { verb: 'Otwórz', label: 'prasę' },
-      { verb: 'Zacznij od nowa', label: 'z nowym grafitem' },
-    ],
+    hints: ['Dotknij grafitu na tacce', 'Dotknij czerwonej dźwigni, żeby ścisnąć', 'Dotknij kapsuły, żeby ją podgrzać', 'Dotknij tłoka, żeby otworzyć prasę', 'Dotknij diamentu, żeby zacząć od nowa'],
+    buttons: ['Włóż grafit', 'Ściśnij do 6 GPa', 'Podgrzej do 1500 °C', 'Otwórz prasę', 'Zacznij od nowa'],
+    how: {
+      kid: 'Zrób diament: włóż grafit, ściśnij go, podgrzej i otwórz prasę. Dotykaj po kolei każdej rzeczy albo użyj przycisków.',
+      sci: 'Wysokie ciśnienie i wysoka temperatura (HPHT): włożenie grafitu, ściśnięcie do około 6 GPa, podgrzanie do około 1500 °C, potem schłodzenie i zwolnienie nacisku.',
+    },
     wait: 'Zaczekaj',
     working: 'prasa pracuje…',
     say: [
@@ -842,7 +853,8 @@ const PL = {
   },
   ex: {
     graphene: {
-      label: 'taśmy klejącej', verb: 'Użyj', labelBack: 'warstwę grafenu', verbBack: 'Odłóż',
+      label: 'taśmy klejącej', verb: 'Użyj',
+      taps: { hints: { peel: 'Dotknij stosu, żeby taśmą oderwać górną warstwę', back: 'Dotknij unoszącej się warstwy, żeby ją odłożyć', moving: 'Patrz na warstwę' }, buttons: { peel: 'Oderwij jedną warstwę', back: 'Odłóż ją' } },
       sign: { title: 'Grafen', kid: 'Oderwij taśmą klejącą jedną warstwę grafitu.', sci: 'Jedna warstwa grafitu: 2004, Geim i Novoselov (Nagroda Nobla 2010).' },
       panel: {
         title: 'Grafen',
@@ -907,12 +919,17 @@ const PL = {
     },
     electronics: {
       label: 'tranzystor grafenowy', verb: 'Wypróbuj',
+      taps: {
+        hints: { sweep: 'Dotknij bramki, środkowej złotej belki, żeby obniżyć i podnieść napięcie', gap: 'Dotknij chipa, żeby mieć dwie warstwy z przerwą', again: 'Dotknij znowu bramki i zobacz, czy prąd teraz staje', plain: 'Dotknij chipa, żeby wrócić do zwykłego grafenu', busy: 'Patrz na prąd w szklanej rurce' },
+        buttons: { sweep: 'Przekręć pokrętło w dół i w górę', plain: 'Zwykły grafen', gap: 'Dwie warstwy w polu' },
+        slider: 'Napięcie bramki',
+      },
       sign: { title: 'Grafen · Elektronika', kid: 'Bardzo szybki przełącznik, który nigdy nie wyłącza się całkiem.', sci: 'Brak przerwy energetycznej: półmetal. Stosunek on/off tylko ok. 5 do 10.' },
       panel: {
         title: 'Grafen · Elektronika',
         kid: [
           { p: 'Tranzystor to malutki przełącznik: komputer ma ich miliardy. Elektrony pędzą przez grafen tak szybko, że powstają z niego bardzo szybkie tranzystory, ale jest problem: grafenu nie da się całkiem wyłączyć.' },
-          { p: 'Przekręć pokrętło: prąd spada, ale nawet w najniższym punkcie wciąż płynie. Przekręć je znowu: teraz są dwie warstwy w polu elektrycznym i prąd staje.' },
+          { p: 'Dotknij bramki (środkowej złotej belki) albo sam zmieniaj jej napięcie: prąd spada, ale nawet w najniższym punkcie wciąż płynie. Teraz dotknij chipa, żeby mieć dwie warstwy w polu elektrycznym, i spróbuj jeszcze raz: prąd staje.' },
           { big: 'brak przerwy', small: 'sam grafen nigdy nie wyłącza się całkiem' },
           { p: 'Naukowcy otwierają przerwę: dwie warstwy w polu elektrycznym albo grafen pocięty na bardzo wąskie wstążki. Używa się go też w przezroczystych elektrodach i w czujnikach, które wyczuwają pojedyncze cząsteczki.' },
         ],
@@ -977,7 +994,8 @@ const PL = {
       },
     },
     graphite: {
-      label: 'warstwy grafitu', verb: 'Przesuń', verbBack: 'Ułóż w stos',
+      label: 'warstwy grafitu', verb: 'Przesuń',
+      taps: { hints: { slide: 'Dotknij warstw, żeby je przesunąć', back: 'Dotknij warstw, żeby znów ułożyć je w stos' }, buttons: { slide: 'Przesuń warstwy', back: 'Ułóż w stos' } },
       sign: { title: 'Grafit', kid: 'Warstwy sześciokątów, które ślizgają się po sobie.', sci: 'Ułożenie AB, warstwy co 3,35 Å; C–C 1,42 Å w każdej warstwie.' },
       panel: {
         title: 'Grafit',
@@ -1171,13 +1189,12 @@ const DE = {
   modes: ['einfaches Graphen', 'Doppelschicht im Feld'],
   catLabel: 'Katze: 4 kg',
   press: {
-    steps: [
-      { verb: 'Füll', label: 'Graphit in die Presse' },
-      { verb: 'Bring', label: 'die Presse auf 6 GPa' },
-      { verb: 'Erhitze', label: 'die Kapsel auf 1500 °C' },
-      { verb: 'Öffne', label: 'die Presse' },
-      { verb: 'Fang von vorn an', label: 'mit neuem Graphit' },
-    ],
+    hints: ['Tippe auf den Graphit auf dem Tablett', 'Tippe auf den roten Hebel, um zu pressen', 'Tippe auf die Kapsel, um sie zu erhitzen', 'Tippe auf den Kolben, um die Presse zu öffnen', 'Tippe auf den Diamanten, um von vorn anzufangen'],
+    buttons: ['Graphit einlegen', 'Auf 6 GPa pressen', 'Auf 1500 °C erhitzen', 'Presse öffnen', 'Von vorn anfangen'],
+    how: {
+      kid: 'Mach einen Diamanten: Leg den Graphit ein, press ihn, erhitze ihn und öffne die Presse. Tippe der Reihe nach auf jedes Ding oder nimm die Knöpfe.',
+      sci: 'Hochdruck-Hochtemperatur-Synthese (HPHT): Graphit einlegen, auf etwa 6 GPa pressen, auf etwa 1500 °C erhitzen, dann abkühlen und den Druck ablassen.',
+    },
     wait: 'Warte',
     working: 'die Presse arbeitet…',
     say: [
@@ -1224,7 +1241,8 @@ const DE = {
   },
   ex: {
     graphene: {
-      label: 'das Klebeband', verb: 'Benutze', labelBack: 'die Graphenschicht', verbBack: 'Leg zurück',
+      label: 'das Klebeband', verb: 'Benutze',
+      taps: { hints: { peel: 'Tippe auf den Stapel, um die oberste Schicht mit dem Band abzuziehen', back: 'Tippe auf die schwebende Schicht, um sie zurückzulegen', moving: 'Schau auf die Schicht' }, buttons: { peel: 'Eine Schicht abziehen', back: 'Zurücklegen' } },
       sign: { title: 'Graphen', kid: 'Zieh mit Klebeband eine Schicht vom Graphit ab.', sci: 'Eine Schicht Graphit: 2004, Geim und Novoselov (Nobelpreis 2010).' },
       panel: {
         title: 'Graphen',
@@ -1289,12 +1307,17 @@ const DE = {
     },
     electronics: {
       label: 'den Graphen-Transistor', verb: 'Probier',
+      taps: {
+        hints: { sweep: 'Tippe auf das Gate, den goldenen Balken in der Mitte, um die Spannung herunter- und hochzudrehen', gap: 'Tippe auf den Chip für zwei Schichten mit einer Lücke', again: 'Tippe noch einmal auf das Gate und schau, ob der Strom jetzt aufhört', plain: 'Tippe auf den Chip für einfaches Graphen', busy: 'Schau auf den Strom im Glasrohr' },
+        buttons: { sweep: 'Knopf herunter- und hochdrehen', plain: 'Einfaches Graphen', gap: 'Zwei Schichten im Feld' },
+        slider: 'Gate-Spannung',
+      },
       sign: { title: 'Graphen · Elektronik', kid: 'Ein sehr schneller Schalter, der nie ganz ausschaltet.', sci: 'Keine Bandlücke: ein Halbmetall. An/Aus-Verhältnis nur etwa 5 bis 10.' },
       panel: {
         title: 'Graphen · Elektronik',
         kid: [
           { p: 'Ein Transistor ist ein winziger Schalter: Ein Computer hat Milliarden davon. Elektronen rasen so schnell durch Graphen, dass sich daraus sehr schnelle Transistoren bauen lassen, aber es gibt ein Problem: Graphen lässt sich nicht ganz ausschalten.' },
-          { p: 'Dreh am Knopf: Der Strom sinkt, aber selbst am tiefsten Punkt fließt er weiter. Dreh noch einmal: Jetzt sind es zwei Schichten in einem elektrischen Feld, und der Strom stoppt.' },
+          { p: 'Tippe auf das Gate (den goldenen Balken in der Mitte) oder stell seine Spannung selbst ein: Der Strom sinkt, aber selbst am tiefsten Punkt fließt er weiter. Tippe jetzt auf den Chip für zwei Schichten in einem elektrischen Feld und probier es noch einmal: Der Strom stoppt.' },
           { big: 'keine Lücke', small: 'Graphen allein schaltet nie ganz aus' },
           { p: 'Forscher öffnen eine Lücke: zwei Schichten in einem elektrischen Feld oder Graphen, in sehr schmale Bänder geschnitten. Es steckt auch in durchsichtigen Elektroden und in Sensoren, die einzelne Moleküle spüren können.' },
         ],
@@ -1359,7 +1382,8 @@ const DE = {
       },
     },
     graphite: {
-      label: 'die Graphitschichten', verb: 'Verschieb', verbBack: 'Staple',
+      label: 'die Graphitschichten', verb: 'Verschieb',
+      taps: { hints: { slide: 'Tippe auf die Schichten, um sie zu verschieben', back: 'Tippe auf die Schichten, um sie wieder zu stapeln' }, buttons: { slide: 'Schichten verschieben', back: 'Stapeln' } },
       sign: { title: 'Graphit', kid: 'Schichten aus Sechsecken, die übereinander gleiten.', sci: 'AB-Stapelung, Schichtabstand 3,35 Å; C–C 1,42 Å in jeder Schicht.' },
       panel: {
         title: 'Graphit',
