@@ -276,5 +276,20 @@
     "() => { __ew.showPanel(__ew.world.panels.rocket); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(2.5) }",
     "() => { __ew.store.set({ panel: null }); __ew.world.parts.rocket.tap('engine') }",
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.rocket.tap('fuel'); r() }, 8000))"
+  ],
+  "/e/O/ozone": [
+    "() => __ew.world.parts.factory.tap('C')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.factory.tap('B'); r() }, 2500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.factory.tap('sun'); r() }, 2500))",
+    "() => { __ew.showPanel(__ew.world.panels.factory); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(320) }",
+    "() => { __ew.store.set({ panel: null }); __ew.world.parts.measure.tap('dobson') }",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.measure.tap('log'); r() }, 4000))",
+    "() => { __ew.showPanel(__ew.world.panels.measure); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(5) }",
+    "() => { __ew.store.set({ panel: null }); __ew.world.parts.measure.tap('balloon') }",
+    "() => __ew.world.parts.fix.tap('can')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fix.tap('cloud'); r() }, 7000))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.fix.tap('sun'); r() }, 2500))",
+    "() => __ew.world.parts.fix.tap('treaty')",
+    "() => { __ew.showPanel(__ew.world.panels.fix); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(1993) }"
   ]
 }
