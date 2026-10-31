@@ -1,12 +1,12 @@
 // The ozone layer in a column: the atmosphere to scale in a 5 m glass tube (1 m = 10 km), with Everest
 // (8.8 km) and a jet at cruising height (11 km) for scale, and the ozone layer glowing between 15 and
-// 35 km, O3 molecules (bent, 116.8 degrees) drifting in it. Using it sends a volley of the Sun's UV down
+// 35 km, O3 molecules (bent, 116.8 degrees) drifting in it. Tapping it sends a volley of the Sun's UV down
 // the tube: UV-C is all stopped in the layer, UV-B nine times in ten, UV-A goes through to the ground;
 // a counter says how many of each got through. It also sends rays to the real layer over the deck.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { standingScreen, glowMat, hdr, softDot, Particles, glass, NOISE_GLSL, random, label } from './kit.js'
+import { standingScreen, glowMat, hdr, softDot, Particles, glass, NOISE_GLSL, random, label, hitShape } from './kit.js'
 import { UV_THROUGH } from './oxygenData.js'
 
 const H0 = 0.32 // the column's floor (0 km)
@@ -241,6 +241,10 @@ export function ozoneColumn({ color, light, words, level }) {
   backGlass.renderOrder = 0
   frontGlass.renderOrder = 6
   group.add(backGlass, frontGlass)
+  // the column to tap (an invisible, plainer copy of the glass: it sends the Sun's light down)
+  const hit = hitShape(new THREE.CylinderGeometry(R + 0.1, R + 0.1, TOP - H0 + 0.3, 16))
+  hit.position.y = (TOP + H0) / 2 + 0.1
+  group.add(hit)
 
   // UV rays: thin streaks falling from the lamp
   const rayN = light ? 18 : 30
@@ -323,6 +327,8 @@ export function ozoneColumn({ color, light, words, level }) {
   return {
     group,
     screen: scr,
+    // the thing to tap
+    column: hit,
     start,
     get busy() {
       return queue.length > 0 || live.length > 0

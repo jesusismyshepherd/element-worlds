@@ -1,12 +1,13 @@
 // The box of air: 100 molecules in the proportions of dry air (78 N2, 21 O2, 1 Ar), flying in straight
 // lines, tumbling, and bouncing off the walls and each other as a real gas does (elastic collisions,
-// speeds from a Maxwell-Boltzmann draw, heavier molecules slower: speed goes as 1/sqrt(M)). Using it
-// highlights one gas at a time and counts its molecules. Beside it, a little case holds the rare one: a
+// speeds from a Maxwell-Boltzmann draw, heavier molecules slower: speed goes as 1/sqrt(M)). Tapping a
+// molecule, or a gas's column on the console, highlights that gas and counts its molecules; the same gas
+// again shows them all (air.js). Beside it, a little case holds the rare one: a
 // single CO2, which in real air is about one molecule in 2400.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../../engine/text.js'
-import { glass, screen, random, hdr, equation, glowMat, damp } from './kit.js'
+import { glass, screen, random, hdr, equation, glowMat, damp, hitBox } from './kit.js'
 import { AIR_MIX } from './oxygenData.js'
 
 const S = 0.32 // metres per angstrom in the box
@@ -299,10 +300,37 @@ export function airBox({ x = 0, z = 0, w = 5.4, h = 3.0, d = 3.4, base = 0.36, c
     num.position.y = -0.06
     const formula = equation([id], { size: 0.13, color: '#c9d4ff' })
     formula.position.y = -0.31
-    cg.add(icon, num, formula)
+    // an invisible card over the column, to tap (the gas is chosen by touching its column)
+    const hit = hitBox(0.74, 0.86, 0.04)
+    hit.position.set(0, 0.02, 0.02)
+    cg.add(icon, num, formula, hit)
     con.content.add(cg)
-    cols[id] = { group: cg, num, icon, mat: im }
+    cols[id] = { group: cg, num, icon, mat: im, hit }
   })
+
+  // ---- tapping a molecule in the box: which gas it is (each molecule as a ball round its middle;
+  // raycasting the instanced spheres themselves would test every face of all of them every frame) ----
+  const picker = new THREE.Object3D()
+  const inv = new THREE.Matrix4()
+  const lray = new THREE.Ray()
+  const ball = new THREE.Sphere()
+  const hp = new THREE.Vector3()
+  picker.raycast = (raycaster, out) => {
+    inner.updateWorldMatrix(true, false)
+    inv.copy(inner.matrixWorld).invert()
+    lray.copy(raycaster.ray).applyMatrix4(inv)
+    let best = null
+    for (const m of mols) {
+      ball.set(m.p, m.r)
+      if (!lray.intersectSphere(ball, hp)) continue
+      const d = lray.origin.distanceTo(hp)
+      if (!best || d < best.d) best = { d, m, p: hp.clone() }
+    }
+    if (!best) return
+    const point = best.p.applyMatrix4(inner.matrixWorld)
+    out.push({ distance: raycaster.ray.origin.distanceTo(point), point, object: picker, gas: best.m.kind.id })
+  }
+  inner.add(picker)
 
   // ---- highlight and count ----
   let mode = 'all'
@@ -462,6 +490,12 @@ export function airBox({ x = 0, z = 0, w = 5.4, h = 3.0, d = 3.4, base = 0.36, c
       return mode
     },
     setMode,
+    // things to tap: the molecules (the hit says its `gas`) and the console's columns
+    picker,
+    columns: Object.fromEntries(order.map(id => [id, cols[id].hit])),
+    /** Where a molecule of a gas is now, and a column's middle (world), for the probes. */
+    gasAt: id => mols.find(m => m.kind.id === id).p.clone().applyMatrix4(inner.matrixWorld),
+    columnAt: id => cols[id].hit.getWorldPosition(new THREE.Vector3()),
     update,
     halfSize: { x: w / 2 + 0.35, z: d / 2 + 0.35 },
   }

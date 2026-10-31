@@ -1,0 +1,36 @@
+{
+  "/e/O/air": [
+    "() => __ew.world.parts.box.tap('O2')",
+    "() => __ew.world.parts.box.tap('O2')",
+    "() => { __ew.showPanel(__ew.world.panels.box); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[2].onClick() }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.o2.tap()",
+    "() => __ew.world.parts.magnet.tap('lox')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.magnet.tap('ln2'); r() }, 12500))",
+    "() => __ew.world.parts.ozone.tap()",
+    "() => { const s = __ew.world.interactables.find(i => i.id === 'sources'); __ew.teleport(s.x, s.z, Math.atan2(-s.x, -s.z), 0.1) }",
+    "() => new Promise(r => setTimeout(() => { const w = __ew.world; w.onTap(w.parts.rayTo(w.parts.sources.pointOn('land'))); r() }, 1500))",
+    "() => __ew.world.parts.sources.tap('ocean')",
+    "() => __ew.world.parts.goe.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.goe); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(2.2) }",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.breath.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.breath); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => __ew.store.set({ panel: null })"
+  ],
+  "/e/O/fire": [
+    "() => __ew.world.parts.triangle.tap('oxygen')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.triangle.tap('oxygen'); r() }, 2500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.triangle.tap('fuel'); r() }, 2500))",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels['triangle-fuel']); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick(); r() }, 2500))",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.candle.tap()",
+    "() => __ew.world.parts.splint.tap()",
+    "() => __ew.world.parts.methane.tap()",
+    "() => __ew.world.parts.rust.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.rust); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(3.5) }",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.rust); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick(); r() }, 1000))",
+    "() => __ew.store.set({ panel: null })",
+    "() => __ew.world.parts.candle.tap()"
+  ]
+}

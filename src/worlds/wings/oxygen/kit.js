@@ -606,7 +606,12 @@ export { chem, chemBlocks, at } from './oxygenText.js'
 /** The rules every exhibit follows. Using one does its action; the first use (and the first after the
  *  level changed) opens its panel and counts a discovery (`O:<wing>:<id>`), later uses let the Atomling
  *  say a line instead, so an exhibit can be played with without a panel each time. An exhibit with no
- *  action always opens its panel. */
+ *  action always opens its panel.
+ *  A `manual` exhibit is worked by hand (the user, 2026-10-30: each step chosen by tapping the thing it is
+ *  about, not E pressed again and again): its steps are taps on its things (common/taps.js) and the
+ *  buttons and sliders of its panel, which E opens; a step counts the find itself (`discover`), and the
+ *  first find opens the panel a little later, once the step has been seen. `focus` ({ x, y, z, size }):
+ *  using it in third person looks through the Atomling's eyes (docs/knowledge/walking.md). */
 export function exhibitSet(ctx, { wing, color, who, busy = null }) {
   const keys = []
   const list = []
@@ -621,18 +626,33 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
   const refreshPrompt = it => {
     if (ctx.engine?.player?.near === it) ctx.store.set({ prompt: { id: it.id, label: it.label, verb: it.verb } })
   }
-  function add({ id, find = id, x, z, radius = 1.8, label, verb, act, panel, say, screen: scr = null }) {
+  const here = () => !ctx.engine?.world || !!ctx.engine.world.interactables?.some(i => list.includes(i))
+  /** The Atomling says a line (this visitor's own: never for a step someone else in the room did). */
+  const say = (text, c = color) => {
+    if (text && here()) ctx.store.set({ speech: { text: chem(text), who, color: c } })
+  }
+  /** The busy line, when a step cannot be done yet (an animation still running). */
+  const sayBusy = () => say(busy?.(ctx.level()))
+  function add({ id, find = id, x, z, radius = 1.8, label, verb, act, panel, say: sayLine, screen: scr = null, manual = false, focus = null }) {
     const key = `O:${wing}:${find}`
     if (!keys.includes(key)) keys.push(key)
     if (scr) {
       ;(marks[key] ??= []).push(scr)
       scr.setRead(isFound(key))
     }
+    // one panel maker per exhibit, so an open panel can be told apart and written again (refreshPanel)
+    const make = lv => {
+      const p = panel(lv)
+      return { ...p, blocks: chemBlocks(p.blocks), title: chem(p.title) }
+    }
     const it = {
       id,
+      find,
       x,
       z,
       radius,
+      focus,
+      make,
       get label() {
         return typeof label === 'function' ? label() : label
       },
@@ -643,6 +663,10 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
         return isFound(key)
       },
       onUse() {
+        if (manual) {
+          ctx.showPanel(make)
+          return
+        }
         const level = ctx.level()
         const result = act ? act() : null
         if (result === false) {
@@ -655,12 +679,9 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
         if (first) for (const s of marks[key] ?? []) s.setRead(true)
         if (!act || first || shown[id] !== level) {
           shown[id] = level
-          ctx.showPanel(lv => {
-            const p = panel(lv)
-            return { ...p, blocks: chemBlocks(p.blocks), title: chem(p.title) }
-          })
+          ctx.showPanel(make)
         } else {
-          const line = typeof result === 'string' ? result : say?.(level)
+          const line = typeof result === 'string' ? result : sayLine?.(level)
           if (line) ctx.store.set({ speech: { text: chem(line), who, color } })
         }
         report()
@@ -670,10 +691,54 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
     list.push(it)
     return it
   }
+  const byId = id => list.find(i => i.id === id)
+  /** A step of a manual exhibit was done by this visitor: counts its find, and the first time opens its
+   *  panel after `delay` seconds (once the step has been seen), if no other panel was opened meanwhile and
+   *  the visitor is still at it. Returns whether the find was new. */
+  function discover(id, delay = 0) {
+    const it = byId(id)
+    if (!it) return false
+    const key = `O:${wing}:${it.find}`
+    const first = markFound(key)
+    if (first) for (const s of marks[key] ?? []) s.setRead(true)
+    report()
+    refreshPrompt(it)
+    if (first) {
+      setTimeout(() => {
+        const p = ctx.engine?.player
+        if (!here() || ctx.store.get().panel || !p) return
+        const by = p.near?.find === it.find || Math.hypot(it.x - p.pos.x, it.z - p.pos.z) < it.radius + 2.5
+        if (by) ctx.showPanel(it.make)
+      }, delay * 1000)
+    }
+    return first
+  }
+  /** An exhibit's panel, if it is the one open, written again (a button's word or accent changed). */
+  const refreshPanel = id => {
+    const it = byId(id)
+    if (it && ctx.store.get().panel?.make === it.make) ctx.showPanel(it.make)
+  }
+  // panels whose buttons follow what they show: written again when `key()` changes while open (an
+  // animation ended, someone else in the room took a step)
+  const watched = []
+  const watch = (id, key) => {
+    const it = byId(id)
+    if (it) watched.push({ it, key, last: undefined })
+  }
   let lastVerb = null
   let lastNear = null
-  /** Call every frame: keeps the prompt's verb right when an exhibit's state changes by itself. */
+  /** Call every frame: keeps the prompt's verb right when an exhibit's state changes by itself, and an
+   *  open panel's buttons. */
   const sync = () => {
+    const open = watched.length ? ctx.store.get().panel?.make : null
+    if (open) {
+      for (const w of watched) {
+        if (w.it.make !== open) continue
+        const k = w.key()
+        if (w.last !== undefined && k !== w.last) ctx.showPanel(open)
+        w.last = k
+      }
+    }
     const near = ctx.engine?.player?.near
     if (!near || !list.includes(near)) {
       lastNear = null
@@ -690,7 +755,29 @@ export function exhibitSet(ctx, { wing, color, who, busy = null }) {
       refreshPrompt(near)
     }
   }
-  return { add, list, keys, report, refresh, refreshPrompt, sync }
+  return { add, list, keys, report, refresh, refreshPrompt, sync, say, sayBusy, discover, refreshPanel, watch }
+}
+
+/** Something invisible to tap: raycasts hit its shape, nothing draws it. A group holding the hidden mesh
+ *  (common/taps.js skips a thing that is not visible, so the group is what is made clickable). */
+export function hitShape(geometry) {
+  const g = new THREE.Group()
+  const m = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial())
+  m.visible = false
+  g.add(m)
+  return g
+}
+
+/** An invisible box to tap (a thin splint, a flask, a column of a screen), centred on its position. */
+export const hitBox = (w, h, d) => hitShape(new THREE.BoxGeometry(w, h, d))
+
+/** An invisible ball to tap (a globe: a few hundred faces instead of its thousands). */
+export const hitBall = r => hitShape(new THREE.SphereGeometry(r, 24, 16))
+
+/** Whether the walker stands within `d` metres of (x, z): a far station's things are not raycast. */
+export const within = (ctx, x, z, d) => {
+  const p = ctx.engine?.player?.pos
+  return !!p && Math.hypot(p.x - x, p.z - z) < d
 }
 
 /** Calls fn(level) whenever the reader switches between Explorer and Scientist. Returns the unsubscribe. */

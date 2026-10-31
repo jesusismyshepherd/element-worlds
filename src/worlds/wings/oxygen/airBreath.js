@@ -1,13 +1,14 @@
 // Breathing: two glass columns, the air you breathe in and the air you breathe out, each filled with its
 // gases stacked in proportion (nitrogen, oxygen, carbon dioxide, argon), and a pair of glass lungs
-// between them that breathe. Using it starts the breathing, using it again holds the breath (the user,
-// 2026-10-29: one breath was over before the breath out was seen; it should go on while it is on). Each
+// between them that breathe. Tapping the lungs starts the breathing, tapping them again holds the breath
+// (the user, 2026-10-29: one breath was over before the breath out was seen; it should go on while it is
+// on. It was E and E again until 2026-10-30, when every step became a tap on its thing). Each
 // breath: in, the lungs swell and the air streams into them through the windpipe, every gas from its own
 // band of the left column; out, they empty and it streams back to the bands of the right one, with a
 // little less oxygen and a carbon dioxide in its place. In: 21% O2 and 0.04% CO2; out: about 16% and 4%.
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
-import { standingScreen, glowMat, hdr, glass, label, damp, random, equation } from './kit.js'
+import { standingScreen, glowMat, hdr, glass, label, damp, random, equation, hitBox } from './kit.js'
 
 const GAS = [
   { id: 'N2', color: '#3a5cf5', in: 78, out: 78 },
@@ -123,6 +124,10 @@ export function breathExhibit({ color, light, words, level }) {
     br.rotation.z = s * 0.7
     lungs.add(br)
   }
+  // the lungs to tap: a box round both lobes and the windpipe
+  const lungHit = hitBox(0.9, 1.05, 0.5)
+  lungHit.position.y = 0.05
+  lungs.add(lungHit)
   // the air on the move, every gas of it (the user, 2026-10-29: not only the carbon dioxide going out),
   // in proportion but with the nitrogen thinned so it does not crowd the rest: a breath in brings 16
   // nitrogen and 8 oxygen (and an argon every other breath); a breath out takes back the 16 nitrogen, 6
@@ -211,6 +216,8 @@ export function breathExhibit({ color, light, words, level }) {
   return {
     group,
     screen: scr,
+    // the thing to tap
+    lungs,
     get on() {
       return on
     },
