@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "star-forge",
     "shared-forge",
     "halls-116",
     "treasure-hunts",
@@ -203,16 +202,16 @@
       "code": "Sf",
       "title": "The star forge",
       "kind": "lab",
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-29",
       "summary": "Make the elements as the universe did: fuse hydrogen into helium inside a star and climb toward iron; heavier elements need neutrons, caught slowly in old giant stars or all at once when neutron stars collide.",
-      "why": "You marked it Sooner (2026-10-30). The plaza already says the elements were made in stars; this lets you do it, on top of the Atom Forge's physics. After every station by hand, so it is built to that rule from the start.",
       "details": [
         "Explorer: pick a star's size and watch which elements it can make before it dies. Scientist: the burning stages, their temperatures and how long each lasts, the slow and rapid neutron captures.",
         "Every element made lights up on the table, with where the atoms in your body came from.",
-        "Being built (2026-10-31) at /stars beside the Atom Forge: pick a star, its life from inside, its end, catching neutrons slowly and fast, the table lighting up by where each element came from."
-      ]
+        "Built (2026-10-31) at /stars: a nursery of stars (a red dwarf to 25 suns, or a mass slider); tap the core through its burnings in a cutaway; its end (a white dwarf, a supernova, a pulsar or a black hole); the slow catch inside an old giant from iron to lead and the rapid catch in two merging neutron stars to gold and uranium; the table lit by where each element came from, and where your own atoms came from. Twelve missions in the passport. Next ideas: an exploding white dwarf (iron and manganese), the rapid catch weighted into a real abundance curve, a check on your phone."
+      ],
+      "link": "https://element-worlds.vercel.app/stars"
     },
     {
       "id": "shared-forge",
@@ -649,6 +648,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "The Star Forge",
+      "what": "Make the elements as the universe did: pick a star, tap its core through its burnings, watch it end as a white dwarf or a supernova, catch neutrons slowly in an old giant and all at once when neutron stars collide, and see the table light up by where each element came from.",
+      "link": "https://element-worlds.vercel.app/stars"
+    },
     {
       "date": "2026-10-31",
       "title": "Every station worked by hand",
