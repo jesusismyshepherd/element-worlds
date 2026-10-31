@@ -658,4 +658,108 @@ function silicon() {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { C: carbon, O: oxygen, Na: sodium, Si: silicon }
+// ---- Hydrogen: a colourless gas shows nothing in a jar, so the case shows what it does: a spectrum tube in
+// its stand glowing pink-violet (hydrogen's red and blue lines together, as the boards' 'radio' and the
+// noble gases' tubes glow), and a balloon of it tugging its string straight up from a little brass weight ----
+function hydrogen({ light }) {
+  const group = new THREE.Group()
+  const updates = []
+  const GLOW = '#ff6ad2'
+
+  // the power supply: a dark box with a red pilot light, a post at its back holding the tube in two clips
+  const stand = new THREE.Group()
+  stand.position.set(0.13, 0, 0.07)
+  stand.rotation.y = -0.5
+  group.add(stand)
+  const dark = new THREE.MeshStandardMaterial({ color: '#4a5070', roughness: 0.45, metalness: 0.3 })
+  const brass = new THREE.MeshStandardMaterial({ color: '#b8892e', roughness: 0.35, metalness: 0.8 })
+  const box = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.07, 0.14), dark)
+  box.position.y = 0.035
+  const pilot = new THREE.Mesh(new THREE.SphereGeometry(0.008, 12, 8), new THREE.MeshBasicMaterial({ color: '#ff3a3a' }))
+  pilot.position.set(0.075, 0.05, 0.071)
+  const post = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.42, 0.025), dark)
+  post.position.set(0, 0.28, -0.05)
+  const arm = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.02, 0.06), dark)
+  arm.position.set(0, 0.45, -0.025)
+  stand.add(box, pilot, post, arm)
+  for (const y of [0.095, 0.45]) {
+    const clip = new THREE.Mesh(new THREE.TorusGeometry(0.02, 0.005, 8, 20), brass)
+    clip.rotation.x = Math.PI / 2
+    clip.position.set(0, y, 0)
+    stand.add(clip)
+  }
+  // the tube: a bulb at each end round its electrode, a thin capillary between them where the glow is
+  // brightest; the glass shows at its edges only (edgeGlass), the gas inside lit from within
+  const glass = edgeGlass({ color: '#f2dcff', edge: 0.55, base: 0.03 })
+  const core = new THREE.MeshStandardMaterial({ color: GLOW, emissive: GLOW, emissiveIntensity: 1.15 })
+  const haze = new THREE.MeshBasicMaterial({ color: '#c070ff', transparent: true, opacity: 0.35, depthWrite: false })
+  const capillary = new THREE.Mesh(new THREE.CylinderGeometry(0.0065, 0.0065, 0.24, 16), core)
+  capillary.position.y = 0.27
+  const sleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.013, 0.013, 0.24, 24, 1, true), glass)
+  sleeve.position.y = 0.27
+  stand.add(capillary, sleeve)
+  for (const [y, s] of [[0.125, -1], [0.415, 1]]) {
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.024, 24, 16), glass)
+    bulb.scale.y = 1.5
+    bulb.position.y = y
+    const fill = new THREE.Mesh(new THREE.SphereGeometry(0.019, 16, 12), haze)
+    fill.scale.y = 1.4
+    fill.position.y = y
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.03, 16), brass)
+    cap.position.y = y + s * 0.04
+    stand.add(fill, bulb, cap)
+  }
+  // a soft halo round the capillary, so it reads as light and not as a pink rod
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: softSpot(), color: GLOW, transparent: true, depthWrite: false, opacity: 0.32, blending: THREE.AdditiveBlending }))
+  halo.scale.set(0.12, 0.34, 1)
+  halo.position.y = 0.27
+  stand.add(halo)
+  if (!light) {
+    const lamp = new THREE.PointLight(GLOW, 1.4, 1.2, 2)
+    lamp.position.set(0, 0.27, 0.05)
+    stand.add(lamp)
+  }
+  updates.push(t => {
+    // a discharge flickers a little, as the noble gases' tubes do (bright enough to glow, not so bright
+    // that the bloom turns the pink to white)
+    core.emissiveIntensity = 1.12 + Math.sin(t * 9) * 0.06 + Math.sin(t * 23) * 0.03
+    halo.material.opacity = 0.3 + Math.sin(t * 9) * 0.03
+  })
+
+  // the balloon: a red rubber balloon of hydrogen pulling its string taut from a brass weight
+  const weight = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.034, 0.035, 24), brass)
+  const W = new THREE.Vector3(-0.16, 0.035, -0.06)
+  weight.position.set(W.x, 0.0175, W.z)
+  const loop = new THREE.Mesh(new THREE.TorusGeometry(0.008, 0.0025, 6, 12), brass)
+  loop.position.set(W.x, 0.042, W.z)
+  group.add(weight, loop)
+  const balloon = new THREE.Group()
+  const rubber = light
+    ? new THREE.MeshStandardMaterial({ color: '#b52a36', roughness: 0.3 })
+    : new THREE.MeshPhysicalMaterial({ color: '#b52a36', roughness: 0.32, clearcoat: 0.8, clearcoatRoughness: 0.2 })
+  const skin = new THREE.Mesh(new THREE.SphereGeometry(0.085, 32, 24), rubber)
+  skin.scale.set(1, 1.15, 1)
+  const knot = new THREE.Mesh(new THREE.ConeGeometry(0.012, 0.022, 12), rubber)
+  knot.position.y = -0.1
+  balloon.add(skin, knot)
+  group.add(balloon)
+  // the string: a thin cylinder from the weight to the knot, set each frame as the balloon sways
+  const string = new THREE.Mesh(new THREE.CylinderGeometry(0.0016, 0.0016, 1, 6), new THREE.MeshStandardMaterial({ color: '#d8d2c4', roughness: 0.8 }))
+  group.add(string)
+  const up = new THREE.Vector3(0, 1, 0)
+  const end = new THREE.Vector3()
+  const dir = new THREE.Vector3()
+  updates.push(t => {
+    balloon.position.set(W.x + Math.sin(t * 0.6) * 0.018, 0.37 + Math.sin(t * 0.9) * 0.01, W.z + Math.sin(t * 0.43 + 1) * 0.014)
+    balloon.rotation.z = Math.sin(t * 0.6) * -0.08
+    end.set(balloon.position.x, balloon.position.y - 0.11, balloon.position.z)
+    dir.subVectors(end, W)
+    string.position.copy(W).addScaledVector(dir, 0.5)
+    string.scale.y = dir.length()
+    string.quaternion.setFromUnitVectors(up, dir.normalize())
+  })
+
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon }
