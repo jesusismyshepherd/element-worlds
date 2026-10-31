@@ -25,6 +25,12 @@ and the user's requests behind them. Add a line here when a piece of work change
   beside a red giant, an archaeologists' dig (carbon-14), Smalley's lab of 1985, Mauna Loa's observatory.
   Three of their builders found wide stations cropped on an upright phone: the station view now fits a
   station across the screen as well as up it, everywhere (`walking.md`).
+  Then all seven of oxygen's (2026-10-31): a ride on a red blood cell (the queued idea), Lavoisier's
+  laboratory, an Antarctic ozone station, a shore 2.5 billion years ago, a bathhouse by a frozen lake, a
+  camp under the aurora, a cold lab with liquid air and a rocket. Every picture on a wall is a door. The
+  fire picture's room has its own address beside the fire wing, and the hall builds ahead only the
+  nearest arch or picture (asking for both rebuilt them every frame). Tapping things moved to
+  `common/taps.js` for every world, ahead of the older wings' stations.
 
 - Doing things together in the worlds (the user: "I release the balloons in the neon chamber, all the
   players in the room see it too and share its state"; videos and popups stay each one's own): in a

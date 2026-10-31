@@ -106,9 +106,10 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
   clicking or tapping the thing it is about (the sand pile, the soda, the pot, the switch), and anything
   that varies smoothly (the sun's height, a temperature, a depth) is a slider. Pressing E again and again
   to walk through fixed steps felt passive. The prompt tells the next step ("Tap the sand pile"); E still
-  opens the station's panel, whose buttons do the same steps (keyboards, probes). Picture rooms:
-  `clickable(object, onTap, { when, reach })` (`picture-rooms.md`); other worlds: `w.onTap(ray)` and
-  `w.pointAt(ray)` (`walking.md`, "Things to click").
+  opens the station's panel, whose buttons do the same steps (keyboards, probes). Any world:
+  `const taps = tapTargets(ctx)` (`src/worlds/common/taps.js`), `taps.clickable(object, onTap, { when,
+  reach, accept })` for each thing, and the world returns `pointAt: taps.pointAt, onTap: taps.onTap`
+  (picture rooms get `clickable` from `room.js`; `picture-rooms.md`, `walking.md` "Things to click").
 - `ctx.light` (phones, weak computers): fewer particles, no glass; keep frames short.
 - The arch back to the atrium stands behind the spawn; the spawn faces into the wing.
 

@@ -31,7 +31,8 @@ in. The studio item is `picture-rooms`.
   parts, shared, update(dt, t), dispose }`. `api`: `ctx, root, el, sym, lang, E (its words), W (shared
   words), ex (exhibitSet), say, later, light, color, level, depth, clickable`.
 - Things worked by hand (the user's rule for every station, 2026-10-30; `adding-a-wing.md`, "Look and
-  feel"): `clickable(object, onTap, { when, reach, accept })` makes a mesh or group a thing to click or
+  feel"): `clickable(object, onTap, { when, reach, accept })` (`common/taps.js`, shared with every
+  world) makes a mesh or group a thing to click or
   tap (`accept(hit)` can refuse some hits);
   the hand shows over it while `when()` is true and the visitor stands within `reach` (4.5 m); `onTap(hit)`
   does the step (count its find with `ex.discover`, share it, say the line). Each step is chosen by
@@ -71,7 +72,10 @@ in. The studio item is `picture-rooms`.
   flags, a far station of modules on legs; `sun`, `wind`, `flags`, `station`; gives `snowMaterial`,
   `sunLight`, `setNacreous(k)` for mother-of-pearl clouds), `shore.js` (an ancient shore before plants:
   a tidal flat, clear shallows with stromatolites, bare red hills, a volcano, a hazy sky; `groundAt` shared
-  with the water's shader; exports `stromatoliteGeometry`, `stromatoliteTexture`, `SEA_LEVEL`). A
+  with the water's shader; exports `stromatoliteGeometry`, `stromatoliteTexture`, `SEA_LEVEL`),
+  `arctic.js` (a winter camp in Lapland at night: snow, a frozen lake, fells, spruces and birches, a log
+  hut and a tent, the aurora's curtains coloured by height and lighting the snow; `aurora.set({ level,
+  storm })`, `aurora.time` for long exposures, `kmWorld`). A
   room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
@@ -283,6 +287,15 @@ at the same address.
   cut on Karijini's gorge. The left cut shows Hamelin Pool today: tap a stromatolite to split it, its cut
   face for a magnifier of sand held by microbe threads, a years slider regrows it beside a ruler.
 
+- Oxygen, `aurora` ("Who paints the sky green?", 2026-10-31): a winter camp in Lapland under the northern
+  lights (`arctic.js`). The Sun's gust: tap the Sun, particles are steered round the Earth and pour into
+  rings round the poles, the sky over the camp dances; a Kp slider spreads the rings ("Portugal: seen!"
+  at Kp 9, May 2024). Oxygen's two colours: tap the curtain at a height (or a slider), an electron lifts
+  an oxygen atom, green 557.7 nm in under a second, then red 630.0 nm after a long wait unless a passing
+  molecule bumps it first (so red only high up); below 100 km nitrogen's blue-violet. The camera: tap it
+  for a long exposure (the camp rendered several times and added up), beside what the eye sees at
+  night; tap the white fox for the tale behind "revontulet".
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -319,7 +332,7 @@ at the same address.
 - A tap aimed at something behind another thing hits the nearer one (the bins behind the pot): raise
   their signs or move them apart. Thin things (a ladle, a fibre) need an invisible hit shape
   (`MeshBasicMaterial({ visible: false })`), which the ray still hits.
-- A sprite inside a clickable threw (the raycaster had no camera): `room.js` now sets it.
+- A sprite inside a clickable threw (the raycaster had no camera): `common/taps.js` sets it.
 - A flat summit hides the valley below unless you stand near its edge: put the arrival near the edge or
   keep the drop small. A 10 m Earth seen from 9 m filled the screen: a station's `focus` only backs the
   eye off, so leave room for it.
@@ -388,6 +401,10 @@ at the same address.
   stage's sea-level water sheet shows inside a diorama too: keep diorama floors above it; a closed veil
   over a hollow box needs `depthWrite` and two-sided walls. `formulaText('Fe2+')` reads the 2 as a
   subscript: ion charges need their own raised text.
+- Rendering a photo several times: hide objects, never lights (a changed light count recompiles every
+  material). Fade a troika text's `outlineOpacity` with its `fillOpacity`, or it reads as black. A
+  shader's `#include` must sit on its own line. A home-made band laid on a sphere may face inward: make
+  it double-sided.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

@@ -59,6 +59,8 @@ element picked, the trend, the family lit) and gets it back through `restoreSpot
 - A short press that does not drag (under 4 px, under half a second) is a tap (`input.takeTap`); the
   engine sends it to the world as a ray, `w.onTap(ray)`, and asks `w.pointAt(ray)` every frame where
   the mouse is (true shows the hand; `ray` is null when the mouse is off the canvas or dragging).
+  `src/worlds/common/taps.js` (`tapTargets`) does both for a list of things to tap, each with its own
+  `when` and `reach` (every station worked by hand, the user's rule: `adding-a-wing.md`).
 - The hall's floor table uses it (the user, 2026-10-29): every tile has its number and symbol (one
   see-through canvas over the tiles, `floorTableLabels`), the mouse over a tile lights it, a click or a
   tap goes to that element's hall. The labels read upright from the entrance. The hall lists its tiles

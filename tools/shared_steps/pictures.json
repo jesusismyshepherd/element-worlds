@@ -350,5 +350,17 @@
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.living.tap('face'); r() }, 1500))",
     "() => __ew.world.parts.living.years(1200)",
     "() => __ew.world.parts.living.tap('head')"
+  ],
+  "/e/O/aurora": [
+    "() => { __ew.showPanel(__ew.world.panels.gust); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(8) }",
+    "() => __ew.world.parts.gust.tap()",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.gust.kp(9); r() }, 4000))",
+    "() => __ew.world.parts.colours.tap('sky', 125)",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.colours.tap('gauge', 280); r() }, 6000))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.colours.tap('sky', 94); r() }, 12000))",
+    "() => { __ew.showPanel(__ew.world.panels.colours); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(240) }",
+    "() => __ew.world.parts.camera.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.camera); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(0.95) }",
+    "() => __ew.world.parts.fox.tap()"
   ]
 }

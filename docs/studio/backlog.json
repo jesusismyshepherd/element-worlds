@@ -3,7 +3,7 @@
   "studio": "Element Worlds Studio",
   "tagline": "A 3D periodic table to walk into, for Artur and his father.",
   "play": "https://element-worlds.vercel.app",
-  "updated": "2026-10-30",
+  "updated": "2026-10-31",
   "steerDefault": "claude",
   "kinds": [
     {
@@ -43,15 +43,13 @@
     }
   ],
   "next": [
-    "picture-rooms",
     "by-hand",
     "star-forge",
     "shared-forge",
     "halls-116",
     "treasure-hunts",
     "scavenger-hunts",
-    "periodic-videos",
-    "red-blood-cell"
+    "periodic-videos"
   ],
   "waiting": [
     {
@@ -149,17 +147,17 @@
       "code": "Pi",
       "title": "Step into the pictures",
       "kind": "halls",
-      "status": "next",
+      "status": "built",
       "from": "artur",
       "date": "2026-10-30",
       "summary": "Artur's first question when he saw the new boards: how do I get inside these pictures? Every picture board becomes a doorway, like the Periodic Videos one: you dive into the picture and stand inside its scene, a small place made from the picture itself, with one to three things to do and the board's story told there.",
-      "why": "Artur asked for it the moment he saw the boards, and you marked it Sooner. Silicon's, sodium's and carbon's are done; oxygen's seven are being built, and then every picture on a wall is a door. New halls get their pictures and rooms together.",
       "details": [
         "A ladder of three steps. A picture room for every board, in time: a small scene around where you land, built from a shared kit of stages (a place indoors or outdoors, the sky and space, the very small, a moment in history) and parts, mostly written as data, with one to three things to do. A room that turns out loved (the family dashboard shows the visits) or whose subject keeps growing becomes a full wing like carbon's, at the same address, so nothing breaks. The big wings (carbon, oxygen, the neon signs) keep their arches.",
         "Your rule (2026-10-30): no picture without its room. The pictures already on the walls (silicon, sodium, carbon, oxygen) get their rooms, silicon first; every new hall from now on is drawn and built picture and room together.",
         "Silicon is done (2026-10-30): all six of its pictures are doors. The diatoms (a sunlit sea floor), solar (a hilltop: the sun on a slider, light fired into a giant cell, Vanguard 1), glass (a glassblower's workshop: fill the pot, blow a bottle, light through sand, glass and fibre), the Earth and Moon (a deck in space: the Earth cut open, Moon rocks, a star that makes silicon), Silicon Valley (a hilltop at night: the valley from 1950 to today, a giant transistor, the 4004's 2300 lights) and silicone (a kitchen: the bendy tray, the snapping silicon, the putty, the chain). Next: sodium's six pictures, then carbon's and oxygen's.",
         "Sodium is done (2026-10-30): beside a giant nerve fibre (fire the nerve, the sodium pump, the race), Aveiro's salt pans (the sea salted by rain and volcanoes, the ponds, the marnoto's rake), Davy's lab of 1807 (the battery, the soda split into beads of sodium, his desk), a street at night (the lamp warming from pink to yellow, colours that vanish, the spectroscope), a mountaintop observatory (the laser guide star, the twinkle taken out, shooting stars and Hale-Bopp) and a baking kitchen (the fizz test, two cakes, soda heated alone). Then carbon's.",
-        "Carbon is done (2026-10-30): the diamond depths and the pencil workshop (twins), inside a body (the recipe in jars, the DNA zipper, bread into you), inside a leaf (van Helmont's willow, the stoma, RuBisCO), beside a red giant (the triple-alpha catch, Hoyle's ladder, carbon into space), an archaeologists' dig (carbon-14 made in the sky, dating the finds, the hourglass of atoms), Smalley's lab of 1985 (the peak at 60, the paper ball, nanotubes stronger than steel) and Mauna Loa (the coal forest, the Keeling curve, the heat blanket). Next: oxygen's seven, being built.",
+        "Carbon is done (2026-10-30): the diamond depths and the pencil workshop (twins), inside a body (the recipe in jars, the DNA zipper, bread into you), inside a leaf (van Helmont's willow, the stoma, RuBisCO), beside a red giant (the triple-alpha catch, Hoyle's ladder, carbon into space), an archaeologists' dig (carbon-14 made in the sky, dating the finds, the hourglass of atoms), Smalley's lab of 1985 (the peak at 60, the paper ball, nanotubes stronger than steel) and Mauna Loa (the coal forest, the Keeling curve, the heat blanket).",
+        "Oxygen is done (2026-10-31): a ride on a red blood cell from the lung to a working muscle (breath), Lavoisier's laboratory with Priestley's burning lens and the twelve days (fire, at /e/O/fire-picture since the fire wing has /e/O/fire), an Antarctic station where the ozone hole was found and fixed (ozone), a shore 2.5 billion years ago with its rusting sea (first), a bathhouse by a frozen lake with the bath on a balance (water), a camp in Lapland under the aurora (aurora), a cold lab with liquid air, the floating frog and a rocket (magnet). Every picture on a wall is now a door; new halls bring their pictures and rooms together (halls-116).",
         "No size limit in the code: a room can be any size or shape. The kit is there so that about seven hundred of them can be made at all, open quickly and run well on the phone.",
         "Size is not what slows things down: each world's code is fetched only when you go in (carbon's gallery 310 KB, a hall 45 KB) and freed when you leave. What costs is the first visit's shader compiling (1.2 to 3.9 s now; carbon's gallery needs 53 programs; rooms made from one kit share theirs, so the second room opens almost at once) and, on the phone, how much is drawn at once (lights, glass, particles).",
         "The board's story (four languages, both depths) is told inside, so a room adds only the words for its own things to do. Some existing ideas are rooms that grew: Aveiro's salt pans is sodium's salt board; Walk inside a chip could grow out of silicon's Silicon Valley board."
@@ -236,14 +234,15 @@
       "z": 8,
       "title": "Ride with a red blood cell",
       "kind": "worlds",
-      "status": "next",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Follow the oxygen you just breathed: into the lungs, onto haemoglobin, through the heart to a working muscle.",
-      "why": "The breathing exhibit ends where this begins, so the air wing gets its sequel.",
       "details": [
-        "Oxygen's third world, starting from the breathing exhibit in the air wing."
-      ]
+        "Oxygen's third world, starting from the breathing exhibit in the air wing.",
+        "Built as oxygen's breath picture room (2026-10-31): breathe in, look inside a red cell at its haemoglobin, ride it through the heart to a muscle, the muscle's power stations. It can grow into a full wing if it turns out loved."
+      ],
+      "link": "https://element-worlds.vercel.app/e/O/breath"
     },
     {
       "id": "atomling-team",
@@ -648,6 +647,12 @@
     }
   ],
   "built": [
+    {
+      "date": "2026-10-31",
+      "title": "All seven of oxygen's pictures are doors: every picture on a wall is one now",
+      "what": "Ride a red blood cell from the lung to a muscle; Lavoisier's laboratory and Priestley's burning lens; an Antarctic station where the ozone hole was found and fixed; a sea 2.5 billion years ago rusting into stripes; a bath on a giant balance by a frozen lake; a camp under the northern lights; liquid air, a floating frog and a rocket. Silicon, sodium, carbon and oxygen: 26 rooms.",
+      "link": "https://element-worlds.vercel.app/e/O"
+    },
     {
       "date": "2026-10-30",
       "title": "All seven of carbon's pictures are doors",
