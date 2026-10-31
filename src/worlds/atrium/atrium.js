@@ -22,7 +22,7 @@ import { inLang } from '../../i18n/langs.js'
 import { roomWalls, box, circle } from '../../engine/collide.js'
 import { markFound, isFound, countFound } from '../../engine/progress.js'
 import { makeText } from '../../engine/text.js'
-import { wingsOf, plazaPath, wingPath, atriumPath } from '../registry.js'
+import { wingsOf, plazaPath, wingPath, atriumPath, pictureRoomId } from '../registry.js'
 
 const HALF = 8
 const HEIGHT = 12
@@ -308,7 +308,7 @@ export async function build(ctx, target, previous) {
         const title = inLang(b.title, lang)
         const wing = b.wing && wings.find(w => w.id === b.wing)
         // a picture with a room behind it is stepped into (its story is told inside)
-        const room = hasRoom(el.symbol, b.id) ? b.id : null
+        const room = hasRoom(el.symbol, b.id) ? pictureRoomId(el.symbol, b.id) : null
         return {
           id: `board:${b.id}`,
           room,
@@ -579,21 +579,24 @@ export async function build(ctx, target, previous) {
     },
     update(dt, t) {
       for (const u of updates) u(t)
-      // walking toward a wing's arch: build it and compile its shaders ahead
+      // walking toward a wing's arch or a picture with a room: build the nearest place and compile its
+      // shaders ahead. One place only: the engine keeps one built ahead and lets the last one go, so
+      // asking for an arch and a picture in the same frame built both again every frame (oxygen's fire
+      // picture hangs beside the fire wing's arch: the hall crawled and the picture never opened)
       const p = ctx.engine.player.pos
+      let near = null
+      let nearest = Infinity
       for (const d of doors) {
-        if (d.to.startsWith(`/e/${el.symbol}/`) && Math.hypot(d.x - p.x, d.z - p.z) < 7.5) {
-          ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: d.to.split('/').pop() })
-        }
+        if (!d.to.startsWith(`/e/${el.symbol}/`)) continue
+        const dist = Math.hypot(d.x - p.x, d.z - p.z)
+        if (dist < 7.5 && dist < nearest) [near, nearest] = [d.to.split('/').pop(), dist]
       }
       // the boards stand close together: only the nearest one's place is built ahead
-      let near = null
-      let nearest = 5
       for (const d of boardDoors) {
         const dist = Math.hypot(d.x - p.x, d.z - p.z)
-        if (dist < nearest) [near, nearest] = [d, dist]
+        if (dist < 5 && dist < nearest) [near, nearest] = [d.wing, dist]
       }
-      if (near) ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: near.wing })
+      if (near) ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: near })
     },
     dispose() {
       floorTex.dispose()

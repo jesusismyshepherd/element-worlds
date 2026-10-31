@@ -164,16 +164,9 @@ export async function build({ ctx, root, E, W, ex, say, light, level, color, cli
   const ghost = new THREE.MeshBasicMaterial({ visible: false })
   const tmpV = new THREE.Vector3()
   const dummy = new THREE.Object3D()
-  // a station's focus whose size fits its width too (twins.js): on an upright phone a wide station would
-  // spill over the sides, since the station view backs off for the height only
-  const focusOf = (x, y, z, high, wide) => ({
-    x,
-    y,
-    z,
-    get size() {
-      return Math.max(high, wide / Math.max(0.3, ctx.camera?.aspect ?? 1.6))
-    },
-  })
+  // a station's focus: how high and how wide it is (the station view fits both, so an upright phone sees
+  // the whole width too)
+  const focusOf = (x, y, z, high, wide) => ({ x, y, z, size: high, width: wide })
   const glassMat = new THREE.MeshStandardMaterial({ color: '#e4f2f4', roughness: 0.04, metalness: 0.1, transparent: true, opacity: 0.26, depthWrite: false, side: THREE.DoubleSide, envMap: env, envMapIntensity: 1.2 })
   const mercury = new THREE.MeshStandardMaterial({ color: '#c2c7ce', roughness: 0.08, metalness: 1, envMap: env, envMapIntensity: 1.3 })
   const calxMat = new THREE.MeshStandardMaterial({ color: '#c0301c', roughness: 0.85, emissive: '#ff6a20', emissiveIntensity: 0 })

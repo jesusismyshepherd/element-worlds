@@ -12,7 +12,7 @@ import { markFound } from '../../engine/progress.js'
 import { loadBoards, boardArt } from '../../content/boards/index.js'
 import { pick } from '../../content/stations.js'
 import { inLang } from '../../i18n/langs.js'
-import { atriumPath, wingsOf, wingPath } from '../registry.js'
+import { atriumPath, wingsOf, wingPath, pictureBoardId } from '../registry.js'
 import { at, exhibitSet, fontsReady } from '../wings/noble/kit.js'
 import { frameDoor, storyStand } from './kit.js'
 import { loadScene } from './index.js'
@@ -20,7 +20,7 @@ import { PIC_WORDS } from './words.js'
 
 export async function build(ctx, target) {
   const sym = target.symbol
-  const id = target.wing
+  const id = pictureBoardId(target.symbol, target.wing)
   const el = element(sym)
   const [scene, boards] = await Promise.all([loadScene(sym, id), loadBoards(sym)])
   const board = boards?.find(b => b.id === id)

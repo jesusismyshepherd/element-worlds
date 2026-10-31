@@ -276,5 +276,48 @@
     "() => { __ew.showPanel(__ew.world.panels.rocket); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(2.5) }",
     "() => { __ew.store.set({ panel: null }); __ew.world.parts.rocket.tap('engine') }",
     "() => new Promise(r => setTimeout(() => { __ew.world.parts.rocket.tap('fuel'); r() }, 8000))"
+  ],
+  "/e/O/fire-picture": [
+    "() => __ew.world.parts.lens.tap('lens')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.lens.tap('candle'); r() }, 8500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.days.tap('furnace'); r() }, 1500))",
+    "() => { __ew.showPanel(__ew.world.panels.days); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(12) }",
+    "() => new Promise(r => setTimeout(() => { __ew.store.set({ panel: null }); __ew.world.parts.days.tap('taper'); r() }, 1500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.days.tap('crust'); r() }, 4500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.days.tap('taper2'); r() }, 7500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.balance.tap('flask'); r() }, 1500))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.balance.tap('tip'); r() }, 7000))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.table.tap('next'); r() }, 1500))"
+  ],
+  "/e/O/breath": [
+    "() => __ew.world.parts.sac.tap()",
+    "() => __ew.world.parts.blood.po2(30)",
+    "() => { __ew.showPanel(__ew.world.panels.blood); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(85) }",
+    "() => __ew.world.parts.blood.tap()",
+    "() => __ew.world.parts.muscle.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.muscle); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(70) }",
+    "() => { __ew.showPanel(__ew.world.panels.muscle); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[3].onClick() }",
+    "() => __ew.world.parts.mito.tap()",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.mito.sugar(); r() }, 600))",
+    "() => __ew.world.parts.ride.tap()",
+    "() => { __ew.showPanel(__ew.world.panels.sac); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[0].onClick() }",
+    "() => __ew.world.parts.muscle.set(0)"
+  ],
+  "/e/O/water": [
+    "() => __ew.world.parts.balance.amount(0)",
+    "() => __ew.world.parts.balance.tap('bath')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.balance.tap('pile'); r() }, 1600))",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.balance.tap('pile'); r() }, 1600))",
+    "() => __ew.world.parts.balance.tap('tubes')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.balance.tap('balance'); r() }, 1600))",
+    "() => { __ew.showPanel(__ew.world.panels.balance); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(3) }",
+    "() => __ew.world.parts.molecule.tap('model')",
+    "() => __ew.world.parts.molecule.tap('balloon')",
+    "() => new Promise(r => setTimeout(() => { __ew.world.parts.molecule.tap('salt'); r() }, 1600))",
+    "() => __ew.world.parts.ice.tap('thermo')",
+    "() => __ew.world.parts.ice.air(2)",
+    "() => __ew.world.parts.ice.tap('model')",
+    "() => { __ew.showPanel(__ew.world.panels.ice); __ew.store.get().panel.blocks.find(b => b.slider).slider.onInput(-12) }",
+    "() => new Promise(r => setTimeout(() => { __ew.showPanel(__ew.world.panels.molecule); __ew.store.get().panel.blocks.flatMap(b => b.buttons || [])[1].onClick(); r() }, 1600))"
   ]
 }

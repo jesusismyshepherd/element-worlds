@@ -12,10 +12,12 @@ in. The studio item is `picture-rooms`.
 - A picture has a room when its scene exists: `src/worlds/pictures/scenes/<Symbol>/<board id>.js`. The
   file is the list (`pictures/index.js`, an `import.meta.glob`); nothing else to register.
 - The hall (`atrium.js`): a board with a room says "Step in" (not "Explore"), E dives into the picture
-  (`player.dive`, as the doorway boards do) and goes to `/e/<Symbol>/<board id>`. Coming back you stand
-  in front of the picture, facing the hall. Only the nearest picture's room is built ahead
-  (`engine.prewarm`; another place asked for lets the previous one go, so the side-by-side boards each
-  get theirs when approached).
+  (`player.dive`, as the doorway boards do) and goes to `/e/<Symbol>/<board id>`, or
+  `/e/<Symbol>/<board id>-picture` when one of the element's wings has that id (oxygen's `fire` picture
+  beside its fire wing: `registry.js` `pictureRoomId` / `pictureBoardId`; the scene file and the
+  discoveries keep the board's id). Coming back you stand in front of the picture, facing the hall. Only
+  the nearest place, an arch or a picture's room, is built ahead (`engine.prewarm`; another place asked
+  for lets the previous one go, so asking for two each frame rebuilt both every frame).
 - The address is a wing's (`kind: 'wing'`); `registry.loadWorld` sends a wing id that is not in `WINGS`
   to `pictures/room.js`, which loads the scene (and fails plainly if there is none).
 - `pictures/room.js` (one module for every picture) adds what every room has: the picture's frame
@@ -59,8 +61,12 @@ in. The studio item is `picture-rooms`.
   `giant.set({ scale, heat, glow })` ages or removes it; exports `NOISE`), `dig.js` (open country at
   golden hour, real pits cut in the ground; `pits`, `bare`, `clear`, `strataTexture`, `soilTexture`),
   `coldlab.js` (a cold lab, frosted pipes and mist, big doors onto a fenced yard at dusk; `frost`, `mats`,
-  `pipeRun(points, { r, mat, bend })`, `mist({ x, y, z, rate, spread, floor })`, `puffs(max)`). A
-  room picks one
+  `pipeRun(points, { r, mat, bend })`, `mist({ x, y, z, rate, spread, floor })`, `puffs(max)`),
+  `laboratory.js` (a laboratory of the 1770s by day: parquet, plaster over a painted dado, tall windows,
+  glazed doors open onto a sunny stone terrace, a garden and a city's roofs; `windows`, `doors`,
+  `terrace`, `sun`, `onWall`), `bathhouse.js` (a wooden bathhouse whose big window is set low into a
+  frozen lake: snow and spruces above the waterline, the ice's underside, stones and fish below;
+  `lake.set({ ice, top, deep })`). A room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
   each step), and let each tap on a thing do its step and count its find with `ex.discover`. Give the
@@ -226,6 +232,32 @@ at the same address.
   its stand: a mix slider (too little oxygen sooty, near 2.5 bright with shock diamonds), Goddard's 1926
   rocket beside it.
 
+- Oxygen, `fire` ("What does a fire need?", 2026-10-31), at `/e/O/fire-picture`: Lavoisier's laboratory
+  in the 1770s (`laboratory.js`), laid out as the picture's triangle. The burning lens on the terrace:
+  tap it and the sun heats red mercury calx in a jar of mercury (Priestley, 1 August 1774), the gas
+  pushes the mercury down; tap the candle and it blazes in the gas. The twelve days (the Traité, 1789):
+  tap the furnace (or a days slider), a red crust grows and the air in the bell jar shrinks from 50 to
+  42.5 cubic inches; a candle goes out in what is left (azote); heat the crust and the air comes back, a
+  second candle blazes. The great balance: the sealed flask of tin heated weighs the same; break its tip
+  and air rushes in, heavier. Marie-Anne Lavoisier's drawing table: three plates of the apparatus.
+
+- Oxygen, `breath` ("Why do you breathe?", 2026-10-31): the queued "Ride with a red blood cell" as a
+  room, at the scale of cells (`body.js` in pink). Tap the airway: air fills the sac, O2 crosses into red
+  cells that turn bright red. Tap a red cell: its haemoglobin's four seats fill, beside the saturation
+  curve (a slider or a tap on the curve). Tap the big red cell to ride it through the left heart and an
+  artery to a muscle (the world takes the camera in its `update`; walking gets you off). The muscle: tap
+  it (or a slider) from rest to sprint, the board shows oxygen used, heartbeats, breaths. The
+  mitochondrion: the chain step by step, oxygen catching the used electrons and becoming water; the
+  sugar's quick way (2 ATP) and the way with oxygen (about 28 more), lactate when sprinting.
+
+- Oxygen, `water` ("Water is mostly oxygen", 2026-10-31): a bathhouse by a frozen lake (`bathhouse.js`).
+  Tap the bath: its water becomes a red oxygen globe and two white hydrogen globes on the balance, 133
+  and 17 kg, a slider from a glass to an Olympic pool; Volta's pile and Hofmann's tubes give hydrogen
+  twice as fast as oxygen. Giant molecules to walk among: the big one's charges and 104.5°, a rubbed
+  balloon bending the stream (by induced charge, the words say), salt carried off in shells of six. An
+  air slider or the thermometer takes the lake through a winter, 4 °C at the bottom and ice on top; the
+  model freezes into ice's open hexagons, 9% more room.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -317,6 +349,12 @@ at the same address.
   below a threshold every frame never grows: snap only while it shrinks. A `js:` step whose result is
   a function gets called by Playwright: wrap assignments in `void (...)`. Animating a shared material
   lights every surface that uses it: clone it.
+- A picture whose id is also one of the element's wings (oxygen's `fire`): both had `/e/O/fire`, the
+  wing won. Hence `pictureRoomId` (above). The hall asked the engine to build ahead an arch within 7.5 m
+  and the nearest picture's room in the same frame; the engine keeps one, so beside oxygen's arches both
+  were rebuilt every frame (1 fps, stepping in took up to a minute). It now asks for the nearest only.
+- On an upright phone the station view backs off until `width` fits: at 6 m wide the eye went about 10 m
+  back, into another station. Keep a station's width to about 5 m, nothing in the way behind its stand.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.

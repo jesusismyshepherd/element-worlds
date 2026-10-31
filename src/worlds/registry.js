@@ -62,4 +62,12 @@ export function targetFrom(pathname, search = '') {
 
 export const atriumPath = symbol => `/e/${symbol}`
 export const wingPath = (symbol, wing) => `/e/${symbol}/${wing}`
+/** The address id of the room inside a hall's picture: the board's own id, or `<id>-picture` when one of the
+ *  element's wings already has that id (oxygen's fire picture, beside its fire wing at /e/O/fire). */
+export const pictureRoomId = (symbol, board) => (wingsOf(symbol).some(w => w.id === board) ? `${board}-picture` : board)
+/** The board a picture room's address id stands for (pictureRoomId turned back). */
+export const pictureBoardId = (symbol, id) => {
+  const m = /^(.+)-picture$/.exec(id)
+  return m && wingsOf(symbol).some(w => w.id === m[1]) ? m[1] : id
+}
 export const plazaPath = symbol => (symbol ? `/?at=${symbol}` : '/')

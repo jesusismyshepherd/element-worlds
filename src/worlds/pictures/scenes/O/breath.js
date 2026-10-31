@@ -474,16 +474,9 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, col
       if (ctx.engine.player?.near?.id === id || !ctx.store.get().panel) ctx.showPanel(panel)
     })
   }
-  // a station's focus whose size fits its width too: the station view backs off for the height only, so on
-  // an upright phone a wide station would spill over the sides (twins.js)
-  const focusOf = (x, y, z, high, wide) => ({
-    x,
-    y,
-    z,
-    get size() {
-      return Math.max(high, wide / Math.max(0.3, ctx.camera?.aspect ?? 1.6))
-    },
-  })
+  // a station's focus: how high and how wide it is (the station view fits both, so an upright phone sees
+  // the whole width too)
+  const focusOf = (x, y, z, high, wide) => ({ x, y, z, size: high, width: wide })
   const near = id => ctx.engine.player?.near?.id === id
   const faceTo = (obj, x, z) => (obj.rotation.y = Math.atan2(x - obj.position.x, z - obj.position.z))
   const post = new THREE.MeshStandardMaterial({ color: '#6a3a6e', roughness: 0.6 })
