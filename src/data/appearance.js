@@ -11,7 +11,7 @@ const L = (color, en, pt, pl, de, extra = {}) => ({ form: 'liquid', color, look:
 const T = (glow, en, pt, pl, de) => ({ form: 'tube', color: '#e8eef7', glow, look: texts(en, pt, pl, de) })
 
 const LOOK = {
-  H: G('#f4f7fb', 'a colourless gas, the lightest of all', 'um gás incolor, o mais leve de todos', 'bezbarwny gaz, najlżejszy ze wszystkich', 'ein farbloses Gas, das leichteste von allen'),
+  H: G('#f4f7fb', 'a colourless gas, the lightest of all, that glows pink-violet in a tube', 'um gás incolor, o mais leve de todos, que brilha rosa-violeta num tubo', 'bezbarwny gaz, najlżejszy ze wszystkich, który w rurce świeci różowofioletowo', 'ein farbloses Gas, das leichteste von allen, das in einer Röhre rosaviolett leuchtet'),
   He: T('#ffb38a', 'a colourless gas that glows peach-pink in a lamp', 'um gás incolor que brilha cor de pêssego numa lâmpada', 'bezbarwny gaz, który w lampie świeci brzoskwiniowo-różowo', 'ein farbloses Gas, das in einer Lampe pfirsichrosa leuchtet'),
   Li: M('#d8d9dc', 'a soft silvery metal, so light it floats on oil', 'um metal prateado e mole, tão leve que flutua no óleo', 'miękki srebrzysty metal, tak lekki, że pływa po oleju', 'ein weiches, silbriges Metall, so leicht, dass es auf Öl schwimmt'),
   Be: M('#b6bcc4', 'a hard steel-grey metal', 'um metal cinzento-aço e duro', 'twardy stalowoszary metal', 'ein hartes, stahlgraues Metall'),
