@@ -15,6 +15,7 @@ tools/shots/hud/. Console errors fail the run. Start the dev server first (port 
 """
 import argparse
 import os
+import random
 import sys
 
 from playwright.sync_api import sync_playwright
@@ -154,6 +155,16 @@ def scenes():
     def forge(page):
         page.wait_for_timeout(800)
 
+    def forge_race(page):
+        # in a probe room (PRB...), a race on: the line of who builds together and the race's board
+        code = 'PRB' + ''.join(random.choice('ABCDEFGHJKMNPQRSTUVWXYZ') for _ in range(3))
+        page.evaluate(f"() => __ewRoom.join('{code}', 'Ana')")
+        page.wait_for_function("() => __ewRoom.status === 'on' && __ewShared.mode === 'room'", timeout=20000)
+        page.evaluate("() => __ewRace.start('C12')")
+        page.wait_for_function("() => __ewRace.s && __ewRace.s.phase === 'racing'", timeout=15000)
+        page.evaluate("() => { __ew.world.add('p'); __ew.world.add('p'); __ew.world.add('n') }")
+        page.wait_for_timeout(1500)
+
     def stars(page):
         page.evaluate('() => { __ew.world.tapCore(); __ew.world.setLife(0.6) }')
         page.wait_for_timeout(1500)
@@ -178,6 +189,7 @@ def scenes():
         'wing-panel': ('/e/C/allotropes', walk_panel, 0.55),
         'lab-water': ('/lab', lab_water, 0.5),  # a workbench: the palette and the missions are its tools
         'forge': ('/forge?z=26', forge, 0.5),
+        'forge-race': ('/forge', forge_race, 0.5),  # in a room, racing: the race's board where the missions were
         'neon-name': ('/e/Ne/signs', neon_name, 0.55),
         'stars': ('/stars', stars, 0.5),  # the Star Forge: its sliders, its card, its table
         'stars-slow': ('/stars', stars_slow, 0.5),  # its slow capture, the path on the chart

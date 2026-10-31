@@ -207,6 +207,7 @@ export function RoomToasts({ engine }) {
       setTimeout(() => setNotes(list => list.filter(n => n.id !== id)), extra.call ? 12000 : extra.wrap ? 8000 : 6000)
     }
     const paths = new Map()
+    const races = new Set()
     const offs = [
       room.on('joined', m => add(t('room.joined', { name: m.name }), { color: m.color })),
       // someone else did something near me that I have not discovered yet (engine.witness)
@@ -224,6 +225,15 @@ export function RoomToasts({ engine }) {
         const m = room.member(p.from)
         if (!m || p.from === room.me?.id) return
         add(`⚔️ ${t('duel.started', { name: m.name })}`, { color: m.color, call: location.pathname !== '/' ? { path: '/', duel: true } : null })
+      }),
+      // someone started a race in the Atom Forge (src/net/race.js): those elsewhere are told, with Go
+      room.on('race-state', p => {
+        const s = p.s
+        if (!s?.id || races.has(s.id)) return
+        races.add(s.id)
+        const m = room.member(s.ref)
+        if (!m || s.ref === room.me?.id || s.phase !== 'ready' || location.pathname === '/forge') return
+        add(`🏁 ${t('forge.race.started', { name: m.name })}`, { color: m.color, call: { go: '/forge' } })
       }),
       room.on('emote', p => {
         const m = room.member(p.from)
@@ -250,7 +260,7 @@ export function RoomToasts({ engine }) {
         <div key={n.id} data-room-note className="glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto flex items-center gap-2 max-w-[18rem]" style={{ borderColor: n.color ? `${n.color}aa` : undefined }}>
           <span className={n.wrap ? 'leading-snug' : 'truncate'}>{n.text}</span>
           {n.call && (
-            <button type="button" onClick={() => (n.call.duel ? (duel.hide(false), room.go?.('/')) : engine?.others?.answer(n.call))} className="rounded-lg px-2 py-0.5 bg-white/20 hover:bg-white/30">
+            <button type="button" onClick={() => (n.call.duel ? (duel.hide(false), room.go?.('/')) : n.call.go ? room.go?.(n.call.go) : engine?.others?.answer(n.call))} className="rounded-lg px-2 py-0.5 bg-white/20 hover:bg-white/30">
               {t('room.go')}
             </button>
           )}

@@ -25,8 +25,10 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, twelve scenes (screenshots in
-  `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`).
+- `hud_probe.py`: the HUD keeps the middle free on six screens, thirteen scenes (screenshots in
+  `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`). Its
+  `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
+  builds together.
 - `card_probe.py`: the plaza card's facts on every element, four languages, a computer and a phone: the
   arrows, a click on the text and T go through them, the arrows stay put.
 - `nav_probe.py`: walking and looking (`walking.md`, "Checking it").
@@ -56,6 +58,12 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   table (`multiplayer.md`). `shared_probe.py`: a world's things shared in a room (neon's workshop by
   default, with the room kept while empty, own and room apart, the note for a bystander; `--world <path>`
   any world: every exhibit used, the others' states compared, a latecomer). Its rooms are `PRB...`.
+- `forge_room_probe.py`: the Atom Forge in a room, three players (a computer in English, a phone in
+  Portuguese, a computer in German): presses at the same moment both counting, the others' glow and
+  lines, missions for everyone there, a decay, a beam shot and a self-decay played once on every table;
+  a race (the picker, one watching, the countdown, own atoms, progress on the board, the winner, back to
+  the room's atom) and a second one whose referee leaves. 61 checks, under a minute; screenshots in
+  `tools/shots/forge_room/` (`multiplayer.md`, "The forge together").
 - `usage_probe.py`, `stats_probe.py` (both want `EW_DASH_PASS`), `account_probe.py`: usage recording, the
   family dashboard, accounts (`usage-data.md`, `accounts.md`).
 

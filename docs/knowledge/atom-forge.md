@@ -27,6 +27,9 @@ chains. Every hall's "Inside the atom" panel links here with its element (`/forg
   state, so a change of language or level shows at once) and `src/ui/NuclideChart.jsx` (the whole chart
   and a close-up with names; a tap builds that nucleus).
 - `src/worlds/common/pack.js`: `packBall`, an even ball of points (the forge's and the halls' nuclei).
+- In a room: `together.js` (the room's atom, merged), `goals.js` (what each race asks for, how far a racer
+  is), `src/ui/ForgeTogether.jsx` (the line of who builds together, the race's picker and board),
+  `src/game/race.js`, `src/net/race.js`. Below, "Together".
 
 ## The beam (2026-10-28)
 
@@ -62,6 +65,25 @@ nucleons fly in together; on arrival the compound nucleus reacts:
 - Missions (`words.js` MISSIONS, discoveries `forge:<id>`): from a hydrogen atom to oganesson-294,
   carbon-14 turning into nitrogen, and the whole uranium-238 chain to lead.
 
+## Together (in a room, 2026-10-31)
+
+Alone nothing of this runs (and nothing of the forge is kept or sent). In a room
+(`multiplayer.md`, "The forge together", has the whole of it):
+- One atom for everyone in the forge. Every change I make is recorded into the room's atom (`record` for
+  a particle, `rebaseMine` for a whole-atom change: set, Neutral, Decay, a shot) and sent at most every
+  0.15 s; someone else's arrives through `shared.atom.set` and plays (`follow`: their particles from the
+  far side with `add(kind, { by })`, glowing in their colour (`glows`), their name by the atom
+  (`nameTag`), a line in the HUD (`tell`); their decay, shot or pick replayed, `replay`; whatever is left
+  over set quietly, `conform`). Missions are checked on every table, so they count for everyone there.
+- What happens by itself (a decay, an extra electron leaving) is done by the last one to change the atom;
+  the others wait `LAG_S` (1.2 s) longer, and their own decay arriving first is simply taken.
+- A race: `race.watch` tells the world; a racer's table becomes their own atom from nothing
+  (`startRacing`), `set`, `goTo` and Commonest do nothing, Hold is their own, and every change is checked
+  against the goal's mission (`raceCheck`: `done` to the referee) and told at most every 0.35 s
+  (`raceTell`, with `goals.js` progress). When it is over, `stopRacing` puts the room's atom back.
+- For probes: `__ew.world.table()` (my table, the room's atom, racing, how many particles glow),
+  `interactables` (proton, neutron, electron, hold) for `shared_probe.py --world /forge`, `__ewRace`.
+
 ## Traps
 
 - A golden-angle spiral (`y` from `i * 0.618`, angle `i * 2.39996`) ties a point's height to its angle:
@@ -83,6 +105,8 @@ nucleons fly in together; on arrival the compound nucleus reacts:
 probes). `--phone` for the bottom bar. `tools/forge_probe.py` builds every element, decays it, makes ions
 and the odd cases, and reads the HUD in all four languages and both depths (about a minute). A beam that
 would pass element 118 is refused with why (note `beyond`): zinc-70 at uranium made 122 and broke the names.
+In a room: `py -3.11 tools/forge_room_probe.py`, `py -3.11 tools/shared_probe.py --world /forge` (steps
+in `tools/shared_steps/forge.json`), `tools/hud_probe.py --scene forge` (its `forge-race` scene).
 
 ## Next
 
@@ -92,3 +116,6 @@ would pass element 118 is refused with why (note `beyond`): zinc-70 at uranium m
   chain in this forge is still to do.
 - Binding energy per nucleon as a curve beside the chart: the Star Forge has it (`BindingCurve.jsx`,
   `src/data/binding.json`); this forge's chart could show it too.
+- Together: a handicap in a race (a smaller goal or a head start for the younger), watching a racer's
+  atom on my table; the tap on the 3D says the nucleus "decays (when it can)" in a comment but only pokes
+  the Atomling (the card's button decays it).

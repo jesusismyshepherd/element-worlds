@@ -28,6 +28,7 @@ games for more players, or for two with "the others ... spectators with possibil
   tube, lights a word, and everyone in the same world sees it happen; who comes in later finds it as it
   stands. Panels, the Atomling's words, videos and discoveries stay each one's own ("as in all popup
   boxes"). Below, "Shared world objects".
+- The Atom Forge is one atom for everyone in it, and has a race (2026-10-31): below, "The forge together".
 
 ## The quiz duel: two seats, the others watch (and swap in)
 
@@ -47,6 +48,57 @@ games for more players, or for two with "the others ... spectators with possibil
   The referee's clue count sets the points. `src/net/duel.js`, `src/ui/DuelHud.jsx`.
 - `tools/duel_probe.py`: three players (one a phone), 15 checks: start, seat, the race, lock-out, who got
   it, a swap asked and allowed, a whole game, the rematch with the winner staying, the referee leaving.
+- The referee's side is `src/net/referee.js` (`Refereed`: state, acts, hello, end, the next referee when
+  one leaves, the clock), shared with the forge's race; `src/net/duel.js` adds the questions to it.
+
+## The forge together (2026-10-31)
+
+The studio's "The forge together" (the user: Sooner): "build one nucleus together, or race each other to
+a mission". Artur and his father play it side by side.
+
+- **Building together** (the default in a room): everyone in `/forge` builds the same atom. Protons,
+  neutrons, electrons, the beam, Hold, Decay, the chart and the finder: each change plays on every
+  screen. The others' particles fly in from the far side of the screen (the right; the top of an upright
+  phone), glowing in their colour for a moment, with their name by the atom; a line under "Building
+  together: Ana, Bob" says what each has just done ("Ana: +3 protons", "Bob: ⏩ Decay", "Cid: 🚀 alpha
+  particle"). Their shots fly in, their decays break the nucleus on my table too. A latecomer finds the
+  atom as it stands. The camera, the open panel or chart, the language and depth stay each one's own.
+- Missions done together count for everyone there when it happens (the user's design: the forge's
+  exception to "only the doer's"); not for who comes in later and finds it made.
+- Two pressing at the same moment both count (Artur holding + on protons while his father holds + on
+  neutrons): the atom is a base plus each player's counts, merged (`src/worlds/forge/together.js`, below).
+- **The race**: 🏁 Race (beside "Building together"; in the tools of an upright phone) opens the
+  missions that can be raced (20 of the 21: all but the one with no fixed atom). One tap starts it for
+  everyone in the forge; who would rather watch says so during the 7-second countdown, who arrives then
+  can join (those elsewhere in the room get a note with Go). Then each racer's table is their own atom,
+  from nothing; the chart, the finder and Commonest do nothing in a race (particle by particle). The board
+  shows each racer's atom, a bar in their colour and what is left (a red, grey or blue dot with +2 or −1
+  for protons, neutrons, electrons; then the step: ⏩ or the beam to fire). The first whose atom passes
+  the mission's own check wins; "Race again" (same goal) or "Build together again" (also after 10 s):
+  everyone back on the room's atom, with whatever the watchers built meanwhile. No winner after six
+  minutes: time is up. On an upright phone the board takes the card's place, with Decay in my row.
+- No seats: everyone can race (at most eight), the watchers are whoever chose to; the duel's two seats,
+  line and swap fit a buzzer quiz, not building. What is reused is the duel's referee (`referee.js`).
+
+How it works:
+- `together.js` (pure, `together.test.js`): `{ k, by, b: [Z, N, E], d: { player: [p+, p-, n+, n-, e+,
+  e-] }, ev, o }`. A base (`b`) is set by whoever changes the whole atom (a decay, a shot, the chart,
+  Neutral, starting again), with `ev` saying how for the others to play it; on it, each player's counts
+  only go up. Merging takes the later base (its time in ms, then who), or on the same base each count's
+  larger value: any order, any number of times, the same atom. Shared through `net/shared.js` as the
+  part `atom` (its last-writer-wins versions carry it; whoever finds they had something the other's copy
+  lacked sends the merged copy again) and `hold`. My changes go out at most every 0.15 s (held buttons
+  fire 25 a second). A shot is sent at once with what it will make; the others fire it themselves.
+- Physics that runs by itself (a nucleus that cannot hold decaying, an extra electron leaving) is run by
+  whoever changed the atom last; the others do it 1.2 s later only if that word does not come.
+- In a room, an element asked for in the address (`/forge?z=C` from a hall) waits 1.5 s for the room's
+  atom: it is put on the table only if the forge was untouched or nobody else is there now.
+- The race: rules `src/game/race.js` (pure, `race.test.js`), goals and progress
+  `src/worlds/forge/goals.js` (each raceable mission's atom and step, tested against the mission's own
+  check), the room link `src/net/race.js` (`Refereed`; `race-state`, `race-act`, `race-hello`,
+  `race-end`; racers tell where they are at most every 0.35 s and the referee sends the board with its
+  next tick; the state carries the referee's clock for the countdown). HUD: `src/ui/ForgeTogether.jsx`.
+- Leaving the forge leaves the race; leaving the room in the forge brings one's own forge back (fresh).
 
 ## Shared world objects (2026-10-30)
 
@@ -63,7 +115,9 @@ games for more players, or for two with "the others ... spectators with possibil
   wing does it: `adding-a-wing.md`, "Shared with the room".
   Every wing shares its things: the neon workshop all seven (bench, radon, name, atom, history, spectrum,
   balloons), carbon's gallery 14 and garden 9, oxygen's air deck 7 and fire chamber 5, sodium's lab 4
-  and silicon's 5 (each area's README lists them; the video, its parts and the panels stay personal).
+  and silicon's 5 (each area's README lists them; the video, its parts and the panels stay personal);
+  the Star Forge 4 (`star-forge.md`); the Atom Forge 2, `atom` (merged, not last-writer-wins: "The
+  forge together") and `hold`.
 - The halls share nothing: every exhibit there opens a panel, takes the player somewhere or talks, and
   their moving pieces (the turntables, the big atom) run on each player's own clock. A world without
   `shared` (or with an empty one) sends no messages; `shared_probe.py --world` stops at "shares things".
@@ -101,7 +155,9 @@ games for more players, or for two with "the others ... spectators with possibil
   they said; my own entry is always my own current state. When someone joins, everyone tells them
   (`here`). Leaving sends `bye` first (everyone drops the leaver at once), then closes the channel.
 - Other broadcasts: `pose` (where a walker stands, about 7 a second while moving, only when someone else
-  is in the same world), `emote`, `call`, and the lab's `lab-op`, `lab-state`, `lab-hello`.
+  is in the same world), `emote`, `call`, the lab's `lab-op`, `lab-state`, `lab-hello`, the duel's and
+  the race's `<game>-state`, `-act`, `-hello`, `-end` (`referee.js`), and the worlds' `w-set`, `w-state`,
+  `w-hello` (`shared.js`).
 - The shared lab: atoms have ids (`<player>.<n>`) that stay put while the molecule changes; every change is
   an operation (add, join, part, remove, clear, demo) applied by the host, the one who has been in the
   lab longest; it sends the molecule (`lab-state`) with a version that counts up across the room, and
@@ -124,6 +180,10 @@ games for more players, or for two with "the others ... spectators with possibil
 - Vite's dev server found `@supabase/supabase-js` only when a room was first joined (a dynamic
   import), re-bundled and refused the old copy ("504 Outdated Optimize Dep"): it is in
   `optimizeDeps.include` (vite.config.js).
+- The forge's first presses in a fresh room each made a new base (2026-10-31): two at the same moment
+  were two bases, the later won and the other's presses vanished (then three bare protons fell apart, and
+  the probe saw one proton left). The first counts now sit on the world as built (the same empty base for
+  everyone); only the untouched world as built (no counts) replaces the atom when a room is joined or left.
 - Probes and the dev server: someone else saving a file reloads every page of the dev server, the
   probe's players with it. Probe a separate build: `npx vite build --outDir <scratch>`,
   `npx vite preview --outDir <scratch> --port 5317`, `--base http://localhost:5317`.
@@ -146,9 +206,16 @@ screen without their panel or words, and the note for the one beside who has not
 finds it as it stands; helium's workshop keeps its own; everyone leaves and one comes back: the room kept
 it; one leaves the room there: their own (fresh), and the room's again on coming back. 39 checks, under a
 minute. `--world <path>`: any world, every exhibit used in turn and the states
-compared, then a latecomer; it lists the exhibits whose use changed nothing shared.
+compared, then a latecomer; it lists the exhibits whose use changed nothing shared. The forge's steps:
+`tools/shared_steps/forge.json` (`--world /forge`: all ok, 2026-10-31).
+
+`py -3.11 tools/forge_room_probe.py [--base ...]`: the forge together and its race, three players (one a
+phone, three languages), 61 checks, under a minute; screenshots in `tools/shots/forge_room/`.
 
 ## Next
 
-- A shared forge (everyone firing at one nucleus); other two-seat games can reuse the duel's seats,
-  line and swap (`src/game/duel.js`).
+- Two-seat games can reuse the duel's seats, line and swap (`src/game/duel.js`); any game with one
+  referee, `src/net/referee.js`.
+- The forge's race: a handicap (the younger player's goal smaller, or a head start), a best of three, a
+  "same atom, different paths" race through the beam missions. Watching a racer's atom on my own table
+  (the board has each racer's Z, N, E already).
