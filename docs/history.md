@@ -15,9 +15,10 @@ and the user's requests behind them. Add a line here when a piece of work change
   each wing has its own (the burning bush by the campfire, let your light shine in the neon workshop); the
   plaza, the lab and both forges write theirs in the sky; the quiz and the Atomlings page too. A tap or E
   opens it with why it is there; the orbiting worlds show panels since. `docs/knowledge/scripture.md`.
-- The passage's panel reads the whole chapter (the user: "a button read full chapter, the chapter with
-  verse numbers in the popup"), fetched live and never stored: the NLT from Tyndale's API now, every other
-  translation once YouVersion's app key is set (until then a link to the Bible App). `api/chapter.js`.
+- The passage's panel opens its verses in the Bible App ("📖 Read it in the Bible App", the translation
+  the level quotes), where the whole chapter and the app's pictures for it are. Asked first for the chapter
+  in the popup, built that way, then the user's better idea: "open in the Bible App directly on the verse,
+  where you can read the full chapter and see their related media".
 - The family studio on the game's own site (`/studio`; the user: share it with Artur, who has no Claude
   account, and know who made each input): the backlog for anyone with the link, ideas, notes and verdicts
   from signed-in family accounts kept under their names (`supabase/ew_004_studio.sql`), Claude's answers

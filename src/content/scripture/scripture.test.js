@@ -92,22 +92,14 @@ test('references are cited the way each language cites them', () => {
   assert.ok(panel.blocks[1].p)
 })
 
-test('the whole chapter: which one, the quoted verses marked, the Bible App link, the same numbers as the API', async () => {
-  const { chapterOf } = await import('./index.js')
-  const { YV, parseNlt } = await import('../../../api/_bible.js')
-  for (const [k, v] of Object.entries(VERSIONS)) assert.equal(YV[k], v.yv, `${k}: the Bible App's number`)
-  const si = chapterOf('Si', 'en', 'explorer')
-  assert.deepEqual([si.v, si.ch, si.marks, si.title], ['NLT', 'PSA.139', [17, 18], 'Psalm 139'])
-  assert.equal(si.app, 'https://www.bible.com/bible/116/PSA.139.17-18')
-  // a translation that numbers a psalm's title as verse 1 marks its own verse
-  assert.deepEqual(chapterOf('plaza', 'de', 'explorer').marks, [2])
-  assert.equal(chapterOf('Fe', 'pl', 'scientist').title, 'Przysłów 27')
-  // Tyndale's page: numbers, notes and the psalm's title left out, LORD in capitals, poetry line by line
-  const html = `<section><h2 class="bk_ch_vs_header">Psalm 12:6</h2><verse_export orig="psal_12_1" bk="psal" ch="12" vn="1">
-<p class="psa-title">For the choir director.</p><p class="poet1-vn"><span class="vn">1</span>Help, O <span class="sc">Lord</span>,</p>
-<p class="poet2">for the godly are fast disappearing!<a class="a-tn">*</a><span class="tn"><span class="tn-ref">12:1</span> Or <em>note</em></span></p>
-</verse_export><verse_export orig="psal_12_2" bk="psal" ch="12" vn="2"><p class="body"><span class="vn">2</span>Neighbors lie &amp; flatter.</p></verse_export></section>`
-  const r = parseNlt(html)
-  assert.deepEqual(r.verses, [{ n: 1, text: 'Help, O LORD,\nfor the godly are fast disappearing!' }, { n: 2, text: 'Neighbors lie & flatter.' }])
-  assert.equal(r.poem, true)
+test('the passage opens on its verses in the Bible App, in the translation the level quotes', async () => {
+  const { appUrl } = await import('./index.js')
+  assert.equal(appUrl('Si', 'en', 'explorer'), 'https://www.bible.com/bible/116/PSA.139.17-18')
+  assert.equal(appUrl('Fe', 'en', 'scientist'), 'https://www.bible.com/bible/1713/PRO.27.17')
+  // a translation that numbers a psalm's title as verse 1 opens on its own verse
+  assert.equal(appUrl('plaza', 'de', 'explorer'), 'https://www.bible.com/bible/73/PSA.19.2')
+  for (const id of Object.keys(PASSAGES)) {
+    for (const lang of LANGUAGES) for (const level of ['explorer', 'scientist']) assert.match(appUrl(id, lang, level), /^https:\/\/www\.bible\.com\/bible\/\d+\/[1-3A-Z]{3}\.\d+\.\d+(-\d+)?$/)
+    assert.ok(versePanel(id, 'pl', 'explorer').blocks.some(b => b.href?.url))
+  }
 })

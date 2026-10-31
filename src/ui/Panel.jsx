@@ -59,34 +59,10 @@ function Slider({ s, color }) {
   )
 }
 
-/** A whole Bible chapter (src/content/scripture/): each verse with its number, a poem's verses each on its own
- *  lines, the passage the place quotes marked and scrolled into view. */
-function Chapter({ c, color }) {
-  const first = useRef(null)
-  useEffect(() => {
-    first.current?.scrollIntoView({ block: 'center' })
-  }, [c.key])
-  const Verse = c.poem ? 'div' : 'span'
-  return (
-    <div className="font-serif text-[16px] leading-relaxed whitespace-pre-line">
-      {c.verses.map(v => {
-        const marked = c.marks.includes(v.n)
-        return (
-          <Verse key={v.n} ref={marked && v.n === c.marks[0] ? first : null} className={`${c.poem ? 'mb-1.5 ' : ''}${marked ? 'rounded bg-amber-300/15 px-0.5' : ''}`}>
-            <sup className="font-sans font-bold text-[11px] mr-0.5 align-super" style={{ color: marked ? color : undefined, opacity: marked ? 1 : 0.6 }}>{v.n}</sup>
-            {v.text}{c.poem ? '' : ' '}
-          </Verse>
-        )
-      })}
-    </div>
-  )
-}
-
 /** What a station or an exhibit tells, opened by using it. A world sets store.panel to
  *  { title, kicker?, color?, blocks: [{ p }, { big, small? }, { rows: [[label, value]] }, { list: [] },
  *  { link: { to, label } }, { slider }, { buttons: [{ label, onClick }] }, { h } (a section's heading),
  *  { verse: { text, cite } } (a Bible passage and its reference, src/content/scripture/),
- *  { chapter: { verses: [{ n, text }], poem, marks, key } } (its whole chapter), { small } (fine print),
  *  { img, alt, crop } (a picture; crop: the share of its height shown, from the top),
  *  { video: { src, title, credit } } (a player, YouTube's own: the Periodic Videos rooms; kept playing while
  *  the panel is written again, since its key is its src), { href: { url, label } } (a page outside, in a new
@@ -117,8 +93,6 @@ export default function Panel({ panel, onClose }) {
       <div className="px-4 pb-4 flex flex-col gap-3 text-[15px] leading-relaxed">
         {panel.blocks.map((b, i) => {
           if (b.p) return <p key={i}>{b.p}</p>
-          if (b.chapter) return <Chapter key={b.chapter.key} c={b.chapter} color={panel.color} />
-          if (b.small) return <p key={i} className="text-[11px] leading-snug opacity-70">{b.small}</p>
           if (b.verse) return (
             <blockquote key={i} className="m-0 rounded-xl bg-white/5 px-4 py-3 border-l-4" style={{ borderColor: panel.color }}>
               <p className="font-serif italic text-[17px] leading-relaxed whitespace-pre-line">{b.verse.text}</p>

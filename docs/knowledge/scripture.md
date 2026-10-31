@@ -88,30 +88,18 @@ its translators' punctuation.
   (Hud.jsx renders `store.panel` when the world does not walk).
 - `src/ui/VerseLine.jsx`: a passage inside a HUD card or a page (the quiz, the Atomlings).
 
-## The whole chapter (2026-10-31)
+## The verse in the Bible App (2026-10-31)
 
-The user asked for a "Read full chapter" button in the passage's popup, the chapter with its verse numbers
-shown there. A passage's panel has "📖 Read the whole chapter": the panel turns into the chapter in the
-translation the level quotes, each verse numbered, the quoted ones marked and scrolled into view, the
-publisher's notice under it, "Back to the verse" above and below; a change of level switches translation.
+Every passage's panel ends with "📖 Read it in the Bible App": bible.com opened on that passage's verses,
+in the translation the level quotes (`appUrl` in `index.js`: `https://www.bible.com/bible/<yv>/<BOOK.c.v>`,
+the translation's own numbering), the Bible App itself on a phone that has it. The whole chapter is a tap
+away there, with the app's pictures and plans for the verse. The user chose this over the chapter fetched
+into the game (built first, the same day, then taken out): "going there, where you can read full chapter
+and see their related media, is even better". A side effect: no chapter is copied into the game, and the
+publishers allow quotations, not chapters.
 
-The chapters are fetched live, never kept in the repository: the publishers allow quotations to be copied
-(the NLT 500 verses, the CSB 1000), and the halls' chapters come to about 1000 verses in each translation.
-`api/chapter.js` (a Vercel function; the dev server answers it too, a plugin in `vite.config.js`) asks:
-
-1. the **YouVersion developer API** (`api.youversion.com`, the same Bible App as our quotes) when the app
-   key is set: `YVP_APP_KEY` in Vercel's environment, from https://platform.youversion.com, with each
-   translation's licence accepted in its portal. Every translation it allows is shown in the popup. Its
-   HTML reader (`parseYouVersion` in `api/_bible.js`) is written from the Bible App's markup and is to be
-   checked against the API once the key exists (`youVersionChapter` from a `node --input-type=module -e`).
-2. **Tyndale's NLT API** (`api.nlt.to`), which lets non-commercial web pages show the NLT without a key:
-   50 verses a request (a longer chapter is asked for in parts), 500 requests a day; the CDN keeps each
-   chapter a month, so a day's requests stay few.
-
-Where neither has the chapter (until the key exists: everything but the NLT), the answer is empty and the
-panel links to the chapter in the Bible App. `src/content/scripture/chapter.js` keeps what came for the
-visit; `chapterOf` and `chapterPanel` in `index.js` say which chapter and draw it (Panel.jsx's `chapter`
-block).
+bible.com shows a captcha to scripts from a machine that has fetched a lot from it (this one, after the
+passages were fetched): a probe cannot open the links, a visitor's browser can.
 
 ## Adding a passage to a new place
 
@@ -128,9 +116,7 @@ block).
   languages at both depths from the right translation and chapter; nothing outside the 3D fonts; every
   place and all 118 halls with a passage; every `why` at both depths without dashes; references cited per
   language (Psalm 19:1, Psalm 19,2, Przysłów 27,17).
-- The same test checks the chapter's pieces (which chapter, the marked verses, the Bible App's numbers
-  in both lists, Tyndale's page read into verses). `curl "http://localhost:5310/api/chapter?v=NLT&ch=PSA.19"`
-  asks the dev server's function.
+- The same test checks every panel's link to the Bible App (each passage, language and level).
 - `tools/halls_probe.py` opens every hall's stone with the rest; `tools/hud_probe.py` for the orbiting
   worlds' layouts.
 

@@ -5,8 +5,7 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js'
 import { makeText } from '../../engine/text.js'
-import { verseOf, versePanel, readVerb, chapterOf, chapterPanel } from '../../content/scripture/index.js'
-import { chapterState } from '../../content/scripture/chapter.js'
+import { verseOf, versePanel, readVerb } from '../../content/scripture/index.js'
 
 /** The passage `id` as a block of text `width` metres wide, its top at the group's origin, facing +z; a
  *  longer translation is made smaller to stay within `maxHeight` (metres), and with `middle` the block
@@ -47,17 +46,7 @@ export function verseText(ctx, id, {
   }
   write(ctx.level())
   const off = ctx.store.subscribe(s => write(s.level))
-  // the passage's panel, and from it the whole chapter (fetched when asked: chapter.js); each is written
-  // again when the level changes, so the chapter follows the translation the level quotes
-  const passage = l => versePanel(id, lang, l, { onChapter: () => ctx.showPanel(chapter) })
-  const chapter = l => {
-    const c = chapterOf(id, lang, l)
-    const state = chapterState(c, () => {
-      if (ctx.store.get().panel?.make === chapter) ctx.showPanel(chapter)
-    })
-    return chapterPanel(c, lang, state, { onBack: () => ctx.showPanel(passage) })
-  }
-  const open = () => ctx.showPanel(passage)
+  const open = () => ctx.showPanel(l => versePanel(id, lang, l))
   return {
     group,
     open,
