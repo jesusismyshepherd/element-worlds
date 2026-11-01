@@ -116,6 +116,12 @@ The pipeline since hydrogen and iron (2026-10-31), so a hall never shows a pictu
    shots, adds the steps (`tools/shared_steps/pictures.json`) and the docs, and pushes.
 Two elements at a time keep the machine's memory in hand (seven room builders and two more agents ran
 with about 8 GB free).
+Trap (krypton, 2026-11-01): when another hall's boards are already on main, merging the boards branch
+conflicts in `showpieces.js` (the `SHOWPIECES` line and the functions above it: keep both) and in
+`hall-boards.md`. Seven builders each ran that merge first and all stopped on it, with no code written.
+So the session merges the boards branch once into a base branch (`kr-base`), resolves, runs `npm test`,
+and starts the builders from it (`git worktree` at that commit, or `git merge --ff-only <base>` in each
+worktree); the brief's "merge the boards branch" step is then already done.
 
 Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
 `tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`
