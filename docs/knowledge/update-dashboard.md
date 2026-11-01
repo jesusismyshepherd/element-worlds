@@ -131,6 +131,12 @@ max) is, task by task. The claude.ai studio's "What it cost" section and every b
 - The user's stars: `ratings/<built id>` `{ stars 1-5, title, at, by }` in the artifact's database; 3 or
   more means kept as it is. Read them in step 1 with the rest. A rating of 1 or 2 gets a `reply` asking what
   to change (and the change counts as a revision); the others need none.
+- Across projects (the user, 2026-11-01: all projects keep a studio with this same metric, and one record
+  of every prompt's cost): the global skill `cost-dashboard` (`~/.claude/skills/cost-dashboard/`) keeps a
+  ledger of every project's transcripts and a dashboard, "Work and cost ledger"
+  (https://claude.ai/artifact/NM8hfTKiq2Rd1JJDAXEpJb). Its `collect.py studio --project <dir>` is this
+  project's `tools/studio_cost.py` made general, so the numbers agree. The ledger starts 2026-10-01 and
+  grows: Claude Code deletes transcripts after 14 days, and a SessionStart hook records them first.
 - A comparison is only fair on the same kind of work: compare dollars per room with rooms. Every piece up to
   2026-10-31 was Opus 5.5 at xhigh; the first trial is krypton's rooms on Sonnet 5.5 at high effort against
   radon's on Opus 5.5 at xhigh (`cost.trial`, and the halls item's details). To run an agent on another
