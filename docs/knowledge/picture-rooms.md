@@ -91,6 +91,14 @@ in. The studio item is `picture-rooms`.
   sun of 21 June: `setTime(hour)`, `sunAt`, `towerParts` for models at any scale), `mars.js` (Meridiani
   Planum beside Eagle crater, a Mars sky by the hour: `marsSun(hour)`, `marsRover()`, `marsLander()`),
   `railway.js` (a welded and a jointed line through fields at night: `cuts`, `railTrain()`),
+  `gaslab.js` (a Victorian teaching laboratory by gaslight: glazed brick, bottle shelves, sash windows onto a
+  street at night; `gaslabStage({ mantles, pendants, windows, door, shelves })` gives `onWall` and `mats`),
+  `metrology.js` (a length laboratory of 1960: flagstones, panelled plaster, tall windows onto a park at dusk,
+  a vault door; `granite(w, d, top)` makes a measuring table on stone piers), `glazing.js` (wraps
+  `coldLabStage` in snow: `flakes(box)`, `setSnow(k)`), `orbit.js` (a glass-floored platform in low orbit over
+  the real Earth: `setSun`), `desert.js` (a dusk oasis: `desertStage({ radius, light, pool, palms, fields })`,
+  `palm(height, seed)`, `sandTexture`), `gallery.js` (a Victorian museum gallery at night under a starry
+  iron vault: table cases, benches, moon panes on the parquet),
   `arctic.js` (a winter camp in Lapland at night: snow, a frozen lake, fells, spruces and birches, a log
   hut and a tent, the aurora's curtains coloured by height and lighting the snow; `aurora.set({ level,
   storm })`, `aurora.time` for long exposures, `kmWorld`). A
@@ -390,6 +398,41 @@ at the same address.
   weld: gap, mould, preheat, pour, shear, grind, then trains over the jointed and the welded rail. Who
   takes the oxygen: metals and oxides on a bench and a ladder of how tightly each holds oxygen.
 
+- Krypton (2026-11-01, built with Sonnet 5.5 at high effort, the first model trial: `docs/studio/backlog.json`
+  `cost.trial`), seven rooms, each from `docs/agents/designs/Kr_rooms.md`:
+  - `hidden` ("What was hiding in the air?"): a teaching laboratory at University College London by
+    gaslight, May 1898 (`gaslab.js`). Hampson's flask boils from 750 cm3 to the last 10 cm3 (nitrogen, then
+    oxygen and argon leave); a jar of a million molecules fades to the one krypton; the clean-up train
+    (hot copper takes the oxygen, hot magnesium the nitrogen, about 26 cm3 left); pump a tube, seal it,
+    light it white-lilac, Travers' notebook with a yellow and a green line. The flask's slider is
+    "boiled away", not temperature (the residue only warms to about -183 C: the design's -150 C was wrong).
+  - `metre` ("How long is a metre, really?"): a length laboratory of 1960 (`metrology.js`). The 1889 bar
+    (temperature slider, 8.6 micrometres a kelvin, drawn 150 times too big, the microscope true), the
+    krypton-86 lamp at 63 K and the interferometer counting 1 650 763.73 waves, the 1983 metre as light's
+    3.34 ns (a log time slider, the equator in 134 ms).
+  - `windows` ("Why is there gas in your window?"): a window factory on a snowy evening (`glazing.js`).
+    The glass line (coat, press, fill with air, argon or krypton, seal); the giant gap (atoms at true
+    relative speeds, a gap-width slider, the best width marked, the gas starting to roll when too wide);
+    the test house with three windows and a heat camera.
+  - `thruster` ("What pushes a satellite along?"): a glass-floored platform 550 km up over the real Earth
+    (`orbit.js`). A cut-open Hall thruster (valve, magnets, voltage slider, cathode off and the satellite
+    charges), the satellite under 70 mN, space junk and the burn-up, a climb slider, a board comparing
+    xenon, krypton and argon. Krypton's 70 mN and 16 km/s are worked back from SpaceX's argon thruster
+    (170 mN, 2 500 s: 2.4 times the thrust and 1.5 times the specific impulse of the krypton one).
+  - `water` ("Water a million years old?"): an oasis in the Western Desert at dusk (`desert.js`). A long
+    cut-away window through a million years of rain, sandstone and creeping water with krypton-81
+    fading by half every 229 000 years; the well (1 500 litres, degassing, the gas sorted); the atom trap
+    catching krypton-81 one atom at a time and reading an age.
+  - `hands` ("Can a noble gas hold hands?"): a chemistry laboratory of 1963 (`lab.js`, no new stage). The
+    cold bulb (krypton and fluorine frozen and lit into KrF2 crystals, only when cold; gold leaf eaten),
+    six noble gases offered fluorine (He and Ne refuse, Ar only as HArF, Kr, Xe and Rn dock), and a laser
+    room printing a chip with a KrF laser (pulses a second, a wafer of nine dies).
+  - `kryptonite` ("Is kryptonite real?"): a Victorian museum mineral gallery at night (`gallery.js`). The
+    film's label and jadarite's side by side (tap the elements; F lights only the comic one), real krypton
+    frozen in liquid nitrogen with a lens on gas, liquid and solid, a diving bell where krypton makes the
+    sum "2 + 2" drift (a pressure slider, "feels like" depth). The film's formula and jadarite, LiNaSiB3O7(OH),
+    from Jadar in Serbia (2007); no figure or emblem on the cape.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -515,3 +558,20 @@ at the same address.
 - The easel's legs first went straight through the picture (the user liked the picture on sticks, not
   the sticks through it): `storyStand` leans the front legs back behind the picture, which rests on a
   ledge in front of them, and props them with a third leg.
+- Krypton's builders (2026-11-01), the traps met:
+  - A hint text holds no colon: the prompt already adds "verb: label".
+  - A simulation both machines run fires `ex.discover` on the watcher too: guard the say and discover with
+    an ownership flag, or the shared probe fails with "no panel opened for Bob". Ages that keep growing
+    break the probe's frozen expectation: clamp them in `get()` and share `set(s, live, ago)`.
+  - A floor you stand on hides what is below it: make it glass (`orbit.js`).
+  - A station's eye backs off from the player's position, not the focus: put the spots 3 to 4 m from the
+    exhibit, and keep a station's parts within about 4.5 m, centred left of where the panel falls. A
+    station inside a small alcove puts the camera inside the wall: widen the doorway to 3.1 m.
+  - A Dewar needs a window cut in its front, or you cannot see the flask dip. Glass alone reads as nothing
+    in the case's light: give it dark solid anchors.
+  - A three.js `Points` with a one-component position attribute draws that many points: put the dot number
+    in `position.x`; a million additive points need an alpha of about 0.0035.
+  - `Object.assign(mesh, { position })` throws (read-only). `npm install` run by several builders at once
+    can leave a truncated `esbuild.exe` or an empty `node_modules/three`: remove `node_modules` and again.
+  - Open: in the phone station view of `hidden`'s clean-up a thin dark bar stands in front of the bench
+    (not on a computer); not traced. The million-dot clouds are untested on the S21.

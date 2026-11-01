@@ -166,9 +166,9 @@ built: `docs/history.md`):
 - The plaza (`/`): the table, the card with the Atomling's facts, families, trends (both depths), the
   time machine, search, "Who am I?", golden stars over elements with worlds of their own.
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
-  floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen and Iron (2026-10-31) have a fact
-  file, picture boards and their own showpieces; the others still have the eight text stations
-  (`hall-boards.md`; krypton's and radon's boards wait on branches for their rooms). A picture with a room
+  floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31) and Krypton
+  (2026-11-01) have a fact file, picture boards and their own showpieces; the others still have the eight text stations
+  (`hall-boards.md`; radon's boards wait on a branch for their rooms). A picture with a room
   is stepped into (`picture-rooms.md`; every picture on a wall since 2026-10-31).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
@@ -188,10 +188,10 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next (2026-10-31, the session stopped at the user's word): build
-krypton's and radon's seven rooms each from `docs/agents/designs/Kr_rooms.md` and `Rn_rooms.md`; their
-boards and showpieces wait on the branches `worktree-agent-a2065850749aa7bf4` (krypton) and
-`worktree-agent-a29f4091cc8e22657` (radon), not on main, since a picture goes up only with its room (each
-room builder merges its element's branch first: `hall-boards.md`, the pipeline, `docs/agents/`). Then the
-next well-known elements by visits. The family studio at `/studio` is read and answered at the start of
+the phone), and what waits on the user. Next (2026-11-01): radon's seven rooms from
+`docs/agents/designs/Rn_rooms.md` on Opus 5.5 at xhigh, the model trial's second half (krypton's were built on
+Sonnet 5.5 at high; `docs/studio/backlog.json` `cost.trial`). Radon's boards and showpiece wait on the branch
+`worktree-agent-a29f4091cc8e22657`, not on main, since a picture goes up only with its room: merge that
+branch once into a base branch, resolve, test, and start the builders from it (`hall-boards.md`, the
+pipeline and its trap). Then the next well-known elements by visits. The family studio at `/studio` is read and answered at the start of
 every session (`update-dashboard.md`).

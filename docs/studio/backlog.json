@@ -3,7 +3,7 @@
   "studio": "Element Worlds Studio",
   "tagline": "A 3D periodic table to walk into, for Artur and his father.",
   "play": "https://element-worlds.vercel.app",
-  "updated": "2026-10-31",
+  "updated": "2026-11-01",
   "steerDefault": "claude",
   "kinds": [
     {
@@ -73,6 +73,13 @@
       "title": "Let Claude measure the game on your phone",
       "detail": "Once, on the Galaxy S21: Settings, Developer options, Wireless debugging on, with the phone on the same Wi-Fi as the computer. Tick this, and the next session measures every world on the phone itself (so far only the hall and the graphene gallery).",
       "optional": true
+    },
+    {
+      "id": "w-rate-krypton",
+      "title": "Rate krypton's rooms and the cost trial",
+      "detail": "Krypton's seven rooms were built by Sonnet 5.5 at high effort, radon's will be built by Opus 5.5 at xhigh. Open the hall, step into a few rooms, and give the card under Built its stars: 3 or more means you would keep it as it is. The table in What it cost then shows which setting earned its price.",
+      "link": "https://element-worlds.vercel.app/e/Kr",
+      "optional": true
     }
   ],
   "items": [
@@ -114,7 +121,8 @@
         "The well-known elements get a showpiece of their own, as Carbon and Oxygen did; the rest keep the museum case's samples.",
         "Hydrogen done (2026-10-31): seven pictures, each a room: the young universe cooling into the first atoms, Charles's balloon over the Tuileries in 1783, a pond at a skater's size, a hydrogen filling station by a railway, Cavendish's laboratory where fire makes water, a gondola sinking into Jupiter, the Dwingeloo dish listening for the 21 cm line; its showpiece a spectrum tube glowing pink-violet beside a balloon. Each hall in two steps: the boards and room designs, then the rooms (docs/agents/).",
         "Iron done (2026-10-31): the Hoba meteorite and Tutankhamun's dagger, a research ship over the Earth's iron dynamo, an Iron Age smith, iron pulled from breakfast cereal, the Eiffel Tower's rivets and its top leaning from the sun, Opportunity on Mars, a thermite weld on a railway; its showpiece an etched iron meteorite. Next: krypton's and radon's seven rooms each: their pictures are drawn and their rooms designed (docs/agents/designs/), waiting to go up together with the rooms.",
-        "Model trial (2026-10-31): krypton's rooms built with Sonnet 5.5 at high effort, radon's with Opus 5.5 at xhigh, so \"What it cost\" can compare the two on the same kind of work; your stars on both decide which builds the rooms after that."
+        "Model trial (2026-10-31): krypton's rooms built with Sonnet 5.5 at high effort, radon's with Opus 5.5 at xhigh, so \"What it cost\" can compare the two on the same kind of work; your stars on both decide which builds the rooms after that.",
+        "Krypton done (2026-11-01, the model trial's first half: rooms built on Sonnet 5.5 at high effort): seven pictures, each a room: the last drops of liquid air in 1898, the metre from the 1889 bar to light itself, the window factory, a platform in orbit with a Hall thruster, an oasis and the atom trap that dates a million-year-old water, krypton holding hands with fluorine, and the night gallery where kryptonite meets jadarite; its showpiece a lilac glowing globe and krypton frozen white. Next: radon's seven rooms on Opus 5.5 at xhigh, the trial's other half (docs/agents/designs/Rn_rooms.md)."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -724,9 +732,309 @@
       "details": [
         "tools/shared_probe.py --world /e/C/allotropes: five checks, all the moiré's."
       ]
+    },
+    {
+      "id": "phone-dark-bar",
+      "code": "Dk",
+      "title": "A dark bar in a phone view",
+      "kind": "tech",
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-11-01",
+      "summary": "In the phone's station view of krypton's clean-up (room hidden) a thin dark bar stands in front of the bench; it does not show on a computer and the builder could not trace it.",
+      "details": [
+        "Seen in the builder's shot kr_h_ph2 (Portuguese, upright phone). Hiding everything above 2.9 m or beyond 5.5 m did not remove it, so it may be a stand's leg or part of the Atomling."
+      ]
+    },
+    {
+      "id": "phone-million-dots",
+      "code": "Pf",
+      "title": "Check clouds of dots on the phone",
+      "kind": "tech",
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-11-01",
+      "summary": "Krypton's first room draws a million additive dots for a jar of air; a computer is fine, the Galaxy S21 was never measured.",
+      "details": [
+        "Measure the frame rate in room hidden on the phone (tools/phone.py); if it drops, draw fewer dots and say 'about a million'."
+      ]
     }
   ],
   "built": [
+    {
+      "id": "what-it-cost",
+      "date": "2026-11-01",
+      "title": "What it cost",
+      "what": "Every built piece now shows what it cost at list price, the model and effort that built it, its size and the dollars for each room or passage, its working time and its agents' tokens, with five stars to rate it; a section compares models and effort levels on the same kind of work. A global ledger and dashboard keep the same record for every project.",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [],
+      "tokens": {
+        "total": 24061630,
+        "output": 88590,
+        "agents": 0,
+        "usd": 7.78,
+        "requests": 150,
+        "minutes": 50,
+        "input": 176,
+        "cache_write": 355534,
+        "cache_read": 23617330,
+        "configs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "effort": "high",
+            "usd": 5.2504
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "high",
+            "usd": 2.5343
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "da37ad03",
+          "usd": 7.78,
+          "requests": 150,
+          "input": 176,
+          "cache_write": 355534,
+          "cache_read": 23617330,
+          "output": 88590,
+          "configs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "high",
+              "usd": 5.2504
+            },
+            {
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "usd": 2.5343
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "kryptons-hall-seven-pictures-to",
+      "date": "2026-11-01",
+      "title": "Krypton's hall: seven pictures to step into",
+      "what": "A flask of liquid air boiling away in 1898 until its last drops hide a new gas; the metre measured by krypton's light and then by light itself; why triple windows are filled with it; a satellite pushed along by it; a Saharan water a million years old, dated atom by atom; krypton holding hands with fluorine; and whether kryptonite is real. In the case, a lilac glowing globe and krypton frozen white.",
+      "link": "https://element-worlds.vercel.app/e/Kr",
+      "size": {
+        "n": 7,
+        "unit": "room"
+      },
+      "revisions": 0,
+      "agents": [
+        "a2065850749aa7bf4",
+        "acba80957114dbdd8",
+        "ac758c15f2a9bf717",
+        "afa4a61c4b5cca242",
+        "aef49188b6122c767",
+        "a47e0c3f6a9c9cac6",
+        "afe24da20dc9b7af1",
+        "ade96cf67b8c49db3"
+      ],
+      "tokens": {
+        "total": 283961314,
+        "output": 1550276,
+        "agents": 8,
+        "usd": 86.1,
+        "requests": 1024,
+        "minutes": 133,
+        "input": 1960,
+        "cache_write": 4162434,
+        "cache_read": 278246644,
+        "configs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "effort": "high",
+            "usd": 69.6781
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 13.8888
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "high",
+            "usd": 2.5343
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a2065850749aa7bf4",
+            "what": "Krypton hall boards and room designs",
+            "minutes": 42,
+            "usd": 13.8888,
+            "requests": 117,
+            "input": 236,
+            "cache_write": 455042,
+            "cache_read": 36914626,
+            "output": 211486,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 13.8888
+              }
+            ]
+          },
+          {
+            "id": "acba80957114dbdd8",
+            "what": "Krypton hidden room",
+            "minutes": 68,
+            "usd": 10.1133,
+            "requests": 113,
+            "input": 228,
+            "cache_write": 497863,
+            "cache_read": 34561322,
+            "output": 195596,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 10.1133
+              }
+            ]
+          },
+          {
+            "id": "ac758c15f2a9bf717",
+            "what": "Krypton metre room",
+            "minutes": 43,
+            "usd": 13.4829,
+            "requests": 165,
+            "input": 352,
+            "cache_write": 707940,
+            "cache_read": 49782999,
+            "output": 175579,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 13.4829
+              }
+            ]
+          },
+          {
+            "id": "afa4a61c4b5cca242",
+            "what": "Krypton windows room",
+            "minutes": 48,
+            "usd": 6.1065,
+            "requests": 67,
+            "input": 134,
+            "cache_write": 421919,
+            "cache_read": 16868014,
+            "output": 167786,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 6.1065
+              }
+            ]
+          },
+          {
+            "id": "aef49188b6122c767",
+            "what": "Krypton thruster room",
+            "minutes": 68,
+            "usd": 10.6906,
+            "requests": 115,
+            "input": 232,
+            "cache_write": 530224,
+            "cache_read": 35586360,
+            "output": 224735,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 10.6906
+              }
+            ]
+          },
+          {
+            "id": "a47e0c3f6a9c9cac6",
+            "what": "Krypton water room",
+            "minutes": 71,
+            "usd": 11.3117,
+            "requests": 138,
+            "input": 280,
+            "cache_write": 448854,
+            "cache_read": 41768608,
+            "output": 183533,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 11.3117
+              }
+            ]
+          },
+          {
+            "id": "afe24da20dc9b7af1",
+            "what": "Krypton hands room",
+            "minutes": 65,
+            "usd": 7.6667,
+            "requests": 93,
+            "input": 188,
+            "cache_write": 400264,
+            "cache_read": 25144809,
+            "output": 163668,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 7.6667
+              }
+            ]
+          },
+          {
+            "id": "ade96cf67b8c49db3",
+            "what": "Krypton kryptonite room",
+            "minutes": 37,
+            "usd": 5.0558,
+            "requests": 66,
+            "input": 134,
+            "cache_write": 344795,
+            "cache_read": 14002575,
+            "output": 139304,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 5.0558
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "da37ad03",
+          "usd": 7.78,
+          "requests": 150,
+          "input": 176,
+          "cache_write": 355534,
+          "cache_read": 23617330,
+          "output": 88590,
+          "configs": [
+            {
+              "model": "claude-sonnet-5-5",
+              "effort": "high",
+              "usd": 5.2504
+            },
+            {
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "usd": 2.5343
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "the-diamond-press-for-two",
       "date": "2026-10-31",
@@ -3086,13 +3394,13 @@
     }
   ],
   "cost": {
-    "updated": "2026-10-31",
+    "updated": "2026-11-01",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 20.25,
-      "requests": 125
+      "usd": 16.98,
+      "requests": 93
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
-    "trial": "Every piece so far was built by Opus 5.5 at xhigh effort, so there is nothing to compare yet. The next rooms are a fair test: krypton's seven and radon's seven are the same kind of work from designs already made. Claude builds krypton's with Sonnet 5.5 at high effort and radon's with Opus 5.5 at xhigh, then this table shows both side by side. Your stars on the two halls decide which one Claude uses for the rooms after that. Mark the halls item Not now or send a note if you would rather not try it."
+    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's follow on Opus 5.5 at xhigh, both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds the rooms after that. (Krypton's card also holds its boards agent, which ran on Opus 5.5 at xhigh.)"
   }
 }

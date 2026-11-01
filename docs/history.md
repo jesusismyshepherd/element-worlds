@@ -4,6 +4,23 @@ The project's log, newest first; moved out of `CLAUDE.md` on 2026-10-29 so every
 it. How each piece works is in its area's doc (`docs/knowledge/`); this file keeps the order of events
 and the user's requests behind them. Add a line here when a piece of work changes what the game has.
 
+## 2026-11-01
+
+- Krypton's hall, the first model trial (the user: "build krypton's 7 rooms, selected model is Sonnet 5.5
+  high"): seven pictures, each a room (`hidden` the last drops of liquid air in 1898, `metre` from the 1889
+  bar to light itself, `windows` a window factory, `thruster` a platform in orbit, `water` an oasis and the
+  atom trap that dates a million-year-old water, `hands` krypton holding hands with fluorine, `kryptonite`
+  the night gallery), and a showpiece of a lilac globe and frozen krypton. Built by seven Sonnet 5.5 agents at
+  high effort from the designs; six new stages (`gaslab`, `metrology`, `glazing`, `orbit`, `desert`,
+  `gallery`). The builders stalled on a merge conflict in their first step: now resolved once on a base
+  branch before they start (`hall-boards.md`).
+- What it cost (the user: always see the cost effectiveness of the models, Sonnet and Opus, and of high, extra
+  and max thinking): each built card in the studio shows dollars at list price, model and effort, size,
+  dollars for each room, working time, the agents' tokens, and five stars; a section compares settings.
+  `tools/studio_cost.py`, `update-dashboard.md`. Then a global ledger of every project's prompts and a
+  dashboard (skill `cost-dashboard`), and the rule that every project keeps a studio with the same metric
+  (the global CLAUDE.md).
+
 ## 2026-10-31
 
 - Stations for two (the user: "all of the stations are for one person; have stations that two people can

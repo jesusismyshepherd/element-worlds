@@ -188,8 +188,9 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   #111317, with emissive 0.06. Facts with doubts: the Eiffel Tower's summer growth (the official site says
   a few millimetres, popular sites 15 cm: the story gives 3.6 mm per degree and the 15 cm loop the top
   traces); the first thermite rail weld (1899 in most sources, 1896 in one).
-- Done: Krypton (2026-10-31): seven pictures, no doorway yet (its Periodic Videos room is still to come), each
-  with a room designed for it (`hidden` the last drops of liquid air in May 1898, the yellow and green lines,
+- Done: Krypton (2026-11-01, boards and rooms together, rooms built on Sonnet 5.5 at high effort as the first
+  model trial): seven pictures, no doorway yet (its Periodic Videos room is still to come), each a room
+  (`picture-rooms.md`; their designs `docs/agents/designs/Kr_rooms.md`) (`hidden` the last drops of liquid air in May 1898, the yellow and green lines,
   linked to the neon sign workshop; `metre` the krypton-86 metre of 1960 to 1983 beside the X-section bar;
   `windows` krypton in triple glazing, a third of air's heat conduction; `thruster` Hall thrusters on Starlink;
   `water` krypton-81 dating of the Nubian aquifer's million-year-old water, atoms caught by lasers; `hands`
