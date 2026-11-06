@@ -169,14 +169,17 @@ class Account {
     track('account', { op: 'new' })
   }
 
-  /** Sign out: the account keeps the progress, the device is emptied for the next player. */
+  /** Sign out: the account keeps the progress, the device is emptied for the next player. Only this
+   *  device's session ends ('local'): the client's default, 'global', ends every session of the account,
+   *  on the other devices and on the other sites of the same login (the Pokémon site, Caderno Vivo) at
+   *  their next token refresh (accounts.md). */
   async signOut() {
     await this.save()
     track('account', { op: 'out' })
     clearProgress()
     safe(() => localStorage.removeItem(OWNER))
     this.moved = null
-    await this.client?.auth.signOut()
+    await this.client?.auth.signOut({ scope: 'local' })
   }
 
   /** The account's switch: record what I play (on every device). */

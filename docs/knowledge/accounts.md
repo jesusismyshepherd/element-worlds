@@ -46,6 +46,10 @@ time, "not to lose what Artur has already gathered on the phone (he used one dev
 - Signing out saves, then empties the device's progress (the account keeps it): the next player on a
   shared computer starts with their own. Someone else's leftovers on a device (if a sign-out never
   happened) are dropped, not merged.
+- A sign-out ends this device's session only (`signOut({ scope: 'local' })`). The Supabase client's
+  default, `global`, ends every session of the account: until 2026-11-06 signing out here also signed
+  Artur out of the Pokémon site, Caderno Vivo (`D:\Family\Artur\homework`, the same login) and his other
+  devices, at their next token refresh (within the hour). Keep `local` in any new sign-out.
 - When the progress is replaced (a sign-in brings the account's, a sign-out empties the device),
   `progress.js` tells `onRestore` listeners: the engine calls the world on show's `refresh()` (its read
   marks and its counter again; every world has one) and the passport reads again. Before this (2026-10-29)

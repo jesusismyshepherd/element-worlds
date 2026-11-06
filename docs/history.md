@@ -4,6 +4,13 @@ The project's log, newest first; moved out of `CLAUDE.md` on 2026-10-29 so every
 it. How each piece works is in its area's doc (`docs/knowledge/`); this file keeps the order of events
 and the user's requests behind them. Add a line here when a piece of work changes what the game has.
 
+## 2026-11-06
+
+- Signing out ends only this device's session (the user, from a Caderno Vivo session that found it: "yes
+  please, and also for pokewikisite"): the Supabase client's default sign-out ends every session of the
+  account, so signing out here also signed Artur out of the Pokémon site, Caderno Vivo and his other
+  devices (`accounts.md`). The Pokémon site had the same default and got the same fix.
+
 ## 2026-11-01
 
 - Krypton's hall, the first model trial (the user: "build krypton's 7 rooms, selected model is Sonnet 5.5
