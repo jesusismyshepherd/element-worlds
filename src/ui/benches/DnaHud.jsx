@@ -26,7 +26,8 @@ function Strands({ seq, sci, small }) {
     if (box.current) box.current.scrollLeft = box.current.scrollWidth
   }, [seq])
   if (!seq) return null
-  const size = small ? 'text-[13px] w-[0.9rem]' : 'text-[17px] w-[1.15rem]'
+  // (a long strand on a phone: narrower columns, so all 24 fit across)
+  const size = small ? (seq.length > 18 ? 'text-[12px] w-[0.74rem]' : 'text-[13px] w-[0.9rem]') : 'text-[17px] w-[1.15rem]'
   return (
     <div className="flex items-stretch justify-center gap-1 mt-1" data-dna-strands>
       {sci && <div className={`flex flex-col justify-between font-bold ${small ? 'text-[10px]' : 'text-[11px]'} leading-none py-[2px]`}><span style={{ color: RAIL[0] }}>5′</span><span style={{ color: RAIL[1] }}>3′</span></div>}
