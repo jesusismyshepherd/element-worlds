@@ -15,6 +15,9 @@ studio") from end to end, with a throwaway account (probe_st_xxxx, the pokemon-s
 Screenshots in tools/shots/studio/ (computer and phone, signed out and in, two languages). At the end the
 account goes: with EW_DASH_PASS set, through ew_admin forget_probe (its rows go with it); without, the
 probe prints the SQL to run with the Supabase MCP (project kawvqpvntdgehigwvfao).
+A new account needs an invite since 2026-11-08 (the Pokémon site's links; accounts.md, "Invites"): set
+QA_INVITE to the child link's token (select token from signup_invites where kind = 'child', with the
+Supabase MCP).
 
     python tools/studio_probe.py [--port 5347 | --base https://element-worlds.vercel.app]
 Run it through the machine's heavy-job lock when other sessions render (CLAUDE.md).
@@ -61,6 +64,9 @@ def main():
     days = sorted({b['date'] for b in backlog['built']}, reverse=True)
     first = queue[0]
     name = 'probe_st_' + secrets.token_hex(3)
+    invite = os.environ.get('QA_INVITE')
+    if not invite:
+        sys.exit("set QA_INVITE to an invite token (select token from signup_invites where kind = 'child')")
     password = 'pw-' + secrets.token_hex(6)
     tag = secrets.token_hex(2)
     idea, note = f'probe idea {tag}: a world for iron', f'probe note {tag}: more stars'
@@ -128,6 +134,8 @@ def main():
             # a new account through the page's own sheet
             page.click('[data-section="tell"] [data-signin]')
             page.click('[data-account-tab="up"]')
+            page.fill('[data-account-invite]', invite)
+            page.wait_for_selector('[data-account-invite-kind="child"], [data-account-invite-kind="adult"]', timeout=15000)
             page.fill('[data-account-name]', name)
             page.fill('[data-account-password]', password)
             page.click('[data-account-submit]')

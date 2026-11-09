@@ -1,6 +1,7 @@
 // Accounts (the user, 2026-10-29; docs/knowledge/accounts.md): the family Supabase project's own, the
 // pokemon-site's, so one login works on both sites: a username and a password (the address behind it is
-// <username>@pokemon-app.internal; no real e-mail), the profile made by the database's trigger.
+// <username>@pokemon-app.internal; no real e-mail), the profile made by the database's trigger, which
+// since 2026-11-08 makes one only with an invite (the Pokémon site's links; `?invite=` here too).
 // Signed in, the player's progress (discoveries, quiz records, neon names: src/engine/progress.js) lives
 // in the account and follows them to any device; what a device gathered before anyone signed in on it is
 // moved into the first account that does (Artur's phone), and a sign-out empties the device for the
@@ -10,6 +11,7 @@ import { snapshot, adopt, clearProgress, hasProgress, onProgress } from '../engi
 import { setAccount, waitFor, track } from './telemetry.js'
 
 const OWNER = 'ew-owner' // the account the progress kept on this device belongs to
+const INVITE = 'ew-invite' // an invite brought in the address, kept for the visit (sessionStorage)
 const RESERVED = ['admin', 'administrator', 'root', 'moderator', 'support', 'staff', 'official', 'pokemon_official', 'nintendo', 'gamefreak', 'creatures']
 
 const safe = (f, fallback = null) => {
@@ -31,9 +33,37 @@ export function usernameProblem(name) {
   return null
 }
 
+/** The invite's token in a link or a text (the Pokémon site's `/signup?invite=<32 hex>`, or the token
+ *  alone), or null. Since 2026-11-08 a new account needs one (accounts.md, "Invites"). */
+export function inviteFrom(text) {
+  const m = String(text ?? '').match(/(?<![0-9a-f])[0-9a-f]{32}(?![0-9a-f])/i)
+  return m ? m[0].toLowerCase() : null
+}
+
+/** The kind of account an invite makes ('child' or 'adult'), or null when it does not work. */
+export async function inviteKind(token) {
+  if (!token) return null
+  return rpc('signup_invite_kind', { p_token: token }).catch(() => null)
+}
+
+/** An invite that came in the address (`?invite=`): kept for the visit and taken out of the address. */
+export function pendingInvite() {
+  if (typeof window === 'undefined') return null
+  const url = new URL(window.location.href)
+  const fresh = inviteFrom(url.searchParams.get('invite'))
+  if (url.searchParams.has('invite')) {
+    url.searchParams.delete('invite')
+    window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash)
+  }
+  if (fresh) safe(() => sessionStorage.setItem(INVITE, fresh))
+  return fresh ?? safe(() => sessionStorage.getItem(INVITE))
+}
+
 /** A sign-in or sign-up error, as a key of account.errors. */
 function problemOf(error) {
   const m = String(error?.message ?? error ?? '')
+  // the database refuses an account without a working invite; GoTrue says only this
+  if (/database error saving new user/i.test(m)) return 'inviteDead'
   if (/already registered|already exists/i.test(m)) return 'taken'
   if (/invalid login|invalid credentials/i.test(m)) return 'wrong'
   if (/password/i.test(m) && /least|short|weak/i.test(m)) return 'weak'
@@ -156,16 +186,20 @@ class Account {
     if (error) throw new Error(problemOf(error))
   }
 
-  async signUp(username, password) {
+  /** A new account, made with an invite (its link or token): the database refuses one without. */
+  async signUp(username, password, invite) {
     const problem = usernameProblem(username)
     if (problem) throw new Error(problem)
     if (String(password ?? '').length < 6) throw new Error('weak')
+    const token = inviteFrom(invite)
+    if (!token) throw new Error('invite')
     await this.init()
     const { data: taken } = await this.client.rpc('username_exists', { candidate: username.trim() })
     if (taken) throw new Error('taken')
-    const { data, error } = await this.client.auth.signUp({ email: toEmail(username), password })
+    const { data, error } = await this.client.auth.signUp({ email: toEmail(username), password, options: { data: { invite: token } } })
     if (error) throw new Error(problemOf(error))
     if (!data.session) throw new Error('failed')
+    safe(() => sessionStorage.removeItem(INVITE))
     track('account', { op: 'new' })
   }
 

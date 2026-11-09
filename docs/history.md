@@ -14,6 +14,10 @@ and the user's requests behind them. Add a line here when a piece of work change
   why), a streak with freezes for a day missed, boxes that bring the elements back after 1, 2, 4, 8 and 16
   days, tomorrow's element as a mystery with two clues to guess from, the flame in the plaza's dock and the
   passport, Psalm 118:24 at the end. The days follow the account (`ew_005_daily.sql`). `daily.md`.
+- New accounts with an invite link: the Pokémon site made invites the rule for every new account in the
+  shared database the day before, and Element Worlds' "New account" had started to fail with "Something
+  went wrong". Its tab now takes the invite link (or `/?invite=` in the game's own address, which opens it),
+  says what the link makes or that it does not work, and sends it with the sign-up (`accounts.md`, "Invites").
 
 ## 2026-11-06
 

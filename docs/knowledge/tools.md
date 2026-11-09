@@ -78,7 +78,9 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   the room's atom) and a second one whose referee leaves. 61 checks, under a minute; screenshots in
   `tools/shots/forge_room/` (`multiplayer.md`, "The forge together").
 - `usage_probe.py`, `stats_probe.py` (both want `EW_DASH_PASS`), `account_probe.py`: usage recording, the
-  family dashboard, accounts (`usage-data.md`, `accounts.md`).
+  family dashboard, accounts (`usage-data.md`, `accounts.md`). Every probe that makes an account wants an
+  invite token in `QA_INVITE` (since 2026-11-08; `accounts.md`, "Invites"); `daily_probe.py --account`
+  checks the invite link and the streak following the account, and prints the SQL that deletes it.
 - `studio_probe.py [--port 5347]`: the family studio at `/studio` (`update-dashboard.md`, "The family
   studio"). Signed out: the backlog's sections against `backlog.json`, no form, the database refusing a
   post and a read without an account. A throwaway `probe_st_...` account made in the page's own sheet

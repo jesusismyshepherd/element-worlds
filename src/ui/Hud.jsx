@@ -20,6 +20,7 @@ import { useFullscreen } from './fullscreen.js'
 import { LANGS } from '../i18n/langs.js'
 import { RoomButton, RoomToasts } from './RoomHud.jsx'
 import { AccountButton, AccountSheet } from './AccountHud.jsx'
+import { pendingInvite } from '../net/account.js'
 
 // the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
 const PAGES = [
@@ -86,7 +87,8 @@ export default function Hud({ engine }) {
   const vp = useViewport()
   const [about, setAbout] = useState(false)
   const [menu, setMenu] = useState(false)
-  const [accountOpen, setAccountOpen] = useState(false)
+  // an invite link (…/?invite=…) opens the account sheet on its new account tab
+  const [accountOpen, setAccountOpen] = useState(() => !!pendingInvite() && !store.get().account)
   const walking = !!world && !['plaza', 'lab', 'forge', 'stars'].includes(world.kind)
   const canTalk = walking && !!engine?.world?.talk
   // a long wait (a big world's first visit compiles its shaders): say why

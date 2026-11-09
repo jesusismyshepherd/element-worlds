@@ -471,6 +471,11 @@
     "signedOut": "Not signed in",
     "intro": "An account keeps your discoveries, badges and records on every device.",
     "pokemon": "Playing on the Pokémon site already? Sign in with the same name and password.",
+    "inviteLabel": "Invite link",
+    "inviteNeed": "A new account needs an invite link: ask the person who told you about the game.",
+    "inviteChild": "This link makes a child's account.",
+    "inviteAdult": "This link makes an adult's account.",
+    "inviteDead": "This invite link does not work: ask for a new one.",
     "signIn": "Sign in",
     "signUp": "New account",
     "username": "Name",
@@ -496,7 +501,9 @@
       "reserved": "That name is not allowed.",
       "weak": "A password needs at least 6 characters.",
       "busy": "Too many tries: wait a minute.",
-      "failed": "Something went wrong: try again."
+      "failed": "Something went wrong: try again.",
+      "invite": "A new account needs an invite link.",
+      "inviteDead": "This invite link does not work any more: ask for a new one."
     }
   },
   "studio": {

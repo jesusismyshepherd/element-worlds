@@ -7,12 +7,21 @@ each step on a computer, an upright phone and a phone on its side go to tools/sh
     py -3.11 tools/daily_probe.py                       (the dev server, port 5310)
     py -3.11 tools/daily_probe.py --port 5317           (a separate build: npx vite preview --outDir ... --port 5317)
     py -3.11 tools/daily_probe.py --only computer --lang pl --level scientist
+    QA_INVITE=<token> py -3.11 tools/daily_probe.py --account     (the account: see below)
+
+--account instead: a throwaway account (probe_dy_...) made from an invite link (`/?invite=`: the sheet opens on
+its new account tab), the lesson played, the days in the account (ew_me), and a second device signing in
+with the streak at 1 and the lesson done. QA_INVITE is the child link's token (select token from
+signup_invites where kind = 'child', with the Supabase MCP); the probe prints the SQL that deletes the
+account afterwards.
 
 The exit code is 1 when a check fails or the console had errors.
 """
 import argparse
 import datetime
 import json
+import os
+import secrets
 import sys
 import time
 from pathlib import Path
@@ -185,6 +194,67 @@ def run(p, base, screen, lang, level, errors):
     b.close()
 
 
+def account_run(p, base, lang, errors):
+    """The streak follows the account: made from an invite link, played, read back on a second device."""
+    invite = os.environ.get('QA_INVITE')
+    if not invite:
+        check(False, "QA_INVITE is set (select token from signup_invites where kind = 'child')")
+        return
+    name = 'probe_dy_' + secrets.token_hex(3)
+    password = 'pw-' + secrets.token_hex(6)
+    print(f'account {name}:')
+    b = p.chromium.launch(channel='msedge', headless=True, args=['--use-angle=d3d11', '--ignore-gpu-blocklist'])
+    try:
+        ctx = b.new_context(**SCREENS['computer'])
+        page = ctx.new_page()
+        page.on('pageerror', lambda e: errors.append(f'account: {e}'))
+        page.goto(f'{base}/?lang={lang}&invite={invite}')
+        page.wait_for_function(WORLD, timeout=60000)
+        page.wait_for_selector('[data-account-invite-kind="child"], [data-account-invite-kind="adult"]', timeout=20000)
+        check(True, 'an invite link opens the account sheet on its new account tab, the link checked')
+        check('invite=' not in page.url, 'the invite left the address')
+        page.fill('[data-account-name]', name)
+        page.fill('[data-account-password]', password)
+        page.click('[data-account-submit]')
+        page.wait_for_function(f"() => window.__ew.store.get().account?.username === '{name}'", timeout=30000)
+        check(True, 'the account is made with the invite and signed in')
+        page.click('[data-account-sheet] button[aria-label]')
+        page.click('[data-daily-open]')
+        page.wait_for_selector('[data-daily-begin]', timeout=10000)
+        play_lesson(page, lambda n: None, wrong_once=False)
+        page.click('[data-guess]')
+        time.sleep(0.5)
+        page.evaluate('() => window.__ewAccount.save()')
+        time.sleep(1.5)
+        days = page.evaluate("async () => (await window.__ewAccount.client.rpc('ew_me')).data?.progress?.daily?.days")
+        check(bool(days) and today() in days, f'the account keeps today ({days})')
+        ctx.close()
+
+        ctx2 = b.new_context(**SCREENS['computer'])
+        page2 = ctx2.new_page()
+        page2.on('pageerror', lambda e: errors.append(f'account device 2: {e}'))
+        page2.goto(f'{base}/?lang={lang}')
+        page2.wait_for_function(WORLD, timeout=60000)
+        page2.click('[data-account-button]')
+        page2.fill('[data-account-name]', name)
+        page2.fill('[data-account-password]', password)
+        page2.click('[data-account-submit]')
+        page2.wait_for_function(f"() => window.__ew.store.get().account?.username === '{name}'", timeout=30000)
+        page2.wait_for_function("() => /1/.test(document.querySelector('[data-daily-open]')?.textContent || '') && !!document.querySelector('[data-daily-open] .ew-flame')", timeout=15000)
+        check(True, 'another device signing in gets the streak, the flame lit')
+        page2.click('[data-account-sheet] button[aria-label]')
+        page2.click('[data-daily-open]')
+        page2.wait_for_selector('[data-daily-practice]', timeout=10000)
+        check(page2.query_selector('[data-daily-begin]') is None and page2.query_selector('[data-daily-mystery] [data-guess]') is None,
+              'there the day is done (practice, no second lesson) and the guess is kept')
+        page2.screenshot(path=str(OUT / 'account-second-device.png'))
+    except Exception as e:  # a step that never came
+        check(False, f'account: {str(e).splitlines()[0]}')
+    finally:
+        b.close()
+        print(f"  delete it: delete from auth.users where email = '{name}@pokemon-app.internal';")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--port', type=int, default=5310)
@@ -192,11 +262,15 @@ def main():
     ap.add_argument('--lang', default='en')
     ap.add_argument('--level', default=None)
     ap.add_argument('--only', default=None, help='computer, phone or side')
+    ap.add_argument('--account', action='store_true', help='the streak in a throwaway account (QA_INVITE)')
     a = ap.parse_args()
     base = (a.base or f'http://localhost:{a.port}').rstrip('/')
     errors = []
+    OUT.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
-        for screen in [a.only] if a.only else SCREENS:
+        if a.account:
+            account_run(p, base, a.lang, errors)
+        for screen in [] if a.account else [a.only] if a.only else SCREENS:
             try:
                 run(p, base, screen, a.lang, a.level, errors)
             except Exception as e:  # a step that never came: say which, go on with the next screen

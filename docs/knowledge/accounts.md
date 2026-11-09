@@ -30,6 +30,31 @@ time, "not to lose what Artur has already gathered on the phone (he used one dev
   client is loaded at the start only on a device that was signed in before (a visitor who never signs in
   does not download it). Calls through `rpc` carry the access token (`setToken` in `src/net/config.js`).
 
+## Invites (2026-11-09)
+
+Since 2026-11-08 the family's database makes a new account only with an invite: the Pokémon site's
+change (its `docs/04-auth-and-security.md`, "Invites", migration 048): the trigger on `auth.users` refuses
+a sign-up whose metadata has no working `invite` token, whatever site it comes from. Two standing links,
+a child's and an adult's, on the Pokémon site's admin page (`/moderation`, "Invite links"); the admin can
+renew one, and the old link stops working at once. Until 2026-11-09 Element Worlds' "New account" sent
+no token and failed with "Something went wrong".
+
+- The new account tab asks for the invite link (the Pokémon site's `/signup?invite=<32 hex>`, or the
+  token alone: `inviteFrom` in `account.js`) and asks the database what it makes (`signup_invite_kind`,
+  open to visitors): "This link makes a child's (an adult's) account", "This invite link does not work",
+  or, with none, "A new account needs an invite link: ask the person who told you about the game".
+  "Create my account" waits for a working link.
+- `https://element-worlds.vercel.app/?invite=<token>` works as an invite link too: the token is taken out
+  of the address, kept for the visit (sessionStorage `ew-invite`), and the account sheet opens on its new
+  account tab with the link filled in (`pendingInvite`, `Hud.jsx`).
+- `signUp(name, password, invite)` sends it as `options.data.invite`; the database's refusal (GoTrue's
+  "Database error saving new user") reads "This invite link does not work any more".
+- Signing in is unchanged. The kind (`profiles.account_kind`, child or adult) is the Pokémon site's
+  business; Element Worlds does not use it.
+- Probes that make throwaway accounts need the child link's token in `QA_INVITE` (read it with the
+  Supabase MCP: `select token from signup_invites where kind = 'child'`; never write it into a file):
+  `account_probe.py`, `studio_probe.py`, `daily_probe.py --account`.
+
 ## The progress
 
 - What a player gathers: the discoveries (`ew-found`, the passport and the badges come from them), the
@@ -78,7 +103,7 @@ without the password.
 
 ## Checking
 
-- `EW_DASH_PASS=... py -3.11 tools/account_probe.py [--base ...]`: a throwaway account (`probe_xxxx`)
+- `EW_DASH_PASS=... QA_INVITE=... py -3.11 tools/account_probe.py [--base ...]`: a throwaway account (`probe_xxxx`)
   made from a device with progress, the move, a new discovery saved, recording under the account, the
   switch, sign-out emptying the device, another device getting it all back, a wrong password and a
   taken name refused, the signed-out switch, an old `?who=` link; then the account is deleted

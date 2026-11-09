@@ -6,8 +6,11 @@ account's switch turns the recording off; signing out empties the device; anothe
 gets the same progress back; a wrong password and a taken name are refused in words; the signed-out
 switch stops the anonymous recording; an old ?who= link is cleaned out. Then the account is deleted
 (ew_admin forget_probe). Needs the dashboard password in EW_DASH_PASS. Dev server on 5310.
+A new account needs an invite since 2026-11-08 (the Pokémon site's links; accounts.md, "Invites"): set
+QA_INVITE to the child link's token (select token from signup_invites where kind = 'child', with the
+Supabase MCP).
 
-    EW_DASH_PASS=... python tools/account_probe.py [--base http://localhost:5317]
+    EW_DASH_PASS=... QA_INVITE=... python tools/account_probe.py [--base http://localhost:5317]
 """
 import argparse
 import json
@@ -38,6 +41,9 @@ def main():
     pw = os.environ.get('EW_DASH_PASS')
     if not pw:
         sys.exit('set EW_DASH_PASS to the dashboard password')
+    invite = os.environ.get('QA_INVITE')
+    if not invite:
+        sys.exit("set QA_INVITE to an invite token (select token from signup_invites where kind = 'child')")
     name = 'probe_' + secrets.token_hex(3)
     password = 'pw-' + secrets.token_hex(6)
     fails = []
@@ -93,6 +99,8 @@ def main():
             page.click('[data-account-submit]')
             check('a wrong name or password is refused in words', wait(page, '() => /Wrong name or password/.test(document.querySelector("[data-account-problem]")?.textContent || "")', 15000))
             page.click('[data-account-tab="up"]')
+            page.fill('[data-account-invite]', invite)
+            page.wait_for_selector('[data-account-invite-kind="child"], [data-account-invite-kind="adult"]', timeout=15000)
             page.fill('[data-account-password]', password)
             page.click('[data-account-submit]')
             check('a new account is made and signed in', wait(page, f"() => __ew.store.get().account?.username === '{name}'", 20000))
@@ -158,6 +166,8 @@ def main():
             # a taken name
             page.click('[data-account-button]') if not page.query_selector('[data-account-sheet]') else None
             page.click('[data-account-tab="up"]')
+            page.fill('[data-account-invite]', invite)
+            page.wait_for_selector('[data-account-invite-kind="child"], [data-account-invite-kind="adult"]', timeout=15000)
             page.fill('[data-account-name]', name)
             page.fill('[data-account-password]', password)
             page.click('[data-account-submit]')

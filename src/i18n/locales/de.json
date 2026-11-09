@@ -474,6 +474,11 @@
     "signedOut": "Nicht angemeldet",
     "intro": "Ein Konto bewahrt deine Entdeckungen, Abzeichen und Rekorde auf jedem Gerät auf.",
     "pokemon": "Spielst du schon auf der Pokémon-Seite? Melde dich mit demselben Namen und Passwort an.",
+    "inviteLabel": "Einladungslink",
+    "inviteNeed": "Für ein neues Konto brauchst du einen Einladungslink: Frag die Person, die dir von dem Spiel erzählt hat.",
+    "inviteChild": "Dieser Link erstellt ein Kinderkonto.",
+    "inviteAdult": "Dieser Link erstellt ein Erwachsenenkonto.",
+    "inviteDead": "Dieser Einladungslink funktioniert nicht: Frag nach einem neuen.",
     "signIn": "Anmelden",
     "signUp": "Neues Konto",
     "username": "Name",
@@ -499,7 +504,9 @@
       "reserved": "Dieser Name ist nicht erlaubt.",
       "weak": "Ein Passwort braucht mindestens 6 Zeichen.",
       "busy": "Zu viele Versuche: Warte eine Minute.",
-      "failed": "Etwas ist schiefgelaufen: Versuch es noch einmal."
+      "failed": "Etwas ist schiefgelaufen: Versuch es noch einmal.",
+      "invite": "Für ein neues Konto brauchst du einen Einladungslink.",
+      "inviteDead": "Dieser Einladungslink funktioniert nicht mehr: Frag nach einem neuen."
     }
   },
   "studio": {

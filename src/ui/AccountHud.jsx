@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
 // The account (docs/knowledge/accounts.md): the top bar's 👤 button (on a phone, a row of the ☰ menu)
 // opens a sheet under the bar on the right. Signed out: sign in, or a new account (the pokemon-site's
-// accounts: a name and a password), and the switch "Record what I play" for this device. Signed in:
-// who, what came over from this device, the switch (kept with the account), sign out, and for an admin
-// the family dashboard.
-import { useState } from 'react'
+// accounts: a name and a password, and an invite link: the database makes no account without one), and
+// the switch "Record what I play" for this device. Signed in: who, what came over from this device, the
+// switch (kept with the account), sign out, and for an admin the family dashboard.
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
-import { account } from '../net/account.js'
+import { account, inviteFrom, inviteKind, pendingInvite } from '../net/account.js'
 import { deviceSwitch, setDeviceSwitch } from '../net/telemetry.js'
 
 const BTN = 'glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10'
@@ -55,26 +55,40 @@ function Switch({ on, onChange, label, help, data }) {
   )
 }
 
-/** The sheet, under the bar on the right. */
+/** The sheet, under the bar on the right (on the new account's tab when an invite came in the address). */
 export function AccountSheet({ onClose }) {
   const { t } = useTranslation()
   const me = useStore(store, s => s.account)
-  const [tab, setTab] = useState('in')
+  const [invite, setInvite] = useState(() => pendingInvite() ?? '')
+  const [tab, setTab] = useState(() => (invite ? 'up' : 'in'))
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [show, setShow] = useState(false)
   const [busy, setBusy] = useState(false)
   const [problem, setProblem] = useState(null)
   const [local, setLocal] = useState(deviceSwitch)
+  // what the invite makes: undefined while there is none (or it is being asked), null when it does not work
+  const [kind, setKind] = useState(undefined)
+  const token = inviteFrom(invite)
+  useEffect(() => {
+    setKind(undefined)
+    if (!token) return undefined
+    let live = true
+    inviteKind(token).then(k => live && setKind(k ?? null))
+    return () => {
+      live = false
+    }
+  }, [token])
+  const ready = !!name.trim() && !!password && (tab === 'in' || !!kind)
 
   const submit = async e => {
     e?.preventDefault()
-    if (busy || !name.trim() || !password) return
+    if (busy || !ready) return
     setBusy(true)
     setProblem(null)
     try {
       if (tab === 'in') await account.signIn(name, password)
-      else await account.signUp(name, password)
+      else await account.signUp(name, password, token)
       setPassword('')
     } catch (err) {
       setProblem(err.message)
@@ -117,6 +131,17 @@ export function AccountSheet({ onClose }) {
             ))}
           </div>
           <form onSubmit={submit} className="flex flex-col gap-2">
+            {tab === 'up' && (
+              <div>
+                <label className="text-xs opacity-80">
+                  {t('account.inviteLabel')}
+                  <input data-account-invite value={invite} autoCapitalize="none" spellCheck={false} placeholder="https://…?invite=…" onChange={e => setInvite(e.target.value)} className={INPUT} />
+                </label>
+                <div data-account-invite-kind={kind ?? (token ? 'dead' : 'none')} className={`mt-1 text-[12px] leading-snug ${kind ? 'text-emerald-300' : token && kind === null ? 'text-rose-300' : 'opacity-75'}`}>
+                  {kind === 'child' ? `✓ ${t('account.inviteChild')}` : kind === 'adult' ? `✓ ${t('account.inviteAdult')}` : token && kind === null ? t('account.inviteDead') : !token ? t('account.inviteNeed') : '…'}
+                </div>
+              </div>
+            )}
             <label className="text-xs opacity-80">
               {t('account.username')}
               <input data-account-name value={name} maxLength={20} autoComplete="username" autoCapitalize="none" spellCheck={false} onChange={e => setName(e.target.value)} className={INPUT} />
@@ -129,7 +154,7 @@ export function AccountSheet({ onClose }) {
               </div>
             </label>
             {problem && <div data-account-problem className="text-xs text-rose-300">{t(`account.errors.${problem}`, { defaultValue: t('account.errors.failed') })}</div>}
-            <button type="submit" data-account-submit disabled={busy || !name.trim() || !password} className="rounded-xl px-3 py-2 font-bold bg-sky-300 text-[#0b0f24] disabled:opacity-40">
+            <button type="submit" data-account-submit disabled={busy || !ready} className="rounded-xl px-3 py-2 font-bold bg-sky-300 text-[#0b0f24] disabled:opacity-40">
               {busy ? t('account.working') : tab === 'in' ? t('account.doSignIn') : t('account.doSignUp')}
             </button>
           </form>

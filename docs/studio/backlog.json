@@ -892,6 +892,54 @@
   ],
   "built": [
     {
+      "id": "invites",
+      "date": "2026-11-09",
+      "title": "New accounts with an invite link",
+      "what": "The Pokémon site made an invite link the rule for every new account in the shared database, and the game's New account had begun to fail. Its tab now takes the invite link (or the game's own address with ?invite=, which opens it), says whether it makes a child's or an adult's account or does not work, and sends it with the sign-up. Signing in is unchanged.",
+      "link": "https://element-worlds.vercel.app/",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [],
+      "tokens": {
+        "total": 18281619,
+        "output": 32677,
+        "agents": 0,
+        "usd": 4.89,
+        "requests": 34,
+        "minutes": 8,
+        "input": 68,
+        "cache_write": 74575,
+        "cache_read": 18174299,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 4.8853
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "e5481b7b",
+          "usd": 4.89,
+          "requests": 34,
+          "input": 68,
+          "cache_write": 74575,
+          "cache_read": 18174299,
+          "output": 32677,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 4.8853
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "element-of-the-day",
       "date": "2026-11-09",
       "title": "Today's element and the streak",
@@ -3590,8 +3638,8 @@
     "updated": "2026-11-09",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 19.02,
-      "requests": 110
+      "usd": 18.77,
+      "requests": 108
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
     "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's follow on Opus 5.5 at xhigh, both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds the rooms after that. (Krypton's card also holds its boards agent, which ran on Opus 5.5 at xhigh.)"

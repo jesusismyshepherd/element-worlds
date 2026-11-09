@@ -504,6 +504,11 @@
     "signedOut": "Nie zalogowano",
     "intro": "Konto przechowuje twoje odkrycia, odznaki i rekordy na każdym urządzeniu.",
     "pokemon": "Grasz już na stronie o Pokémonach? Zaloguj się tą samą nazwą i hasłem.",
+    "inviteLabel": "Link z zaproszeniem",
+    "inviteNeed": "Nowe konto wymaga linku z zaproszeniem: poproś o niego osobę, która opowiedziała ci o grze.",
+    "inviteChild": "Ten link tworzy konto dziecka.",
+    "inviteAdult": "Ten link tworzy konto dorosłego.",
+    "inviteDead": "Ten link z zaproszeniem nie działa: poproś o nowy.",
     "signIn": "Zaloguj się",
     "signUp": "Nowe konto",
     "username": "Nazwa",
@@ -531,7 +536,9 @@
       "reserved": "Ta nazwa jest niedozwolona.",
       "weak": "Hasło musi mieć co najmniej 6 znaków.",
       "busy": "Za dużo prób: poczekaj minutę.",
-      "failed": "Coś poszło nie tak: spróbuj ponownie."
+      "failed": "Coś poszło nie tak: spróbuj ponownie.",
+      "invite": "Nowe konto wymaga linku z zaproszeniem.",
+      "inviteDead": "Ten link z zaproszeniem już nie działa: poproś o nowy."
     }
   },
   "studio": {

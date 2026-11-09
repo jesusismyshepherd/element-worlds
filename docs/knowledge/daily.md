@@ -98,6 +98,9 @@ dashboard lists "today's element (the streak)" among the things to use.
   days and a freeze reaching seven (and earning a freeze), and the passport's tile; screenshots in
   `tools/shots/daily/`.
 - `py -3.11 tools/hud_probe.py --scene daily` (the sheet and the lesson's first step on the six screens).
+- `QA_INVITE=<token> py -3.11 tools/daily_probe.py --account`: a throwaway account made from an invite link,
+  the lesson played, the day in the account (`ew_me`), a second device signing in with the streak, the day
+  done and the guess; then delete the account with the SQL it prints (2026-11-09: all green).
 
 ## Traps
 
