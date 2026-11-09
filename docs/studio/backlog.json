@@ -776,13 +776,18 @@
       "code": "Fy",
       "title": "The family streak",
       "kind": "together",
-      "status": "idea",
+      "status": "built",
       "from": "claude",
       "date": "2026-11-09",
       "summary": "On the daily sheet, who in the family has done today's element; a shared flame on the days you both did, and \"your turn\" when one is waiting.",
       "details": [
-        "Artur and his father keeping each other going, the way Duolingo's friend streaks do. Needs a way to say who is family (the accounts are the Pokémon site's, shared with others)."
-      ]
+        "Artur and his father keeping each other going, the way Duolingo's friend streaks do. Needs a way to say who is family (the accounts are the Pokémon site's, shared with others).",
+        "Built (2026-11-09): on the daily sheet, a box with each family member's day (✓ or ⏳) and streak, the days in a row everyone did it, and \"your turn\" while the others are done.",
+        "The family is your choice: the family dashboard's People list has a Family button on every account that played. It starts with you (miki) and Artur; johannes, the third account that has played, is not in it unless you add him.",
+        "A member sees only the other members' names and the days they did today's element, nothing else."
+      ],
+      "link": "https://element-worlds.vercel.app/?daily",
+      "doc": "docs/knowledge/daily.md"
     },
     {
       "id": "daily-reminder",
@@ -891,6 +896,54 @@
     }
   ],
   "built": [
+    {
+      "id": "family-streak",
+      "date": "2026-11-09",
+      "title": "The family on today's element",
+      "what": "Signed in as a member of the family, today's element shows who did the day's lesson, each one's streak, the days in a row everyone did it, and \"your turn\" while the others are done. Who is family is chosen on the family dashboard's People (it starts with you and Artur); a member sees only the others' names and days.",
+      "link": "https://element-worlds.vercel.app/?daily",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [],
+      "tokens": {
+        "total": 48431298,
+        "output": 73345,
+        "agents": 0,
+        "usd": 12.09,
+        "requests": 77,
+        "minutes": 32,
+        "input": 156,
+        "cache_write": 122060,
+        "cache_read": 48235737,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 12.0912
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "e5481b7b",
+          "usd": 12.09,
+          "requests": 77,
+          "input": 156,
+          "cache_write": 122060,
+          "cache_read": 48235737,
+          "output": 73345,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 12.0912
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "invites",
       "date": "2026-11-09",

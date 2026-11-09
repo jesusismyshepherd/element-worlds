@@ -18,6 +18,10 @@ and the user's requests behind them. Add a line here when a piece of work change
   shared database the day before, and Element Worlds' "New account" had started to fail with "Something
   went wrong". Its tab now takes the invite link (or `/?invite=` in the game's own address, which opens it),
   says what the link makes or that it does not work, and sends it with the sign-up (`accounts.md`, "Invites").
+- The family on today's element (the other half of Claude's first idea: a streak shared keeps two people going):
+  signed in as a family member, the sheet shows who did today's lesson, each one's streak, the days in a row
+  everyone did it, and "your turn". The family is the admin's choice on the family dashboard's People (it
+  starts with the user and Artur); a member sees only the others' names and days (`daily.md`, "The family").
 
 ## 2026-11-06
 

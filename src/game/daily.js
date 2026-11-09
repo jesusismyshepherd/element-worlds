@@ -149,6 +149,26 @@ export function streakOf(days, today) {
 /** Whether a streak just reached is one to celebrate. */
 export const isMilestone = n => MILESTONES.includes(n)
 
+/**
+ * The family on today's element (docs/knowledge/daily.md, "The family"): each member's streak and whether
+ * they did today's, and the days in a row on which every member did it (today counted once everyone has).
+ * members: [{ name, me, days: ['YYYY-MM-DD', ...] }], as ew_family_days gives them.
+ */
+export function familyOf(members, today) {
+  const list = (members ?? []).filter(m => m && Array.isArray(m.days))
+  const people = list.map(m => {
+    const st = streakOf(Object.fromEntries(m.days.filter(isDay).map(d => [d, {}])), today)
+    return { name: String(m.name ?? '?'), me: !!m.me, doneToday: st.doneToday, streak: st.streak }
+  })
+  if (list.length < 2) return { people, together: 0, allToday: false }
+  const sets = list.map(m => new Set(m.days))
+  const all = d => sets.every(s => s.has(d))
+  const allToday = all(today)
+  let together = 0
+  for (let d = allToday ? today : addDays(today, -1); all(d) && together < 1000; d = addDays(d, -1)) together++
+  return { people, together, allToday }
+}
+
 /** The week (Monday to Sunday) a day is in, each day with what happened: done (perfect when every first
  *  answer was right), frozen, missed, today, coming, or none (before the first lesson). */
 export function weekOf(days, today) {

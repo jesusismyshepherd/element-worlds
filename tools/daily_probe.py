@@ -15,6 +15,10 @@ with the streak at 1 and the lesson done. QA_INVITE is the child link's token (s
 signup_invites where kind = 'child', with the Supabase MCP); the probe prints the SQL that deletes the
 account afterwards.
 
+--family: two throwaway accounts (probe_fa_..., probe_fb_...); the probe prints the SQL that puts them in the
+family and waits for it (run it with the Supabase MCP), then one does the lesson, the other sees it done and
+"your turn", does it too, and sees a day together. It prints the SQL that deletes both.
+
 The exit code is 1 when a check fails or the console had errors.
 """
 import argparse
@@ -255,7 +259,74 @@ def account_run(p, base, lang, errors):
         print(f"  delete it: delete from auth.users where email = '{name}@pokemon-app.internal';")
 
 
+def family_run(p, base, lang, errors):
+    """The family: two throwaway accounts, put in the family by hand (the probe waits and prints the SQL), one
+    does the lesson, the other sees it done and "your turn", does it too, and both see a day together."""
+    invite = os.environ.get('QA_INVITE')
+    if not invite:
+        check(False, "QA_INVITE is set (select token from signup_invites where kind = 'child')")
+        return
+    tag = secrets.token_hex(2)
+    names = [f'probe_fa_{tag}', f'probe_fb_{tag}']
+    password = 'pw-' + secrets.token_hex(6)
+    print(f'family {names[0]}, {names[1]}:')
+    b = p.chromium.launch(channel='msedge', headless=True, args=['--use-angle=d3d11', '--ignore-gpu-blocklist'])
+    pages = []
+    try:
+        for name in names:
+            page = b.new_context(**SCREENS['computer']).new_page()
+            page.on('pageerror', lambda e, n=name: errors.append(f'{n}: {e}'))
+            page.goto(f'{base}/?lang={lang}&invite={invite}')
+            page.wait_for_function(WORLD, timeout=60000)
+            page.wait_for_selector('[data-account-invite-kind="child"], [data-account-invite-kind="adult"]', timeout=20000)
+            page.fill('[data-account-name]', name)
+            page.fill('[data-account-password]', password)
+            page.click('[data-account-submit]')
+            page.wait_for_function(f"() => window.__ew.store.get().account?.username === '{name}'", timeout=30000)
+            page.click('[data-account-sheet] button[aria-label]')
+            pages.append(page)
+        a, bb = pages
+        print(f"  put them in a family of their own, never the real one (the probe waits up to 10 minutes):\n  insert into public.ew_family (account, family) select id, 'probe_{tag}' from public.profiles where username in ('{names[0]}', '{names[1]}');", flush=True)
+        # (wait_for_function does not await an async check: its promise counts as true at once)
+        ask = "async () => Array.isArray((await window.__ewAccount.client.rpc('ew_family_days', { p_since: '2000-01-01' })).data)"
+        for _ in range(200):
+            if a.evaluate(ask):
+                break
+            time.sleep(3)
+        check(a.evaluate(ask), 'both accounts are in the family')
+        a.click('[data-daily-open]')
+        a.wait_for_selector('[data-daily-family]', timeout=15000)
+        check(a.inner_text('[data-daily-family]').count('⏳') == 2, 'the family box: two members, nobody done yet')
+        play_lesson(a, lambda n: None, wrong_once=False)
+        a.wait_for_function("() => (document.querySelector('[data-daily-family]')?.innerText || '').includes('✓')", timeout=20000)
+        check(True, 'after the lesson the first one shows done in the family box')
+        a.screenshot(path=str(OUT / 'family-first.png'))
+        bb.click('[data-daily-open]')
+        bb.wait_for_selector('[data-daily-family]', timeout=15000)
+        text = bb.inner_text('[data-daily-family]')
+        check(names[0] in text and '✓' in text, f'the second sees the first one done ({text!r})')
+        check(bb.query_selector('[data-daily-family] .text-amber-100') is not None, 'and is told it is their turn')
+        bb.screenshot(path=str(OUT / 'family-your-turn.png'))
+        play_lesson(bb, lambda n: None, wrong_once=False)
+        bb.wait_for_selector('[data-daily-done] [data-daily-together]', timeout=20000)
+        check('1' in bb.inner_text('[data-daily-done] [data-daily-together]'), 'both done: one day together, everyone done')
+        bb.screenshot(path=str(OUT / 'family-together.png'))
+    except Exception as e:  # a step that never came: what the page had
+        check(False, f'family: {str(e).splitlines()[0]}')
+        for pg in pages:
+            try:
+                state = pg.evaluate("async () => ({ account: window.__ew.store.get().account?.username, sheet: !!document.querySelector('[data-daily]'), family: (await window.__ewAccount.client.rpc('ew_family_days', { p_since: '2000-01-01' })).data })")
+                print('  page:', json.dumps(state)[:600])
+                pg.screenshot(path=str(OUT / f"family-failed-{state.get('account')}.png"))
+            except Exception as e2:  # noqa: BLE001
+                print('  page state unknown:', str(e2).splitlines()[0])
+    finally:
+        b.close()
+        print(f"  delete them: delete from auth.users where email in ('{names[0]}@pokemon-app.internal', '{names[1]}@pokemon-app.internal');")
+
+
 def main():
+    sys.stdout.reconfigure(encoding='utf-8')  # the boxes' words have emoji (a console in cp1252 cannot print them)
     ap = argparse.ArgumentParser()
     ap.add_argument('--port', type=int, default=5310)
     ap.add_argument('--base', default=None)
@@ -263,6 +334,7 @@ def main():
     ap.add_argument('--level', default=None)
     ap.add_argument('--only', default=None, help='computer, phone or side')
     ap.add_argument('--account', action='store_true', help='the streak in a throwaway account (QA_INVITE)')
+    ap.add_argument('--family', action='store_true', help='two throwaway accounts as a family (QA_INVITE; put them in the family with the SQL it prints)')
     a = ap.parse_args()
     base = (a.base or f'http://localhost:{a.port}').rstrip('/')
     errors = []
@@ -270,7 +342,9 @@ def main():
     with sync_playwright() as p:
         if a.account:
             account_run(p, base, a.lang, errors)
-        for screen in [] if a.account else [a.only] if a.only else SCREENS:
+        if a.family:
+            family_run(p, base, a.lang, errors)
+        for screen in [] if a.account or a.family else [a.only] if a.only else SCREENS:
             try:
                 run(p, base, screen, a.lang, a.level, errors)
             except Exception as e:  # a step that never came: say which, go on with the next screen

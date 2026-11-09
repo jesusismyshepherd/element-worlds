@@ -34,7 +34,9 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 - `daily_probe.py [--port 5317] [--only computer|phone|side] [--lang] [--level]`: today's element played
   through on three screens (one answer wrong on purpose, which comes back), the streak, `ew-daily`, the
   mystery's guess, the dock after a reload, a week with a freeze reaching seven days, the passport's tile.
-  19 checks a screen, about two minutes each; screenshots in `tools/shots/daily/` (`daily.md`).
+  19 checks a screen, about two minutes each; screenshots in `tools/shots/daily/` (`daily.md`). `--account`
+  and `--family` (both want `QA_INVITE`) check the streak following an account and two accounts as a family
+  (it waits for the SQL that puts them in a family of their own; `daily.md`, "Checking").
 - `card_probe.py`: the plaza card's facts on every element, four languages, a computer and a phone: the
   arrows, a click on the text and T go through them, the arrows stay put.
 - `nav_probe.py`: walking and looking (`walking.md`, "Checking it").

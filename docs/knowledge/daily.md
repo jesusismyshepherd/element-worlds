@@ -81,6 +81,27 @@ a day, the same for the whole family, a lesson of about three minutes, a streak 
   joined (the device's for a day in both). A server without it would have dropped nothing on the device:
   `adopt` keeps the device's `daily` when the merged progress has none.
 
+## The family (2026-11-09)
+
+Claude's other half of the idea (a shared streak that keeps two people going, Duolingo's friend streaks):
+signed in as a member of a family, the sheet shows a box, "Your family": each member with ✓ or ⏳ for today
+and their own streak, the days in a row on which every member did it ("1 day together", 🔥🔥), "Already done
+today: miki. Your turn!" while the others are done, and "Everyone in the family did today's element!".
+
+- Who is family is the admin's choice: the family dashboard's People list has a "Family" button on every
+  account that played (`ew_family_admin`, the dashboard's password or an admin account). It started with the
+  user's account and Artur's (miki and glastrierarturmon); johannes, the third account that has played, is
+  not in it unless the user puts him in.
+- A member sees the other members' names and the days each did today's element, nothing else of their
+  progress; anyone else gets nothing (`ew_family_days`, members only, signed in). Families are groups by
+  name (`ew_family.family`): `home` is the family's own; a probe puts its accounts in a family of its own
+  (`probe_...`), never in the real one (`ew_007_family_groups.sql`, after a first probe had put two
+  throwaway accounts in the one family for a minute).
+- `familyOf(members, today)` in `daily.js` works out each member's streak from their days (the last 370)
+  and the days together; my own days come from the device too, as the account has them a moment later. The
+  box asks again after a lesson, once the account has saved it (`DailyHud.jsx`, `Family`; `src/net/family.js`).
+- `supabase/ew_006_family.sql` (the table, the two functions, the seed), `ew_007_family_groups.sql`.
+
 ## Recording (`usage-data.md`)
 
 `dailyopen` `{ done, streak }` (the dock's button) and `daily` `{ op }`: `start` `{ s, practice }`, `q`
@@ -101,6 +122,10 @@ dashboard lists "today's element (the streak)" among the things to use.
 - `QA_INVITE=<token> py -3.11 tools/daily_probe.py --account`: a throwaway account made from an invite link,
   the lesson played, the day in the account (`ew_me`), a second device signing in with the streak, the day
   done and the guess; then delete the account with the SQL it prints (2026-11-09: all green).
+- `QA_INVITE=<token> py -3.11 tools/daily_probe.py --family` (run it in the background): two throwaway
+  accounts; it prints the SQL that puts them in a family of their own and waits for it (run it with the
+  Supabase MCP), then one does the lesson, the other sees it done and "your turn", does it too and sees a
+  day together; then delete both with the SQL it prints (2026-11-09: all green).
 
 ## Traps
 
@@ -111,10 +136,12 @@ dashboard lists "today's element (the streak)" among the things to use.
   the whole table in view and fly to the cube after the answer.
 - "A new record" every day a streak is at its best means nothing: only the day it passes an older best.
 - i18next looks for plural forms when a text gets `count`: a number in a text that is not plural is `n`.
+- Playwright's `wait_for_function` does not await an async check: the promise it returns counts as true at
+  once (the family probe went on before the accounts were in the family, twice). Poll `page.evaluate`,
+  which does await, in a loop.
 
 ## Next (in the studio)
 
-The family streak (Artur and his father seeing each other's day), a reminder at an hour the family
-chooses, the element hunt at home, a radon clock that halves on the real clock, a question to take away
+A reminder at an hour the family chooses, the element hunt at home, a radon clock that halves on the real clock, a question to take away
 from each hall, mail from the Atomlings, riddles for each other, a duel over days: each an idea in
 `docs/studio/backlog.json` to give a verdict.

@@ -677,6 +677,12 @@
     "mystery": "Tomorrow's mystery element",
     "mysteryAsk": "Who could it be? Guess now and find out tomorrow.",
     "mysteryKept": "Your guess: {{name}}. Find out tomorrow!",
+    "family": "Your family",
+    "you": "You",
+    "together_one": "{{count}} day together",
+    "together_other": "{{count}} days together",
+    "familyAll": "Everyone in the family did today's element!",
+    "yourTurn": "Already done today: {{names}}. Your turn!",
     "q": {
       "find": {
         "kid": "Today's element is {{name}}! Its symbol is {{symbol}}. Can you find it in the table?",

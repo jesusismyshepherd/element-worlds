@@ -7,7 +7,7 @@
 // here, and analyze.js drops any event whose address is /stats).
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { admin, refused, savedPass, keepPass, dropPass, savedFilter, keepFilter } from '../stats/api.js'
+import { admin, familyAdmin, refused, savedPass, keepPass, dropPass, savedFilter, keepFilter } from '../stats/api.js'
 import { analyze, periodStart, PERIODS, LIMIT, visitSummary, SKIM_MS, QUICK_MS } from '../stats/analyze.js'
 import * as R from '../stats/readings.js'
 import { timelineOf, compact } from '../stats/timeline.js'
@@ -280,6 +280,7 @@ function Dashboard({ pass, logout }) {
       <Devices
         devices={devices}
         call={call}
+        pass={pass}
         reload={loadDevices}
         onChanged={refresh}
         onRetag={(id, from, to) => {
@@ -375,10 +376,34 @@ function Dashboard({ pass, logout }) {
 
 // ---- people (the signed-in accounts that played) ----
 
-function Devices({ devices, call, reload, onChanged }) {
+function Devices({ devices, call, pass, reload, onChanged }) {
   const [ask, setAsk] = useState(null) // the account waiting for "forget their history?"
   const [busy, setBusy] = useState(null)
   const [msg, setMsg] = useState(null)
+  // who shares today's element as a family: each member sees the others' days and streaks (daily.md)
+  const [family, setFamily] = useState({})
+  const loadFamily = useCallback(
+    () =>
+      familyAdmin(pass, 'list')
+        .then(r => setFamily(Array.isArray(r) ? Object.fromEntries(r.map(x => [x.id, !!x.family])) : {}))
+        .catch(() => {}),
+    [pass],
+  )
+  useEffect(() => {
+    loadFamily()
+  }, [loadFamily, devices])
+  const setMember = async (id, on) => {
+    setBusy(id)
+    setMsg(null)
+    try {
+      const r = await familyAdmin(pass, 'set', { account: id, on })
+      if (r?.error) setMsg(`That did not work (${r.error}).`)
+      await loadFamily()
+    } catch (e) {
+      setMsg(`The database could not be reached (${e.message}).`)
+    }
+    setBusy(null)
+  }
   const act = async (id, action, args = {}) => {
     setBusy(id)
     setMsg(null)
@@ -447,6 +472,18 @@ function Devices({ devices, call, reload, onChanged }) {
                 </div>
               ) : (
                 <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    className={BUTTON}
+                    disabled={busy === d.id}
+                    aria-pressed={!!family[d.id]}
+                    onClick={() => setMember(d.id, !family[d.id])}
+                    data-family={family[d.id] ? 'on' : 'off'}
+                    title="Family members see each other's days and streaks on today's element"
+                    style={family[d.id] ? { borderColor: INK.primary } : undefined}
+                  >
+                    {family[d.id] ? '✓ Family' : '+ Family'}
+                  </button>
                   <button type="button" className={BUTTON} disabled={busy === d.id || !(Number(d.events) > 0)} onClick={() => setAsk(d.id)} data-forget>
                     Forget the history
                   </button>

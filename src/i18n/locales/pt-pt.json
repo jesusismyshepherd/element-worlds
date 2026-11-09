@@ -677,6 +677,12 @@
     "mystery": "O elemento mistério de amanhã",
     "mysteryAsk": "Quem será? Dá o teu palpite agora e descobre amanhã.",
     "mysteryKept": "O teu palpite: {{name}}. Descobre amanhã!",
+    "family": "A tua família",
+    "you": "Tu",
+    "together_one": "{{count}} dia juntos",
+    "together_other": "{{count}} dias juntos",
+    "familyAll": "Toda a família fez o elemento de hoje!",
+    "yourTurn": "Já feito hoje: {{names}}. Agora és tu!",
     "q": {
       "find": {
         "kid": "O elemento de hoje é {{name}}! O símbolo é {{symbol}}. Consegues encontrá-lo na tabela?",

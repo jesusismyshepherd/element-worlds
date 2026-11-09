@@ -72,8 +72,8 @@ English only (an admin page, not part of the game), styled like the site, for a 
   1.5 s. A password that worked is kept in that browser's `localStorage` (`ew-dash-pass`) until Log out;
   if it is changed in the database, the next call is refused and the page logs out by itself.
 - People: every account that played (name, recording on or off, the device of its last visit, first and
-  last seen, events, discoveries), with "Forget the history" (its events; the account stays). It is not
-  filtered.
+  last seen, events, discoveries), with "Forget the history" (its events; the account stays) and "Family"
+  (who shares today's element as a family: `daily.md`, "The family"; `ew_family_admin`). It is not filtered.
 - Filters, scoping everything below them: the period (today, 7, 30 or 180 days, today included; times in
   the viewer's time zone) and who (everyone, one account, anonymous visitors).
 - Summary: visits, active time, active per visit, places entered, panels read, quiz answers right.

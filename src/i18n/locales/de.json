@@ -680,6 +680,12 @@
     "mystery": "Das geheime Element von morgen",
     "mysteryAsk": "Wer könnte es sein? Tipp jetzt und finde es morgen heraus.",
     "mysteryKept": "Dein Tipp: {{name}}. Morgen erfährst du es!",
+    "family": "Deine Familie",
+    "you": "Du",
+    "together_one": "{{count}} Tag zusammen",
+    "together_other": "{{count}} Tage zusammen",
+    "familyAll": "Die ganze Familie hat das Element des Tages geschafft!",
+    "yourTurn": "Heute schon geschafft: {{names}}. Jetzt bist du dran!",
     "q": {
       "find": {
         "kid": "Das Element des Tages ist {{name}}! Sein Symbol ist {{symbol}}. Findest du es im Periodensystem?",

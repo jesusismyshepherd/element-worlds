@@ -4,7 +4,7 @@ import { ELEMENTS, element } from '../data/elements.js'
 import { KID_POOL } from './quiz.js'
 import {
   dayOf, addDays, daysBetween, weekdayOf, seeded, CYCLE, EPOCH, FIRST_WEEK, elementOfDay, streakOf, weekOf, MAX_FREEZES,
-  answered, dueOn, metFrom, reviewsFor, makeLesson, lessonNeeds, mysteryFor, normalDaily, finishLesson, guessMystery, eraOf,
+  answered, dueOn, metFrom, reviewsFor, makeLesson, lessonNeeds, mysteryFor, normalDaily, finishLesson, guessMystery, eraOf, familyOf,
 } from './daily.js'
 import en from '../i18n/locales/en.json' with { type: 'json' }
 import pt from '../i18n/locales/pt-pt.json' with { type: 'json' }
@@ -95,6 +95,20 @@ test('the week: done, perfect, frozen, missed, today, coming', () => {
   assert.deepEqual(week.map(d => d.perfect), [false, false, false, true, false, false, false])
   assert.deepEqual(weekOf({}, '2026-11-11').map(d => d.state), ['none', 'none', 'today', 'coming', 'coming', 'coming', 'coming'])
   assert.equal(weekOf(done(['2026-11-03']), '2026-11-11')[1].state, 'missed')
+})
+
+test("the family: each one's streak and today, and the days in a row everyone did it", () => {
+  const me = { name: 'miki', me: true, days: run('2026-11-05', 5) }
+  const kid = { name: 'artur', me: false, days: ['2026-11-07', '2026-11-08'] }
+  let f = familyOf([me, kid], '2026-11-09')
+  assert.deepEqual(f.people.map(p => [p.name, p.me, p.doneToday, p.streak]), [['miki', true, true, 5], ['artur', false, false, 2]])
+  assert.equal(f.together, 2) // the 7th and the 8th: today waits for artur
+  assert.equal(f.allToday, false)
+  f = familyOf([me, { ...kid, days: [...kid.days, '2026-11-09'] }], '2026-11-09')
+  assert.equal(f.together, 3)
+  assert.equal(f.allToday, true)
+  assert.equal(familyOf([me], '2026-11-09').together, 0)
+  assert.deepEqual(familyOf(null, '2026-11-09').people, [])
 })
 
 test('the boxes: right moves an element up and further away, wrong brings it back tomorrow', () => {

@@ -13,9 +13,11 @@ import { loadContent, contentCached } from '../content/index.js'
 import { pick } from '../content/stations.js'
 import { cluesFor, mask } from '../game/quiz.js'
 import {
-  weekOf, makeLesson, lessonNeeds, mysteryFor, finishLesson, guessMystery, metFrom, dueOn, isMilestone, streakOf, addDays, elementOfDay,
+  weekOf, makeLesson, lessonNeeds, mysteryFor, finishLesson, guessMystery, metFrom, dueOn, isMilestone, streakOf, addDays, elementOfDay, familyOf,
 } from '../game/daily.js'
 import { dailyState, keepDaily, foundKeys } from '../engine/progress.js'
+import { familyDays } from '../net/family.js'
+import { account } from '../net/account.js'
 import { valenceElectrons } from '../chem/atom.js'
 import { temperature, density, num, config, LANG_TAG } from './format.js'
 import { play } from '../audio/sound.js'
@@ -288,6 +290,54 @@ function Mystery({ ctx, state, today }) {
   )
 }
 
+/** The family (signed in as one of its members, chosen by the admin): who did today's element, each one's
+ *  streak, the days in a row they all did it, and "your turn" while the others are done. My own days come
+ *  from this device too, as the account has them a moment later. Nothing for anyone else. */
+function Family({ ctx, today, mine, again }) {
+  const { t } = ctx
+  const signedIn = useStore(store, s => !!s.account)
+  const [members, setMembers] = useState(null)
+  useEffect(() => {
+    if (!signedIn) {
+      setMembers(null)
+      return undefined
+    }
+    let live = true
+    familyDays(addDays(today, -370)).then(m => live && setMembers(m))
+    return () => {
+      live = false
+    }
+  }, [signedIn, today, again])
+  if (!members || members.length < 2) return null
+  const fam = familyOf(members.map(m => (m.me ? { ...m, days: [...new Set([...m.days, ...mine])] } : m)), today)
+  const me = fam.people.find(p => p.me)
+  const done = fam.people.filter(p => !p.me && p.doneToday)
+  return (
+    <div className="mt-3 rounded-xl bg-white/5 p-2.5" data-daily-family>
+      <div className="flex items-center gap-2">
+        <span className="font-display font-bold">👪 {t('daily.family')}</span>
+        {fam.together > 0 && <span className="ml-auto text-xs font-bold text-amber-200" data-daily-together>🔥🔥 {t('daily.together', { count: fam.together })}</span>}
+      </div>
+      <ul className="mt-1.5 space-y-1">
+        {fam.people.map(p => (
+          <li key={p.name} className="flex items-center gap-2 text-sm">
+            <span className={`w-4 text-center ${p.doneToday ? 'text-emerald-300' : 'opacity-60'}`}>{p.doneToday ? '✓' : '⏳'}</span>
+            <span className="font-bold truncate">{p.me ? t('daily.you') : p.name}</span>
+            <span className="ml-auto text-xs opacity-85 whitespace-nowrap">
+              <span className={p.doneToday ? '' : 'grayscale opacity-60'}>🔥</span> {p.streak}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {fam.allToday ? (
+        <div className="mt-1.5 text-xs font-bold text-emerald-200">{t('daily.familyAll')}</div>
+      ) : (
+        me && !me.doneToday && done.length > 0 && <div className="mt-1.5 text-xs font-bold text-amber-100">{t('daily.yourTurn', { names: done.map(p => p.name).join(', ') })}</div>
+      )}
+    </div>
+  )
+}
+
 /**
  * The sheet. select(z) flies the table to an element (its Atomling pops up), overview() shows the whole
  * table, enter(symbol) walks into an element's hall, onClose() closes the sheet.
@@ -313,6 +363,7 @@ export default function DailyHud({ select, overview, enter, onClose }) {
   const [results, setResults] = useState({})
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [familyAgain, setFamilyAgain] = useState(0) // asked again once a lesson's day is in the account
 
   // opened: the whole table beside the sheet (the cover is reported by now: useCover measures in a layout effect)
   useEffect(() => {
@@ -428,6 +479,8 @@ export default function DailyHud({ select, overview, enter, onClose }) {
     })
     play(counted ? 'streak' : 'celebrate', { order: milestone ? 2 : 1 })
     track('daily', { op: 'done', s: lesson.symbol, r: right, n: list.length, streak: now.streak, practice: lesson.practice })
+    // the family sees the day once the account has it
+    Promise.resolve(account.save()).finally(() => setFamilyAgain(n => n + 1))
     select(lesson.z)
     setPhase('done')
   }
@@ -505,6 +558,7 @@ export default function DailyHud({ select, overview, enter, onClose }) {
                 <Chips list={sleepy} lang={lang} mark="😴 " />
               </div>
             )}
+            <Family ctx={ctx} today={today} mine={Object.keys(state.days)} again={familyAgain} />
             <button type="button" data-daily-begin onClick={() => begin(false)} className={`${BTN} mt-3 w-full text-base py-2`} disabled={loading}>
               ▶ {t('daily.start')}
             </button>
@@ -512,6 +566,7 @@ export default function DailyHud({ select, overview, enter, onClose }) {
         ) : (
           <>
             <div className="mt-2 text-sm font-bold text-emerald-200">✓ {t('daily.doneToday')}</div>
+            <Family ctx={ctx} today={today} mine={Object.keys(state.days)} again={familyAgain} />
             <Mystery ctx={ctx} state={state} today={today} />
             <div className="flex flex-wrap gap-2 mt-3">
               <button type="button" data-daily-visit onClick={() => enter(todays)} className={BTN}>🏛 {t('daily.visit', { name: nameOf(ELEMENTS.find(e => e.symbol === todays), lang) })}</button>
@@ -600,6 +655,7 @@ export default function DailyHud({ select, overview, enter, onClose }) {
           </div>
         )}
         {!summary.practice && <div className="mt-2"><Week days={state.days} today={today} tag={tag} /></div>}
+        <Family ctx={ctx} today={today} mine={Object.keys(state.days)} again={familyAgain} />
         <Mystery ctx={ctx} state={state} today={today} />
         <div className="flex flex-wrap gap-2 mt-3">
           <button type="button" data-daily-visit onClick={() => enter(lesson.symbol)} className={BTN}>🏛 {t('daily.visit', { name: nameOf(el(lesson.z), lang) })}</button>

@@ -724,6 +724,14 @@
     "mystery": "Jutrzejszy tajemniczy pierwiastek",
     "mysteryAsk": "Kto to może być? Zgadnij teraz, a jutro się dowiesz.",
     "mysteryKept": "Twój typ: {{name}}. Jutro się dowiesz!",
+    "family": "Twoja rodzina",
+    "you": "Ty",
+    "together_one": "{{count}} dzień razem",
+    "together_few": "{{count}} dni razem",
+    "together_many": "{{count}} dni razem",
+    "together_other": "{{count}} dnia razem",
+    "familyAll": "Cała rodzina zrobiła dzisiejszy pierwiastek!",
+    "yourTurn": "Już dziś zrobione: {{names}}. Teraz twoja kolej!",
     "q": {
       "find": {
         "kid": "Dzisiejszy pierwiastek to {{name}}! Jego symbol to {{symbol}}. Znajdziesz go w układzie okresowym?",

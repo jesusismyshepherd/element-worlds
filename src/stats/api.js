@@ -27,6 +27,10 @@ export const keepFilter = f => safe(() => localStorage.setItem(FILTER, JSON.stri
  *  events (see the SQL). */
 export const admin = (pass, action, args = {}) => rpc('ew_admin', { p_pass: pass, p_action: action, p_args: args })
 
+/** ew_family_admin(p_pass, p_action, p_args): list (the accounts that played, each with family true or
+ *  false), set {account, on}: who shares today's element as a family (docs/knowledge/daily.md). */
+export const familyAdmin = (pass, action, args = {}) => rpc('ew_family_admin', { p_pass: pass, p_action: action, p_args: args })
+
 /** A tag as the database keeps it (ew_tag): letters, digits, - and _, in lower case, at most 24. */
 export const tagOf = s => String(s ?? '').replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase().slice(0, 24)
 
