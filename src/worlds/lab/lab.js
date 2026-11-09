@@ -547,11 +547,13 @@ export async function build(ctx) {
     // keep relaxing gently: the molecule settles and breathes
     if (mol.atoms.length) relayout(3)
     let radius = 1
+    let low = 0
     shown.forEach((s, i) => {
       const p = lay.pos[i]
       if (!p) return
       s.cur.lerp(v.set(p[0], p[1], p[2]), 1 - Math.exp(-dt * 6))
       radius = Math.max(radius, s.cur.length() + 1)
+      low = Math.min(low, s.cur.y)
       const H = s.a.body.height
       s.holder.position.set(s.cur.x, s.cur.y - (H * 0.5 + s.a.body.hover) * SCALE, s.cur.z)
       s.holder.rotation.y = Math.atan2(camera.position.x - s.cur.x, camera.position.z - s.cur.z)
@@ -562,6 +564,14 @@ export async function build(ctx) {
         s.charge.quaternion.copy(camera.quaternion)
       }
     })
+    // a molecule standing tall (a flat ring faces the view: benzene's hexagon stands upright) is lifted so its
+    // lowest atom, and the clouds round it, stay clear of the table; the view's middle rises with it
+    const lift = Math.max(LIFT, 1.5 - low)
+    const ease = 1 - Math.exp(-dt * 3)
+    const rise = (lift - molGroup.position.y) * ease
+    molGroup.position.y += rise
+    controls.target.y += rise
+    camera.position.y += rise
     // electrons on their way from a metal to its partner
     transfers = transfers.filter(tr => {
       const f = (t - tr.start) / 0.7

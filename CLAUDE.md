@@ -52,7 +52,7 @@ built when, and the user's requests behind it: `docs/history.md`.
   passages in every place, the eight translations, fetching them word for word), `daily.md` (today's element:
   the lesson, the streak and its freezes, the boxes, the mystery, what the account keeps), `inside-the-atom.md` (the room inside every hall's atom: orbitals, the
   cloud's drawing, the electron map and camera), `hunts.md` (the
-  treasure hunts), `benches.md` (the lab's benches at `/lab/<id>`), `alloys.md` (the Alloy Forge), `crystal.md` (growing crystals). Read the one for the area you touch.
+  treasure hunts), `benches.md` (the lab's benches at `/lab/<id>`), `alloys.md` (the Alloy Forge), `crystal.md` (growing crystals), `dna.md` (building DNA, the lab's rings). Read the one for the area you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
   The family studio at `/studio` (shared with Artur; ideas, notes and verdicts kept with their account in
@@ -120,7 +120,8 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab (its clouds: `bondDomains.js`, `bondCloud.js`,
   `cloudWords.js`). `src/audio/sound.js`: all sound.
 - `src/worlds/benches/<id>/` + `src/ui/benches/<Id>Hud.jsx`: the lab's benches (`registry.js` `BENCHES`, `benches.md`):
-  `alloys/` the Alloy Forge (`/lab/alloys`), `crystal/` Growing Crystals (`/lab/crystal`); a `README.md` in each.
+  `alloys/` the Alloy Forge (`/lab/alloys`), `crystal/` Growing Crystals (`/lab/crystal`), `dna/` Building DNA
+  (`/lab/dna`); a `README.md` in each.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
 - `src/worlds/wings/carbon/`, `oxygen/` (two worlds each), `noble/` (the neon sign workshop, one wing

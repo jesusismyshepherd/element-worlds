@@ -6,6 +6,12 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Building DNA (`/lab/dna`, the user's Sooner on rings and DNA): tap A, T, G or C (each its real molecule turning
+  in a tray) and a nucleotide flies to the strand while its partner flies in and pairs by glowing hydrogen bonds
+  between the real atoms (two for A-T, three for G-C); the ladder twists into the B-DNA helix built from 3DNA's
+  standard atoms (10.5 pairs a turn), a slider untwists it, and Copy unzips it into two helices, each half old and
+  half new. Benzene, glucose and the four bases joined the Molecule Lab with six missions (21 in all); the layout
+  learned rings (benzene flat, glucose a chair). The passport's molecule master badge now asks for all 21. `dna.md`.
 - Growing Crystals (`/lab/crystal`, the user's Sooner on crystals): ions drift in a dish and click into place ion
   by ion, a perfect cube when slow, hopper faces and floating salt boats when fast; fifteen compounds (salt, potassium
   chloride and sodium fluoride from water, the others from a melt), each ion at its Shannon radius; a tap on an ion
