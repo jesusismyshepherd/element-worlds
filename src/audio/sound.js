@@ -219,6 +219,17 @@ export function play(kind, { order = 1 } = {}) {
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
     if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
   }
+  // the lab's Reactions bench (worlds/benches/reactions/): the atoms fly over the arrow; the energy given out
+  // (a warm burst, order 1 to 3: how much) or taken in (a rising shimmer)
+  else if (kind === 'fly') whoosh(900, 2600, 0.8, 0.09)
+  else if (kind === 'release') {
+    whoosh(3000, 260, 0.9 + order * 0.2, 0.14 + order * 0.06)
+    tone(NOTE(38), 0.7, { gain: 0.18 + order * 0.08, to: NOTE(31) })
+    ;[67, 71, 74, 79].forEach((n, i) => tone(NOTE(n), 0.6, { type: 'triangle', gain: 0.07, when: 0.12 + i * 0.05, attack: 0.03 }))
+  } else if (kind === 'absorb') {
+    whoosh(260, 3400, 1.2, 0.12)
+    ;[60, 64, 67, 72, 76].forEach((n, i) => tone(NOTE(n), 0.5, { gain: 0.08, when: i * 0.12, attack: 0.06, to: NOTE(n + 0.5) }))
+  }
   // today's element (ui/DailyHud.jsx): a bright pair for a right answer, a soft low one for a wrong one,
   // and the streak's flame catching (order: a milestone rings longer)
   else if (kind === 'right') {

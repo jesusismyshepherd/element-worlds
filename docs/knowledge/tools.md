@@ -32,7 +32,13 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
   builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step;
   `plaza-hunts` the treasure hunts' sheet, `hall-hunt` a hunt's clue card in carbon's hall and `forge-hunt`
-  its chip in the forge's bar (these come last: the hunt started stays on for the screen's later scenes).
+  its chip in the forge's bar (these come last: the hunt started stays on for the screen's later scenes);
+  `reactions` and `reactions-after` the lab's Reactions bench, balanced and after photosynthesis has run.
+- `reactions_probe.py [--port 5323] [--lang en]`: the lab's Reactions bench played with real taps (`reactions.md`):
+  all ten reactions balanced by tapping their molecules, the minus, nine as the most, an unbalanced bench and one
+  without its light that will not run, the energy source tapped on, the arrow tapped; every run keeps the very
+  same atoms (by id, before, during and after), is a discovery, and Again brings them back; once in light mode.
+  About two minutes; screenshots `tools/shots/reactions_probe_*.png`.
 - `hunt_probe.py [--port 5329] [--only computer|phone|side] [--track] [--lang] [--level]`: the treasure hunts
   played as a player does (the hall by its address, the walker put in front of the exhibit and E pressed:
   pictures stepped into, panels opened, so `panelFrom` is the exhibit's own): every track on a computer
