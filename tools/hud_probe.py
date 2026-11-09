@@ -1,8 +1,8 @@
 """The HUD keeps the middle of the screen free (docs/knowledge/hud-layout.md): opens each kind of world
 on a computer, an upright phone and a phone on its side (also with the browser's bars, the sizes of
 the user's screenshots), shows what the HUD can show there (the selected element's card, a drawer, the
-quiz, today's element and its lesson, a story panel, the Atomling speaking, a molecule made, the forge's
-atom, the neon name window, the lab's Alloy Forge)
+quiz, today's element and its lesson, a story panel, the Atomling speaking, a molecule made, the lab's
+Reactions bench before and after a run, the forge's atom, the neon name window, the lab's Alloy Forge)
 and checks that nothing of the HUD lies in the middle of the part of the screen it leaves free (where
 the engine draws the world's centre; the stick in its corner excepted), and that
 the HUD covers little of the screen (at rest under a third, about half at most with something opened
@@ -185,6 +185,17 @@ def scenes():
         page.evaluate("() => { __ew.world.add('O'); __ew.world.add('H'); __ew.world.add('H') }")
         page.wait_for_timeout(1500)
 
+    def reactions(page):
+        # the lab's Reactions bench: methane balanced (the reactions' list, the card, the atoms counted)
+        page.evaluate("() => { __ew.world.pick('methane'); __ew.world.solve() }")
+        page.wait_for_timeout(1500)
+
+    def reactions_after(page):
+        # photosynthesis run: the card grown with the energy taken in and the fact (docs/knowledge/reactions.md)
+        page.evaluate("() => { __ew.world.pick('photosynthesis'); __ew.world.solve(); __ew.world.toggleSource(); __ew.world.run() }")
+        page.wait_for_function("() => __ew.world.state().phase === 'after'", timeout=15000)
+        page.wait_for_timeout(1200)
+
     def forge(page):
         page.wait_for_timeout(800)
 
@@ -251,6 +262,8 @@ def scenes():
         'hall-speech': ('/e/C', walk_speech, REST),
         'wing-panel': ('/e/C/allotropes', walk_panel, 0.55),
         'lab-water': ('/lab', lab_water, 0.5),  # a workbench: the palette and the missions are its tools
+        'reactions': ('/lab/reactions', reactions, 0.5),  # the lab's Reactions bench, balanced
+        'reactions-after': ('/lab/reactions', reactions_after, 0.55),  # run: the energy and the fact to read
         'forge': ('/forge?z=26', forge, 0.5),
         'dna': ('/lab/dna', dna, 0.5),  # the lab's DNA bench: the tray, the card, the finds, the bar
         'dna-copied': ('/lab/dna', dna_copied, 0.5),  # two helices side by side

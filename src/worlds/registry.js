@@ -43,7 +43,7 @@ export const wingsOf = symbol => WINGS[symbol] ?? []
 export const BENCHES = {
   crystal: { icon: '🧂', ready: true, load: () => import('./benches/crystal/crystal.js') },
   alloys: { icon: '⚒️', ready: true, load: () => import('./benches/alloys/alloys.js') },
-  reactions: { icon: '🔥', ready: false, load: () => import('./benches/reactions/reactions.js') },
+  reactions: { icon: '🔥', ready: true, load: () => import('./benches/reactions/reactions.js') },
   dna: { icon: '🧬', ready: true, load: () => import('./benches/dna/dna.js') },
 }
 export const benchPath = id => `/lab/${id}`
