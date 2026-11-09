@@ -197,10 +197,10 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Next (2026-11-01): radon's seven rooms from
+the phone), and what waits on the user. Now (2026-11-09): radon's seven rooms are being built from
 `docs/agents/designs/Rn_rooms.md` on Opus 5.5 at xhigh, the model trial's second half (krypton's were built on
-Sonnet 5.5 at high; `docs/studio/backlog.json` `cost.trial`). Radon's boards and showpiece wait on the branch
-`worktree-agent-a29f4091cc8e22657`, not on main, since a picture goes up only with its room: merge that
-branch once into a base branch, resolve, test, and start the builders from it (`hall-boards.md`, the
-pipeline and its trap). Then the next well-known elements by visits. The family studio at `/studio` is read and answered at the start of
-every session (`update-dashboard.md`).
+Sonnet 5.5 at high; `docs/studio/backlog.json` `cost.trial`), each builder from the branch `rn-base` (main plus
+radon's boards, merged once with the conflicts resolved, `hall-boards.md`'s trap); when they are done, merge
+`rn-base` and the seven room branches into main together. Silver's boards and room designs are being drawn
+(silver is today's element on 17 November; `daily.md`): the next halls follow today's element's days. The family
+studio at `/studio` is read and answered at the start of every session (`update-dashboard.md`).
