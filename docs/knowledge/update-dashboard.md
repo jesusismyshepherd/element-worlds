@@ -122,6 +122,10 @@ max) is, task by task. The claude.ai studio's "What it cost" section and every b
   task (planning, briefs, checks, merges, the studio routine). The finish is the tool call that wrote the
   card into `built`, so write the card in the same session that did the work. Time after a session's last
   card is `cost.overhead`. `minutes` is working time: pauses over 10 minutes are left out.
+- Builders delegated to a checkout of their own (T3's `delegate_task` with `isolation: 'worktree'`, the lab's benches
+  2026-11-09) are whole sessions in that checkout's project folder (`~/.claude/projects/C--Users-admin--t3-worktrees-
+  element-worlds-<id>/`), with subagents of their own. `agent_tokens.agents()` finds them; put the session id (the
+  transcript's name) and its subagents' ids in the card's `agents`.
 - Transcripts before 2026-10-29 are gone: older cards say "not recorded". Transcripts are not kept forever
   either: `studio_cost.py` keeps a card's totals when an agent's transcript is missing.
 - On the page: tiles (all recorded, the median picture room, the main session's share, the stars), a chart

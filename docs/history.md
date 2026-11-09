@@ -6,6 +6,51 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Silver's hall (the user: "continue with adding boards and rooms to more atoms"; silver is today's element on 17
+  November): seven pictures, each a room to step into: the Panathenaic Stadium (what is inside a gold medal, gild
+  one yourself), the Mount Wilson dome (silver a 2.5 m mirror, find Hubble's Cepheid), the space station (water from
+  breath, a Petri dish, inside a germ), Kongsberg's King's Mine (the ox's find, fire-setting, silver hair from black
+  ore), Mount Greylock in 1946 (make it snow), a studio and darkroom (Daguerre's plate, the latent image, the
+  enlarger), a treasure galleon (pieces of eight, the silver roads, the purser's density test); its showpiece wire
+  silver on its ore, a mirror ball and a piece of eight. Rooms built on Sonnet 5.5 at high (no stars on the model
+  trial yet, so the cheaper setting). `picture-rooms.md`, `hall-boards.md`.
+- Reactions (`/lab/reactions`, the user's Sooner on the reactions game): ten reactions (hydrogen and methane
+  burning, splitting water, salt, ammonia, limestone, rust, ethanol, photosynthesis, respiration) balanced by
+  tapping molecules until every element's atoms match on both sides, then run: the very same Atomlings let go and
+  fly over the arrow into the products, with the real energy given out or taken in (the sun lamp, the burner or
+  the battery must be on for those that take it in). With this the lab has its four benches, all built in
+  parallel by agents in checkouts of their own and merged one by one. `reactions.md`.
+- Building DNA (`/lab/dna`, the user's Sooner on rings and DNA): tap A, T, G or C (each its real molecule turning
+  in a tray) and a nucleotide flies to the strand while its partner flies in and pairs by glowing hydrogen bonds
+  between the real atoms (two for A-T, three for G-C); the ladder twists into the B-DNA helix built from 3DNA's
+  standard atoms (10.5 pairs a turn), a slider untwists it, and Copy unzips it into two helices, each half old and
+  half new. Benzene, glucose and the four bases joined the Molecule Lab with six missions (21 in all); the layout
+  learned rings (benzene flat, glucose a chair). The passport's molecule master badge now asks for all 21. `dna.md`.
+- Growing Crystals (`/lab/crystal`, the user's Sooner on crystals): ions drift in a dish and click into place ion
+  by ion, a perfect cube when slow, hopper faces and floating salt boats when fast; fifteen compounds (salt, potassium
+  chloride and sodium fluoride from water, the others from a melt), each ion at its Shannon radius; a tap on an ion
+  lights its neighbours (six for salt), "A real grain" counts a 0.3 mm grain's ions (about 1.2 × 10¹⁸). Every
+  screen in a room grows the same crystal, ion for ion. `crystal.md`.
+- The Alloy Forge (`/lab/alloys`, the first of the lab's benches; the user's Sooner on alloys): ten metal Atomlings
+  throw lumps into a crucible; ten real alloys named by their mix by mass (bronze, bell bronze, brass, cupronickel,
+  stainless steel, steel, cast iron, sterling silver, 18-carat gold, solder), poured into an ingot; inside the metal
+  its ions to scale in their sea of electrons; the hammer slides a pure metal's rows, an alloy's odd-sized atoms jam
+  them, cast iron cracks along its graphite. Every range and hardness with its source. Built by an agent in its own
+  checkout while the clouds were built. `alloys.md`.
+- Bonds as clouds (the user's Sooner): the Molecule Lab's ☁ shows every free hand as a cloud with one electron,
+  every bond as two hands' clouds merged into one shared pair (watch two hydrogens' clouds become H₂), lone pairs,
+  double bonds' π clouds above and below, ionic pairs handed over, shared clouds leaning toward oxygen. A line
+  says what the clouds show (oxygen's magnetism the picture cannot explain, for the Scientist). `molecule-lab.md`,
+  "Clouds".
+- The forge's electrons fill clouds (the user marked six lab ideas Sooner in the family studio and said "develop
+  now"; this the first, the others the lab's benches and its clouds): the Atom Forge's electrons can be clouds
+  instead of Bohr's rings. Each electron added flies into its subshell, which lights up in its shape; the
+  electron map fills beside it; a line says where it went and why (an ion fills 3d before 4s; chromium and
+  copper break the filling rule; electrons spread out before they pair). Ions' configurations from the real
+  atom's, outermost first. Two missions: chromium's surprise, the iron in your blood (Fe²⁺). `atom-forge.md`,
+  "Clouds".
+- The lab's benches (the frame): four worlds of their own beside the molecule table at `/lab/<id>` (growing
+  crystals, the alloy forge, reactions, building DNA), each with its verse; built in parallel. `benches.md`.
 - Inside the atom (the user: "take some part of the project and make it superb"; Claude's pick): every hall's big
   atom became a door into the room inside its electron cloud, for all 118 elements. Quantum mechanics' orbitals
   drawn as glowing clouds you walk through (hydrogen's exact shapes, sized by Slater's rules; a ray-marched

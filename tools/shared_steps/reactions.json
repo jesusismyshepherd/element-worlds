@@ -1,0 +1,10 @@
+{
+  "/lab/reactions": [
+    "() => __ew.world.pick(\"photosynthesis\")",
+    "() => __ew.world.solve()",
+    "() => __ew.world.toggleSource()",
+    "() => __ew.world.run()",
+    "() => new Promise(done => { const t0 = Date.now(), t = setInterval(() => { if (__ew.world.state().phase === 'after' || Date.now() - t0 > 12000) { clearInterval(t), __ew.world.again(), done() } }, 100) })",
+    "() => new Promise(done => { const t0 = Date.now(), t = setInterval(() => { if (__ew.world.state().phase === 'before' || Date.now() - t0 > 12000) { clearInterval(t), __ew.world.add(3), done() } }, 100) })"
+  ]
+}

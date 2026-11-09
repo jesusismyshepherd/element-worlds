@@ -43,12 +43,6 @@
     }
   ],
   "next": [
-    "forge-clouds",
-    "atom-bonds",
-    "crystals-grow",
-    "reactions-game",
-    "rings-dna",
-    "alloys",
     "halls-116",
     "scavenger-hunts",
     "periodic-videos"
@@ -165,7 +159,8 @@
         "Model trial (2026-10-31): krypton's rooms built with Sonnet 5.5 at high effort, radon's with Opus 5.5 at xhigh, so \"What it cost\" can compare the two on the same kind of work; your stars on both decide which builds the rooms after that.",
         "Krypton done (2026-11-01, the model trial's first half: rooms built on Sonnet 5.5 at high effort): seven pictures, each a room: the last drops of liquid air in 1898, the metre from the 1889 bar to light itself, the window factory, a platform in orbit with a Hall thruster, an oasis and the atom trap that dates a million-year-old water, krypton holding hands with fluorine, and the night gallery where kryptonite meets jadarite; its showpiece a lilac glowing globe and krypton frozen white. Next: radon's seven rooms on Opus 5.5 at xhigh, the trial's other half (docs/agents/designs/Rn_rooms.md).",
         "2026-11-09: radon's seven rooms are being built on Opus 5.5 at xhigh, the model trial's second half (from a base branch with radon's boards merged in once); silver's boards and room designs are being drawn, since silver is today's element on 17 November. From now on the next halls follow today's element's days, so the lesson's \"Visit the hall\" leads somewhere rich.",
-        "Radon done (2026-11-09): seven pictures, each a room (glow, cellar, rock, draught, moon, quake, cave), built on Opus 5.5 at xhigh as the trial's second half, six new places (a capillary, a granite house, a granite hillside, Rutherford's lab, the Moon, a show cave). Silver's seven pictures are drawn and wait for their rooms: your stars on krypton and radon choose the setting that builds them."
+        "Radon done (2026-11-09): seven pictures, each a room (glow, cellar, rock, draught, moon, quake, cave), built on Opus 5.5 at xhigh as the trial's second half, six new places (a capillary, a granite house, a granite hillside, Rutherford's lab, the Moon, a show cave). Silver's seven pictures are drawn and wait for their rooms: your stars on krypton and radon choose the setting that builds them.",
+        "Silver done (2026-11-09): seven pictures, each a room (medal, mirror, germs, wire, snow, photo, dollar), built on Sonnet 5.5 at high since neither trial hall had stars yet; seven new places (a stadium, a telescope dome, a station module, a mine, a mountain summit, a darkroom, a galleon). Germanium (today's element on 16 November) has its seven pictures drawn and its rooms are being built; then erbium, zirconium, plutonium, curium, chromium by today's element's days."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -556,11 +551,13 @@
       "z": 47,
       "title": "The darkroom",
       "kind": "worlds",
-      "status": "idea",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "A photographer's darkroom, and the shiniest mirror.",
-      "details": []
+      "details": [
+        "Built 2026-11-09 as two of silver's picture rooms: `photo` (a studio and its red-lit darkroom) and `mirror` (silvering the 100-inch telescope's mirror)."
+      ]
     },
     {
       "id": "tungsten-bulb",
@@ -615,52 +612,56 @@
       "code": "Ay",
       "title": "Alloys at the forge",
       "kind": "lab",
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Metals mixed into bronze, brass and steel (iron with a little carbon).",
       "details": [],
-      "why": "You marked it Sooner (2026-11-09). The lab says two metals do not hold hands and promises alloys; this keeps the promise, with the Bronze Age and steel behind it."
+      "link": "https://element-worlds.vercel.app/lab/alloys",
+      "doc": "docs/knowledge/alloys.md"
     },
     {
       "id": "reactions-game",
       "code": "Rx",
       "title": "Reactions in the lab",
       "kind": "lab",
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Burning methane, rusting and photosynthesis as a game, with the atoms counted on both sides.",
       "details": [
         "Methane and rust are already benches in oxygen's fire wing, and photosynthesis is carbon's tree; the game in the lab is not built yet."
       ],
-      "why": "You marked it Sooner (2026-11-09). Counting atoms on both sides is the heart of chemistry, and seeing the very same atoms swap partners makes it obvious that nothing is lost."
+      "link": "https://element-worlds.vercel.app/lab/reactions",
+      "doc": "docs/knowledge/reactions.md"
     },
     {
       "id": "rings-dna",
       "code": "Dn",
       "title": "Rings and life",
       "kind": "lab",
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Benzene, glucose and the four DNA bases; build a short strand of DNA.",
       "details": [],
-      "why": "You marked it Sooner (2026-11-09). Rings and DNA are where chemistry becomes life: benzene and glucose in the lab, and a strand of DNA you build base by base."
+      "link": "https://element-worlds.vercel.app/lab/dna",
+      "doc": "docs/knowledge/dna.md"
     },
     {
       "id": "crystals-grow",
       "code": "Ic",
       "title": "Crystals that grow",
       "kind": "lab",
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Ions stacking into a salt crystal you can watch grow.",
       "details": [
         "The lab already makes ionic compounds (2026-10-28); the growing crystal is the missing part."
       ],
-      "why": "You marked it Sooner (2026-11-09). The lab already makes salt as two ions; a crystal is how salt really is, and watching it grow ion by ion explains the cube in a salt shaker."
+      "link": "https://element-worlds.vercel.app/lab/crystal",
+      "doc": "docs/knowledge/crystal.md"
     },
     {
       "id": "first-visits",
@@ -962,10 +963,11 @@
       "details": [
         "The same cloud drawing as the room inside the atom, for a molecule: why methane is a tetrahedron and water bent, and why oxygen sticks to a magnet."
       ],
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-11-09",
-      "why": "You marked it Sooner (2026-11-09). The lab's hands are really half-filled clouds; drawing them shows why a bond holds and why methane is a tetrahedron and water bent. It reuses the atom room's cloud drawing."
+      "link": "https://element-worlds.vercel.app/lab",
+      "doc": "docs/knowledge/molecule-lab.md"
     },
     {
       "id": "forge-clouds",
@@ -976,10 +978,11 @@
       "details": [
         "The forge's rings become the clouds of the room inside the atom as you build: 4s before 3d, chromium and copper's surprise."
       ],
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-11-09",
-      "why": "You marked it Sooner (2026-11-09). It follows straight from the room inside the atom: the same clouds and electron map, now filling one electron at a time as you build in the Atom Forge."
+      "link": "https://element-worlds.vercel.app/forge?z=Cr",
+      "doc": "docs/knowledge/atom-forge.md"
     },
     {
       "id": "table-blocks",
@@ -4032,6 +4035,619 @@
       "title": "The passport",
       "what": "Discoveries and badges.",
       "link": "https://element-worlds.vercel.app/passport"
+    },
+    {
+      "id": "forge-clouds",
+      "date": "2026-11-09",
+      "title": "The forge's electrons fill clouds",
+      "what": "In the Atom Forge the electrons can be clouds instead of Bohr's rings: each electron you add flies into its subshell, which lights up in its shape (dumbbells, clovers, flowers), and the electron map fills beside it. A line says where it went and why: an ion fills 3d before 4s, chromium and copper break the filling rule, electrons spread out before they pair. Two new missions: chromium's surprise and the iron in your blood (Fe2+). Four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/forge?z=Cr",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [],
+      "tokens": {
+        "total": 55249529,
+        "output": 177974,
+        "agents": 0,
+        "usd": 18.55,
+        "requests": 157,
+        "minutes": 47,
+        "input": 320,
+        "cache_write": 509585,
+        "cache_read": 54561650,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 14.2203
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 4.3295
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "f53403d9",
+          "usd": 18.55,
+          "requests": 157,
+          "input": 320,
+          "cache_write": 509585,
+          "cache_read": 54561650,
+          "output": 177974,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 14.2203
+            },
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 4.3295
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "atom-bonds",
+      "date": "2026-11-09",
+      "title": "Bonds as clouds in the Molecule Lab",
+      "what": "The lab's new Clouds button shows the electrons as clouds: every free hand a gold cloud with one electron, every bond two hands' clouds merged into one shared pair (two hydrogens' clouds becoming H2 before your eyes), pink lone pairs that push the bonds apart, a double bond's second cloud above and below, an ionic pair handed over to the chlorine, and shared clouds pulled toward oxygen. A line says what they show, including oxygen's magnetism that this picture cannot explain. Four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [],
+      "tokens": {
+        "total": 20391586,
+        "output": 70665,
+        "agents": 0,
+        "usd": 6.53,
+        "requests": 39,
+        "minutes": 23,
+        "input": 78,
+        "cache_write": 134883,
+        "cache_read": 20185960,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 6.5299
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "f53403d9",
+          "usd": 6.53,
+          "requests": 39,
+          "input": 78,
+          "cache_write": 134883,
+          "cache_read": 20185960,
+          "output": 70665,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 6.5299
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "alloys",
+      "date": "2026-11-09",
+      "title": "The Alloy Forge",
+      "what": "A smithy at the lab (/lab/alloys): ten metal Atomlings throw lumps into a crucible, and ten real alloys are named by their mix (bronze, bell bronze, brass, cupronickel, stainless steel, steel, cast iron, sterling silver, 18-carat gold, solder), poured into a glowing ingot. Inside the metal its atoms sit to scale in a sea of electrons; the hammer slides a pure metal's rows (a deep dent), an alloy's odd-sized atoms jam them (harder), and cast iron cracks. Every range and hardness with its source; shared in rooms; four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab/alloys",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [
+        "3c107948-3ab5-4edc-a564-38e6f4786acc",
+        "ac57813e549624d6c"
+      ],
+      "tokens": {
+        "total": 88134877,
+        "output": 376941,
+        "agents": 2,
+        "usd": 30.64,
+        "requests": 292,
+        "minutes": 80,
+        "input": 592,
+        "cache_write": 825627,
+        "cache_read": 86931717,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 30.6383
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "3c107948-3ab5-4edc-a564-38e6f4786acc",
+            "what": "delegated session (19f3f6ef)",
+            "minutes": 67,
+            "usd": 18.8558,
+            "requests": 132,
+            "input": 264,
+            "cache_write": 496600,
+            "cache_read": 46069682,
+            "output": 283402,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 18.8558
+              }
+            ]
+          },
+          {
+            "id": "ac57813e549624d6c",
+            "what": "its subagent",
+            "minutes": 25,
+            "usd": 8.0484,
+            "requests": 133,
+            "input": 266,
+            "cache_write": 298085,
+            "cache_read": 24516242,
+            "output": 82683,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 8.0484
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "f53403d9",
+          "usd": 3.73,
+          "requests": 27,
+          "input": 62,
+          "cache_write": 30942,
+          "cache_read": 16345793,
+          "output": 10856,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.7341
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "crystals-grow",
+      "date": "2026-11-09",
+      "title": "Growing Crystals",
+      "what": "A dish of salt water at the lab (/lab/crystal): ions drift and click into place one by one, growing a perfect little cube when the water evaporates slowly, hollow stepped hopper faces and floating salt boats when fast. Fifteen compounds, each ion at its real size; a tap on an ion lights its neighbours (every sodium hugs six chlorides), See inside opens the lattice, and A real grain zooms out to a 0.3 mm grain of about 1.2 x 10^18 ions. Every screen in a room grows the same crystal, ion for ion; four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab/crystal",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [
+        "eb570fca-3900-49a5-96ae-653429dc0dc2"
+      ],
+      "tokens": {
+        "total": 61002765,
+        "output": 280785,
+        "agents": 1,
+        "usd": 21.97,
+        "requests": 160,
+        "minutes": 101,
+        "input": 330,
+        "cache_write": 539015,
+        "cache_read": 60182635,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 21.9657
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "eb570fca-3900-49a5-96ae-653429dc0dc2",
+            "what": "delegated session (4e66a9a0)",
+            "minutes": 99,
+            "usd": 18.923,
+            "requests": 139,
+            "input": 280,
+            "cache_write": 512509,
+            "cache_read": 46889734,
+            "output": 272193,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 18.923
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "f53403d9",
+          "usd": 3.04,
+          "requests": 21,
+          "input": 50,
+          "cache_write": 26506,
+          "cache_read": 13292901,
+          "output": 8592,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.0427
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "rings-dna",
+      "date": "2026-11-09",
+      "title": "Building DNA, and rings in the lab",
+      "what": "A DNA bench at the lab (/lab/dna): tap A, T, G or C (each its real molecule turning in a tray) and a nucleotide flies to the strand while its partner flies in and pairs by glowing hydrogen bonds between the real atoms, two for A-T and three for G-C. The ladder twists into the B-DNA helix built from standard atom positions (10.5 pairs a turn), a slider untwists it, and Copy unzips it into two identical helices, each half old and half new. Benzene, glucose and the four bases joined the Molecule Lab with six new missions; rings lie truly (benzene flat, glucose a chair). Shared in rooms; four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab/dna",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [
+        "04cdae46-56d2-441a-b3da-841d6d55f7c4"
+      ],
+      "tokens": {
+        "total": 62916562,
+        "output": 291477,
+        "agents": 1,
+        "usd": 22.37,
+        "requests": 160,
+        "minutes": 112,
+        "input": 330,
+        "cache_write": 514315,
+        "cache_read": 62110440,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 22.3675
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "04cdae46-56d2-441a-b3da-841d6d55f7c4",
+            "what": "delegated session (5d08eaa4)",
+            "minutes": 101,
+            "usd": 19.3245,
+            "requests": 140,
+            "input": 286,
+            "cache_write": 488483,
+            "cache_read": 48916633,
+            "output": 281608,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 19.3245
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "f53403d9",
+          "usd": 3.04,
+          "requests": 20,
+          "input": 44,
+          "cache_write": 25832,
+          "cache_read": 13193807,
+          "output": 9869,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 3.043
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "reactions-game",
+      "date": "2026-11-09",
+      "title": "Reactions: balance it, then run it",
+      "what": "A reactions bench at the lab (/lab/reactions): ten reactions (hydrogen and methane burning, splitting water, salt, ammonia, heating limestone, rust, ethanol, photosynthesis, respiration). Tap molecules to add more until every element's atoms match on both sides, then tap the arrow: the molecules let go and the very same Atomlings fly over into the products, with the real energy given out (a burst in the flame's colour) or taken in (the sun lamp, the burner or the battery must be on). Shared in rooms; four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab/reactions",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [
+        "5025fa75-e44e-412c-adbe-d953504022d4"
+      ],
+      "tokens": {
+        "total": 75318450,
+        "output": 272826,
+        "agents": 1,
+        "usd": 24.65,
+        "requests": 189,
+        "minutes": 114,
+        "input": 398,
+        "cache_write": 536790,
+        "cache_read": 74508436,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 24.6541
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "5025fa75-e44e-412c-adbe-d953504022d4",
+            "what": "delegated session (a640cfcb)",
+            "minutes": 108,
+            "usd": 22.5896,
+            "requests": 176,
+            "input": 368,
+            "cache_write": 514707,
+            "cache_read": 65634253,
+            "output": 267183,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 22.5896
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "f53403d9",
+          "usd": 2.06,
+          "requests": 13,
+          "input": 30,
+          "cache_write": 22083,
+          "cache_read": 8874183,
+          "output": 5643,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 2.0645
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "silvers-hall",
+      "date": "2026-11-09",
+      "title": "Silver's hall: seven pictures, each a room to step into",
+      "what": "The Panathenaic Stadium, where a gold medal turns out to be silver inside and you gild one yourself; the Mount Wilson dome, where the great mirror gets a new skin of silver and Hubble's pulsing star shows Andromeda is another galaxy; the space station, where water from breath is made safe with silver, a Petri dish shows clear rings and silver jams a germ's machines; Kongsberg's King's Mine, with the ox's find, fire against the rock and silver hair growing from black ore; Mount Greylock in 1946, where a cloud in a box turns to snow; a studio and its red-lit darkroom, from Daguerre's plate to the enlarger; a treasure galleon with pieces of eight, the silver roads and the purser's density test. Its case: wire silver on its ore, a mirror ball and a piece of eight. Rooms built on Sonnet 5.5 at high (no stars on the trial yet, so the cheaper setting); three needed a small framing fix sent back to their builder. It cost more than radon's on Opus: six builders each wrote 5 to 6 million tokens of cache (the snow room's builder 0.4 million, $11), most likely because their probes waited up to 40 minutes in the machine's queue behind other sessions and the server restarted mid-build, so the cache expired and was written again and again. The model was cheaper per token; the waiting was not.",
+      "link": "https://element-worlds.vercel.app/e/Ag",
+      "size": {
+        "n": 7,
+        "unit": "room"
+      },
+      "revisions": 0,
+      "agents": [
+        "ac0e8017fb5b3f2c3",
+        "af1d2e3a1f89736a7",
+        "af4bbfee48e41ed71",
+        "ae0e8685f4a4d5ceb",
+        "aacd9cd466c827469",
+        "aa90f2b6443f6b5d2",
+        "ad030f070c031d8c2",
+        "a01aa5bdd7a2093de"
+      ],
+      "tokens": {
+        "total": 390826784,
+        "output": 1886392,
+        "agents": 8,
+        "usd": 184.97,
+        "requests": 1111,
+        "minutes": 261,
+        "input": 2278,
+        "cache_write": 35173004,
+        "cache_read": 353765110,
+        "configs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "effort": "high",
+            "usd": 151.5372
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 26.5266
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "high",
+            "usd": 6.9077
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "ac0e8017fb5b3f2c3",
+            "what": "Silver's hall boards and room designs",
+            "minutes": 71,
+            "usd": 26.5266,
+            "requests": 167,
+            "input": 338,
+            "cache_write": 1055662,
+            "cache_read": 77366787,
+            "output": 288679,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "max",
+                "usd": 26.5266
+              }
+            ]
+          },
+          {
+            "id": "af1d2e3a1f89736a7",
+            "what": "Silver medal room",
+            "minutes": 64,
+            "usd": 21.7879,
+            "requests": 106,
+            "input": 214,
+            "cache_write": 5708536,
+            "cache_read": 28112446,
+            "output": 189368,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 21.7879
+              }
+            ]
+          },
+          {
+            "id": "af4bbfee48e41ed71",
+            "what": "Silver mirror room",
+            "minutes": 72,
+            "usd": 26.1351,
+            "requests": 113,
+            "input": 228,
+            "cache_write": 6343713,
+            "cache_read": 37722789,
+            "output": 273076,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 26.1351
+              }
+            ]
+          },
+          {
+            "id": "ae0e8685f4a4d5ceb",
+            "what": "Silver germs room",
+            "minutes": 127,
+            "usd": 23.7291,
+            "requests": 115,
+            "input": 234,
+            "cache_write": 5864609,
+            "cache_read": 34522176,
+            "output": 216271,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 23.7291
+              }
+            ]
+          },
+          {
+            "id": "aacd9cd466c827469",
+            "what": "Silver wire room",
+            "minutes": 131,
+            "usd": 23.4895,
+            "requests": 134,
+            "input": 276,
+            "cache_write": 5343574,
+            "cache_read": 39633522,
+            "output": 220334,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 23.4895
+              }
+            ]
+          },
+          {
+            "id": "aa90f2b6443f6b5d2",
+            "what": "Silver snow room",
+            "minutes": 109,
+            "usd": 10.783,
+            "requests": 129,
+            "input": 260,
+            "cache_write": 401148,
+            "cache_read": 40425002,
+            "output": 169462,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 10.783
+              }
+            ]
+          },
+          {
+            "id": "ad030f070c031d8c2",
+            "what": "Silver photo room",
+            "minutes": 128,
+            "usd": 22.894,
+            "requests": 121,
+            "input": 248,
+            "cache_write": 5120285,
+            "cache_read": 38256101,
+            "output": 244159,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 22.894
+              }
+            ]
+          },
+          {
+            "id": "a01aa5bdd7a2093de",
+            "what": "Silver dollar room",
+            "minutes": 82,
+            "usd": 22.7186,
+            "requests": 124,
+            "input": 250,
+            "cache_write": 5084385,
+            "cache_read": 38330443,
+            "output": 234100,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 22.7186
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "050da46a",
+          "usd": 6.91,
+          "requests": 102,
+          "input": 230,
+          "cache_write": 251092,
+          "cache_read": 19395844,
+          "output": 50943,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "usd": 6.9077
+            }
+          ]
+        }
+      }
     }
   ],
   "decisions": [
@@ -4120,10 +4736,10 @@
     "updated": "2026-11-09",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 22.08,
-      "requests": 125
+      "usd": 25.48,
+      "requests": 147
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
-    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.)"
+    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.) Silver's rooms (2026-11-09) ran on Sonnet 5.5 at high too, but cost $185 for seven: long waits for the machine's probe lock let the cache expire, so compare its snow room ($11) rather than the total."
   }
 }

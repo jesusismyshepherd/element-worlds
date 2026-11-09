@@ -5,6 +5,7 @@
 // A metal's hands hold out electrons to give: joined to a non-metal it hands them over and both become
 // ions, held by attraction (an ionic bond: salt, NaCl). Two metals do not join (metals share a sea of
 // electrons among many atoms instead: that is for alloys). Ionic compounds are recognised by formula.
+// Rings (benzene, glucose, the DNA bases) are recognised by formula and skeleton (RING_BUILDS, skeleton).
 import { element } from '../data/elements.js'
 import { bondCount, valenceElectrons } from './atom.js'
 
@@ -141,7 +142,87 @@ const KNOWN_LIST = [
   { show: 'N2H4', p: 'H-N,H-N,H-N,H-N,N-N', name: { en: 'hydrazine (rocket fuel)', 'pt-pt': 'hidrazina (combustível de foguetões)', pl: 'hydrazyna (paliwo rakietowe)', de: 'Hydrazin (Raketentreibstoff)' } },
   { show: 'CO', p: 'C#O', name: { en: 'carbon monoxide', 'pt-pt': 'monóxido de carbono', pl: 'tlenek węgla', de: 'Kohlenstoffmonoxid' }, charged: true },
   { show: 'O3', p: 'O-O,O=O', name: { en: 'ozone', 'pt-pt': 'ozono', pl: 'ozon', de: 'Ozon' }, charged: true },
+  // rings (2026-11-09, the lab's DNA bench): recognised by their skeleton, so any arrangement of the double
+  // bonds that uses every hand counts (benzene's two Kekulé rings, the bases' other ways of writing them)
+  { show: 'C6H6', ring: true, name: { en: 'benzene', 'pt-pt': 'benzeno', pl: 'benzen', de: 'Benzol' } },
+  { show: 'C6H12O6', ring: true, name: { en: 'glucose (the ring)', 'pt-pt': 'glicose (o anel)', pl: 'glukoza (pierścień)', de: 'Glucose (der Ring)' } },
+  { show: 'C5H5N5', ring: true, name: { en: 'adenine (the A of DNA)', 'pt-pt': 'adenina (o A do ADN)', pl: 'adenina (A w DNA)', de: 'Adenin (das A der DNA)' } },
+  { show: 'C5H6N2O2', ring: true, name: { en: 'thymine (the T of DNA)', 'pt-pt': 'timina (o T do ADN)', pl: 'tymina (T w DNA)', de: 'Thymin (das T der DNA)' } },
+  { show: 'C5H5N5O', ring: true, name: { en: 'guanine (the G of DNA)', 'pt-pt': 'guanina (o G do ADN)', pl: 'guanina (G w DNA)', de: 'Guanin (das G der DNA)' } },
+  { show: 'C4H5N3O', ring: true, name: { en: 'cytosine (the C of DNA)', 'pt-pt': 'citosina (o C do ADN)', pl: 'cytozyna (C w DNA)', de: 'Cytosin (das C der DNA)' } },
 ]
+
+/** How to build each ring molecule: its atoms, then the hands joined in order (a pair twice is a double
+ *  bond). Benzene as one Kekulé ring; glucose as its ring (a pyranose: five carbons and an oxygen, the
+ *  sixth carbon outside as CH2OH); the four DNA bases as chemists draw them (adenine 9H-purin-6-amine,
+ *  thymine 5-methyluracil, guanine 2-amino-1,9-dihydropurin-6-one, cytosine 4-aminopyrimidin-2(1H)-one).
+ *  The lab's "show me" (DEMOS in src/worlds/lab/lab.js) builds the same. */
+export const RING_BUILDS = {
+  // C0..C5 round the ring, double bonds 0=1, 2=3, 4=5; then a hydrogen on each carbon
+  C6H6: {
+    atoms: ['C', 'C', 'C', 'C', 'C', 'C', 'H', 'H', 'H', 'H', 'H', 'H'],
+    pairs: [[0, 1], [0, 1], [1, 2], [2, 3], [2, 3], [3, 4], [4, 5], [4, 5], [5, 0], [0, 6], [1, 7], [2, 8], [3, 9], [4, 10], [5, 11]],
+  },
+  // C1..C6 (0-5), the ring's O5 (6), the OH oxygens on C1, C2, C3, C4, C6 (7-11), the hydrogens on the
+  // carbons (12-18: C6 has two) and on the oxygens (19-23)
+  C6H12O6: {
+    atoms: ['C', 'C', 'C', 'C', 'C', 'C', 'O', 'O', 'O', 'O', 'O', 'O', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H', 'H'],
+    pairs: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 6], [6, 0], [4, 5], [0, 7], [1, 8], [2, 9], [3, 10], [5, 11],
+      [0, 12], [1, 13], [2, 14], [3, 15], [4, 16], [5, 17], [5, 18], [7, 19], [8, 20], [9, 21], [10, 22], [11, 23]],
+  },
+  // N1 C2 N3 C4 C5 C6 N6 N7 C8 N9 (0-9); H on C2, C8, N9 and two on N6
+  C5H5N5: {
+    atoms: ['N', 'C', 'N', 'C', 'C', 'C', 'N', 'N', 'C', 'N', 'H', 'H', 'H', 'H', 'H'],
+    pairs: [[5, 0], [5, 0], [0, 1], [1, 2], [1, 2], [2, 3], [3, 4], [3, 4], [4, 5], [5, 6], [4, 7], [7, 8], [7, 8], [8, 9], [9, 3],
+      [1, 10], [8, 11], [9, 12], [6, 13], [6, 14]],
+  },
+  // N1 C2 O2 N3 C4 O4 C5 C7 (the methyl) C6 (0-8); H on N1, N3, C6 and three on the methyl
+  C5H6N2O2: {
+    atoms: ['N', 'C', 'O', 'N', 'C', 'O', 'C', 'C', 'C', 'H', 'H', 'H', 'H', 'H', 'H'],
+    pairs: [[0, 1], [1, 2], [1, 2], [1, 3], [3, 4], [4, 5], [4, 5], [4, 6], [6, 8], [6, 8], [8, 0], [6, 7],
+      [0, 9], [3, 10], [8, 11], [7, 12], [7, 13], [7, 14]],
+  },
+  // N1 C2 N2 N3 C4 C5 C6 O6 N7 C8 N9 (0-10); H on N1, two on N2, on C8 and on N9
+  C5H5N5O: {
+    atoms: ['N', 'C', 'N', 'N', 'C', 'C', 'C', 'O', 'N', 'C', 'N', 'H', 'H', 'H', 'H', 'H'],
+    pairs: [[1, 2], [1, 3], [1, 3], [3, 4], [4, 5], [4, 5], [5, 8], [8, 9], [8, 9], [9, 10], [10, 4], [5, 6], [6, 7], [6, 7], [6, 0], [0, 1],
+      [0, 11], [2, 12], [2, 13], [9, 14], [10, 15]],
+  },
+  // N1 C2 O2 N3 C4 N4 C5 C6 (0-7); H on N1, two on N4, on C5 and on C6
+  C4H5N3O: {
+    atoms: ['N', 'C', 'O', 'N', 'C', 'N', 'C', 'C', 'H', 'H', 'H', 'H', 'H'],
+    pairs: [[4, 5], [4, 3], [4, 3], [3, 1], [1, 2], [1, 2], [1, 0], [0, 7], [7, 6], [7, 6], [6, 4], [0, 8], [5, 9], [5, 10], [6, 11], [7, 12]],
+  },
+}
+
+/** A molecule from a build: its atoms, then each pair joined in turn. */
+export function fromBuild({ atoms, pairs }) {
+  let mol = { atoms: atoms.map(el => ({ el })), bonds: [] }
+  for (const [i, j] of pairs) mol = join(mol, i, j) ?? mol
+  return mol
+}
+
+/** The molecule's skeleton as a string that does not depend on the order of its atoms nor on its bond
+ *  orders: each atom's element refined by its neighbours', round after round (Weisfeiler-Lehman), sorted.
+ *  Benzene's two Kekulé rings give the same skeleton; fulvene, with the same formula and bond pattern as
+ *  benzene, does not. */
+export function skeleton(mol) {
+  const n = mol.atoms.length
+  const nb = mol.atoms.map(() => [])
+  for (const [a, b] of mol.bonds) {
+    nb[a].push(b)
+    nb[b].push(a)
+  }
+  // a short stable hash of a string (FNV-1a), so the labels stay small round after round
+  const hash = s => {
+    let h = 0x811c9dc5
+    for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193) >>> 0
+    return h.toString(36)
+  }
+  let label = mol.atoms.map(a => a.el)
+  for (let round = 0; round < Math.min(8, n); round++) label = label.map((l, i) => hash(`${l}|${nb[i].map(j => label[j]).sort().join(',')}`))
+  return label.sort().join('.')
+}
 
 // Ionic compounds the lab knows (recognised by formula, when every bond is ionic and every hand used)
 const IONIC_LIST = [
@@ -180,19 +261,34 @@ export function parseFormula(text) {
 }
 
 // matched by the Hill formula (C, H, then alphabetical; alphabetical without carbon: NH3 is H3N)
-export const KNOWN = [...KNOWN_LIST, ...IONIC_LIST].map(k => ({ ...k, hill: formulaOf({ atoms: parseFormula(k.show), bonds: [] }) }))
+export const KNOWN = [...KNOWN_LIST, ...IONIC_LIST].map(k => {
+  const hill = formulaOf({ atoms: parseFormula(k.show), bonds: [] })
+  if (!k.ring) return { ...k, hill }
+  // a ring molecule: its bond pattern and skeleton from how it is built
+  const built = fromBuild(RING_BUILDS[k.show])
+  return { ...k, hill, p: bondPattern(built), skel: skeleton(built) }
+})
 
 /** The known molecule this one is, or null. Ozone and carbon monoxide are known but cannot be closed
- *  with plain hands (they need charges), so they are recognised even with hands left over. */
+ *  with plain hands (they need charges), so they are recognised even with hands left over. A ring
+ *  molecule is known by its skeleton once every hand is held (wherever its double bonds went). */
 export function recognise(mol) {
   const f = formulaOf(mol)
   const p = bondPattern(mol)
-  const molecule = KNOWN.find(k => !k.ionic && k.hill === f && k.p === p)
+  const molecule = KNOWN.find(k => !k.ionic && !k.ring && k.hill === f && k.p === p)
   if (molecule) return molecule
+  const ring = KNOWN.filter(k => k.ring && k.hill === f)
+  if (ring.length && complete(mol)) {
+    const s = skeleton(mol)
+    const known = ring.find(k => k.skel === s)
+    if (known) return known
+  }
   // an ionic compound is a crystal, not a molecule: any arrangement of its ions will do
   if (mol.bonds.length && mol.bonds.every(b => ionicBond(mol, b)) && complete(mol)) return KNOWN.find(k => k.ionic && k.hill === f) ?? null
   return null
 }
 
 /** Missions for the lab, easiest first. */
-export const MISSIONS = ['H2', 'H2O', 'O2', 'CO2', 'CH4', 'NH3', 'N2', 'HCl', 'C2H6', 'C2H4', 'C2H5OH', 'C2H2', 'NaCl', 'MgO', 'CaCl2'].map(show => KNOWN.find(k => k.show === show || k.hill === formulaOf({ atoms: parseFormula(show), bonds: [] })))
+export const MISSIONS = ['H2', 'H2O', 'O2', 'CO2', 'CH4', 'NH3', 'N2', 'HCl', 'C2H6', 'C2H4', 'C2H5OH', 'C2H2', 'NaCl', 'MgO', 'CaCl2',
+  // rings, then the four letters of DNA (2026-11-09)
+  'C6H6', 'C6H12O6', 'C5H5N5', 'C5H6N2O2', 'C5H5N5O', 'C4H5N3O'].map(show => KNOWN.find(k => k.show === show || k.hill === formulaOf({ atoms: parseFormula(show), bonds: [] })))

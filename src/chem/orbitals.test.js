@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { ELEMENTS, element } from '../data/elements.js'
 import {
   HARMONICS, radial, outerPeak, slaterZeff, madelung, MADELUNG, boxes, electronsOf, psi, finder, random, skinOf,
-  radiusWithin, densityProfile, nodesOf, skinSampled,
+  radiusWithin, densityProfile, nodesOf, skinSampled, ionOf,
 } from './orbitals.js'
 import { SKINS } from './orbitalSkins.js'
 import { subshells } from './atom.js'
@@ -182,5 +182,31 @@ test('the stored skins agree with skins drawn afresh, and scale with the charge'
     const z3 = skinOf(o, 3)
     near(z3.level, stored.level * 27, 1e-12, 'Z³')
     near(z3.reach, stored.reach / 3, 1e-12, '1/Z')
+  }
+})
+
+test('ions: the outermost electrons go first, extra ones fill the next places (the Atom Forge)', () => {
+  const conf = (sym, E) => ionOf(element(sym), E).subs.map(x => `${x.id}${x.count}`).join(' ')
+  // iron loses its 4s before its 3d: Fe2+ is [Ar] 3d6, Fe3+ [Ar] 3d5; with 19 electrons the 19th is in 3d
+  assert.equal(conf('Fe', 24), '1s2 2s2 2p6 3s2 3p6 3d6')
+  assert.equal(conf('Fe', 23), '1s2 2s2 2p6 3s2 3p6 3d5')
+  assert.equal(conf('Fe', 19), '1s2 2s2 2p6 3s2 3p6 3d1')
+  assert.equal(conf('Fe', 25), '1s2 2s2 2p6 3s2 3p6 4s1 3d6')
+  assert.equal(conf('Cu', 28), '1s2 2s2 2p6 3s2 3p6 3d10')
+  assert.equal(conf('Cl', 18), '1s2 2s2 2p6 3s2 3p6')
+  assert.equal(conf('H', 2), '1s2')
+  assert.equal(conf('Gd', 61), '1s2 2s2 2p6 3s2 3p6 4s2 3d10 4p6 5s2 4d10 5p6 4f7')
+  assert.equal(ionOf(element('Na'), 0).subs.length, 0)
+  // the neutral atom is the room's, rule breakers and all; an ion has no rule breaking to tell
+  assert.deepEqual(ionOf(element('Cr'), 24).exception, electronsOf(element('Cr')).exception)
+  assert.equal(ionOf(element('Cr'), 23).exception, null)
+  assert.equal(ionOf(element('Mn'), 23).unpaired, 5) // Mn2+: five lone 3d electrons
+  // every element, from one electron to three extra (the forge's limit): the counts add up (past 118 there is
+  // no place left before 8s, which the clouds do not draw), sizes are real numbers
+  for (const el of ELEMENTS) for (const E of new Set([1, 2, Math.ceil(el.z / 2), el.z - 1, el.z, el.z + 1, el.z + 2, el.z + 3])) {
+    if (E < 1) continue
+    const info = ionOf(el, E)
+    assert.equal(info.subs.reduce((a, x) => a + x.count, 0), Math.min(E, 118), `${el.symbol} ${E}`)
+    for (const x of info.subs) assert.ok(x.zeff > 0 && Number.isFinite(x.peak), `${el.symbol} ${E} ${x.id}`)
   }
 })

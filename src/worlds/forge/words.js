@@ -701,6 +701,18 @@ export const MISSIONS = [
     name: { en: 'Iron-56', 'pt-pt': 'Ferro-56', pl: 'Żelazo-56', de: 'Eisen-56' },
     hint: { en: 'Where the stars stop: fusing past iron costs energy instead of giving it.', 'pt-pt': 'Onde as estrelas param: fundir para lá do ferro gasta energia em vez de a dar.', pl: 'Tu gwiazdy się zatrzymują: synteza dalej niż żelazo zużywa energię, zamiast ją dawać.', de: 'Hier hören die Sterne auf: Fusion über Eisen hinaus kostet Energie, statt welche zu liefern.' },
   },
+  // the electrons as clouds (clouds.js, the ☁ view): where the last electrons really go (not raced: they
+  // ask for a view each racer chooses for themselves)
+  {
+    id: 'cloudCr', view: 'clouds', check: s => s.Z === 24 && s.E === 24 && !!s.clouds,
+    name: { en: 'Chromium’s surprise', 'pt-pt': 'A surpresa do crómio', pl: 'Niespodzianka chromu', de: 'Die Überraschung des Chroms' },
+    hint: { en: 'With the clouds on, build chromium: 24 protons, then 24 electrons one by one. Watch where the last ones go: not where the filling rule says.', 'pt-pt': 'Com as nuvens ligadas, faz crómio: 24 protões e depois 24 eletrões, um a um. Vê para onde vão os últimos: não para onde diz a regra.', pl: 'Przy włączonych chmurach zbuduj chrom: 24 protony, a potem 24 elektrony, jeden po drugim. Zobacz, dokąd idą ostatnie: nie tam, gdzie mówi reguła.', de: 'Bau mit eingeschalteten Wolken Chrom: 24 Protonen, dann 24 Elektronen, eines nach dem anderen. Schau, wohin die letzten gehen: nicht dorthin, wo die Regel es sagt.' },
+  },
+  {
+    id: 'cloudFe2', view: 'clouds', check: s => s.Z === 26 && s.E === 24 && !!s.clouds,
+    name: { en: 'The iron in your blood: Fe²⁺', 'pt-pt': 'O ferro do teu sangue: Fe²⁺', pl: 'Żelazo z twojej krwi: Fe²⁺', de: 'Das Eisen in deinem Blut: Fe²⁺' },
+    hint: { en: 'With the clouds on, make iron with two electrons fewer than protons. Which clouds does it lose them from?', 'pt-pt': 'Com as nuvens ligadas, faz ferro com dois eletrões a menos do que protões. De que nuvens os perde?', pl: 'Przy włączonych chmurach zrób żelazo z dwoma elektronami mniej niż protonów. Z których chmur je traci?', de: 'Mach mit eingeschalteten Wolken Eisen mit zwei Elektronen weniger als Protonen. Aus welchen Wolken verliert es sie?' },
+  },
   {
     id: 'Tc', check: s => s.Z === 43 && s.nuc.kind !== 'unknown',
     name: { en: 'Technetium', 'pt-pt': 'Tecnécio', pl: 'Technet', de: 'Technetium' },

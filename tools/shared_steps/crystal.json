@@ -1,0 +1,9 @@
+{
+  "/lab/crystal": [
+    "() => __ew.world.start()",
+    "() => __ew.world.pick('KCl')",
+    "() => __ew.world.setSpeed(0.9)",
+    "() => __ew.world.regrow()",
+    "() => __ew.world.pick('CaF2')"
+  ]
+}

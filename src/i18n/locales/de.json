@@ -228,6 +228,8 @@
     "placeholder": "Element suchen…"
   },
   "lab": {
+    "clouds": "Wolken",
+    "cloudsTip": "Die Elektronen als Wolken sehen: jede Hand eine Wolke mit einem Elektron, jede Bindung zwei Wolken, die zu einer verschmolzen sind",
     "benches": "Labortische",
     "gives_one": "gibt {{count}} Elektron ab",
     "gives_other": "gibt {{count}} Elektronen ab",
@@ -248,6 +250,10 @@
     "made": "Geschafft: {{name}}!"
   },
   "forge": {
+    "clouds": "Wolken",
+    "rings": "Ringe",
+    "viewTip": "Elektronen als Wolken (Quantenmechanik) oder als Bohrs Ringe (1913)",
+    "cloudMap": "Elektronenwolken",
     "title": "Atomschmiede",
     "p": "Protonen",
     "n": "Neutronen",

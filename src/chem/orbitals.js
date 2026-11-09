@@ -148,11 +148,91 @@ const key = s => `${s.n}${s.l}`
 export function electronsOf(el) {
   const actual = subshells(el.config).filter(s => s.count > 0)
   const Z = el.z
+  const { subs, top } = cloudsOf(Z, actual)
+  // where the real atom departs from the rule (chromium, copper, gold, the lanthanides...)
+  const rule = madelung(Z)
+  const ruleOf = Object.fromEntries(rule.map(s => [key(s), s.count]))
+  const realOf = Object.fromEntries(actual.map(s => [key(s), s.count]))
+  const ids = [...new Set([...Object.keys(ruleOf), ...Object.keys(realOf)])]
+  const differs = ids.filter(id => (ruleOf[id] ?? 0) !== (realOf[id] ?? 0))
+  const byOrder = id => orderOf({ n: Number(id[0]), l: id[1] })
+  const exception = differs.length
+    ? {
+        rule: differs.sort((a, b) => byOrder(a) - byOrder(b)).map(id => ({ id, count: ruleOf[id] ?? 0 })),
+        real: differs.map(id => ({ id, count: realOf[id] ?? 0 })),
+        // a set made exactly half full or full by the change: the extra steadiness chemists name
+        halfOrFull: differs.some(id => {
+          const c = realOf[id] ?? 0
+          const cap = capacity(id[1])
+          return id[1] !== 's' && (c === cap || c === cap / 2) && c !== (ruleOf[id] ?? 0)
+        }),
+      }
+    : null
+  return {
+    z: Z,
+    e: Z,
+    subs,
+    shells: top,
+    unpaired: subs.reduce((a, s) => a + s.unpaired, 0),
+    exception,
+    predicted: !!el.configPredicted,
+  }
+}
+
+/** An atom of element `el` holding `E` electrons: an ion when E is not its atomic number (the Atom Forge,
+ *  where electrons are added one by one). Its configuration is the real atom's with the outermost
+ *  electrons taken away first, the highest shell first and within it the highest l (iron loses its 4s
+ *  before its 3d: Fe²⁺ is [Ar] 3d⁶, and an iron nucleus with 19 electrons holds its 19th in 3d, not 4s);
+ *  extra electrons go into the next places in the filling order (Cl⁻ is [Ne] 3s² 3p⁶; none past 7p, so a
+ *  superheavy anion keeps 118). This is the rule
+ *  chemists use for ions; the sizes again from Slater's rules, now for the ion's own electrons. */
+export function ionOf(el, E) {
+  const Z = el.z
+  if (E === Z) return electronsOf(el)
+  const subs = subshells(el.config).filter(s => s.count > 0).map(s => ({ n: s.n, l: s.l, count: s.count }))
+  if (E < Z) {
+    let take = Z - E
+    for (const s of [...subs].sort((a, b) => b.n - a.n || L_OF[b.l] - L_OF[a.l])) {
+      const k = Math.min(take, s.count)
+      s.count -= k
+      take -= k
+      if (!take) break
+    }
+  } else {
+    let add = E - Z
+    for (const o of ORDER) {
+      if (!add) break
+      let s = subs.find(x => x.n === o.n && x.l === o.l)
+      if (!s) subs.push((s = { n: o.n, l: o.l, count: 0 }))
+      const k = Math.min(add, capacity(o.l) - s.count)
+      s.count += k
+      add -= k
+    }
+  }
+  const actual = subs.filter(s => s.count > 0)
+  if (!actual.length) return { z: Z, e: 0, subs: [], shells: 0, unpaired: 0, exception: null, predicted: !!el.configPredicted }
+  const { subs: clouds, top } = cloudsOf(Z, actual)
+  return {
+    z: Z,
+    e: E,
+    subs: clouds,
+    shells: top,
+    unpaired: clouds.reduce((a, s) => a + s.unpaired, 0),
+    exception: null,
+    predicted: !!el.configPredicted,
+  }
+}
+
+/** The subshells as clouds: Slater's Z_eff, the hydrogen-like charge that puts the cloud's last peak
+ *  where Slater's orbital has it, Hund's boxes, the orbitals. */
+function cloudsOf(Z, actual) {
   const filling = [...actual].sort((a, b) => orderOf(a) - orderOf(b))
   const top = Math.max(...actual.map(s => s.n))
   const subs = filling.map(s => {
     const lq = L_OF[s.l]
-    const zeff = slaterZeff(actual, Z, s)
+    // (an anion with two or three extra electrons, as the forge allows, can be shielded past its charge:
+    // Slater gives a negative Z_eff, an electron not held at all; a weak hold keeps its cloud a cloud)
+    const zeff = Math.max(0.35, slaterZeff(actual, Z, s))
     const nstar = N_STAR[s.n]
     // the cloud's last peak where Slater's orbital (r^(n*−1) e^(−Z_eff r / n*)) has it: n*² / Z_eff;
     // hydrogen's shape keeps its nodes, scaled so that its last peak falls there
@@ -175,33 +255,7 @@ export function electronsOf(el) {
       orbitals: HARMONICS[lq].map((h, m) => ({ id: `${key(s)}${h.sub}`, n: s.n, l: s.l, lq, m, k: h.k, sub: h.sub, electrons: bx[m] })),
     }
   })
-  // where the real atom departs from the rule (chromium, copper, gold, the lanthanides...)
-  const rule = madelung(Z)
-  const ruleOf = Object.fromEntries(rule.map(s => [key(s), s.count]))
-  const realOf = Object.fromEntries(actual.map(s => [key(s), s.count]))
-  const ids = [...new Set([...Object.keys(ruleOf), ...Object.keys(realOf)])]
-  const differs = ids.filter(id => (ruleOf[id] ?? 0) !== (realOf[id] ?? 0))
-  const byOrder = id => orderOf({ n: Number(id[0]), l: id[1] })
-  const exception = differs.length
-    ? {
-        rule: differs.sort((a, b) => byOrder(a) - byOrder(b)).map(id => ({ id, count: ruleOf[id] ?? 0 })),
-        real: differs.map(id => ({ id, count: realOf[id] ?? 0 })),
-        // a set made exactly half full or full by the change: the extra steadiness chemists name
-        halfOrFull: differs.some(id => {
-          const c = realOf[id] ?? 0
-          const cap = capacity(id[1])
-          return id[1] !== 's' && (c === cap || c === cap / 2) && c !== (ruleOf[id] ?? 0)
-        }),
-      }
-    : null
-  return {
-    z: Z,
-    subs,
-    shells: top,
-    unpaired: subs.reduce((a, s) => a + s.unpaired, 0),
-    exception,
-    predicted: !!el.configPredicted,
-  }
+  return { subs, top }
 }
 
 // ---- an orbital's wave, density and skin ----

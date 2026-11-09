@@ -227,6 +227,8 @@
     "placeholder": "Procurar elemento…"
   },
   "lab": {
+    "clouds": "Nuvens",
+    "cloudsTip": "Ver os eletrões como nuvens: cada mão uma nuvem com um eletrão, cada ligação duas nuvens fundidas numa só",
     "benches": "Bancadas do laboratório",
     "gives_one": "dá {{count}} eletrão",
     "gives_other": "dá {{count}} eletrões",
@@ -247,6 +249,10 @@
     "made": "Fizeste {{name}}!"
   },
   "forge": {
+    "clouds": "Nuvens",
+    "rings": "Anéis",
+    "viewTip": "Eletrões como nuvens (mecânica quântica) ou como os anéis de Bohr (1913)",
+    "cloudMap": "Nuvens de eletrões",
     "title": "Forja de Átomos",
     "p": "Protões",
     "n": "Neutrões",

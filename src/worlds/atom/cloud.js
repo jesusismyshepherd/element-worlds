@@ -306,8 +306,11 @@ function writeView(u, S, v) {
 }
 
 /** The cloud and its photos. `group` goes into the room (a sphere that shows the cloud, the dots);
- *  `render()` each frame before the room is drawn; `show(view)` blends to another view. */
-export function electronCloud({ renderer, camera, light, radius = 26, center = new THREE.Vector3(), yaw = 0 }) {
+ *  `render()` each frame before the room is drawn; `show(view)` blends to another view. `outside`: the
+ *  cloud is seen from outside (the Atom Forge), so its picture is laid on the near side of the cloud's own
+ *  sphere: the floor behind the atom no longer hides it, a thing in front of it still does. Without it the
+ *  picture lies on a far sphere round the visitor standing inside the cloud (the room inside the atom). */
+export function electronCloud({ renderer, camera, light, radius = 26, center = new THREE.Vector3(), yaw = 0, outside = false }) {
   // steps along each ray: a subshell's waves cost more a step than the whole atom's table, which needs more
   // steps for its thin shells
   const steps = light ? { orbital: 48, atom: 96 } : { orbital: 120, atom: 200 }
@@ -355,12 +358,12 @@ export function electronCloud({ renderer, camera, light, radius = 26, center = n
 
   const group = new THREE.Group()
   const composite = new THREE.Mesh(
-    new THREE.SphereGeometry(60, 32, 16),
+    outside ? new THREE.SphereGeometry(1, 48, 24) : new THREE.SphereGeometry(60, 32, 16),
     new THREE.ShaderMaterial({
       uniforms: { uTex: { value: rt.texture }, uRes: { value: new THREE.Vector2(1, 1) } },
       vertexShader: MARCH_VERT,
       fragmentShader: COMPOSITE_FRAG,
-      side: THREE.BackSide,
+      side: outside ? THREE.FrontSide : THREE.BackSide,
       transparent: true,
       depthWrite: false,
       depthTest: true,
@@ -440,6 +443,7 @@ export function electronCloud({ renderer, camera, light, radius = 26, center = n
     const shown = views.filter(Boolean)
     const r = Math.min(radius, Math.max(1, ...shown.map(v => v.cut ?? radius)))
     march.scale.setScalar(r)
+    if (outside) composite.scale.setScalar(r)
     uniforms.uRadius.value = r
     uniforms.uSteps.value = shown.some(v => v.mode === 0) ? steps.atom : steps.orbital
   }

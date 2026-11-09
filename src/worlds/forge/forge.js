@@ -25,6 +25,7 @@ import { play, ambience } from '../../audio/sound.js'
 import { MISSIONS } from './words.js'
 import { fresh, atomOf, bump, rebase, merge, covers, changes, clean, canon, untouched } from './together.js'
 import { progress } from './goals.js'
+import { forgeClouds } from './clouds.js'
 
 const LIFT = 2.8 // the atom's centre above the floor
 const NR = 0.17 // a nucleon's radius, in metres
@@ -123,6 +124,19 @@ export async function build(ctx, target) {
   atom.add(shellGroup)
   let rings = [] // { r, m: Matrix4 (ring plane to atom), mesh }
   let ringsKey = ''
+  // the electrons as clouds (clouds.js; the ☁ view, the HUD's button): the rings and their electrons hide,
+  // the clouds of the room inside the atom take their place. The choice is kept on this device
+  const clouds = forgeClouds(ctx, { center: new THREE.Vector3(0, LIFT, 0) })
+  root.add(clouds.group)
+  const VIEW_KEY = 'ew-forge-view'
+  const savedView = () => {
+    try {
+      return localStorage.getItem(VIEW_KEY) ?? 'clouds'
+    } catch {
+      return 'clouds'
+    }
+  }
+  clouds.setOn(savedView() !== 'rings')
 
   // the element's Atomling, on a pedestal beside the atom
   const stage = new THREE.Group()
@@ -302,7 +316,7 @@ export async function build(ctx, target) {
   }
 
   // ---- what the HUD shows (it words it itself, so a change of language or level shows at once) ----
-  const state = () => ({ Z, N, E, nuc: nuclide(Z, N), common: Z ? commonestN(Z) : 0, held, note })
+  const state = () => ({ Z, N, E, nuc: nuclide(Z, N), common: Z ? commonestN(Z) : 0, held, note, clouds: clouds.on })
   const report = () => {
     store.set({
       forge: {
@@ -310,6 +324,8 @@ export async function build(ctx, target) {
         event: lastEvent,
         canDecay: !!decay(Z, N),
         done: MISSIONS.filter(m => isFound(`forge:${m.id}`)).map(m => m.id),
+        // the electrons' clouds: the configuration, the newest electron's subshell, what is lit (cloudWords.js)
+        cloud: clouds.report(),
         // in a room: who else is here, and what they have just done
         together: room.active ? { peers: peersHere().map(m => ({ id: m.id, name: m.name, color: m.color })), feed } : null,
         racing,
@@ -338,6 +354,7 @@ export async function build(ctx, target) {
     lastChange = clock
     relayout()
     shells = syncShells()
+    clouds.sync(Z, E, rings.map(r => r.r))
     if (byPlayer) showAtomling(Z)
     if (missions) checkMissions(ev)
     if (racing) raceCheck(ev)
@@ -809,6 +826,7 @@ export async function build(ctx, target) {
   const v = new THREE.Vector3()
   const q = new THREE.Quaternion()
   const one = new THREE.Vector3(1, 1, 1)
+  const shrink = new THREE.Vector3(1, 1, 1)
   const glowAt = new THREE.Matrix4()
   const scale = new THREE.Vector3()
   const tint = new THREE.Color()
@@ -922,9 +940,23 @@ export async function build(ctx, target) {
     halo.material.color.set(unstable ? '#ffd166' : COLOR.p)
     halo.material.opacity = (unstable ? 0.1 + Math.sin(t * 9) * 0.04 : 0.07 + Math.sin(t * 2) * 0.02) + flash * 0.5
 
-    // the electrons go round their shells
+    // with the clouds on: only the newest electron shows, flying into its cloud and melting into it
+    if (clouds.update(dt, t)) report()
+    shellGroup.visible = !clouds.on
     let i = 0
-    shells.forEach((count, k) => {
+    if (clouds.on) {
+      if (eFly) {
+        const f = Math.min(1, (t - eFly.start) / 0.7)
+        if (f >= 1) eFly = null
+        else {
+          v.lerpVectors(eFly.from, clouds.landing() ?? v.set(0, 0, 0), 1 - (1 - f) * (1 - f))
+          tmp.compose(v, q, shrink.setScalar(1 - f * 0.7))
+          eIM.setMatrixAt(i++, tmp)
+        }
+      }
+    }
+    // the electrons go round their shells
+    if (!clouds.on) shells.forEach((count, k) => {
       const ring = rings[k]
       if (!ring) return
       for (let j = 0; j < count; j++) {
@@ -1089,6 +1121,9 @@ export async function build(ctx, target) {
     store.set({ forge: null, forgeCelebrate: null })
   }
 
+  // the clouds' ray march compiled now, not at the first electron
+  await clouds.warm().catch(() => {})
+
   return {
     mode: 'orbit',
     root,
@@ -1121,11 +1156,34 @@ export async function build(ctx, target) {
      *  whether I race; how many of the particles on show glow in someone else's colour. */
     nucleons: () => nucleons.map(x => ({ kind: x.kind, pos: x.pos.toArray(), target: x.target.toArray() })),
     table: () => ({ Z, N, E, room: atomOf(together), racing, glowing: nucleons.filter(x => x.tint).length }),
+    /** The electrons as clouds or as Bohr's rings (the HUD's ☁ / ◎), kept on this device. */
+    setView(view) {
+      const want = view === 'clouds'
+      if (want === clouds.on) return
+      clouds.setOn(want)
+      try {
+        localStorage.setItem(VIEW_KEY, want ? 'clouds' : 'rings')
+      } catch {
+        // (private windows: the choice lasts this visit)
+      }
+      track('forge', { op: 'view', v: view })
+      checkMissions()
+      report()
+    },
+    /** The HUD's electron map: show one subshell ({ sub, m }) or the whole atom ({ sub: 'all' }). */
+    pickCloud(sel) {
+      clouds.pick(sel)
+      report()
+    },
+    beforeRender() {
+      clouds.render()
+    },
     retarget: t => {
       if (t?.z && element(t.z)) goTo(t.z)
     },
     dispose() {
       verse.dispose()
+      clouds.dispose()
     },
   }
 }

@@ -6,10 +6,10 @@ benches (the other two, the clouds in the forge and the lab, live in those world
 
 | id | title (en) | the idea in the studio | its doc |
 |---|---|---|---|
-| `crystal` | Growing Crystals | `crystals-grow`: ions stacking into a salt crystal you watch grow | `crystal.md` |
-| `alloys` | The Alloy Forge | `alloys`: copper, tin, zinc, iron and carbon into bronze, brass and steel | `alloys.md` |
-| `reactions` | Reactions | `reactions-game`: balance by counting atoms on both sides, then run it | `reactions.md` |
-| `dna` | Building DNA | `rings-dna`: the DNA bases and a short strand built and paired (benzene and glucose join the lab's own molecules) | `dna.md` |
+| `crystal` | Growing Crystals (ready 2026-11-09) | `crystals-grow`: ions stacking into a salt crystal you watch grow | `crystal.md` |
+| `alloys` | The Alloy Forge (ready 2026-11-09) | `alloys`: copper, tin, zinc, iron and carbon into bronze, brass and steel | `alloys.md` |
+| `reactions` | Reactions (ready 2026-11-09) | `reactions-game`: balance by counting atoms on both sides, then run it | `reactions.md` |
+| `dna` | Building DNA (ready 2026-11-09) | `rings-dna`: the DNA bases and a short strand built and paired (benzene and glucose join the lab's own molecules) | `dna.md` |
 
 ## Where things are
 

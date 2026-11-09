@@ -219,6 +219,48 @@ export function play(kind, { order = 1 } = {}) {
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
     if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
   }
+  // the lab's Alloy Forge (worlds/benches/alloys/): a hammer on an ingot (order 0 a dull thud on soft lead
+  // or tin, up to 3 a bright ring on hard steel), a lump into the melt, the pour, the new ingot hissing, a
+  // bell bronze's long ring
+  else if (kind === 'anvil') {
+    const k = Math.max(0, Math.min(3, order))
+    whoosh(5200, 900, 0.08, 0.2 + k * 0.04)
+    if (k === 0) tone(NOTE(43), 0.2, { gain: 0.32, to: NOTE(36) })
+    else for (const [i, m] of [1, 2.76, 4.07, 5.4].entries()) tone(NOTE(70 + k * 4) * m, 0.12 + k * 0.18 / (i + 1), { gain: (0.14 - i * 0.025) * (0.6 + k * 0.2), type: i ? 'sine' : 'triangle' })
+  } else if (kind === 'plop') {
+    tone(NOTE(46), 0.16, { gain: 0.28, to: NOTE(58) })
+    whoosh(6000, 2600, 0.45, 0.06, 0.05)
+  } else if (kind === 'pour') {
+    whoosh(900, 2400, 1.4, 0.12, 0.9)
+    tone(NOTE(38), 1.2, { gain: 0.12, attack: 0.3, when: 0.9 })
+  } else if (kind === 'sizzle') whoosh(7600, 3400, 1.6, 0.08)
+  else if (kind === 'ring') {
+    whoosh(4200, 1200, 0.06, 0.18)
+    for (const [i, m] of [1, 2.0, 2.4, 3.0, 4.2].entries()) tone(NOTE(62) * m, 2.6 - i * 0.4, { gain: 0.16 - i * 0.025 })
+  }
+  // Growing Crystals (worlds/benches/crystal/): an ion locking into its place, a soft glassy tick on a
+  // pentatonic step (order: the count, so the growth plays a little tune); a seed crystal forming
+  else if (kind === 'clink') tone(NOTE(84 + [0, 2, 4, 7, 9, 12, 9, 7][order % 8]), 0.22, { gain: 0.045, out: 'ui' })
+  else if (kind === 'nucleus') {
+    bell(NOTE(79), 0, 0.1)
+    bell(NOTE(86), 0.12, 0.08)
+  }
+  // the lab's DNA bench: a helix unzipping (a whoosh and a rising run of soft ticks)
+  else if (kind === 'zip') {
+    whoosh(500, 2800, 0.6, 0.09)
+    for (let i = 0; i < 9; i++) tone(NOTE(70 + i * 2), 0.05, { type: 'triangle', gain: 0.07, when: i * 0.045, out: 'effects' })
+  }
+  // the lab's Reactions bench (worlds/benches/reactions/): the atoms fly over the arrow; the energy given out
+  // (a warm burst, order 1 to 3: how much) or taken in (a rising shimmer)
+  else if (kind === 'fly') whoosh(900, 2600, 0.8, 0.09)
+  else if (kind === 'release') {
+    whoosh(3000, 260, 0.9 + order * 0.2, 0.14 + order * 0.06)
+    tone(NOTE(38), 0.7, { gain: 0.18 + order * 0.08, to: NOTE(31) })
+    ;[67, 71, 74, 79].forEach((n, i) => tone(NOTE(n), 0.6, { type: 'triangle', gain: 0.07, when: 0.12 + i * 0.05, attack: 0.03 }))
+  } else if (kind === 'absorb') {
+    whoosh(260, 3400, 1.2, 0.12)
+    ;[60, 64, 67, 72, 76].forEach((n, i) => tone(NOTE(n), 0.5, { gain: 0.08, when: i * 0.12, attack: 0.06, to: NOTE(n + 0.5) }))
+  }
   // today's element (ui/DailyHud.jsx): a bright pair for a right answer, a soft low one for a wrong one,
   // and the streak's flame catching (order: a milestone rings longer)
   else if (kind === 'right') {
@@ -248,6 +290,7 @@ const BEDS = {
   plaza: [48, 55, 62, 67],
   atrium: [50, 57, 62, 66],
   lab: [53, 60, 64, 69],
+  bench: [53, 60, 64, 69], // the lab's benches (/lab/<id>): the lab's own bed
   wing: [45, 52, 57, 64],
   forge: [46, 53, 58, 65],
   stars: [43, 50, 55, 62],

@@ -27,12 +27,18 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, eighteen scenes (screenshots in
+- `hud_probe.py`: the HUD keeps the middle free on six screens, twenty-four scenes (screenshots in
   `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`). Its
   `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
   builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step;
   `plaza-hunts` the treasure hunts' sheet, `hall-hunt` a hunt's clue card in carbon's hall and `forge-hunt`
-  its chip in the forge's bar (these come last: the hunt started stays on for the screen's later scenes).
+  its chip in the forge's bar (these come last: the hunt started stays on for the screen's later scenes);
+  `reactions` and `reactions-after` the lab's Reactions bench, balanced and after photosynthesis has run.
+- `reactions_probe.py [--port 5323] [--lang en]`: the lab's Reactions bench played with real taps (`reactions.md`):
+  all ten reactions balanced by tapping their molecules, the minus, nine as the most, an unbalanced bench and one
+  without its light that will not run, the energy source tapped on, the arrow tapped; every run keeps the very
+  same atoms (by id, before, during and after), is a discovery, and Again brings them back; once in light mode.
+  About two minutes; screenshots `tools/shots/reactions_probe_*.png`.
 - `hunt_probe.py [--port 5329] [--only computer|phone|side] [--track] [--lang] [--level]`: the treasure hunts
   played as a player does (the hall by its address, the walker put in front of the exhibit and E pressed:
   pictures stepped into, panels opened, so `panelFrom` is the exhibit's own): every track on a computer
@@ -65,6 +71,12 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   real ray (the hand, the step, the find, the next prompt, a screenshot); `--lab Na|Si|both`, `--phone`,
   `--lang`, `--level`, `--only`, `--first`. A Python probe printing pt, pl or de text needs
   `sys.stdout.reconfigure(encoding='utf-8')` on the Windows console.
+- `alloys_probe.py [--port 5322]`: the lab's Alloy Forge worked by hand (`alloys.md`): with a mouse, an Atomling
+  clicked (one lump), one held (lumps keep coming), a drag across one (the view turns, nothing thrown), the crucible
+  (it pours), the anvil (a strike); bronze jammed, pure copper slipping, cast iron cracking, the discoveries, the
+  bench kept on coming back, light mode; with a finger on a phone; every language at both depths with no holes in
+  the cards. Taps land where `__ew.world.points()` says each thing is on the screen. Screenshots in
+  `tools/shots/alloys/`. About 3 minutes.
 - `atom_probe.py [--el Fe] [--phone] [--lang] [--level]`: inside the atom worked by hand (`inside-the-atom.md`): the
   electron map's keys tapped where they are on the screen (a subshell, again for its first orbital, a box, "All"),
   the panel's map and zoom slider, the camera (one photo, a burst of 100), the nucleus, the arch back to the hall.
@@ -85,12 +97,20 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 - `press_duo_probe.py`: the diamond press for two (`press.md`): two players in a room (a computer in
   English, a phone in Polish), one run on both, the jobs kept and refused, the same diamond, then one alone
   working both. 23 checks, about a minute; shots in `tools/shots/press_duo/`.
+- `crystal_probe.py`: the lab's crystal bench (`crystal.md`): two players in a room (a computer, a phone in
+  light mode) grow the same fast salt dish and then fluorite (one coming in late), their crystals' fingerprints
+  compared ion for ion; a tap stays one's own. 7 checks, under a minute; shots in `tools/shots/crystal/`.
 - `forge_room_probe.py`: the Atom Forge in a room, three players (a computer in English, a phone in
   Portuguese, a computer in German): presses at the same moment both counting, the others' glow and
   lines, missions for everyone there, a decay, a beam shot and a self-decay played once on every table;
   a race (the picker, one watching, the countdown, own atoms, progress on the board, the winner, back to
   the room's atom) and a second one whose referee leaves. 61 checks, under a minute; screenshots in
   `tools/shots/forge_room/` (`multiplayer.md`, "The forge together").
+- `dna_probe.py [--base http://localhost:5324]`: the lab's DNA bench (`dna.md`) on a computer and an upright
+  phone: the tray's four slots, a strand built (both strands' nucleotides, the card's letters), undo, the
+  twist, a copy ending in two helices, the finds kept, keep one, clear; console errors fail it. 26 checks,
+  under a minute; shots in `tools/shots/dna/`. In a room: `shared_probe.py --world /lab/dna` with
+  `tools/shared_steps/dna.json`; the HUD: `hud_probe.py --scene dna`.
 - `usage_probe.py`, `stats_probe.py` (both want `EW_DASH_PASS`), `account_probe.py`: usage recording, the
   family dashboard, accounts (`usage-data.md`, `accounts.md`). Every probe that makes an account wants an
   invite token in `QA_INVITE` (since 2026-11-08; `accounts.md`, "Invites"); `daily_probe.py --account`

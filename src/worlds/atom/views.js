@@ -26,12 +26,14 @@ export function tintsOf(l, count) {
   )
 }
 
-/** One subshell (`m` null: all its orbitals) or one orbital of it. */
-export function orbitalView(sub, m = null) {
+/** One subshell (`m` null: all its orbitals) or one orbital of it, its skin reaching `reach` metres; or, with
+ *  `scale` (metres per a0), at that size (the Atom Forge shows a new electron's cloud at its true size in the
+ *  atom). */
+export function orbitalView(sub, m = null, { reach: want = REACH, scale: fixed = null } = {}) {
   const orbs = m == null ? sub.orbitals : [sub.orbitals[m]]
   const skins = orbs.map(o => skinOf(o, sub.zh))
   const reach = Math.max(...skins.map(s => s.reach))
-  const scale = REACH / reach
+  const scale = fixed ?? want / reach
   const tints = tintsOf(sub.l, sub.orbitals.length)
   return {
     mode: 1,
@@ -86,7 +88,10 @@ function atomTable(info) {
       c.g += cols[k].g * w
       c.b += cols[k].b * w
     })
-    if (b > 0) c.multiplyScalar(1 / b)
+    // (a weight that underflows would blow the colour past what a half float holds: the filter then mixes
+    // that into its neighbours and the bloom spreads it over the whole screen)
+    if (b > 1e-6) c.multiplyScalar(1 / b)
+    else c.setRGB(0, 0, 0)
     data[i * 4] = THREE.DataUtils.toHalfFloat(c.r)
     data[i * 4 + 1] = THREE.DataUtils.toHalfFloat(c.g)
     data[i * 4 + 2] = THREE.DataUtils.toHalfFloat(c.b)
@@ -105,11 +110,12 @@ function atomTable(info) {
 /** The deepest zoom that still makes sense: the 1s shell where the outer shell was. */
 export const maxZoomOf = info => Math.max(1, Math.max(...info.subs.map(s => s.peak)) / Math.min(...info.subs.map(s => s.peak)))
 
-/** Every electron at once; `zoom` (1 or more) brings the inner shells out to where the outer one was. */
-export function atomView(info, zoom = 1) {
+/** Every electron at once, the outer shell's peak `outer` metres out; `zoom` (1 or more) brings the inner
+ *  shells out to where the outer one was. */
+export function atomView(info, zoom = 1, { outer = OUTER } = {}) {
   const t = atomTable(info)
   const outerPeak = Math.max(...info.subs.map(s => s.peak))
-  const scale = (OUTER / outerPeak) * zoom
+  const scale = (outer / outerPeak) * zoom
   return {
     mode: 0,
     key: 'all',
@@ -121,6 +127,63 @@ export function atomView(info, zoom = 1) {
     gain: 0.075,
     cut: Math.min(ROOM_R, t.outer * scale),
   }
+}
+
+/** Where each subshell's bubble goes in `ringedAtomView`: on its principal shell's ring (`radii`, metres,
+ *  n = 1 first), a d subshell part way out toward the next ring and an f subshell a little further (iron's
+ *  3d lies outside its 3s and 3p and inside its 4s; gadolinium's 4f inside its 5s and 5p). */
+export function ringRadius(sub, radii) {
+  const r = radii[sub.n - 1] ?? radii[radii.length - 1]
+  const gap = radii.length > 1 ? radii[1] - radii[0] : r * 0.5
+  return r + (sub.l === 'd' ? 0.45 : sub.l === 'f' ? 0.4 : 0) * gap
+}
+
+/** The whole atom as seen from outside (the Atom Forge): each subshell a thin bubble in its block's colour,
+ *  the bubbles spread out evenly on the forge's rings (`radii`) instead of at their true sizes. At true sizes
+ *  the inner shells crowd so close to the nucleus that the forge's big nucleus hides them, and the outer
+ *  shell's glow hides the rest; the room inside the atom shows the true sizes. The table is in metres:
+ *  `scale` is 1. */
+export function ringedAtomView(info, radii) {
+  const gap = radii.length > 1 ? radii[1] - radii[0] : radii[0] * 0.5
+  const top = radii[radii.length - 1] + gap * 0.9
+  const N = 1024
+  const logMin = Math.log(radii[0] * 0.4)
+  const logMax = Math.log(top)
+  const shells = info.subs.map(s => ({
+    at: ringRadius(s, radii),
+    col: new THREE.Color(BLOCK[s.l]),
+    // fuller subshells glow more; a small bubble is crossed along a shorter path than a big one: lifted
+    w: (0.5 + 0.5 * Math.sqrt(s.count / (2 * (2 * s.lq + 1)))) * Math.min(3, (top / ringRadius(s, radii)) ** 0.6),
+  }))
+  const data = new Uint16Array(N * 4)
+  const c = new THREE.Color()
+  for (let i = 0; i < N; i++) {
+    const r = Math.exp(logMin + ((i + 0.5) / N) * (logMax - logMin))
+    let b = 0
+    c.setRGB(0, 0, 0)
+    for (const s of shells) {
+      const w = s.w * Math.exp(-(((r - s.at) / (0.1 * gap)) ** 2))
+      b += w
+      c.r += s.col.r * w
+      c.g += s.col.g * w
+      c.b += s.col.b * w
+    }
+    // (a weight that underflows would blow the colour past what a half float holds: the filter then mixes
+    // that into its neighbours and the bloom spreads it over the whole screen)
+    if (b > 1e-6) c.multiplyScalar(1 / b)
+    else c.setRGB(0, 0, 0)
+    data[i * 4] = THREE.DataUtils.toHalfFloat(c.r)
+    data[i * 4 + 1] = THREE.DataUtils.toHalfFloat(c.g)
+    data[i * 4 + 2] = THREE.DataUtils.toHalfFloat(c.b)
+    data[i * 4 + 3] = THREE.DataUtils.toHalfFloat(Math.min(b, 4))
+  }
+  const tex = new THREE.DataTexture(data, N, 1, THREE.RGBAFormat, THREE.HalfFloatType)
+  tex.minFilter = THREE.LinearFilter
+  tex.magFilter = THREE.LinearFilter
+  tex.wrapS = THREE.ClampToEdgeWrapping
+  tex.needsUpdate = true
+  // (fewer shells add up to less light: a small atom's are each made brighter)
+  return { mode: 0, key: 'all', zoom: 1, table: tex, logMin, logMax, scale: 1, gain: 0.07 * Math.sqrt(7 / radii.length), cut: top, ringed: true }
 }
 
 /** A point given in a0 on the atom's axes (z up), on the room's axes (y up), times `scale`. */

@@ -12,8 +12,13 @@ import { CODES } from '../i18n/langs.js'
 import NuclideChart from './NuclideChart.jsx'
 import { Together, RacePicker, RaceBoard } from './ForgeTogether.jsx'
 import { useCover, useViewport } from './layout.js'
+import OrbitalMap from './OrbitalMap.jsx'
+import { cloudLine, configLine } from '../worlds/forge/cloudWords.js'
+import { wordsFor } from '../worlds/atom/words.js'
 
 const DOT = { p: '#ff5a55', n: '#b9c6dc', e: '#a8ecff' }
+// the blocks' colours, as the clouds draw them (src/worlds/atom/views.js BLOCK)
+const BLOCK = { s: '#ff6f91', p: '#ffc24d', d: '#5cc4ff', f: '#7fe58e' }
 const TONE = { info: 'opacity-90', good: 'text-emerald-300', warn: 'text-amber-200', bad: 'text-rose-300' }
 const CHIP = {
   stable: 'bg-emerald-400/20 text-emerald-200', radioactive: 'bg-amber-400/20 text-amber-200', instant: 'bg-rose-500/25 text-rose-200',
@@ -137,12 +142,34 @@ export default function ForgeHud({ engine }) {
     }
   }
   const btn = 'rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 transition px-2 py-1.5'
+  // the electrons as clouds or as rings (src/worlds/forge/clouds.js): the switch, the line about the newest
+  // electron, the electron map (a tap on a key or a box lights that subshell or orbital in the atom)
+  const c = f.cloud
+  const cloudsOn = !!c?.on
+  const cloudText = cloudsOn && c.e > 0 ? cloudLine(c, lang, level) : null
+  const viewSwitch = (
+    <div key="view" className={`flex rounded-xl bg-white/5 p-0.5 gap-0.5 ${narrow ? '' : 'col-span-2'}`} title={t('forge.viewTip')} data-forge-view>
+      {[['clouds', '☁'], ['rings', '◎']].map(([v, icon]) => (
+        <button key={v} type="button" onClick={() => world?.setView?.(v)} className={`flex-1 rounded-lg px-1.5 py-1 whitespace-nowrap transition ${(v === 'clouds') === cloudsOn ? 'bg-white/25' : 'hover:bg-white/10 opacity-80'}`}>
+          {icon} {t(`forge.${v}`)}
+        </button>
+      ))}
+    </div>
+  )
+  const cloudBox = cloudsOn && c.e > 0 && (
+    <div className="glass rounded-2xl p-2 pointer-events-auto w-[min(80vw,17rem)] overflow-y-auto max-h-[42vh]" data-forge-clouds>
+      <div className="font-display font-bold text-sm px-1">☁ {t('forge.cloudMap')}</div>
+      <div className="text-xs opacity-80 px-1 mb-1 tabular-nums">{configLine(c.subs)}</div>
+      <OrbitalMap map={{ shells: c.shells, subs: c.subs, sel: c.sel, colors: BLOCK, all: wordsFor(lang).board.all(c.e), sci: level === 'scientist', pick: sel => world?.pickCloud?.(sel) }} />
+    </div>
+  )
   const quick = [
     <button key="neutral" type="button" className={btn} onClick={() => world?.neutral?.()} title={t('forge.neutralTip')}>{t('forge.neutral')}</button>,
     // (in a race each builds it particle by particle: no jumping to an isotope)
     <button key="common" type="button" className={`${btn} disabled:opacity-40`} disabled={f.racing} onClick={() => world?.commonest?.()} title={t('forge.commonestTip')}>{t('forge.commonest')}</button>,
     <button key="hold" type="button" className={`${btn} ${f.held ? 'bg-sky-400/40 hover:bg-sky-400/50' : ''}`} onClick={() => world?.setHeld?.(!f.held)} title={t('forge.holdTip')}>🧲 {t('forge.hold')}</button>,
     <button key="clear" type="button" className={btn} onClick={() => world?.clear?.()}>{t('forge.clear')}</button>,
+    viewSwitch,
   ]
   const particle = ([k, count]) => side ? (
     <div key={k} className="glass rounded-xl px-1.5 py-1 flex items-center gap-1.5 text-xs font-bold">
@@ -242,6 +269,7 @@ export default function ForgeHud({ engine }) {
       </div>
       {event && <div className="mt-1.5 text-[13px] text-amber-200 font-bold">{level === 'scientist' ? event.sci : event.kid}</div>}
       {lonely && <div className="mt-1 text-[13px] text-amber-200">{lonely}</div>}
+      {cloudText && <div className="mt-1 text-[13px] text-sky-200 leading-snug" data-forge-cloud-line>☁ {cloudText}</div>}
       <button type="button" onClick={() => setMore(m => !m)} className="w-full text-left mt-1">
         <ul className={`space-y-0.5 text-[13px] leading-snug ${more ? '' : 'line-clamp-2'}`}>
           {lines.map((l, i) => <li key={i} className={TONE[l.tone]}>{l.text}</li>)}
@@ -331,6 +359,7 @@ export default function ForgeHud({ engine }) {
 
       <div ref={rightRef} className="absolute right-3 top-[calc(var(--bar)+0.25rem)] flex flex-col gap-2 items-end pointer-events-none" style={{ maxHeight: 'calc(100vh - var(--bar) - 4.5rem)' }}>
         {f.together && <div className="w-[min(80vw,17rem)]">{together}</div>}
+        {!chart && cloudBox}
         {!chart && (racing ?? missions)}
         <button type="button" onClick={() => setChart(c => !c)} className={`glass rounded-xl px-3 py-1.5 text-xs font-bold pointer-events-auto hover:bg-white/10 ${chart ? 'bg-white/20' : ''}`}>
           🗺️ {t('forge.chart')}

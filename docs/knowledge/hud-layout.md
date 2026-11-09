@@ -68,8 +68,9 @@ full screen.
 
 - `MSYS_NO_PATHCONV=1 py -3.11 tools/hud_probe.py` (dev server on 5310): six screens (a desktop, a
   laptop, an upright phone and a phone on its side, each phone also inside the browser's bars, 690 x 265
-  being the user's screenshot) and eighteen scenes (the plaza at rest, with a card, a drawer, the quiz; a
-  hall's panel and speech; a wing's panel; the lab with water made; the forge; the neon name window; the Star Forge's star and its slow capture;
+  being the user's screenshot) and twenty-four scenes (the plaza at rest, with a card, a drawer, the quiz; a
+  hall's panel and speech; a wing's panel; the lab with water made; the forge; the Alloy Forge; the crystal bench with an ion tapped;
+  the DNA bench, before and after a copy; the Reactions bench, before and after a run; the neon name window; the Star Forge's star and its slow capture;
   today's element; the treasure hunts' sheet, a hunt's clue card in a hall and its chip in the forge's bar).
   Where the hunt's clue card goes in each world, and how it takes turns on a phone: `hunts.md`.
   It fails when a HUD piece lies in the middle of the free part (the stick in its corner excepted) or the HUD covers more than the scene allows. Screenshots in `tools/shots/hud/`;

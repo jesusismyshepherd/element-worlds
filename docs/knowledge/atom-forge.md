@@ -65,6 +65,44 @@ nucleons fly in together; on arrival the compound nucleus reacts:
 - Missions (`words.js` MISSIONS, discoveries `forge:<id>`): from a hydrogen atom to oganesson-294,
   carbon-14 turning into nitrogen, and the whole uranium-238 chain to lead.
 
+## Clouds (2026-11-09)
+
+The user marked "the forge's electrons fill clouds" Sooner in the family studio. The electrons can now be
+clouds instead of Bohr's rings: the switch "☁ Clouds / ◎ Rings" under Neutral and Hold (kept on the device,
+`ew-forge-view`; clouds by default). Pieces:
+
+- `src/chem/orbitals.js` `ionOf(el, E)`: the configuration of the element with E electrons. The real atom's
+  configuration (`elements.json`), its outermost electrons taken first (the highest shell, then within it the
+  highest l), extra ones added in Madelung's order. So iron loses 4s before 3d (Fe²⁺ [Ar] 3d⁶) and, built up
+  electron by electron on an iron nucleus, fills 3d first: with 19 electrons the 19th is a 3d electron, and 4s
+  fills only with the last two. That is true of ions (a nucleus this charged pulls 3d below 4s); "4s before
+  3d" is about the neutral atoms along the table. Sizes again from Slater's rules for the ion's own electrons
+  (Z_eff floored at 0.35: an anion with two or three extra electrons can be shielded past its charge). No
+  place past 7p: a superheavy anion keeps 118. Tested in `orbitals.test.js`.
+- `src/worlds/forge/clouds.js`: the room inside the atom's cloud drawing (`atom/cloud.js` with `outside: true`:
+  its picture laid on the near side of the cloud's own sphere, so the forge's floor behind the atom does not
+  hide it) round the forge's atom. The whole atom is `ringedAtomView` (`atom/views.js`): each subshell a thin
+  bubble in its block's colour, on the forge's rings (d part way out to the next ring, f a little less: 3d lies
+  outside 3s and 3p and inside 4s). True sizes did not work here: the forge's nucleus is drawn far too big, the
+  inner shells sat inside it, and seen from outside the outer shell's glow hid the rest in a pink haze. The
+  room inside the atom keeps the true sizes. A new electron flies in, lands in its cloud (a place drawn by
+  Born's rule) and its subshell is lit for 2.6 s (`orbitalView`, its skin a quarter past its bubble), its
+  orbitals with electrons bright, the free ones faint; then the whole atom comes back.
+- `src/worlds/forge/cloudWords.js` (four languages, both depths, `cloudWords.test.js`): the configuration as
+  chemists write it (`configLine`: "[Ar] 4s² 3d⁶") and one line for the newest change, in this order: a rule
+  breaker made whole (chromium: the rule says 4s² 3d⁴, it really is 4s¹ 3d⁵), an ion filling d or f before the
+  neutral atom's outer s ("3d before 4s!"), a closed shell (a noble gas, or as many electrons as one), the
+  first pair in a p, d or f set (Hund's rule), else where it went (a new kind of cloud names its shape).
+- The HUD (`ForgeHud.jsx`): the line in the atom's card (☁), and on a computer the electron map at the top
+  of the right column (the room's `OrbitalMap.jsx`): a tap on a key lights that subshell, on a box one
+  orbital, "All" the whole atom (`world.pickCloud`). Phones have the line and the switch.
+- Missions (not raced: they ask for the clouds' view, each racer's own choice; `race.test.js` counts them
+  out): "Chromium's surprise" (24 protons, 24 electrons) and "The iron in your blood: Fe²⁺" (haemoglobin's
+  iron; 26 protons, 24 electrons).
+- Trap: where a bubble's weight underflowed, dividing by it overflowed the half-float table; the texture
+  filter mixed that into its neighbours and the bloom spread it over the whole screen (uranium went black).
+  Both tables now leave such texels empty.
+
 ## Together (in a room, 2026-10-31)
 
 Alone nothing of this runs (and nothing of the forge is kept or sent). In a room

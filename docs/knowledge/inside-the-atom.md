@@ -131,5 +131,6 @@ them.
 ## Next (ideas in the studio)
 
 Light from the clouds (an electron jumping between them gives a colour: the neon signs and flame tests
-explained), bonds as clouds overlapping (the lab's H2, carbon's sp3), the Atom Forge's electrons filling
-clouds as you add them, the plaza's table by blocks with each block's cloud shape.
+explained), bonds as clouds overlapping (the lab's H2, carbon's sp3), the plaza's table by blocks with each
+block's cloud shape. The Atom Forge's electrons fill clouds since 2026-11-09 (`atom-forge.md`, "Clouds"):
+it uses this drawing from outside (`electronCloud({ outside: true })`, `ringedAtomView`) and `ionOf`.

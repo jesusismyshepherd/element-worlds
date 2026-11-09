@@ -111,7 +111,18 @@ in. The studio item is `picture-rooms`.
   Montreal outside, a real door onto a cold corridor; `door.setOpen(k)`, `windows[i].pane.setOpen(k)`, `onWall`),
   `lunar.js` (on the Moon on a rise above a young crater, black sky, the Earth lit from the side;
   `groundAt`, `paintMoonMap(g, w, h, view)`, `MARIA`, `CRATERS`, `moonDir`) and `showcave.js` (a limestone show
-  cave with a bottom and a top door; `doors.bottom/top.set(k)`, `setSeason(k)`, `setDrift(k)`, `ceilingAt`). A
+  cave with a bottom and a top door; `doors.bottom/top.set(k)`, `setSeason(k)`, `setDrift(k)`, `ceilingAt`), and
+  silver's seven (2026-11-09): `stadium.js` (the Panathenaic Stadium at dusk: marble terraces, a cinder track, a
+  crowd with flashes, floodlights; matcaps for polished silver, gold, copper, bronze and iron), `dome.js` (inside
+  the 100-inch telescope's dome on Mount Wilson in the 1920s: the slit turns, `setDomeAz(az)`; `domeTelescope()`
+  with `aim(az, alt)`; `silverCap()`), `spacestation.js` (inside a station module: racks both sides, handrails split
+  at `gaps` for a scene's own machines, a porthole with the Earth turning below; `STATION`, `PERIOD`), `mine.js`
+  (Kongsberg: a dusk clearing over a valley town that grows with `town.setYear`, a banded-gneiss gallery with a
+  forge chamber, rails, a smoke loft; `setAdvance` for the end face, `setInside`), `greylock.js` (a frosty
+  November summit with its memorial tower, wrapping `meadow.js`; `cloudDeck` of puffs that can each turn to ice,
+  `bareTree`), `darkroom.js` (a daylight studio and, through a curtained doorway, a brick darkroom under red
+  safelights; `setWhite(k)`, `DARKROOM`) and `galleon.js` (a Spanish galleon's main deck at anchor on a moonlit
+  night: castle roof, great cabin, rigging; `lantern()`, `rope()`, `onBulkhead(obj, x, y)`). A
   room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
@@ -477,6 +488,41 @@ at the same address.
     breath (outside temperature: about 200 Bq/m³ in winter, about 3000 in summer, as at Postojna; below −6 °C
     snow closes the top); the doors (shut the bottom door in summer; Waring et al. 2021, a proposal); the
     guide's year of dose against the 20 mSv limit, the visitor's sliver.
+
+- Silver (2026-11-09, built with Sonnet 5.5 at high effort, the setting krypton's were built with, since neither hall
+  of the trial had stars yet), seven rooms from `docs/agents/designs/Ag_rooms.md`; facts with doubts sit in each
+  words file's head:
+  - `medal` ("What is inside a gold medal?"): the Panathenaic Stadium at dusk (`stadium.js`). A medal 1.8 m across
+    (peel the gold skin back, a lens of gold over silver with a copper atom in eight; the balance, 529 g against
+    about 950 g of solid gold; the iron hexagon lifts out and points to iron's hall); the medal-maker's bench
+    (hang a silver blank in the gold bath, a current slider, grams and micrometres by Faraday's law, swap the clips
+    and silver leaves instead); the podium through the Games, 1896 to 2024, each medal cut through.
+  - `mirror` ("How do you silver a mirror?"): inside the 100-inch telescope's dome, the 1920s (`dome.js`). The disc
+    on a cradle (acid washes the old coat, reducer and silver jars in either order grow the film to 95%, the dish
+    gathers one coat into a cube of 1.1 cm); five mirror metals under a reflectometer, a colour slider, foul air
+    tarnishes silver; Hubble's plate H335H (the dome swings to Andromeda, three spots marked N, one VAR!, its
+    31.4-day pulse, 930,000 light-years on 1925's scale, about 2.5 million today).
+  - `germs` ("How does silver fight germs?"): the space station's Russian segment (`spacestation.js`). Water from
+    breath (condense, filter, a silver dose of 0.05 to 0.2 mg/L, 85 °C, a ball of water floats out only when it is
+    safe); a Petri dish 1.9 m across with clear rings round the silver and copper coins and none round a button;
+    one germ 1.5 million times bigger, silver ions jamming its machines (four of seven: it cannot divide, a model);
+    Credé's bottle of 1880.
+  - `wire` ("Can silver grow like hair?"): Kongsberg's King's Mine (`mine.js`). The ox's find of 1623 and a year
+    slider growing the town to 1958; fire-setting over a model weekend, 10 to 15 cm a fire; a lump of silver
+    sulfide heated past 177 °C grows silver hair, melts at about 830 °C, and three ideas for how the mine's grew.
+  - `snow` ("Can you make it snow?"): Mount Greylock, November 1946 (`greylock.js`). Schaefer's cold box (breathe a
+    cloud in, six jars: dry ice freezes it at any temperature, silver iodide at −4 °C or colder, at −38 °C it
+    freezes by itself); ice's hexagons slide onto silver iodide's and not onto salt's squares; the plane seeds
+    the cloud deck, the burner sends silver iodide smoke, "a little" more snow.
+  - `photo` ("How does light make a picture?"): a daylight studio and its red-lit darkroom (`darkroom.js`).
+    Daguerre's plate (iodine, an exposure slider with a puppet bear that blurs, mercury, hypo, tilt it from
+    positive to negative); a silver bromide crystal as big as a table, each tap a photon, four silver atoms make
+    the speck the developer needs; the bench (the enlarger's seconds, four trays, white light fogs what is not
+    fixed).
+  - `dollar` ("Why is a dollar called a dollar?"): a Spanish galleon at anchor on a moonlit night (`galleon.js`).
+    The piece of eight cut into bits (27.47 g, "two bits"), a cob and a milled coin clipped; the silver roads on a
+    map with a year slider (Joachimsthal's tolar to dollar, Potosí, Mexico, Manila); the purser's test of six
+    coins by density (tin, copper, silver 10.38, lead).
 
 ## Adding a room
 

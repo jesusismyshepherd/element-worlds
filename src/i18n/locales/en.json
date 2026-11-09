@@ -225,6 +225,8 @@
     "placeholder": "Find an element…"
   },
   "lab": {
+    "clouds": "Clouds",
+    "cloudsTip": "See the electrons as clouds: every hand a cloud with one electron, every bond two clouds merged into one",
     "benches": "Lab benches",
     "gives_one": "gives away {{count}} electron",
     "gives_other": "gives away {{count}} electrons",
@@ -245,6 +247,10 @@
     "made": "You made {{name}}!"
   },
   "forge": {
+    "clouds": "Clouds",
+    "rings": "Rings",
+    "viewTip": "Electrons as clouds (quantum mechanics) or as Bohr’s rings (1913)",
+    "cloudMap": "Electron clouds",
     "title": "Atom Forge",
     "p": "Protons",
     "n": "Neutrons",
