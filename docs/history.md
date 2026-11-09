@@ -6,6 +6,12 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- The Alloy Forge (`/lab/alloys`, the first of the lab's benches; the user's Sooner on alloys): ten metal Atomlings
+  throw lumps into a crucible; ten real alloys named by their mix by mass (bronze, bell bronze, brass, cupronickel,
+  stainless steel, steel, cast iron, sterling silver, 18-carat gold, solder), poured into an ingot; inside the metal
+  its ions to scale in their sea of electrons; the hammer slides a pure metal's rows, an alloy's odd-sized atoms jam
+  them, cast iron cracks along its graphite. Every range and hardness with its source. Built by an agent in its own
+  checkout while the clouds were built. `alloys.md`.
 - Bonds as clouds (the user's Sooner): the Molecule Lab's ☁ shows every free hand as a cloud with one electron,
   every bond as two hands' clouds merged into one shared pair (watch two hydrogens' clouds become H₂), lone pairs,
   double bonds' π clouds above and below, ionic pairs handed over, shared clouds leaning toward oxygen. A line

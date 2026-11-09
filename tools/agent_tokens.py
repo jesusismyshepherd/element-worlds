@@ -122,6 +122,13 @@ def agents():
             except ValueError:
                 pass
         yield sub.stem.removeprefix('agent-'), sub.parent.parent.name, desc, sub
+    # builders delegated to a checkout of their own (T3's delegate_task, isolation 'worktree', 2026-11-09): each
+    # is a whole session in that checkout's project folder, named by its session id, and its own subagents
+    for proj in sorted(PROJECTS.parent.glob('C--Users-admin--t3-worktrees-element-worlds-*')):
+        for f in sorted(proj.glob('*.jsonl')):
+            yield f.stem, f.stem, f'delegated session ({proj.name.rsplit("-", 2)[-1]})', f
+            for sub in sorted((proj / f.stem / 'subagents').glob('agent-*.jsonl')):
+                yield sub.stem.removeprefix('agent-'), f.stem, 'its subagent', sub
 
 
 def main():
