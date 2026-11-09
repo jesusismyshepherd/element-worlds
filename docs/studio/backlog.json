@@ -192,7 +192,7 @@
       "code": "Tr",
       "title": "Treasure hunts",
       "kind": "games",
-      "status": "next",
+      "status": "building",
       "from": "you",
       "date": "2026-10-29",
       "summary": "Hunts in order: each clue leads to the next hall, board or exhibit, on a theme.",
@@ -201,7 +201,8 @@
         "Themes: history (who found what, and when), uses (where you meet the element at home), records (the heaviest, the coldest, the rarest), general knowledge, and more as the world grows.",
         "Difficulty from Explorer clues to Scientist riddles. A long hunt can be left and picked up later: your progress stays in your account, a team's under its room code.",
         "Built from what is in the game, so every answer can be found there. Each clue points at a real place, and the tests fail when a place a hunt needs goes away, so hunts stay true without an update schedule. New tracks come after a batch of new content, and a hunt in progress keeps the version it started with.",
-        "A few tracks first; many more once the usage data shows that hunts are played often."
+        "A few tracks first; many more once the usage data shows that hunts are played often.",
+        "2026-11-09, being built: three tracks first (Discoverers, At home, Records), each clue a riddle that leads to a real hall, picture or room, reached when you go there or open it; a card with the clue follows you through every world; the hunt keeps its place in your account, so you can stop and go on later; a badge in the passport for each track."
       ]
     },
     {
