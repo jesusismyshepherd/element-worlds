@@ -284,7 +284,7 @@ export default [
     story: {
       en: {
         kid: [
-          'When you watch a video from another continent, it almost certainly travelled under the sea: along cables lying on the ocean floor, with threads of glass inside them thinner than a hair. Light flashes on and off through those threads billions of times a second, and every flash is a tiny piece of your video.',
+          'When you watch a video from another continent, it almost certainly travelled under the sea: along cables lying on the ocean floor, with threads of glass inside them about as thin as a hair. Light flashes on and off through those threads billions of times a second, and every flash is a tiny piece of your video.',
           'How does the light stay inside a thread that bends and curls for thousands of kilometres? The middle of each thread has a pinch of germanium in its glass. That makes light go a little slower in the middle than in the glass around it, and whenever the light reaches the edge it bounces back into the middle, again and again, like a ball rolling down a long pipe.',
         ],
         sci: [
@@ -294,7 +294,7 @@ export default [
       },
       'pt-pt': {
         kid: [
-          'Quando vês um vídeo de outro continente, ele quase de certeza viajou debaixo do mar: por cabos deitados no fundo do oceano, com fios de vidro lá dentro mais finos do que um cabelo. A luz acende e apaga por esses fios milhares de milhões de vezes por segundo, e cada clarão é um pedacinho do teu vídeo.',
+          'Quando vês um vídeo de outro continente, ele quase de certeza viajou debaixo do mar: por cabos deitados no fundo do oceano, com fios de vidro lá dentro quase tão finos como um cabelo. A luz acende e apaga por esses fios milhares de milhões de vezes por segundo, e cada clarão é um pedacinho do teu vídeo.',
           'Como é que a luz fica dentro de um fio que se dobra e enrola ao longo de milhares de quilómetros? O meio de cada fio tem uma pitada de germânio no vidro. Isso faz a luz andar um pouco mais devagar no meio do que no vidro à volta, e sempre que a luz chega à beira volta para o meio, vezes sem conta, como uma bola a rolar por um tubo comprido.',
         ],
         sci: [
@@ -304,7 +304,7 @@ export default [
       },
       pl: {
         kid: [
-          'Kiedy oglądasz film z innego kontynentu, prawie na pewno przypłynął pod morzem: kablami leżącymi na dnie oceanu, w których są szklane nitki cieńsze od włosa. Światło miga w tych nitkach miliardy razy na sekundę, a każde mignięcie to malutki kawałek twojego filmu.',
+          'Kiedy oglądasz film z innego kontynentu, prawie na pewno przypłynął pod morzem: kablami leżącymi na dnie oceanu, w których są szklane nitki mniej więcej tak cienkie jak włos. Światło miga w tych nitkach miliardy razy na sekundę, a każde mignięcie to malutki kawałek twojego filmu.',
           'Jak światło zostaje w nitce, która wygina się i skręca przez tysiące kilometrów? Środek każdej nitki ma w szkle szczyptę germanu. Przez to światło biegnie w środku trochę wolniej niż w szkle dookoła, a gdy tylko dotrze do brzegu, odbija się z powrotem do środka, raz za razem, jak piłka tocząca się w długiej rurze.',
         ],
         sci: [
@@ -314,7 +314,7 @@ export default [
       },
       de: {
         kid: [
-          'Wenn du ein Video von einem anderen Kontinent schaust, ist es fast sicher unter dem Meer gereist: durch Kabel auf dem Meeresboden, mit Fäden aus Glas darin, dünner als ein Haar. Licht blinkt durch diese Fäden Milliarden Mal in der Sekunde an und aus, und jedes Blinken ist ein winziges Stück deines Videos.',
+          'Wenn du ein Video von einem anderen Kontinent schaust, ist es fast sicher unter dem Meer gereist: durch Kabel auf dem Meeresboden, mit Fäden aus Glas darin, etwa so dünn wie ein Haar. Licht blinkt durch diese Fäden Milliarden Mal in der Sekunde an und aus, und jedes Blinken ist ein winziges Stück deines Videos.',
           'Wie bleibt das Licht in einem Faden, der sich über Tausende Kilometer biegt und windet? Die Mitte jedes Fadens hat eine Prise Germanium im Glas. Dadurch ist das Licht in der Mitte ein bisschen langsamer als im Glas drumherum, und immer wenn es an den Rand kommt, prallt es zurück in die Mitte, wieder und wieder, wie ein Ball, der durch ein langes Rohr rollt.',
         ],
         sci: [
