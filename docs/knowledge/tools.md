@@ -91,6 +91,9 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 - `press_duo_probe.py`: the diamond press for two (`press.md`): two players in a room (a computer in
   English, a phone in Polish), one run on both, the jobs kept and refused, the same diamond, then one alone
   working both. 23 checks, about a minute; shots in `tools/shots/press_duo/`.
+- `crystal_probe.py`: the lab's crystal bench (`crystal.md`): two players in a room (a computer, a phone in
+  light mode) grow the same fast salt dish and then fluorite (one coming in late), their crystals' fingerprints
+  compared ion for ion; a tap stays one's own. 7 checks, under a minute; shots in `tools/shots/crystal/`.
 - `forge_room_probe.py`: the Atom Forge in a room, three players (a computer in English, a phone in
   Portuguese, a computer in German): presses at the same moment both counting, the others' glow and
   lines, missions for everyone there, a decay, a beam shot and a self-decay played once on every table;
