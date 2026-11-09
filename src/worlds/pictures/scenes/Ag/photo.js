@@ -586,13 +586,19 @@ export async function build({ ctx, root, E, ex, say, later, light, level, clicka
     m.position.z = -0.03
     panel.add(m)
   }
-  // a name leaning on the bench like a place card (flat on the top it cannot be read from a standing eye)
-  const flatLabel = (text, x, y, z, size = 0.1) => {
-    const t = label(text, { size, maxWidth: 0.9 })
-    t.rotation.x = -0.75
-    t.position.set(x, y + 0.05, z - 0.06)
-    root.add(t)
-    return t
+  // a place card on the bench: a dark plaque with the name, nearly upright so a standing eye reads it
+  const flatLabel = (text, x, y, z, size = 0.085) => {
+    const card = new THREE.Group()
+    const w = Math.max(0.5, Math.min(0.8, text.length * size * 0.62 + 0.12))
+    const plaque = new THREE.Mesh(new RoundedBoxGeometry(w, size * 1.9, 0.02, 2, 0.008), new THREE.MeshStandardMaterial({ color: '#1b1822', roughness: 0.6 }))
+    card.add(plaque)
+    const t = label(text, { size, c: '#ffe3df', maxWidth: w })
+    t.position.z = 0.013
+    card.add(t)
+    card.rotation.x = -0.28
+    card.position.set(x, y + size * 0.95 + 0.03, z - 0.0)
+    root.add(card)
+    return card
   }
   const silver = new THREE.MeshMatcapMaterial({ matcap: silverMatcap(), color: '#ffffff' })
 
@@ -684,13 +690,13 @@ export async function build({ ctx, root, E, ex, say, later, light, level, clicka
   solids.push(box(-4.4, B1.z, 5.9, 0.85))
   for (let i = 0; i < 3; i++) add(B(PLATE.w, 0.012, PLATE.h), silver, SPOT.stack, B1.top + 0.006 + i * 0.015, B1.z)
   const stackHit = add(B(0.48, 0.1, 0.56), new THREE.MeshBasicMaterial({ visible: false }), SPOT.stack, B1.top + 0.05, B1.z)
-  flatLabel(E.labels.plates, SPOT.stack, B1.top + 0.004, B1.z + 0.5)
+  flatLabel(E.labels.plates, SPOT.stack, B1.top + 0.004, B1.z + 0.39)
   const iodineBox = hingedBox({ w: 0.74, h: 0.24, d: 0.58, body: mats.wood, lid: mats.darkwood })
   iodineBox.group.position.set(SPOT.iodine, B1.top, B1.z)
   root.add(iodineBox.group)
   const dish = add(new THREE.CylinderGeometry(0.12, 0.1, 0.03, 18), new THREE.MeshStandardMaterial({ color: '#2a1a34', roughness: 0.5, metalness: 0.3 }), 0, 0.045, 0, iodineBox.group)
   void dish
-  flatLabel(E.labels.iodine, SPOT.iodine, B1.top + 0.004, B1.z + 0.5)
+  flatLabel(E.labels.iodine, SPOT.iodine, B1.top + 0.004, B1.z + 0.39)
   const steelBox = new THREE.MeshStandardMaterial({ color: '#7f8790', roughness: 0.45, metalness: 0.6 })
   const mercBox = hingedBox({ w: 0.74, h: 0.24, d: 0.58, body: steelBox, lid: steelBox, feet: 0.14 })
   mercBox.group.position.set(SPOT.mercury, B1.top, B1.z)
@@ -700,7 +706,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, clicka
   void spirit
   const flameMat = new THREE.MeshBasicMaterial({ color: '#ffb347', toneMapped: false })
   const flame = add(new THREE.ConeGeometry(0.03, 0.09, 10), flameMat, 0, 0.115, 0, mercBox.group)
-  flatLabel(E.labels.mercury, SPOT.mercury, B1.top + 0.004, B1.z + 0.5)
+  flatLabel(E.labels.mercury, SPOT.mercury, B1.top + 0.004, B1.z + 0.39)
   // the warning on the mercury box: a yellow triangle with a mark
   const tri = new THREE.Shape()
   tri.moveTo(0, 0.1)
@@ -719,7 +725,7 @@ export async function build({ ctx, root, E, ex, say, later, light, level, clicka
   const hypoTray = tray({ w: 0.62, d: 0.5, h: 0.07, liquid: '#9cc2d4', level: 0.7, alpha: 0.55, mat: new THREE.MeshStandardMaterial({ color: '#d8d8d4', roughness: 0.4 }) })
   hypoTray.group.position.set(SPOT.hypo, B1.top, B1.z)
   root.add(hypoTray.group)
-  flatLabel(E.labels.hypo, SPOT.hypo, B1.top + 0.004, B1.z + 0.5)
+  flatLabel(E.labels.hypo, SPOT.hypo, B1.top + 0.004, B1.z + 0.39)
   // the easel the finished plate stands on
   const easel = new THREE.Group()
   easel.position.set(SPOT.easel, B1.top, B1.z)
