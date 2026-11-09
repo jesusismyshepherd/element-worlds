@@ -614,7 +614,7 @@ export function mineStage({ light = false } = {}) {
 
   // the ladder shaft on the left wall: a timber collar, its ladder going up into the dark
   {
-    const z = -7.2
+    const z = -2.6
     const x = -HALF + 0.55
     const g = new THREE.Group()
     for (const dz of [-0.7, 0.7]) g.add(mk(keepG(new THREE.BoxGeometry(0.2, 3.4, 0.2)), woodMat, 0, 1.7, dz))
@@ -662,7 +662,7 @@ export function mineStage({ light = false } = {}) {
       lampLights.push(p)
     }
   }
-  lamp('l', -2.6, 2.2)
+  lamp('l', -4.2, 2.2)
   lamp('l', -8.8, 2.4)
   lamp('l', -15.2, 2.0, !light)
   lamp('r', -1.8, 2.2, false)

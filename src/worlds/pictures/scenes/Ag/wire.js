@@ -777,10 +777,10 @@ export async function build({ ctx, root, lang, E, ex, say, later, light, color, 
   root.add(heap)
 
   // the ruler board on the left wall
-  const fb = board({ w: 1.7, h: 1.03, cw: 1024, ch: 620, edge: '#ffb067', y: 1.9, legs: 1.9 })
+  const fb = board({ w: 1.6, h: 0.97, cw: 1024, ch: 621, edge: '#ffb067', y: 1.9, legs: 1.9 })
   {
-    const x = -1.3
-    const z = -17.6
+    const x = -1.05
+    const z = -17.5
     place(fb.group, x, z, Math.atan2(0 - x, -14.4 - z))
     solids.push(circle(x, z, 0.5))
   }
@@ -953,7 +953,7 @@ export async function build({ ctx, root, lang, E, ex, say, later, light, color, 
     manual: true,
     label: E.fire.label,
     verb: () => (fireSt === 0 ? E.fire.verbLogs : fireSt === 1 ? E.fire.verbTorch : fireSt === 2 ? E.fire.verbWait : crack >= 0.9 ? E.fire.verbTools : E.fire.verbWait),
-    focus: { x: 0, y: 1.3, z: -18.2, size: 4.0, width: 5.0 },
+    focus: { x: -0.2, y: 1.3, z: -18.2, size: 4.0, width: 4.4 },
     act: () => ctx.showPanel(firePanel),
   })
   const fireState = () => ({ st: fireSt, n: fires, age: fireSt === 2 ? Math.round(burnT * 10) / 10 : 0 })
