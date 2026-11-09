@@ -6,6 +6,11 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Growing Crystals (`/lab/crystal`, the user's Sooner on crystals): ions drift in a dish and click into place ion
+  by ion, a perfect cube when slow, hopper faces and floating salt boats when fast; fifteen compounds (salt, potassium
+  chloride and sodium fluoride from water, the others from a melt), each ion at its Shannon radius; a tap on an ion
+  lights its neighbours (six for salt), "A real grain" counts a 0.3 mm grain's ions (about 1.2 × 10¹⁸). Every
+  screen in a room grows the same crystal, ion for ion. `crystal.md`.
 - The Alloy Forge (`/lab/alloys`, the first of the lab's benches; the user's Sooner on alloys): ten metal Atomlings
   throw lumps into a crucible; ten real alloys named by their mix by mass (bronze, bell bronze, brass, cupronickel,
   stainless steel, steel, cast iron, sterling silver, 18-carat gold, solder), poured into an ingot; inside the metal
