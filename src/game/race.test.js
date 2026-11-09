@@ -105,7 +105,8 @@ test('progress: from nothing to the atom, then what to do with it', () => {
 })
 
 test('every race goal can be done: the atom passes its mission, or the decay or the beam does', () => {
-  assert.equal(RACES.length, MISSIONS.length - 1)
+  // every mission but the one with no fixed atom, and those that ask for the clouds' view
+  assert.equal(RACES.length, MISSIONS.filter(m => !m.view).length - 1)
   for (const m of RACES) {
     const g = GOALS[m.id]
     const N = [].concat(g.N)[0]

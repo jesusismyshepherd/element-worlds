@@ -247,6 +247,10 @@
     "made": "Fizeste {{name}}!"
   },
   "forge": {
+    "clouds": "Nuvens",
+    "rings": "Anéis",
+    "viewTip": "Eletrões como nuvens (mecânica quântica) ou como os anéis de Bohr (1913)",
+    "cloudMap": "Nuvens de eletrões",
     "title": "Forja de Átomos",
     "p": "Protões",
     "n": "Neutrões",

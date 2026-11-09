@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "forge-clouds",
     "atom-bonds",
     "crystals-grow",
     "reactions-game",
@@ -976,10 +975,11 @@
       "details": [
         "The forge's rings become the clouds of the room inside the atom as you build: 4s before 3d, chromium and copper's surprise."
       ],
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-11-09",
-      "why": "You marked it Sooner (2026-11-09). It follows straight from the room inside the atom: the same clouds and electron map, now filling one electron at a time as you build in the Atom Forge."
+      "link": "https://element-worlds.vercel.app/forge?z=Cr",
+      "doc": "docs/knowledge/atom-forge.md"
     },
     {
       "id": "table-blocks",
@@ -4032,6 +4032,19 @@
       "title": "The passport",
       "what": "Discoveries and badges.",
       "link": "https://element-worlds.vercel.app/passport"
+    },
+    {
+      "id": "forge-clouds",
+      "date": "2026-11-09",
+      "title": "The forge's electrons fill clouds",
+      "what": "In the Atom Forge the electrons can be clouds instead of Bohr's rings: each electron you add flies into its subshell, which lights up in its shape (dumbbells, clovers, flowers), and the electron map fills beside it. A line says where it went and why: an ion fills 3d before 4s, chromium and copper break the filling rule, electrons spread out before they pair. Two new missions: chromium's surprise and the iron in your blood (Fe2+). Four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/forge?z=Cr",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": []
     }
   ],
   "decisions": [

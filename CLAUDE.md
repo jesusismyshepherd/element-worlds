@@ -102,7 +102,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   of covers is `src/engine/covers.js`. `src/pages/`: Explore (the 3D) and Atomlings (`/atomlings`).
   `public/manifest.webmanifest`: the site added to a home screen opens full screen (iPhone too).
 - `src/worlds/forge/` + `src/ui/ForgeHud.jsx`, `src/ui/NuclideChart.jsx`: the Atom Forge (`/forge`):
-  build atoms from protons, neutrons and electrons, watch nuclei decay; physics in `src/chem/nucleus.js`.
+  build atoms from protons, neutrons and electrons, watch nuclei decay; physics in `src/chem/nucleus.js`;
+  the electrons as clouds (`clouds.js`, `cloudWords.js`; `atom-forge.md`, "Clouds").
   `src/worlds/common/pack.js`: an even ball of points (every nucleus).
 - `src/worlds/stars/` + `src/ui/StarHud.jsx`, `StarTable.jsx`: the Star Forge (`/stars`): pick a star,
   its burnings from inside, its end, the slow and rapid neutron captures, the table by where each element

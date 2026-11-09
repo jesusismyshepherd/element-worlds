@@ -6,6 +6,15 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- The forge's electrons fill clouds (the user marked six lab ideas Sooner in the family studio and said "develop
+  now"; this the first, the others the lab's benches and its clouds): the Atom Forge's electrons can be clouds
+  instead of Bohr's rings. Each electron added flies into its subshell, which lights up in its shape; the
+  electron map fills beside it; a line says where it went and why (an ion fills 3d before 4s; chromium and
+  copper break the filling rule; electrons spread out before they pair). Ions' configurations from the real
+  atom's, outermost first. Two missions: chromium's surprise, the iron in your blood (Fe²⁺). `atom-forge.md`,
+  "Clouds".
+- The lab's benches (the frame): four worlds of their own beside the molecule table at `/lab/<id>` (growing
+  crystals, the alloy forge, reactions, building DNA), each with its verse; built in parallel. `benches.md`.
 - Inside the atom (the user: "take some part of the project and make it superb"; Claude's pick): every hall's big
   atom became a door into the room inside its electron cloud, for all 118 elements. Quantum mechanics' orbitals
   drawn as glowing clouds you walk through (hydrogen's exact shapes, sized by Slater's rules; a ray-marched

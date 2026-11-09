@@ -245,6 +245,10 @@
     "made": "You made {{name}}!"
   },
   "forge": {
+    "clouds": "Clouds",
+    "rings": "Rings",
+    "viewTip": "Electrons as clouds (quantum mechanics) or as Bohr’s rings (1913)",
+    "cloudMap": "Electron clouds",
     "title": "Atom Forge",
     "p": "Protons",
     "n": "Neutrons",

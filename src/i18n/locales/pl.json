@@ -261,6 +261,10 @@
     "made": "Udało się: {{name}}!"
   },
   "forge": {
+    "clouds": "Chmury",
+    "rings": "Pierścienie",
+    "viewTip": "Elektrony jako chmury (mechanika kwantowa) albo jako pierścienie Bohra (1913)",
+    "cloudMap": "Chmury elektronów",
     "title": "Kuźnia Atomów",
     "p": "Protony",
     "n": "Neutrony",

@@ -248,6 +248,10 @@
     "made": "Geschafft: {{name}}!"
   },
   "forge": {
+    "clouds": "Wolken",
+    "rings": "Ringe",
+    "viewTip": "Elektronen als Wolken (Quantenmechanik) oder als Bohrs Ringe (1913)",
+    "cloudMap": "Elektronenwolken",
     "title": "Atomschmiede",
     "p": "Protonen",
     "n": "Neutronen",
