@@ -27,10 +27,18 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, fifteen scenes (screenshots in
+- `hud_probe.py`: the HUD keeps the middle free on six screens, eighteen scenes (screenshots in
   `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`). Its
   `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
-  builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step.
+  builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step;
+  `plaza-hunts` the treasure hunts' sheet, `hall-hunt` a hunt's clue card in carbon's hall and `forge-hunt`
+  its chip in the forge's bar (these come last: the hunt started stays on for the screen's later scenes).
+- `hunt_probe.py [--port 5329] [--only computer|phone|side] [--track] [--lang] [--level]`: the treasure hunts
+  played as a player does (the hall by its address, the walker put in front of the exhibit and E pressed:
+  pictures stepped into, panels opened, so `panelFrom` is the exhibit's own): every track on a computer
+  in English, "At home" on an upright phone in Polish, "Records" begun on a phone on its side in German; the
+  card moving on, the hints, a reload in the middle, the hunt left and taken up again, the end, the
+  passport's badges, the chip in the lab's bar. Screenshots in `tools/shots/hunts/` (`hunts.md`).
 - `daily_probe.py [--port 5317] [--only computer|phone|side] [--lang] [--level]`: today's element played
   through on three screens (one answer wrong on purpose, which comes back), the streak, `ew-daily`, the
   mystery's guess, the dock after a reload, a week with a freeze reaching seven days, the passport's tile.

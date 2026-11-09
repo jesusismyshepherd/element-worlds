@@ -127,6 +127,7 @@ export function nuclideName(z, n) {
 // the things to find and use, for "never used" (analyze.js FEATURES has the tests)
 const FEATURES = {
   daily: "today's element (the streak)",
+  hunts: 'the treasure hunts',
   quiz: 'the quiz “Who am I?”',
   facts: "the plaza card's facts",
   talk: 'talking to an Atomling',

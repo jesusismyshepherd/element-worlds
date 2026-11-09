@@ -402,7 +402,10 @@
         "how": "Faz 40 pontos numa ronda do Quem sou eu?"
       },
       "streak7": {"icon": "🔥", "name": "Uma semana de elementos", "how": "Faz O elemento de hoje 7 dias seguidos"},
-      "streak30": {"icon": "☄️", "name": "Maratona dos elementos", "how": "Faz O elemento de hoje 30 dias seguidos"}
+      "streak30": {"icon": "☄️", "name": "Maratona dos elementos", "how": "Faz O elemento de hoje 30 dias seguidos"},
+      "hunt-discoverers": {"icon": "📜", "name": "Viajante do tempo", "how": "Termina a caça ao tesouro «Descobridores»"},
+      "hunt-home": {"icon": "🏠", "name": "Detetive da casa", "how": "Termina a caça ao tesouro «Em casa»"},
+      "hunt-records": {"icon": "🥇", "name": "Caçador de recordes", "how": "Termina a caça ao tesouro «Recordes»"}
     }
   },
   "room": {
@@ -741,5 +744,61 @@
       "massOdd": "Uma surpresa: aqui o elemento que vem mais à frente na tabela é o mais leve.",
       "massUsual": "Mais à frente na tabela quer dizer mais protões e neutrões, por isso quase sempre mais pesado."
     }
+  },
+  "hunts": {
+    "dock": "Caça ao tesouro",
+    "title": "Caças ao tesouro",
+    "intro": "Segue as pistas de salão em salão: cada uma leva a um quadro, a um painel ou a uma galeria algures no jogo. Sai quando quiseres: a tua caça espera por ti na pista onde ficou.",
+    "clues": "{{n}} pistas",
+    "start": "Começar",
+    "continue": "Continuar",
+    "again": "Jogar outra vez",
+    "on": "A decorrer",
+    "progress": "Pista {{n}} de {{of}}",
+    "done_one": "Terminada {{count}} vez",
+    "done_other": "Terminada {{count}} vezes",
+    "best": "Melhor tempo: {{time}}",
+    "stop": "Sair da caça",
+    "left": "Ficou na pista {{n}} de {{of}}: está à tua espera.",
+    "found": "Encontraste!",
+    "next": "A pista seguinte",
+    "where": {
+      "picture": "Um quadro na parede do seu salão: entra nele.",
+      "facts": "A ficha técnica do seu salão.",
+      "look": "A amostra verdadeira, na vitrine do seu salão.",
+      "station": "Um painel do seu salão: «{{title}}».",
+      "wing": "Por um arco do seu salão.",
+      "hall": "O seu salão.",
+      "place": "{{name}}."
+    },
+    "hint": {
+      "button": "Uma ajuda",
+      "more": "Outra ajuda",
+      "wait": "Daqui a pouco há uma ajuda…",
+      "family": "É um dos {{family}}, na linha {{period}} da tabela.",
+      "familySci": "Família: {{family}}; período {{period}}.",
+      "picture": "É {{name}}! No seu salão, entra no quadro «{{title}}».",
+      "facts": "É {{name}}! No seu salão, lê a ficha técnica.",
+      "look": "É {{name}}! No seu salão, espreita a vitrine com a amostra.",
+      "station": "É {{name}}! No seu salão, lê «{{title}}».",
+      "wing": "É {{name}}! No seu salão, passa pelo arco para «{{title}}».",
+      "hall": "É {{name}}! Entra no seu salão.",
+      "place": "A sua porta está no alto da tabela: {{name}}."
+    },
+    "finished": "Caça terminada!",
+    "took": "O teu tempo: {{time}}.",
+    "newBest": "O teu melhor tempo até agora!",
+    "badge": "Uma medalha nova no teu passaporte: {{name}}",
+    "more": "Mais caças",
+    "close": "Fechar",
+    "fold": "Esconder a pista",
+    "show": "Mostrar a pista",
+    "time": {
+      "min_one": "{{count}} minuto",
+      "min_other": "{{count}} minutos",
+      "hm": "{{h}} h {{m}} min",
+      "under": "menos de um minuto"
+    },
+    "bc": "c. {{y}} a.C."
   }
 }

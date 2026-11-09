@@ -6,7 +6,8 @@ atom, the neon name window)
 and checks that nothing of the HUD lies in the middle of the part of the screen it leaves free (where
 the engine draws the world's centre; the stick in its corner excepted), and that
 the HUD covers little of the screen (at rest under a third, about half at most with something opened
-to read). Screenshots in
+to read). The treasure hunts' sheet, a hunt's clue card in a hall and its chip in the forge's bar come
+last (a hunt started stays on in that screen's later scenes). Screenshots in
 tools/shots/hud/. Console errors fail the run. Start the dev server first (port 5310).
 
     python tools/hud_probe.py                  every screen, every scene
@@ -153,6 +154,24 @@ def scenes():
         page.wait_for_selector('[data-daily-step]', timeout=10000)
         page.wait_for_timeout(1500)
 
+    def plaza_hunts(page):
+        # the treasure hunts' sheet (docs/knowledge/hunts.md)
+        page.click('[data-hunts-open]')
+        page.wait_for_selector('[data-hunts] [data-hunt-track]', timeout=10000)
+        page.wait_for_timeout(1500)
+
+    def hall_hunt(page):
+        # a hunt on: its clue card under the bar at the right (across the top of an upright phone, where the
+        # Atomling's bubble makes way for it). The hunt stays on in this screen's later scenes.
+        page.evaluate("() => { window.__ew.store.set({ speech: null }); window.__ewHunts.start('records') }")
+        page.wait_for_selector('[data-hunt-card] [data-hunt-riddle]', timeout=10000)
+        page.wait_for_timeout(1200)
+
+    def forge_hunt(page):
+        # the hunt still on (hall-hunt): in the forge the clue waits folded in the top bar
+        page.wait_for_selector('[data-hunt-chip]', timeout=10000)
+        page.wait_for_timeout(800)
+
     def walk_panel(page):
         if not open_exhibit(page):
             raise RuntimeError('no exhibit opened a panel')
@@ -209,6 +228,12 @@ def scenes():
         'neon-name': ('/e/Ne/signs', neon_name, 0.55),
         'stars': ('/stars', stars, 0.5),  # the Star Forge: its sliders, its card, its table
         'stars-slow': ('/stars', stars_slow, 0.5),  # its slow capture, the path on the chart
+        'plaza-hunts': ('/', plaza_hunts, 0.5),  # the treasure hunts' sheet
+        # (last: a hunt started here stays on for what follows in the same screen)
+        'hall-hunt': ('/e/C', hall_hunt, 0.5),  # a hunt's clue card, something opened to read (it folds to a chip)
+        # the hunt's chip in the forge's bar: the forge alone is at its 50% on the smallest phone on its side
+        # (690 x 265), and the chip, the least a hunt can show, adds about 1%
+        'forge-hunt': ('/forge?z=26', forge_hunt, 0.52),
     }
 
 

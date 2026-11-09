@@ -405,7 +405,10 @@
         "how": "Hol 40 Punkte in einer Runde „Wer bin ich?“"
       },
       "streak7": {"icon": "🔥", "name": "Eine Woche Elemente", "how": "Mach 7 Tage in Folge das Element des Tages"},
-      "streak30": {"icon": "☄️", "name": "Element-Marathon", "how": "Mach 30 Tage in Folge das Element des Tages"}
+      "streak30": {"icon": "☄️", "name": "Element-Marathon", "how": "Mach 30 Tage in Folge das Element des Tages"},
+      "hunt-discoverers": {"icon": "📜", "name": "Zeitreisender", "how": "Schaffe die Schatzsuche „Entdecker“"},
+      "hunt-home": {"icon": "🏠", "name": "Alltagsdetektiv", "how": "Schaffe die Schatzsuche „Zu Hause“"},
+      "hunt-records": {"icon": "🥇", "name": "Rekordjäger", "how": "Schaffe die Schatzsuche „Rekorde“"}
     }
   },
   "room": {
@@ -744,5 +747,61 @@
       "massOdd": "Eine Überraschung: Hier ist das Element, das später im Periodensystem kommt, das leichtere.",
       "massUsual": "Später im Periodensystem heißt mehr Protonen und Neutronen, also fast immer schwerer."
     }
+  },
+  "hunts": {
+    "dock": "Schatzsuche",
+    "title": "Schatzsuchen",
+    "intro": "Folge den Hinweisen von Halle zu Halle: Jeder führt zu einem Bild, einer Tafel oder einer Galerie irgendwo im Spiel. Hör auf, wann du willst: Deine Schatzsuche wartet bei ihrem Hinweis auf dich.",
+    "clues": "{{n}} Hinweise",
+    "start": "Los geht’s",
+    "continue": "Weiter",
+    "again": "Nochmal spielen",
+    "on": "Läuft gerade",
+    "progress": "Hinweis {{n}} von {{of}}",
+    "done_one": "{{count}}-mal geschafft",
+    "done_other": "{{count}}-mal geschafft",
+    "best": "Bestzeit: {{time}}",
+    "stop": "Schatzsuche verlassen",
+    "left": "Bei Hinweis {{n}} von {{of}} verlassen: Sie wartet auf dich.",
+    "found": "Gefunden!",
+    "next": "Der nächste Hinweis",
+    "where": {
+      "picture": "Ein Bild an der Wand seiner Halle: Geh hinein.",
+      "facts": "Der Steckbrief in seiner Halle.",
+      "look": "Die echte Probe in der Vitrine seiner Halle.",
+      "station": "Eine Tafel in seiner Halle: „{{title}}“.",
+      "wing": "Durch einen Bogen seiner Halle.",
+      "hall": "Seine Halle.",
+      "place": "{{name}}."
+    },
+    "hint": {
+      "button": "Ein Tipp",
+      "more": "Noch ein Tipp",
+      "wait": "Gleich gibt es einen Tipp…",
+      "family": "Seine Familie: {{family}}, in Zeile {{period}} des Periodensystems.",
+      "familySci": "Familie: {{family}}; Periode {{period}}.",
+      "picture": "Es ist {{name}}! Geh in seiner Halle in das Bild „{{title}}“.",
+      "facts": "Es ist {{name}}! Lies in seiner Halle den Steckbrief.",
+      "look": "Es ist {{name}}! Schau in seiner Halle in die Vitrine.",
+      "station": "Es ist {{name}}! Lies in seiner Halle „{{title}}“.",
+      "wing": "Es ist {{name}}! Geh in seiner Halle durch den Bogen zu „{{title}}“.",
+      "hall": "Es ist {{name}}! Geh in seine Halle.",
+      "place": "Seine Tür ist oben über dem Periodensystem: {{name}}."
+    },
+    "finished": "Schatzsuche geschafft!",
+    "took": "Deine Zeit: {{time}}.",
+    "newBest": "Deine bisher beste Zeit!",
+    "badge": "Ein neues Abzeichen in deinem Pass: {{name}}",
+    "more": "Mehr Schatzsuchen",
+    "close": "Schließen",
+    "fold": "Hinweis zuklappen",
+    "show": "Hinweis zeigen",
+    "time": {
+      "min_one": "{{count}} Minute",
+      "min_other": "{{count}} Minuten",
+      "hm": "{{h}} Std. {{m}} Min.",
+      "under": "weniger als eine Minute"
+    },
+    "bc": "um {{y}} v. Chr."
   }
 }

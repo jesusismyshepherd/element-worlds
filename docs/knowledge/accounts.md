@@ -64,7 +64,8 @@ no token and failed with "Something went wrong".
   their own (`ew-neon-name:<Symbol>`, an account's `neon`) move into their workshop's world state. Since
   2026-11-09 also today's element (`ew-daily`: the days done, the boxes, the guesses; the account joins
   the days, keeps each element's newer box and joins the guesses: `ew_005_daily.sql`, `daily.md`), so the
-  streak follows the player to any device.
+  streak follows the player to any device. The treasure hunts are kept with no server change, as the own
+  state of a pseudo-world, `ew-world:/hunts` (a world's state in name only; `hunts.md`).
 - The first account that signs in on a device takes what the device gathered before (`ew-owner` on the
   device says whose the progress is): Artur's phone's discoveries go into his account at his first
   sign-in, by signing up or signing in with an existing account.
