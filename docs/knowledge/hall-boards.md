@@ -122,6 +122,12 @@ conflicts in `showpieces.js` (the `SHOWPIECES` line and the functions above it: 
 So the session merges the boards branch once into a base branch (`kr-base`), resolves, runs `npm test`,
 and starts the builders from it (`git worktree` at that commit, or `git merge --ff-only <base>` in each
 worktree); the brief's "merge the boards branch" step is then already done.
+Trap (silver, 2026-11-09): the Agent tool's `isolation: "worktree"` refused every worktree ("git resolves its working
+tree to D:/... "): the session's folder was spelled `d:\` and git answers `D:/`. What works, and is better anyway: the
+session makes the worktrees itself next to the repository, each branch straight from the base
+(`git worktree add -b ag-medal ../ew-ag-medal ag-base`), and each brief names its folder ("cd there first and work only
+there"); the agents run without `isolation`. Remove the half-made `.claude/worktrees/agent-*` (clean, locked:
+`git worktree remove -f -f`) and their branches.
 
 Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
 `tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`
