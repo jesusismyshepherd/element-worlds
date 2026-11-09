@@ -3,7 +3,7 @@
   "studio": "Element Worlds Studio",
   "tagline": "A 3D periodic table to walk into, for Artur and his father.",
   "play": "https://element-worlds.vercel.app",
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "steerDefault": "claude",
   "kinds": [
     {
@@ -160,7 +160,8 @@
         "Krypton done (2026-11-01, the model trial's first half: rooms built on Sonnet 5.5 at high effort): seven pictures, each a room: the last drops of liquid air in 1898, the metre from the 1889 bar to light itself, the window factory, a platform in orbit with a Hall thruster, an oasis and the atom trap that dates a million-year-old water, krypton holding hands with fluorine, and the night gallery where kryptonite meets jadarite; its showpiece a lilac glowing globe and krypton frozen white. Next: radon's seven rooms on Opus 5.5 at xhigh, the trial's other half (docs/agents/designs/Rn_rooms.md).",
         "2026-11-09: radon's seven rooms are being built on Opus 5.5 at xhigh, the model trial's second half (from a base branch with radon's boards merged in once); silver's boards and room designs are being drawn, since silver is today's element on 17 November. From now on the next halls follow today's element's days, so the lesson's \"Visit the hall\" leads somewhere rich.",
         "Radon done (2026-11-09): seven pictures, each a room (glow, cellar, rock, draught, moon, quake, cave), built on Opus 5.5 at xhigh as the trial's second half, six new places (a capillary, a granite house, a granite hillside, Rutherford's lab, the Moon, a show cave). Silver's seven pictures are drawn and wait for their rooms: your stars on krypton and radon choose the setting that builds them.",
-        "Silver done (2026-11-09): seven pictures, each a room (medal, mirror, germs, wire, snow, photo, dollar), built on Sonnet 5.5 at high since neither trial hall had stars yet; seven new places (a stadium, a telescope dome, a station module, a mine, a mountain summit, a darkroom, a galleon). Germanium (today's element on 16 November) has its seven pictures drawn and its rooms are being built; then erbium, zirconium, plutonium, curium, chromium by today's element's days."
+        "Silver done (2026-11-09): seven pictures, each a room (medal, mirror, germs, wire, snow, photo, dollar), built on Sonnet 5.5 at high since neither trial hall had stars yet; seven new places (a stadium, a telescope dome, a station module, a mine, a mountain summit, a darkroom, a galleon). Germanium (today's element on 16 November) has its seven pictures drawn and its rooms are being built; then erbium, zirconium, plutonium, curium, chromium by today's element's days.",
+        "Germanium done (2026-11-10): seven pictures, each a room (predicted, transistor, heat, fuzz, deep, fibre, space), built on Sonnet 5.5 at high; seven new places (Mendeleev's study and Winkler's lab, Bell Labs, a smoke house, a Nashville studio, the Gran Sasso, the deep sea floor, a satellite clean room). Next by today's element's days: erbium (18 November), zirconium (20), plutonium (21), curium (22), chromium (23)."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -4648,6 +4649,213 @@
           ]
         }
       }
+    },
+    {
+      "id": "germaniums-hall",
+      "date": "2026-11-10",
+      "title": "Germanium's hall: seven pictures, each a room to step into",
+      "what": "Mendeleev's study and Winkler's laboratory, where you deal the cards, predict the missing element and find the missing 7 per cent of the ore; Bell Labs in December 1947, where you build the first transistor and make a voice louder; a fire brigade's smoke house at night with a heat camera, the germanium lens and hotter shining shorter; a Nashville studio in 1961 inside a giant fuzz pedal, with its own guitar note; Hall A under the Gran Sasso, where rock stops cosmic rays and a crystal waits for a decay nobody has seen; the sea floor at 3000 m, a fibre's light, a cable cut open and a flash from Sines to Fortaleza; a satellite clean room with a solar cell's three layers in a chain. Its case: a germanium lump, a heat-camera lens and the 1947 transistor. Rooms built on Sonnet 5.5 at high; two needed a small framing fix sent back to their builder, and one board line was corrected (a fibre is about as thin as a hair, not thinner).",
+      "link": "https://element-worlds.vercel.app/e/Ge",
+      "size": {
+        "n": 7,
+        "unit": "room"
+      },
+      "revisions": 0,
+      "agents": [
+        "a8cee9a53f4553811",
+        "afbd45af9cd59d10f",
+        "af1aefe3a7da6e117",
+        "a56a63e1e44221c8e",
+        "ae9975759de834160",
+        "ab8f75d27a5d3e243",
+        "a1fb1ddc8d10677a0",
+        "af2f6e19361d2103a"
+      ],
+      "tokens": {
+        "total": 236633691,
+        "output": 1654103,
+        "agents": 8,
+        "usd": 85.75,
+        "requests": 753,
+        "minutes": 138,
+        "input": 1534,
+        "cache_write": 7554329,
+        "cache_read": 227423725,
+        "configs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "effort": "high",
+            "usd": 68.2421
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "high",
+            "usd": 17.5127
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a8cee9a53f4553811",
+            "what": "Germanium hall boards",
+            "minutes": 50,
+            "usd": 11.6966,
+            "requests": 87,
+            "input": 178,
+            "cache_write": 982201,
+            "cache_read": 19851854,
+            "output": 140728,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "high",
+                "usd": 11.6966
+              }
+            ]
+          },
+          {
+            "id": "afbd45af9cd59d10f",
+            "what": "Germanium predicted room",
+            "minutes": 75,
+            "usd": 11.8041,
+            "requests": 102,
+            "input": 204,
+            "cache_write": 1318187,
+            "cache_read": 31608510,
+            "output": 218654,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 11.8041
+              }
+            ]
+          },
+          {
+            "id": "af1aefe3a7da6e117",
+            "what": "Germanium transistor room",
+            "minutes": 58,
+            "usd": 8.8231,
+            "requests": 73,
+            "input": 150,
+            "cache_write": 1255892,
+            "cache_read": 19541067,
+            "output": 177487,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 8.8231
+              }
+            ]
+          },
+          {
+            "id": "a56a63e1e44221c8e",
+            "what": "Germanium heat room",
+            "minutes": 84,
+            "usd": 13.4488,
+            "requests": 109,
+            "input": 218,
+            "cache_write": 1326340,
+            "cache_read": 38257759,
+            "output": 248099,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 13.4488
+              }
+            ]
+          },
+          {
+            "id": "ae9975759de834160",
+            "what": "Germanium fuzz room",
+            "minutes": 69,
+            "usd": 8.0503,
+            "requests": 78,
+            "input": 156,
+            "cache_write": 747994,
+            "cache_read": 21845725,
+            "output": 181088,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 8.0503
+              }
+            ]
+          },
+          {
+            "id": "ab8f75d27a5d3e243",
+            "what": "Germanium deep room",
+            "minutes": 49,
+            "usd": 6.8492,
+            "requests": 66,
+            "input": 132,
+            "cache_write": 406399,
+            "cache_read": 19935089,
+            "output": 184590,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 6.8492
+              }
+            ]
+          },
+          {
+            "id": "a1fb1ddc8d10677a0",
+            "what": "Germanium fibre room",
+            "minutes": 79,
+            "usd": 11.5312,
+            "requests": 110,
+            "input": 222,
+            "cache_write": 512595,
+            "cache_read": 37413226,
+            "output": 276658,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 11.5312
+              }
+            ]
+          },
+          {
+            "id": "af2f6e19361d2103a",
+            "what": "Germanium space room",
+            "minutes": 60,
+            "usd": 7.7354,
+            "requests": 67,
+            "input": 134,
+            "cache_write": 881822,
+            "cache_read": 17816528,
+            "output": 196724,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 7.7354
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "050da46a",
+          "usd": 5.82,
+          "requests": 61,
+          "input": 140,
+          "cache_write": 122899,
+          "cache_read": 21153967,
+          "output": 30075,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "usd": 5.816
+            }
+          ]
+        }
+      }
     }
   ],
   "decisions": [
@@ -4733,13 +4941,13 @@
     }
   ],
   "cost": {
-    "updated": "2026-11-09",
+    "updated": "2026-11-10",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 25.48,
-      "requests": 147
+      "usd": 25.32,
+      "requests": 145
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
-    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.) Silver's rooms (2026-11-09) ran on Sonnet 5.5 at high too, but cost $185 for seven: long waits for the machine's probe lock let the cache expire, so compare its snow room ($11) rather than the total."
+    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.) Silver's rooms (2026-11-09) ran on Sonnet 5.5 at high too, but cost $185 for seven: long waits for the machine's probe lock let the cache expire, so compare its snow room ($11) rather than the total. Germanium's seven (2026-11-10, same setting, the lock less crowded) cost $86, krypton's price again: the setting holds when the builders are not kept waiting."
   }
 }

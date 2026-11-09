@@ -190,8 +190,8 @@ built: `docs/history.md`):
   through (`inside-the-atom.md`).
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31), Krypton
-  (2026-11-01), Radon and Silver (2026-11-09) have a fact file, picture boards and their own showpieces; the others still have
-  the eight text stations (`hall-boards.md`; germanium's boards wait on the branch `ge-base` for their rooms). A picture with a room
+  (2026-11-01), Radon, Silver (2026-11-09) and Germanium (2026-11-10) have a fact file, picture boards and their own showpieces;
+  the others still have the eight text stations (`hall-boards.md`). A picture with a room
   is stepped into (`picture-rooms.md`; every picture on a wall since 2026-10-31).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
@@ -214,9 +214,7 @@ each with why), the ideas, the known problems (kind `tech`: first visits, the ca
 the phone), and what waits on the user. Now (2026-11-09): radon's rooms are live (Opus 5.5 at xhigh, the model
 trial's second half; krypton's were Sonnet 5.5 at high: `docs/studio/backlog.json` `cost.trial`); the user's stars on
 the two halls choose the setting for the next rooms (silver's were built on Sonnet 5.5 at high, as no stars came yet).
-Silver's hall is live with its seven rooms (2026-11-09). Germanium's boards, showpiece and room designs
-(`docs/agents/designs/Ge_rooms.md`) sit on `ge-base` (silver's merged in, conflicts resolved) and its seven rooms are being
-built on `ge-<id>` branches in `D:\Family\Artur\ew-ge-<id>`: merge each into `ge-base`, then `ge-base` into main (germanium is
-today's element on 16 November; the next halls follow today's element's days, `daily.md`; `hall-boards.md` has the pipeline).
+Silver's and germanium's halls are live with their seven rooms each (2026-11-09 and 10). Next halls by today's element's
+days (`daily.md`): erbium (18 November), zirconium, plutonium, curium, chromium; the pipeline and its traps in `hall-boards.md`.
 Treasure hunts are live (2026-11-09, `hunts.md`). The family studio at `/studio` is read and answered at the start of every session
 (`update-dashboard.md`).
