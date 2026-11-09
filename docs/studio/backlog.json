@@ -56,6 +56,13 @@
       "link": "https://element-worlds.vercel.app/?daily"
     },
     {
+      "id": "w-family",
+      "title": "Say who is in the family on today's element",
+      "detail": "It starts with you (miki) and Artur. johannes has played too: if he is family, press Family beside his name on the family dashboard's People (or tell me here), and he will see your days and you his. Family members see only each other's names and the days they did today's element.",
+      "link": "https://element-worlds.vercel.app/stats",
+      "optional": true
+    },
+    {
       "id": "w-crackle",
       "title": "Listen on your phone: is the crackle gone?",
       "detail": "Open the game on the phone (tap Reload if it offers a new version), walk through the plaza, a hall and a lab with the sound on, and tick this. If you still hear crackling, send a note saying where. The game now counts its own crackles, so the next session can check your phone's count too.",
