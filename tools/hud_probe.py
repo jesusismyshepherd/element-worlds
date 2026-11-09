@@ -206,6 +206,11 @@ def scenes():
         page.evaluate("() => { __ew.world.go('slow'); __ew.world.tapNucleus(); __ew.world.tapNucleus() }")
         page.wait_for_timeout(2200)
 
+    def crystal_tap(page):
+        # the lab's crystal bench (/lab/crystal): a grown cube, an ion tapped: its words where the reading goes
+        page.evaluate("() => { __ew.world.skip(80); __ew.world.tapIon(0, 'inside') }")
+        page.wait_for_timeout(1200)
+
     def atom_map(page):
         # inside the atom: the electron map's panel (its map block, the words, the zoom slider), uranium's the
         # longest (seven shells)
@@ -233,6 +238,7 @@ def scenes():
         'forge-race': ('/forge', forge_race, 0.5),  # in a room, racing: the race's board where the missions were
         'neon-name': ('/e/Ne/signs', neon_name, 0.55),
         'atom-map': ('/e/U/atom', atom_map, 0.55),  # inside the atom: the electron map's panel
+        'crystal-tap': ('/lab/crystal', crystal_tap, 0.55),  # the crystal bench: its tools and a tapped ion's words
         'stars': ('/stars', stars, 0.5),  # the Star Forge: its sliders, its card, its table
         'stars-slow': ('/stars', stars_slow, 0.5),  # its slow capture, the path on the chart
         'plaza-hunts': ('/', plaza_hunts, 0.5),  # the treasure hunts' sheet

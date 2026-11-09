@@ -219,6 +219,13 @@ export function play(kind, { order = 1 } = {}) {
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
     if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
   }
+  // Growing Crystals (worlds/benches/crystal/): an ion locking into its place, a soft glassy tick on a
+  // pentatonic step (order: the count, so the growth plays a little tune); a seed crystal forming
+  else if (kind === 'clink') tone(NOTE(84 + [0, 2, 4, 7, 9, 12, 9, 7][order % 8]), 0.22, { gain: 0.045, out: 'ui' })
+  else if (kind === 'nucleus') {
+    bell(NOTE(79), 0, 0.1)
+    bell(NOTE(86), 0.12, 0.08)
+  }
   // today's element (ui/DailyHud.jsx): a bright pair for a right answer, a soft low one for a wrong one,
   // and the streak's flame catching (order: a milestone rings longer)
   else if (kind === 'right') {
@@ -248,6 +255,7 @@ const BEDS = {
   plaza: [48, 55, 62, 67],
   atrium: [50, 57, 62, 66],
   lab: [53, 60, 64, 69],
+  bench: [53, 60, 64, 69], // the lab's benches (/lab/<id>): the lab's own bed
   wing: [45, 52, 57, 64],
   forge: [46, 53, 58, 65],
   stars: [43, 50, 55, 62],
