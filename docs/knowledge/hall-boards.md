@@ -243,6 +243,19 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   bloom, darker still read as a black blob); a soft silver matcap on a sphere read as a pearl and a glass shell over it
   made it milkier: a mirror ball needs a matcap with a sharp horizon (bright room
   above, dark floor below) and no shell. Facts with doubts are listed at the end of `Ag_rooms.md`.
+- Done: Germanium (boards 2026-11-09, ready for today's element on 16 November; its rooms designed in
+  `docs/agents/designs/Ge_rooms.md`, to be built): seven pictures, no doorway (`predicted` Mendeleev's eka-silicon of
+  1871 and Winkler's argyrodite of 1886, only the elements known in 1871 on the cards; `transistor` the point-contact
+  transistor of December 1947 itself, the gold foil, razor and spring, speech made louder; `heat` a thermal camera's
+  germanium lens, a dark mirror to the eye and clear to infrared, a fox in heat colours; `fuzz` the broken desk of 1961,
+  the Maestro Fuzz-Tone's germanium transistors, clipping; `deep` HPGe purity, germanium-76's double-beta decay under the
+  Gran Sasso; `fibre` the germania-doped core, the cable on the sea floor; `space` triple-junction cells on germanium),
+  none retelling silicon's `valley` (why silicon won) or its `solar` and `glass` rooms. Its showpiece: a broken lump
+  (`siliconChunk` with a lighter, warmer `germaniumMatcap`), a germanium lens in a black mount on a post (a drawn dark
+  mirror on a sphere cap) and a model of the 1947 transistor (brass base, germanium slab, `edgeGlass` triangle, gold
+  foil strips, spring), lens and transistor facing opposite ways (`germanium` in showpieces.js). The pictures share
+  `tools/boards/Ge/gekit.py` (`gGe` and other balls, a diamond-lattice patch, wavy rays, the lens). Trap: a knurled lens
+  mount of small boxes read as a tyre in the case; a plain torus reads as a mount.
 - Which hall next (2026-11-09): the halls follow today's element's days (`daily.md`), so the lesson's "Visit the
   hall" leads somewhere rich: silver (17 November) gets its rooms, germanium (16 November) its boards; then erbium
   (18 November), zirconium (20), plutonium (21), curium (22), chromium (23).

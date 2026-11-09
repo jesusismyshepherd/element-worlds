@@ -1465,4 +1465,191 @@ function silver({ light }) {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon, Fe: iron, Kr: krypton, Rn: radon, Ag: silver }
+/** Germanium's metallic grey: silicon's drawn matcap made lighter and a little warmer (germanium shines more
+ *  like a metal than silicon's blue-grey), so the lump's facets flash without mirroring the pink hall. */
+let germaniumCap = null
+function germaniumMatcap() {
+  if (germaniumCap) return germaniumCap
+  const c = document.createElement('canvas')
+  c.width = c.height = 256
+  const g = c.getContext('2d')
+  const base = g.createLinearGradient(0, 0, 0, 256)
+  for (const [o, col] of [[0, '#7a8088'], [0.35, '#545a62'], [0.62, '#30343a'], [1, '#16181c']]) base.addColorStop(o, col)
+  g.fillStyle = base
+  g.fillRect(0, 0, 256, 256)
+  const rim = g.createRadialGradient(128, 128, 96, 128, 128, 128)
+  rim.addColorStop(0, 'rgba(180,186,196,0)')
+  rim.addColorStop(1, 'rgba(180,186,196,0.4)')
+  g.fillStyle = rim
+  g.fillRect(0, 0, 256, 256)
+  for (const [x, y, r, a] of [[84, 70, 30, 0.85], [182, 96, 18, 0.75], [150, 46, 11, 0.6], [60, 150, 10, 0.45]]) {
+    const w = g.createRadialGradient(x, y, 0, x, y, r)
+    w.addColorStop(0, `rgba(240,242,246,${a})`)
+    w.addColorStop(0.5, `rgba(200,204,212,${a * 0.6})`)
+    w.addColorStop(1, 'rgba(200,204,212,0)')
+    g.fillStyle = w
+    g.fillRect(x - r, y - r, 2 * r, 2 * r)
+  }
+  germaniumCap = new THREE.CanvasTexture(c)
+  germaniumCap.colorSpace = THREE.SRGBColorSpace
+  return germaniumCap
+}
+
+// ---- Germanium: a broken lump of it, shining like a metal though it is not quite one; a germanium lens in its
+// black mount on a stand, a dark grey mirror to the eye (the boards' 'heat': clear only to infrared); and a model
+// of the first transistor of December 1947 (the boards' 'transistor'): a clear plastic triangle on its point, gold
+// foil down its two lower edges, pressed by a spring onto a grey slab of germanium on a brass base. The lens and
+// the transistor face opposite ways, so one of them looks at you whichever way the table has turned ----
+function germanium() {
+  const group = new THREE.Group()
+  const updates = []
+  const rand = rnd(1886)
+  const cap = germaniumMatcap()
+
+  // the lump, at the back left, its grains flashing as the table turns
+  const R = 0.12
+  const lumpMesh = new THREE.Mesh(siliconChunk(R, rand), new THREE.MeshMatcapMaterial({ matcap: cap, vertexColors: true, flatShading: true }))
+  lumpMesh.position.set(-0.15, R * 0.5, -0.1)
+  lumpMesh.rotation.y = 2.2
+  group.add(lumpMesh)
+
+  const dark = new THREE.MeshStandardMaterial({ color: '#1a1c22', roughness: 0.55, metalness: 0.2 })
+  const stand = new THREE.MeshStandardMaterial({ color: '#2a3160', roughness: 0.5 })
+
+  // the lens: a dark grey mirror drawn on its face (a real mirror only showed the hall), the coating's faint
+  // violet and green sheen, a soft window of light; in a black mount on a post
+  const LR = 0.075
+  const lensFace = canvasTexture(256, (g, s) => {
+    const grad = g.createRadialGradient(s * 0.4, s * 0.36, s * 0.02, s * 0.5, s * 0.5, s * 0.5)
+    for (const [o, col] of [[0, '#5a6272'], [0.45, '#2c323e'], [0.85, '#191d26'], [1, '#101318']]) grad.addColorStop(o, col)
+    g.fillStyle = grad
+    g.fillRect(0, 0, s, s)
+    g.lineWidth = s * 0.035
+    g.strokeStyle = 'rgba(130,110,190,0.28)'
+    g.beginPath()
+    g.arc(s * 0.52, s * 0.54, s * 0.36, 0, Math.PI * 2)
+    g.stroke()
+    g.strokeStyle = 'rgba(110,180,150,0.16)'
+    g.beginPath()
+    g.arc(s * 0.5, s * 0.5, s * 0.42, 0.4, 2.6)
+    g.stroke()
+    g.strokeStyle = 'rgba(205,214,228,0.55)'
+    g.lineWidth = s * 0.04
+    g.lineCap = 'round'
+    g.beginPath()
+    g.arc(s * 0.5, s * 0.5, s * 0.33, Math.PI * 1.08, Math.PI * 1.42)
+    g.stroke()
+  })
+  const lens = new THREE.Group()
+  const face = new THREE.Mesh(
+    new THREE.SphereGeometry(LR * 2.2, 48, 12, 0, Math.PI * 2, 0, Math.asin(1 / 2.2)),
+    new THREE.MeshStandardMaterial({ map: lensFace, emissiveMap: lensFace, emissive: '#ffffff', emissiveIntensity: 0.12, roughness: 0.3, metalness: 0.2 }),
+  )
+  face.rotation.x = Math.PI / 2 // the cap's bulge looks along +z
+  face.position.z = -LR * 2.2 * Math.cos(Math.asin(1 / 2.2)) + 0.004
+  // the sphere cap's UVs run round it, not across it: give it the face's UVs from its x and y
+  const fp = face.geometry.attributes.position
+  const fuv = face.geometry.attributes.uv
+  for (let i = 0; i < fp.count; i++) fuv.setXY(i, fp.getX(i) / (2 * LR) + 0.5, 0.5 - fp.getZ(i) / (2 * LR))
+  lens.add(face)
+  const mount = new THREE.Mesh(new THREE.TorusGeometry(LR + 0.009, 0.013, 12, 48), dark)
+  lens.add(mount)
+  const barrel = new THREE.Mesh(new THREE.CylinderGeometry(LR + 0.012, LR + 0.012, 0.03, 48, 1, true), dark)
+  barrel.rotation.x = Math.PI / 2
+  barrel.position.z = -0.015
+  lens.add(barrel)
+  lens.position.y = 0.14
+  const lensStand = new THREE.Group()
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.07, 12), dark)
+  post.position.y = 0.035
+  const foot = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.016, 0.07), stand)
+  foot.position.y = 0.008
+  lensStand.add(post, foot, lens)
+  lensStand.position.set(0.15, 0, -0.06)
+  lensStand.rotation.y = Math.PI - 0.5
+  group.add(lensStand)
+
+  // the transistor of 1947, at the front: brass base, germanium slab, the triangle, its gold foil and spring
+  const tr = new THREE.Group()
+  const brass = new THREE.MeshStandardMaterial({ color: '#3e2c10', roughness: 0.5, metalness: 0.3 })
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.035, 0.09), brass)
+  base.position.y = 0.0175
+  tr.add(base)
+  const slab = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.014, 0.06), new THREE.MeshMatcapMaterial({ matcap: cap, color: '#d8dce4' }))
+  slab.position.y = 0.035 + 0.007
+  tr.add(slab)
+  const TOPY = 0.049
+  const TW = 0.13
+  const TH = 0.11
+  const tri = new THREE.Shape()
+  tri.moveTo(0, 0)
+  tri.lineTo(TW / 2, TH)
+  tri.lineTo(-TW / 2, TH)
+  tri.closePath()
+  const triGeo = new THREE.ExtrudeGeometry(tri, { depth: 0.016, bevelEnabled: false })
+  triGeo.translate(0, 0, -0.008)
+  const triangle = new THREE.Mesh(triGeo, edgeGlass({ color: '#cfe8ff', edge: 0.65, base: 0.06 }))
+  triangle.position.y = TOPY
+  tr.add(triangle)
+  // gold foil down the two lower edges, on the front face, slit at the tip
+  const gold = new THREE.MeshStandardMaterial({ color: '#8a6212', roughness: 0.4, metalness: 0.3, emissive: '#3a2400', emissiveIntensity: 0.5 })
+  const edgeLen = Math.hypot(TW / 2, TH)
+  const edgeAng = Math.atan2(TW / 2, TH)
+  for (const side of [-1, 1]) {
+    const strip = new THREE.Mesh(new THREE.BoxGeometry(0.008, edgeLen - 0.006, 0.019), gold)
+    strip.position.set(side * (TW / 4 + 0.003), TOPY + TH / 2 + 0.002, 0)
+    strip.rotation.z = -side * edgeAng
+    tr.add(strip)
+  }
+  // the spring: a bent wire from a post at the back pressing the triangle's top
+  const springPost = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.2, 10), dark)
+  springPost.position.set(0.075, 0.035 + 0.1, -0.03)
+  tr.add(springPost)
+  const wire = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0.075, 0.225, -0.03), new THREE.Vector3(0.04, 0.235, -0.02), new THREE.Vector3(0.015, 0.205, -0.01),
+    new THREE.Vector3(0.03, 0.185, 0), new THREE.Vector3(0.005, 0.175, 0), new THREE.Vector3(0, TOPY + TH + 0.004, 0),
+  ])
+  tr.add(new THREE.Mesh(new THREE.TubeGeometry(wire, 40, 0.0025, 6), new THREE.MeshStandardMaterial({ color: '#8a9098', roughness: 0.4, metalness: 0.5 })))
+  // the two wires off to the sides, from the foil's tops
+  for (const side of [-1, 1]) {
+    const lead = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(side * TW / 2.2, TOPY + TH * 0.92, 0.004), new THREE.Vector3(side * 0.085, TOPY + TH * 0.8, 0.02),
+      new THREE.Vector3(side * 0.09, 0.04, 0.03),
+    ])
+    tr.add(new THREE.Mesh(new THREE.TubeGeometry(lead, 20, 0.0022, 6), new THREE.MeshStandardMaterial({ color: '#8a4a1a', roughness: 0.5 })))
+  }
+  tr.position.set(0.0, 0, 0.13)
+  tr.rotation.y = 0.15
+  group.add(tr)
+
+  // glints that come and go on the lump's facets and the lens
+  const glints = []
+  const spot = () => {
+    const n = new THREE.Vector3(rand() - 0.5, rand() * 0.8, rand() - 0.5).normalize()
+    return new THREE.Vector3(n.x * R, n.y * R * 0.8, n.z * R)
+  }
+  for (let i = 0; i < 5; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#eef3ff', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    s.scale.setScalar(0.055)
+    s.position.copy(spot())
+    lumpMesh.add(s)
+    glints.push({ s, phase: rand() * 10, speed: 0.5 + rand() * 0.7, move: true })
+  }
+  const lensGlint = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#eef3ff', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+  lensGlint.scale.setScalar(0.05)
+  lensGlint.position.set(-LR * 0.4, LR * 0.45, 0.012)
+  lens.add(lensGlint)
+  glints.push({ s: lensGlint, phase: 1.3, speed: 0.7, move: false })
+  updates.push(t => {
+    for (const g of glints) {
+      const k = Math.max(0, Math.sin(t * g.speed * 2 + g.phase))
+      g.s.material.opacity = k ** 8
+      if (g.move && k < 0.02) g.s.position.copy(spot())
+    }
+  })
+
+  group.scale.setScalar(1.15)
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon, Fe: iron, Kr: krypton, Rn: radon, Ag: silver, Ge: germanium }
