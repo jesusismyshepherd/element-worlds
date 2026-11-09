@@ -219,7 +219,26 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   against the bright pink boards behind it, a normally blended halo reads; a thing at the table's edge hid
   behind the rock half the time, so what must be seen stands in the middle; granite's pale grains bloomed
   into a pink cake until dimmed toward the navy (`dim`) and its band faded into the calm bottom.
+- Done: Silver (2026-11-09, boards, showpiece and room designs on one branch; the rooms are built on top of it from
+  `docs/agents/designs/Ag_rooms.md`, so until they land the pictures say "Explore"): seven pictures, no doorway (no wing,
+  no Periodic Videos room yet) (`medal` an Olympic gold medal is gilded silver, 6 g of gold on 529 g, the winners' silver
+  medals of 1896; `mirror` Liebig's silvering, the Hooker telescope's mirror silvered twice a year until 1935, Hubble's
+  Cepheid of 1923; `germs` silver ions against germs, Credé's drops of 1880, the space station's water; `wire` wire silver
+  at Kongsberg, the children's find of 1623, fire-setting, wires grown from silver sulfide; `snow` Schaefer's freezer and
+  flight of November 1946, Vonnegut's silver iodide; `photo` the darkroom, Daguerre 1839, the latent image of four silver
+  atoms; `dollar` the Joachimsthaler of 1520 and the Spanish piece of eight), none repeating the verse stone (silver
+  refined in a furnace, cupellation) or the specimen case. Its showpiece: curls of wire silver rising from a broken lump of
+  black ore, a flask silvered inside into a mirror ball in a cork ring, and a piece of eight standing in a holder (`silver`
+  in showpieces.js: `silverMatcap`, `chromeMatcap`, `taperedTube`, `wireCurl`, `pillarDollar`; the case's words in
+  `appearance.js` name them). The pictures share `tools/boards/Ag/agkit.py` (balls the kit lacks, named `aAg`, `aAu`,
+  `aCu`, `aI`, `aBr`; Ag+ as `aion`; polished silver and gold drawn as bands, `agBand` and `auBand`, the brightest band
+  under the bloom; coins at a slant; curls of wire). Traps: in the case, a dark stone lit by the lamp and washed by the
+  golden ring's bloom came out olive-brown even as a matcap: multiply it down to about #34363d (in light mode, with no
+  bloom, darker still read as a black blob); a soft silver matcap on a sphere read as a pearl and a glass shell over it
+  made it milkier: a mirror ball needs a matcap with a sharp horizon (bright room
+  above, dark floor below) and no shell. Facts with doubts are listed at the end of `Ag_rooms.md`.
 - Which hall next (2026-11-09): the halls follow today's element's days (`daily.md`), so the lesson's "Visit the
-  hall" leads somewhere rich: silver (17 November) is drawn, its rooms wait on the model trial's verdict.
+  hall" leads somewhere rich: silver (17 November) gets its rooms, germanium (16 November) its boards; then erbium
+  (18 November), zirconium (20), plutonium (21), curium (22), chromium (23).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
