@@ -6,6 +6,14 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Silver's hall (the user: "continue with adding boards and rooms to more atoms"; silver is today's element on 17
+  November): seven pictures, each a room to step into: the Panathenaic Stadium (what is inside a gold medal, gild
+  one yourself), the Mount Wilson dome (silver a 2.5 m mirror, find Hubble's Cepheid), the space station (water from
+  breath, a Petri dish, inside a germ), Kongsberg's King's Mine (the ox's find, fire-setting, silver hair from black
+  ore), Mount Greylock in 1946 (make it snow), a studio and darkroom (Daguerre's plate, the latent image, the
+  enlarger), a treasure galleon (pieces of eight, the silver roads, the purser's density test); its showpiece wire
+  silver on its ore, a mirror ball and a piece of eight. Rooms built on Sonnet 5.5 at high (no stars on the model
+  trial yet, so the cheaper setting). `picture-rooms.md`, `hall-boards.md`.
 - Inside the atom (the user: "take some part of the project and make it superb"; Claude's pick): every hall's big
   atom became a door into the room inside its electron cloud, for all 118 elements. Quantum mechanics' orbitals
   drawn as glowing clouds you walk through (hydrogen's exact shapes, sized by Slater's rules; a ray-marched

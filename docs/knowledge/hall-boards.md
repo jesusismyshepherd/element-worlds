@@ -128,6 +128,11 @@ session makes the worktrees itself next to the repository, each branch straight 
 (`git worktree add -b ag-medal ../ew-ag-medal ag-base`), and each brief names its folder ("cd there first and work only
 there"); the agents run without `isolation`. Remove the half-made `.claude/worktrees/agent-*` (clean, locked:
 `git worktree remove -f -f`) and their branches.
+The session's own last look runs every room against one build in a single lock hold (a shell script of `shot.py`
+runs): give `heavy.py` Git Bash's full path (`"$(cygpath -m "$(which bash)")" script.sh`); a bare `bash` there starts
+WSL's, which fails at once. Builders' reports often say a late tweak was not shot again, and a board cut off at the
+screen's edge was the commonest flaw (three of silver's seven): look at each one's station shots, and send small fixes
+back to the same agent (SendMessage keeps its context; each fix took 5 to 20 minutes).
 
 Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
 `tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`
@@ -225,8 +230,8 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   against the bright pink boards behind it, a normally blended halo reads; a thing at the table's edge hid
   behind the rock half the time, so what must be seen stands in the middle; granite's pale grains bloomed
   into a pink cake until dimmed toward the navy (`dim`) and its band faded into the calm bottom.
-- Done: Silver (2026-11-09, boards, showpiece and room designs on one branch; the rooms are built on top of it from
-  `docs/agents/designs/Ag_rooms.md`, so until they land the pictures say "Explore"): seven pictures, no doorway (no wing,
+- Done: Silver (2026-11-09, boards and rooms together; the rooms built on Sonnet 5.5 at high effort from
+  `docs/agents/designs/Ag_rooms.md`, each a room: `picture-rooms.md`): seven pictures, no doorway (no wing,
   no Periodic Videos room yet) (`medal` an Olympic gold medal is gilded silver, 6 g of gold on 529 g, the winners' silver
   medals of 1896; `mirror` Liebig's silvering, the Hooker telescope's mirror silvered twice a year until 1935, Hubble's
   Cepheid of 1923; `germs` silver ions against germs, Credé's drops of 1880, the space station's water; `wire` wire silver
@@ -244,7 +249,8 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   made it milkier: a mirror ball needs a matcap with a sharp horizon (bright room
   above, dark floor below) and no shell. Facts with doubts are listed at the end of `Ag_rooms.md`.
 - Which hall next (2026-11-09): the halls follow today's element's days (`daily.md`), so the lesson's "Visit the
-  hall" leads somewhere rich: silver (17 November) gets its rooms, germanium (16 November) its boards; then erbium
+  hall" leads somewhere rich: silver (17 November) is live with its rooms; germanium (16 November) has its boards (on `ge-base`)
+  and its rooms are being built; then erbium
   (18 November), zirconium (20), plutonium (21), curium (22), chromium (23).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
