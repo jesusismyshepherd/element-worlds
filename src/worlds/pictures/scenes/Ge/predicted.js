@@ -988,7 +988,8 @@ export async function build({ ctx, root, el, lang, E, ex, say: speak, later, lig
         g.font = '700 44px Outfit, sans-serif'
         g.fillText('?', (xa + x1) / 2, (y0 + y1) / 2 + 2)
         g.font = '700 30px Outfit, sans-serif'
-        g.fillText(C.missing, (xa + x1) / 2, y0 - 82)
+        g.textAlign = 'right'
+        g.fillText(C.missing, w - 16, y0 - 84)
       }
       // a mark at what was accounted for
       g.fillStyle = '#ffd9a0'
@@ -1008,7 +1009,8 @@ export async function build({ ctx, root, el, lang, E, ex, say: speak, later, lig
       g.font = '700 34px Outfit, sans-serif'
       g.fillText('Ge', (xa + xb) / 2, (y0 + y1) / 2)
       g.fillStyle = '#e8ecf4'
-      g.fillText(C.found, (xa + xb) / 2, y0 - 82)
+      g.textAlign = 'right'
+      g.fillText(C.found, w - 16, y0 - 84)
     }
   }
   // the hit shape over the bar's missing end
@@ -1235,7 +1237,7 @@ export async function build({ ctx, root, el, lang, E, ex, say: speak, later, lig
   }
   ex.add({
     id: 'winkler',
-    x: 6.6,
+    x: 6.85,
     z: -1.1,
     radius: 2.9,
     manual: true,
@@ -1249,7 +1251,7 @@ export async function build({ ctx, root, el, lang, E, ex, say: speak, later, lig
       if (!S3.ge) return H.gap
       return H.done
     },
-    focus: { x: 6.85, y: 2.5, z: ROOM.z0 + 0.3, size: 4.1, width: 5.0 },
+    focus: { x: 6.85, y: 2.5, z: ROOM.z0 + 0.3, size: 4.3, width: 5.0 },
     act: () => ctx.showPanel(panel3),
   })
   const winklerState = () => ({ g: S3.g, ag: S3.ag, s: S3.s, ge: S3.ge, year: S3.year })
