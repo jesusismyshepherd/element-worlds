@@ -133,6 +133,11 @@ runs): give `heavy.py` Git Bash's full path (`"$(cygpath -m "$(which bash)")" sc
 WSL's, which fails at once. Builders' reports often say a late tweak was not shot again, and a board cut off at the
 screen's edge was the commonest flaw (three of silver's seven): look at each one's station shots, and send small fixes
 back to the same agent (SendMessage keeps its context; each fix took 5 to 20 minutes).
+Cost trap (silver, 2026-11-09): seven Sonnet builders cost $185, more than radon's seven on Opus ($146). Six of them
+wrote 5 to 6 million tokens of cache each, the snow room's builder 0.4 million ($11 for its room): their probes waited
+up to 40 minutes in the heavy lock's queue behind other sessions, and a server restart stopped them all once, so their
+prompt cache most likely expired and was written again. Fewer builders at once when other sessions hold the lock, and
+probes batched into one lock hold (a script of shots), keep a room near the snow room's price.
 
 Pictures since sodium: one script per board in `tools/boards/<Symbol>/`, all drawn with the shared kit
 `tools/boards/lib/style.py` (`tools/boards/README.md`); `py -3.11 tools/boards/lib/render.py <Symbol>`

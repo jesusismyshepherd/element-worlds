@@ -159,7 +159,8 @@
         "Model trial (2026-10-31): krypton's rooms built with Sonnet 5.5 at high effort, radon's with Opus 5.5 at xhigh, so \"What it cost\" can compare the two on the same kind of work; your stars on both decide which builds the rooms after that.",
         "Krypton done (2026-11-01, the model trial's first half: rooms built on Sonnet 5.5 at high effort): seven pictures, each a room: the last drops of liquid air in 1898, the metre from the 1889 bar to light itself, the window factory, a platform in orbit with a Hall thruster, an oasis and the atom trap that dates a million-year-old water, krypton holding hands with fluorine, and the night gallery where kryptonite meets jadarite; its showpiece a lilac glowing globe and krypton frozen white. Next: radon's seven rooms on Opus 5.5 at xhigh, the trial's other half (docs/agents/designs/Rn_rooms.md).",
         "2026-11-09: radon's seven rooms are being built on Opus 5.5 at xhigh, the model trial's second half (from a base branch with radon's boards merged in once); silver's boards and room designs are being drawn, since silver is today's element on 17 November. From now on the next halls follow today's element's days, so the lesson's \"Visit the hall\" leads somewhere rich.",
-        "Radon done (2026-11-09): seven pictures, each a room (glow, cellar, rock, draught, moon, quake, cave), built on Opus 5.5 at xhigh as the trial's second half, six new places (a capillary, a granite house, a granite hillside, Rutherford's lab, the Moon, a show cave). Silver's seven pictures are drawn and wait for their rooms: your stars on krypton and radon choose the setting that builds them."
+        "Radon done (2026-11-09): seven pictures, each a room (glow, cellar, rock, draught, moon, quake, cave), built on Opus 5.5 at xhigh as the trial's second half, six new places (a capillary, a granite house, a granite hillside, Rutherford's lab, the Moon, a show cave). Silver's seven pictures are drawn and wait for their rooms: your stars on krypton and radon choose the setting that builds them.",
+        "Silver done (2026-11-09): seven pictures, each a room (medal, mirror, germs, wire, snow, photo, dollar), built on Sonnet 5.5 at high since neither trial hall had stars yet; seven new places (a stadium, a telescope dome, a station module, a mine, a mountain summit, a darkroom, a galleon). Germanium (today's element on 16 November) has its seven pictures drawn and its rooms are being built; then erbium, zirconium, plutonium, curium, chromium by today's element's days."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -550,11 +551,13 @@
       "z": 47,
       "title": "The darkroom",
       "kind": "worlds",
-      "status": "idea",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "A photographer's darkroom, and the shiniest mirror.",
-      "details": []
+      "details": [
+        "Built 2026-11-09 as two of silver's picture rooms: `photo` (a studio and its red-lit darkroom) and `mirror` (silvering the 100-inch telescope's mirror)."
+      ]
     },
     {
       "id": "tungsten-bulb",
@@ -4433,6 +4436,218 @@
           ]
         }
       }
+    },
+    {
+      "id": "silvers-hall",
+      "date": "2026-11-09",
+      "title": "Silver's hall: seven pictures, each a room to step into",
+      "what": "The Panathenaic Stadium, where a gold medal turns out to be silver inside and you gild one yourself; the Mount Wilson dome, where the great mirror gets a new skin of silver and Hubble's pulsing star shows Andromeda is another galaxy; the space station, where water from breath is made safe with silver, a Petri dish shows clear rings and silver jams a germ's machines; Kongsberg's King's Mine, with the ox's find, fire against the rock and silver hair growing from black ore; Mount Greylock in 1946, where a cloud in a box turns to snow; a studio and its red-lit darkroom, from Daguerre's plate to the enlarger; a treasure galleon with pieces of eight, the silver roads and the purser's density test. Its case: wire silver on its ore, a mirror ball and a piece of eight. Rooms built on Sonnet 5.5 at high (no stars on the trial yet, so the cheaper setting); three needed a small framing fix sent back to their builder. It cost more than radon's on Opus: six builders each wrote 5 to 6 million tokens of cache (the snow room's builder 0.4 million, $11), most likely because their probes waited up to 40 minutes in the machine's queue behind other sessions and the server restarted mid-build, so the cache expired and was written again and again. The model was cheaper per token; the waiting was not.",
+      "link": "https://element-worlds.vercel.app/e/Ag",
+      "size": {
+        "n": 7,
+        "unit": "room"
+      },
+      "revisions": 0,
+      "agents": [
+        "ac0e8017fb5b3f2c3",
+        "af1d2e3a1f89736a7",
+        "af4bbfee48e41ed71",
+        "ae0e8685f4a4d5ceb",
+        "aacd9cd466c827469",
+        "aa90f2b6443f6b5d2",
+        "ad030f070c031d8c2",
+        "a01aa5bdd7a2093de"
+      ],
+      "tokens": {
+        "total": 390826784,
+        "output": 1886392,
+        "agents": 8,
+        "usd": 184.97,
+        "requests": 1111,
+        "minutes": 261,
+        "input": 2278,
+        "cache_write": 35173004,
+        "cache_read": 353765110,
+        "configs": [
+          {
+            "model": "claude-sonnet-5-5",
+            "effort": "high",
+            "usd": 151.5372
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 26.5266
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "high",
+            "usd": 6.9077
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "ac0e8017fb5b3f2c3",
+            "what": "Silver's hall boards and room designs",
+            "minutes": 71,
+            "usd": 26.5266,
+            "requests": 167,
+            "input": 338,
+            "cache_write": 1055662,
+            "cache_read": 77366787,
+            "output": 288679,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "max",
+                "usd": 26.5266
+              }
+            ]
+          },
+          {
+            "id": "af1d2e3a1f89736a7",
+            "what": "Silver medal room",
+            "minutes": 64,
+            "usd": 21.7879,
+            "requests": 106,
+            "input": 214,
+            "cache_write": 5708536,
+            "cache_read": 28112446,
+            "output": 189368,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 21.7879
+              }
+            ]
+          },
+          {
+            "id": "af4bbfee48e41ed71",
+            "what": "Silver mirror room",
+            "minutes": 72,
+            "usd": 26.1351,
+            "requests": 113,
+            "input": 228,
+            "cache_write": 6343713,
+            "cache_read": 37722789,
+            "output": 273076,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 26.1351
+              }
+            ]
+          },
+          {
+            "id": "ae0e8685f4a4d5ceb",
+            "what": "Silver germs room",
+            "minutes": 127,
+            "usd": 23.7291,
+            "requests": 115,
+            "input": 234,
+            "cache_write": 5864609,
+            "cache_read": 34522176,
+            "output": 216271,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 23.7291
+              }
+            ]
+          },
+          {
+            "id": "aacd9cd466c827469",
+            "what": "Silver wire room",
+            "minutes": 131,
+            "usd": 23.4895,
+            "requests": 134,
+            "input": 276,
+            "cache_write": 5343574,
+            "cache_read": 39633522,
+            "output": 220334,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 23.4895
+              }
+            ]
+          },
+          {
+            "id": "aa90f2b6443f6b5d2",
+            "what": "Silver snow room",
+            "minutes": 109,
+            "usd": 10.783,
+            "requests": 129,
+            "input": 260,
+            "cache_write": 401148,
+            "cache_read": 40425002,
+            "output": 169462,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 10.783
+              }
+            ]
+          },
+          {
+            "id": "ad030f070c031d8c2",
+            "what": "Silver photo room",
+            "minutes": 128,
+            "usd": 22.894,
+            "requests": 121,
+            "input": 248,
+            "cache_write": 5120285,
+            "cache_read": 38256101,
+            "output": 244159,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 22.894
+              }
+            ]
+          },
+          {
+            "id": "a01aa5bdd7a2093de",
+            "what": "Silver dollar room",
+            "minutes": 82,
+            "usd": 22.7186,
+            "requests": 124,
+            "input": 250,
+            "cache_write": 5084385,
+            "cache_read": 38330443,
+            "output": 234100,
+            "configs": [
+              {
+                "model": "claude-sonnet-5-5",
+                "effort": "high",
+                "usd": 22.7186
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "050da46a",
+          "usd": 6.91,
+          "requests": 102,
+          "input": 230,
+          "cache_write": 251092,
+          "cache_read": 19395844,
+          "output": 50943,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "high",
+              "usd": 6.9077
+            }
+          ]
+        }
+      }
     }
   ],
   "decisions": [
@@ -4521,10 +4736,10 @@
     "updated": "2026-11-09",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 25.23,
-      "requests": 176
+      "usd": 25.48,
+      "requests": 147
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
-    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.)"
+    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.) Silver's rooms (2026-11-09) ran on Sonnet 5.5 at high too, but cost $185 for seven: long waits for the machine's probe lock let the cache expire, so compare its snow room ($11) rather than the total."
   }
 }
