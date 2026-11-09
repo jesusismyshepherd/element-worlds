@@ -101,7 +101,17 @@ in. The studio item is `picture-rooms`.
   iron vault: table cases, benches, moon panes on the parquet),
   `arctic.js` (a winter camp in Lapland at night: snow, a frozen lake, fells, spruces and birches, a log
   hut and a tent, the aurora's curtains coloured by height and lighting the snow; `aurora.set({ level,
-  storm })`, `aurora.time` for long exposures, `kmWorld`). A
+  storm })`, `aurora.time` for long exposures, `kmWorld`), and radon's six (2026-11-09): `capillary.js` (inside a
+  glass capillary at a speck's size, a cold jacket of liquid air, a microscope objective as a skylight;
+  `glass.setGlow/setTint/sweep`, `bath.set({ fill, air, boil, frost })`, `mercury.setPush(d)`, `radiusAt(z)`),
+  `stonehouse.js` (a granite house in the Beira on a frosty night, cut open like a doll's house down to the rock;
+  `window.setOpen`, `trapdoor.setOpen`, `stove.setLit`, `hood.setOn`, `setFrost`, `setSmoke`, `strataTexture`),
+  `tors.js` (a granite upland of the Serra da Estrela at dusk; `GRANITE`, `boulderGeometry(r, { seed, squash, cut })`,
+  `boulder()`, `groundAt`), `mcgill.js` (a McGill physics laboratory of about 1900 by electric light, snowy
+  Montreal outside, a real door onto a cold corridor; `door.setOpen(k)`, `windows[i].pane.setOpen(k)`, `onWall`),
+  `lunar.js` (on the Moon on a rise above a young crater, black sky, the Earth lit from the side;
+  `groundAt`, `paintMoonMap(g, w, h, view)`, `MARIA`, `CRATERS`, `moonDir`) and `showcave.js` (a limestone show
+  cave with a bottom and a top door; `doors.bottom/top.set(k)`, `setSeason(k)`, `setDrift(k)`, `ceilingAt`). A
   room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
@@ -433,6 +443,41 @@ at the same address.
     sum "2 + 2" drift (a pressure slider, "feels like" depth). The film's formula and jadarite, LiNaSiB3O7(OH),
     from Jadar in Serbia (2007); no figure or emblem on the cape.
 
+- Radon (2026-11-09, built with Opus 5.5 at xhigh effort, the model trial's second half: `docs/studio/backlog.json`
+  `cost.trial`), seven rooms from `docs/agents/designs/Rn_rooms.md`, every radon atom a teal mote with a halo:
+  - `glow` ("Can a frozen gas glow by itself?"): inside Gray and Ramsay's capillary, 1909 (`capillary.js`). The
+    cold bath (the thermometer, the liquid-air tap or a slider: clear liquid at −62 °C, a solid at −71 °C shining
+    steel-blue, yellow, then orange-red in liquid air, the red out at −118 °C); three glasses glowing blue,
+    bluish green and lilac, the mercury pushed to 20 and 45 atm; the 1910 quartz microbalance (levelled by the
+    air in its case, as theirs was) weighing five samples: 216 to 227, today 222.
+  - `cellar` ("Why do people air their cellars?"): the granite house cut open (`stonehouse.js`). The house
+    breathes (window, extractor, trapdoor, stove, thermometer: an illustrative stack-effect model); the
+    detector kit (a CR-39 chip, months of tracks, etched in hot sodium hydroxide, pits counted onto a scale with
+    Portugal's 300 and the WHO's 100); the fix (sealing the cracks helps only a little; the sump fan sends radon
+    up a pipe above the roof).
+  - `rock` ("How does granite breathe out radon?"): a hillside of the Serra da Estrela at dusk (`tors.js`). The
+    lens (a radium atom breaks, the radon recoils about 40 nm: stuck in its grain, buried across a dry pore, or
+    free in the pore water; 20 tries on a board); the soil column (radon wanders and breaks apart, rain stops it);
+    the uranium family's staircase in the sky (tap an atom; the Atom Forge for the decays one by one).
+  - `draught` ("Why did a door spoil the experiment?"): Rutherford's laboratory at McGill, winter 1899
+    (`mcgill.js`). Owens's plates and the draught from the door, the glass case; Rutherford's tube of 1900 with
+    the cotton wool, the stopwatch and the chalkboard's half-life (his Table III at Scientist level); the 1903
+    liquid-air trap with radium's and thorium's emanation, the zinc sulphide screen and willemite, a days slider.
+  - `moon` ("Does the Moon breathe out a gas?"): on the Moon above Aristarchus (`lunar.js`). The crack (radon hops
+    in ballistic arcs and breaks into amber dots that stay; an air slider and they drift off instead); Apollo
+    15's service module at a third of its size over its map board (radon over Aristarchus, polonium-210 at the
+    seas' edges; a time slider from 2 hours to 100 years); Lunar Prospector at real size beside a Moon globe,
+    noisy maps averaging until Aristarchus and Kepler stand out.
+  - `quake` ("Can a gas warn of earthquakes?"): a village in Japan at dusk beside a fault (`dig.js`). The fault
+    model (push until it slips, the room shakes, the leak falls back); the Nishinomiya well's record before Kobe
+    (Igarashi et al. 1995) and three folders of example records (rain, a quake with no change, air pressure),
+    so one record is not enough; a soil-gas probe along seven spots finding the hidden fault. Told as research,
+    never a method.
+  - `cave` ("Do caves breathe in and out?"): a limestone show cave on a winter night (`showcave.js`). The cave's
+    breath (outside temperature: about 200 Bq/m³ in winter, about 3000 in summer, as at Postojna; below −6 °C
+    snow closes the top); the doors (shut the bottom door in summer; Waring et al. 2021, a proposal); the
+    guide's year of dose against the 20 mSv limit, the visitor's sliver.
+
 ## Adding a room
 
 1. Read the picture's story (`src/content/boards/<Symbol>.js`) and look at its picture
@@ -575,3 +620,27 @@ at the same address.
     can leave a truncated `esbuild.exe` or an empty `node_modules/three`: remove `node_modules` and again.
   - Open: in the phone station view of `hidden`'s clean-up a thin dark bar stands in front of the bench
     (not on a computer); not traced. The million-dot clouds are untested on the S21.
+- Radon's builders (2026-11-09):
+  - With a focus below the eye, the station view keeps the Atomling's own eye height (about 0.95 m), so the lip of
+    a cut hides what is below it: compress the section, put the stations at the edge, a low kerb with an invisible
+    wall instead of a rail (`cellar`).
+  - On a computer the station view fits only `size`; `width` counts on an upright phone (`rock`). On a phone the
+    eye backs off by width over aspect, but `cameraBounds` stops it: keep a station's line short (`quake`).
+  - Motes (points) near the camera become big halos in a station view or a small room: fade them within about
+    2 m of the camera. Fading points with normal blending turn black; additive blending fades them to nothing.
+  - A see-through liquid that writes depth hides the glows inside it: `depthWrite: false`, the glow a higher
+    `renderOrder`; glass at 0.42 opacity hides what moves inside a tube, about 0.12 shows it (`draught`).
+  - A lit navy board (`standingScreen`) washes to grey in a hard low sun: an unlit canvas face reads (`moon`).
+    Metal at metalness 0.85 in a low sun blooms white (about 0.35); thin metal posts reflecting the
+    environment bloom into white blobs (dark posts, a dimmer map).
+  - A canvas radial-gradient fill left set by a helper makes the next `fillText` invisible: set the fill again.
+  - A console tilted away from the visitor shows its labels mirrored: tilt it toward them.
+  - Lines an Atomling speaks after another player's change speak on every screen: guard them with a "mine"
+    flag (`cave`, `cellar`). Speech lines within a second overwrite each other: hold each about 3 s (`glow`).
+  - A duplicate key in a words object wins silently (the shape test does not catch it): "undefined" on screen.
+  - `collide.js` `box` takes the same rotation sign as the mesh's `rotation.y`. Shaking a room moves
+    `root.position`; reset it in `detach`.
+  - The easel at krypton's spot (−2.9, 1.7) stood on the line a phone's station view backs along; move it when
+    a station sits on the left.
+  - Several builders at once: wrapping `heavy.py` in a shell `timeout` killed probes waiting in the machine's
+    queue (run them in the background); saving a file during a probe reloads the page under it.

@@ -20,7 +20,8 @@ The room inside one of a hall's pictures, stepped into from the board (`docs/kno
   `arctic.js`: a winter camp under the aurora; `gasgiant.js`, `garden.js`, `youngcosmos.js`, `depot.js`,
   `heath.js`, `pond.js`, `townhouse.js` (hydrogen's rooms), `ship.js`, `table.js`, `village.js`, `tower.js`,
   `mars.js`, `railway.js` (iron's), `gaslab.js`, `metrology.js`, `glazing.js`, `orbit.js`, `desert.js`,
-  `gallery.js` (krypton's; `picture-rooms.md`).
+  `gallery.js` (krypton's), `capillary.js`, `stonehouse.js`, `tors.js`, `mcgill.js`, `lunar.js`, `showcave.js`
+  (radon's; `picture-rooms.md`).
 - `scenes/<Symbol>/<id>.js` + `<id>.words.js`: a picture's room and its words. Silicon: all six
   (`diatoms`, `solar`, `glass`, `earth`, `valley`, `silicone`). Sodium: all six
   (`nerves`, `salt`, `davy`, `lamps`, `space`, `kitchen`). Carbon: all seven (`twins`, `you`,
@@ -28,6 +29,6 @@ The room inside one of a hall's pictures, stepped into from the board (`docs/kno
   `fire` at `fire-picture`, `ozone`, `first`, `water`, `aurora`, `magnet`). Hydrogen: all seven (`bigbang`, `airship`, `bond`, `fuel`, `cavendish`,
   `jupiter`, `radio`). Iron: all seven (`meteorite`, `compass`, `smith`, `cereal`, `tower`, `mars`,
   `rails`). Krypton: all seven (`hidden`, `metre`, `windows`, `thruster`, `water`, `hands`,
-  `kryptonite`).
+  `kryptonite`). Radon: all seven (`glow`, `cellar`, `rock`, `draught`, `moon`, `quake`, `cave`).
 - `pictures.test.js`: every room stands behind a real picture; its words in four languages, the same
   shape, both depths, no em dashes.

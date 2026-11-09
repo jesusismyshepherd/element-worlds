@@ -175,9 +175,9 @@ built: `docs/history.md`):
   time machine, search, "Who am I?", golden stars over elements with worlds of their own, today's element
   and the streak (2026-11-09, `daily.md`).
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
-  floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31) and Krypton
-  (2026-11-01) have a fact file, picture boards and their own showpieces; the others still have the eight text stations
-  (`hall-boards.md`; radon's boards wait on a branch for their rooms). A picture with a room
+  floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31), Krypton
+  (2026-11-01) and Radon (2026-11-09) have a fact file, picture boards and their own showpieces; the others still have
+  the eight text stations (`hall-boards.md`; silver's boards wait on a branch for their rooms). A picture with a room
   is stepped into (`picture-rooms.md`; every picture on a wall since 2026-10-31).
 - Wings: carbon (allotropes, life), oxygen (air, fire), the noble gases' neon sign workshop, sodium's
   and silicon's Periodic Videos rooms (since 2026-10-30, sodium the pilot, entered through a doorway board in the hall, the
@@ -197,10 +197,11 @@ built: `docs/history.md`):
 
 Open: everything left to do is in `docs/studio/backlog.json`, one list: the queue (`next`, in order,
 each with why), the ideas, the known problems (kind `tech`: first visits, the camera among lattices,
-the phone), and what waits on the user. Now (2026-11-09): radon's seven rooms are being built from
-`docs/agents/designs/Rn_rooms.md` on Opus 5.5 at xhigh, the model trial's second half (krypton's were built on
-Sonnet 5.5 at high; `docs/studio/backlog.json` `cost.trial`), each builder from the branch `rn-base` (main plus
-radon's boards, merged once with the conflicts resolved, `hall-boards.md`'s trap); when they are done, merge
-`rn-base` and the seven room branches into main together. Silver's boards and room designs are being drawn
-(silver is today's element on 17 November; `daily.md`): the next halls follow today's element's days. The family
-studio at `/studio` is read and answered at the start of every session (`update-dashboard.md`).
+the phone), and what waits on the user. Now (2026-11-09): radon's rooms are live (Opus 5.5 at xhigh, the model
+trial's second half; krypton's were Sonnet 5.5 at high: `docs/studio/backlog.json` `cost.trial`); the user's stars on
+the two halls choose the setting for the next rooms. Silver's boards, showpiece and room designs
+(`docs/agents/designs/Ag_rooms.md`) wait on the branch `worktree-agent-ac0e8017fb5b3f2c3` for their rooms: merge it
+once into a base branch (`showpieces.js`' `SHOWPIECES` line and `hall-boards.md` conflict: keep both), then the seven
+builders (silver is today's element on 17 November; the next halls follow today's element's days, `daily.md`).
+Treasure hunts are being built. The family studio at `/studio` is read and answered at the start of every session
+(`update-dashboard.md`).

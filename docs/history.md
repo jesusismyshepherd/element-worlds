@@ -22,6 +22,15 @@ and the user's requests behind them. Add a line here when a piece of work change
   signed in as a family member, the sheet shows who did today's lesson, each one's streak, the days in a row
   everyone did it, and "your turn". The family is the admin's choice on the family dashboard's People (it
   starts with the user and Artur); a member sees only the others' names and days (`daily.md`, "The family").
+- Radon's hall goes live (the queue's top: the halls' pictures, each with its room; the model trial's second half,
+  Opus 5.5 at xhigh against krypton's Sonnet 5.5 at high): seven pictures, each a room (`glow` inside Gray and
+  Ramsay's capillary of 1909, the frozen radon glowing and the 1910 microbalance; `cellar` a granite house in the
+  Beira cut open, the detector and the fix; `rock` granite breathing radon out on the Serra da Estrela; `draught`
+  Rutherford's door at McGill in 1899; `moon` radon over Aristarchus, Apollo 15 and Lunar Prospector; `quake` the
+  Nishinomiya well before Kobe, told as research; `cave` a show cave breathing with the seasons, a guide's year),
+  six new stages (`picture-rooms.md`). The cave's builder found the boards' story wrong about Postojna's highest
+  month (June, not early autumn); fixed. Silver's boards are drawn and wait for their rooms (silver is today's
+  element on 17 November).
 
 ## 2026-11-06
 

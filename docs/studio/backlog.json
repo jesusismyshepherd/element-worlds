@@ -89,10 +89,9 @@
     },
     {
       "id": "w-rate-krypton",
-      "title": "Rate krypton's rooms and the cost trial",
-      "detail": "Krypton's seven rooms were built by Sonnet 5.5 at high effort, radon's will be built by Opus 5.5 at xhigh. Open the hall, step into a few rooms, and give the card under Built its stars: 3 or more means you would keep it as it is. The table in What it cost then shows which setting earned its price.",
-      "link": "https://element-worlds.vercel.app/e/Kr",
-      "optional": true
+      "title": "Rate krypton's and radon's rooms: your stars choose who builds silver's",
+      "detail": "Krypton's seven rooms were built by Sonnet 5.5 at high effort, radon's by Opus 5.5 at xhigh. Step into a few rooms of each hall and give both cards under Built their stars (3 or more: you would keep it as it is). Compare the dollars for each room in What it cost: your verdict picks the setting for silver's seven rooms, which wait to be built (silver is today's element on 17 November).",
+      "link": "https://element-worlds.vercel.app/e/Rn"
     }
   ],
   "items": [
@@ -136,7 +135,8 @@
         "Iron done (2026-10-31): the Hoba meteorite and Tutankhamun's dagger, a research ship over the Earth's iron dynamo, an Iron Age smith, iron pulled from breakfast cereal, the Eiffel Tower's rivets and its top leaning from the sun, Opportunity on Mars, a thermite weld on a railway; its showpiece an etched iron meteorite. Next: krypton's and radon's seven rooms each: their pictures are drawn and their rooms designed (docs/agents/designs/), waiting to go up together with the rooms.",
         "Model trial (2026-10-31): krypton's rooms built with Sonnet 5.5 at high effort, radon's with Opus 5.5 at xhigh, so \"What it cost\" can compare the two on the same kind of work; your stars on both decide which builds the rooms after that.",
         "Krypton done (2026-11-01, the model trial's first half: rooms built on Sonnet 5.5 at high effort): seven pictures, each a room: the last drops of liquid air in 1898, the metre from the 1889 bar to light itself, the window factory, a platform in orbit with a Hall thruster, an oasis and the atom trap that dates a million-year-old water, krypton holding hands with fluorine, and the night gallery where kryptonite meets jadarite; its showpiece a lilac glowing globe and krypton frozen white. Next: radon's seven rooms on Opus 5.5 at xhigh, the trial's other half (docs/agents/designs/Rn_rooms.md).",
-        "2026-11-09: radon's seven rooms are being built on Opus 5.5 at xhigh, the model trial's second half (from a base branch with radon's boards merged in once); silver's boards and room designs are being drawn, since silver is today's element on 17 November. From now on the next halls follow today's element's days, so the lesson's \"Visit the hall\" leads somewhere rich."
+        "2026-11-09: radon's seven rooms are being built on Opus 5.5 at xhigh, the model trial's second half (from a base branch with radon's boards merged in once); silver's boards and room designs are being drawn, since silver is today's element on 17 November. From now on the next halls follow today's element's days, so the lesson's \"Visit the hall\" leads somewhere rich.",
+        "Radon done (2026-11-09): seven pictures, each a room (glow, cellar, rock, draught, moon, quake, cave), built on Opus 5.5 at xhigh as the trial's second half, six new places (a capillary, a granite house, a granite hillside, Rutherford's lab, the Moon, a show cave). Silver's seven pictures are drawn and wait for their rooms: your stars on krypton and radon choose the setting that builds them."
       ],
       "link": "https://element-worlds.vercel.app/e/C",
       "doc": "docs/knowledge/hall-boards.md"
@@ -905,6 +905,213 @@
     }
   ],
   "built": [
+    {
+      "id": "radons-hall",
+      "date": "2026-11-09",
+      "title": "Radon's hall: seven pictures, each a room to step into",
+      "what": "Inside Gray and Ramsay's capillary, where frozen radon glows by itself; a granite house in the Beira cut open, with the detector and the fix; a granite hillside breathing radon out; Rutherford's laboratory in 1899, where a door spoiled the experiment; the Moon over Aristarchus; a well before the Kobe earthquake, told as research; a show cave that breathes with the seasons. Built on Opus 5.5 at xhigh, the model trial's second half.",
+      "link": "https://element-worlds.vercel.app/e/Rn",
+      "size": {
+        "n": 7,
+        "unit": "room"
+      },
+      "revisions": 0,
+      "agents": [
+        "a29f4091cc8e22657",
+        "aceb4f185fd85837f",
+        "a91546fb9feb901d5",
+        "a23164f4fde2fa351",
+        "add272a5bb33af819",
+        "ac0c47de58d73f87d",
+        "adba0411dac78ccf5",
+        "a3f1fc97f26884639"
+      ],
+      "tokens": {
+        "total": 371652265,
+        "output": 2024487,
+        "agents": 8,
+        "usd": 146.2,
+        "requests": 974,
+        "minutes": 146,
+        "input": 1984,
+        "cache_write": 6529921,
+        "cache_read": 363095873,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 133.5691
+          },
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 12.6356
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "a29f4091cc8e22657",
+            "what": "Radon hall boards and room designs",
+            "minutes": 47,
+            "usd": 13.247,
+            "requests": 114,
+            "input": 230,
+            "cache_write": 435243,
+            "cache_read": 34965265,
+            "output": 203841,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 13.247
+              }
+            ]
+          },
+          {
+            "id": "aceb4f185fd85837f",
+            "what": "Build radon's glow room",
+            "minutes": 95,
+            "usd": 19.3765,
+            "requests": 111,
+            "input": 224,
+            "cache_write": 1113339,
+            "cache_read": 40395390,
+            "output": 286491,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 19.3765
+              }
+            ]
+          },
+          {
+            "id": "a91546fb9feb901d5",
+            "what": "Build radon's cellar room",
+            "minutes": 86,
+            "usd": 21.0155,
+            "requests": 140,
+            "input": 282,
+            "cache_write": 624093,
+            "cache_read": 57669210,
+            "output": 318001,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 21.0155
+              }
+            ]
+          },
+          {
+            "id": "a23164f4fde2fa351",
+            "what": "Build radon's rock room",
+            "minutes": 56,
+            "usd": 13.3935,
+            "requests": 96,
+            "input": 192,
+            "cache_write": 722369,
+            "cache_read": 26816409,
+            "output": 220882,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 13.3935
+              }
+            ]
+          },
+          {
+            "id": "add272a5bb33af819",
+            "what": "Build radon's draught room",
+            "minutes": 70,
+            "usd": 17.1333,
+            "requests": 106,
+            "input": 218,
+            "cache_write": 1208145,
+            "cache_read": 33156987,
+            "output": 223017,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 17.1333
+              }
+            ]
+          },
+          {
+            "id": "ac0c47de58d73f87d",
+            "what": "Build radon's moon room",
+            "minutes": 67,
+            "usd": 16.2957,
+            "requests": 124,
+            "input": 250,
+            "cache_write": 547109,
+            "cache_read": 43630773,
+            "output": 241652,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.2957
+              }
+            ]
+          },
+          {
+            "id": "adba0411dac78ccf5",
+            "what": "Build radon's quake room",
+            "minutes": 72,
+            "usd": 16.2406,
+            "requests": 101,
+            "input": 204,
+            "cache_write": 1162599,
+            "cache_read": 31644013,
+            "output": 204898,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.2406
+              }
+            ]
+          },
+          {
+            "id": "a3f1fc97f26884639",
+            "what": "Build radon's cave room",
+            "minutes": 76,
+            "usd": 16.8669,
+            "requests": 114,
+            "input": 230,
+            "cache_write": 570947,
+            "cache_read": 43044520,
+            "output": 270119,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 16.8669
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "e5481b7b",
+          "usd": 12.64,
+          "requests": 68,
+          "input": 154,
+          "cache_write": 146077,
+          "cache_read": 51773306,
+          "output": 55586,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 12.6356
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "family-streak",
       "date": "2026-11-09",
@@ -3704,6 +3911,6 @@
       "requests": 108
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
-    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's follow on Opus 5.5 at xhigh, both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds the rooms after that. (Krypton's card also holds its boards agent, which ran on Opus 5.5 at xhigh.)"
+    "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.)"
   }
 }
