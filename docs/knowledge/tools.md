@@ -100,6 +100,11 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   a race (the picker, one watching, the countdown, own atoms, progress on the board, the winner, back to
   the room's atom) and a second one whose referee leaves. 61 checks, under a minute; screenshots in
   `tools/shots/forge_room/` (`multiplayer.md`, "The forge together").
+- `dna_probe.py [--base http://localhost:5324]`: the lab's DNA bench (`dna.md`) on a computer and an upright
+  phone: the tray's four slots, a strand built (both strands' nucleotides, the card's letters), undo, the
+  twist, a copy ending in two helices, the finds kept, keep one, clear; console errors fail it. 26 checks,
+  under a minute; shots in `tools/shots/dna/`. In a room: `shared_probe.py --world /lab/dna` with
+  `tools/shared_steps/dna.json`; the HUD: `hud_probe.py --scene dna`.
 - `usage_probe.py`, `stats_probe.py` (both want `EW_DASH_PASS`), `account_probe.py`: usage recording, the
   family dashboard, accounts (`usage-data.md`, `accounts.md`). Every probe that makes an account wants an
   invite token in `QA_INVITE` (since 2026-11-08; `accounts.md`, "Invites"); `daily_probe.py --account`

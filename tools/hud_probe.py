@@ -188,6 +188,16 @@ def scenes():
     def forge(page):
         page.wait_for_timeout(800)
 
+    def dna(page):
+        # the lab's DNA bench: a strand of twelve pairs, then copied (its tray, card, finds and bar at the edges)
+        page.evaluate("() => 'ATGCGTACCATG'.split('').forEach((b, i) => setTimeout(() => __ew.world.add(b), i * 60))")
+        page.wait_for_timeout(2500)
+
+    def dna_copied(page):
+        dna(page)
+        page.evaluate("() => __ew.world.copy()")
+        page.wait_for_timeout(9000)
+
     def forge_race(page):
         # in a probe room (PRB...), a race on: the line of who builds together and the race's board
         code = 'PRB' + ''.join(random.choice('ABCDEFGHJKMNPQRSTUVWXYZ') for _ in range(3))
@@ -242,6 +252,8 @@ def scenes():
         'wing-panel': ('/e/C/allotropes', walk_panel, 0.55),
         'lab-water': ('/lab', lab_water, 0.5),  # a workbench: the palette and the missions are its tools
         'forge': ('/forge?z=26', forge, 0.5),
+        'dna': ('/lab/dna', dna, 0.5),  # the lab's DNA bench: the tray, the card, the finds, the bar
+        'dna-copied': ('/lab/dna', dna_copied, 0.5),  # two helices side by side
         'forge-race': ('/forge', forge_race, 0.5),  # in a room, racing: the race's board where the missions were
         'neon-name': ('/e/Ne/signs', neon_name, 0.55),
         'atom-map': ('/e/U/atom', atom_map, 0.55),  # inside the atom: the electron map's panel

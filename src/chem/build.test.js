@@ -71,7 +71,7 @@ test('every molecule the lab knows has its name and its facts in every language'
 })
 
 test('every mission is a molecule the lab knows', () => {
-  assert.equal(MISSIONS.length, 15)
+  assert.equal(MISSIONS.length, 21)
   for (const m of MISSIONS) assert.ok(m && m.name, String(m))
 })
 
@@ -117,4 +117,44 @@ test('a metal hands its electrons to a non-metal: ions, recognised by formula', 
     const take = atoms.filter(a => !b.isMetal(a.el)).reduce((n, a) => n + b.handsOf(a.el), 0)
     assert.equal(give, take, k.show)
   }
+})
+
+test('rings: benzene either way round, glucose and the four DNA bases are known; fulvene is not benzene', async () => {
+  const b = await import('./build.js')
+  for (const [show, build] of Object.entries(b.RING_BUILDS)) assert.equal(b.recognise(b.fromBuild(build))?.show, show, show)
+  // benzene's other Kekulé ring (the double bonds moved round by one) is benzene too
+  const other = b.fromBuild({ atoms: b.RING_BUILDS.C6H6.atoms, pairs: [[0, 1], [1, 2], [1, 2], [2, 3], [3, 4], [3, 4], [4, 5], [5, 0], [5, 0], [0, 6], [1, 7], [2, 8], [3, 9], [4, 10], [5, 11]] })
+  assert.equal(b.recognise(other)?.show, 'C6H6')
+  // adenine written with its double bonds elsewhere (C2=N1... another arrangement using every hand)
+  const ad = b.fromBuild({ atoms: b.RING_BUILDS.C5H5N5.atoms, pairs: [[5, 0], [0, 1], [0, 1], [1, 2], [2, 3], [2, 3], [3, 4], [4, 5], [4, 5], [5, 6], [4, 7], [7, 8], [7, 8], [8, 9], [9, 3], [1, 10], [8, 11], [9, 12], [6, 13], [6, 14]] })
+  assert.ok(b.complete(ad))
+  assert.equal(b.recognise(ad)?.show, 'C5H5N5')
+  // fulvene: C6H6 with the same bond pattern as benzene, but a five-ring and a CH2
+  const fulvene = b.fromBuild({ atoms: ['C', 'C', 'C', 'C', 'C', 'C', 'H', 'H', 'H', 'H', 'H', 'H'], pairs: [[0, 1], [0, 1], [1, 2], [2, 3], [2, 3], [3, 4], [4, 0], [4, 5], [4, 5], [0, 6], [1, 7], [2, 8], [3, 9], [5, 10], [5, 11]] })
+  assert.ok(b.complete(fulvene))
+  assert.equal(b.bondPattern(fulvene), b.bondPattern(b.fromBuild(b.RING_BUILDS.C6H6)))
+  assert.equal(b.recognise(fulvene), null)
+  // half a ring is nothing yet
+  const half = b.fromBuild({ atoms: b.RING_BUILDS.C6H6.atoms, pairs: b.RING_BUILDS.C6H6.pairs.slice(0, 12) })
+  assert.equal(b.recognise(half), null)
+})
+
+test('every mission has a "show me" in the lab (DEMOS in lab.js) that builds that very molecule', async () => {
+  const b = await import('./build.js')
+  const { readFileSync } = await import('node:fs')
+  const src = readFileSync(new URL('../worlds/lab/lab.js', import.meta.url), 'utf8')
+  const at = src.indexOf('const DEMOS = {')
+  let depth = 0
+  let end = at + 'const DEMOS = '.length
+  for (; end < src.length; end++) {
+    if (src[end] === '{') depth++
+    else if (src[end] === '}' && --depth === 0) break
+  }
+  const DEMOS = new Function(`return ${src.slice(at + 'const DEMOS = '.length, end + 1)}`)()
+  for (const m of b.MISSIONS) {
+    const plan = DEMOS[m.show]
+    assert.ok(plan, `${m.show}: no show me`)
+    assert.equal(b.recognise(b.fromBuild(plan))?.show, m.show, m.show)
+  }
+  for (const [show, build] of Object.entries(b.RING_BUILDS)) assert.deepEqual(DEMOS[show], build, show)
 })

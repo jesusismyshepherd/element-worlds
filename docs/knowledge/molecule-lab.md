@@ -18,7 +18,8 @@ The seed of the molecule games (docs/design.md, "Molecules and alloys"): Atomlin
   (bonded neighbours, lone pairs, free hands) push apart sideways on a sphere (VSEPR); lone pairs push a
   little harder, so water bends below 109.5 degrees. Every push on a neighbour has its reaction on the
   centre; a seeded jitter early on shakes the layout out of symmetric dead ends.
-- Missions (`MISSIONS`): H2, H2O, O2, CO2, CH4, NH3, N2, HCl, C2H6, C2H4, C2H5OH, C2H2. A completed one is
+- Missions (`MISSIONS`): H2, H2O, O2, CO2, CH4, NH3, N2, HCl, C2H6, C2H4, C2H5OH, C2H2 (and the ionic and ring
+  ones below). A completed one is
   a discovery `lab:<show>` (`engine/progress.js`); facts for every known molecule in
   `src/content/molecules.js` (all four languages, both depths).
 - Ionic compounds (2026-10-28): the metals Li, Na, K, Mg, Ca, Al are in the palette (their hands give
@@ -33,6 +34,13 @@ The seed of the molecule games (docs/design.md, "Molecules and alloys"): Atomlin
   size), turned to the camera; each bond is an arm from each atom meeting at a glowing clasp (two or three
   side by side for double and triple bonds); free hands reach out and wave; lone pairs show as electron
   pairs for the Scientist.
+
+- Rings (2026-11-09, with the DNA bench, `dna.md`): benzene, glucose (its ring) and the four DNA bases are
+  known by formula and skeleton (`RING_BUILDS`, `skeleton` in `chem/build.js`: any Kekulé arrangement that
+  uses every hand counts), with facts and six missions (21 in all), each with its "show me". The layout
+  starts a ring molecule from a flat drawing, shapes a ring closed by hand, keeps conjugated (flat) parts in
+  one plane with their nitrogens flat, staggers single bonds (glucose a chair) and turns a flat molecule to
+  face the view.
 
 ## Clouds (2026-11-09)
 
@@ -93,6 +101,6 @@ at 24 % they nearly vanished; 15 % with a thin mist reads best.
 ## Next
 
 - Ionic compounds (a metal hands its electrons over: NaCl, MgO), alloys (metals in a sea of electrons).
-- Reactions with energy (burning methane), rings (benzene), molecules of life (glucose, DNA bases): the lab's
-  benches (2026-11-09, `benches.md`).
+- Reactions with energy (burning methane): the reactions bench (2026-11-09, `benches.md`); more molecules of life
+  (amino acids, ATP).
 - Clouds: molecular orbitals for oxygen (the two unpaired π* electrons), resonance in benzene's ring.
