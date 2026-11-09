@@ -28,6 +28,8 @@ import { pick } from '../../content/stations.js'
 import { play, ambience } from '../../audio/sound.js'
 import { room } from '../../net/room.js'
 import { track } from '../../net/telemetry.js'
+import { bondCloud } from './bondCloud.js'
+import { domainsOf, polarity } from './bondDomains.js'
 
 const BOND = 2.3 // metres between bonded Atomlings' centres
 const LIFT = 1.9 // the molecule floats this high over the table
@@ -96,6 +98,24 @@ export async function build(ctx) {
   ring.visible = false
   molGroup.add(ring)
   const otherRings = []
+
+  // the electrons as clouds (the ☁ switch; bondDomains.js, bondCloud.js): every free hand a cloud with one
+  // electron, every bond two hands' clouds merged into one, lone pairs, π clouds. The arms and clasps step
+  // aside while the clouds show. The choice is kept on this device
+  const clouds = bondCloud({ renderer: ctx.renderer, camera, light })
+  root.add(clouds.group)
+  const CLOUDS_KEY = 'ew-lab-clouds'
+  let cloudsOn = false
+  try {
+    cloudsOn = localStorage.getItem(CLOUDS_KEY) === '1'
+  } catch {
+    // (private windows: off)
+  }
+  clouds.show(cloudsOn)
+  // when each bond was made (by its atoms' ids): its two hands' clouds merge into one over a moment
+  const born = new Map()
+  const bondKey = (x, y) => (x < y ? `${x}|${y}` : `${y}|${x}`)
+  const cloudPos = []
 
   const relayout = steps => {
     lay = relax(mol, lay, { steps, bond: BOND })
@@ -208,6 +228,32 @@ export async function build(ctx) {
     const free = mol.atoms.reduce((s, _, i) => s + Math.max(0, freeHands(mol, i)), 0)
     const facts = known ? MOLECULE_FACTS[known.show] : null
     const missions = MISSIONS.map(k => ({ show: k.show, name: k.name[lang] ?? k.name.en, done: isFound(`lab:${k.show}`) }))
+    // what the clouds show, for their line in the card (cloudWords.js words it)
+    let cloud = null
+    if (cloudsOn) {
+      const q = ionCharges(mol)
+      const anion = q.findIndex(x => x < 0)
+      const cation = q.findIndex(x => x > 0)
+      let polar = null
+      let best = 0.3
+      for (const bond of mol.bonds) {
+        if (ionicBond(mol, bond)) continue
+        const [a, b] = bond
+        const { p } = polarity(mol.atoms[a].el, mol.atoms[b].el)
+        if (Math.abs(p) > best) {
+          best = Math.abs(p)
+          polar = { sym: p > 0 ? mol.atoms[b].el : mol.atoms[a].el }
+        }
+      }
+      cloud = {
+        show: known?.show ?? null,
+        free: mol.atoms.reduce((s, _, i) => s + Math.max(0, freeHands(mol, i)), 0),
+        bonds: mol.bonds.length,
+        pi: mol.bonds.filter(b => !ionicBond(mol, b) && b[2] > 1).length,
+        ionic: anion >= 0 && cation >= 0 ? { anion: mol.atoms[anion].el, cation: mol.atoms[cation].el } : null,
+        polar,
+      }
+    }
     store.set({
       lab: {
         count: mol.atoms.length,
@@ -222,6 +268,8 @@ export async function build(ctx) {
         together: peers().filter(m => m.id !== room.me?.id).map(m => ({ name: m.name, color: m.color })),
         fact: facts ? pick(facts, lang, ctx.level()) : null,
         missions,
+        clouds: cloudsOn,
+        cloud,
       },
     })
     if (known && (done || known.charged) && markFound(`lab:${known.show}`)) {
@@ -333,6 +381,12 @@ export async function build(ctx) {
       }
     }
     watch(before, next)
+    // the bonds just made: their hands' clouds merge from now
+    const had = new Set(before.bonds.map(([x, y]) => bondKey(before.atoms[x]?.id, before.atoms[y]?.id)))
+    for (const [x, y] of next.bonds) {
+      const k = bondKey(next.atoms[x].id, next.atoms[y].id)
+      if (!had.has(k)) born.set(k, clock)
+    }
     mol = next
     if (sel() < 0) selId = null
     if (fx.sound) play(fx.sound, fx.order ? { order: fx.order } : undefined)
@@ -558,7 +612,7 @@ export async function build(ctx) {
         const dir = v.set(e.dir[0], e.dir[1], e.dir[2]).normalize().clone()
         const start = A.clone().addScaledVector(dir, bodyR(i))
         if (f.kind === 'lone') {
-          f.hand.visible = ctx.level() === 'scientist'
+          f.hand.visible = ctx.level() === 'scientist' && !cloudsOn
           f.hand.position.copy(A).addScaledVector(dir, bodyR(i) + 0.18)
           f.hand.lookAt(camera.position)
           return
@@ -571,6 +625,20 @@ export async function build(ctx) {
         f.hand.scale.setScalar(1 + Math.sin(t * 5 + k) * 0.12)
       })
     })
+    // the clouds: this frame's places (the Atomlings' as drawn) and the layout's directions
+    if (cloudsOn || clouds.visible) {
+      cloudPos.length = 0
+      for (const sh of shown) cloudPos.push([sh.cur.x, sh.cur.y, sh.cur.z])
+      const age = (a, b) => {
+        const at = born.get(bondKey(mol.atoms[a]?.id, mol.atoms[b]?.id))
+        return at == null ? Infinity : t - at
+      }
+      const domains = shown.length === mol.atoms.length ? domainsOf(mol, cloudPos, lay.extra, age) : []
+      clouds.update(domains, molGroup.position, dt)
+    }
+    // with the clouds on, the arms, clasps and threads step aside: the clouds are the hands now
+    for (const b of bondMeshes) for (const m of [b.armA, b.armB, b.clasp, b.link]) if (m) m.visible = !cloudsOn
+    for (const list of freeMeshes) for (const f of list) for (const m of [f.arm, f.hand]) if (m && f.kind !== 'lone') m.visible = !cloudsOn
     const s = sel()
     if (s >= 0 && shown[s]) {
       ring.visible = true
@@ -625,6 +693,9 @@ export async function build(ctx) {
     store.set({ lab: null, labCelebrate: null })
   }
 
+  // the clouds' ray march compiled now, not at the first press of ☁
+  await clouds.warm().catch(() => {})
+
   return {
     mode: 'orbit',
     root,
@@ -638,6 +709,21 @@ export async function build(ctx) {
     removeSelected,
     clear,
     demo,
+    /** The electrons as clouds (the HUD's ☁), kept on this device. */
+    setClouds(on) {
+      cloudsOn = !!on
+      clouds.show(cloudsOn)
+      try {
+        localStorage.setItem(CLOUDS_KEY, cloudsOn ? '1' : '0')
+      } catch {
+        // (private windows: this visit only)
+      }
+      track('lab', { op: 'clouds', on: cloudsOn })
+      report()
+    },
+    beforeRender() {
+      clouds.render()
+    },
     lonePairsAt: i => lonePairs(mol, i),
     // for the probes (tools/room_probe.py): tap atom i, read the molecule
     tap: i => tapAtom(i),
@@ -645,6 +731,7 @@ export async function build(ctx) {
     together: () => ({ hosting: hosting(), host: host(), peers: peers().map(m => m.name), version }),
     dispose() {
       verse.dispose()
+      clouds.dispose()
     },
   }
 }

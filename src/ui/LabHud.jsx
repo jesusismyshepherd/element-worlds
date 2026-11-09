@@ -8,6 +8,7 @@ import { handsOf, parseFormula, isMetal } from '../chem/build.js'
 import { useCover, useViewport } from './layout.js'
 import { Link } from 'react-router-dom'
 import { BENCHES, benchPath } from '../worlds/registry.js'
+import { labCloudLine, cloudKey, CLOUD_COLORS } from '../worlds/lab/cloudWords.js'
 
 // non-metals (they hold hands) and metals (their hands give electrons away: ionic compounds)
 const PALETTE = ['H', 'C', 'N', 'O', 'F', 'Cl', 'S', 'Li', 'Na', 'K', 'Mg', 'Ca', 'Al']
@@ -26,6 +27,7 @@ export default function LabHud({ engine }) {
   const { t, i18n } = useTranslation()
   const lab = useStore(store, s => s.lab)
   const party = useStore(store, s => s.labCelebrate)
+  const level = useStore(store, s => s.level)
   const [hint, setHint] = useState(null)
   // on a phone the missions fold into a button and the palette is a bar at the bottom (upright) or a
   // narrow column (on its side), so the molecule stays in view
@@ -57,6 +59,10 @@ export default function LabHud({ engine }) {
     return Object.entries(n).map(([el, k]) => `${k} × ${nameOf(element(el), lang)}`).join(', ')
   }
   const done = lab.missions.filter(m => m.done).length
+  // the electrons as clouds (src/worlds/lab/bondDomains.js): a line about what they show, and their key
+  const cloudText = lab.clouds ? labCloudLine(lab.cloud, lang, level) : null
+  const key = cloudKey(lang)
+  const kinds = lab.cloud ? ['sigma', ...(lab.cloud.pi ? ['pi'] : []), 'lone', ...(lab.cloud.free ? ['free'] : []), ...(lab.cloud.ionic ? ['ion'] : [])] : []
 
   return (
     <>
@@ -112,7 +118,15 @@ export default function LabHud({ engine }) {
                   {lab.fact}
                 </button>
               )}
-              {lab.ionic && lab.complete && <div className="text-[12px] text-amber-200 mt-1">{t('lab.ionic')}</div>}
+              {lab.ionic && lab.complete && !lab.clouds && <div className="text-[12px] text-amber-200 mt-1">{t('lab.ionic')}</div>}
+              {cloudText && <div className="text-[12px] text-sky-200 mt-1 leading-snug" data-lab-cloud-line>☁ {cloudText}</div>}
+              {lab.clouds && kinds.length > 0 && !vp.compact && (
+                <div className="flex flex-wrap justify-center gap-x-2.5 gap-y-0.5 mt-1 text-[11px] opacity-90" data-lab-cloud-key>
+                  {kinds.map(k => (
+                    <span key={k} className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full" style={{ background: CLOUD_COLORS[k], boxShadow: `0 0 6px ${CLOUD_COLORS[k]}` }} />{key[k]}</span>
+                  ))}
+                </div>
+              )}
               {lab.note && <div className="text-[12px] text-amber-200 mt-1">{t(`lab.${lab.note}`)}</div>}
             </>
           )}
@@ -157,6 +171,7 @@ export default function LabHud({ engine }) {
           {t('lab.remove')}{lab.selected ? ` ${lab.selected}` : ''}
         </button>
         <button type="button" onClick={() => world?.clear?.()} className="glass rounded-xl px-3 py-1.5 text-sm font-bold pointer-events-auto">{t('lab.clear')}</button>
+        <button type="button" data-lab-clouds onClick={() => world?.setClouds?.(!lab.clouds)} title={t('lab.cloudsTip')} className={`glass rounded-xl px-3 py-1.5 text-sm font-bold pointer-events-auto transition ${lab.clouds ? 'bg-sky-400/30 ring-1 ring-sky-200/70' : ''}`}>☁ {t('lab.clouds')}</button>
       </div>
 
       {!vp.compact && <div className="absolute inset-x-0 bottom-14 text-center text-xs opacity-70 px-4 pointer-events-none">{t('lab.help')}</div>}

@@ -228,6 +228,8 @@
     "placeholder": "Element suchen…"
   },
   "lab": {
+    "clouds": "Wolken",
+    "cloudsTip": "Die Elektronen als Wolken sehen: jede Hand eine Wolke mit einem Elektron, jede Bindung zwei Wolken, die zu einer verschmolzen sind",
     "benches": "Labortische",
     "gives_one": "gibt {{count}} Elektron ab",
     "gives_other": "gibt {{count}} Elektronen ab",

@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "atom-bonds",
     "crystals-grow",
     "reactions-game",
     "rings-dna",
@@ -961,10 +960,11 @@
       "details": [
         "The same cloud drawing as the room inside the atom, for a molecule: why methane is a tetrahedron and water bent, and why oxygen sticks to a magnet."
       ],
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-11-09",
-      "why": "You marked it Sooner (2026-11-09). The lab's hands are really half-filled clouds; drawing them shows why a bond holds and why methane is a tetrahedron and water bent. It reuses the atom room's cloud drawing."
+      "link": "https://element-worlds.vercel.app/lab",
+      "doc": "docs/knowledge/molecule-lab.md"
     },
     {
       "id": "forge-clouds",
@@ -4090,6 +4090,19 @@
           ]
         }
       }
+    },
+    {
+      "id": "atom-bonds",
+      "date": "2026-11-09",
+      "title": "Bonds as clouds in the Molecule Lab",
+      "what": "The lab's new Clouds button shows the electrons as clouds: every free hand a gold cloud with one electron, every bond two hands' clouds merged into one shared pair (two hydrogens' clouds becoming H2 before your eyes), pink lone pairs that push the bonds apart, a double bond's second cloud above and below, an ionic pair handed over to the chlorine, and shared clouds pulled toward oxygen. A line says what they show, including oxygen's magnetism that this picture cannot explain. Four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": []
     }
   ],
   "decisions": [

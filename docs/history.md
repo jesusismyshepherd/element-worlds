@@ -6,6 +6,11 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Bonds as clouds (the user's Sooner): the Molecule Lab's ☁ shows every free hand as a cloud with one electron,
+  every bond as two hands' clouds merged into one shared pair (watch two hydrogens' clouds become H₂), lone pairs,
+  double bonds' π clouds above and below, ionic pairs handed over, shared clouds leaning toward oxygen. A line
+  says what the clouds show (oxygen's magnetism the picture cannot explain, for the Scientist). `molecule-lab.md`,
+  "Clouds".
 - The forge's electrons fill clouds (the user marked six lab ideas Sooner in the family studio and said "develop
   now"; this the first, the others the lab's benches and its clouds): the Atom Forge's electrons can be clouds
   instead of Bohr's rings. Each electron added flies into its subshell, which lights up in its shape; the

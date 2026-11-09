@@ -235,6 +235,8 @@
     "placeholder": "Znajdź pierwiastek…"
   },
   "lab": {
+    "clouds": "Chmury",
+    "cloudsTip": "Zobacz elektrony jako chmury: każda ręka to chmura z jednym elektronem, każde wiązanie to dwie chmury złączone w jedną",
     "benches": "Stanowiska laboratorium",
     "gives_one": "oddaje {{count}} elektron",
     "gives_few": "oddaje {{count}} elektrony",

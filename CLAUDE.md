@@ -117,7 +117,8 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/game/hunts.js` (+ `src/content/hunts.js`, the words) + `src/ui/HuntHud.jsx` (the plaza's sheet), `HuntCard.jsx`
   (the clue that follows the player into every world), `useHunts.js`: the treasure hunts (🗺️ in the dock), three
   tracks of seven clues, each found by going there (`hunts.md`; kept as the pseudo-world `/hunts`'s own state).
-- `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
+- `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab (its clouds: `bondDomains.js`, `bondCloud.js`,
+  `cloudWords.js`). `src/audio/sound.js`: all sound.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
 - `src/worlds/wings/carbon/`, `oxygen/` (two worlds each), `noble/` (the neon sign workshop, one wing
