@@ -1041,16 +1041,16 @@ export async function build({ ctx, root, lang, E, ex, say, light, level, color, 
   const tapIon = i => germStep('ion', i)
   ions.forEach((io, i) => clickable(io.h, () => tapIon(i), { reach: 9, when: () => io.state === 'float' }))
   // the board: divisions and what is going on
-  const board = standingScreen({ width: 1.5, height: 0.63, color, title: '', line: '' }, { top: 1.0, tilt: 0.5, mat: mats.dark })
-  board.group.position.set(-1.3, 0, -12.8)
-  board.group.rotation.y = 0.5
+  const board = standingScreen({ width: 1.3, height: 0.54, color, title: '', line: '' }, { top: 1.0, tilt: 0.45, mat: mats.dark })
+  board.group.position.set(-1.25, 0, -13.2)
+  board.group.rotation.y = 0.45
   root.add(board.group)
-  solids.push(circle(-1.3, -12.8, 0.35))
+  solids.push(circle(-1.25, -13.2, 0.35))
   // a dark backdrop behind the ball, so the germ stands out from the white end wall
   mk(new THREE.CircleGeometry(2.9, 48), mats.navy, 0, BALL.y, STATION.z0 + 0.06, root)
   const boardTex = canvasTex(1024, 432, null)
   disposers.push(boardTex)
-  board.content.add(new THREE.Mesh(new THREE.PlaneGeometry(1.44, 0.6), new THREE.MeshBasicMaterial({ map: boardTex, transparent: true, toneMapped: false })))
+  board.content.add(new THREE.Mesh(new THREE.PlaneGeometry(1.24, 0.51), new THREE.MeshBasicMaterial({ map: boardTex, transparent: true, toneMapped: false })))
   let boardKey = ''
   const bound = () => Math.min(7, Math.max(S3.taps, bindFromS(S3.S)))
   const divRate = b => clamp((4 - b) / 4)
@@ -1148,16 +1148,16 @@ export async function build({ ctx, root, lang, E, ex, say, light, level, color, 
   })
   const germItem = ex.add({
     id: 'germ',
-    x: 0.3,
+    x: 0.0,
     z: -11.6,
     radius: 2.2,
     manual: true,
     label: E.germ.label,
     verb: gHint,
-    focus: { x: BALL.x, y: BALL.y, z: BALL.z, size: 4.0, width: 4.6 },
+    focus: { x: BALL.x - 0.15, y: BALL.y - 0.2, z: BALL.z, size: 4.8, width: 5.2 },
     act: () => ctx.showPanel(germPanel),
   })
-  focusBy(germItem, germItem.focus, { x: BALL.x, y: BALL.y, z: BALL.z, size: 4.0, width: 4.6 })
+  focusBy(germItem, germItem.focus, { x: BALL.x, y: BALL.y - 0.2, z: BALL.z, size: 4.2, width: 4.6 })
   // the next ion to go in is the tapped one, or the first still floating
   function sendIons(from, to, picked) {
     for (let j = from; j < to; j++) {
