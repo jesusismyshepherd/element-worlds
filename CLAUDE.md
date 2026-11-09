@@ -176,7 +176,7 @@ built: `docs/history.md`):
 
 - The plaza (`/`): the table, the card with the Atomling's facts, families, trends (both depths), the
   time machine, search, "Who am I?", golden stars over elements with worlds of their own, today's element
-  and the streak (2026-11-09, `daily.md`).
+  and the streak (2026-11-09, `daily.md`), the treasure hunts (2026-11-09, `hunts.md`).
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31), Krypton
   (2026-11-01) and Radon (2026-11-09) have a fact file, picture boards and their own showpieces; the others still have
@@ -206,5 +206,5 @@ the two halls choose the setting for the next rooms. Silver's boards, showpiece 
 (`docs/agents/designs/Ag_rooms.md`) wait on the branch `worktree-agent-ac0e8017fb5b3f2c3` for their rooms: merge it
 once into a base branch (`showpieces.js`' `SHOWPIECES` line and `hall-boards.md` conflict: keep both), then the seven
 builders (silver is today's element on 17 November; the next halls follow today's element's days, `daily.md`).
-Treasure hunts are being built. The family studio at `/studio` is read and answered at the start of every session
+Treasure hunts are live (2026-11-09, `hunts.md`). The family studio at `/studio` is read and answered at the start of every session
 (`update-dashboard.md`).

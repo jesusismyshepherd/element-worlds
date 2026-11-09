@@ -267,8 +267,16 @@ export default function PlazaHud({ engine }) {
               {!vp.compact && <span className="ml-1 font-normal">{t('daily.dock')}</span>}
               {!streak.doneToday && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 ew-wait" aria-hidden="true" />}
             </button>
-            <button type="button" onClick={() => { track('quizopen'); duel.hide(); setDaily(false); setHuntsOpen(false); setQuiz(true) }} className={DOCK}>
-              ❓ {t('quiz.start')}
+            {/* (an icon alone on an upright phone, like the tools beside it: with today's element and the hunts
+                in the dock, its words took the dock to two rows on a 360 px phone in every language) */}
+            <button
+              type="button"
+              onClick={() => { track('quizopen'); duel.hide(); setDaily(false); setHuntsOpen(false); setQuiz(true) }}
+              className={DOCK}
+              aria-label={t('quiz.start')}
+              title={t('quiz.start')}
+            >
+              ❓{!vp.narrow && <span> {t('quiz.start')}</span>}
             </button>
             {/* the treasure hunts: a dot while one is on */}
             <button type="button" data-hunts-open onClick={openHunts} className={`${DOCK} relative`} aria-label={t('hunts.title')} title={t('hunts.title')}>

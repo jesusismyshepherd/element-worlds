@@ -44,7 +44,6 @@
   ],
   "next": [
     "halls-116",
-    "treasure-hunts",
     "scavenger-hunts",
     "periodic-videos"
   ],
@@ -192,7 +191,7 @@
       "code": "Tr",
       "title": "Treasure hunts",
       "kind": "games",
-      "status": "building",
+      "status": "built",
       "from": "you",
       "date": "2026-10-29",
       "summary": "Hunts in order: each clue leads to the next hall, board or exhibit, on a theme.",
@@ -202,8 +201,12 @@
         "Difficulty from Explorer clues to Scientist riddles. A long hunt can be left and picked up later: your progress stays in your account, a team's under its room code.",
         "Built from what is in the game, so every answer can be found there. Each clue points at a real place, and the tests fail when a place a hunt needs goes away, so hunts stay true without an update schedule. New tracks come after a batch of new content, and a hunt in progress keeps the version it started with.",
         "A few tracks first; many more once the usage data shows that hunts are played often.",
-        "2026-11-09, being built: three tracks first (Discoverers, At home, Records), each clue a riddle that leads to a real hall, picture or room, reached when you go there or open it; a card with the clue follows you through every world; the hunt keeps its place in your account, so you can stop and go on later; a badge in the passport for each track."
-      ]
+        "Built (2026-11-09): three tracks of seven clues: Discoverers (from a pharaoh's dagger of sky iron, c. 1323 BC, to Silicon Valley, 1971, in the order things were found), At home (cereal, salt, foil, the cake mould, the pencil, the window, toothpaste) and Records (from the lightest atom to the heaviest, element 1 to 118).",
+        "Each clue is a riddle at both levels in four languages; you reach it by going to the place it means, usually a picture's room. A card with the clue follows you into every world and folds to a chip; two hints if you are stuck. Stop any time: the hunt waits in your account. A badge in the passport for each track.",
+        "Next ideas: hunts for a team in a room, and new tracks after each batch of halls."
+      ],
+      "link": "https://element-worlds.vercel.app/",
+      "doc": "docs/knowledge/hunts.md"
     },
     {
       "id": "scavenger-hunts",
@@ -905,6 +908,75 @@
     }
   ],
   "built": [
+    {
+      "id": "treasure-hunts",
+      "date": "2026-11-09",
+      "title": "Treasure hunts",
+      "what": "Three hunts of seven clues each, Discoverers, At home and Records: every clue a riddle that leads to a real place in the game, usually a picture's room, found by going there. The clue follows you into every world, two hints help, the hunt waits in your account, and each finished track gives a passport badge.",
+      "link": "https://element-worlds.vercel.app/",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [
+        "af99f81c729e7662b"
+      ],
+      "tokens": {
+        "total": 99466714,
+        "output": 381468,
+        "agents": 1,
+        "usd": 36.42,
+        "requests": 187,
+        "minutes": 93,
+        "input": 376,
+        "cache_write": 1847124,
+        "cache_read": 97237746,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 36.4213
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "af99f81c729e7662b",
+            "what": "Build the treasure hunts",
+            "minutes": 87,
+            "usd": 31.0241,
+            "requests": 159,
+            "input": 318,
+            "cache_write": 1811363,
+            "cache_read": 73347365,
+            "output": 364828,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "max",
+                "usd": 31.0241
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "e5481b7b",
+          "usd": 5.4,
+          "requests": 28,
+          "input": 58,
+          "cache_write": 35761,
+          "cache_read": 23890381,
+          "output": 16640,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 5.3972
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "radons-hall",
       "date": "2026-11-09",

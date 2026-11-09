@@ -31,6 +31,13 @@ and the user's requests behind them. Add a line here when a piece of work change
   six new stages (`picture-rooms.md`). The cave's builder found the boards' story wrong about Postojna's highest
   month (June, not early autumn); fixed. Silver's boards are drawn and wait for their rooms (silver is today's
   element on 17 November).
+- Treasure hunts (the queue's next item, the user's "each clue leads to the next hall, board or exhibit, on a
+  theme"): three tracks of seven clues (Discoverers in the order things were found, At home, Records from
+  element 1 to 118), each a riddle at both depths in four languages, reached by going to the place it means
+  (a picture's room, a hall's fact file or station, carbon's gallery); a card with the clue follows the player
+  into every world, folds to a chip, gives two hints; the hunt waits in the account (as the pseudo-world
+  `/hunts`'s state); a passport badge for each track. `hunts.md`. The plaza's quiz now shows its ❓ alone on an
+  upright phone, so the dock keeps to one row with 🔥 and 🗺️ beside it.
 
 ## 2026-11-06
 

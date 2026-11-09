@@ -2,12 +2,12 @@
 // counts as present when the language has its own forms of it), the same order of the en keys, every
 // {{placeholder}} kept, no em or en dashes, Polish plural families complete (one, few, many, other),
 // German (one, other). Then renders the plural keys through i18next for a few counts.
-// usage: node check_locales.mjs <repo> [file.json ...]   (default: the repo's pl.json and de.json)
+// usage: node check_locales.mjs [repo] [file.json ...]   (repo: the current folder unless given; files: the repo's pl.json and de.json)
 import fs from 'node:fs'
 import path from 'node:path'
 import { createRequire } from 'node:module'
 
-const repo = process.argv[2]
+const repo = path.resolve(process.argv[2] ?? '.') // (createRequire below wants an absolute path)
 const dir = path.join(repo, 'src/i18n/locales')
 const files = process.argv.slice(3)
 const targets = files.length ? files.map(f => [path.basename(f, '.json'), f]) : [['pl', path.join(dir, 'pl.json')], ['de', path.join(dir, 'de.json')]]
@@ -23,7 +23,8 @@ const flat = (o, p = '', out = []) => {
 }
 const SUFFIX = /_(zero|one|two|few|many|other)$/
 const base = k => k.replace(SUFFIX, '')
-const holes = s => [...String(s).matchAll(/\{\{\s*([^}]+?)\s*\}\}/g)].map(m => m[1]).sort().join(',')
+// the same blanks, each at least once (a language may say one twice, or once where English says it twice)
+const holes = s => [...new Set([...String(s).matchAll(/\{\{\s*([^}]+?)\s*\}\}/g)].map(m => m[1]))].sort().join(',')
 const NEED = { pl: ['one', 'few', 'many', 'other'], de: ['one', 'other'] }
 
 let bad = 0

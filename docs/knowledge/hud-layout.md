@@ -88,7 +88,8 @@ full screen.
   PlazaHud.jsx), not at a fixed one: the dock wraps to two rows in some languages and widths (Portuguese on
   a 360 px phone since today's element joined it, 2026-11-09), and a fixed `bottom-[3.25rem]` card then
   covered the dock's first row, the streak's flame with it. The dock's buttons are a little narrower on a
-  phone so it keeps to one row where it can.
+  phone, and on an upright phone the quiz shows its ❓ alone like the tools beside it (with the hunts' 🗺️ the
+  dock took two rows on a 360 px phone in every language), so it keeps to one row.
 - A hook that measures an element must follow it when the layout swaps it for another (a phone
   turned): `useCover` runs after every render and re-observes when `ref.current` changed.
 - A box that appears only after async data (the quiz's first question) cannot report its cover in
