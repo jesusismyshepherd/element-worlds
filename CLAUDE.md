@@ -50,7 +50,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   music beds as offline loops, the buffer, why a phone crackles), `periodic-videos.md` (watching an element's
   video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms), `scripture.md` (the Bible
   passages in every place, the eight translations, fetching them word for word), `daily.md` (today's element:
-  the lesson, the streak and its freezes, the boxes, the mystery, what the account keeps), `hunts.md` (the
+  the lesson, the streak and its freezes, the boxes, the mystery, what the account keeps), `inside-the-atom.md` (the room inside every hall's atom: orbitals, the
+  cloud's drawing, the electron map and camera), `hunts.md` (the
   treasure hunts). Read the one for the area you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
@@ -121,6 +122,9 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/worlds/wings/carbon/`, `oxygen/` (two worlds each), `noble/` (the neon sign workshop, one wing
   shared by the six noble gases, `/e/<Symbol>/signs`), `pv/` (the Periodic Videos rooms, `/e/<Symbol>/videos`,
   sodium's first): each folder's `README.md` maps its files.
+- `src/worlds/atom/` + `src/chem/orbitals.js` (+ `orbitalSkins.js`, `src/ui/OrbitalMap.jsx`): inside the atom
+  (`/e/<Symbol>/atom`, every element), the hall's big atom as its door: orbitals as ray-marched clouds, the
+  electron map, the camera (`docs/knowledge/inside-the-atom.md`).
 - `src/worlds/pictures/`: the rooms inside the halls' pictures (`/e/<Symbol>/<board id>`): `room.js` for
   every picture, `kit.js`, `stages/`, `scenes/<Symbol>/<id>.js` (a scene file is what makes its picture a
   door). Rule (the user, 2026-10-30): no picture without its room; new pictures come with theirs.
@@ -177,6 +181,8 @@ built: `docs/history.md`):
 - The plaza (`/`): the table, the card with the Atomling's facts, families, trends (both depths), the
   time machine, search, "Who am I?", golden stars over elements with worlds of their own, today's element
   and the streak (2026-11-09, `daily.md`), the treasure hunts (2026-11-09, `hunts.md`).
+- Inside every hall's atom (`/e/<Symbol>/atom`, 2026-11-09): its electron cloud from quantum mechanics, to walk
+  through (`inside-the-atom.md`).
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31), Krypton
   (2026-11-01) and Radon (2026-11-09) have a fact file, picture boards and their own showpieces; the others still have

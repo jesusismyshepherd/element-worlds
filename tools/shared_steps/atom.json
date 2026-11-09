@@ -1,0 +1,9 @@
+{
+  "/e/C/atom": [
+    "() => __ew.world.choose(\"2p\")",
+    "() => __ew.world.choose(\"2p:1\")",
+    "() => __ew.world.photos(20)",
+    "() => __ew.world.choose(\"all\")",
+    "() => __ew.world.setZoom(4)"
+  ]
+}

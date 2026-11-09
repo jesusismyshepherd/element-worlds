@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useCover, useViewport } from './layout.js'
+import OrbitalMap from './OrbitalMap.jsx'
 
 /** How wide the side sheet is (the prompt on a touch screen stands left of it). */
 export const sheetWidth = short => (short ? 'min(22rem, 38vw)' : 'min(26rem, 42vw)')
@@ -66,7 +67,7 @@ function Slider({ s, color }) {
  *  { img, alt, crop } (a picture; crop: the share of its height shown, from the top),
  *  { video: { src, title, credit } } (a player, YouTube's own: the Periodic Videos rooms; kept playing while
  *  the panel is written again, since its key is its src), { href: { url, label } } (a page outside, in a new
- *  tab)] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
+ *  tab), { orbitals } (the electron map of the room inside the atom: OrbitalMap.jsx)] }. It never sits in the middle (docs/knowledge/hud-layout.md): a sheet
  *  down the right side, or across the top of an upright phone, and the world's centre moves into the
  *  part left free. */
 export default function Panel({ panel, onClose }) {
@@ -137,6 +138,7 @@ export default function Panel({ panel, onClose }) {
             </a>
           )
           if (b.slider) return <Slider key={`${i}-${b.slider.label}`} s={b.slider} color={panel.color} />
+          if (b.orbitals) return <OrbitalMap key={i} map={b.orbitals} />
           if (b.buttons) return (
             <div key={i} className="flex flex-wrap gap-2">
               {b.buttons.map(x => (

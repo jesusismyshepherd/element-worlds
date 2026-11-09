@@ -167,6 +167,11 @@
     "tap": "Tap an Atomling to read it."
   },
   "wings": {
+    "any": {
+      "atom": {
+        "title": "Inside the atom"
+      }
+    },
     "C": {
       "allotropes": {
         "title": "Diamond, graphite and company"

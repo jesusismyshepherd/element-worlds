@@ -5,7 +5,12 @@
 //   /lab                   the Molecule Lab;  /forge (?z=Fe) the Atom Forge;  /stars the Star Forge
 // A new wing is one entry in WINGS and one module in wings/<element>/ (docs/knowledge/adding-a-wing.md).
 //   /e/Si/diatoms          the room inside one of the hall's pictures (pictures/, picture-rooms.md)
+//   /e/Fe/atom             inside the hall's big atom: its electron cloud (atom/, inside-the-atom.md), every element
 import { element } from '../data/elements.js'
+
+/** The room inside every hall's big atom, the same address under each element. */
+export const ATOM_ROOM = 'atom'
+export const atomPath = symbol => `/e/${symbol}/${ATOM_ROOM}`
 
 export const WINGS = {
   C: [
@@ -37,6 +42,7 @@ export function loadWorld(target) {
   if (target.kind === 'forge') return import('./forge/forge.js')
   if (target.kind === 'stars') return import('./stars/stars.js')
   if (target.kind === 'atrium') return import('./atrium/atrium.js')
+  if (target.wing === ATOM_ROOM) return import('./atom/inside.js')
   const wing = wingsOf(target.symbol).find(w => w.id === target.wing)
   // not a wing: the room inside one of the hall's pictures (pictures/, which says whether it has one)
   if (!wing) return import('./pictures/room.js')

@@ -394,6 +394,9 @@ export class Engine {
     }
     this.input.endFrame()
     this.updateView(dt)
+    // a world that draws something of its own first (the atom's cloud, worlds/atom/cloud.js), with the
+    // camera and its view offset as this frame has them
+    w?.beforeRender?.(this)
     if (this.composer) this.composer.render(dt)
     else this.renderer.render(this.scene, this.camera)
     this.frames++

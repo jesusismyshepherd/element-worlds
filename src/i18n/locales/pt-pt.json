@@ -169,6 +169,11 @@
     "tap": "Toca num Atomito para o leres."
   },
   "wings": {
+    "any": {
+      "atom": {
+        "title": "Dentro do átomo"
+      }
+    },
     "C": {
       "allotropes": {
         "title": "Diamante, grafite e companhia"

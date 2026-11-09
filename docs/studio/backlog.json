@@ -49,6 +49,12 @@
   ],
   "waiting": [
     {
+      "id": "w-atom",
+      "title": "Step into an atom with Artur",
+      "detail": "In any hall, walk up to the big atom and step in. Try iron's 3d clouds on the electron map, a hundred photos with the camera, and uranium's whole atom with the slider down to its nucleus. Your stars on Inside the atom (under Built) say whether to take it further: light, bonds, the forge.",
+      "link": "https://element-worlds.vercel.app/e/U/atom"
+    },
+    {
       "id": "w-daily",
       "title": "Play today's element with Artur",
       "detail": "On the plaza, tap the 🔥 at the bottom left and play the day's lesson (about three minutes), each on your own account. Tomorrow open it again: the mystery is revealed and the streak grows. Tell me here what Artur makes of the streak and the questions.",
@@ -94,6 +100,24 @@
     }
   ],
   "items": [
+    {
+      "id": "inside-atom",
+      "code": "Or",
+      "title": "Inside the atom",
+      "kind": "worlds",
+      "status": "built",
+      "from": "claude",
+      "date": "2026-11-09",
+      "summary": "Every hall's big atom is a door into its electron cloud: quantum mechanics' orbitals as glowing clouds you walk through, for all 118 elements.",
+      "details": [
+        "Claude's pick when you asked to take one part of the game and make it superb: the atom stands in the middle of every hall, yet it showed Bohr's planets from 1913. Its clouds explain the table's s, p, d and f blocks, magnetism and the rule breakers, and open the way to light, bonds and the Atom Forge.",
+        "The electron map: shells by shapes with Hund's boxes and spin arrows; tap a subshell, then its orbitals one by one. The whole atom as nested shells, with a slider that shrinks you down to the 1s shell, where a heavy atom's nucleus shows to scale.",
+        "The electron camera: each photo finds the electron somewhere new (Born's rule); a hundred draw the cloud by themselves. Twinkling sparks show where the electron might be, so sodium's ten inner electrons crowd a tiny bright core inside its one big outer cloud.",
+        "Exact shapes (hydrogen's orbitals), sizes from Slater's rules, every element's filling order and its rule breakers (chromium, copper, gold, gadolinium...) found from the data; four languages, both depths; Job 37:16 on its stone."
+      ],
+      "link": "https://element-worlds.vercel.app/e/Fe/atom",
+      "doc": "docs/knowledge/inside-the-atom.md"
+    },
     {
       "id": "shared-worlds",
       "code": "Sw",
@@ -905,9 +929,109 @@
       "details": [
         "Science as predicting and checking; the superheavies' predicted values show how scientists do it."
       ]
+    },
+    {
+      "id": "atom-light",
+      "code": "Sp",
+      "title": "Light from the clouds",
+      "kind": "worlds",
+      "summary": "Lift an electron to a higher cloud and watch it fall back with a flash of one colour: hydrogen's lines, sodium's yellow, neon's red.",
+      "details": [
+        "In the room inside the atom: a lamp that lifts an electron, the cloud changing shape as it jumps, the colour it gives back. The neon sign workshop's colours and the flame tests explained by the same jumps."
+      ],
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-11-09"
+    },
+    {
+      "id": "atom-bonds",
+      "code": "Bd",
+      "title": "Bonds as clouds overlapping",
+      "kind": "lab",
+      "summary": "In the Molecule Lab, two atoms' clouds merging into the bond: hydrogen's two 1s clouds becoming H2, carbon's four clouds pointing to a tetrahedron.",
+      "details": [
+        "The same cloud drawing as the room inside the atom, for a molecule: why methane is a tetrahedron and water bent, and why oxygen sticks to a magnet."
+      ],
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-11-09"
+    },
+    {
+      "id": "forge-clouds",
+      "code": "Fc",
+      "title": "The forge's electrons fill clouds",
+      "kind": "lab",
+      "summary": "In the Atom Forge, each electron you add settles into its cloud in the filling order, and the rule breakers move one over.",
+      "details": [
+        "The forge's rings become the clouds of the room inside the atom as you build: 4s before 3d, chromium and copper's surprise."
+      ],
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-11-09"
+    },
+    {
+      "id": "table-blocks",
+      "code": "Bl",
+      "title": "The table by its blocks",
+      "kind": "halls",
+      "summary": "The plaza's table coloured by its s, p, d and f blocks, each block showing the shape of its clouds above it.",
+      "details": [
+        "A new view beside Families and Trends: why the table has its shape (2, 6, 10 and 14 columns are the clouds' places)."
+      ],
+      "status": "idea",
+      "from": "claude",
+      "date": "2026-11-09"
     }
   ],
   "built": [
+    {
+      "id": "inside-atom",
+      "date": "2026-11-09",
+      "title": "Inside the atom: its electron clouds",
+      "what": "Every hall's atom became a door into its electron cloud, for all 118 elements: orbitals drawn as glowing clouds from quantum mechanics that you walk through (twinkling sparks where the electron might be), the electron map (tap a subshell or one orbital), the zoom that dives through the shells down to the nucleus, and the electron camera whose photos draw the cloud dot by dot. Shared in rooms; four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/e/Fe/atom",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [],
+      "tokens": {
+        "total": 67308883,
+        "output": 310486,
+        "agents": 0,
+        "usd": 24.23,
+        "requests": 183,
+        "minutes": 82,
+        "input": 382,
+        "cache_write": 591871,
+        "cache_read": 66406144,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "max",
+            "usd": 24.2274
+          }
+        ],
+        "per_agent": [],
+        "main": {
+          "session": "f53403d9",
+          "usd": 24.23,
+          "requests": 183,
+          "input": 382,
+          "cache_write": 591871,
+          "cache_read": 66406144,
+          "output": 310486,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "max",
+              "usd": 24.2274
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "treasure-hunts",
       "date": "2026-11-09",
@@ -3900,6 +4024,11 @@
   ],
   "decisions": [
     {
+      "date": "2026-11-09",
+      "title": "The atom in every hall is a door into its electron cloud",
+      "why": "Asked to make one part superb, Claude chose the atom at the centre of all 118 halls: Bohr's rings stay in the hall as the first picture, and stepping in shows the true one (orbitals), which explains the table's blocks and opens light, bonds and the forge's electrons as next steps."
+    },
+    {
       "date": "2026-10-27",
       "title": "Bigger on the inside",
       "why": "Every cube opens into a hall built from the element's data, so all 118 could be entered from the first day; wings add worlds made for one element."
@@ -3979,8 +4108,8 @@
     "updated": "2026-11-09",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 18.77,
-      "requests": 108
+      "usd": 22.08,
+      "requests": 125
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
     "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.)"

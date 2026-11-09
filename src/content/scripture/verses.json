@@ -155,6 +155,58 @@
    }
   }
  },
+ "atom": {
+  "_ref": "JOB.37.16",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "Do you understand how he moves the clouds\nwith wonderful perfection and skill?",
+    "ref": "JOB.37.16",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Do you understand how the clouds float,\nthose wonderful works of him who has perfect knowledge?",
+    "ref": "JOB.37.16",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Sabes alguma coisa sobre o equilíbrio das nuvens,\nmaravilha consumada de sabedoria…",
+    "ref": "JOB.37.16",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Tens tu notícia do equilíbrio das grossas nuvens e das maravilhas de aquele que é perfeito nos conhecimentos?",
+    "ref": "JOB.37.16",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Czy wiesz coś o unoszeniu się\nchmur,\no cudach mądrości Doskonałego?",
+    "ref": "JOB.37.16",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Czy wiesz coś o unoszeniu się chmur,\no cudach tego, który jest doskonały w mądrości?",
+    "ref": "JOB.37.16",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Weißt du, wie die Wolken schweben,\ndiese Wunderwerke aus vollkommener Meisterhand?",
+    "ref": "JOB.37.16",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Verstehst du das Schweben der Wolke, die Wunder dessen, der an Verstand vollkommen ist?",
+    "ref": "JOB.37.16",
+    "v": "SCH2000"
+   }
+  }
+ },
  "stars": {
   "_ref": "ISA.40.26",
   "_heb": 0,

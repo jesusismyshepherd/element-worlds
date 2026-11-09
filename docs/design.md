@@ -89,8 +89,11 @@ A 16 m cube of a hall, pale surfaces tinted by the family colour.
 
 - Centre: **the atom**, floating: the nucleus (real counts of protons and neutrons of the commonest
   isotope, packed), the electron shells as tilted rings with their real electron counts orbiting, the
-  outer (valence) shell highlighted with its empty slots shown for main-group elements. Scientist: the
-  configuration written out, later the orbitals as clouds.
+  outer (valence) shell highlighted with its empty slots shown for main-group elements. The atom is a door
+  (2026-11-09): stepping in enters **the room inside its electron cloud**, the orbitals as clouds you walk
+  through, the same room for all 118 built from each configuration (`docs/knowledge/inside-the-atom.md`).
+  The rings stay in the hall as the first picture (Bohr's, 1913); the room is the true one (Schrödinger's,
+  1926), and it explains the table's s, p, d and f blocks.
 - Stations round the walls, the same place for every element: Identity (number, symbol, name and its
   origin, mass, family, group, period, block), Inside the atom, At room temperature (state, melting and
   boiling points with a thermometer, density compared with water), Discovery (year, who, where), Where it

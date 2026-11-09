@@ -176,6 +176,14 @@ the wing's count in the HUD: `ctx.store.set({ discoveries: { found, total } })` 
 - A transmission (glass) material dims what is behind it by its base colour: keep the base light and
   put the colour in `attenuationColor` (see `characters/atomling.js`).
 
+## A room every element has (inside the atom, 2026-11-09)
+
+`/e/<Symbol>/atom` is not in `WINGS` (it would draw an arch in every hall): `ATOM_ROOM` in `registry.js` and a
+line in `loadWorld` send it to `worlds/atom/inside.js`; the hall's big atom is its door (`intoAtom` in
+`atrium.js`: the dive, the prewarm from beside the projector, `doorways[ATOM_ROOM]` for the way back). Its
+title is `wings.any.atom.title` in the locale files; `RoomHud.jsx` and `HuntCard.jsx` look there when an
+element has no title of its own (`t([own, any])`). `inside-the-atom.md`.
+
 ## A wing shared by several elements (the neon sign workshop, 2026-10-28)
 
 `src/worlds/wings/noble/signs.js` serves He, Ne, Ar, Kr, Xe and Rn: the same `load` under each symbol

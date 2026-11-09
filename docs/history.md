@@ -6,6 +6,13 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Inside the atom (the user: "take some part of the project and make it superb"; Claude's pick): every hall's big
+  atom became a door into the room inside its electron cloud, for all 118 elements. Quantum mechanics' orbitals
+  drawn as glowing clouds you walk through (hydrogen's exact shapes, sized by Slater's rules; a ray-marched
+  cloud with 90 % skins), the electron map (shells by shapes with Hund's boxes, tap a subshell or one orbital;
+  the rule breakers like chromium and gold found from the data), the zoom down to the 1s shell where a heavy
+  atom's nucleus shows to scale, the electron camera (each photo finds the electron somewhere new; a hundred
+  draw the cloud), Job 37:16 on its stone. `inside-the-atom.md`.
 - Today's element and the streak (the user, after a brainstorm on what brings a player back between
   sessions: "Artur already is hooked on duolingo's streaks so might work fine. start working on where you
   seem fit"): one element a day, the same for the whole family (carbon first, then the halls with picture

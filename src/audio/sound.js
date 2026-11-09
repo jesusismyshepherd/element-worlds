@@ -188,6 +188,12 @@ export function play(kind, { order = 1 } = {}) {
   } else if (kind === 'part') tone(NOTE(74), 0.18, { type: 'triangle', gain: 0.16, to: NOTE(62) })
   // a satellite's radio beacon (silicon's solar picture room: Vanguard 1)
   else if (kind === 'beep') tone(NOTE(81), 0.12, { type: 'square', gain: 0.05 })
+  // a camera's shutter: two clicks and the hiss of the flash (the electron camera, worlds/atom/)
+  else if (kind === 'shutter') {
+    tone(2600, 0.012, { type: 'square', gain: 0.07, out: 'ui' })
+    tone(1900, 0.014, { type: 'square', gain: 0.06, when: 0.045, out: 'ui' })
+    whoosh(7000, 2500, 0.12, 0.05)
+  }
   // the Atom Forge: a particle joins (a proton rings higher than a neutron, an electron chirps)
   else if (kind === 'proton') tone(NOTE(67), 0.13, { type: 'triangle', gain: 0.2, to: NOTE(72) })
   else if (kind === 'neutron') tone(NOTE(60), 0.13, { type: 'triangle', gain: 0.17, to: NOTE(62) })

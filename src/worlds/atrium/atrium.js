@@ -24,7 +24,7 @@ import { markFound, isFound, countFound } from '../../engine/progress.js'
 import { makeText } from '../../engine/text.js'
 import { verseStone } from '../common/verse.js'
 import { hallPassage } from '../../content/scripture/index.js'
-import { wingsOf, plazaPath, wingPath, atriumPath, pictureRoomId } from '../registry.js'
+import { wingsOf, plazaPath, wingPath, atriumPath, pictureRoomId, ATOM_ROOM, atomPath } from '../registry.js'
 
 const HALF = 8
 const HEIGHT = 12
@@ -58,12 +58,12 @@ const SIDES = {
 }
 
 const WORDS = {
-  en: { back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing', facts: 'Fact file', explore: 'Explore', stepIn: 'Step in', doorways: 'Doorways' },
-  'pt-pt': { back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra', facts: 'Ficha técnica', explore: 'Explorar', stepIn: 'Entrar', doorways: 'Portas' },
+  en: { intoAtom: 'Step into the atom', back: 'Back to the table', soon: 'Being built', talk: 'Talk to', read: 'Read', look: 'Look at', theAtom: 'the atom', hall: 'hall', real: 'What it looks like', sample: 'the real thing', facts: 'Fact file', explore: 'Explore', stepIn: 'Step in', doorways: 'Doorways' },
+  'pt-pt': { intoAtom: 'Entra no átomo', back: 'Voltar à tabela', soon: 'Em construção', talk: 'Falar com', read: 'Ler', look: 'Ver', theAtom: 'o átomo', hall: 'salão', real: 'Como é na realidade', sample: 'a amostra', facts: 'Ficha técnica', explore: 'Explorar', stepIn: 'Entrar', doorways: 'Portas' },
   // the prompt reads "verb: label": a label in the case its verb takes (Zobacz: prawdziwą próbkę), the
   // Atomling's name in the nominative (Porozmawiaj: Węgiel)
-  pl: { back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę', facts: 'Metryczka', explore: 'Odkryj', stepIn: 'Wejdź', doorways: 'Przejścia' },
-  de: { back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe', facts: 'Steckbrief', explore: 'Entdecke', stepIn: 'Hineingehen', doorways: 'Durchgänge' },
+  pl: { intoAtom: 'Wejdź do atomu', back: 'Do układu okresowego', soon: 'W budowie', talk: 'Porozmawiaj', read: 'Przeczytaj', look: 'Zobacz', theAtom: 'atom', hall: 'sala', real: 'Jak wygląda naprawdę', sample: 'prawdziwą próbkę', facts: 'Metryczka', explore: 'Odkryj', stepIn: 'Wejdź', doorways: 'Przejścia' },
+  de: { intoAtom: 'Geh in das Atom hinein', back: 'Zum Periodensystem', soon: 'Im Bau', talk: 'Sprich mit', read: 'Lies', look: 'Betrachte', theAtom: 'das Atom', hall: 'Halle', real: 'So sieht es wirklich aus', sample: 'die echte Probe', facts: 'Steckbrief', explore: 'Entdecke', stepIn: 'Hineingehen', doorways: 'Durchgänge' },
 }
 
 /** Every floor tile's number and symbol, faint, on one see-through sheet just over the tiles (this
@@ -459,21 +459,34 @@ export async function build(ctx, target, previous) {
       },
     })
   }
-  // the big atom itself opens the "Inside the atom" panel (its own id: the station is 'atom', and a
-  // lookup by id found the station, which crashed)
+  // the big atom is a door: stepping in flies the view into it, to the room inside its electron cloud
+  // (worlds/atom/, docs/knowledge/inside-the-atom.md); its own id, since the station is 'atom'. The
+  // station's facts stay on the wall (or in the fact file)
+  const atomCentre = new THREE.Vector3(0, 4.4, 0)
+  const intoAtom = () => {
+    const normal = ctx.camera.position.clone().sub(atomCentre).setY(0)
+    if (normal.lengthSq() < 1e-6) normal.set(0, 0, 1)
+    ctx.engine.player.dive(atomCentre, normal.normalize(), () => ctx.go(atomPath(el.symbol)))
+  }
   interactables.push({
     id: 'big-atom',
     x: 0,
     z: 2.6,
     radius: 1.6,
     label: W.theAtom,
-    verb: W.look,
-    onUse: () => {
-      ctx.showPanel(level => stationsOf(el, { lang, level, familyName }).find(s => s.id === 'atom').panel())
-      if (markFound(`${el.symbol}:atom`)) panels.atom?.setRead(true)
-      report()
-    },
+    verb: W.stepIn,
+    focus: { x: 0, y: 4.4, z: 0, size: 6 },
+    onUse: intoAtom,
   })
+  // coming back out of the atom: in front of its projector, looking at it
+  doorways[ATOM_ROOM] = { x: 0, z: 3.5, yaw: 0 }
+  // and a line of light on the floor in front of the projector, so that the door is found
+  const invite = makeText(W.intoAtom, { size: 0.2, color, maxWidth: 3.4 })
+  invite.rotation.x = -Math.PI / 2
+  invite.position.set(0, 0.012, 2.82)
+  root.add(invite)
+  const atomHit = new THREE.Sphere(atomCentre, 2.7)
+  const onAtom = ray => !!ray && ray.intersectsSphere(atomHit)
 
   // ---- the specimen case: what it looks like for real ----
   const look = appearanceOf(el)
@@ -588,10 +601,19 @@ export async function build(ctx, target, previous) {
     // the floor table's tiles (probes find them on the screen)
     tiles: cells.map(c => ({ symbol: c.e.symbol, x: c.x, z: c.z })),
     pointAt(ray) {
+      if (onAtom(ray)) {
+        lightTile(-1)
+        return true
+      }
       lightTile(tileAt(ray))
       return lit >= 0
     },
     onTap(ray) {
+      // a tap on the big atom steps into it
+      if (onAtom(ray)) {
+        track('atom', { el: el.symbol })
+        return intoAtom()
+      }
       const i = tileAt(ray)
       if (i < 0) return
       lightTile(i)
@@ -628,6 +650,9 @@ export async function build(ctx, target, previous) {
         const dist = Math.hypot(d.x - p.x, d.z - p.z)
         if (dist < 5 && dist < nearest) [near, nearest] = [d.wing, dist]
       }
+      // the room inside the atom, from beside its projector
+      const toAtom = Math.hypot(p.x, p.z - 2.6)
+      if (toAtom < 4 && toAtom < nearest) [near, nearest] = [ATOM_ROOM, toAtom]
       if (near) ctx.engine.prewarm({ kind: 'wing', symbol: el.symbol, wing: near })
     },
     dispose() {

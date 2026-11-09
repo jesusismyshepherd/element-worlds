@@ -17,6 +17,7 @@ stands there, with a line on why it stands there, at both depths and in the four
 | the neon sign workshop | Matthew 5:16 | a plaque on the south wall, east of the door |
 | the Molecule Lab | Colossians 1:17 | in the sky over the bench |
 | the Atom Forge | Hebrews 11:3 | in the sky beyond the rim |
+| inside the atom (every element, `/e/<Symbol>/atom`) | Job 37:16 ("Do you understand how the clouds float...?": electron clouds are clouds of chances, known perfectly only by God) | a stone right of the spawn, by the rail |
 | the Star Forge | Isaiah 40:26 | in the dark left of the star (computers only: on a phone it would hide behind the panels) |
 | "Who am I?" | Psalm 147:4 | under the score when a round ends |
 | today's element | Psalm 118:24 ("This is the day the LORD has made") | at the end of the day's lesson (`DailyHud.jsx`) |

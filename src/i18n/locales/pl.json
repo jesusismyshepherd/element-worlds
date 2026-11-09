@@ -175,6 +175,11 @@
     "tap": "Dotknij Atomka, żeby go odczytać."
   },
   "wings": {
+    "any": {
+      "atom": {
+        "title": "Wnętrze atomu"
+      }
+    },
     "C": {
       "allotropes": {
         "title": "Diament, grafit i spółka"

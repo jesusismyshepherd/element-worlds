@@ -169,6 +169,11 @@
     "tap": "Tippe auf einen Atomling, um ihn zu lesen."
   },
   "wings": {
+    "any": {
+      "atom": {
+        "title": "Im Inneren des Atoms"
+      }
+    },
     "C": {
       "allotropes": {
         "title": "Diamant, Graphit und Co."

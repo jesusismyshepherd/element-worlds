@@ -206,6 +206,12 @@ def scenes():
         page.evaluate("() => { __ew.world.go('slow'); __ew.world.tapNucleus(); __ew.world.tapNucleus() }")
         page.wait_for_timeout(2200)
 
+    def atom_map(page):
+        # inside the atom: the electron map's panel (its map block, the words, the zoom slider), uranium's the
+        # longest (seven shells)
+        page.evaluate("() => __ew.showPanel(__ew.world.panels.map)")
+        page.wait_for_timeout(900)
+
     def neon_name(page):
         if not open_exhibit(page, 'nome|name'):
             raise RuntimeError('the name window did not open')
@@ -226,6 +232,7 @@ def scenes():
         'forge': ('/forge?z=26', forge, 0.5),
         'forge-race': ('/forge', forge_race, 0.5),  # in a room, racing: the race's board where the missions were
         'neon-name': ('/e/Ne/signs', neon_name, 0.55),
+        'atom-map': ('/e/U/atom', atom_map, 0.55),  # inside the atom: the electron map's panel
         'stars': ('/stars', stars, 0.5),  # the Star Forge: its sliders, its card, its table
         'stars-slow': ('/stars', stars_slow, 0.5),  # its slow capture, the path on the chart
         'plaza-hunts': ('/', plaza_hunts, 0.5),  # the treasure hunts' sheet

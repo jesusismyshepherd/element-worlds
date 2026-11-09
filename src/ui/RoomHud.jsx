@@ -27,7 +27,7 @@ export function whereOf(path, t, lang) {
   if (target.kind === 'plaza') return `🔲 ${t('room.where.plaza')}`
   const el = element(target.symbol)
   if (target.kind === 'atrium') return `🏛 ${nameOf(el, lang)}`
-  return `🚪 ${t(`wings.${el.symbol}.${target.wing}.title`)} (${nameOf(el, lang)})`
+  return `🚪 ${t([`wings.${el.symbol}.${target.wing}.title`, `wings.any.${target.wing}.title`])} (${nameOf(el, lang)})`
 }
 
 const capital = s => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)

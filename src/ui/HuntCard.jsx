@@ -78,7 +78,7 @@ function usePlaceTitle(h, lang, level, t) {
   if (!h || h.kind !== 'name') return null
   if (h.place === 'picture') return boardTitle ?? '…'
   if (h.place === 'station') return stationTitle(h.panel, lang, level)
-  if (h.place === 'wing') return t(`wings.${h.symbol}.${h.wing}.title`)
+  if (h.place === 'wing') return t([`wings.${h.symbol}.${h.wing}.title`, `wings.any.${h.wing}.title`])
   return null
 }
 

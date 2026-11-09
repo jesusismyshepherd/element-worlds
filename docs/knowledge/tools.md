@@ -65,6 +65,10 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   real ray (the hand, the step, the find, the next prompt, a screenshot); `--lab Na|Si|both`, `--phone`,
   `--lang`, `--level`, `--only`, `--first`. A Python probe printing pt, pl or de text needs
   `sys.stdout.reconfigure(encoding='utf-8')` on the Windows console.
+- `atom_probe.py [--el Fe] [--phone] [--lang] [--level]`: inside the atom worked by hand (`inside-the-atom.md`): the
+  electron map's keys tapped where they are on the screen (a subshell, again for its first orbital, a box, "All"),
+  the panel's map and zoom slider, the camera (one photo, a burst of 100), the nucleus, the arch back to the hall.
+  Shots in `tools/shots/atom/`.
 - `carbon_taps_probe.py`: carbon's two worlds worked by hand; every station tapped from where a player
   stands (the hand shown only on the next step, the state after each tap, the panel's buttons and
   sliders), screenshots in `tools/shots/carbon/`; `--phone`, `--lang`, `--level scientist`, `--only
