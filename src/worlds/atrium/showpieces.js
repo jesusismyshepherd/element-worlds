@@ -1056,4 +1056,248 @@ function krypton({ light }) {
   return { group, update: t => updates.forEach(u => u(t)) }
 }
 
-export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon, Fe: iron, Kr: krypton }
+/** How polished silver looks, drawn once as a matcap (silicon's way: a lit metal face only mirrored the pink
+ *  hall, and the case's lamp blew pale things out): a neutral grey room above, a dark floor, a soft rim and a
+ *  few small bright windows, so a curve shows silver's mirror shine whichever way it turns. */
+let silverCap = null
+function silverMatcap() {
+  if (silverCap) return silverCap
+  const c = document.createElement('canvas')
+  c.width = c.height = 256
+  const g = c.getContext('2d')
+  const base = g.createLinearGradient(0, 0, 0, 256)
+  for (const [o, col] of [[0, '#a3a9b3'], [0.38, '#737a86'], [0.62, '#3c414b'], [0.82, '#24272e'], [1, '#3a3e47']]) base.addColorStop(o, col)
+  g.fillStyle = base
+  g.fillRect(0, 0, 256, 256)
+  const rim = g.createRadialGradient(128, 128, 92, 128, 128, 128)
+  rim.addColorStop(0, 'rgba(206,212,222,0)')
+  rim.addColorStop(1, 'rgba(206,212,222,0.5)')
+  g.fillStyle = rim
+  g.fillRect(0, 0, 256, 256)
+  for (const [x, y, r, a] of [[86, 72, 30, 0.9], [176, 92, 18, 0.8], [140, 44, 11, 0.7], [62, 150, 10, 0.5], [196, 170, 8, 0.45]]) {
+    const w = g.createRadialGradient(x, y, 0, x, y, r)
+    w.addColorStop(0, `rgba(244,246,250,${a})`)
+    w.addColorStop(0.5, `rgba(214,220,230,${a * 0.6})`)
+    w.addColorStop(1, 'rgba(214,220,230,0)')
+    g.fillStyle = w
+    g.fillRect(x - r, y - r, 2 * r, 2 * r)
+  }
+  silverCap = new THREE.CanvasTexture(c)
+  silverCap.colorSpace = THREE.SRGBColorSpace
+  return silverCap
+}
+
+/** A mirror ball, drawn as a matcap: a bright room above a sharp horizon, a dark floor below, one window. On a
+ *  sphere it reads as a mirror (the softer silver matcap made the silvered flask look like a pearl). */
+let chromeCap = null
+function chromeMatcap() {
+  if (chromeCap) return chromeCap
+  const c = document.createElement('canvas')
+  c.width = c.height = 256
+  const g = c.getContext('2d')
+  const sky = g.createLinearGradient(0, 0, 0, 140)
+  sky.addColorStop(0, '#c9cfd8')
+  sky.addColorStop(1, '#868e9b')
+  g.fillStyle = sky
+  g.fillRect(0, 0, 256, 140)
+  const floor = g.createLinearGradient(0, 140, 0, 256)
+  floor.addColorStop(0, '#2c3038')
+  floor.addColorStop(0.5, '#181a20')
+  floor.addColorStop(1, '#30343c')
+  g.fillStyle = floor
+  g.fillRect(0, 140, 256, 116)
+  // a thin bright line along the horizon, and a far wall's darker band above it
+  g.fillStyle = 'rgba(40,44,52,0.55)'
+  g.fillRect(0, 112, 256, 22)
+  g.fillStyle = 'rgba(214,220,228,0.7)'
+  g.fillRect(0, 136, 256, 4)
+  const rim = g.createRadialGradient(128, 128, 96, 128, 128, 128)
+  rim.addColorStop(0, 'rgba(160,168,180,0)')
+  rim.addColorStop(1, 'rgba(160,168,180,0.45)')
+  g.fillStyle = rim
+  g.fillRect(0, 0, 256, 256)
+  // two windows (plain rectangles: canvas roundRect is missing on older iPhones)
+  for (const [x, y, w, h, a] of [[70, 48, 46, 34, 0.9], [168, 60, 22, 18, 0.7]]) {
+    g.fillStyle = `rgba(246,248,252,${a})`
+    g.fillRect(x, y, w, h)
+  }
+  chromeCap = new THREE.CanvasTexture(c)
+  chromeCap.colorSpace = THREE.SRGBColorSpace
+  return chromeCap
+}
+
+/** A tube along a curve that thins from r0 to r1 (a curl of wire silver): TubeGeometry's rings pulled in
+ *  towards the curve (its ring i sits at curve.getPointAt(i / segments)). */
+function taperedTube(curve, r0, r1, segments = 48, radial = 8) {
+  const g = new THREE.TubeGeometry(curve, segments, 1, radial, false)
+  const p = g.attributes.position
+  const c = new THREE.Vector3()
+  for (let i = 0; i <= segments; i++) {
+    curve.getPointAt(i / segments, c)
+    const r = r0 + (r1 - r0) * (i / segments)
+    for (let j = 0; j <= radial; j++) {
+      const k = i * (radial + 1) + j
+      p.setXYZ(k, c.x + (p.getX(k) - c.x) * r, c.y + (p.getY(k) - c.y) * r, c.z + (p.getZ(k) - c.z) * r)
+    }
+  }
+  g.computeVertexNormals()
+  return g
+}
+
+/** One curl of wire silver as Kongsberg's grow: it rises from the ore, bends over and rolls into a spiral, in a
+ *  vertical plane turned by phi. */
+function wireCurl(base, phi, height, radius, turns, lean) {
+  const pts = []
+  const dir = new THREE.Vector3(Math.cos(phi), 0, Math.sin(phi))
+  const side = new THREE.Vector3(-Math.sin(phi), 0, Math.cos(phi))
+  const at = (u, v, w = 0) => base.clone().addScaledVector(dir, u).add(new THREE.Vector3(0, v, 0)).addScaledVector(side, w)
+  for (let k = 0; k <= 6; k++) {
+    const t = k / 6
+    pts.push(at(lean * t * t * height, t * height, Math.sin(t * 2.4) * 0.006))
+  }
+  // over the top and round, the spiral closing in
+  const cu = lean * height + radius
+  for (let k = 1; k <= 22; k++) {
+    const t = k / 22
+    const a = Math.PI - t * turns * Math.PI * 2
+    const r = radius * (1 - 0.62 * t)
+    pts.push(at(cu + Math.cos(a) * r, height + Math.sin(a) * r, 0.004 * t))
+  }
+  return new THREE.CatmullRomCurve3(pts)
+}
+
+/** A silver coin's face drawn for a map (the matcap gives the shine, the map its relief in grey): beads round
+ *  the rim, and the Spanish dollar's two crowned pillars either side of the two globes over the waves. */
+function pillarDollar() {
+  return canvasTexture(256, (g, s) => {
+    g.fillStyle = '#ffffff'
+    g.fillRect(0, 0, s, s)
+    g.strokeStyle = '#8e939c'
+    g.fillStyle = '#8e939c'
+    g.lineWidth = s * 0.02
+    g.beginPath()
+    g.arc(s / 2, s / 2, s * 0.43, 0, Math.PI * 2)
+    g.stroke()
+    for (let k = 0; k < 40; k++) {
+      const a = (k / 40) * Math.PI * 2
+      g.beginPath()
+      g.arc(s / 2 + Math.cos(a) * s * 0.465, s / 2 + Math.sin(a) * s * 0.465, s * 0.011, 0, Math.PI * 2)
+      g.fill()
+    }
+    for (const x of [0.27, 0.73]) {
+      g.fillRect(s * x - s * 0.025, s * 0.3, s * 0.05, s * 0.4)
+      g.fillRect(s * x - s * 0.045, s * 0.28, s * 0.09, s * 0.03)
+      g.fillRect(s * x - s * 0.045, s * 0.69, s * 0.09, s * 0.03)
+      g.beginPath()
+      g.arc(s * x, s * 0.24, s * 0.035, Math.PI, 0)
+      g.fill()
+    }
+    for (const x of [0.43, 0.57]) {
+      g.beginPath()
+      g.arc(s * x, s * 0.47, s * 0.09, 0, Math.PI * 2)
+      g.stroke()
+    }
+    g.lineWidth = s * 0.014
+    for (const y of [0.64, 0.69]) {
+      g.beginPath()
+      for (let k = 0; k <= 16; k++) {
+        const x = 0.33 + (k / 16) * 0.34
+        g.lineTo(s * x, s * (y + Math.sin(k * 1.6) * 0.008))
+      }
+      g.stroke()
+    }
+  })
+}
+
+// ---- Silver: the shiniest metal three ways, each a board's story made real: wire silver curling out of a lump
+// of its black ore as at Kongsberg (`wire`), a flask silvered inside by Liebig's reaction, a little mirror ball
+// (`mirror`), and a piece of eight standing in a holder (`dollar`). Polished silver is a drawn matcap (silicon's
+// trap: a lit metal face only mirrored the pink hall), the ore near black (the lamp lights everything brighter) ----
+function silver({ light }) {
+  const group = new THREE.Group()
+  const updates = []
+  const rand = rnd(1623)
+  const shine = new THREE.MeshMatcapMaterial({ matcap: silverMatcap(), color: '#f2f3f6' })
+
+  // the ore: a broken lump of silver sulfide, black with a lead-grey metallic sheen on its facets (silicon's
+  // chunk and matcap, darkened: a lit dark stone turned olive under the case's warm lamp)
+  const R = 0.12
+  const ore = new THREE.Mesh(siliconChunk(R, rand), new THREE.MeshMatcapMaterial({ matcap: silverMatcap(), color: '#34363d', vertexColors: true, flatShading: true }))
+  const orePos = new THREE.Vector3(-0.14, R * 0.5, -0.05) // the chunk's flat underside is at -0.5 R
+  ore.position.copy(orePos)
+  ore.rotation.y = 0.7
+  group.add(ore)
+  // the curls rising from its top, each from a spot on the upper surface
+  const curls = [
+    [0.2, 0.1, 0.13, 0.045, 1.15, 0.35],
+    [2.4, -0.25, 0.17, 0.05, 1.2, 0.2],
+    [4.3, 0.35, 0.1, 0.035, 1.3, 0.45],
+    [1.2, -0.45, 0.075, 0.03, 1.1, 0.6],
+    [3.3, 0.0, 0.12, 0.04, 0.95, 0.3],
+    [5.4, -0.15, 0.085, 0.032, 1.25, 0.5],
+  ]
+  for (const [a, off, h, r, turns, lean] of curls) {
+    const d = 0.45 + Math.abs(off) * 0.3
+    // from a little under the chunk's top (it is about 0.75 R high above its middle there), so each curl's root
+    // is buried in the ore
+    const base = new THREE.Vector3(orePos.x + Math.cos(a + off) * R * d, orePos.y + R * 0.75 * 0.62 - d * 0.02, orePos.z + Math.sin(a + off) * R * d)
+    const wire = new THREE.Mesh(taperedTube(wireCurl(base, a, h, r, turns, lean), 0.009, 0.004), shine)
+    group.add(wire)
+  }
+
+  // the flask silvered inside: a round bottom that is a mirror ball, its clear neck above, in a cork ring
+  const flask = new THREE.Group()
+  flask.position.set(0.15, 0, 0.03)
+  group.add(flask)
+  const BR = 0.075
+  const BY = 0.012 + BR * 0.92
+  // a mirror ball (a glass shell over it made it read as a pearl): the chrome matcap, its sharp horizon
+  const mirror = new THREE.MeshMatcapMaterial({ matcap: chromeMatcap() })
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(BR, 48, 32), mirror)
+  bulb.position.y = BY
+  const glass = edgeGlass({ color: '#eef4ff', edge: 0.6, base: 0.03 })
+  const neckProfile = [[0.017, 0], [0.017, 0.12], [0.022, 0.125], [0.022, 0.132], [0.016, 0.132]]
+  const neck = new THREE.Mesh(new THREE.LatheGeometry(neckProfile.map(([x, y]) => new THREE.Vector2(x, y)), 32), glass)
+  neck.position.y = BY + BR * 0.93
+  const neckSilver = new THREE.Mesh(new THREE.CylinderGeometry(0.0165, 0.02, 0.03, 32, 1, true), mirror)
+  neckSilver.position.y = BY + BR * 0.93 + 0.012
+  const cork = new THREE.Mesh(new THREE.TorusGeometry(0.048, 0.014, 12, 36), new THREE.MeshStandardMaterial({ color: '#5a3c24', roughness: 0.9 }))
+  cork.rotation.x = Math.PI / 2
+  cork.position.y = 0.014
+  flask.add(cork, bulb, neckSilver, neck)
+
+  // a piece of eight standing in a slotted holder, the same face on both sides
+  const coinFace = new THREE.MeshMatcapMaterial({ matcap: silverMatcap(), map: pillarDollar(), color: '#eceef2' })
+  const coinEdge = new THREE.MeshMatcapMaterial({ matcap: silverMatcap(), color: '#c4c8d0' })
+  const CR = 0.046
+  const coin = new THREE.Mesh(new THREE.CylinderGeometry(CR, CR, 0.006, 56), [coinEdge, coinFace, coinFace])
+  coin.rotation.x = Math.PI / 2 // its faces look along +z and -z
+  const holder = new THREE.Group()
+  const SLOT = 0.026
+  const block = new THREE.Mesh(new THREE.BoxGeometry(0.1, SLOT, 0.045), new THREE.MeshStandardMaterial({ color: '#2a3160', roughness: 0.5 }))
+  block.position.y = SLOT / 2
+  coin.position.y = SLOT * 0.55 + CR
+  holder.add(block, coin)
+  holder.position.set(0.02, 0, 0.2)
+  holder.rotation.y = -0.3
+  group.add(holder)
+
+  // glints coming and going on the curls, the flask and the coin
+  const glints = []
+  for (const [host, x, y, z] of [[group, -0.12, 0.22, -0.02], [group, -0.2, 0.17, -0.1], [bulb, -0.03, 0.04, 0.06], [bulb, 0.05, 0.02, 0.05], [coin, 0.02, 0.004, 0.02]]) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: star(), color: '#f4f6fa', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
+    s.scale.setScalar(0.06)
+    s.position.set(x, y, z)
+    host.add(s)
+    glints.push({ s, phase: glints.length * 1.9 + rand() * 2, speed: 0.55 + rand() * 0.5 })
+  }
+  updates.push(t => {
+    for (const g of glints) g.s.material.opacity = Math.max(0, Math.sin(t * g.speed + g.phase)) ** 8
+  })
+
+  // a little bigger than the others' 0.6 m: three things share the table, the curls are thin
+  group.scale.setScalar(1.12)
+  return { group, update: t => updates.forEach(u => u(t)) }
+}
+
+export const SHOWPIECES = { H: hydrogen, C: carbon, O: oxygen, Na: sodium, Si: silicon, Fe: iron, Kr: krypton, Ag: silver }

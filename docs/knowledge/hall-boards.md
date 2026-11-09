@@ -203,6 +203,24 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   and so on, air's molecules, motion streaks, snowflakes, glass drawn by its edges). Trap: in the case, glass
   shows the bright boards behind it, so a showpiece of glass alone reads as nothing; give it dark solid
   anchors (a steel flask, a power box) and keep glows violet rather than white.
+- Done: Silver (2026-11-09, boards, showpiece and room designs on one branch; the rooms are built on top of it from
+  `docs/agents/designs/Ag_rooms.md`, so until they land the pictures say "Explore"): seven pictures, no doorway (no wing,
+  no Periodic Videos room yet) (`medal` an Olympic gold medal is gilded silver, 6 g of gold on 529 g, the winners' silver
+  medals of 1896; `mirror` Liebig's silvering, the Hooker telescope's mirror silvered twice a year until 1935, Hubble's
+  Cepheid of 1923; `germs` silver ions against germs, Credé's drops of 1880, the space station's water; `wire` wire silver
+  at Kongsberg, the children's find of 1623, fire-setting, wires grown from silver sulfide; `snow` Schaefer's freezer and
+  flight of November 1946, Vonnegut's silver iodide; `photo` the darkroom, Daguerre 1839, the latent image of four silver
+  atoms; `dollar` the Joachimsthaler of 1520 and the Spanish piece of eight), none repeating the verse stone (silver
+  refined in a furnace, cupellation) or the specimen case. Its showpiece: curls of wire silver rising from a broken lump of
+  black ore, a flask silvered inside into a mirror ball in a cork ring, and a piece of eight standing in a holder (`silver`
+  in showpieces.js: `silverMatcap`, `chromeMatcap`, `taperedTube`, `wireCurl`, `pillarDollar`; the case's words in
+  `appearance.js` name them). The pictures share `tools/boards/Ag/agkit.py` (balls the kit lacks, named `aAg`, `aAu`,
+  `aCu`, `aI`, `aBr`; Ag+ as `aion`; polished silver and gold drawn as bands, `agBand` and `auBand`, the brightest band
+  under the bloom; coins at a slant; curls of wire). Traps: in the case, a dark stone lit by the lamp and washed by the
+  golden ring's bloom came out olive-brown even as a matcap: multiply it down to about #34363d (in light mode, with no
+  bloom, darker still read as a black blob); a soft silver matcap on a sphere read as a pearl and a glass shell over it
+  made it milkier: a mirror ball needs a matcap with a sharp horizon (bright room
+  above, dark floor below) and no shell. Facts with doubts are listed at the end of `Ag_rooms.md`.
 - Waiting for its rooms (2026-10-31): radon (`glow` frozen radon glowing by itself, `cellar` a granite
   house in Portugal, `rock` how granite breathes radon out, `draught` Rutherford's door at McGill in 1899,
   `moon` radon over Aristarchus, `quake` radon and earthquakes as research, `cave` a show cave breathing;
