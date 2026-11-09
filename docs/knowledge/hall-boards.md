@@ -203,11 +203,21 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   and so on, air's molecules, motion streaks, snowflakes, glass drawn by its edges). Trap: in the case, glass
   shows the bright boards behind it, so a showpiece of glass alone reads as nothing; give it dark solid
   anchors (a steel flask, a power box) and keep glows violet rather than white.
-- Waiting for its rooms (2026-10-31): radon (`glow` frozen radon glowing by itself, `cellar` a granite
-  house in Portugal, `rock` how granite breathes radon out, `draught` Rutherford's door at McGill in 1899,
-  `moon` radon over Aristarchus, `quake` radon and earthquakes as research, `cave` a show cave breathing;
-  showpiece pink granite, a home detector and a speck of frozen radon) on
-  `worktree-agent-a29f4091cc8e22657`. Its room designs: `docs/agents/designs/`. Merge conflict to
-  expect: it adds to the `SHOWPIECES` line in `showpieces.js` (keep every element).
+- Done: Radon (2026-10-31): seven pictures, each with a room designed for it (`glow` Gray and Ramsay's drop of
+  1909, colourless, the solid glowing steel blue, yellow, then orange-red in liquid air, pointing to the neon
+  sign workshop; `cellar` granite under a Portuguese house, the stack effect, the detector, airing, sealing
+  and the fan under the floor, 300 Bq/m³; `rock` the U-238 series as a staircase, radon the one gas, recoil
+  into the pore water; `draught` Owens and Rutherford at McGill in 1899, the door, cotton wool, half gone in a
+  minute, Dorn's radium emanation of 1900; `moon` Apollo 15's radon over Aristarchus, polonium footprints,
+  Lunar Prospector; `quake` Kobe 1995 told as research, not a method; `cave` the chimney effect, Postojna's
+  200 and 3000 Bq/m³), none repeating the workshop (the lead box and Geiger counter, the balloons, the
+  spectroscope). Its showpiece: a lump of pink granite, a home detector on a stand, and in the middle of the
+  table a frosted copper cold finger holding a sealed capillary whose speck of frozen radon glows orange
+  (`radon` in showpieces.js; the case's words now say it glows frozen). The pictures share
+  `tools/boards/Rn/rnkit.py` (the uranium family's atoms as `k<El>` gradients, radon teal with a halo, alpha
+  particles, `granite()` grains clipped to any shape). Traps: a glow added (additive) over the case vanished
+  against the bright pink boards behind it, a normally blended halo reads; a thing at the table's edge hid
+  behind the rock half the time, so what must be seen stands in the middle; granite's pale grains bloomed
+  into a pink cake until dimmed toward the navy (`dim`) and its band faded into the calm bottom.
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.
