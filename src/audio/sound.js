@@ -219,6 +219,11 @@ export function play(kind, { order = 1 } = {}) {
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
     if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
   }
+  // the lab's DNA bench: a helix unzipping (a whoosh and a rising run of soft ticks)
+  else if (kind === 'zip') {
+    whoosh(500, 2800, 0.6, 0.09)
+    for (let i = 0; i < 9; i++) tone(NOTE(70 + i * 2), 0.05, { type: 'triangle', gain: 0.07, when: i * 0.045, out: 'effects' })
+  }
   // today's element (ui/DailyHud.jsx): a bright pair for a right answer, a soft low one for a wrong one,
   // and the streak's flame catching (order: a milestone rings longer)
   else if (kind === 'right') {

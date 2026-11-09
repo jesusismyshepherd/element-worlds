@@ -1,0 +1,12 @@
+{
+  "/lab/dna": [
+    "() => __ew.world.add('A')",
+    "() => __ew.world.add('T')",
+    "() => __ew.world.add('G')",
+    "() => __ew.world.add('C')",
+    "() => __ew.world.undo()",
+    "() => __ew.world.setTwist(0.4)",
+    "() => __ew.world.copy()",
+    "() => __ew.world.clear()"
+  ]
+}
