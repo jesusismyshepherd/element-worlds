@@ -1229,11 +1229,11 @@ export async function build({ ctx, root, E, W, ex, say, later, light, level, lan
     sw.add(plate, slot, lever, led, lab, hitBox(0.9, 0.34, 0.35, 0, 0, 0.15))
   }
   const S = { rep: false, repK: 0, d: 1500, n: 0, run: null, pin: false, hasRun: false, lostOnce: false, arrived: false, slid: false, tmaps: 0 }
-  const seaBoard = standingScreen({ width: 1.3, height: 0.88, color, title: E.sea.boardTitle, line: '', titleSize: 0.085, lineSize: 0.064 }, { top: 0.62, tilt: 0.34, mat: darkMat })
-  seaBoard.group.position.set(TABLE.x - 2.4, 0, TABLE.z + 0.3)
-  seaBoard.group.rotation.y = 0.2
+  const seaBoard = standingScreen({ width: 1.25, height: 0.72, color, title: E.sea.boardTitle, line: '', titleSize: 0.08, lineSize: 0.06 }, { top: 0.25, tilt: 0.36, mat: darkMat })
+  seaBoard.group.position.set(TABLE.x - 0.9, 0, TABLE.z + 0.75)
+  seaBoard.group.rotation.y = 0
   root.add(seaBoard.group)
-  solids.push(circle(TABLE.x - 2.4, TABLE.z + 0.3, 0.4))
+  solids.push(circle(TABLE.x - 0.9, TABLE.z + 0.75, 0.4))
   const lossAt = (d, repeaters) => (repeaters ? ((d % SPAN) * LOSS) : d * LOSS)
   const timeMs = d => (d / V_FIBRE) * 1000
   const seaVars = d => {
