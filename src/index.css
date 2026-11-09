@@ -30,3 +30,44 @@ canvas.world {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+/* today's element (ui/DailyHud.jsx): the streak's flame flickers once lit, a number or a found cell pops,
+   a wrong cell shakes */
+@keyframes ew-flame {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50% { transform: scale(1.1) rotate(3deg); }
+}
+.ew-flame {
+  animation: ew-flame 1.6s ease-in-out infinite;
+  transform-origin: 50% 85%;
+  filter: drop-shadow(0 0 10px rgba(255, 160, 60, 0.7));
+}
+@keyframes ew-pop {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.ew-pop {
+  animation: ew-pop 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+.ew-flame.ew-pop {
+  animation: ew-pop 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.4) both, ew-flame 1.6s ease-in-out 0.6s infinite;
+}
+@keyframes ew-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+.ew-shake {
+  animation: ew-shake 0.2s 2;
+}
+@keyframes ew-wait {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.4; }
+}
+.ew-wait {
+  animation: ew-wait 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ew-flame, .ew-pop, .ew-shake, .ew-wait, .ew-flame.ew-pop { animation: none; }
+}

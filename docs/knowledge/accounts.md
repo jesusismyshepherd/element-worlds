@@ -36,7 +36,10 @@ time, "not to lose what Artur has already gathered on the phone (he used one dev
   quiz's records (`ew-quiz-best`), their own state of each world (`ew-world:<path>`: `{ at, parts }`, the
   balloons let go, the word on the neon wall; `multiplayer.md`, "Shared world objects"): `snapshot()`,
   `adopt()`, `clearProgress()` in `src/engine/progress.js`. The neon names kept before 2026-10-30 on
-  their own (`ew-neon-name:<Symbol>`, an account's `neon`) move into their workshop's world state.
+  their own (`ew-neon-name:<Symbol>`, an account's `neon`) move into their workshop's world state. Since
+  2026-11-09 also today's element (`ew-daily`: the days done, the boxes, the guesses; the account joins
+  the days, keeps each element's newer box and joins the guesses: `ew_005_daily.sql`, `daily.md`), so the
+  streak follows the player to any device.
 - The first account that signs in on a device takes what the device gathered before (`ew-owner` on the
   device says whose the progress is): Artur's phone's discoveries go into his account at his first
   sign-in, by signing up or signing in with an existing account.

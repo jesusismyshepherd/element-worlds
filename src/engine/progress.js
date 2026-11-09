@@ -4,13 +4,16 @@
 // balloons let go, the word on the neon wall; src/net/shared.js) it is the player's progress, which a
 // signed-in account keeps too (src/net/account.js): snapshot() gives it all, adopt() takes the
 // account's back, clearProgress() empties the device at sign-out. The names once kept on their own
-// (ew-neon-name:<Sym>) move into their workshop's world state.
+// (ew-neon-name:<Sym>) move into their workshop's world state. Today's element keeps its days, boxes and
+// guesses in ew-daily (src/game/daily.js; the streak is worked out from the days).
 import { play } from '../audio/sound.js'
+import { normalDaily } from '../game/daily.js'
 
 const KEY = 'ew-found'
 const QUIZ = 'ew-quiz-best'
 const NEON = 'ew-neon-name:'
 const WORLD = 'ew-world:'
+const DAILY = 'ew-daily'
 
 const safe = (f, fallback = null) => {
   try {
@@ -82,6 +85,9 @@ const announce = () => {
 
 export const isFound = key => found.has(key)
 
+/** Every discovery key (the halls met: today's element goes over them again). */
+export const foundKeys = () => [...found]
+
 export function markFound(key) {
   if (found.has(key)) return false
   found.add(key)
@@ -105,7 +111,29 @@ export function resetFound() {
   safe(() => localStorage.removeItem(KEY))
 }
 
-/** Everything the player has gathered on this device: discoveries, quiz records, their own worlds. */
+const dailyListeners = new Set()
+const dailyChanged = () => {
+  for (const f of dailyListeners) f()
+}
+
+/** Today's element's kept state: { days, boxes, guess } (game/daily.js normalDaily). */
+export const dailyState = () => normalDaily(safe(() => JSON.parse(localStorage.getItem(DAILY) ?? 'null')))
+
+/** Keep it, and let the account save it soon (as after a discovery). */
+export function keepDaily(state) {
+  safe(() => localStorage.setItem(DAILY, JSON.stringify(normalDaily(state))))
+  dailyChanged()
+  for (const f of listeners) f('daily')
+}
+
+/** Called when today's element's state changed (a lesson done, a guess, an account's days come in). */
+export function onDaily(f) {
+  dailyListeners.add(f)
+  return () => dailyListeners.delete(f)
+}
+
+/** Everything the player has gathered on this device: discoveries, quiz records, their own worlds, the days
+ *  of today's element. */
 export function snapshot() {
   const quiz = safe(() => JSON.parse(localStorage.getItem(QUIZ) ?? '{}'), {}) ?? {}
   const worlds = {}
@@ -118,15 +146,22 @@ export function snapshot() {
       }
     }
   })
+  const daily = dailyState()
   return {
     found: [...found].sort(),
     quiz: Object.fromEntries(Object.entries(quiz).filter(([, v]) => Number.isFinite(Number(v))).map(([k, v]) => [k, Number(v)])),
     worlds: Object.fromEntries(Object.keys(worlds).sort().map(k => [k, worlds[k]])),
+    daily: {
+      days: Object.fromEntries(Object.keys(daily.days).sort().map(k => [k, daily.days[k]])),
+      boxes: Object.fromEntries(Object.keys(daily.boxes).sort().map(k => [k, daily.boxes[k]])),
+      guess: Object.fromEntries(Object.keys(daily.guess).sort().map(k => [k, daily.guess[k]])),
+    },
   }
 }
 
 /** Does this progress hold anything worth keeping? */
-export const hasProgress = p => !!p && (p.found?.length > 0 || Object.keys(p.quiz ?? {}).length > 0 || Object.keys(p.worlds ?? {}).length > 0)
+export const hasProgress = p =>
+  !!p && (p.found?.length > 0 || Object.keys(p.quiz ?? {}).length > 0 || Object.keys(p.worlds ?? {}).length > 0 || Object.keys(p.daily?.days ?? {}).length > 0)
 
 /** Take an account's progress as this device's (the account's is the device's and more, once merged). */
 export function adopt(p) {
@@ -139,7 +174,12 @@ export function adopt(p) {
     if (path.startsWith('/') && ws && typeof ws === 'object' && ws.parts && typeof ws.parts === 'object') safe(() => localStorage.setItem(WORLD + path, JSON.stringify(ws)))
   }
   for (const [sym, name] of Object.entries(p.neon ?? {})) if (typeof name === 'string') fromNeon(sym, name)
-  if (JSON.stringify(snapshot()) !== before) announce()
+  // (an account saved by an older server has no daily: the device's stays)
+  if (p.daily && typeof p.daily === 'object') safe(() => localStorage.setItem(DAILY, JSON.stringify(normalDaily(p.daily))))
+  if (JSON.stringify(snapshot()) !== before) {
+    announce()
+    dailyChanged()
+  }
 }
 
 /** Empty the device's progress (a sign-out: the account keeps it, the next player starts fresh). */
@@ -149,9 +189,10 @@ export function clearProgress() {
     const keys = []
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i)
-      if (k === KEY || k === QUIZ || k?.startsWith(NEON) || k?.startsWith(WORLD)) keys.push(k)
+      if (k === KEY || k === QUIZ || k === DAILY || k?.startsWith(NEON) || k?.startsWith(WORLD)) keys.push(k)
     }
     keys.forEach(k => localStorage.removeItem(k))
   })
   announce()
+  dailyChanged()
 }

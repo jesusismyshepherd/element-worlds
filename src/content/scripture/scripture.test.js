@@ -17,7 +17,7 @@ const LANGUAGES = ['en', 'pt-pt', 'pl', 'de']
 // the translations each language quotes, Explorer then Scientist (scripts/data/fetch_verses.py, PAIRS)
 const PAIRS = { en: ['NLT', 'CSB'], 'pt-pt': ['BPT09', 'ARC'], pl: ['SNP', 'BW1975'], de: ['HFA', 'SCH2000'] }
 // the places the worlds quote by name (the halls take theirs from hallPassage)
-const PLACES = ['plaza', 'lab', 'forge', 'stars', 'atomlings', 'quiz', 'allotropes', 'life', 'air', 'fire', 'signs']
+const PLACES = ['plaza', 'lab', 'forge', 'stars', 'atomlings', 'quiz', 'daily', 'allotropes', 'life', 'air', 'fire', 'signs']
 
 test('every passage is fetched as listed, in every language at both depths', () => {
   assert.deepEqual(Object.keys(VERSES).sort(), Object.keys(PASSAGES).sort(), 'run scripts/data/fetch_verses.py')

@@ -357,6 +357,7 @@
     "stars": "Sternmissionen",
     "forgeStat": "Missionen der Schmiede",
     "quizStat": "Rekord bei „Wer bin ich?“",
+    "streakStat": "Tage in Folge",
     "badge": {
       "first": {
         "icon": "✨",
@@ -402,7 +403,9 @@
         "icon": "🔎",
         "name": "Elementdetektiv",
         "how": "Hol 40 Punkte in einer Runde „Wer bin ich?“"
-      }
+      },
+      "streak7": {"icon": "🔥", "name": "Eine Woche Elemente", "how": "Mach 7 Tage in Folge das Element des Tages"},
+      "streak30": {"icon": "☄️", "name": "Element-Marathon", "how": "Mach 30 Tage in Folge das Element des Tages"}
     }
   },
   "room": {
@@ -626,5 +629,107 @@
       "failed": "Das hat nicht geklappt. Versuch es gleich noch einmal."
     },
     "footer": "Claude liest zu Beginn jeder Sitzung, was hier gesendet wurde, und antwortet auf dieser Seite. Die Liste wurde zuletzt am {{date}} geändert."
+  },
+  "daily": {
+    "title": "Das Element des Tages",
+    "dock": "Element des Tages",
+    "streak_one": "{{count}} Tag in Folge",
+    "streak_other": "{{count}} Tage in Folge",
+    "noStreak": "Noch keine Serie: Fang heute eine an!",
+    "keep": "Mach die heutige Lektion, damit deine Serie weitergeht.",
+    "lost_one": "Deine Serie von {{count}} Tag ist zu Ende. Heute beginnt eine neue!",
+    "lost_other": "Deine Serie von {{count}} Tagen ist zu Ende. Heute beginnt eine neue!",
+    "best_one": "Rekord: {{count}} Tag",
+    "best_other": "Rekord: {{count}} Tage",
+    "freezes_one": "{{count}} Serienschutz",
+    "freezes_other": "{{count}} Serienschutz",
+    "noFreezes": "Kein Serienschutz",
+    "freezeHelp": "Ein Serienschutz rettet deine Serie an einem Tag, an dem du nicht spielst. Für alle 7 Tage in Folge bekommst du einen weiteren (höchstens 2).",
+    "waiting": "Ein neues Element wartet auf dich: etwa drei Minuten.",
+    "yourGuess": "Gestern hast du auf {{name}} getippt. Fang an, um es herauszufinden!",
+    "sleepy": "Diese Atomlinge vermissen dich:",
+    "start": "Los geht's",
+    "doneToday": "Für heute geschafft! Morgen kommt ein neues Element.",
+    "practice": "Noch mehr üben",
+    "practiceTitle": "Übung",
+    "visit": "Zur Halle: {{name}}",
+    "next": "Weiter",
+    "right": "Richtig!",
+    "wrong": "Nicht ganz.",
+    "again": "Noch einmal: eine, die nicht geklappt hat",
+    "tryAgain": "Das ist es nicht. Versuch es noch einmal!",
+    "glows": "Jetzt leuchtet es: Tippe darauf.",
+    "meet": "{{name}} sagt Hallo!",
+    "guessRight": "Gestern richtig getippt. Super!",
+    "guessWrong": "Gestern hast du auf {{name}} getippt.",
+    "finished": "Lektion geschafft!",
+    "practiceDone": "Übung geschafft!",
+    "newRecord": "Neuer Rekord!",
+    "milestone": "Ein Meilenstein: {{n}} Tage in Folge!",
+    "score": "{{right}} von {{of}} beim ersten Versuch richtig",
+    "perfect": "Perfekt: alle Antworten beim ersten Versuch richtig!",
+    "earned": "Du hast einen Serienschutz bekommen!",
+    "awake": "Wieder wach:",
+    "mystery": "Das geheime Element von morgen",
+    "mysteryAsk": "Wer könnte es sein? Tipp jetzt und finde es morgen heraus.",
+    "mysteryKept": "Dein Tipp: {{name}}. Morgen erfährst du es!",
+    "q": {
+      "find": {
+        "kid": "Das Element des Tages ist {{name}}! Sein Symbol ist {{symbol}}. Findest du es im Periodensystem?",
+        "sci": "Das Element des Tages: {{name}}. Tippe auf seinen Platz im Periodensystem."
+      },
+      "findAgain": {
+        "kid": "{{name}}: Wo wohnt dieses Element im Periodensystem? Sein Symbol ist {{symbol}}.",
+        "sci": "{{name}}: Wo steht dieses Element? Tippe auf seinen Platz im Periodensystem."
+      },
+      "state": "{{name}}: Ist das bei Raumtemperatur ein Feststoff, eine Flüssigkeit oder ein Gas?",
+      "family": "{{name}}: Zu welcher Familie gehört dieses Element?",
+      "protons": "{{name}}: Wie viele Protonen hat jedes Atom dieses Elements?",
+      "symbol": "{{name}}: Welches ist das Symbol?",
+      "use": "{{name}}: Wofür braucht man dieses Element?",
+      "truth": {
+        "dense": "{{name}}: Ist dieses Element leichter als Wasser, sodass ein Stück schwimmen würde?",
+        "metal": "{{name}}: Ist das ein Metall?",
+        "radio": "{{name}}: Ist dieses Element radioaktiv?",
+        "ancient": "{{name}}: Kannte man dieses Element schon im Altertum?"
+      },
+      "compare": {
+        "mass": "Welches Atom ist schwerer?",
+        "melt": "Welches schmilzt bei der höheren Temperatur?",
+        "density": "Zwei gleich große Würfel: Welcher ist schwerer?",
+        "en": "Welches zieht stärker an den Elektronen, die es teilt (höhere Elektronegativität)?",
+        "radius": "Welches Atom ist größer?"
+      },
+      "year": "{{name}}: Wann wurde dieses Element entdeckt?",
+      "config": "{{name}}: Welche Elektronenkonfiguration ist richtig?",
+      "who": "Wer bin ich?"
+    },
+    "opt": {
+      "solid": "Feststoff",
+      "liquid": "Flüssigkeit",
+      "gas": "Gas",
+      "yes": "Ja",
+      "no": "Nein",
+      "ancient": "Im Altertum",
+      "y1700": "Vor 1700",
+      "y1700s": "1700 bis 1799",
+      "y1800s": "1800 bis 1899",
+      "y1900s": "1900 bis 1999",
+      "y2000": "Seit 2000"
+    },
+    "ex": {
+      "found": "Da ist es: Zeile {{period}}, Spalte {{group}}.",
+      "foundF": "Da ist es: Zeile {{period}}, in den zwei langen Zeilen unten.",
+      "protons": "Die Nummer im Periodensystem ist {{z}}: Jedes Atom dieses Elements hat {{z}} Protonen.",
+      "dense": "Dichte: {{d}}. Wasser: 1 g/cm³.",
+      "family": "Die Familie:",
+      "valence": "Elektronen in der äußeren Schale: {{n}}.",
+      "radiusRow": "In einer Zeile werden die Atome kleiner: Mehr Protonen ziehen dieselben Schalen näher heran.",
+      "radiusCol": "In einer Spalte nach unten werden die Atome größer: Jede Zeile bringt eine Elektronenschale dazu.",
+      "enRow": "In einer Zeile wird der Zug an den Elektronen stärker.",
+      "enCol": "In einer Spalte nach unten wird er schwächer: Die äußeren Elektronen sind weiter vom Kern entfernt.",
+      "massOdd": "Eine Überraschung: Hier ist das Element, das später im Periodensystem kommt, das leichtere.",
+      "massUsual": "Später im Periodensystem heißt mehr Protonen und Neutronen, also fast immer schwerer."
+    }
   }
 }

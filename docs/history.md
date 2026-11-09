@@ -4,6 +4,17 @@ The project's log, newest first; moved out of `CLAUDE.md` on 2026-10-29 so every
 it. How each piece works is in its area's doc (`docs/knowledge/`); this file keeps the order of events
 and the user's requests behind them. Add a line here when a piece of work changes what the game has.
 
+## 2026-11-09
+
+- Today's element and the streak (the user, after a brainstorm on what brings a player back between
+  sessions: "Artur already is hooked on duolingo's streaks so might work fine. start working on where you
+  seem fit"): one element a day, the same for the whole family (carbon first, then the halls with picture
+  boards, then about every other day a well-known one), a lesson of about three minutes (find it in the
+  table, three questions about it, two elements met before, the missed ones once more, each answer saying
+  why), a streak with freezes for a day missed, boxes that bring the elements back after 1, 2, 4, 8 and 16
+  days, tomorrow's element as a mystery with two clues to guess from, the flame in the plaza's dock and the
+  passport, Psalm 118:24 at the end. The days follow the account (`ew_005_daily.sql`). `daily.md`.
+
 ## 2026-11-06
 
 - Signing out ends only this device's session (the user, from a Caderno Vivo session that found it: "yes

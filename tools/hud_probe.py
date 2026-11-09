@@ -1,7 +1,8 @@
 """The HUD keeps the middle of the screen free (docs/knowledge/hud-layout.md): opens each kind of world
 on a computer, an upright phone and a phone on its side (also with the browser's bars, the sizes of
 the user's screenshots), shows what the HUD can show there (the selected element's card, a drawer, the
-quiz, a story panel, the Atomling speaking, a molecule made, the forge's atom, the neon name window)
+quiz, today's element and its lesson, a story panel, the Atomling speaking, a molecule made, the forge's
+atom, the neon name window)
 and checks that nothing of the HUD lies in the middle of the part of the screen it leaves free (where
 the engine draws the world's centre; the stick in its corner excepted), and that
 the HUD covers little of the screen (at rest under a third, about half at most with something opened
@@ -139,6 +140,19 @@ def scenes():
         page.locator('button').filter(has_text='❓').first.click()
         page.wait_for_timeout(1800)
 
+    def plaza_daily(page):
+        # today's element: its sheet opened on the streak and the week
+        page.click('[data-daily-open]')
+        page.wait_for_selector('[data-daily-begin], [data-daily-practice]', timeout=10000)
+        page.wait_for_timeout(1500)
+
+    def plaza_daily_lesson(page):
+        # its lesson: the first step, the table to find the day's element in
+        plaza_daily(page)
+        page.click('[data-daily-begin]')
+        page.wait_for_selector('[data-daily-step]', timeout=10000)
+        page.wait_for_timeout(1500)
+
     def walk_panel(page):
         if not open_exhibit(page):
             raise RuntimeError('no exhibit opened a panel')
@@ -184,6 +198,8 @@ def scenes():
         'plaza-selected': ('/', plaza_selected, REST),
         'plaza-drawer': ('/', plaza_drawer, 0.4),
         'plaza-quiz': ('/', plaza_quiz, 0.5),
+        'plaza-daily': ('/', plaza_daily, 0.5),
+        'plaza-daily-lesson': ('/', plaza_daily_lesson, 0.5),
         'hall-panel': ('/e/C', walk_panel, 0.55),
         'hall-speech': ('/e/C', walk_speech, REST),
         'wing-panel': ('/e/C/allotropes', walk_panel, 0.55),

@@ -38,6 +38,12 @@ export default {
     pl: { kid: 'W tej grze zgadujesz pierwiastki po wskazówkach. Bóg zna każdą gwiazdę po imieniu.', sci: 'Gra nazywa pierwiastki po ich właściwościach; psalm mówi, że Bóg liczy gwiazdy i nadaje im imiona.' },
     de: { kid: 'In diesem Spiel errätst du Elemente an ihren Hinweisen. Gott kennt jeden Stern beim Namen.', sci: 'Das Spiel benennt Elemente nach ihren Eigenschaften; der Psalm sagt, dass Gott die Sterne zählt und ihnen Namen gibt.' },
   },
+  daily: {
+    en: { kid: 'Every day the game gives you a new element. Every day is a gift from God, with something new in it to enjoy.', sci: 'A new element each day; the psalm calls every day one the Lord has made, and a reason for joy.' },
+    'pt-pt': { kid: 'Todos os dias o jogo traz-te um elemento novo. Cada dia é um presente de Deus, com alguma coisa nova para aproveitar.', sci: 'Um elemento novo por dia; o salmo diz que cada dia foi feito pelo Senhor e é motivo de alegria.' },
+    pl: { kid: 'Codziennie gra daje ci nowy pierwiastek. Każdy dzień jest prezentem od Boga i zawsze jest w nim coś nowego do odkrycia.', sci: 'Nowy pierwiastek każdego dnia; psalm mówi, że każdy dzień uczynił Pan i że jest on powodem do radości.' },
+    de: { kid: 'Jeden Tag bringt dir das Spiel ein neues Element. Jeder Tag ist ein Geschenk von Gott, und in jedem gibt es etwas Neues zu entdecken.', sci: 'Jeden Tag ein neues Element; der Psalm nennt jeden Tag einen, den der Herr gemacht hat, und einen Grund zur Freude.' },
+  },
   allotropes: {
     en: { kid: 'Diamond, graphite, graphene and the little footballs are all pure carbon, just put together in different ways.', sci: 'Allotropes: the same atoms bonded differently, sp³ in diamond, sp² in graphite, graphene, nanotubes and fullerenes.' },
     'pt-pt': { kid: 'O diamante, a grafite, o grafeno e as pequenas bolas de futebol são todos carbono puro, só arrumado de maneiras diferentes.', sci: 'Alótropos: os mesmos átomos ligados de outra maneira, sp³ no diamante, sp² na grafite, no grafeno, nos nanotubos e nos fulerenos.' },

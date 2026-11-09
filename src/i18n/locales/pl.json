@@ -387,6 +387,7 @@
     "stars": "Misje gwiazd",
     "forgeStat": "misje kuźni",
     "quizStat": "rekord w „Kim jestem?”",
+    "streakStat": "dni z rzędu",
     "badge": {
       "first": {
         "icon": "✨",
@@ -432,7 +433,9 @@
         "icon": "🔎",
         "name": "Detektyw pierwiastków",
         "how": "Zdobądź 40 punktów w jednej rundzie „Kim jestem?”"
-      }
+      },
+      "streak7": {"icon": "🔥", "name": "Tydzień pierwiastków", "how": "Zrób Element dnia 7 dni z rzędu"},
+      "streak30": {"icon": "☄️", "name": "Maraton pierwiastków", "how": "Zrób Element dnia 30 dni z rzędu"}
     }
   },
   "room": {
@@ -662,5 +665,115 @@
       "failed": "Nie udało się wysłać. Spróbuj za chwilę."
     },
     "footer": "Claude czyta to, co tu wysłano, na początku każdej sesji i odpowiada na tej stronie. Lista była ostatnio zmieniana {{date}}."
+  },
+  "daily": {
+    "title": "Element dnia",
+    "dock": "Element dnia",
+    "streak_one": "{{count}} dzień z rzędu",
+    "streak_few": "{{count}} dni z rzędu",
+    "streak_many": "{{count}} dni z rzędu",
+    "streak_other": "{{count}} dnia z rzędu",
+    "noStreak": "Jeszcze bez serii: zacznij ją dzisiaj!",
+    "keep": "Zrób dzisiejszą lekcję, żeby nie przerwać serii.",
+    "lost_one": "Twoja seria skończyła się po {{count}} dniu. Dziś zaczyna się nowa!",
+    "lost_few": "Twoja seria skończyła się po {{count}} dniach. Dziś zaczyna się nowa!",
+    "lost_many": "Twoja seria skończyła się po {{count}} dniach. Dziś zaczyna się nowa!",
+    "lost_other": "Twoja seria skończyła się po {{count}} dniach. Dziś zaczyna się nowa!",
+    "best_one": "Rekord: {{count}} dzień",
+    "best_few": "Rekord: {{count}} dni",
+    "best_many": "Rekord: {{count}} dni",
+    "best_other": "Rekord: {{count}} dnia",
+    "freezes_one": "{{count}} zamrożenie serii",
+    "freezes_few": "{{count}} zamrożenia serii",
+    "freezes_many": "{{count}} zamrożeń serii",
+    "freezes_other": "{{count}} zamrożenia serii",
+    "noFreezes": "Bez zamrożenia serii",
+    "freezeHelp": "Zamrożenie chroni serię w dniu, w którym nie zagrasz. Za każde 7 dni z rzędu dostajesz kolejne (najwyżej 2).",
+    "waiting": "Czeka na ciebie nowy pierwiastek: około trzech minut.",
+    "yourGuess": "Twój wczorajszy typ: {{name}}. Zacznij, żeby się przekonać!",
+    "sleepy": "Te Atomki za tobą tęsknią:",
+    "start": "Zaczynamy",
+    "doneToday": "Na dziś gotowe! Jutro nowy pierwiastek.",
+    "practice": "Poćwicz jeszcze",
+    "practiceTitle": "Ćwiczenia",
+    "visit": "Odwiedź salę: {{name}}",
+    "next": "Dalej",
+    "right": "Dobrze!",
+    "wrong": "Nie całkiem.",
+    "again": "Poprawka: jeszcze raz to pytanie",
+    "tryAgain": "To nie ten. Spróbuj jeszcze raz!",
+    "glows": "Teraz świeci: dotknij go.",
+    "meet": "{{name}} mówi ci cześć!",
+    "guessRight": "Wczorajszy typ był trafny. Brawo!",
+    "guessWrong": "Twój wczorajszy typ: {{name}}.",
+    "finished": "Lekcja zrobiona!",
+    "practiceDone": "Ćwiczenia zrobione!",
+    "newRecord": "Nowy rekord!",
+    "milestone": "Kamień milowy: {{n}} dni z rzędu!",
+    "score": "Dobrze za pierwszym razem: {{right}} z {{of}}",
+    "perfect": "Perfekcyjnie: wszystkie odpowiedzi dobre za pierwszym razem!",
+    "earned": "Dostajesz zamrożenie serii!",
+    "awake": "Znowu obudzone:",
+    "mystery": "Jutrzejszy tajemniczy pierwiastek",
+    "mysteryAsk": "Kto to może być? Zgadnij teraz, a jutro się dowiesz.",
+    "mysteryKept": "Twój typ: {{name}}. Jutro się dowiesz!",
+    "q": {
+      "find": {
+        "kid": "Dzisiejszy pierwiastek to {{name}}! Jego symbol to {{symbol}}. Znajdziesz go w układzie okresowym?",
+        "sci": "Dzisiejszy pierwiastek: {{name}}. Dotknij właściwego miejsca w układzie okresowym."
+      },
+      "findAgain": {
+        "kid": "{{name}}: gdzie mieszka w układzie okresowym? Symbol: {{symbol}}.",
+        "sci": "{{name}}: gdzie jest? Dotknij właściwego miejsca w układzie okresowym."
+      },
+      "state": "{{name}}: w temperaturze pokojowej to ciało stałe, ciecz czy gaz?",
+      "family": "{{name}}: do jakiej rodziny należy?",
+      "protons": "{{name}}: ile protonów ma każdy atom tego pierwiastka?",
+      "symbol": "{{name}}: który symbol jest właściwy?",
+      "use": "{{name}}: do czego służy?",
+      "truth": {
+        "dense": "{{name}}: czy ma mniejszą gęstość niż woda, tak że kawałek by pływał?",
+        "metal": "{{name}}: czy to metal?",
+        "radio": "{{name}}: czy to pierwiastek promieniotwórczy?",
+        "ancient": "{{name}}: czy ten pierwiastek znano już w starożytności?"
+      },
+      "compare": {
+        "mass": "Który atom jest cięższy?",
+        "melt": "Który topi się w wyższej temperaturze?",
+        "density": "Dwie kostki tej samej wielkości: która jest cięższa?",
+        "en": "Który mocniej przyciąga wspólne elektrony (większa elektroujemność)?",
+        "radius": "Który atom jest większy?"
+      },
+      "year": "{{name}}: kiedy odkryto ten pierwiastek?",
+      "config": "{{name}}: która konfiguracja elektronowa jest właściwa?",
+      "who": "Kim jestem?"
+    },
+    "opt": {
+      "solid": "Ciało stałe",
+      "liquid": "Ciecz",
+      "gas": "Gaz",
+      "yes": "Tak",
+      "no": "Nie",
+      "ancient": "W starożytności",
+      "y1700": "Przed 1700",
+      "y1700s": "Od 1700 do 1799",
+      "y1800s": "Od 1800 do 1899",
+      "y1900s": "Od 1900 do 1999",
+      "y2000": "Od 2000"
+    },
+    "ex": {
+      "found": "Jest: wiersz {{period}}, kolumna {{group}}.",
+      "foundF": "Jest: wiersz {{period}}, w jednym z dwóch długich wierszy na dole.",
+      "protons": "Numer w układzie okresowym to {{z}}: tyle protonów ma każdy atom tego pierwiastka.",
+      "dense": "Gęstość: {{d}}. Woda: 1 g/cm³.",
+      "family": "Rodzina:",
+      "valence": "Elektrony na zewnętrznej powłoce: {{n}}.",
+      "radiusRow": "W wierszu atomy maleją: więcej protonów przyciąga te same powłoki bliżej.",
+      "radiusCol": "W dół kolumny atomy rosną: każdy wiersz dodaje powłokę elektronów.",
+      "enRow": "W wierszu przyciąganie elektronów rośnie.",
+      "enCol": "W dół kolumny słabnie: zewnętrzne elektrony są dalej od jądra.",
+      "massOdd": "Niespodzianka: tutaj pierwiastek stojący dalej w układzie jest lżejszy.",
+      "massUsual": "Dalej w układzie znaczy więcej protonów i neutronów, więc prawie zawsze cięższy."
+    }
   }
 }

@@ -311,6 +311,58 @@
    }
   }
  },
+ "daily": {
+  "_ref": "PSA.118.24",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "This is the day the LORD has made.\nWe will rejoice and be glad in it.",
+    "ref": "PSA.118.24",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "This is the day the LORD has made;\nlet’s rejoice and be glad in it.",
+    "ref": "PSA.118.24",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Este é o dia da vitória do SENHOR:\ncantemos e alegremo-nos nele!",
+    "ref": "PSA.118.24",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Este é o dia que fez o Senhor: regozijemo-nos, e alegremo-nos nele…",
+    "ref": "PSA.118.24",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Oto dzień, do którego PAN doprowadził,\nŚwiętujmy go z wielkim weselem!",
+    "ref": "PSA.118.24",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Oto dzień, który Pan uczynił,\nWeselmy się i radujmy się w nim.",
+    "ref": "PSA.118.24",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Diesen Freudentag hat er gemacht,\nlasst uns fröhlich sein und jubeln!",
+    "ref": "PSA.118.24",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Dies ist der Tag, den der HERR gemacht hat;\nwir wollen uns freuen und fröhlich sein in ihm!",
+    "ref": "PSA.118.24",
+    "v": "SCH2000"
+   }
+  }
+ },
  "allotropes": {
   "_ref": "PSA.104.24",
   "_heb": 0,

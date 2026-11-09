@@ -49,8 +49,9 @@ built when, and the user's requests behind it: `docs/history.md`.
   helper in `tools/`, what each checks), `deploying.md` (Vercel, new versions, Reload), `update-dashboard.md` (the studio), `press.md` (the diamond press for two: the first station made for two players, its rules and the pattern for more), `sound.md` (the
   music beds as offline loops, the buffer, why a phone crackles), `periodic-videos.md` (watching an element's
   video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms), `scripture.md` (the Bible
-  passages in every place, the eight translations, fetching them word for word). Read the one for the area
-  you touch.
+  passages in every place, the eight translations, fetching them word for word), `daily.md` (today's element:
+  the lesson, the streak and its freezes, the boxes, the mystery, what the account keeps). Read the one for
+  the area you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
   The family studio at `/studio` (shared with Artur; ideas, notes and verdicts kept with their account in
@@ -61,7 +62,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   saved to the account, sign out), `telemetry.js` (usage recording: `track(kind, data)`), `room.js`
   (rooms), `duel.js` (the quiz duel), `referee.js` (the duel's and the forge race's referee), `shared.js` (a world's things shared in a room: the world's `shared`
   and `ctx.share(id)`, `adding-a-wing.md`). `supabase/ew_001_usage.sql`, `ew_002_accounts.sql`,
-  `ew_003_room_worlds.sql` (the rooms' worlds kept), `ew_004_studio.sql` (the family studio's notes, by account): the `ew_` tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
+  `ew_003_room_worlds.sql` (the rooms' worlds kept), `ew_004_studio.sql` (the family studio's notes, by account),
+  `ew_005_daily.sql` (today's element's days in the account's progress): the `ew_` tables and functions (applied to project kawvqpvntdgehigwvfao; nothing readable with the public key).
   `src/pages/Stats.jsx` + `src/stats/`: the family dashboard at `/stats` (password or an admin account;
   English only).
 - `.claude/skills/element-wing/`: the steps for building an element's wing. `docs/agents/`: the briefs
@@ -106,6 +108,9 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/game/quiz.js` + `src/ui/QuizHud.jsx`: "Who am I?" (Quem sou eu?) in the plaza: clues from the
   data and the element's own words (its name and symbol hidden; `mask` knows units like °C and words
   like "O" or "As"), ten a round, the table flies to each answer.
+- `src/game/daily.js` + `src/ui/DailyHud.jsx`, `useDaily.js`: today's element in the plaza's dock (🔥 the
+  streak): a three-minute lesson a day, the same element for the whole family, the streak with freezes,
+  tomorrow's mystery (`daily.md`; kept in `ew-daily`, `progress.js`).
 - `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.
@@ -164,7 +169,8 @@ Live at https://element-worlds.vercel.app. What there is, each with its doc (whe
 built: `docs/history.md`):
 
 - The plaza (`/`): the table, the card with the Atomling's facts, families, trends (both depths), the
-  time machine, search, "Who am I?", golden stars over elements with worlds of their own.
+  time machine, search, "Who am I?", golden stars over elements with worlds of their own, today's element
+  and the streak (2026-11-09, `daily.md`).
 - Every element's hall (`/e/<Symbol>`): the atom, the Atomling to talk to, the specimen showcase, the
   floor table to any element. Carbon, Oxygen, Sodium, Silicon, Hydrogen, Iron (2026-10-31) and Krypton
   (2026-11-01) have a fact file, picture boards and their own showpieces; the others still have the eight text stations

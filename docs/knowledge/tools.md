@@ -27,10 +27,14 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, thirteen scenes (screenshots in
+- `hud_probe.py`: the HUD keeps the middle free on six screens, fifteen scenes (screenshots in
   `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`). Its
   `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
-  builds together.
+  builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step.
+- `daily_probe.py [--port 5317] [--only computer|phone|side] [--lang] [--level]`: today's element played
+  through on three screens (one answer wrong on purpose, which comes back), the streak, `ew-daily`, the
+  mystery's guess, the dock after a reload, a week with a freeze reaching seven days, the passport's tile.
+  19 checks a screen, about two minutes each; screenshots in `tools/shots/daily/` (`daily.md`).
 - `card_probe.py`: the plaza card's facts on every element, four languages, a computer and a phone: the
   arrows, a click on the text and T go through them, the arrows stay put.
 - `nav_probe.py`: walking and looking (`walking.md`, "Checking it").

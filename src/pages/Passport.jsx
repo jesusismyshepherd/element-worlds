@@ -7,6 +7,7 @@ import { MISSIONS as FORGE } from '../worlds/forge/words.js'
 import { MISSIONS as STARS } from '../worlds/stars/words.js'
 import { Formula } from '../ui/LabHud.jsx'
 import { onRestore } from '../engine/progress.js'
+import { useDaily } from '../ui/useDaily.js'
 
 const STATIONS = 9 // eight stations and the specimen case in every hall
 
@@ -54,6 +55,8 @@ export default function Passport() {
   const starred = STARS.filter(m => keys.has(`stars:${m.id}`))
   const best = useMemo(quizBest, [version])
   const total = keys.size
+  // today's element: the streak, and the best one for its badges (docs/knowledge/daily.md)
+  const { streak } = useDaily()
   const badges = [
     { id: 'first', got: total >= 1 },
     { id: 'hall', got: Object.values(per).some(p => p.hall >= STATIONS) },
@@ -64,6 +67,8 @@ export default function Passport() {
     { id: 'smith', got: forged.length >= 5 },
     { id: 'stars', got: starred.length >= 5 },
     { id: 'detective', got: best >= 40 },
+    { id: 'streak7', got: streak.best >= 7 },
+    { id: 'streak30', got: streak.best >= 30 },
   ]
 
   return (
@@ -75,7 +80,14 @@ export default function Passport() {
           {/* the family studio: what comes next in the game, and ideas sent to Claude */}
           <Link to="/studio" data-studio-link className="glass rounded-xl px-3 py-1.5 font-display font-bold sm:ml-auto hover:bg-white/10">💡 {t('studio.link')}</Link>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 max-w-3xl mb-5">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 max-w-4xl mb-5">
+          {/* the streak opens today's element on the plaza */}
+          <Link to="/?daily" data-passport-streak className="glass rounded-xl p-3 text-center hover:bg-white/10">
+            <div className="font-display text-2xl font-bold">
+              <span className={streak.doneToday ? '' : 'grayscale opacity-60'}>🔥</span> {streak.streak}
+            </div>
+            <div className="text-xs opacity-80">{t('passport.streakStat')}</div>
+          </Link>
           {[['visited', `${visited}/118`], ['found', total], ['molecules', `${molecules.length}/${MISSIONS.length}`], ['forgeStat', `${forged.length}/${FORGE.length}`], ['quizStat', best]].map(([k, v]) => (
             <div key={k} className="glass rounded-xl p-3 text-center">
               <div className="font-display text-2xl font-bold">{v}</div>

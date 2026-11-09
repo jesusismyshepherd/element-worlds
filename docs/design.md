@@ -49,6 +49,11 @@ mechanics, engineering and chemistry games. Everything below is shaped so that t
    stations two people play, more fun together, some needing another person; alone where possible, needing
    two in a room). The first is carbon's diamond press: a job that really takes two things at once, split
    so each player has one, the result theirs who took part. `docs/knowledge/press.md`.
+10. **A reason to come back each day: today's element** (the user, 2026-11-09: Artur is hooked on Duolingo's
+   streaks). One element a day, the same for the whole family so it can be talked about, a lesson short
+   enough for a busy day, a streak that forgives a missed day (freezes) rather than one that punishes, the
+   elements met before coming back on spaced days, and tomorrow's element left as a question to think about
+   in between. The streak is worked out from the days done, so devices only join days. `docs/knowledge/daily.md`.
 8. **A Bible passage in every place, about what stands there** (the user, 2026-10-31: "interweave
    passages from the Bible throughout the world, relevant to where they are placed; for Explorer the NLT,
    for Scientist the CSB"). Each hall, wing and forge quotes one, word for word, with a line on why it

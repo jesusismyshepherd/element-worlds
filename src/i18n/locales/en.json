@@ -354,6 +354,7 @@
     "stars": "Star missions",
     "forgeStat": "forge missions",
     "quizStat": "best quiz score",
+    "streakStat": "days in a row",
     "badge": {
       "first": {
         "icon": "✨",
@@ -399,7 +400,9 @@
         "icon": "🔎",
         "name": "Element detective",
         "how": "Score 40 points in a round of Who am I?"
-      }
+      },
+      "streak7": {"icon": "🔥", "name": "A week of elements", "how": "Do Today's element 7 days in a row"},
+      "streak30": {"icon": "☄️", "name": "Element marathon", "how": "Do Today's element 30 days in a row"}
     }
   },
   "room": {
@@ -623,5 +626,107 @@
       "failed": "That did not go through. Try again in a moment."
     },
     "footer": "Claude reads what is sent here at the start of every session and answers on this page. The list was last changed on {{date}}."
+  },
+  "daily": {
+    "title": "Today's element",
+    "dock": "Today's element",
+    "streak_one": "{{count}} day in a row",
+    "streak_other": "{{count}} days in a row",
+    "noStreak": "No streak yet: start one today!",
+    "keep": "Do today's lesson to keep your streak going.",
+    "lost_one": "Your streak of {{count}} day ended. A new one starts today!",
+    "lost_other": "Your streak of {{count}} days ended. A new one starts today!",
+    "best_one": "Best: {{count}} day",
+    "best_other": "Best: {{count}} days",
+    "freezes_one": "{{count}} streak freeze",
+    "freezes_other": "{{count}} streak freezes",
+    "noFreezes": "No streak freeze",
+    "freezeHelp": "A freeze keeps your streak on a day you miss. You get one more for every 7 days in a row (2 at most).",
+    "waiting": "A new element is waiting for you: about three minutes.",
+    "yourGuess": "Yesterday you guessed {{name}}. Start to find out!",
+    "sleepy": "These Atomlings miss you:",
+    "start": "Start",
+    "doneToday": "Done for today! Tomorrow brings a new element.",
+    "practice": "Practise more",
+    "practiceTitle": "Practice",
+    "visit": "Visit the hall: {{name}}",
+    "next": "Continue",
+    "right": "Right!",
+    "wrong": "Not quite.",
+    "again": "Once more, one you missed",
+    "tryAgain": "Not this one. Try again!",
+    "glows": "It is glowing now: tap it.",
+    "meet": "{{name}} says hello!",
+    "guessRight": "You guessed it yesterday. Well done!",
+    "guessWrong": "Yesterday you guessed {{name}}.",
+    "finished": "Lesson done!",
+    "practiceDone": "Practice done!",
+    "newRecord": "A new record!",
+    "milestone": "A milestone: {{n}} days in a row!",
+    "score": "{{right}} of {{of}} right on the first try",
+    "perfect": "Perfect: every answer right on the first try!",
+    "earned": "You earned a streak freeze!",
+    "awake": "Awake again:",
+    "mystery": "Tomorrow's mystery element",
+    "mysteryAsk": "Who could it be? Guess now and find out tomorrow.",
+    "mysteryKept": "Your guess: {{name}}. Find out tomorrow!",
+    "q": {
+      "find": {
+        "kid": "Today's element is {{name}}! Its symbol is {{symbol}}. Can you find it in the table?",
+        "sci": "Today's element: {{name}}. Tap its place in the table."
+      },
+      "findAgain": {
+        "kid": "{{name}}: where does it live in the table? Its symbol is {{symbol}}.",
+        "sci": "{{name}}: where is it? Tap its place in the table."
+      },
+      "state": "{{name}}: at room temperature, is it a solid, a liquid or a gas?",
+      "family": "{{name}}: which family is it in?",
+      "protons": "{{name}}: how many protons does each of its atoms have?",
+      "symbol": "{{name}}: which one is its symbol?",
+      "use": "{{name}}: which of these is it used for?",
+      "truth": {
+        "dense": "{{name}}: is it lighter than water, so that a piece would float?",
+        "metal": "{{name}}: is it a metal?",
+        "radio": "{{name}}: is it radioactive?",
+        "ancient": "{{name}}: was it already known in ancient times?"
+      },
+      "compare": {
+        "mass": "Which atom is heavier?",
+        "melt": "Which one melts at a higher temperature?",
+        "density": "Two cubes of the same size: which one is heavier?",
+        "en": "Which one pulls harder on the electrons it shares (higher electronegativity)?",
+        "radius": "Which atom is bigger?"
+      },
+      "year": "{{name}}: when was it discovered?",
+      "config": "{{name}}: which is its electron configuration?",
+      "who": "Who am I?"
+    },
+    "opt": {
+      "solid": "Solid",
+      "liquid": "Liquid",
+      "gas": "Gas",
+      "yes": "Yes",
+      "no": "No",
+      "ancient": "In ancient times",
+      "y1700": "Before 1700",
+      "y1700s": "1700 to 1799",
+      "y1800s": "1800 to 1899",
+      "y1900s": "1900 to 1999",
+      "y2000": "Since 2000"
+    },
+    "ex": {
+      "found": "There it is: row {{period}}, column {{group}}.",
+      "foundF": "There it is: row {{period}}, in the two long rows at the bottom.",
+      "protons": "Its number in the table is {{z}}: every atom of this element has {{z}} protons.",
+      "dense": "Density: {{d}}. Water: 1 g/cm³.",
+      "family": "Its family:",
+      "valence": "Electrons in its outer shell: {{n}}.",
+      "radiusRow": "Across a row atoms get smaller: more protons pull the same shells closer.",
+      "radiusCol": "Down a column atoms get bigger: each row adds a shell of electrons.",
+      "enRow": "Across a row the pull on electrons grows.",
+      "enCol": "Down a column the pull weakens: the outer electrons are further from the nucleus.",
+      "massOdd": "A surprise: here the element further along the table is the lighter one.",
+      "massUsual": "Further along the table means more protons and neutrons, so nearly always heavier."
+    }
   }
 }

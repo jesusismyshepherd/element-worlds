@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
@@ -10,6 +11,8 @@ import ElementCard from './ElementCard.jsx'
 import Search from './Search.jsx'
 import QuizHud from './QuizHud.jsx'
 import DuelHud from './DuelHud.jsx'
+import DailyHud, { Flame } from './DailyHud.jsx'
+import { useDaily } from './useDaily.js'
 import { duel } from '../net/duel.js'
 import { useCover, useViewport } from './layout.js'
 import { track } from '../net/telemetry.js'
@@ -17,12 +20,23 @@ import { track } from '../net/telemetry.js'
 const DOCK = 'glass rounded-xl px-2.5 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10 whitespace-nowrap'
 
 /** The plaza's HUD, at the edges so the table stays in view (docs/knowledge/hud-layout.md): a dock
- *  of tools at the bottom left (the quiz, find, the families, the time machine, the trends), each
- *  opening its drawer above it, one at a time, none open at the start; the card of the cube under the
- *  pointer or selected at the bottom right (a strip across the bottom of an upright phone). On a phone
- *  the card and a drawer take turns: the last one asked for is shown. */
+ *  of tools at the bottom left (today's element with the streak's flame, the quiz, find, the families,
+ *  the time machine, the trends), each opening its drawer above it, one at a time, none open at the
+ *  start; the card of the cube under the pointer or selected at the bottom right (a strip across the
+ *  bottom of an upright phone). On a phone the card and a drawer take turns: the last one asked for is
+ *  shown. Today's element and the quiz are sheets down the left side (across the top of a phone). */
 export default function PlazaHud({ engine }) {
   const { t, i18n } = useTranslation()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { streak } = useDaily()
+  const [daily, setDaily] = useState(false)
+  // /?daily opens today's element (the passport's streak links here)
+  useEffect(() => {
+    if (!new URLSearchParams(location.search).has('daily')) return
+    setDaily(true)
+    navigate('/', { replace: true })
+  }, [location.search]) // eslint-disable-line react-hooks/exhaustive-deps
   const hover = useStore(store, s => s.hover)
   const selected = useStore(store, s => s.selected)
   const focus = useStore(store, s => s.familyFocus)
@@ -68,14 +82,16 @@ export default function PlazaHud({ engine }) {
   const duelLive = useStore(store, s => s.duelLive)
   const together = useStore(store, s => (s.room?.members?.length ?? 0) > 1)
   const inQuiz = quiz || !!duelOn
-  const drawer = inQuiz ? null : open
-  const cardUp = !!el && !(vp.compact && (inQuiz || drawer))
+  const sheet = quiz || daily // a sheet down the left side takes the dock's place
+  const drawer = inQuiz || daily ? null : open
+  // (during today's lesson the card would tell the answers: its family, its state, its number)
+  const cardUp = !!el && !daily && !(vp.compact && (inQuiz || drawer))
 
   // what the drawer and the card cover moves the table's centre into the part left free
   const drawerRef = useRef(null)
   const cardRef = useRef(null)
   const dockRef = useRef(null)
-  useCover(dockRef, 'bottom', vp.short && !quiz)
+  useCover(dockRef, 'bottom', vp.short && !sheet)
   useCover(drawerRef, vp.portrait ? 'bottom' : 'left', vp.compact && !!drawer)
   useCover(cardRef, vp.portrait && vp.compact ? 'bottom' : 'right', cardUp && selected != null)
 
@@ -166,15 +182,23 @@ export default function PlazaHud({ engine }) {
     ['trends', '📊', t('trends.title')],
   ].filter(Boolean)
 
+  const openDaily = () => {
+    track('dailyopen', { done: streak.doneToday, streak: streak.streak })
+    duel.hide()
+    setQuiz(false)
+    setOpen(null)
+    setDaily(true)
+  }
+
   return (
     <>
-      {!vp.compact && !quiz && (
+      {!vp.compact && !sheet && (
         <div className="absolute left-3 top-[calc(var(--bar)+0.25rem)]">
           <Search onPick={z => world()?.select(z)} />
         </div>
       )}
 
-      {!quiz && (
+      {!sheet && (
         <div className={`absolute flex flex-col gap-2 items-start pointer-events-none ${vp.short ? 'left-1.5 bottom-1.5' : 'left-2 bottom-2 sm:left-3 sm:bottom-3'}`}>
           {drawer && (
             <div
@@ -190,7 +214,20 @@ export default function PlazaHud({ engine }) {
             <div className="glass rounded-xl px-2 py-1.5 w-56 pointer-events-auto">{scale}</div>
           )}
           <div ref={dockRef} className="flex gap-1.5 flex-wrap">
-            <button type="button" onClick={() => { track('quizopen'); duel.hide(); setQuiz(true) }} className={DOCK}>
+            {/* today's element: the streak's flame, grey with a dot while today's lesson waits */}
+            <button
+              type="button"
+              data-daily-open
+              onClick={openDaily}
+              className={`${DOCK} relative ${streak.doneToday ? 'border-amber-300/60' : ''}`}
+              aria-label={`${t('daily.dock')}: ${t('daily.streak', { count: streak.streak })}`}
+              title={t('daily.streak', { count: streak.streak })}
+            >
+              <Flame on={streak.doneToday} className="text-base leading-none" /> {streak.streak}
+              {!vp.compact && <span className="ml-1 font-normal">{t('daily.dock')}</span>}
+              {!streak.doneToday && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 ew-wait" aria-hidden="true" />}
+            </button>
+            <button type="button" onClick={() => { track('quizopen'); duel.hide(); setDaily(false); setQuiz(true) }} className={DOCK}>
               ❓ {t('quiz.start')}
             </button>
             {(together || duelLive) && (
@@ -216,6 +253,22 @@ export default function PlazaHud({ engine }) {
       )}
 
       {duelOn && <DuelHud select={z => world()?.select(z)} overview={() => world()?.overview?.()} />}
+      {daily && !duelOn && (
+        <DailyHud
+          select={z => world()?.select(z)}
+          overview={() => world()?.overview?.()}
+          enter={symbol => {
+            const z = element(symbol)?.z
+            if (!z) return
+            if (store.get().selected !== z) world()?.select(z)
+            world()?.enterSelected()
+          }}
+          onClose={() => {
+            setDaily(false)
+            world()?.select(null)
+          }}
+        />
+      )}
       {quiz && !duelOn && (
         <QuizHud
           select={z => world()?.select(z)}

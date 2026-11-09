@@ -213,6 +213,17 @@ export function play(kind, { order = 1 } = {}) {
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
     if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
   }
+  // today's element (ui/DailyHud.jsx): a bright pair for a right answer, a soft low one for a wrong one,
+  // and the streak's flame catching (order: a milestone rings longer)
+  else if (kind === 'right') {
+    tone(NOTE(79), 0.12, { type: 'triangle', gain: 0.16, out: 'ui' })
+    tone(NOTE(84), 0.22, { type: 'triangle', gain: 0.16, when: 0.08, out: 'ui' })
+  } else if (kind === 'wrong') tone(NOTE(55), 0.24, { type: 'triangle', gain: 0.13, to: NOTE(50), out: 'ui' })
+  else if (kind === 'streak') {
+    whoosh(400, 3200, 0.55, 0.16)
+    ;[72, 76, 79, 84, 88].forEach((n, i) => tone(NOTE(n), 0.3, { type: 'triangle', gain: 0.12, when: 0.25 + i * 0.07 }))
+    for (let i = 0; i < 2 + 2 * (order > 1 ? 1 : 0); i++) bell(NOTE(91 + i * 5), 0.65 + i * 0.09, 0.09)
+  }
 }
 
 /** An Atomling talking: a blip per syllable, pitched by its size (big atoms speak low). */

@@ -354,6 +354,7 @@
     "stars": "Missões das estrelas",
     "forgeStat": "missões da forja",
     "quizStat": "recorde do Quem sou eu?",
+    "streakStat": "dias seguidos",
     "badge": {
       "first": {
         "icon": "✨",
@@ -399,7 +400,9 @@
         "icon": "🔎",
         "name": "Detetive dos elementos",
         "how": "Faz 40 pontos numa ronda do Quem sou eu?"
-      }
+      },
+      "streak7": {"icon": "🔥", "name": "Uma semana de elementos", "how": "Faz O elemento de hoje 7 dias seguidos"},
+      "streak30": {"icon": "☄️", "name": "Maratona dos elementos", "how": "Faz O elemento de hoje 30 dias seguidos"}
     }
   },
   "room": {
@@ -623,5 +626,107 @@
       "failed": "Não foi possível enviar. Tenta outra vez daqui a pouco."
     },
     "footer": "O Claude lê o que é enviado aqui no início de cada sessão e responde nesta página. A lista foi alterada pela última vez a {{date}}."
+  },
+  "daily": {
+    "title": "O elemento de hoje",
+    "dock": "Elemento do dia",
+    "streak_one": "{{count}} dia seguido",
+    "streak_other": "{{count}} dias seguidos",
+    "noStreak": "Ainda sem sequência: começa uma hoje!",
+    "keep": "Faz a lição de hoje para manteres a tua sequência.",
+    "lost_one": "A tua sequência de {{count}} dia acabou. Hoje começa uma nova!",
+    "lost_other": "A tua sequência de {{count}} dias acabou. Hoje começa uma nova!",
+    "best_one": "Recorde: {{count}} dia",
+    "best_other": "Recorde: {{count}} dias",
+    "freezes_one": "{{count}} proteção da sequência",
+    "freezes_other": "{{count}} proteções da sequência",
+    "noFreezes": "Sem proteção da sequência",
+    "freezeHelp": "Uma proteção guarda a tua sequência num dia em que não jogues. Ganhas mais uma a cada 7 dias seguidos (2 no máximo).",
+    "waiting": "Um elemento novo está à tua espera: cerca de três minutos.",
+    "yourGuess": "Ontem o teu palpite foi {{name}}. Começa para descobrires!",
+    "sleepy": "Estes Atomitos têm saudades tuas:",
+    "start": "Começar",
+    "doneToday": "Já está por hoje! Amanhã há um elemento novo.",
+    "practice": "Praticar mais",
+    "practiceTitle": "Prática",
+    "visit": "Visitar o salão: {{name}}",
+    "next": "Continuar",
+    "right": "Certo!",
+    "wrong": "Não é bem isso.",
+    "again": "Mais uma vez, uma que falhaste",
+    "tryAgain": "Não é esse. Tenta outra vez!",
+    "glows": "Agora está a brilhar: toca nele.",
+    "meet": "{{name}} diz-te olá!",
+    "guessRight": "Ontem adivinhaste. Muito bem!",
+    "guessWrong": "Ontem o teu palpite foi {{name}}.",
+    "finished": "Lição feita!",
+    "practiceDone": "Prática feita!",
+    "newRecord": "Novo recorde!",
+    "milestone": "Uma marca: {{n}} dias seguidos!",
+    "score": "{{right}} de {{of}} certas à primeira",
+    "perfect": "Perfeito: todas as respostas certas à primeira!",
+    "earned": "Ganhaste uma proteção da sequência!",
+    "awake": "Acordaram outra vez:",
+    "mystery": "O elemento mistério de amanhã",
+    "mysteryAsk": "Quem será? Dá o teu palpite agora e descobre amanhã.",
+    "mysteryKept": "O teu palpite: {{name}}. Descobre amanhã!",
+    "q": {
+      "find": {
+        "kid": "O elemento de hoje é {{name}}! O símbolo é {{symbol}}. Consegues encontrá-lo na tabela?",
+        "sci": "O elemento de hoje: {{name}}. Toca no seu lugar na tabela."
+      },
+      "findAgain": {
+        "kid": "{{name}}: onde fica na tabela? O símbolo é {{symbol}}.",
+        "sci": "{{name}}: onde fica? Toca no seu lugar na tabela."
+      },
+      "state": "{{name}}: à temperatura ambiente, é um sólido, um líquido ou um gás?",
+      "family": "{{name}}: a que família pertence?",
+      "protons": "{{name}}: quantos protões tem cada um dos seus átomos?",
+      "symbol": "{{name}}: qual é o seu símbolo?",
+      "use": "{{name}}: para que serve?",
+      "truth": {
+        "dense": "{{name}}: é mais leve do que a água, ao ponto de um pedaço flutuar?",
+        "metal": "{{name}}: é um metal?",
+        "radio": "{{name}}: é um elemento radioativo?",
+        "ancient": "{{name}}: já se conhecia na Antiguidade?"
+      },
+      "compare": {
+        "mass": "Qual é o átomo mais pesado?",
+        "melt": "Qual funde a uma temperatura mais alta?",
+        "density": "Dois cubos do mesmo tamanho: qual é o mais pesado?",
+        "en": "Qual puxa com mais força os eletrões que partilha (maior eletronegatividade)?",
+        "radius": "Qual é o átomo maior?"
+      },
+      "year": "{{name}}: em que época se descobriu?",
+      "config": "{{name}}: qual é a sua configuração eletrónica?",
+      "who": "Quem sou eu?"
+    },
+    "opt": {
+      "solid": "Sólido",
+      "liquid": "Líquido",
+      "gas": "Gás",
+      "yes": "Sim",
+      "no": "Não",
+      "ancient": "Na Antiguidade",
+      "y1700": "Antes de 1700",
+      "y1700s": "De 1700 a 1799",
+      "y1800s": "De 1800 a 1899",
+      "y1900s": "De 1900 a 1999",
+      "y2000": "Desde 2000"
+    },
+    "ex": {
+      "found": "Aqui está: linha {{period}}, coluna {{group}}.",
+      "foundF": "Aqui está: linha {{period}}, nas duas linhas compridas de baixo.",
+      "protons": "O seu número na tabela é {{z}}: cada átomo deste elemento tem {{z}} protões.",
+      "dense": "Densidade: {{d}}. A da água: 1 g/cm³.",
+      "family": "A sua família:",
+      "valence": "Eletrões na camada exterior: {{n}}.",
+      "radiusRow": "Ao longo de uma linha os átomos ficam mais pequenos: mais protões puxam as mesmas camadas para mais perto.",
+      "radiusCol": "Ao descer uma coluna os átomos ficam maiores: cada linha junta uma camada de eletrões.",
+      "enRow": "Ao longo de uma linha a força que puxa os eletrões aumenta.",
+      "enCol": "Ao descer uma coluna essa força diminui: os eletrões de fora estão mais longe do núcleo.",
+      "massOdd": "Uma surpresa: aqui o elemento que vem mais à frente na tabela é o mais leve.",
+      "massUsual": "Mais à frente na tabela quer dizer mais protões e neutrões, por isso quase sempre mais pesado."
+    }
   }
 }
