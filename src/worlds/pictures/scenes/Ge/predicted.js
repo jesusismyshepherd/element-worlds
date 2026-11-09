@@ -989,7 +989,7 @@ export async function build({ ctx, root, el, lang, E, ex, say: speak, later, lig
         g.fillText('?', (xa + x1) / 2, (y0 + y1) / 2 + 2)
         g.font = '700 30px Outfit, sans-serif'
         g.textAlign = 'right'
-        g.fillText(C.missing, w - 16, y0 - 84)
+        g.fillText(C.missing, x1, y0 - 84)
       }
       // a mark at what was accounted for
       g.fillStyle = '#ffd9a0'
@@ -1010,7 +1010,7 @@ export async function build({ ctx, root, el, lang, E, ex, say: speak, later, lig
       g.fillText('Ge', (xa + xb) / 2, (y0 + y1) / 2)
       g.fillStyle = '#e8ecf4'
       g.textAlign = 'right'
-      g.fillText(C.found, w - 16, y0 - 84)
+      g.fillText(C.found, x1, y0 - 84)
     }
   }
   // the hit shape over the bar's missing end
