@@ -27,7 +27,7 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, twenty-two scenes (screenshots in
+- `hud_probe.py`: the HUD keeps the middle free on six screens, twenty-four scenes (screenshots in
   `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`). Its
   `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
   builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step;

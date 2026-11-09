@@ -6,6 +6,12 @@ and the user's requests behind them. Add a line here when a piece of work change
 
 ## 2026-11-09
 
+- Reactions (`/lab/reactions`, the user's Sooner on the reactions game): ten reactions (hydrogen and methane
+  burning, splitting water, salt, ammonia, limestone, rust, ethanol, photosynthesis, respiration) balanced by
+  tapping molecules until every element's atoms match on both sides, then run: the very same Atomlings let go and
+  fly over the arrow into the products, with the real energy given out or taken in (the sun lamp, the burner or
+  the battery must be on for those that take it in). With this the lab has its four benches, all built in
+  parallel by agents in checkouts of their own and merged one by one. `reactions.md`.
 - Building DNA (`/lab/dna`, the user's Sooner on rings and DNA): tap A, T, G or C (each its real molecule turning
   in a tray) and a nucleotide flies to the strand while its partner flies in and pairs by glowing hydrogen bonds
   between the real atoms (two for A-T, three for G-C); the ladder twists into the B-DNA helix built from 3DNA's

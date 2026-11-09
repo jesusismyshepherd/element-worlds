@@ -43,7 +43,6 @@
     }
   ],
   "next": [
-    "reactions-game",
     "halls-116",
     "scavenger-hunts",
     "periodic-videos"
@@ -623,14 +622,15 @@
       "code": "Rx",
       "title": "Reactions in the lab",
       "kind": "lab",
-      "status": "building",
+      "status": "built",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Burning methane, rusting and photosynthesis as a game, with the atoms counted on both sides.",
       "details": [
         "Methane and rust are already benches in oxygen's fire wing, and photosynthesis is carbon's tree; the game in the lab is not built yet."
       ],
-      "why": "You marked it Sooner (2026-11-09). Counting atoms on both sides is the heart of chemistry, and seeing the very same atoms swap partners makes it obvious that nothing is lost."
+      "link": "https://element-worlds.vercel.app/lab/reactions",
+      "doc": "docs/knowledge/reactions.md"
     },
     {
       "id": "rings-dna",
@@ -4364,6 +4364,75 @@
           ]
         }
       }
+    },
+    {
+      "id": "reactions-game",
+      "date": "2026-11-09",
+      "title": "Reactions: balance it, then run it",
+      "what": "A reactions bench at the lab (/lab/reactions): ten reactions (hydrogen and methane burning, splitting water, salt, ammonia, heating limestone, rust, ethanol, photosynthesis, respiration). Tap molecules to add more until every element's atoms match on both sides, then tap the arrow: the molecules let go and the very same Atomlings fly over into the products, with the real energy given out (a burst in the flame's colour) or taken in (the sun lamp, the burner or the battery must be on). Shared in rooms; four languages, both depths.",
+      "link": "https://element-worlds.vercel.app/lab/reactions",
+      "size": {
+        "n": 1,
+        "unit": "feature"
+      },
+      "revisions": 0,
+      "agents": [
+        "5025fa75-e44e-412c-adbe-d953504022d4"
+      ],
+      "tokens": {
+        "total": 75318450,
+        "output": 272826,
+        "agents": 1,
+        "usd": 24.65,
+        "requests": 189,
+        "minutes": 114,
+        "input": 398,
+        "cache_write": 536790,
+        "cache_read": 74508436,
+        "configs": [
+          {
+            "model": "claude-opus-5-5",
+            "effort": "xhigh",
+            "usd": 24.6541
+          }
+        ],
+        "per_agent": [
+          {
+            "id": "5025fa75-e44e-412c-adbe-d953504022d4",
+            "what": "delegated session (a640cfcb)",
+            "minutes": 108,
+            "usd": 22.5896,
+            "requests": 176,
+            "input": 368,
+            "cache_write": 514707,
+            "cache_read": 65634253,
+            "output": 267183,
+            "configs": [
+              {
+                "model": "claude-opus-5-5",
+                "effort": "xhigh",
+                "usd": 22.5896
+              }
+            ]
+          }
+        ],
+        "main": {
+          "session": "f53403d9",
+          "usd": 2.06,
+          "requests": 13,
+          "input": 30,
+          "cache_write": 22083,
+          "cache_read": 8874183,
+          "output": 5643,
+          "configs": [
+            {
+              "model": "claude-opus-5-5",
+              "effort": "xhigh",
+              "usd": 2.0645
+            }
+          ]
+        }
+      }
     }
   ],
   "decisions": [
@@ -4452,8 +4521,8 @@
     "updated": "2026-11-09",
     "since": "2026-10-29",
     "overhead": {
-      "usd": 24.78,
-      "requests": 171
+      "usd": 25.23,
+      "requests": 176
     },
     "prices": "list prices per million tokens on 2026-10-31 (claude-api skill): Opus 5.5 $4 in / $20 out, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50, Fable 5.1 $10 / $50; cache reads $0.20 (Fable $0.25, Haiku $0.01), cache writes 1.25x input (5 min) or 2x (1 h)",
     "trial": "Krypton's seven rooms were built on Sonnet 5.5 at high effort, radon's on Opus 5.5 at xhigh (2026-11-09), both from the same kind of room designs. Rate both halls under Built and compare dollars for each room in the table above; your stars decide which setting builds silver's rooms and the ones after. (Each card also holds its boards agent, which ran on Opus 5.5.)"
