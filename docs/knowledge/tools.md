@@ -27,7 +27,7 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
 
 - `halls_probe.py`: all 118 halls, every panel, all four languages (each hall rebuilt in it) and both
   depths: words gone wrong, errors. Under 2 minutes.
-- `hud_probe.py`: the HUD keeps the middle free on six screens, eighteen scenes (screenshots in
+- `hud_probe.py`: the HUD keeps the middle free on six screens, nineteen scenes (screenshots in
   `tools/shots/hud/`). After any HUD change or any new window a world opens (`hud-layout.md`). Its
   `forge-race` scene joins a probe room (`PRB...`) and starts a race: the forge's board and line of who
   builds together; `plaza-daily` and `plaza-daily-lesson` open today's element and its first step;
@@ -65,6 +65,12 @@ separate build instead (CLAUDE.md, "Working traps"). Heavy runs go through the p
   real ray (the hand, the step, the find, the next prompt, a screenshot); `--lab Na|Si|both`, `--phone`,
   `--lang`, `--level`, `--only`, `--first`. A Python probe printing pt, pl or de text needs
   `sys.stdout.reconfigure(encoding='utf-8')` on the Windows console.
+- `alloys_probe.py [--port 5322]`: the lab's Alloy Forge worked by hand (`alloys.md`): with a mouse, an Atomling
+  clicked (one lump), one held (lumps keep coming), a drag across one (the view turns, nothing thrown), the crucible
+  (it pours), the anvil (a strike); bronze jammed, pure copper slipping, cast iron cracking, the discoveries, the
+  bench kept on coming back, light mode; with a finger on a phone; every language at both depths with no holes in
+  the cards. Taps land where `__ew.world.points()` says each thing is on the screen. Screenshots in
+  `tools/shots/alloys/`. About 3 minutes.
 - `atom_probe.py [--el Fe] [--phone] [--lang] [--level]`: inside the atom worked by hand (`inside-the-atom.md`): the
   electron map's keys tapped where they are on the screen (a subshell, again for its first orbital, a box, "All"),
   the panel's map and zoom slider, the camera (one photo, a burst of 100), the nucleus, the arch back to the hall.

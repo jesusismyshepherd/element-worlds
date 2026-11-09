@@ -2,7 +2,7 @@
 on a computer, an upright phone and a phone on its side (also with the browser's bars, the sizes of
 the user's screenshots), shows what the HUD can show there (the selected element's card, a drawer, the
 quiz, today's element and its lesson, a story panel, the Atomling speaking, a molecule made, the forge's
-atom, the neon name window)
+atom, the neon name window, the lab's Alloy Forge)
 and checks that nothing of the HUD lies in the middle of the part of the screen it leaves free (where
 the engine draws the world's centre; the stick in its corner excepted), and that
 the HUD covers little of the screen (at rest under a third, about half at most with something opened
@@ -206,6 +206,13 @@ def scenes():
         page.evaluate("() => { __ew.world.go('slow'); __ew.world.tapNucleus(); __ew.world.tapNucleus() }")
         page.wait_for_timeout(2200)
 
+    def bench_alloys(page):
+        # the lab's Alloy Forge: a bronze mixed in the crucible's card, an ingot of steel struck on the anvil's
+        page.evaluate("() => { __ew.world.recipe('steel'); __ew.world.pour() }")
+        page.wait_for_timeout(4300)
+        page.evaluate("() => { __ew.world.strike(); __ew.world.recipe('bronze') }")
+        page.wait_for_timeout(1500)
+
     def atom_map(page):
         # inside the atom: the electron map's panel (its map block, the words, the zoom slider), uranium's the
         # longest (seven shells)
@@ -235,6 +242,7 @@ def scenes():
         'atom-map': ('/e/U/atom', atom_map, 0.55),  # inside the atom: the electron map's panel
         'stars': ('/stars', stars, 0.5),  # the Star Forge: its sliders, its card, its table
         'stars-slow': ('/stars', stars_slow, 0.5),  # its slow capture, the path on the chart
+        'bench-alloys': ('/lab/alloys', bench_alloys, 0.5),  # the Alloy Forge: the crucible's card, the anvil's, the book
         'plaza-hunts': ('/', plaza_hunts, 0.5),  # the treasure hunts' sheet
         # (last: a hunt started here stays on for what follows in the same screen)
         'hall-hunt': ('/e/C', hall_hunt, 0.5),  # a hunt's clue card, something opened to read (it folds to a chip)
