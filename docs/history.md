@@ -4,6 +4,17 @@ The project's log, newest first; moved out of `CLAUDE.md` on 2026-10-29 so every
 it. How each piece works is in its area's doc (`docs/knowledge/`); this file keeps the order of events
 and the user's requests behind them. Add a line here when a piece of work changes what the game has.
 
+## 2026-11-10
+
+- Germanium's hall (the user: "continue with adding boards and rooms to more atoms"; germanium is today's element on
+  16 November, the day before silver): seven pictures, each a room to step into: Mendeleev's study and Winkler's
+  laboratory (deal the cards, predict eka-silicon, find the missing 7 per cent), Bell Labs in December 1947 (build
+  the first transistor, make a voice louder), a fire brigade's smoke house (a heat camera through smoke, why the lens
+  is germanium, hotter shines shorter), a Nashville studio in 1961 (the fuzz pedal, with sound), Hall A under the
+  Gran Sasso (cosmic rays, the purest crystal, the decay nobody has seen), the deep sea floor (a fibre's light, a
+  cable cut open, Portugal to Brazil), a satellite clean room (three layers in a chain); its showpiece a germanium
+  lump, a heat-camera lens and the 1947 transistor. Rooms built on Sonnet 5.5 at high. `picture-rooms.md`.
+
 ## 2026-11-09
 
 - Silver's hall (the user: "continue with adding boards and rooms to more atoms"; silver is today's element on 17

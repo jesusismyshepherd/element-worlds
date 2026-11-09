@@ -253,8 +253,8 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   bloom, darker still read as a black blob); a soft silver matcap on a sphere read as a pearl and a glass shell over it
   made it milkier: a mirror ball needs a matcap with a sharp horizon (bright room
   above, dark floor below) and no shell. Facts with doubts are listed at the end of `Ag_rooms.md`.
-- Done: Germanium (boards 2026-11-09, ready for today's element on 16 November; its rooms designed in
-  `docs/agents/designs/Ge_rooms.md`, to be built): seven pictures, no doorway (`predicted` Mendeleev's eka-silicon of
+- Done: Germanium (boards 2026-11-09, rooms 2026-11-10 on Sonnet 5.5 at high from
+  `docs/agents/designs/Ge_rooms.md`, each a room: `picture-rooms.md`): seven pictures, no doorway (`predicted` Mendeleev's eka-silicon of
   1871 and Winkler's argyrodite of 1886, only the elements known in 1871 on the cards; `transistor` the point-contact
   transistor of December 1947 itself, the gold foil, razor and spring, speech made louder; `heat` a thermal camera's
   germanium lens, a dark mirror to the eye and clear to infrared, a fox in heat colours; `fuzz` the broken desk of 1961,
@@ -267,8 +267,7 @@ The user loved Carbon's and Oxygen's halls: "the others can now follow". The pla
   `tools/boards/Ge/gekit.py` (`gGe` and other balls, a diamond-lattice patch, wavy rays, the lens). Trap: a knurled lens
   mount of small boxes read as a tyre in the case; a plain torus reads as a mount.
 - Which hall next (2026-11-09): the halls follow today's element's days (`daily.md`), so the lesson's "Visit the
-  hall" leads somewhere rich: silver (17 November) is live with its rooms; germanium (16 November) has its boards (on `ge-base`)
-  and its rooms are being built; then erbium
+  hall" leads somewhere rich: silver (17 November) and germanium (16 November) are live with their rooms; next erbium
   (18 November), zirconium (20), plutonium (21), curium (22), chromium (23).
 - After each batch: the studio (the item's details say how far it got; `built` gets a line), a line in
   `docs/history.md`, commit and push, so each batch goes live when it is done.

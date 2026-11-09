@@ -122,7 +122,17 @@ in. The studio item is `picture-rooms`.
   November summit with its memorial tower, wrapping `meadow.js`; `cloudDeck` of puffs that can each turn to ice,
   `bareTree`), `darkroom.js` (a daylight studio and, through a curtained doorway, a brick darkroom under red
   safelights; `setWhite(k)`, `DARKROOM`) and `galleon.js` (a Spanish galleon's main deck at anchor on a moonlit
-  night: castle roof, great cabin, rigging; `lantern()`, `rope()`, `onBulkhead(obj, x, y)`). A
+  night: castle roof, great cabin, rigging; `lantern()`, `rope()`, `onBulkhead(obj, x, y)`), and germanium's seven
+  (2026-11-10): `study.js` (Mendeleev's study in St Petersburg about 1870 and, through a glazed screen, Winkler's
+  Freiberg laboratory of 1886; `oilLamp`, `gasLamp`, `onWall`), `belllabs.js` (Bell Labs, Murray Hill, a snowy
+  December evening in 1947: deal benches, steel windows, tube racks; `bench()`, `tubeRack()`, `BENCH_TOP`),
+  `smokehouse.js` (a fire brigade's training house at night with an open living room, a yard, a fire engine and a
+  wood with a fox; `ROOM`, `YARD`, `WOOD`, `smoke.set(k)`), `nashville.js` (a Nashville studio of 1961: live room,
+  control room behind glass, drums, mic booms, gobos; options `drums`, `gobos`, `mics`, `rug`, `control`),
+  `gransasso.js` (Hall A under the Gran Sasso: a barrel-vaulted concrete cavern, stairs, cable trays, a water tank;
+  `hallStage({ x0, x1, z0, z1, tank })`), `abyss.js` (the abyssal sea floor at 3000 m: marine snow, burrowed mud,
+  a cable into the dark, an ROV; `cableZ`, `cableCurve`) and `cleanroom.js` (a satellite clean room in grey and
+  pale blue: gowning lobby, control-room window, crane rail; `signs.set(...)`, `foilTexture`). A
   room picks one
   or builds its own; a new kind of place becomes a new stage file so the next room can use it.
 - A station with several steps: give its exhibit `manual: true` so E opens its panel (whose buttons do
@@ -523,6 +533,35 @@ at the same address.
     The piece of eight cut into bits (27.47 g, "two bits"), a cob and a milled coin clipped; the silver roads on a
     map with a year slider (Joachimsthal's tolar to dollar, Potosí, Mexico, Manila); the purser's test of six
     coins by density (tin, copper, silver 10.38, lead).
+
+- Germanium (2026-11-10, built with Sonnet 5.5 at high effort), seven
+  rooms from `docs/agents/designs/Ge_rooms.md`; the germanium Atomling carries a German flag everywhere (its
+  signature), so the flag in every shot is the character, not the room:
+  - `predicted` ("Can you predict a new element?"): Mendeleev's study and Winkler's laboratory (`study.js`). The
+    patience game (27 cards dealt by weight into a corner of the 1869 table, gaps under aluminium and silicon);
+    predict eka-silicon from silicon, arsenic and tin (the halfway line 73 beside his 72, the quill writes seven
+    predictions); Winkler's bench (argyrodite ground, silver and sulfur out, the chart stops near 93 of 100, the
+    missing part found; his 1886 figures ticked against Mendeleev's; a year rail fills gallium, scandium, germanium).
+  - `transistor` ("How was the first transistor made?"): Bell Labs, December 1947 (`belllabs.js`). Build it (gold
+    foil, the razor's slit of about 50 µm, the spring); make "hello" louder on the scope, holes drifting in the lens;
+    a tube radio that needs half a minute against the 1954 pocket radio.
+  - `heat` ("How can a camera see heat?"): a fire brigade's training house at night (`smokehouse.js`). The camera
+    through smoke (the dummy, the cat, the fox in the wood); the lens bench (glass, germanium, nothing; heat the
+    germanium past about 100 °C and it blocks heat light and glows); a hot plate to 1000 °C with Planck's curve,
+    Wien's peak and the camera's 8 to 14 µm band.
+  - `fuzz` ("What makes a guitar go fuzzzz?"): a Nashville studio, 1961 (`nashville.js`), with its own synthesised
+    note. The broken desk channel (clean to buzzy, the part not named: sources differ); inside a giant pedal (gain
+    clips the wave, odd harmonics, a transistor opened to its crystal, germanium conducting at 0.2 to 0.3 V); a hot
+    stage where germanium leaks and sags and silicon does not (a model).
+  - `deep` ("Why hide a crystal under a mountain?"): Hall A under the Gran Sasso (`gransasso.js`). Cosmic rays
+    stopped by the rock (a depth slider, about a million times fewer in the hall); zone refining and the cobalt-60
+    test (germanium's sharp lines, sodium iodide's blur); 40 kg of germanium-76 for years, the 2039 keV line empty.
+  - `fibre` ("How does the internet cross the sea?"): the sea floor at 3000 m (`abyss.js`). A glass thread 8000 times
+    bigger, the ray really traced (germanium in the core, angle and bend sliders); the cable cut open and a repeater's
+    erbium amplifier; a flash from Sines to Fortaleza, lost at 300 km without repeaters, about 29 ms with them.
+  - `space` ("How do satellites catch sunlight?"): a satellite clean room (`cleanroom.js`). The sun simulator's filter
+    wheel (three layers in a chain, the weakest sets the current); the cut-open cell with a wavelength slider and
+    the lens on germanium's lattice match; a rail from Venus to Jupiter, 1361 W/m² falling with the square.
 
 ## Adding a room
 
