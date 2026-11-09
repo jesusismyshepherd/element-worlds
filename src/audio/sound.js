@@ -219,6 +219,25 @@ export function play(kind, { order = 1 } = {}) {
     whoosh(order > 1 ? 1800 : 3400, order > 1 ? 220 : 500, order > 1 ? 0.8 : 0.5, order > 1 ? 0.26 : 0.18, 0.05)
     if (order > 1) tone(NOTE(40), 0.5, { type: 'sine', gain: 0.25, to: NOTE(33), when: 0.04 })
   }
+  // the lab's Alloy Forge (worlds/benches/alloys/): a hammer on an ingot (order 0 a dull thud on soft lead
+  // or tin, up to 3 a bright ring on hard steel), a lump into the melt, the pour, the new ingot hissing, a
+  // bell bronze's long ring
+  else if (kind === 'anvil') {
+    const k = Math.max(0, Math.min(3, order))
+    whoosh(5200, 900, 0.08, 0.2 + k * 0.04)
+    if (k === 0) tone(NOTE(43), 0.2, { gain: 0.32, to: NOTE(36) })
+    else for (const [i, m] of [1, 2.76, 4.07, 5.4].entries()) tone(NOTE(70 + k * 4) * m, 0.12 + k * 0.18 / (i + 1), { gain: (0.14 - i * 0.025) * (0.6 + k * 0.2), type: i ? 'sine' : 'triangle' })
+  } else if (kind === 'plop') {
+    tone(NOTE(46), 0.16, { gain: 0.28, to: NOTE(58) })
+    whoosh(6000, 2600, 0.45, 0.06, 0.05)
+  } else if (kind === 'pour') {
+    whoosh(900, 2400, 1.4, 0.12, 0.9)
+    tone(NOTE(38), 1.2, { gain: 0.12, attack: 0.3, when: 0.9 })
+  } else if (kind === 'sizzle') whoosh(7600, 3400, 1.6, 0.08)
+  else if (kind === 'ring') {
+    whoosh(4200, 1200, 0.06, 0.18)
+    for (const [i, m] of [1, 2.0, 2.4, 3.0, 4.2].entries()) tone(NOTE(62) * m, 2.6 - i * 0.4, { gain: 0.16 - i * 0.025 })
+  }
   // today's element (ui/DailyHud.jsx): a bright pair for a right answer, a soft low one for a wrong one,
   // and the streak's flame catching (order: a milestone rings longer)
   else if (kind === 'right') {

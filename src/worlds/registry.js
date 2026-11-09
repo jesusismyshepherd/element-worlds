@@ -42,7 +42,7 @@ export const wingsOf = symbol => WINGS[symbol] ?? []
  *  lists only the `ready` ones (the others open by their address while they are being built). */
 export const BENCHES = {
   crystal: { icon: '🧂', ready: false, load: () => import('./benches/crystal/crystal.js') },
-  alloys: { icon: '⚒️', ready: false, load: () => import('./benches/alloys/alloys.js') },
+  alloys: { icon: '⚒️', ready: true, load: () => import('./benches/alloys/alloys.js') },
   reactions: { icon: '🔥', ready: false, load: () => import('./benches/reactions/reactions.js') },
   dna: { icon: '🧬', ready: false, load: () => import('./benches/dna/dna.js') },
 }
