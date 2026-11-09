@@ -20,6 +20,8 @@ import { useFullscreen } from './fullscreen.js'
 import { LANGS } from '../i18n/langs.js'
 import { RoomButton, RoomToasts } from './RoomHud.jsx'
 import { AccountButton, AccountSheet } from './AccountHud.jsx'
+import HuntCard, { HuntChip } from './HuntCard.jsx'
+import { watchHunts } from './useHunts.js'
 import { pendingInvite } from '../net/account.js'
 
 // the pages linked from the plaza: [address, icon, words, when the words show beside the icon]
@@ -102,6 +104,12 @@ export default function Hud({ engine }) {
     return () => clearTimeout(id)
   }, [fading])
   useEffect(() => setMenu(false), [world?.kind, world?.symbol, world?.wing])
+  // the treasure hunts follow the store: the world entered, the exhibit opened (docs/knowledge/hunts.md)
+  useEffect(() => {
+    watchHunts(store)
+  }, [])
+  // the lab and the forges fill every edge with their own panels: there the hunt's chip sits in the bar
+  const tool = world?.kind === 'lab' || world?.kind === 'forge' || world?.kind === 'stars'
 
   // the top bar covers the top edge; panels below it (and the worlds' own windows) read its height
   // from --bar, set on the page's root
@@ -165,6 +173,7 @@ export default function Hud({ engine }) {
           )}
         </nav>
         <div className="flex gap-1.5 pointer-events-auto shrink-0">
+          {tool && <HuntChip />}
           {walking && (
             <button type="button" title={t('hud.mode.switch')} onClick={() => engine?.setMode(other)} className={BTN}>
               {mode === 'first' ? '👁' : '🧍'}
@@ -241,6 +250,8 @@ export default function Hud({ engine }) {
       {walking && <WalkHud engine={engine} />}
       {/* a sheet the orbiting worlds open too: the Bible passage written in their sky (WalkHud has its own) */}
       {!walking && panel && <Panel panel={panel} onClose={() => store.set({ panel: null })} />}
+      {/* the clue of the treasure hunt on, in every world */}
+      {world && <HuntCard />}
 
       <RoomToasts engine={engine} />
       {update && !updateSeen && (

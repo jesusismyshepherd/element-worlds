@@ -12,7 +12,10 @@ import Search from './Search.jsx'
 import QuizHud from './QuizHud.jsx'
 import DuelHud from './DuelHud.jsx'
 import DailyHud, { Flame } from './DailyHud.jsx'
+import HuntHud from './HuntHud.jsx'
 import { useDaily } from './useDaily.js'
+import { useHunts } from './useHunts.js'
+import { currentClue } from '../game/hunts.js'
 import { duel } from '../net/duel.js'
 import { useCover, useViewport } from './layout.js'
 import { track } from '../net/telemetry.js'
@@ -21,21 +24,29 @@ import { track } from '../net/telemetry.js'
 const DOCK = 'glass rounded-xl px-2 sm:px-2.5 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10 whitespace-nowrap'
 
 /** The plaza's HUD, at the edges so the table stays in view (docs/knowledge/hud-layout.md): a dock
- *  of tools at the bottom left (today's element with the streak's flame, the quiz, find, the families,
- *  the time machine, the trends), each opening its drawer above it, one at a time, none open at the
- *  start; the card of the cube under the pointer or selected at the bottom right (a strip across the
- *  bottom of an upright phone). On a phone the card and a drawer take turns: the last one asked for is
- *  shown. Today's element and the quiz are sheets down the left side (across the top of a phone). */
+ *  of tools at the bottom left (today's element with the streak's flame, the quiz, the treasure hunts,
+ *  find, the families, the time machine, the trends), each opening its drawer above it, one at a time,
+ *  none open at the start; the card of the cube under the pointer or selected at the bottom right (a strip
+ *  across the bottom of an upright phone). On a phone the card and a drawer take turns: the last one asked
+ *  for is shown (the hunt's clue card too). Today's element, the quiz and the hunts are sheets down the left
+ *  side (across the top of a phone). */
 export default function PlazaHud({ engine }) {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
   const { streak } = useDaily()
   const [daily, setDaily] = useState(false)
-  // /?daily opens today's element (the passport's streak links here)
+  // the treasure hunts' sheet (docs/knowledge/hunts.md); the clue card of the hunt on is Hud.jsx's
+  const [huntsOpen, setHuntsOpen] = useState(false)
+  const hunt = useHunts()
+  const huntOn = !!currentClue(hunt.state)
+  const huntCardUp = hunt.open && (huntOn || hunt.news?.kind === 'done')
+  // /?daily opens today's element (the passport's streak links here), /?hunts the hunts (a hunt's end does)
   useEffect(() => {
-    if (!new URLSearchParams(location.search).has('daily')) return
-    setDaily(true)
+    const q = new URLSearchParams(location.search)
+    if (!q.has('daily') && !q.has('hunts')) return
+    if (q.has('daily')) setDaily(true)
+    else setHuntsOpen(true)
     navigate('/', { replace: true })
   }, [location.search]) // eslint-disable-line react-hooks/exhaustive-deps
   const hover = useStore(store, s => s.hover)
@@ -83,10 +94,17 @@ export default function PlazaHud({ engine }) {
   const duelLive = useStore(store, s => s.duelLive)
   const together = useStore(store, s => (s.room?.members?.length ?? 0) > 1)
   const inQuiz = quiz || !!duelOn
-  const sheet = quiz || daily // a sheet down the left side takes the dock's place
-  const drawer = inQuiz || daily ? null : open
-  // (during today's lesson the card would tell the answers: its family, its state, its number)
-  const cardUp = !!el && !daily && !(vp.compact && (inQuiz || drawer))
+  const sheet = quiz || daily || huntsOpen // a sheet down the left side takes the dock's place
+  const drawer = inQuiz || daily || huntsOpen ? null : open
+  // (during today's lesson the card would tell the answers: its family, its state, its number; on a phone
+  // the hunt's clue card and this one take turns, HuntCard.jsx)
+  const cardUp = !!el && !daily && !(vp.compact && (inQuiz || drawer || huntsOpen || huntCardUp))
+  // which sheet is open, for the clue card (it makes way on an upright phone, and for the hunts' own)
+  const sheetName = huntsOpen ? 'hunts' : daily ? 'daily' : inQuiz ? 'quiz' : null
+  useEffect(() => {
+    store.set({ plazaSheet: sheetName })
+  }, [sheetName])
+  useEffect(() => () => store.set({ plazaSheet: null }), [])
 
   // what the drawer and the card cover moves the table's centre into the part left free
   const drawerRef = useRef(null)
@@ -199,8 +217,17 @@ export default function PlazaHud({ engine }) {
     track('dailyopen', { done: streak.doneToday, streak: streak.streak })
     duel.hide()
     setQuiz(false)
+    setHuntsOpen(false)
     setOpen(null)
     setDaily(true)
+  }
+  const openHunts = () => {
+    track('huntopen', { on: huntOn })
+    duel.hide()
+    setQuiz(false)
+    setDaily(false)
+    setOpen(null)
+    setHuntsOpen(true)
   }
 
   return (
@@ -240,8 +267,13 @@ export default function PlazaHud({ engine }) {
               {!vp.compact && <span className="ml-1 font-normal">{t('daily.dock')}</span>}
               {!streak.doneToday && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 ew-wait" aria-hidden="true" />}
             </button>
-            <button type="button" onClick={() => { track('quizopen'); duel.hide(); setDaily(false); setQuiz(true) }} className={DOCK}>
+            <button type="button" onClick={() => { track('quizopen'); duel.hide(); setDaily(false); setHuntsOpen(false); setQuiz(true) }} className={DOCK}>
               ❓ {t('quiz.start')}
+            </button>
+            {/* the treasure hunts: a dot while one is on */}
+            <button type="button" data-hunts-open onClick={openHunts} className={`${DOCK} relative`} aria-label={t('hunts.title')} title={t('hunts.title')}>
+              🗺️{!vp.compact && <span className="ml-1 font-normal">{t('hunts.dock')}</span>}
+              {huntOn && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400" aria-hidden="true" />}
             </button>
             {(together || duelLive) && (
               <button type="button" data-duel-start onClick={() => { setQuiz(false); if (duelLive) duel.hide(false); else duel.start(level) }} className={DOCK}>
@@ -278,6 +310,16 @@ export default function PlazaHud({ engine }) {
           }}
           onClose={() => {
             setDaily(false)
+            world()?.select(null)
+          }}
+        />
+      )}
+      {huntsOpen && !duelOn && (
+        <HuntHud
+          select={z => world()?.select(z)}
+          overview={() => world()?.overview?.()}
+          onClose={() => {
+            setHuntsOpen(false)
             world()?.select(null)
           }}
         />

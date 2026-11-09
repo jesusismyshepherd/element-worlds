@@ -435,7 +435,10 @@
         "how": "Zdobądź 40 punktów w jednej rundzie „Kim jestem?”"
       },
       "streak7": {"icon": "🔥", "name": "Tydzień pierwiastków", "how": "Zrób Element dnia 7 dni z rzędu"},
-      "streak30": {"icon": "☄️", "name": "Maraton pierwiastków", "how": "Zrób Element dnia 30 dni z rzędu"}
+      "streak30": {"icon": "☄️", "name": "Maraton pierwiastków", "how": "Zrób Element dnia 30 dni z rzędu"},
+      "hunt-discoverers": {"icon": "📜", "name": "Podróżnik w czasie", "how": "Ukończ poszukiwanie „Odkrywcy”"},
+      "hunt-home": {"icon": "🏠", "name": "Domowy detektyw", "how": "Ukończ poszukiwanie „W domu”"},
+      "hunt-records": {"icon": "🥇", "name": "Łowca rekordów", "how": "Ukończ poszukiwanie „Rekordy”"}
     }
   },
   "room": {
@@ -790,5 +793,65 @@
       "massOdd": "Niespodzianka: tutaj pierwiastek stojący dalej w układzie jest lżejszy.",
       "massUsual": "Dalej w układzie znaczy więcej protonów i neutronów, więc prawie zawsze cięższy."
     }
+  },
+  "hunts": {
+    "dock": "Poszukiwania",
+    "title": "Poszukiwanie skarbów",
+    "intro": "Idź za wskazówkami od sali do sali: każda prowadzi do obrazu, tablicy albo galerii gdzieś w grze. Możesz przerwać w każdej chwili: poszukiwanie poczeka na ciebie przy swojej wskazówce.",
+    "clues": "Wskazówki: {{n}}",
+    "start": "Zacznij",
+    "continue": "Graj dalej",
+    "again": "Zagraj jeszcze raz",
+    "on": "W toku",
+    "progress": "Wskazówka {{n}} z {{of}}",
+    "done_one": "Ukończone {{count}} raz",
+    "done_few": "Ukończone {{count}} razy",
+    "done_many": "Ukończone {{count}} razy",
+    "done_other": "Ukończone {{count}} razy",
+    "best": "Najlepszy czas: {{time}}",
+    "stop": "Przerwij poszukiwanie",
+    "left": "Przerwane przy wskazówce {{n}} z {{of}}: czeka na ciebie.",
+    "found": "Znalezione!",
+    "next": "Następna wskazówka",
+    "where": {
+      "picture": "Obraz na ścianie sali tego pierwiastka: wejdź do niego.",
+      "facts": "Metryczka w sali tego pierwiastka.",
+      "look": "Prawdziwa próbka w gablocie w sali tego pierwiastka.",
+      "station": "Tablica w sali tego pierwiastka: „{{title}}”.",
+      "wing": "Przez łuk w sali tego pierwiastka.",
+      "hall": "Sala tego pierwiastka.",
+      "place": "{{name}}."
+    },
+    "hint": {
+      "button": "Podpowiedź",
+      "more": "Jeszcze jedna podpowiedź",
+      "wait": "Za chwilę będzie podpowiedź…",
+      "family": "To pierwiastek z rodziny: {{family}}, w wierszu {{period}} układu okresowego.",
+      "familySci": "Rodzina: {{family}}; okres {{period}}.",
+      "picture": "To {{name}}! W sali tego pierwiastka wejdź do obrazu „{{title}}”.",
+      "facts": "To {{name}}! W sali tego pierwiastka przeczytaj metryczkę.",
+      "look": "To {{name}}! W sali tego pierwiastka zajrzyj do gabloty z próbką.",
+      "station": "To {{name}}! W sali tego pierwiastka przeczytaj „{{title}}”.",
+      "wing": "To {{name}}! W sali tego pierwiastka przejdź przez łuk do „{{title}}”.",
+      "hall": "To {{name}}! Wejdź do sali tego pierwiastka.",
+      "place": "Drzwi tego miejsca są na górze układu: {{name}}."
+    },
+    "finished": "Poszukiwanie ukończone!",
+    "took": "Twój czas: {{time}}.",
+    "newBest": "Twój najlepszy czas!",
+    "badge": "Nowa odznaka w twoim paszporcie: {{name}}",
+    "more": "Więcej poszukiwań",
+    "close": "Zamknij",
+    "fold": "Schowaj wskazówkę",
+    "show": "Pokaż wskazówkę",
+    "time": {
+      "min_one": "{{count}} minuta",
+      "min_few": "{{count}} minuty",
+      "min_many": "{{count}} minut",
+      "min_other": "{{count}} minuty",
+      "hm": "{{h}} godz. {{m}} min",
+      "under": "mniej niż minuta"
+    },
+    "bc": "ok. {{y}} p.n.e."
   }
 }

@@ -21,7 +21,7 @@ const GAP_MS = 30 * 60000 // a pause this long ends an estimated stay or reading
 export const LIMIT = 50000 // the most events ew_admin returns at once (the newest)
 
 /** The kinds this dashboard knows; any other is listed as it came (othersOf). */
-export const KINDS = new Set(['start', 'enter', 'leave', 'hide', 'show', 'sel', 'fact', 'panel', 'pclose', 'talk', 'tile', 'quizopen', 'quiz', 'dailyopen', 'daily', 'drawer', 'find', 'forge', 'stars', 'mission', 'level', 'view', 'lang', 'err'])
+export const KINDS = new Set(['start', 'enter', 'leave', 'hide', 'show', 'sel', 'fact', 'panel', 'pclose', 'talk', 'tile', 'quizopen', 'quiz', 'dailyopen', 'daily', 'huntopen', 'hunt', 'drawer', 'find', 'forge', 'stars', 'mission', 'level', 'view', 'lang', 'err'])
 
 /** The places that matter most for "never entered": the lab, the forge and every wing (registry.js). */
 export const MAIN_PLACES = ['lab', 'forge', ...WING_PLACES]
@@ -454,6 +454,8 @@ export const FEATURES = [
   ['passport', e => /^\/passport/.test(e.path)],
   ['atomlings', e => /^\/atomlings/.test(e.path)],
   ['daily', e => e.kind === 'dailyopen'],
+  // the treasure hunts: their sheet opened, or a hunt started (docs/knowledge/hunts.md)
+  ['hunts', e => e.kind === 'huntopen' || (e.kind === 'hunt' && e.data?.op === 'start')],
 ]
 
 export function featuresOf(events) {

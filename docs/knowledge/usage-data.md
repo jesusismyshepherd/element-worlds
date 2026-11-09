@@ -39,6 +39,7 @@ Events are batched: sent every 15 s, at 60 waiting events, and when the page is 
 | `room` | `op` (join, leave) | the rooms (multiplayer, `src/net/room.js`) |
 | `lab` | `op` (add, join, part, remove, clear, demo, made), `el`, `show`, `together` | the Molecule Lab (`lab.js`) |
 | `dailyopen`, `daily` | `done`, `streak`; `op` (start, q, done, guess), `s`, `k`, `z`, `ok`, `n`, `r`, `streak`, `practice` | today's element (`PlazaHud.jsx`, `DailyHud.jsx`; `daily.md`) |
+| `huntopen`, `hunt` | `on` (a hunt was on); `op` (start, clue, done, stop, hint), `id` (the track), `step` (the clue, from 0), `ms` (done: the hunt's time), `n` (hint: which) | the treasure hunts (`PlazaHud.jsx`, `useHunts.js`; `hunts.md`) |
 | `duel` | `op` (start, pick), `ok`, `n` | the quiz duel (`src/net/duel.js`) |
 | `account` | `op` (in, out, new, moved), `found` | the account (`src/net/account.js`) |
 | `sound` | `bed` (plaza, atrium, lab, wing, forge, or null), `n` late buffers (each a crackle), `ms` of silence in their place, `s` seconds played, `buf` the buffer (ms) | `src/audio/sound.js`, at each change of music bed and when the page is hidden, 5 s of sound or more; only where the browser counts late buffers (Chrome); `sound.md` |

@@ -402,7 +402,10 @@
         "how": "Score 40 points in a round of Who am I?"
       },
       "streak7": {"icon": "🔥", "name": "A week of elements", "how": "Do Today's element 7 days in a row"},
-      "streak30": {"icon": "☄️", "name": "Element marathon", "how": "Do Today's element 30 days in a row"}
+      "streak30": {"icon": "☄️", "name": "Element marathon", "how": "Do Today's element 30 days in a row"},
+      "hunt-discoverers": {"icon": "📜", "name": "Time traveller", "how": "Finish the hunt “Discoverers”"},
+      "hunt-home": {"icon": "🏠", "name": "Home detective", "how": "Finish the hunt “At home”"},
+      "hunt-records": {"icon": "🥇", "name": "Record hunter", "how": "Finish the hunt “Records”"}
     }
   },
   "room": {
@@ -741,5 +744,61 @@
       "massOdd": "A surprise: here the element further along the table is the lighter one.",
       "massUsual": "Further along the table means more protons and neutrons, so nearly always heavier."
     }
+  },
+  "hunts": {
+    "dock": "Hunts",
+    "title": "Treasure hunts",
+    "intro": "Follow the clues from hall to hall: each one leads to a picture, a board or a gallery somewhere in the game. Leave whenever you like: your hunt waits for you at its clue.",
+    "clues": "{{n}} clues",
+    "start": "Start",
+    "continue": "Continue",
+    "again": "Play again",
+    "on": "On now",
+    "progress": "Clue {{n}} of {{of}}",
+    "done_one": "Finished {{count}} time",
+    "done_other": "Finished {{count}} times",
+    "best": "Best time: {{time}}",
+    "stop": "Leave the hunt",
+    "left": "Left at clue {{n}} of {{of}}: it waits for you.",
+    "found": "Found it!",
+    "next": "The next clue",
+    "where": {
+      "picture": "A picture on the wall of its hall: step into it.",
+      "facts": "The fact file in its hall.",
+      "look": "The real thing, in the specimen case of its hall.",
+      "station": "A board in its hall: “{{title}}”.",
+      "wing": "Through an arch of its hall.",
+      "hall": "Its hall.",
+      "place": "{{name}}."
+    },
+    "hint": {
+      "button": "A hint",
+      "more": "Another hint",
+      "wait": "A hint in a moment…",
+      "family": "It is one of the {{family}}, in row {{period}} of the table.",
+      "familySci": "Family: {{family}}; period {{period}}.",
+      "picture": "It is {{name}}! In its hall, step into the picture “{{title}}”.",
+      "facts": "It is {{name}}! In its hall, read the fact file.",
+      "look": "It is {{name}}! In its hall, look into the specimen case.",
+      "station": "It is {{name}}! In its hall, read “{{title}}”.",
+      "wing": "It is {{name}}! In its hall, go through the arch to “{{title}}”.",
+      "hall": "It is {{name}}! Go into its hall.",
+      "place": "Its door is at the top of the table: {{name}}."
+    },
+    "finished": "Hunt finished!",
+    "took": "Your time: {{time}}.",
+    "newBest": "Your best time yet!",
+    "badge": "A new badge in your passport: {{name}}",
+    "more": "More hunts",
+    "close": "Close",
+    "fold": "Fold the clue away",
+    "show": "Show the clue",
+    "time": {
+      "min_one": "{{count}} minute",
+      "min_other": "{{count}} minutes",
+      "hm": "{{h}} h {{m}} min",
+      "under": "under a minute"
+    },
+    "bc": "c. {{y}} BC"
   }
 }

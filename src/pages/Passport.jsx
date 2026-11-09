@@ -8,6 +8,8 @@ import { MISSIONS as STARS } from '../worlds/stars/words.js'
 import { Formula } from '../ui/LabHud.jsx'
 import { onRestore } from '../engine/progress.js'
 import { useDaily } from '../ui/useDaily.js'
+import { useHunts } from '../ui/useHunts.js'
+import { TRACKS, finishedTracks } from '../game/hunts.js'
 
 const STATIONS = 9 // eight stations and the specimen case in every hall
 
@@ -57,6 +59,9 @@ export default function Passport() {
   const total = keys.size
   // today's element: the streak, and the best one for its badges (docs/knowledge/daily.md)
   const { streak } = useDaily()
+  // the treasure hunts: a badge for each track finished (docs/knowledge/hunts.md)
+  const { state: hunted } = useHunts()
+  const finished = finishedTracks(hunted)
   const badges = [
     { id: 'first', got: total >= 1 },
     { id: 'hall', got: Object.values(per).some(p => p.hall >= STATIONS) },
@@ -69,6 +74,7 @@ export default function Passport() {
     { id: 'detective', got: best >= 40 },
     { id: 'streak7', got: streak.best >= 7 },
     { id: 'streak30', got: streak.best >= 30 },
+    ...TRACKS.map(tr => ({ id: `hunt-${tr.id}`, got: finished.includes(tr.id) })),
   ]
 
   return (
@@ -129,7 +135,7 @@ export default function Passport() {
         <h2 className="font-display text-xl font-bold mt-6 mb-2">{t('passport.badges')}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {badges.map(b => (
-            <div key={b.id} className={`glass rounded-xl p-3 ${b.got ? '' : 'opacity-40'}`}>
+            <div key={b.id} data-badge={b.id} data-got={b.got ? 1 : 0} className={`glass rounded-xl p-3 ${b.got ? '' : 'opacity-40'}`}>
               <div className="text-2xl">{t(`passport.badge.${b.id}.icon`)}</div>
               <div className="font-display font-bold">{t(`passport.badge.${b.id}.name`)}</div>
               <div className="text-xs opacity-80">{t(`passport.badge.${b.id}.how`)}</div>

@@ -50,8 +50,8 @@ built when, and the user's requests behind it: `docs/history.md`.
   music beds as offline loops, the buffer, why a phone crackles), `periodic-videos.md` (watching an element's
   video with `tools/pv/pv.py`, its brief in `docs/pv/<Symbol>.md`, the rooms), `scripture.md` (the Bible
   passages in every place, the eight translations, fetching them word for word), `daily.md` (today's element:
-  the lesson, the streak and its freezes, the boxes, the mystery, what the account keeps). Read the one for
-  the area you touch.
+  the lesson, the streak and its freezes, the boxes, the mystery, what the account keeps), `hunts.md` (the
+  treasure hunts). Read the one for the area you touch.
 - `docs/studio/`: `backlog.json` (the queue, every idea, what waits on the user, what was built, the
   decisions; checked by `src/data/studio.test.js`) and `studio.html` (the studio page, published with it).
   The family studio at `/studio` (shared with Artur; ideas, notes and verdicts kept with their account in
@@ -112,6 +112,9 @@ built when, and the user's requests behind it: `docs/history.md`.
 - `src/game/daily.js` + `src/ui/DailyHud.jsx`, `useDaily.js`: today's element in the plaza's dock (🔥 the
   streak): a three-minute lesson a day, the same element for the whole family, the streak with freezes,
   tomorrow's mystery (`daily.md`; kept in `ew-daily`, `progress.js`).
+- `src/game/hunts.js` (+ `src/content/hunts.js`, the words) + `src/ui/HuntHud.jsx` (the plaza's sheet), `HuntCard.jsx`
+  (the clue that follows the player into every world), `useHunts.js`: the treasure hunts (🗺️ in the dock), three
+  tracks of seven clues, each found by going there (`hunts.md`; kept as the pseudo-world `/hunts`'s own state).
 - `src/worlds/lab/lab.js` + `src/ui/LabHud.jsx`: the Molecule Lab. `src/audio/sound.js`: all sound.
   `src/pages/Passport.jsx`: discoveries and badges. `src/characters/look.js`: flame colours, helmets by
   column, signatures. `src/content/molecules.js`: facts for the lab's molecules.

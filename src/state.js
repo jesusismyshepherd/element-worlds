@@ -18,6 +18,7 @@ export const store = createStore({
   panel: null,
   panelFrom: null, // the id of the exhibit the open panel tells about
   overlay: false, // a world's own window is open (the neon name): the prompt waits
+  plazaSheet: null, // the plaza's sheet open ('daily', 'quiz', 'hunts'): the hunt's clue card makes way (HuntCard.jsx)
   mode: 'third',
   speech: null,
   discoveries: null,

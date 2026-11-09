@@ -20,6 +20,7 @@ stands there, with a line on why it stands there, at both depths and in the four
 | the Star Forge | Isaiah 40:26 | in the dark left of the star (computers only: on a phone it would hide behind the panels) |
 | "Who am I?" | Psalm 147:4 | under the score when a round ends |
 | today's element | Psalm 118:24 ("This is the day the LORD has made") | at the end of the day's lesson (`DailyHud.jsx`) |
+| the treasure hunts | Proverbs 25:2 ("It is God's privilege to conceal things and the king's privilege to discover them"), krypton's (the hidden one), quoted by its id `Kr` | at the end of a hunt (`HuntCard.jsx`; `hunts.md`) |
 | `/atomlings` | Revelation 4:11 | under "How to read an Atomling" |
 
 `hallPassage(el)` in `src/content/scripture/index.js` says which passage a hall quotes; the elements
