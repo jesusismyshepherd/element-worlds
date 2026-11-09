@@ -14,6 +14,13 @@ import LabHud from './LabHud.jsx'
 import ForgeHud from './ForgeHud.jsx'
 // the Star Forge's HUD loads with its world (its words are many)
 const StarHud = lazy(() => import('./StarHud.jsx'))
+// the lab's benches (src/worlds/benches/), each HUD loading with its world
+const BENCH_HUDS = {
+  crystal: lazy(() => import('./benches/CrystalHud.jsx')),
+  alloys: lazy(() => import('./benches/AlloysHud.jsx')),
+  reactions: lazy(() => import('./benches/ReactionsHud.jsx')),
+  dna: lazy(() => import('./benches/DnaHud.jsx')),
+}
 import SoundButton from './SoundButton.jsx'
 import { useCover, useViewport } from './layout.js'
 import { useFullscreen } from './fullscreen.js'
@@ -91,7 +98,7 @@ export default function Hud({ engine }) {
   const [menu, setMenu] = useState(false)
   // an invite link (…/?invite=…) opens the account sheet on its new account tab
   const [accountOpen, setAccountOpen] = useState(() => !!pendingInvite() && !store.get().account)
-  const walking = !!world && !['plaza', 'lab', 'forge', 'stars'].includes(world.kind)
+  const walking = !!world && !['plaza', 'lab', 'forge', 'stars', 'bench'].includes(world.kind)
   const canTalk = walking && !!engine?.world?.talk
   // a long wait (a big world's first visit compiles its shaders): say why
   const [slow, setSlow] = useState(false)
@@ -109,7 +116,7 @@ export default function Hud({ engine }) {
     watchHunts(store)
   }, [])
   // the lab and the forges fill every edge with their own panels: there the hunt's chip sits in the bar
-  const tool = world?.kind === 'lab' || world?.kind === 'forge' || world?.kind === 'stars'
+  const tool = world?.kind === 'lab' || world?.kind === 'forge' || world?.kind === 'stars' || world?.kind === 'bench'
 
   // the top bar covers the top edge; panels below it (and the worlds' own windows) read its height
   // from --bar, set on the page's root
@@ -158,6 +165,14 @@ export default function Hud({ engine }) {
                 <>
                   <span className="opacity-50">/</span>
                   <span className="font-display font-bold truncate">{t(`${world.kind}.title`)}</span>
+                </>
+              )}
+              {world.kind === 'bench' && (
+                <>
+                  <span className="opacity-50">/</span>
+                  <Link to="/lab" className="font-display hover:underline truncate">{vp.narrow ? '🧪' : t('lab.title')}</Link>
+                  <span className="opacity-50">/</span>
+                  <span className="font-display font-bold truncate">{t(`bench.${world.bench}.title`)}</span>
                 </>
               )}
               {world.kind === 'wing' && title && (
@@ -247,6 +262,10 @@ export default function Hud({ engine }) {
       {world?.kind === 'lab' && <LabHud engine={engine} />}
       {world?.kind === 'forge' && <ForgeHud engine={engine} />}
       {world?.kind === 'stars' && <Suspense fallback={null}><StarHud engine={engine} /></Suspense>}
+      {world?.kind === 'bench' && BENCH_HUDS[world.bench] && (() => {
+        const BenchHud = BENCH_HUDS[world.bench]
+        return <Suspense fallback={null}><BenchHud engine={engine} /></Suspense>
+      })()}
       {walking && <WalkHud engine={engine} />}
       {/* a sheet the orbiting worlds open too: the Bible passage written in their sky (WalkHud has its own) */}
       {!walking && panel && <Panel panel={panel} onClose={() => store.set({ panel: null })} />}

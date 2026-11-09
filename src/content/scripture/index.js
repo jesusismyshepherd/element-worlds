@@ -30,6 +30,7 @@ const BOOKS = {
   JOB: { en: 'Job', 'pt-pt': 'Job', pl: 'Hioba', de: 'Hiob' },
   PSA: { en: 'Psalm', 'pt-pt': 'Salmo', pl: 'Psalm', de: 'Psalm' },
   PRO: { en: 'Proverbs', 'pt-pt': 'Provérbios', pl: 'Przysłów', de: 'Sprüche' },
+  ECC: { en: 'Ecclesiastes', 'pt-pt': 'Eclesiastes', pl: 'Koheleta', de: 'Prediger' },
   ISA: { en: 'Isaiah', 'pt-pt': 'Isaías', pl: 'Izajasza', de: 'Jesaja' },
   LAM: { en: 'Lamentations', 'pt-pt': 'Lamentações', pl: 'Lamentacje', de: 'Klagelieder' },
   EZK: { en: 'Ezekiel', 'pt-pt': 'Ezequiel', pl: 'Ezechiela', de: 'Hesekiel' },

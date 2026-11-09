@@ -210,7 +210,7 @@ export default function HuntCard() {
   const end = news?.kind === 'done' ? news : null
   const kind = world?.kind
   const plaza = kind === 'plaza'
-  const tool = kind === 'lab' || kind === 'forge' || kind === 'stars'
+  const tool = kind === 'lab' || kind === 'forge' || kind === 'stars' || kind === 'bench'
   const walking = !!world && !plaza && !tool
   const sideSheet = walking && !!panel && !vp.portrait
   const fresh = !!news && !news.seen

@@ -26,6 +26,7 @@ export function placeName(w) {
   if (key === 'lab') return 'the Molecule Lab'
   if (key === 'forge') return 'the Atom Forge'
   if (key === 'stars') return 'the Star Forge'
+  if (key.startsWith('bench:')) return `the lab's ${key.slice(6)} bench`
   const [kind, a, b] = key.split(':')
   if (kind === 'atrium' && a) return `${elementName(a)}'s hall`
   if (kind === 'wing' && a && b) return `${elementName(a)}'s wing “${wingTitle(a, b)}”`

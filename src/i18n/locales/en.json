@@ -225,6 +225,7 @@
     "placeholder": "Find an element…"
   },
   "lab": {
+    "benches": "Lab benches",
     "gives_one": "gives away {{count}} electron",
     "gives_other": "gives away {{count}} electrons",
     "ionic": "Ionic: the metal handed its electrons over and the ions hold on by attraction. In a real crystal there are no molecules: every ion sits among ions of the other charge.",
@@ -805,5 +806,11 @@
       "under": "under a minute"
     },
     "bc": "c. {{y}} BC"
+  },
+  "bench": {
+    "crystal": { "title": "Growing Crystals" },
+    "alloys": { "title": "The Alloy Forge" },
+    "reactions": { "title": "Reactions" },
+    "dna": { "title": "Building DNA" }
   }
 }

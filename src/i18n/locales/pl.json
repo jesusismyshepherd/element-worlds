@@ -235,6 +235,7 @@
     "placeholder": "Znajdź pierwiastek…"
   },
   "lab": {
+    "benches": "Stanowiska laboratorium",
     "gives_one": "oddaje {{count}} elektron",
     "gives_few": "oddaje {{count}} elektrony",
     "gives_many": "oddaje {{count}} elektronów",
@@ -858,5 +859,11 @@
       "under": "mniej niż minuta"
     },
     "bc": "ok. {{y}} p.n.e."
+  },
+  "bench": {
+    "crystal": { "title": "Rosnące kryształy" },
+    "alloys": { "title": "Kuźnia stopów" },
+    "reactions": { "title": "Reakcje" },
+    "dna": { "title": "Budujemy DNA" }
   }
 }

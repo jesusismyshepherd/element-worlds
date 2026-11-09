@@ -9,7 +9,7 @@ import { useStore } from '../engine/store.js'
 import { store } from '../state.js'
 import { room, newCode, cleanCode, savedName, roomLink } from '../net/room.js'
 import { element, nameOf } from '../data/elements.js'
-import { targetFrom } from '../worlds/registry.js'
+import { targetFrom, BENCHES } from '../worlds/registry.js'
 import { duel } from '../net/duel.js'
 
 const BTN = 'glass rounded-xl px-2.5 py-1.5 text-xs font-bold hover:bg-white/10'
@@ -22,6 +22,7 @@ export function whereOf(path, t, lang) {
   if (p === '/passport' || p === '/atomlings' || p === '/stats') return `❔ ${t('room.where.elsewhere')}`
   const target = targetFrom(p)
   if (target.kind === 'lab') return `🧪 ${t('hud.lab')}`
+  if (target.kind === 'bench') return `${BENCHES[target.bench].icon} ${t(`bench.${target.bench}.title`)}`
   if (target.kind === 'forge') return `⚛️ ${t('hud.forge')}`
   if (target.kind === 'stars') return `🌟 ${t('hud.stars')}`
   if (target.kind === 'plaza') return `🔲 ${t('room.where.plaza')}`

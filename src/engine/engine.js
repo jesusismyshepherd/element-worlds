@@ -284,7 +284,7 @@ export class Engine {
     shared.enter(w, location.pathname)
     ambience(target.kind)
     this.store.set({
-      world: { kind: target.kind, symbol: target.symbol ?? null, wing: target.wing ?? null },
+      world: { kind: target.kind, symbol: target.symbol ?? null, wing: target.wing ?? null, bench: target.bench ?? null },
       prompt: null,
       panel: null,
       overlay: false,

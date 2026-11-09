@@ -54,6 +54,8 @@ export function placeOfPath(path) {
   if (p === '/lab') return 'lab'
   if (p === '/forge') return 'forge'
   if (p === '/stars') return 'stars'
+  const bench = p.match(/^\/lab\/([a-z]+)$/)
+  if (bench) return `bench:${bench[1]}`
   const m = p.match(/^\/e\/([A-Za-z]{1,3})(?:\/([\w-]+))?$/)
   const el = m && element(m[1])
   if (el) return m[2] ? `wing:${el.symbol}:${m[2]}` : `atrium:${el.symbol}`

@@ -43,6 +43,12 @@
     }
   ],
   "next": [
+    "forge-clouds",
+    "atom-bonds",
+    "crystals-grow",
+    "reactions-game",
+    "rings-dna",
+    "alloys",
     "halls-116",
     "scavenger-hunts",
     "periodic-videos"
@@ -609,48 +615,52 @@
       "code": "Ay",
       "title": "Alloys at the forge",
       "kind": "lab",
-      "status": "idea",
+      "status": "building",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Metals mixed into bronze, brass and steel (iron with a little carbon).",
-      "details": []
+      "details": [],
+      "why": "You marked it Sooner (2026-11-09). The lab says two metals do not hold hands and promises alloys; this keeps the promise, with the Bronze Age and steel behind it."
     },
     {
       "id": "reactions-game",
       "code": "Rx",
       "title": "Reactions in the lab",
       "kind": "lab",
-      "status": "idea",
+      "status": "building",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Burning methane, rusting and photosynthesis as a game, with the atoms counted on both sides.",
       "details": [
         "Methane and rust are already benches in oxygen's fire wing, and photosynthesis is carbon's tree; the game in the lab is not built yet."
-      ]
+      ],
+      "why": "You marked it Sooner (2026-11-09). Counting atoms on both sides is the heart of chemistry, and seeing the very same atoms swap partners makes it obvious that nothing is lost."
     },
     {
       "id": "rings-dna",
       "code": "Dn",
       "title": "Rings and life",
       "kind": "lab",
-      "status": "idea",
+      "status": "building",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Benzene, glucose and the four DNA bases; build a short strand of DNA.",
-      "details": []
+      "details": [],
+      "why": "You marked it Sooner (2026-11-09). Rings and DNA are where chemistry becomes life: benzene and glucose in the lab, and a strand of DNA you build base by base."
     },
     {
       "id": "crystals-grow",
       "code": "Ic",
       "title": "Crystals that grow",
       "kind": "lab",
-      "status": "idea",
+      "status": "building",
       "from": "claude",
       "date": "2026-10-27",
       "summary": "Ions stacking into a salt crystal you can watch grow.",
       "details": [
         "The lab already makes ionic compounds (2026-10-28); the growing crystal is the missing part."
-      ]
+      ],
+      "why": "You marked it Sooner (2026-11-09). The lab already makes salt as two ions; a crystal is how salt really is, and watching it grow ion by ion explains the cube in a salt shaker."
     },
     {
       "id": "first-visits",
@@ -952,9 +962,10 @@
       "details": [
         "The same cloud drawing as the room inside the atom, for a molecule: why methane is a tetrahedron and water bent, and why oxygen sticks to a magnet."
       ],
-      "status": "idea",
+      "status": "building",
       "from": "claude",
-      "date": "2026-11-09"
+      "date": "2026-11-09",
+      "why": "You marked it Sooner (2026-11-09). The lab's hands are really half-filled clouds; drawing them shows why a bond holds and why methane is a tetrahedron and water bent. It reuses the atom room's cloud drawing."
     },
     {
       "id": "forge-clouds",
@@ -965,9 +976,10 @@
       "details": [
         "The forge's rings become the clouds of the room inside the atom as you build: 4s before 3d, chromium and copper's surprise."
       ],
-      "status": "idea",
+      "status": "building",
       "from": "claude",
-      "date": "2026-11-09"
+      "date": "2026-11-09",
+      "why": "You marked it Sooner (2026-11-09). It follows straight from the room inside the atom: the same clouds and electron map, now filling one electron at a time as you build in the Atom Forge."
     },
     {
       "id": "table-blocks",

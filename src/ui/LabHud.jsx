@@ -6,6 +6,8 @@ import { store } from '../state.js'
 import { element, nameOf } from '../data/elements.js'
 import { handsOf, parseFormula, isMetal } from '../chem/build.js'
 import { useCover, useViewport } from './layout.js'
+import { Link } from 'react-router-dom'
+import { BENCHES, benchPath } from '../worlds/registry.js'
 
 // non-metals (they hold hands) and metals (their hands give electrons away: ionic compounds)
 const PALETTE = ['H', 'C', 'N', 'O', 'F', 'Cl', 'S', 'Li', 'Na', 'K', 'Mg', 'Ca', 'Al']
@@ -122,6 +124,15 @@ export default function LabHud({ engine }) {
           <span>{t('lab.missions')} · {done}/{lab.missions.length}</span>
           <span className="opacity-60">{open ? '▴' : '▾'}</span>
         </button>
+        {/* the lab's other benches, each a world of its own (registry.js BENCHES): icons while folded */}
+        {Object.values(BENCHES).some(b => b.ready) && <div data-lab-benches className={open ? 'grid grid-cols-2 gap-1 mt-1.5' : 'flex gap-1 mt-1.5'}>
+          {Object.entries(BENCHES).filter(([, b]) => b.ready).map(([id, b]) => (
+            <Link key={id} to={benchPath(id)} title={t(`bench.${id}.title`)} className="glass rounded-lg px-1.5 py-1 text-[12px] font-bold leading-tight hover:bg-white/10 flex items-center gap-1 min-w-0">
+              <span>{b.icon}</span>
+              {open && <span className="min-w-0">{t(`bench.${id}.title`)}</span>}
+            </Link>
+          ))}
+        </div>}
         {open && <ul className="space-y-0.5 text-[13px] mt-1">
           {lab.missions.map(m => (
             <li key={m.show}>

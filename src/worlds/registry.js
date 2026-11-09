@@ -3,6 +3,7 @@
 //   /e/C                   carbon's atrium
 //   /e/C/allotropes        one of carbon's wings
 //   /lab                   the Molecule Lab;  /forge (?z=Fe) the Atom Forge;  /stars the Star Forge
+//   /lab/crystal           one of the lab's benches (BENCHES: crystal, alloys, reactions, dna; benches/)
 // A new wing is one entry in WINGS and one module in wings/<element>/ (docs/knowledge/adding-a-wing.md).
 //   /e/Si/diatoms          the room inside one of the hall's pictures (pictures/, picture-rooms.md)
 //   /e/Fe/atom             inside the hall's big atom: its electron cloud (atom/, inside-the-atom.md), every element
@@ -36,9 +37,21 @@ export const WINGS = {
 
 export const wingsOf = symbol => WINGS[symbol] ?? []
 
+/** The Molecule Lab's benches, each a world of its own at /lab/<id> (src/worlds/benches/<id>/), its HUD
+ *  in src/ui/benches/ (Hud.jsx), its words in its folder's words.js, its title `bench.<id>.title`. The lab
+ *  lists only the `ready` ones (the others open by their address while they are being built). */
+export const BENCHES = {
+  crystal: { icon: '🧂', ready: false, load: () => import('./benches/crystal/crystal.js') },
+  alloys: { icon: '⚒️', ready: false, load: () => import('./benches/alloys/alloys.js') },
+  reactions: { icon: '🔥', ready: false, load: () => import('./benches/reactions/reactions.js') },
+  dna: { icon: '🧬', ready: false, load: () => import('./benches/dna/dna.js') },
+}
+export const benchPath = id => `/lab/${id}`
+
 export function loadWorld(target) {
   if (target.kind === 'plaza') return import('./plaza/plaza.js')
   if (target.kind === 'lab') return import('./lab/lab.js')
+  if (target.kind === 'bench') return BENCHES[target.bench].load()
   if (target.kind === 'forge') return import('./forge/forge.js')
   if (target.kind === 'stars') return import('./stars/stars.js')
   if (target.kind === 'atrium') return import('./atrium/atrium.js')
@@ -51,11 +64,14 @@ export function loadWorld(target) {
 
 /** Two targets with the same key are the same world (the plaza's ?at= only turns the view). */
 export function worldKey(t) {
+  if (t.kind === 'bench') return `bench:${t.bench}`
   return t.kind === 'plaza' || t.kind === 'lab' || t.kind === 'forge' || t.kind === 'stars' ? t.kind : `${t.kind}:${t.symbol}:${t.wing ?? ''}`
 }
 
 export function targetFrom(pathname, search = '') {
   if (/^\/lab\/?$/.test(pathname)) return { kind: 'lab' }
+  const bench = pathname.match(/^\/lab\/([a-z]+)\/?$/)
+  if (bench && BENCHES[bench[1]]) return { kind: 'bench', bench: bench[1] }
   if (/^\/stars\/?$/.test(pathname)) return { kind: 'stars' }
   if (/^\/forge\/?$/.test(pathname)) {
     const z = new URLSearchParams(search).get('z')

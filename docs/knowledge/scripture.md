@@ -16,6 +16,7 @@ stands there, with a line on why it stands there, at both depths and in the four
 | oxygen's fire chamber | Exodus 3:2 (the bush that burned and was not burned up) | a stone north of the campfire framed in embers |
 | the neon sign workshop | Matthew 5:16 | a plaque on the south wall, east of the door |
 | the Molecule Lab | Colossians 1:17 | in the sky over the bench |
+| the lab's benches (`/lab/<id>`, 2026-11-09) | growing crystals Proverbs 24:3-4 (a house built by wisdom, its rooms filled with treasure: a lattice built ion by ion), the alloy forge Ecclesiastes 4:12 (a cord of three strands: metals together are harder), reactions Revelation 21:5 (I am making everything new: the same atoms, new substances), building DNA Psalm 139:13-14 (knit together in the womb) | in each bench's sky, its own id |
 | the Atom Forge | Hebrews 11:3 | in the sky beyond the rim |
 | inside the atom (every element, `/e/<Symbol>/atom`) | Job 37:16 ("Do you understand how the clouds float...?": electron clouds are clouds of chances, known perfectly only by God) | a stone right of the spawn, by the rail |
 | the Star Forge | Isaiah 40:26 | in the dark left of the star (computers only: on a phone it would hide behind the panels) |

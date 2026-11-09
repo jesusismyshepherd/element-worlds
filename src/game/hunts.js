@@ -73,7 +73,7 @@ export const trackOf = id => TRACKS.find(t => t.id === id) ?? null
 // ---- places ----
 
 /** A world's key from the store's `world` ({ kind, symbol, wing }), as telemetry writes it. */
-export const worldKeyOf = world => (world ? [world.kind, world.symbol, world.wing].filter(Boolean).join(':') : null)
+export const worldKeyOf = world => (world ? [world.kind, world.symbol, world.wing, world.bench].filter(Boolean).join(':') : null)
 
 /** Where the player is, from the store: { w, panel } (panel: the exhibit whose panel is open, else null),
  *  or null while a world is coming (the fade) or none is on show. */

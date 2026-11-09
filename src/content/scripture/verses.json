@@ -415,6 +415,214 @@
    }
   }
  },
+ "crystal": {
+  "_ref": "PRO.24.3-4",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "A house is built by wisdom\nand becomes strong through good sense.\nThrough knowledge its rooms are filled\nwith all sorts of precious riches and valuables.",
+    "ref": "PRO.24.3-4",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "A house is built by wisdom,\nand it is established by understanding;\nby knowledge the rooms are filled\nwith every precious and beautiful treasure.",
+    "ref": "PRO.24.3-4",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "É preciso sabedoria para construir uma casa\ne inteligência para a tornar segura.\nCom experiência, enchem-se os quartos\ncom objetos valiosos e de bom gosto.",
+    "ref": "PRO.24.3-4",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Com a sabedoria se edifica a casa, e com a inteligência ela se firma: E pelo conhecimento se encherão as câmaras de todas as substâncias preciosas e deleitáveis.",
+    "ref": "PRO.24.3-4",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Dom buduje się mądrością,\na umacnia się go rozumem.\nDzięki poznaniu komnaty są pełne\nwszelkich cennych i pięknych rzeczy.",
+    "ref": "PRO.24.3-4",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Dom buduje się mądrością,\na umacnia się go roztropnością.\nI dzięki rozsądkowi napełnia się spichlerze\nwszelkimi cennymi i upragnionymi dobrami.",
+    "ref": "PRO.24.3-4",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Wer ein Haus baut, braucht Weisheit und Verstand; wer dazu noch Geschick besitzt, kann es mit wertvollen und schönen Dingen füllen.",
+    "ref": "PRO.24.3-4",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Durch Weisheit wird ein Haus gebaut,\nund durch Einsicht wird es fest gegründet;\nauch werden durch Erkenntnis seine Vorratskammern gefüllt\nmit allerlei kostbarem und lieblichem Gut.",
+    "ref": "PRO.24.3-4",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "alloys": {
+  "_ref": "ECC.4.12",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "A person standing alone can be attacked and defeated, but two can stand back-to-back and conquer. Three are even better, for a triple-braided cord is not easily broken.",
+    "ref": "ECC.4.12",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "And if someone overpowers one person, two can resist him. A cord of three strands is not easily broken.",
+    "ref": "ECC.4.12",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Num ataque, um sozinho é vencido, ao passo que dois juntos conseguem resistir, pois o fio dobrado não se quebra com facilidade.",
+    "ref": "ECC.4.12",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E, se alguém quiser prevalecer contra um, os dois resistirão; e o cordão de três dobras não se quebra tão depressa.",
+    "ref": "ECC.4.12",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Ponadto jeśli jednego\nmoże ktoś pokonać,\ndwóm łatwiej się ostać —\na sznur potrójny\nnie tak łatwo się zerwie.",
+    "ref": "ECC.4.12",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "A jeżeli jednego można pokonać,\nto we dwóch można się ostać;\na sznur potrójny nie tak szybko się zerwie.",
+    "ref": "ECC.4.12",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Einer kann leicht überwältigt werden, doch zwei sind dem Angriff gewachsen. Man sagt ja auch: »Ein Seil aus drei Schnüren reißt nicht so schnell!«",
+    "ref": "ECC.4.12",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Und wenn man den einen angreift, so können die beiden Widerstand leisten; und eine dreifache Schnur wird nicht so bald zerrissen.",
+    "ref": "ECC.4.12",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "reactions": {
+  "_ref": "REV.21.5",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "And the one sitting on the throne said, “Look, I am making everything new!” And then he said to me, “Write this down, for what I tell you is trustworthy and true.”",
+    "ref": "REV.21.5",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "Then the one seated on the throne said, “Look, I am making everything new.” He also said, “Write, because these words are faithful and true.”",
+    "ref": "REV.21.5",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "E o que estava sentado no trono disse: «Agora faço tudo novo.» E acrescentou: «Escreve que estas palavras são verdadeiras e dignas de confiança.»",
+    "ref": "REV.21.5",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "E, o que estava assentado sobre o trono, disse: Eis que faço novas todas as coisas. E disse-me: Escreve; porque estas palavras são verdadeiras e fiéis.",
+    "ref": "REV.21.5",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "I ogłosił Ten, który siedział na tronie: Oto wszystko czynię nowym. Potem dodał: Napisz: Te słowa są prawdziwe i godne wiary.",
+    "ref": "REV.21.5",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "I rzekł Ten, który siedział na tronie: Oto wszystko nowym czynię. I mówi: Napisz to, gdyż słowa te są pewne i prawdziwe.",
+    "ref": "REV.21.5",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Der auf dem Thron saß, sagte: »Sieh doch, ich mache alles neu!« Und mich forderte er auf: »Schreib auf, was ich dir sage, alles ist zuverlässig und wahr.«",
+    "ref": "REV.21.5",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Und der auf dem Thron saß, sprach: Siehe, ich mache alles neu! Und er sprach zu mir: Schreibe; denn diese Worte sind wahrhaftig und gewiss!",
+    "ref": "REV.21.5",
+    "v": "SCH2000"
+   }
+  }
+ },
+ "dna": {
+  "_ref": "PSA.139.13-14",
+  "_heb": 0,
+  "en": {
+   "kid": {
+    "text": "You made all the delicate, inner parts of my body\nand knit me together in my mother’s womb.\nThank you for making me so wonderfully complex!\nYour workmanship is marvelous—how well I know it.",
+    "ref": "PSA.139.13-14",
+    "v": "NLT"
+   },
+   "sci": {
+    "text": "For it was you who created my inward parts;\nyou knit me together in my mother’s womb.\nI will praise you\nbecause I have been remarkably and wondrously made.\nYour works are wondrous,\nand I know this very well.",
+    "ref": "PSA.139.13-14",
+    "v": "CSB"
+   }
+  },
+  "pt-pt": {
+   "kid": {
+    "text": "Foste tu que formaste todo o meu ser;\nformaste-me no ventre de minha mãe.\nLouvo-te, ó Altíssimo, e fico maravilhado\ncom os prodígios maravilhosos que são as tuas obras.\nConheces intimamente o meu ser.",
+    "ref": "PSA.139.13-14",
+    "v": "BPT09"
+   },
+   "sci": {
+    "text": "Pois possuiste os meus rins; entreteceste-me no ventre de minha mãe. Eu te louvarei, porque de um modo terrível e tão maravilhoso fui formado; maravilhosas são as tuas obras, e a minha alma o sabe muito bem.",
+    "ref": "PSA.139.13-14",
+    "v": "ARC"
+   }
+  },
+  "pl": {
+   "kid": {
+    "text": "Ty sprawiłeś, że myślę i czuję,\nUtkałeś mnie w łonie mej matki.\nDziękuję. Dopracowałeś mnie\nw każdym szczególe.\nCudowne są Twoje dzieła —\nI moją duszę znasz dokładnie.",
+    "ref": "PSA.139.13-14",
+    "v": "SNP"
+   },
+   "sci": {
+    "text": "Bo Ty stworzyłeś nerki moje,\nUkształtowałeś mnie w łonie matki mojej.\nWysławiam cię za to, że cudownie mnie stworzyłeś.\nCudowne są dzieła twoje\nI duszę moją znasz dokładnie.",
+    "ref": "PSA.139.13-14",
+    "v": "BW1975"
+   }
+  },
+  "de": {
+   "kid": {
+    "text": "Du hast mich mit meinem Innersten geschaffen,\nim Leib meiner Mutter hast du mich gebildet.\nHerr, ich danke dir dafür,\ndass du mich so wunderbar und einzigartig gemacht hast!\nGroßartig ist alles, was du geschaffen hast –\ndas erkenne ich!",
+    "ref": "PSA.139.13-14",
+    "v": "HFA"
+   },
+   "sci": {
+    "text": "Denn du hast meine Nieren gebildet;\ndu hast mich gewoben im Schoß\nmeiner Mutter.\nIch danke dir dafür, dass ich erstaunlich und wunderbar gemacht bin;\nwunderbar sind deine Werke,\nund meine Seele erkennt das wohl!",
+    "ref": "PSA.139.13-14",
+    "v": "SCH2000"
+   }
+  }
+ },
  "allotropes": {
   "_ref": "PSA.104.24",
   "_heb": 0,

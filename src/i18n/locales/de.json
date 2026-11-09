@@ -228,6 +228,7 @@
     "placeholder": "Element suchen…"
   },
   "lab": {
+    "benches": "Labortische",
     "gives_one": "gibt {{count}} Elektron ab",
     "gives_other": "gibt {{count}} Elektronen ab",
     "ionic": "Ionisch: Das Metall hat seine Elektronen abgegeben, und die Ionen halten durch Anziehung zusammen. In einem echten Kristall gibt es keine Moleküle: Jedes Ion sitzt zwischen Ionen der anderen Ladung.",
@@ -808,5 +809,11 @@
       "under": "weniger als eine Minute"
     },
     "bc": "um {{y}} v. Chr."
+  },
+  "bench": {
+    "crystal": { "title": "Kristalle wachsen" },
+    "alloys": { "title": "Die Legierungsschmiede" },
+    "reactions": { "title": "Reaktionen" },
+    "dna": { "title": "DNA bauen" }
   }
 }

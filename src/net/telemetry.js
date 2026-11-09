@@ -197,7 +197,7 @@ export function watchStore(store, i18n) {
   let prev = store.get()
   const enter = s => {
     // a world is the same world while its key is (the store gets a new object for it on every set)
-    const key = s.world ? [s.world.kind, s.world.symbol, s.world.wing].filter(Boolean).join(':') : null
+    const key = s.world ? [s.world.kind, s.world.symbol, s.world.wing, s.world.bench].filter(Boolean).join(':') : null
     if (key && key !== where) {
       leaveWorld()
       where = key
