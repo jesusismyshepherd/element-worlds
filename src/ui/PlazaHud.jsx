@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../engine/store.js'
@@ -17,7 +17,8 @@ import { duel } from '../net/duel.js'
 import { useCover, useViewport } from './layout.js'
 import { track } from '../net/telemetry.js'
 
-const DOCK = 'glass rounded-xl px-2.5 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10 whitespace-nowrap'
+// (a little narrower on a phone, so the dock keeps to one row there in every language)
+const DOCK = 'glass rounded-xl px-2 sm:px-2.5 py-1.5 text-sm font-bold pointer-events-auto hover:bg-white/10 whitespace-nowrap'
 
 /** The plaza's HUD, at the edges so the table stays in view (docs/knowledge/hud-layout.md): a dock
  *  of tools at the bottom left (today's element with the streak's flame, the quiz, find, the families,
@@ -92,6 +93,18 @@ export default function PlazaHud({ engine }) {
   const cardRef = useRef(null)
   const dockRef = useRef(null)
   useCover(dockRef, 'bottom', vp.short && !sheet)
+  // the dock's height: an upright phone's card stands on it (the dock wraps to two rows in some languages:
+  // 2026-11-09, with today's element in Portuguese, the card covered its first row and the flame)
+  const [dockH, setDockH] = useState(40)
+  useLayoutEffect(() => {
+    const el = dockRef.current
+    if (!el) return undefined
+    const set = () => setDockH(el.offsetHeight || 40)
+    set()
+    const ro = new ResizeObserver(set)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [sheet])
   useCover(drawerRef, vp.portrait ? 'bottom' : 'left', vp.compact && !!drawer)
   useCover(cardRef, vp.portrait && vp.compact ? 'bottom' : 'right', cardUp && selected != null)
 
@@ -213,7 +226,7 @@ export default function PlazaHud({ engine }) {
           {trend && drawer !== 'trends' && scale && !(vp.compact && cardUp) && (
             <div className="glass rounded-xl px-2 py-1.5 w-56 pointer-events-auto">{scale}</div>
           )}
-          <div ref={dockRef} className="flex gap-1.5 flex-wrap">
+          <div ref={dockRef} className="flex gap-1 sm:gap-1.5 flex-wrap">
             {/* today's element: the streak's flame, grey with a dot while today's lesson waits */}
             <button
               type="button"
@@ -283,8 +296,8 @@ export default function PlazaHud({ engine }) {
       {cardUp && (
         <div
           ref={cardRef}
-          className={`absolute pointer-events-auto ${vp.compact ? (vp.portrait ? 'inset-x-2 bottom-[3.25rem]' : 'right-1.5 bottom-1.5') : 'right-3 bottom-3 sm:right-4 sm:bottom-4'}`}
-          style={vp.compact && !vp.portrait ? { width: 'min(22rem, 40vw)' } : undefined}
+          className={`absolute pointer-events-auto ${vp.compact ? (vp.portrait ? 'inset-x-2' : 'right-1.5 bottom-1.5') : 'right-3 bottom-3 sm:right-4 sm:bottom-4'}`}
+          style={vp.compact ? (vp.portrait ? { bottom: `${8 + dockH + 6}px` } : { width: 'min(22rem, 40vw)' }) : undefined}
         >
           <ElementCard el={el} level={level} selected={selected === el.z} touch={vp.touch} compact={vp.compact} onEnter={() => world()?.enterSelected()} />
         </div>

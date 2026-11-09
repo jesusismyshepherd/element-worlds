@@ -82,6 +82,11 @@ full screen.
 
 - Tailwind's `line-clamp-*` sets its own `display: -webkit-box`; a `block` class beside it wins and the
   clamp silently does nothing (the lab's fact ran to three lines on a phone on its side).
+- On an upright phone the plaza's card stands on the dock at the dock's measured height (`dockH` in
+  PlazaHud.jsx), not at a fixed one: the dock wraps to two rows in some languages and widths (Portuguese on
+  a 360 px phone since today's element joined it, 2026-11-09), and a fixed `bottom-[3.25rem]` card then
+  covered the dock's first row, the streak's flame with it. The dock's buttons are a little narrower on a
+  phone so it keeps to one row where it can.
 - A hook that measures an element must follow it when the layout swaps it for another (a phone
   turned): `useCover` runs after every render and re-observes when `ref.current` changed.
 - A box that appears only after async data (the quiz's first question) cannot report its cover in
