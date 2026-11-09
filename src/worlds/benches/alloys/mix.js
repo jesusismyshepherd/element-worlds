@@ -37,7 +37,7 @@ export const LOOK = {
 // the colour of each atom in the slab: its Atomling's own (the CPK colour it wears), a few made brighter to
 // tell them apart on a dark bench
 export const ION = {
-  Cu: '#d88a3c', Sn: '#8fb3b3', Zn: '#8d90c8', Fe: '#e2733f', Au: '#ffd123', Ag: '#d6d6dc', Cr: '#93a6e0',
+  Cu: '#e8994a', Sn: '#8fb3b3', Zn: '#8d90c8', Fe: '#d8583a', Au: '#ffd123', Ag: '#d6d6dc', Cr: '#93a6e0',
   Ni: '#5ed65e', Pb: '#6e7280', C: '#3c4048',
 }
 

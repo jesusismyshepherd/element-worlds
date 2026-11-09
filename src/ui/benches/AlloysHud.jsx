@@ -11,9 +11,9 @@ import { store } from '../../state.js'
 import { useCover, useViewport } from '../layout.js'
 import { ION, ALLOY, PURE_HARD } from '../../worlds/benches/alloys/mix.js'
 import { element } from '../../data/elements.js'
-import { words, pct, titleOfMix, factOf, recipeText, hardnessText, meltText, crucibleLine, strikeText } from '../../worlds/benches/alloys/words.js'
+import { words, pct, nameOfMix, titleOfMix, factOf, recipeText, hardnessText, meltText, crucibleLine, strikeText } from '../../worlds/benches/alloys/words.js'
 
-const CARBON = '#7d838f'
+const CARBON = '#aab1bd'
 const colorOf = el => (el === 'C' ? CARBON : ION[el] ?? '#cccccc')
 const order = f => Object.entries(f).sort((a, b) => b[1] - a[1])
 
@@ -80,7 +80,7 @@ export default function AlloysHud({ engine }) {
   const done = a.book.filter(b => b.done).length
   const naming = c.info.kind === 'alloy' || c.info.kind === 'gold' || c.info.kind === 'pure'
   const line = a.note ? W.line[a.note]?.[sci ? 'sci' : 'kid'] : crucibleLine(c.info, { full: c.full, lang, level })
-  const partyText = !party ? null : party.kind === 'made' ? `🎉 ${W.made(titleOfMix(party.info, lang, level))}` : party.kind === 'crack' ? `💥 ${W.crackedParty}` : `⚒️ ${W.firstStrike}`
+  const partyText = !party ? null : party.kind === 'made' ? `🎉 ${W.made(nameOfMix(party.info, lang, level))}` : party.kind === 'crack' ? `💥 ${W.crackedParty}` : `⚒️ ${W.firstStrike}`
   const btn = 'rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 transition px-2.5 py-1 text-xs font-bold disabled:opacity-40'
   const hot = 'rounded-xl bg-amber-400 text-[#1a1030] hover:bg-amber-300 active:scale-95 transition px-3 py-1 text-xs font-bold disabled:opacity-40'
   const canPour = c.info.kind !== 'empty' && c.info.kind !== 'carbon' && !a.pouring
@@ -125,7 +125,7 @@ export default function AlloysHud({ engine }) {
   const melt = sci ? meltText(g.melt, lang) : null
   const strike = strikeText(g.last, info, lang, level)
   const fact = factOf(info, lang, level)
-  const pureLine = sci && base ? `${titleOfMix({ kind: 'pure', el: base }, lang, level)}: ${PURE_HARD[base].v} ${PURE_HARD[base].s}, ${W.meltAt(Math.round(element(base).melt - 273.15))}` : null
+  const pureLine = sci && base ? W.pureLine(titleOfMix({ kind: 'pure', el: base }, lang, level), `${PURE_HARD[base].v} ${PURE_HARD[base].s}`, Math.round(element(base).melt - 273.15)) : null
   const ingotCard = (
     <div data-alloys-ingot className="glass rounded-2xl p-3 pointer-events-auto w-full">
       <div className="text-[11px] uppercase tracking-wide opacity-60">⚒️ {W.ui.anvil}</div>
@@ -134,7 +134,8 @@ export default function AlloysHud({ engine }) {
         <span className="font-display font-bold text-lg leading-tight">{titleOfMix(info, lang, level)}</span>
       </div>
       {sci && Object.keys(info.w).length > 1 && <div className="mt-1"><MixBar f={info.w} thin lang={lang} /></div>}
-      {strike && <div data-alloys-strike className="mt-1.5 text-[13px] font-bold text-amber-200 leading-snug">{strike}</div>}
+      {strike ? <div data-alloys-strike className="mt-1.5 text-[13px] font-bold text-amber-200 leading-snug">{strike}</div>
+        : !g.strikes && <div className="mt-1.5 text-[13px] opacity-80 leading-snug">{W.line.strikeIt[sci ? 'sci' : 'kid']}</div>}
       <div className="mt-1.5 space-y-0.5 text-[13px] leading-snug">
         {hard && <div><span className="opacity-70">{W.ui.hardness}: </span><span className="font-bold">{hard}</span></div>}
         {melt && <div><span className="opacity-70">{W.ui.melts}: </span><span className="font-bold">{melt}</span></div>}
@@ -143,9 +144,10 @@ export default function AlloysHud({ engine }) {
       {fact && (
         <button type="button" onClick={() => setMore(m => !m)} className={`mt-1.5 w-full text-left text-[13px] opacity-90 leading-snug ${more ? '' : 'line-clamp-3'}`}>{fact}</button>
       )}
-      <div className="flex justify-end mt-1.5">
+      {/* (an upright phone has Strike in its bar) */}
+      {!narrow && <div className="flex justify-end mt-1.5">
         <button type="button" className={hot} disabled={a.pouring} onClick={() => world?.strike?.()}>🔨 {W.ui.strike}</button>
-      </div>
+      </div>}
     </div>
   )
 
@@ -203,7 +205,7 @@ export default function AlloysHud({ engine }) {
     </div>
   )
 
-  // a computer: the crucible at the top, the ingot and the book on the right, the help at the bottom
+  // a computer: the crucible at the top, the ingot and the book on the right
   return (
     <>
       <div className="absolute inset-x-0 top-[calc(var(--bar)+0.25rem)] flex justify-center pointer-events-none px-2">
@@ -213,7 +215,6 @@ export default function AlloysHud({ engine }) {
         {ingotCard}
         {book}
       </div>
-      {!vp.compact && <div className="absolute inset-x-0 bottom-3 text-center text-xs opacity-70 px-4 pointer-events-none">{W.ui.help}</div>}
     </>
   )
 }

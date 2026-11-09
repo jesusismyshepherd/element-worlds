@@ -9,7 +9,13 @@ import { ION, SEA, ROW_H } from './mix.js'
 import { makeText } from '../../../engine/text.js'
 
 export const U = 0.235 // metres per lattice place
-const CARBON = '#7d838f'
+// the spheres are the ions: smaller than the atoms they were (they gave their outer electrons to the sea), so
+// they are drawn at this share of the atom's metallic radius, and the sea shows between them
+const ION_SIZE = 0.74
+// cast iron's upper part, broken away: how far it lifts (places) and how much it tips
+const CRACK_LIFT = 1.0
+const CRACK_TILT = 0.07
+const CARBON = '#aab1bd'
 
 const ease = f => f * f * (3 - 2 * f)
 
@@ -43,7 +49,7 @@ export function buildSlab({ light, words, level }) {
   ions.frustumCulled = false
   inner.add(ions)
   const MAXC = 160
-  const cMat = new THREE.MeshStandardMaterial({ color: CARBON, metalness: 0.1, roughness: 0.55, emissive: '#20242c', emissiveIntensity: 0.6 })
+  const cMat = new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 0.1, roughness: 0.45, emissive: '#3a4250', emissiveIntensity: 0.7 })
   const carbons = new THREE.InstancedMesh(sphere, cMat, MAXC)
   carbons.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(MAXC * 3), 3)
   carbons.count = 0
@@ -60,6 +66,10 @@ export function buildSlab({ light, words, level }) {
   const sea = new THREE.Points(eGeo, new THREE.PointsMaterial({ map: dot, color: new THREE.Color('#a8ecff').multiplyScalar(2.6), size: 0.1, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }))
   sea.frustumCulled = false
   inner.add(sea)
+  // the sea itself: a faint glow filling the metal
+  const hazeMat = new THREE.MeshBasicMaterial({ color: '#3fa8ff', transparent: true, opacity: 0.07, blending: THREE.AdditiveBlending, depthWrite: false })
+  const haze = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), hazeMat)
+  inner.add(haze)
   const electrons = []
 
   // the case: a dark pane behind, glowing edges, its title
@@ -131,7 +141,7 @@ export function buildSlab({ light, words, level }) {
     slab.sites.forEach((s, i) => {
       place(s.x, s.y, s.z, s.row, p3)
       const pulse = anim?.pin?.has(i) ? 1 + 0.3 * Math.sin(Math.min(1, anim.t / 0.7) * Math.PI) : 1
-      s3.setScalar(s.r * U * 0.97 * pulse)
+      s3.setScalar(s.r * U * ION_SIZE * pulse)
       m4.compose(p3, q, s3)
       ions.setMatrixAt(i, m4)
     })
@@ -139,7 +149,7 @@ export function buildSlab({ light, words, level }) {
     slab.gaps.forEach((g, i) => {
       place(g.x, g.y, g.z, g.below + 0.5, p3)
       const pulse = anim?.pinC?.has(i) ? 1 + 0.35 * Math.sin(Math.min(1, anim.t / 0.7) * Math.PI) : 1
-      s3.setScalar(g.r * U * pulse)
+      s3.setScalar(g.r * U * ION_SIZE * pulse)
       m4.compose(p3, q, s3)
       carbons.setMatrixAt(i, m4)
     })
@@ -154,7 +164,7 @@ export function buildSlab({ light, words, level }) {
     })
     ions.instanceColor.needsUpdate = true
     slab.gaps.forEach((g, i) => {
-      col.set(g.flake ? '#4a4f5a' : CARBON)
+      col.set(g.flake ? '#5d636e' : CARBON)
       if (glow && anim?.pinC?.has(i)) col.lerp(new THREE.Color('#ffffff'), glow * 0.7)
       carbons.setColorAt(i, col)
     })
@@ -179,7 +189,8 @@ export function buildSlab({ light, words, level }) {
     pane.scale.set(w, h, 1)
     pane.position.z = -d / 2
     hit.scale.set(w, h, d)
-    title.position.set(0, h / 2 + 0.16, 0)
+    title.position.set(0, h / 2 + 0.36, 0)
+    haze.scale.set(W() - U * 0.3, H() - U * 0.2, D() - U * 0.2)
     for (const c of [...legend.children]) {
       legend.remove(c)
       c.dispose?.()
@@ -188,21 +199,21 @@ export function buildSlab({ light, words, level }) {
     const items = names.map(({ el, name }) => {
       const g = new THREE.Group()
       const ball = new THREE.Mesh(sphere, new THREE.MeshStandardMaterial({ color: el === 'C' ? CARBON : ION[el], metalness: 0.5, roughness: 0.3, emissive: '#1a2240', emissiveIntensity: 0.5 }))
-      ball.scale.setScalar(0.05)
-      const txt = makeText(name, { size: 0.1, color: '#dfe8ff', anchorX: 'left', font: 'body', outlineWidth: 0.005, outlineColor: '#0b0f24' })
+      ball.scale.setScalar(0.055)
+      const txt = makeText(name, { size: 0.115, color: '#dfe8ff', anchorX: 'left', font: 'body', outlineWidth: 0.005, outlineColor: '#0b0f24' })
       txt.position.x = 0.09
       g.add(ball, txt)
-      g.userData.width = 0.12 + name.length * 0.055
+      g.userData.width = 0.12 + name.length * 0.064
       return g
     })
     const elec = (() => {
       const g = new THREE.Group()
       const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: new THREE.Color('#a8ecff').multiplyScalar(1.9), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }))
       glow.scale.setScalar(0.1)
-      const txt = makeText(words.sea, { size: 0.1, color: '#bfefff', anchorX: 'left', font: 'body', outlineWidth: 0.005, outlineColor: '#0b0f24' })
+      const txt = makeText(words.sea, { size: 0.115, color: '#bfefff', anchorX: 'left', font: 'body', outlineWidth: 0.005, outlineColor: '#0b0f24' })
       txt.position.x = 0.09
       g.add(glow, txt)
-      g.userData.width = 0.12 + words.sea.length * 0.055
+      g.userData.width = 0.12 + words.sea.length * 0.064
       return g
     })()
     items.push(elec)
@@ -210,7 +221,7 @@ export function buildSlab({ light, words, level }) {
     const total = items.reduce((s, g) => s + g.userData.width, 0) + gap * (items.length - 1)
     let x = -total / 2
     for (const g of items) {
-      g.position.set(x + 0.05, -h / 2 - 0.14, d / 2)
+      g.position.set(x + 0.05, h / 2 + 0.13, 0)
       x += g.userData.width + gap
       legend.add(g)
     }
@@ -227,8 +238,9 @@ export function buildSlab({ light, words, level }) {
     rowOff = Array.from({ length: slab.rows }, (_, r) => shifts[r] ?? 0)
     rowGoal = [...rowOff]
     crackPlane = cracked ? cracked.plane : -1
-    lift = [cracked ? 0.55 : 0]
-    tilt = cracked ? 0.045 : 0
+    lift = [cracked ? CRACK_LIFT : 0]
+    tilt = cracked ? CRACK_TILT : 0
+    haze.visible = !cracked
     ions.count = slab.sites.length
     carbons.count = Math.min(MAXC, slab.gaps.length)
     draw()
@@ -259,6 +271,7 @@ export function buildSlab({ light, words, level }) {
     if (s.kind === 'slip') for (let r = s.plane; r < slab.rows; r++) rowGoal[r] = rowOff[r] + s.dir
     if (s.kind === 'crack') {
       crackPlane = s.plane
+      haze.visible = false
       for (const el of electrons) el.up = el.p.y >= (s.plane - 0.5) * ROW_H
     }
     planeMat.color.set(s.kind === 'slip' ? '#9ff0ff' : '#ff9a6a').multiplyScalar(2)
@@ -291,8 +304,8 @@ export function buildSlab({ light, words, level }) {
         paint(Math.max(0, 1 - T / 0.9))
       } else if (anim.kind === 'crack') {
         const f = Math.min(1, T / 0.5)
-        lift[0] = 0.55 * ease(f)
-        tilt = 0.045 * ease(f)
+        lift[0] = CRACK_LIFT * ease(f)
+        tilt = CRACK_TILT * ease(f)
         paint(Math.max(0, 1 - T / 0.9))
       }
       planeLine.scale.set(W(), 0.022, D())

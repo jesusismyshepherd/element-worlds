@@ -40,7 +40,6 @@ const EN = {
     crucible: 'The crucible', anvil: 'On the anvil', book: 'Alloy book', empty: 'Empty', pour: 'Pour', strike: 'Strike',
     byMass: 'by mass', byAtoms: 'by atoms', inside: 'Inside the metal', slip: 'slip plane', sea: 'electron sea',
     hardness: 'Hardness', melts: 'Melts', fill: 'Fill the crucible', emptyNow: 'empty', together: 'Forging with',
-    help: 'Tap an Atomling to throw in its metal (hold it for more) · tap the crucible to pour · tap the hammer to strike',
     lumps: (n, g) => `${n} ${n === 1 ? 'lump' : 'lumps'} · ${g} g`, will: 'will make', mixLine: 'In the crucible',
   },
   alloy: {
@@ -78,7 +77,7 @@ const EN = {
     Pb: { kid: 'Lead is very soft, very heavy and poisonous: handle it with care.', sci: 'Lead (face-centred cubic), about 5 HV. The Romans piped water in it (plumbum: the plumber\'s word), but it is toxic.' },
   },
   line: {
-    start: { kid: 'Tap an Atomling to throw its metal into the crucible.', sci: 'Tap an Atomling to add a lump (100 g; carbon by the 1 g pinch). Alloys are named by mass.' },
+    start: { kid: 'Tap an Atomling to throw its metal into the crucible (hold it to throw more).', sci: 'Tap an Atomling to add a lump (100 g; carbon by the 1 g pinch), or hold it. Alloys are named by mass.' },
     strikeIt: { kid: 'Tap the hammer to strike the ingot.', sci: 'Tap the hammer (or the anvil) to strike, and watch the rows inside.' },
     full: { kid: 'The crucible is full! Pour it, or empty it.', sci: 'Full: 30 lumps (3 kg). Cast it, or empty it.' },
     carbonAlone: { kid: 'Carbon will not melt in a fire. Add a metal for it to mix with.', sci: 'Carbon does not melt at a forge\'s heat (graphite sublimes at about 3640 °C): it must dissolve in a metal, and only iron takes it in.' },
@@ -100,6 +99,7 @@ const EN = {
   dents: ['Very soft: a deep dent.', 'Soft: a big dent.', 'Firm: a small dent.', 'Hard: a tiny dent.', 'Very hard: hardly a mark.'],
   hard: (v, s) => `about ${v} ${s} (${s === 'HV' ? 'Vickers' : 'Brinell'})`,
   meltAt: t => `at ${t} °C`,
+  pureLine: (n, hard, t) => `${n}: ${hard}, melts at ${t} °C`,
   meltRange: (a, b) => `from ${a} to ${b} °C`,
   pureName: el => `pure ${name(el, 'en')}`,
   carats: n => `${n}-carat gold`,
@@ -118,7 +118,6 @@ const PT = {
     crucible: 'O cadinho', anvil: 'Na bigorna', book: 'Livro das ligas', empty: 'Esvaziar', pour: 'Vazar', strike: 'Martelar',
     byMass: 'em massa', byAtoms: 'em átomos', inside: 'Dentro do metal', slip: 'plano de deslizamento', sea: 'mar de eletrões',
     hardness: 'Dureza', melts: 'Funde', fill: 'Encher o cadinho', emptyNow: 'vazio', together: 'A forjar com',
-    help: 'Toca num Atomling para atirar o seu metal (segura para mais) · toca no cadinho para vazar · toca no martelo para martelar',
     lumps: (n, g) => `${n} ${n === 1 ? 'pedaço' : 'pedaços'} · ${g} g`, will: 'vai dar', mixLine: 'No cadinho',
   },
   alloy: {
@@ -156,7 +155,7 @@ const PT = {
     Pb: { kid: 'O chumbo é muito mole, muito pesado e venenoso: usa-se com cuidado.', sci: 'Chumbo (cúbico de faces centradas), cerca de 5 HV. Os romanos faziam canos com ele (plumbum, a origem de "plumber"), mas é tóxico.' },
   },
   line: {
-    start: { kid: 'Toca num Atomling para atirar o seu metal para o cadinho.', sci: 'Toca num Atomling para juntar um pedaço (100 g; o carbono à pitada de 1 g). As ligas têm nome pela massa.' },
+    start: { kid: 'Toca num Atomling para atirar o seu metal para o cadinho (segura-o para atirar mais).', sci: 'Toca num Atomling para juntar um pedaço (100 g; o carbono à pitada de 1 g), ou segura-o. As ligas têm nome pela massa.' },
     strikeIt: { kid: 'Toca no martelo para bater no lingote.', sci: 'Toca no martelo (ou na bigorna) para martelar e vê as filas lá dentro.' },
     full: { kid: 'O cadinho está cheio! Vaza-o ou esvazia-o.', sci: 'Cheio: 30 pedaços (3 kg). Vaza-o ou esvazia-o.' },
     carbonAlone: { kid: 'O carbono não funde numa fogueira. Junta um metal para ele se misturar.', sci: 'O carbono não funde ao calor de uma forja (a grafite sublima a cerca de 3640 °C): tem de se dissolver num metal, e só o ferro o aceita.' },
@@ -178,6 +177,7 @@ const PT = {
   dents: ['Muito mole: uma mossa funda.', 'Mole: uma mossa grande.', 'Firme: uma mossa pequena.', 'Duro: uma mossa minúscula.', 'Muito duro: quase nem marca.'],
   hard: (v, s) => `cerca de ${v} ${s} (${s === 'HV' ? 'Vickers' : 'Brinell'})`,
   meltAt: t => `a ${t} °C`,
+  pureLine: (n, hard, t) => `${n}: ${hard}, funde a ${t} °C`,
   meltRange: (a, b) => `de ${a} a ${b} °C`,
   pureName: el => (el === 'Ag' ? 'prata pura' : `${name(el, 'pt-pt')} puro`),
   carats: n => `ouro de ${n} quilates`,
@@ -198,7 +198,6 @@ const PL = {
     crucible: 'Tygiel', anvil: 'Na kowadle', book: 'Księga stopów', empty: 'Opróżnij', pour: 'Odlej', strike: 'Uderz',
     byMass: 'masowo', byAtoms: 'w atomach', inside: 'Wnętrze metalu', slip: 'płaszczyzna poślizgu', sea: 'morze elektronów',
     hardness: 'Twardość', melts: 'Topi się', fill: 'Napełnij tygiel', emptyNow: 'pusty', together: 'Kujesz z',
-    help: 'Dotknij Atomka, żeby wrzucić jego metal (przytrzymaj, by dodać więcej) · dotknij tygla, żeby odlać · dotknij młota, żeby uderzyć',
     lumps: (n, g) => `${n} ${plPlural(n, 'bryłka', 'bryłki', 'bryłek')} · ${g} g`, will: 'da', mixLine: 'W tyglu',
   },
   alloy: {
@@ -236,7 +235,7 @@ const PL = {
     Pb: { kid: 'Ołów jest bardzo miękki, bardzo ciężki i trujący: trzeba z nim uważać.', sci: 'Ołów (sieć regularna ściennie centrowana), około 5 HV. Rzymianie robili z niego rury wodociągowe (plumbum, stąd angielskie „plumber”), ale jest toksyczny.' },
   },
   line: {
-    start: { kid: 'Dotknij Atomka, żeby wrzucił swój metal do tygla.', sci: 'Dotknij Atomka, żeby dodać bryłkę (100 g; węgiel szczyptami po 1 g). Stopy nazywa się według masy.' },
+    start: { kid: 'Dotknij Atomka, żeby wrzucił swój metal do tygla (przytrzymaj go, a będzie wrzucał więcej).', sci: 'Dotknij Atomka, żeby dodać bryłkę (100 g; węgiel szczyptami po 1 g), albo go przytrzymaj. Stopy nazywa się według masy.' },
     strikeIt: { kid: 'Dotknij młota, żeby uderzyć w sztabkę.', sci: 'Dotknij młota (albo kowadła), żeby uderzyć, i patrz na rzędy w środku.' },
     full: { kid: 'Tygiel jest pełny! Odlej go albo opróżnij.', sci: 'Pełny: 30 bryłek (3 kg). Odlej albo opróżnij.' },
     carbonAlone: { kid: 'Węgiel nie stopi się w ogniu. Dodaj metal, z którym się zmiesza.', sci: 'Węgiel nie topi się w żarze kuźni (grafit sublimuje w około 3640 °C): musi się rozpuścić w metalu, a przyjmuje go tylko żelazo.' },
@@ -258,6 +257,7 @@ const PL = {
   dents: ['Bardzo miękki: głębokie wgniecenie.', 'Miękki: duże wgniecenie.', 'Dość twardy: małe wgniecenie.', 'Twardy: malutkie wgniecenie.', 'Bardzo twardy: prawie bez śladu.'],
   hard: (v, s) => `około ${v} ${s} (${s === 'HV' ? 'Vickers' : 'Brinell'})`,
   meltAt: t => `w ${t} °C`,
+  pureLine: (n, hard, t) => `${n}: ${hard}, topi się w ${t} °C`,
   meltRange: (a, b) => `od ${a} do ${b} °C`,
   pureName: el => PURE_PL[el],
   carats: n => `złoto ${n}-karatowe`,
@@ -276,7 +276,6 @@ const DE = {
     crucible: 'Der Tiegel', anvil: 'Auf dem Amboss', book: 'Buch der Legierungen', empty: 'Leeren', pour: 'Gießen', strike: 'Schlagen',
     byMass: 'nach Masse', byAtoms: 'nach Atomen', inside: 'Im Inneren des Metalls', slip: 'Gleitebene', sea: 'Elektronensee',
     hardness: 'Härte', melts: 'Schmilzt', fill: 'Tiegel füllen', emptyNow: 'leer', together: 'Du schmiedest mit',
-    help: 'Tippe einen Atomling an, damit er sein Metall hineinwirft (halten für mehr) · tippe den Tiegel an zum Gießen · tippe den Hammer an zum Schlagen',
     lumps: (n, g) => `${n} Brocken · ${g} g`, will: 'ergibt', mixLine: 'Im Tiegel',
   },
   alloy: {
@@ -314,7 +313,7 @@ const DE = {
     Pb: { kid: 'Blei ist sehr weich, sehr schwer und giftig: Vorsicht damit.', sci: 'Blei (kubisch flächenzentriert), etwa 5 HV. Die Römer leiteten Wasser durch Bleirohre (plumbum, daher das englische „plumber“), doch es ist giftig.' },
   },
   line: {
-    start: { kid: 'Tippe einen Atomling an, damit er sein Metall in den Tiegel wirft.', sci: 'Tippe einen Atomling an, um einen Brocken dazuzugeben (100 g; Kohlenstoff prisenweise zu 1 g). Legierungen werden nach Masse benannt.' },
+    start: { kid: 'Tippe einen Atomling an, damit er sein Metall in den Tiegel wirft (halte ihn gedrückt für mehr).', sci: 'Tippe einen Atomling an, um einen Brocken dazuzugeben (100 g; Kohlenstoff prisenweise zu 1 g), oder halte ihn gedrückt. Legierungen werden nach Masse benannt.' },
     strikeIt: { kid: 'Tippe den Hammer an, um auf den Barren zu schlagen.', sci: 'Tippe den Hammer (oder den Amboss) an, um zu schlagen, und sieh dir die Reihen im Inneren an.' },
     full: { kid: 'Der Tiegel ist voll! Gieß ihn aus oder leere ihn.', sci: 'Voll: 30 Brocken (3 kg). Gießen oder leeren.' },
     carbonAlone: { kid: 'Kohlenstoff schmilzt im Feuer nicht. Gib ein Metall dazu, mit dem er sich mischen kann.', sci: 'Kohlenstoff schmilzt bei der Hitze einer Schmiede nicht (Graphit sublimiert bei etwa 3640 °C): Er muss sich in einem Metall lösen, und nur Eisen nimmt ihn auf.' },
@@ -336,6 +335,7 @@ const DE = {
   dents: ['Sehr weich: eine tiefe Delle.', 'Weich: eine große Delle.', 'Fest: eine kleine Delle.', 'Hart: eine winzige Delle.', 'Sehr hart: kaum ein Kratzer.'],
   hard: (v, s) => `etwa ${v} ${s} (${s === 'HV' ? 'Vickers' : 'Brinell'})`,
   meltAt: t => `bei ${t} °C`,
+  pureLine: (n, hard, t) => `${n}: ${hard}, schmilzt bei ${t} °C`,
   meltRange: (a, b) => `von ${a} bis ${b} °C`,
   pureName: el => `reines ${name(el, 'de')}`,
   carats: n => `${n}-karätiges Gold`,

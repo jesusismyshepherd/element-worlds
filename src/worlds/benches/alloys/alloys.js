@@ -48,7 +48,11 @@ export async function build(ctx) {
   // ---- the place: the lab's night, its round table of light ----
   const sky = nightSky({ pixelRatio: ctx.renderer.getPixelRatio(), stars: light ? 900 : 1800, horizon: '#1d2a5c' })
   root.add(sky)
-  const verse = skyVerse(ctx, 'alloys', { at: [0, 6.3, -11], width: 9, size: 0.34, opacity: 0.75 })
+  // the passage in the empty sky over the furnace, clear of the case and the crucible's card (on a screen
+  // too narrow for it there, over the case)
+  const VERSE_WIDE = new THREE.Vector3(-5.6, 5.0, -8.5)
+  const VERSE_NARROW = new THREE.Vector3(0, 6.5, -1.6)
+  const verse = skyVerse(ctx, 'alloys', { at: VERSE_WIDE.toArray(), width: 5.2, size: 0.27, opacity: 0.75 })
   root.add(verse.group)
   const floor = new THREE.Mesh(new THREE.CircleGeometry(40, 64), new THREE.MeshStandardMaterial({ color: '#0e1430', roughness: 0.5, metalness: 0.3 }))
   floor.rotation.x = -Math.PI / 2
@@ -167,6 +171,12 @@ export async function build(ctx) {
     play('tap')
   }
 
+  /** A whole mix thrown in, lump after lump (at most eight of each: the rest are there at once). */
+  const flyAll = mix => {
+    const order = Object.entries(mix).flatMap(([el, n]) => new Array(Math.min(n, 8)).fill(el))
+    order.forEach((el, k) => later(k * 0.11, () => fly(el)))
+  }
+
   /** Throw a lump of `el` in (mine: this player's tap). */
   const drop = el => {
     if (!PALETTE.includes(el)) return false
@@ -203,8 +213,7 @@ export async function build(ctx) {
     if (!a) return
     crucible = { mix: { ...a.recipe }, drops: crucible.drops + 1, last: null }
     note = null
-    const order = Object.entries(a.recipe).flatMap(([el, n]) => new Array(Math.min(n, 8)).fill(el))
-    order.forEach((el, k) => later(k * 0.11, () => fly(el)))
+    flyAll(a.recipe)
     showCrucible()
     ctx.share('crucible')
     track('bench', { id: 'alloys', op: 'recipe', alloy: id })
@@ -370,9 +379,12 @@ export async function build(ctx) {
         const mix = cleanMix(s?.mix)
         const drops = whole(s?.drops)
         const last = PALETTE.includes(s?.last) ? s.last : null
-        const thrown = live && drops > crucible.drops && last && lumpsIn(mix) + (mix.C ?? 0) > 0
+        const before = crucible.drops
+        const thrown = live && drops > before && last && lumpsIn(mix) + (mix.C ?? 0) > 0
         crucible = { mix, drops, last }
         if (thrown) fly(last)
+        // filled from the book: its lumps fly in one after another here too
+        else if (live && drops > before && !last && Object.keys(mix).length) flyAll(mix)
         showCrucible()
         report()
       },
@@ -413,7 +425,7 @@ export async function build(ctx) {
   controls.minDistance = 4
   controls.maxDistance = 24
   controls.maxPolarAngle = 1.45
-  controls.target.set(0, 1.55, -0.3)
+  controls.target.set(0, 1.4, -0.3)
   const ray = new THREE.Raycaster()
   const ndc = new THREE.Vector2()
   const castRay = e => {
@@ -479,6 +491,7 @@ export async function build(ctx) {
   const v = new THREE.Vector3()
   const update = (dt, t) => {
     clock = t
+    verse.group.position.copy(camera.aspect < 1.25 ? VERSE_NARROW : VERSE_WIDE)
     verse.face()
     sky.userData.update(t)
     controls.update()
@@ -528,16 +541,18 @@ export async function build(ctx) {
     // furnace, the anvil and the case across, the case's title up
     const free = ctx.engine.freeShare()
     const tanUp = Math.tan((camera.fov * Math.PI) / 360)
-    const across = 3.55 / (tanUp * camera.aspect * Math.max(0.35, free.w))
-    const up = 2.45 / (tanUp * Math.max(0.35, free.h))
+    // (an upright screen holds the crew's ends and the furnace's rim; a wide one a little air round them)
+    const across = (camera.aspect < 0.8 ? 3.85 : 3.55) / (tanUp * camera.aspect * Math.max(0.35, free.w))
+    const up = 2.75 / (tanUp * Math.max(0.35, free.h))
     const want = Math.max(6.2, across, up)
     const dist = camera.position.distanceTo(controls.target)
-    if (dist < want * 0.85 || dist > want * 1.5) camera.position.sub(controls.target).setLength(dist + (want - dist) * Math.min(1, dt * 2)).add(controls.target)
+    if (dist < want * 0.96 || dist > want * 1.5) camera.position.sub(controls.target).setLength(dist + (want - dist) * Math.min(1, dt * 2)).add(controls.target)
   }
 
   const attach = () => {
-    camera.position.set(0, 3.7, 8.4)
-    controls.target.set(0, 1.55, -0.3)
+    // an upright phone looks down from higher, so the table fills the height the screen has
+    camera.position.set(0, camera.aspect < 0.8 ? 7.2 : 3.6, 8.8)
+    controls.target.set(0, 1.4, -0.3)
     canvas.addEventListener('pointerdown', onDown)
     canvas.addEventListener('pointermove', onMove)
     canvas.addEventListener('pointerup', onUp)
@@ -572,6 +587,20 @@ export async function build(ctx) {
     empty,
     recipe,
     /** For the probes: the crucible, the ingot, the slab's rows and the last strike. */
+    /** For the probes (tools/alloys_probe.py): where on the canvas (CSS pixels) each thing to tap is. */
+    points: () => {
+      const r = canvas.getBoundingClientRect()
+      const at = p => {
+        const q = p.clone().project(camera)
+        return [Math.round(((q.x + 1) / 2) * r.width), Math.round(((1 - q.y) / 2) * r.height)]
+      }
+      return {
+        metals: Object.fromEntries(crew.map(c => [c.el, at(c.holder.position.clone().add(new THREE.Vector3(0, c.a.body.height * ARC.scale * 0.55, 0)))])),
+        crucible: at(smithy.crucible.position.clone().add(new THREE.Vector3(0, 0.3, 0))),
+        anvil: at(smithy.ingotTop()),
+        slab: at(SLAB_AT),
+      }
+    },
     state: () => ({ crucible, ingot, info: identify(crucible.mix), ingotInfo, shifts: [...shifts], cracked: !!cracked, last: lastStrike, pouring: smithy.pouring(), swinging: smithy.swinging() }),
     // what the shared probe uses, one by one (tools/shared_steps/alloys.json has more)
     interactables: [

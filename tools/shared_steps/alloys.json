@@ -1,0 +1,15 @@
+{
+  "/lab/alloys": [
+    "() => __ew.world.recipe('bronze')",
+    "() => __ew.world.pour()",
+    "() => new Promise(r => setTimeout(r, 2600))",
+    "() => __ew.world.strike()",
+    "() => __ew.world.strike()",
+    "() => __ew.world.recipe('castIron')",
+    "() => __ew.world.pour()",
+    "() => new Promise(r => setTimeout(r, 2600))",
+    "() => __ew.world.strike()",
+    "() => __ew.world.drop('Pb')",
+    "() => __ew.world.empty()"
+  ]
+}

@@ -64,7 +64,7 @@ export function buildSmithy({ light }) {
   const furnace = new THREE.Group()
   furnace.position.copy(FURNACE)
   group.add(furnace)
-  const stone = new THREE.MeshStandardMaterial({ color: '#4a3b37', roughness: 0.88, metalness: 0.05 })
+  const stone = new THREE.MeshStandardMaterial({ color: '#3a302e', roughness: 0.9, metalness: 0.05, flatShading: true })
   const hearth = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.92, HEARTH_H, 32), stone)
   hearth.position.y = HEARTH_H / 2
   furnace.add(hearth)
@@ -72,6 +72,24 @@ export function buildSmithy({ light }) {
   lip.rotation.x = Math.PI / 2
   lip.position.y = HEARTH_H
   furnace.add(lip)
+  // a ring of rough stones round the hearth's rim, each its own size and shade
+  const STONES = light ? 14 : 22
+  const stones = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(0.13, 0), new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.95, flatShading: true }), STONES)
+  stones.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(STONES * 3), 3)
+  {
+    const sm = new THREE.Matrix4()
+    const sq = new THREE.Quaternion()
+    const sc = new THREE.Color()
+    for (let i = 0; i < STONES; i++) {
+      const a = (i / STONES) * Math.PI * 2
+      const k = ((i * 37) % 13) / 13
+      sq.setFromEuler(new THREE.Euler(k * 2.1, a + k, k * 1.3))
+      sm.compose(new THREE.Vector3(Math.cos(a) * 0.86, HEARTH_H - 0.02 + k * 0.03, Math.sin(a) * 0.86), sq, new THREE.Vector3(1.25 + k * 0.4, 0.7 + k * 0.25, 1 + k * 0.3))
+      stones.setMatrixAt(i, sm)
+      stones.setColorAt(i, sc.set('#4d4440').lerp(new THREE.Color('#6a5a52'), k))
+    }
+  }
+  furnace.add(stones)
   const bed = new THREE.Mesh(new THREE.CircleGeometry(0.76, 40), new THREE.MeshBasicMaterial({ color: new THREE.Color('#ff6a1c').multiplyScalar(1.4), transparent: true, opacity: 0.85 }))
   bed.rotation.x = -Math.PI / 2
   bed.position.y = HEARTH_H + 0.004
@@ -139,9 +157,14 @@ export function buildSmithy({ light }) {
   crucible.position.copy(rest)
   group.add(crucible)
   const prof = [[0, 0], [0.2, 0], [0.25, 0.025], [0.3, 0.25], [0.335, 0.49], [0.345, 0.52], [0.315, 0.52], [0.29, 0.27], [0.235, 0.07], [0, 0.07]].map(([x, y]) => new THREE.Vector2(x, y))
-  const clay = new THREE.MeshStandardMaterial({ color: '#7a5244', roughness: 0.75, metalness: 0.05, emissive: '#ff4a14', emissiveIntensity: 0.3 })
+  const clay = new THREE.MeshStandardMaterial({ color: '#5e4038', roughness: 0.7, metalness: 0.05, emissive: '#ff4a14', emissiveIntensity: 0.32 })
   const cup = new THREE.Mesh(new THREE.LatheGeometry(prof, 40), clay)
   crucible.add(cup)
+  // its lip glows, hot from the fire
+  const cupLip = new THREE.Mesh(new THREE.TorusGeometry(0.33, 0.016, 8, 40), new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffa050').multiplyScalar(1.6) }))
+  cupLip.rotation.x = Math.PI / 2
+  cupLip.position.y = 0.52
+  crucible.add(cupLip)
   const meltMat = new THREE.MeshStandardMaterial({ color: '#ffb36b', roughness: 0.25, metalness: 0.2, emissive: '#ff8a3a', emissiveIntensity: 1.5 })
   const melt = new THREE.Mesh(new THREE.CircleGeometry(1, 40), meltMat)
   melt.rotation.x = -Math.PI / 2
@@ -576,7 +599,7 @@ export function buildSmithy({ light }) {
   return {
     group,
     crucible,
-    crucibleTargets: [cup, melt, hearth, bed, coals],
+    crucibleTargets: [cup, cupLip, melt, hearth, bed, coals, stones],
     anvilTargets: [stump, foot, waist, face, horn, faceTop, ingot, ...halves.map(h => h.h), handle, head, cheek],
     setMelt,
     splash,
