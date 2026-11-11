@@ -60,6 +60,9 @@ export function AccountSheet({ onClose }) {
   const { t } = useTranslation()
   const me = useStore(store, s => s.account)
   const [invite, setInvite] = useState(() => pendingInvite() ?? '')
+  // a new account is offered only to a visitor who came by an invite link (the user, 2026-11-11: "hide create
+  // account button"); everyone else sees the sign-in alone, and a line saying what a new account needs
+  const [invited] = useState(() => !!invite)
   const [tab, setTab] = useState(() => (invite ? 'up' : 'in'))
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
@@ -123,13 +126,15 @@ export function AccountSheet({ onClose }) {
       ) : (
         <div className="mt-2 flex flex-col gap-2">
           <p className="text-[13px] opacity-85 leading-snug">{t('account.intro')}</p>
-          <div className="flex rounded-lg bg-white/5 p-0.5 text-xs font-bold" role="tablist">
-            {[['in', t('account.signIn')], ['up', t('account.signUp')]].map(([k, label]) => (
-              <button key={k} type="button" role="tab" aria-selected={tab === k} data-account-tab={k} onClick={() => { setTab(k); setProblem(null) }} className={`flex-1 rounded-md px-2 py-1 ${tab === k ? 'bg-white text-[#0b0f24]' : 'opacity-80 hover:bg-white/10'}`}>
-                {label}
-              </button>
-            ))}
-          </div>
+          {invited && (
+            <div className="flex rounded-lg bg-white/5 p-0.5 text-xs font-bold" role="tablist">
+              {[['in', t('account.signIn')], ['up', t('account.signUp')]].map(([k, label]) => (
+                <button key={k} type="button" role="tab" aria-selected={tab === k} data-account-tab={k} onClick={() => { setTab(k); setProblem(null) }} className={`flex-1 rounded-md px-2 py-1 ${tab === k ? 'bg-white text-[#0b0f24]' : 'opacity-80 hover:bg-white/10'}`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
           <form onSubmit={submit} className="flex flex-col gap-2">
             {tab === 'up' && (
               <div>
@@ -159,6 +164,7 @@ export function AccountSheet({ onClose }) {
             </button>
           </form>
           <p className="text-[12px] opacity-70 leading-snug">{t('account.pokemon')}</p>
+          {!invited && <p data-account-invite-note className="text-[12px] opacity-70 leading-snug">{t('account.inviteNeed')}</p>}
           <div className="pt-2 border-t border-white/10">
             <Switch on={local} onChange={v => { setDeviceSwitch(v); setLocal(v) }} label={t('account.track')} help={t('account.trackHelp')} data="device-tracking" />
           </div>

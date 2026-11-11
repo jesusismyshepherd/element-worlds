@@ -169,7 +169,9 @@ built when, and the user's requests behind it: `docs/history.md`.
   Match the server exactly (`vite` and `preview` and `--port 5317` in one command line, `node.exe` only),
   never a bare port number: matching "5318" killed one of the user's Chrome processes (2026-10-30).
 - New accounts need an invite since 2026-11-08 (the Pokémon site's rule, in the shared database): the sign-up
-  sends its token; a probe that makes an account needs `QA_INVITE` (`accounts.md`, "Invites").
+  sends its token; a probe that makes an account needs `QA_INVITE` (`accounts.md`, "Invites"). Since 2026-11-11
+  the "New account" tab shows only to a visitor who came by an invite link (`?invite=`); `account_probe.py` was
+  changed for it and has not been run since.
 - The realtime service closes the channel of a client that updates its presence often ("Client
   presence rate limit exceeded"): presence for who is in a room only, the rest by broadcast
   (docs/knowledge/multiplayer.md).

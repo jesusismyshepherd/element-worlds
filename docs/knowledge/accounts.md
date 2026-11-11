@@ -47,6 +47,14 @@ no token and failed with "Something went wrong".
 - `https://element-worlds.vercel.app/?invite=<token>` works as an invite link too: the token is taken out
   of the address, kept for the visit (sessionStorage `ew-invite`), and the account sheet opens on its new
   account tab with the link filled in (`pendingInvite`, `Hud.jsx`).
+- Since 2026-11-11 the "New account" tab shows only to a visitor who came by such a link (`invited` in
+  `AccountHud.jsx`). The user, asked on the Pokémon studio what the two other apps' "create account" should
+  do: "yes, hide create account button". Everyone else sees the sign-in alone, with the line "A new account
+  needs an invite link: ask the person who told you about the game" (`[data-account-invite-note]`). Someone
+  holding the Pokémon site's link makes the account there and signs in here with it. `tools/account_probe.py`
+  now arrives by `?invite=` instead of clicking the tab; that change was written in a session of the Pokémon
+  project and **has not been run yet** (it needs `EW_DASH_PASS` and makes a real account). What was checked:
+  the sheet without an invite (no tab, the line) and with a made-up one (the tab, "does not work").
 - `signUp(name, password, invite)` sends it as `options.data.invite`; the database's refusal (GoTrue's
   "Database error saving new user") reads "This invite link does not work any more".
 - Signing in is unchanged. The kind (`profiles.account_kind`, child or adult) is the Pokémon site's
